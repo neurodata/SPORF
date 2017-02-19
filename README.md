@@ -9,8 +9,8 @@
 
 ## Use:
 ###   To build a tree:
- 1. Download rf_function.R  
- 2. In R --> source('path/to/file/rf_function.R')  
+ 1. Download rfr_function.R  
+ 2. In R --> source('path/to/file/rfr_function.R')  
  3. In R --> build_tree(**X**,**Y**,**MTRY**,**Max_depth**)  
   - **X** --> an n by d dataset where the rows are the n samples and the columns are the p features.
   - **Y** --> a vector of n class labels.  Labels must start at 0 and rise sequentially (e.g. if you have three classes then the first one is '0', then second one is '1', and the third one is '2'.
