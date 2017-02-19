@@ -1,0 +1,3 @@
+nTrees = 500
+mtry = 8
+d = 8
