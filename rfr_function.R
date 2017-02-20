@@ -215,3 +215,55 @@ find_best_split <- function(Xsort,Ysort,Yunique,I,ClassCounts){
     }
     return(list("BestVar" = BestVar, "SplitValueIdx" = BestSplitIdx));
 }
+
+#------------------------------------------------------------
+rfr <- function(X, Y, mtry=0, MinParent=6, trees=100){
+if(mtry==0){
+    p <- ncol(X);
+	mtry=ceiling(p^.5);
+}
+    forest <- vector("list",trees);
+for(i in 1:trees){
+            forest[[i]] <- build_tree(X,Y,mtry,MinParent);
+}
+return(forest);
+}
+
+#------------------------------------------------------------
+tree_predict <- function(X,Tree){
+	currentNode <- 1;
+	while(Tree$Children[currentNode]!=0){
+		rotX <- as.matrix(X)%*%Tree$matA[[currentNode]];
+		if(rotX[Tree$CutVar[currentNode]]<Tree$CutPoint[currentNode]){
+			currentNode <- Tree$Children[currentNode,1];
+		}else{
+			currentNode <- Tree$Children[currentNode,2];
+		}
+	}
+	return(Tree$ClassProb[currentNode,])
+}
+
+#------------------------------------------------------------
+forest_predict <- function(X,Forest){
+	forestSize <- length(Forest);
+	classProb<-tree_predict(X,Forest[[1]]);
+	for(i in 2:forestSize){
+classProb<- classProb+tree_predict(X,Forest[[i]]);
+	}
+
+	return(order(classProb,decreasing=T)[1])
+}
+
+#-----------------------------------------------------------
+error_rate <- function(X,Y,Forest){
+	n <- nrow(X);
+	numWrong <- 0;
+	Y<-as.matrix(Y);
+	for(i in 1:n){
+		z<-forest_predict(X[i,],Forest);
+		if(z!=Y[i]){
+			numWrong=numWrong +1;
+		}
+	}
+	return(numWrong/n)
+}
