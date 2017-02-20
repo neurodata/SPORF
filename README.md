@@ -2,9 +2,9 @@
 ## This is the R implementation of Randomer Forest.
 
 ## Features of R-Rerf:
-- [ ] Train a forest on a given dataset
 - [x] Train a tree on a given dataset
 - [ ] Determine Error Rate of Forest
+- [ ] Train a forest on a given dataset
 - [ ] Make Predictions
 
 ## Use:
