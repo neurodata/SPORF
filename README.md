@@ -39,8 +39,11 @@
     - **Forest** --> This is a type created by the rfr training function.
 
 ## Example using iris data set:
-X <- as.matrix(iris[,1:4])
-Y <- as.numeric(iris[,5])
-forest <- rfr(X,Y) # this is equivalent to rfr(X,Y,mtry=0,MinParent=6,trees=100)
-
+```R
+X <- as.matrix(iris[,1:4])  
+Y <- as.numeric(iris[,5])  
+forest <- rfr(X,Y) # this is equivalent to rfr(X,Y,mtry=0,MinParent=6,trees=100)  
+error_rate(X,Y,forest)  
+predict(X,forest)
+```
 Additional examples can be found in the .rmd files located in the "versions" directory
