@@ -72,7 +72,7 @@ size <- options[1]
 scale <- options[2]
 diag(size)*scale}
 
-forest3 <- rfr(X, Y, MinParent=10, trees=1000, MaxDepth=6, bagging = .10, FUN=IDscale, options=c(nrow(X), .5))
+forest3 <- rfr(X, Y, MinParent=10, trees=1000, MaxDepth=6, bagging = .10, FUN=IDscale, options=c(ncol(X), .5))
 error_rate(X,Y,forest3)
 predict(X,forest3)
 ```
