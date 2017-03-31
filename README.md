@@ -29,17 +29,17 @@
 ###   To determine the error rate of a forest:
    1. Download rfr_function.R
    2. In R --> ```source('path/to/file/rfr_function.R')```
-   3. In R --> ```Error_Rate <- error_rate(X,Y,Forest)```
+   3. In R --> ```Error_Rate <- error_rate(X,Y,forest)```
   - **X** --> an n by d dataset where the rows are the n samples and the columns are the p features.
   - **Y** --> a vector of n class labels.  Labels must start at 1 and rise sequentially (e.g. if you have three classes then the first one is '1', then second one is '2', and the third one is '3'.
-  - **Forest** --> This is a type created by the rfr training function.
+  - **forest** --> This is a type created by the rfr training function.
 
 ###   To make a prediction on data:
    1. Download rfr_function.R
    2. In R --> ```source('path/to/file/rfr_function.R')```
-   3. In R --> ```Predictions <- predict(X,Forest)```
+   3. In R --> ```Predictions <- predict(X,forest)```
   - **X** --> an n by d dataset where the rows are the n samples and the columns are the p features.
-  - **Forest** --> This is a type created by the rfr training function.
+  - **forest** --> This is a type created by the rfr training function.
 
 ## Example using iris data set:
 ```R
