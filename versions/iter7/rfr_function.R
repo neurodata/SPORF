@@ -1,4 +1,4 @@
-rfr <- function(X, Y, MinParent=6, trees=100, MaxDepth=0, bagging = .20, FUN=makeA, options=ncol(X)){
+rfr <- function(X, Y, MinParent=6, trees=100, MaxDepth=0, bagging = 0, FUN=makeA, options=ncol(X)){
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     # rfr builds a randomer classification forest structure made up of a list
     # of trees.  This forest is randomer because each node is rotated before 
