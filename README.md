@@ -25,7 +25,6 @@
   - **bagging** --> is the percentage of training data to withhold during each training iteration.  If set to 0 then the entire training set is used during every iteration.  The withheld portion of the training data  is used to calculate OOB error for the tree.  The default is .2, so 80% of the training set is used to train a tree and the other 20% will be used for cross validation (bagging=.2).
   - **FUN** --> is the function used to create the rotation matrix.  The matrix returned by this function should be a p-by-u matrix where p is the number of columns in the input matrix X and u is any integer > 0.  u can also vary from node to node.  The default is makeA, a description of which can be found below.
   - **options** --> is a list of inputs to the user provided rotation matrix creation function -- FUN.  Option is set to ncol(X) by default (options=ncol(X)).
-
 ###   To determine the error rate of a forest:
    1. Download rfr_function.R
    2. In R --> ```source('path/to/file/rfr_function.R')```
@@ -73,7 +72,7 @@ size <- options[1]
 scale <- options[2]
 diag(size)*scale}
 
-forest3 <- rfr(X, Y, MinParent=10, trees=1000, MaxDepth=6, bagging = .10, FUN=IDscale, options=c(nrow(X), .5)){
+forest3 <- rfr(X, Y, MinParent=10, trees=1000, MaxDepth=6, bagging = .10, FUN=IDscale, options=c(nrow(X), .5))
 error_rate(X,Y,forest3)
 predict(X,forest3)
 ```
