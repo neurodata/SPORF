@@ -24,7 +24,7 @@
   - **MaxDepth** --> is the maximum depth that a tree can grow to.  If set to "inf" then there is no maximum depth.  If set to 0 then a maximum depth is calculated based on the number of classes and number of samples provided.
   - **bagging** --> is the percentage of training data to withhold during each training iteration.  If set to 0 then the entire training set is used during every iteration.  The withheld portion of the training data  is used to calculate OOB error for the tree.
   - **FUN** --> is the function used to create the rotation matrix.  The matrix returned by this function should be a p-by-u matrix where p is the number of columns in the input matrix X and u is any integer > 0.  u can also vary from node to node.
-  - **options** --> is a list of inputs to the user provided rotation matrix creation function -- FUN.
+  - **options** --> is a list of inputs to the user provided rotation matrix creation function -- FUN.  Option is set to ncol(X) by default.
 
 ###   To determine the error rate of a forest:
    1. Download rfr_function.R
@@ -46,7 +46,7 @@
 X <- as.matrix(iris[,1:4])  
 Y <- as.numeric(iris[,5])  
 # basic use of forest generator
-forest <- rfr(X,Y) # this is equivalent to rfr(X,Y)  
+forest <- rfr(X,Y)  
 error_rate(X,Y,forest)  
 predict(X,forest)
 
