@@ -20,12 +20,11 @@
   - **X** --> an n by d dataset where the rows are the n samples and the columns are the p features.
   - **Y** --> a vector of n class labels.  Labels must start at 1 and rise sequentially (e.g. if you have three classes then the first one is '1', then second one is '2', and the third one is '3'.
   - **MinParent** --> an integer greater than 1.  This defines the minimum node size.  Any node with MinParent elements will not have a child node.  The default value is 6 (MinParent=6).
-
-- **Trees** --> an integer greater than 0.  This is the number of trees that will be in the forest.  The default value is 100 (trees=100).
-  - **MaxDepth** --> is the maximum depth that a tree can grow to.  If set to "inf" then there is no maximum depth.  If set to 0 then a maximum depth is calculated based on the number of classes and number of samples provided.
-  - **bagging** --> is the percentage of training data to withhold during each training iteration.  If set to 0 then the entire training set is used during every iteration.  The withheld portion of the training data  is used to calculate OOB error for the tree.
-  - **FUN** --> is the function used to create the rotation matrix.  The matrix returned by this function should be a p-by-u matrix where p is the number of columns in the input matrix X and u is any integer > 0.  u can also vary from node to node.
-  - **options** --> is a list of inputs to the user provided rotation matrix creation function -- FUN.  Option is set to ncol(X) by default.
+  - **Trees** --> an integer greater than 0.  This is the number of trees that will be in the forest.  The default value is 100 (trees=100).
+  - **MaxDepth** --> is the maximum depth that a tree can grow to.  If set to "inf" then there is no maximum depth.  If set to 0 then a maximum depth is calculated based on the number of classes and number of samples provided.  The default value is 0 (MaxDepth=0).
+  - **bagging** --> is the percentage of training data to withhold during each training iteration.  If set to 0 then the entire training set is used during every iteration.  The withheld portion of the training data  is used to calculate OOB error for the tree.  The default is .2, so 80% of the training set is used to train a tree and the other 20% will be used for cross validation (bagging=.2).
+  - **FUN** --> is the function used to create the rotation matrix.  The matrix returned by this function should be a p-by-u matrix where p is the number of columns in the input matrix X and u is any integer > 0.  u can also vary from node to node.  The default is makeA, a description of which can be found below.
+  - **options** --> is a list of inputs to the user provided rotation matrix creation function -- FUN.  Option is set to ncol(X) by default (options=ncol(X)).
 
 ###   To determine the error rate of a forest:
    1. Download rfr_function.R
