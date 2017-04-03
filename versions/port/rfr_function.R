@@ -259,7 +259,7 @@ classProb<- classProb+tree_predict(X,Forest[[i]]);
 #-----------------------------------------------------------
 error_rate <- function(X,Y,Forest){
     X <- as.matrix(X)
-    Y <- as.numeric(Y)
+    #Y <- as.numeric(Y)
 	n <- nrow(X);
 	numWrong <- 0;
 	Y<-as.matrix(Y);
