@@ -9,7 +9,7 @@
 - [x] Bagging
 - [x] Out-Of-Bag Error Estimation
 - [x] Max Depth Limit
-- [x] Rotation matrix as parameter
+- [x] Projection matrix as parameter
 
 ## Use:
 ###   To create a forest:
@@ -23,8 +23,8 @@
   - **Trees** --> an integer greater than 0.  This is the number of trees that will be in the forest.  The default value is 100 (trees=100).
   - **MaxDepth** --> is the maximum depth that a tree can grow to.  If set to "inf" then there is no maximum depth.  If set to 0 then a maximum depth is calculated based on the number of classes and number of samples provided.  The default value is 0 (MaxDepth=0).
   - **bagging** --> is the percentage of training data to withhold during each training iteration.  If set to 0 then the entire training set is used during every iteration.  The withheld portion of the training data  is used to calculate OOB error for the tree.  The default is .2, so 80% of the training set is used to train a tree and the other 20% will be used for cross validation (bagging=.2).
-  - **FUN** --> is the function used to create the rotation matrix.  The matrix returned by this function should be a p-by-u matrix where p is the number of columns in the input matrix X and u is any integer > 0.  u can also vary from node to node.  The default is makeA, a description of which can be found below.
-  - **options** --> is a list of inputs to the user provided rotation matrix creation function -- FUN.  Option is set to ncol(X) by default (options=ncol(X)).
+  - **FUN** --> is the function used to create the projection matrix.  The matrix returned by this function should be a p-by-u matrix where p is the number of columns in the input matrix X and u is any integer > 0.  u can also vary from node to node.  The default is makeA, a description of which can be found below.
+  - **options** --> is a list of inputs to the user provided projection matrix creation function -- FUN.  Option is set to ncol(X) by default (options=ncol(X)).
 ###   To determine the error rate of a forest:
    1. Download rfr_function.R
    2. In R --> ```source('path/to/file/rfr_function.R')```
@@ -78,8 +78,8 @@ predict(X,forest3)
 ```
 Additional examples can be found in the .rmd files located in the "versions" directory
 
-## Default rotation matrix creation:
-This is the function that rfr uses by default to create a rotation matrix.
+## Default projection matrix creation:
+This is the function that rfr uses by default to create a projection matrix.
 ```R
 makeA <- function(options){
  p <- options
