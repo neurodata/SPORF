@@ -65,7 +65,14 @@ error_rate(X,Y,forest)
 predict(X,forest)
 OOBgrow(Y,forest)
 
-# basic use of projection matrix creation. A non-toy example of a projection matrix can be found at the end of this document.  The projection matrix created below is the identity matrix which is then converted to a sparse format.  The trees grown using this projection matrix will be identical; each one will be a traditional decision tree.  The last two lines in this function should be in every projection matrix creation function in order to convert the matrix into a sparse format.  
+# basic use of projection matrix creation. A non-toy example of a
+# projection matrix can be found at the end of this document.  The 
+# projection matrix created below is the identity matrix which is 
+# then converted to a sparse format.  The trees grown using this 
+# projection matrix will be identical; each one will be a traditional 
+# decision tree.  The last two lines in this function should be in 
+# every projection matrix creation function in order to convert the 
+# matrix into a sparse format.  
 ID <- function(options){
    sparseM<-diag(options)
    ind<- which(sparseM!=0,arr.ind=TRUE)
@@ -76,7 +83,8 @@ forest2 <- rfr(X,Y,FUN=ID)
 error_rate(X,Y,forest2)
 predict(X,forest2)
 
-# advanced use of projection matrix creation.  The projection matrix is similar to the one above but this time it is scaled by half.    
+# advanced use of projection matrix creation.  The projection matrix 
+# is similar to the one above but this time it is scaled by half.    
 IDscale <- function(options){
    size <- options[1]
    scale <- options[2]
