@@ -81,12 +81,14 @@ runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, nClasses, FUN, opt
     BestSplitValue <- 0
     w <- nrow(X)
     p <- ncol(X)
-
-if(object.size(X) > 1000000){
-    OS<-TRUE
-}else{
-    OS<-FALSE
-}
+    Xnode<-double(w) # allocate space to store the current projection
+    SortIdx<-integer(w) 
+    y <- integer(w)
+    if(object.size(X) > 1000000){
+        OS<-TRUE
+    }else{
+        OS<-FALSE
+    }
 
     # Calculate the Max Depth and the max number of possible nodes
     if(MaxDepth == "inf"){
@@ -124,22 +126,20 @@ if(object.size(X) > 1000000){
         NodeStack <- 1L
         highestParent <- 1L
         # Determine bagging set 
+        # Assigned2Node is the set of row indices of X assigned to current node
         if(bagging != 0){
             ind <- sample(c(1L,2L), w, replace = TRUE, prob = c(1-bagging, bagging))
-        }else{
-            ind<-integer(w)+1L
-        }
-        # Assigned2Node is the set of row indices of X assigned to current node
         Assigned2Node[[1]] <- which(ind==1L)        
+        }else{
+        Assigned2Node[[1]] <- 1:w        
+        }
 
         # main loop over nodes
         while (CurrentNode < NextUnusedNode && CurrentNode < StopNode){
-            # prepare loop for current node
-            #determine working samples for current node.
+            # determine working samples for current node.
             NodeRows <- Assigned2Node[CurrentNode] 
             Assigned2Node[[CurrentNode]]<-NA #remove saved indexes
             NdSize <- length(NodeRows[[1L]]) #determine node size
-            Xnode<-double(NdSize) # allocate space to store the current projection
             # determine number of samples in current node then
             # determine their percentages in the node
             ClassCounts <- tabulate(Y[NodeRows[[1L]]], nClasses)
@@ -165,11 +165,10 @@ if(object.size(X) > 1000000){
             for(q in unique(sparseM[,2])){
                 #Project input into new space
                 lrows <- which(sparseM[,2]==q)
-                Xnode <- X[NodeRows[[1L]],sparseM[lrows,1], drop=FALSE]%*%sparseM[lrows,3, drop=FALSE]
+                Xnode[1:NdSize] <- X[NodeRows[[1L]],sparseM[lrows,1], drop=FALSE]%*%sparseM[lrows,3, drop=FALSE]
                 #Sort the projection, Xnode, and rearrange Y accordingly
-                SortIdx <- order(Xnode)
-                y <- Y[NodeRows[[1L]]][SortIdx]
-                rm(SortIdx) #Maybe I should store this to keep from recalculating it later.
+                SortIdx[1:NdSize] <- order(Xnode[1:NdSize] )
+                y[1:NdSize] <- Y[NodeRows[[1L]]][SortIdx[1:NdSize]]
 
                 ##################################################################
                 #                    Find Best Split
@@ -229,18 +228,17 @@ if(object.size(X) > 1000000){
                 BestSplitIdx <- BS[1L]
             }
             # Recalculate the best projection
-            Xnode[]<-0
-            for(addRows in which(sparseM[,2L]==BestVar)){
-                Xnode <- Xnode + sparseM[addRows,3L]*X[NodeRows[[1L]],][,sparseM[addRows,1L]]
-            }
+            lrows<-which(sparseM[,2L]==BestVar)
+            Xnode[1:NdSize]<-X[NodeRows[[1L]],sparseM[lrows,1], drop=FALSE]%*%sparseM[lrows,3, drop=FALSE]
+
             # reorder the projection and find the cut value
-            SortIdx <- order(Xnode)
+            SortIdx[1:NdSize] <- order(Xnode[1:NdSize] )
             # determine split value as mean of values on either side of split
             BestSplitValue <- sum(Xnode[SortIdx[BestSplitIdx:(BestSplitIdx+1L)]])/2
 
             # find which child node each sample will go to and move
             # them accordingly
-            MoveLeft <- Xnode <= BestSplitValue
+            MoveLeft <- Xnode[1:NdSize]  <= BestSplitValue
             numMove <- sum(MoveLeft)
             #Check to see if a split occured, or if all elements being moved one direction.
             if(numMove!=0L && numMove!=NdSize){
@@ -279,6 +277,10 @@ if(object.size(X) > 1000000){
                 break
             }
         }
+        #If input is large then garbage collect prior to adding onto the forest structure.
+        if(OS){
+            gc()
+        }
         # save current tree structure to the forest
         if(bagging!=0 && COOB){
             forest[[treeX]] <- list("CutPoint"=CutPoint[1:highestParent],"ClassProb"=ClassProb[1L:(NextUnusedNode-1L),,drop=FALSE],"Children"=Children[1L:(NextUnusedNode-1L),,drop=FALSE], "matA"=matA[1L:highestParent], "ind"=ind)
@@ -288,9 +290,7 @@ if(object.size(X) > 1000000){
         if(Progress){
             cat("|")
         }
-        if(OS){
-            gc()
-        }
+
     }
     return(forest)
 }
@@ -307,11 +307,15 @@ if(object.size(X) > 1000000){
 # can even greater than p.
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 makeA <- function(options){
-    p <- options
-    mtry <- ceiling(p^.5)
-    #Create the A matrix, a sparse matrix of 1's, -1's, and 0's.
-    sparseM <- matrix(0L,nrow=p,ncol=mtry)
-    sparseM[sample(1:(p*mtry),mtry,replace=F)] <-sample(c(1,-1),1) 
+    p <- options[[1L]]
+    d <- options[[2L]]
+    method <- options[[3L]]
+    if(method == 1L){
+        rho<-options[[4L]]
+        nnzs <- round(p*d*rho)
+        sparseM <- matrix(0L, nrow=p, ncol=d)
+        sparseM[sample(1L:(p*d),nnzs, replace=F)]<-sample(c(1L,-1L),nnzs,replace=T)
+    }
     #The below returns a matrix after removing zero columns in sparseM.
     ind<- which(sparseM!=0,arr.ind=TRUE)
     return(cbind(ind,sparseM[ind]))        
@@ -325,24 +329,24 @@ RunErr <- function(X,Y,Forest, index=0L, chunk_size=0L){
     if(!is.null(Forest$forest)){
         Forest<-Forest$forest
     }
-    if(!index || !chunk_size){
-        X1 <- as.matrix(X)
-    }else{
-        X1<- as.matrix(X[(((index-1)*chunk_size)+1L):(index*chunk_size),,drop=FALSE])
+    if(index && chunk_size){
+        X<- X[(((index-1)*chunk_size)+1L):(index*chunk_size),,drop=FALSE]
     }
-    n <- nrow(X1)
-    numWrong <- 0
+    n <- nrow(X)
     forestSize <- length(Forest)
+    classProb<-double(length(Forest[[1]]$ClassProb[1,]))
     z <- integer()
+    rotX<-0
+    currentNode<-0L
     for(i in 1:n){
-        classProb <- 0
+        classProb[] <- 0
         for(j in 1:forestSize){
             Tree <- Forest[[j]]
             currentNode <- 1L
             while(Tree$Children[currentNode]!=0L){
                 rotX <- 0
                 for(s in 1:(length(Tree$matA[[currentNode]])/2)){
-                    rotX<-rotX+Tree$matA[[currentNode]][2*s]*X1[i,Tree$matA[[currentNode]][2*s-1]]
+                    rotX<-rotX+Tree$matA[[currentNode]][2*s]*X[i,Tree$matA[[currentNode]][2*s-1]]
                 }
                 if(rotX<=Tree$CutPoint[currentNode]){
                     currentNode <- Tree$Children[currentNode,1L]
@@ -366,9 +370,12 @@ RunErr <- function(X,Y,Forest, index=0L, chunk_size=0L){
 #                       Calculate OOB Error Rate
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 RunErrOOB <- function(X,Y,Forest){
-    forestSize <- length(Forest) + 1L
+    forestSize <- length(Forest) + 1L#+1 for the overall total reported as last node
     OOBmat <- vector("list", forestSize)
     OOBmat[[forestSize]]<- matrix(data = 0, nrow = nrow(X), ncol = ncol(Forest[[1L]]$ClassProb))
+    rotX<-0
+    currentNode<-0L
+    classProb<-double(length(Forest[[1]]$ClassProb[1,]))
     for(j in 1:(forestSize-1)){
         for (i in which(Forest[[j]]$ind==2L)){
             currentNode <- 1L
@@ -388,14 +395,14 @@ RunErrOOB <- function(X,Y,Forest){
             OOBmat[[forestSize]][i,] <- OOBmat[[forestSize]][i,] + classProb
         }
     }
-    numWrong<- 0
-    numTotal<- 0
+    numWrong<- 0L
+    numTotal<- 0L
     for(k in 1:nrow(X)){
         if(any(OOBmat[[forestSize]][k,]!=0)){
             if(order(OOBmat[[forestSize]][k,],decreasing=T)[1L]!=Y[k]){
-                numWrong <- numWrong+1
+                numWrong <- numWrong+1L
             }
-            numTotal<-numTotal+1
+            numTotal<-numTotal+1L
         }
     }
     cat("OOB error rate: ", 100*numWrong/numTotal, "%\n")
@@ -421,7 +428,7 @@ predict <- function(X,Forest){
             while(Tree$Children[currentNode]!=0L){
                 rotX <- 0
                 for(s in 1:(length(Tree$matA[[currentNode]])/2)){
-                    rotX<-rotX+Tree$matA[[currentNode]][2*s]*X1[i,Tree$matA[[currentNode]][2*s-1]]
+                    rotX<-rotX+Tree$matA[[currentNode]][2*s]*X[i,Tree$matA[[currentNode]][2*s-1]]
                 }
                 if(rotX<=Tree$CutPoint[currentNode]){
                     currentNode <- Tree$Children[currentNode,1L]
@@ -448,18 +455,20 @@ OOBgrow <- function(Y,OOBmat){
     forestSize <- length(OOBmat) - 1L
     numClass <- ncol(OOBmat[[1L]])-2
     OOBcurrent<- matrix(data = 0, nrow = length(Y), ncol = numClass)
+    numWrong<- 0L
+    numTotal<- 0L
     for(q in 1:forestSize){
         for(j in 1:nrow(OOBmat[[q]])){
             OOBcurrent[OOBmat[[q]][j,1L], ] <- OOBcurrent[OOBmat[[q]][j,1L], ]+OOBmat[[q]][j,3:(2+numClass)]
         }
-        numWrong<- 0
-        numTotal<- 0
+        numWrong<- 0L
+        numTotal<- 0L
         for(m in 1:length(Y)){
             if(any(OOBcurrent[m,]!=0)){
                 if(order(OOBcurrent[m,],decreasing=T)[1L]!=Y[m]){
-                    numWrong <- numWrong+1
+                    numWrong <- numWrong+1L
                 }
-                numTotal<-numTotal+1
+                numTotal<-numTotal+1L
             }
         }
         z <- c(z,numWrong/numTotal)
@@ -471,7 +480,7 @@ OOBgrow <- function(Y,OOBmat){
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #   Run R-Rerf byte compiled and parallel                       
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-rfr <- function(X, Y, MinParent=6L, trees=100L, MaxDepth=0L, bagging = .2, FUN=makeA, options=ncol(X), COOB=FALSE, Progress=FALSE, NumCores=0L){
+rfr <- function(X, Y, MinParent=6L, trees=100L, MaxDepth=0L, bagging = .2, FUN=makeA, options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)), COOB=FALSE, Progress=FALSE, NumCores=0L){
 
     #keep from making copies of X
     X <- as.matrix(X)
@@ -547,6 +556,7 @@ error_rate <- function(X,Y,Forest, NumCores=0L){
         comp_err <<- cmpfun(RunErr)
     } 
 
+    X<- as.matrix(X)
     if(NumCores!=1){
         if(require(parallel)){
             if(NumCores==0){
