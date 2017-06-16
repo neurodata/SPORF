@@ -1,4 +1,4 @@
-runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, nClasses, FUN, options, COOB, Progress){
+runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB, Progress){
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     # rfr builds a randomer classification forest structure made up of a list
     # of trees.  This forest is randomer because each node is rotated before 
@@ -33,7 +33,7 @@ runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, nClasses, FUN, opt
     # during every iteration.  The withheld portion of the training data
     # is used to calculate OOB error for the tree.
     #
-    # nClasses is the number of different classes in Y.  It is calculated 
+    # ClassCt is the number of different classes in Y.  It is calculated 
     # in the calling function to prevent recalculation by each forked function 
     # when in parallel.
     #
@@ -65,6 +65,7 @@ runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, nClasses, FUN, opt
     # Predefine variables to prevent recreation during loops
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    nClasses <- length(classCt)
     forest <- vector("list",trees)
     ClassCountsLeft <- integer(nClasses)
     ClassCountsRight <- integer(nClasses)
@@ -81,6 +82,7 @@ runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, nClasses, FUN, opt
     BestSplitValue <- 0
     w <- nrow(X)
     p <- ncol(X)
+    perBag <- (1-bagging)*w
     Xnode<-double(w) # allocate space to store the current projection
     SortIdx<-integer(w) 
     y <- integer(w)
@@ -108,6 +110,7 @@ runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, nClasses, FUN, opt
     NDepth <- integer(MaxNumNodes)
     matA <- vector("list", MaxNumNodes) 
     Assigned2Node<- vector("list",MaxNumNodes) 
+    ind <- double(w)
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -125,13 +128,26 @@ runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, nClasses, FUN, opt
         NextUnusedNode <- 2L
         NodeStack <- 1L
         highestParent <- 1L
+        ind[] <- 0L
         # Determine bagging set 
         # Assigned2Node is the set of row indices of X assigned to current node
         if(bagging != 0){
-            ind <- sample(c(1L,2L), w, replace = TRUE, prob = c(1-bagging, bagging))
-        Assigned2Node[[1]] <- which(ind==1L)        
+            if(replacement){
+                if(stratify){
+                    ind[1:classCt[1]]<-sample(Cindex[[1]], classCt[1], replace=TRUE)
+                    for(z in 2:nClasses){
+                        ind[(classCt[z-1]+1):classCt[z]]<- sample(Cindex[[z]], classCt[z]-classCt[z-1], replace=TRUE)
+                    }
+                }else{
+                    ind<-sample(1:w, w, replace=TRUE)
+                }
+                    Assigned2Node[[1]] <- ind
+            }else{
+                ind[1:perBag] <- sample(1:w, perBag, replace = FALSE)
+                Assigned2Node[[1]] <- ind[1:perBag]        
+            }
         }else{
-        Assigned2Node[[1]] <- 1:w        
+            Assigned2Node[[1]] <- 1:w        
         }
 
         # main loop over nodes
@@ -283,14 +299,13 @@ runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, nClasses, FUN, opt
         }
         # save current tree structure to the forest
         if(bagging!=0 && COOB){
-            forest[[treeX]] <- list("CutPoint"=CutPoint[1:highestParent],"ClassProb"=ClassProb[1L:(NextUnusedNode-1L),,drop=FALSE],"Children"=Children[1L:(NextUnusedNode-1L),,drop=FALSE], "matA"=matA[1L:highestParent], "ind"=ind)
+            forest[[treeX]] <- list("CutPoint"=CutPoint[1:highestParent],"ClassProb"=ClassProb[1L:(NextUnusedNode-1L),,drop=FALSE],"Children"=Children[1L:(NextUnusedNode-1L),,drop=FALSE], "matA"=matA[1L:highestParent], "ind"=which(!(1:w %in% ind)))
         }else{
             forest[[treeX]] <- list("CutPoint"=CutPoint[1:highestParent],"ClassProb"=ClassProb[1L:(NextUnusedNode-1L),,drop=FALSE],"Children"=Children[1L:(NextUnusedNode-1L),,drop=FALSE], "matA"=matA[1L:highestParent])
         }
         if(Progress){
             cat("|")
         }
-
     }
     return(forest)
 }
@@ -344,10 +359,8 @@ RunErr <- function(X,Y,Forest, index=0L, chunk_size=0L){
             Tree <- Forest[[j]]
             currentNode <- 1L
             while(Tree$Children[currentNode]!=0L){
-                rotX <- 0
-                for(s in 1:(length(Tree$matA[[currentNode]])/2)){
-                    rotX<-rotX+Tree$matA[[currentNode]][2*s]*X[i,Tree$matA[[currentNode]][2*s-1]]
-                }
+s<-length(Tree$matA[[currentNode]])/2
+rotX<-sum(Tree$matA[[currentNode]][(1:s)*2]*X[i,Tree$matA[[currentNode]][(1:s)*2-1]])
                 if(rotX<=Tree$CutPoint[currentNode]){
                     currentNode <- Tree$Children[currentNode,1L]
                 }else{
@@ -375,15 +388,16 @@ RunErrOOB <- function(X,Y,Forest){
     OOBmat[[forestSize]]<- matrix(data = 0, nrow = nrow(X), ncol = ncol(Forest[[1L]]$ClassProb))
     rotX<-0
     currentNode<-0L
+    curr_ind <- 0
     classProb<-double(length(Forest[[1]]$ClassProb[1,]))
     for(j in 1:(forestSize-1)){
-        for (i in which(Forest[[j]]$ind==2L)){
+        OOBmat[[j]]<-matrix(0,nrow=length(Forest[[j]]$ind), ncol=2+ncol(Forest[[1]]$ClassProb))
+        for (i in Forest[[j]]$ind){
+    curr_ind <- 1
             currentNode <- 1L
             while(Forest[[j]]$Children[currentNode]!=0L){
-                rotX <- 0
-                for(s in 1:(length(Forest[[j]]$matA[[currentNode]])/2)){
-                    rotX<-rotX+Forest[[j]]$matA[[currentNode]][2*s]*X[i,Forest[[j]]$matA[[currentNode]][2*s-1]]
-                }
+s<-length(Forest[[j]]$matA[[currentNode]])/2
+rotX <-sum(Forest[[j]]$matA[[currentNode]][(1:s)*2]*X[i,Forest[[j]]$matA[[currentNode]][(1:s)*2-1]])
                 if(rotX<=Forest[[j]]$CutPoint[currentNode]){
                     currentNode <- Forest[[j]]$Children[currentNode,1L]
                 }else{
@@ -391,7 +405,8 @@ RunErrOOB <- function(X,Y,Forest){
                 }
             }
             classProb <- Forest[[j]]$ClassProb[currentNode,]
-            OOBmat[[j]]<- rbind(OOBmat[[j]], c(i,Y[i],classProb))
+            OOBmat[[j]][curr_ind,]<- c(i,Y[i],classProb)
+            curr_ind<-curr_ind+1
             OOBmat[[forestSize]][i,] <- OOBmat[[forestSize]][i,] + classProb
         }
     }
@@ -480,23 +495,36 @@ OOBgrow <- function(Y,OOBmat){
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #   Run R-Rerf byte compiled and parallel                       
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-rfr <- function(X, Y, MinParent=6L, trees=100L, MaxDepth=0L, bagging = .2, FUN=makeA, options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)), COOB=FALSE, Progress=FALSE, NumCores=0L){
+rfr <- function(X, Y, MinParent=6L, trees=100L, MaxDepth=0L, bagging = .2, replacement=TRUE, stratify=FALSE, FUN=makeA, options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)), COOB=FALSE, Progress=FALSE, NumCores=0L){
 
     #keep from making copies of X
     X <- as.matrix(X)
     if(!is.integer(Y)){
         Y <- as.integer(Y)
     }
-    nClasses <- length(levels(as.factor(Y)))
+    uY<-length(unique(Y))
+    classCt <- tabulate(Y,uY)
+    for(q in 2:uY){
+classCt[q] <- classCt[q]+classCt[q-1]
+    }
+    if(stratify){
+        Cindex<-vector("list",uY)
+        for(m in 1:uY){
+            Cindex[[m]]<-which(Y==m)
+        }
+    }else{
+        Cindex<-NULL
+    }
 
     if (!require(compiler)){
         cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to create the forest.\n")
         comp_rfr <<- runrfr
-
+        comp_RunErrOOB <<- RunErrOOB 
     }
     if(!exists("comp_rfr")){
         setCompilerOptions("optimize"=3)
         comp_rfr <<- cmpfun(runrfr)
+        comp_RunErrOOB <<- cmpfun(RunErrOOB)
     }
 
     if (NumCores!=1L){
@@ -507,32 +535,34 @@ rfr <- function(X, Y, MinParent=6L, trees=100L, MaxDepth=0L, bagging = .2, FUN=m
             }
             if (trees%%NumCores==0){
                 tree_per <- trees/NumCores
-                mcrun<- function(...) comp_rfr (X, Y, MinParent, trees=tree_per, MaxDepth, bagging, nClasses, FUN, options, COOB=COOB, Progress=Progress)
+                mcrun<- function(...) comp_rfr (X, Y, MinParent, trees=tree_per, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB=COOB, Progress=Progress)
                 forest<-do.call(c,mclapply(seq_len(NumCores), mcrun, mc.cores =NumCores, mc.set.seed=TRUE))
             }else{
                 if(trees > NumCores){
                     tree_per <- floor(trees/NumCores)
-                    mcrun<- function(...) comp_rfr (X, Y, MinParent, trees=tree_per, MaxDepth, bagging, nClasses, FUN, options, COOB=COOB, Progress=Progress)
+                    mcrun<- function(...) comp_rfr (X, Y, MinParent, trees=tree_per, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB=COOB, Progress=Progress)
                     forest<- do.call(c, mclapply(seq_len(NumCores), mcrun, mc.cores=NumCores))
                 }
-                mcrun<- function(...) comp_rfr (X, Y, MinParent, trees=1, MaxDepth, bagging, nClasses, FUN, options, COOB=COOB, Progress=Progress)
+                mcrun<- function(...) comp_rfr (X, Y, MinParent, trees=1, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB=COOB, Progress=Progress)
                 forest<-c(forest,do.call(c,mclapply(seq_len(trees%%NumCores), mcrun, mc.cores=trees%%NumCores, mc.set.seed=TRUE)))
             }
         }else{
             #Parallel package not available.
             cat("Package 'parallel' not available.\nExecution will continue without parallelization.\nThis will increase the time required to create the forest\n")
-            forest<-comp_rfr(X, Y, MinParent, trees, MaxDepth, bagging, nClasses, FUN, options, COOB=COOB, Progress=Progress)
+            forest<-comp_rfr(X, Y, MinParent, trees, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB=COOB, Progress=Progress)
         }
     }else{
         #Use just one core.
-        forest<-comp_rfr(X, Y, MinParent, trees, MaxDepth, bagging, nClasses, FUN, options, COOB, Progress=Progress)
+        forest<-comp_rfr(X, Y, MinParent, trees, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB, Progress=Progress)
     }
     if(Progress){
         cat("\n\n")
     }
 
+    #if(FALSE){#COOB && bagging != 0){
     if(COOB && bagging != 0){
-        OOBmat <- RunErrOOB(X, Y, forest)
+        OOBmat <- comp_RunErrOOB(X, Y, forest)
+        #OOBmat <- RunErrOOB(X, Y, forest)
         return(list("forest"=forest, "OOBmat"=OOBmat))
     }
     return(forest)
