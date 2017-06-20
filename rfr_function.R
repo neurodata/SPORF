@@ -559,12 +559,6 @@ classCt[q] <- classCt[q]+classCt[q-1]
         cat("\n\n")
     }
 
-    #if(FALSE){#COOB && bagging != 0){
-    if(COOB && bagging != 0){
-        OOBmat <- comp_RunErrOOB(X, Y, forest)
-        #OOBmat <- RunErrOOB(X, Y, forest)
-        return(list("forest"=forest, "OOBmat"=OOBmat))
-    }
     return(forest)
 }
 
