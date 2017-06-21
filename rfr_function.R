@@ -575,15 +575,15 @@ errOOB <- function(X, Y, Forest, NumCores=0){
             if (f_size%%NumCores==0){
                 chunk_size <- f_size/NumCores
                 comp_errOOB_caller <- function(z, ...) comp_errOOB(X=X,Y=Y,Forest=Forest,index=z, chunk_size=chunk_size)
-                OOBmat <- c(mclapply(1:NumCores,comp_errOOB_caller, mc.cores=NumCores))
+                OOBmat <- do.call(c,mclapply(1:NumCores,comp_errOOB_caller, mc.cores=NumCores))
             }else{
                 if(f_size > NumCores){
                     chunk_size <- floor(f_size/NumCores)
                     comp_errOOB_caller <- function(z, ...) comp_errOOB(X=X,Y=Y,Forest=Forest,index=z, chunk_size=chunk_size)
-                    OOBmat <- c(mclapply(1:NumCores,comp_errOOB_caller, mc.cores=NumCores))
+                    OOBmat <- do.call(c,mclapply(1:NumCores,comp_errOOB_caller, mc.cores=NumCores))
                 }
                 comp_errOOB_caller <- function(z, ...) comp_errOOB(X=X,Y=Y,Forest=Forest[(f_size*chunk_size+1):f_size],index=z, chunk_size=1L)
-                OOBmat <- c(OOBmat, (mclapply(1:(f_size%%NumCores), comp_errOOB_caller, mc.cores=(f_size%%NumCores))))
+                OOBmat <- c(OOBmat,do.call(c, (mclapply(1:(f_size%%NumCores), comp_errOOB_caller, mc.cores=(f_size%%NumCores)))))
             }
         }else{
             #Parallel package not available.
@@ -594,6 +594,7 @@ errOOB <- function(X, Y, Forest, NumCores=0){
         #Use just one core.
         OOBmat <-comp_errOOB(X, Y, Forest)
     }
+
     num_classes <- ncol(Forest[[1]]$ClassProb)
     # Have to make the last entry before this bottom will work.
     OOBmat[[f_size+1]] <- matrix(0,nrow=nrow(X), ncol=2+num_classes)
