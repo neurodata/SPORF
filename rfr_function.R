@@ -551,7 +551,7 @@ rfr <- function(X, Y, MinParent=6L, trees=100L, MaxDepth=0L, bagging = .2, repla
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #                      Run OOB Error rate byte compiled and parallel 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-errOOB <- function(X, Y, Forest, NumCores=0){
+OOBpredict <- function(X, Y, Forest, NumCores=0){
     if(!require(compiler)){
         cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to find the OOB error rate.\n")
         comp_errOOB <<- runerrOOB
