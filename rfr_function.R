@@ -141,7 +141,7 @@ runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, replacement, strat
                 }else{
                     ind<-sample(1:w, w, replace=TRUE)
                 }
-                    Assigned2Node[[1]] <- ind
+                Assigned2Node[[1]] <- ind
             }else{
                 ind[1:perBag] <- sample(1:w, perBag, replace = FALSE)
                 Assigned2Node[[1]] <- ind[1:perBag]        
@@ -341,9 +341,6 @@ makeA <- function(options){
 #                       Calculate Error Rate
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 RunErr <- function(X,Y,Forest, index=0L, chunk_size=0L){
-    if(!is.null(Forest$forest)){
-        Forest<-Forest$forest
-    }
     if(index && chunk_size){
         X<- X[(((index-1)*chunk_size)+1L):(index*chunk_size),,drop=FALSE]
     }
@@ -359,8 +356,8 @@ RunErr <- function(X,Y,Forest, index=0L, chunk_size=0L){
             Tree <- Forest[[j]]
             currentNode <- 1L
             while(Tree$Children[currentNode]!=0L){
-s<-length(Tree$matA[[currentNode]])/2
-rotX<-sum(Tree$matA[[currentNode]][(1:s)*2]*X[i,Tree$matA[[currentNode]][(1:s)*2-1]])
+                s<-length(Tree$matA[[currentNode]])/2
+                rotX<-sum(Tree$matA[[currentNode]][(1:s)*2]*X[i,Tree$matA[[currentNode]][(1:s)*2-1]])
                 if(rotX<=Tree$CutPoint[currentNode]){
                     currentNode <- Tree$Children[currentNode,1L]
                 }else{
@@ -382,22 +379,24 @@ rotX<-sum(Tree$matA[[currentNode]][(1:s)*2]*X[i,Tree$matA[[currentNode]][(1:s)*2
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #                       Calculate OOB Error Rate
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-RunErrOOB <- function(X,Y,Forest){
-    forestSize <- length(Forest) + 1L#+1 for the overall total reported as last node
+runerrOOB <- function(X,Y,Forest, index=0L, chunk_size=0L){
+    if(index && chunk_size){
+        Forest<- Forest[(((index-1)*chunk_size)+1L):(index*chunk_size)]
+    }
+    forestSize <- length(Forest) 
     OOBmat <- vector("list", forestSize)
-    OOBmat[[forestSize]]<- matrix(data = 0, nrow = nrow(X), ncol = ncol(Forest[[1L]]$ClassProb))
     rotX<-0
     currentNode<-0L
     curr_ind <- 0
     classProb<-double(length(Forest[[1]]$ClassProb[1,]))
-    for(j in 1:(forestSize-1)){
+    for(j in 1:(forestSize)){
         OOBmat[[j]]<-matrix(0,nrow=length(Forest[[j]]$ind), ncol=2+ncol(Forest[[1]]$ClassProb))
+        curr_ind <- 1
         for (i in Forest[[j]]$ind){
-    curr_ind <- 1
             currentNode <- 1L
             while(Forest[[j]]$Children[currentNode]!=0L){
-s<-length(Forest[[j]]$matA[[currentNode]])/2
-rotX <-sum(Forest[[j]]$matA[[currentNode]][(1:s)*2]*X[i,Forest[[j]]$matA[[currentNode]][(1:s)*2-1]])
+                s<-length(Forest[[j]]$matA[[currentNode]])/2
+                rotX <-sum(Forest[[j]]$matA[[currentNode]][(1:s)*2]*X[i,Forest[[j]]$matA[[currentNode]][(1:s)*2-1]])
                 if(rotX<=Forest[[j]]$CutPoint[currentNode]){
                     currentNode <- Forest[[j]]$Children[currentNode,1L]
                 }else{
@@ -407,20 +406,8 @@ rotX <-sum(Forest[[j]]$matA[[currentNode]][(1:s)*2]*X[i,Forest[[j]]$matA[[curren
             classProb <- Forest[[j]]$ClassProb[currentNode,]
             OOBmat[[j]][curr_ind,]<- c(i,Y[i],classProb)
             curr_ind<-curr_ind+1
-            OOBmat[[forestSize]][i,] <- OOBmat[[forestSize]][i,] + classProb
         }
     }
-    numWrong<- 0L
-    numTotal<- 0L
-    for(k in 1:nrow(X)){
-        if(any(OOBmat[[forestSize]][k,]!=0)){
-            if(order(OOBmat[[forestSize]][k,],decreasing=T)[1L]!=Y[k]){
-                numWrong <- numWrong+1L
-            }
-            numTotal<-numTotal+1L
-        }
-    }
-    cat("OOB error rate: ", 100*numWrong/numTotal, "%\n")
     return(OOBmat)
 }
 
@@ -505,7 +492,7 @@ rfr <- function(X, Y, MinParent=6L, trees=100L, MaxDepth=0L, bagging = .2, repla
     uY<-length(unique(Y))
     classCt <- tabulate(Y,uY)
     for(q in 2:uY){
-classCt[q] <- classCt[q]+classCt[q-1]
+        classCt[q] <- classCt[q]+classCt[q-1]
     }
     if(stratify){
         Cindex<-vector("list",uY)
@@ -519,12 +506,10 @@ classCt[q] <- classCt[q]+classCt[q-1]
     if (!require(compiler)){
         cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to create the forest.\n")
         comp_rfr <<- runrfr
-        comp_RunErrOOB <<- RunErrOOB 
     }
     if(!exists("comp_rfr")){
         setCompilerOptions("optimize"=3)
         comp_rfr <<- cmpfun(runrfr)
-        comp_RunErrOOB <<- cmpfun(RunErrOOB)
     }
 
     if (NumCores!=1L){
@@ -564,6 +549,79 @@ classCt[q] <- classCt[q]+classCt[q-1]
 
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#                      Run OOB Error rate byte compiled and parallel 
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+errOOB <- function(X, Y, Forest, NumCores=0){
+    if(!require(compiler)){
+        cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to find the OOB error rate.\n")
+        comp_errOOB <<- runerrOOB
+    }
+
+    if(!exists("comp_errOOB")){
+        setCompilerOptions("optimize"=3)
+        comp_errOOB <<- runerrOOB
+        #comp_errOOB <<- cmpfun(runerrOOB)
+    } 
+
+    f_size <- length(Forest)
+    X<- as.matrix(X)
+    if(NumCores!=1){
+        if(require(parallel)){
+            if(NumCores==0){
+                #Use all but 1 core if NumCores=0.
+                NumCores=detectCores()-1L
+            }
+            #Start mclapply with NumCores Cores.
+            if (f_size%%NumCores==0){
+                chunk_size <- f_size/NumCores
+                comp_errOOB_caller <- function(z, ...) comp_errOOB(X=X,Y=Y,Forest=Forest,index=z, chunk_size=chunk_size)
+                OOBmat <- c(mclapply(1:NumCores,comp_errOOB_caller, mc.cores=NumCores))
+            }else{
+                if(f_size > NumCores){
+                    chunk_size <- floor(f_size/NumCores)
+                    comp_errOOB_caller <- function(z, ...) comp_errOOB(X=X,Y=Y,Forest=Forest,index=z, chunk_size=chunk_size)
+                    OOBmat <- c(mclapply(1:NumCores,comp_errOOB_caller, mc.cores=NumCores))
+                }
+                comp_errOOB_caller <- function(z, ...) comp_errOOB(X=X,Y=Y,Forest=Forest[(f_size*chunk_size+1):f_size],index=z, chunk_size=1L)
+                OOBmat <- c(OOBmat, (mclapply(1:(f_size%%NumCores), comp_errOOB_caller, mc.cores=(f_size%%NumCores))))
+            }
+        }else{
+            #Parallel package not available.
+            cat("Package 'parallel' not available.\nExecution will continue without parallelization.\nThis will increase the time required to create the forest\n")
+            OOBmat <-comp_errOOB(X, Y, Forest)
+        }
+    }else{
+        #Use just one core.
+        OOBmat <-comp_errOOB(X, Y, Forest)
+    }
+    num_classes <- ncol(Forest[[1]]$ClassProb)
+    # Have to make the last entry before this bottom will work.
+    OOBmat[[f_size+1]] <- matrix(0,nrow=nrow(X), ncol=2+num_classes)
+    #OOBmat[[forestSize]][i,] <- OOBmat[[forestSize]][i,] + classProb
+    for(m in 1:f_size){
+        for(k in 1:length(OOBmat[[m]][,1])){
+            OOBmat[[f_size+1]][OOBmat[[m]][k,1],3:(2+num_classes)]<- OOBmat[[f_size+1]][OOBmat[[m]][k,1],3:(2+num_classes)] + OOBmat[[m]][k,3:(2+num_classes)]
+        }
+    }
+    numWrong<- 0L
+    numTotal<- 0L
+    Y<- as.numeric(Y)
+    for(k in 1:nrow(X)){ 
+        OOBmat[[f_size+1]][k,1] <- k
+        OOBmat[[f_size+1]][k,2] <- Y[k]
+        if(any(OOBmat[[f_size+1]][k,3:(2+num_classes)]!=0)){
+            if(order(OOBmat[[f_size+1]][k,3:(2+num_classes)],decreasing=T)[1L]!=Y[k]){
+                numWrong <- numWrong+1L
+            }
+            numTotal<-numTotal+1L
+        }
+    }
+    cat("OOB error rate: ", 100*numWrong/numTotal, "%\n")
+    return(OOBmat)
+}
+
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #                      Run Error rate byte compiled and parallel 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 error_rate <- function(X,Y,Forest, NumCores=0L){
@@ -571,7 +629,7 @@ error_rate <- function(X,Y,Forest, NumCores=0L){
         Forest<-Forest$forest
     }
     if(!require(compiler)){
-        cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to create the forest.\n")
+        cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to find the error rate.\n")
         comp_err <<- RunErr
     }
 
