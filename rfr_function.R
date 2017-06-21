@@ -415,65 +415,65 @@ runerrOOB <- function(X,Y,Forest, index=0L, chunk_size=0L){
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #                          Make Predictions
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-predict <- function(X,Forest){
-    if(!is.null(Forest$forest)){
-        Forest<-Forest$forest
+runpredict <- function(X,Forest, index=0L, chunk_size=0L){
+    if(index && chunk_size){
+        Forest<- Forest[(((index-1)*chunk_size)+1L):(index*chunk_size)]
     }
-    n <- nrow(X)
+
     forestSize <- length(Forest)
-    z <- integer()
-    for(i in 1:n){
-        classProb <- 0
-        for(j in 1:forestSize){
-            Tree <- Forest[[j]]
+    predictmat <- vector("list", forestSize)
+    rotX<-0
+    currentNode<-0L
+    curr_ind <- 0
+    classProb<-double(length(Forest[[1]]$ClassProb[1,]))
+    num_classes <- ncol(Forest[[1]]$ClassProb)
+    for(j in 1:(forestSize)){
+        predictmat[[j]]<-matrix(0,nrow=nrow(X), ncol=2+num_classes)
+        for (i in 1:nrow(X)){
             currentNode <- 1L
-            while(Tree$Children[currentNode]!=0L){
-                rotX <- 0
-                for(s in 1:(length(Tree$matA[[currentNode]])/2)){
-                    rotX<-rotX+Tree$matA[[currentNode]][2*s]*X[i,Tree$matA[[currentNode]][2*s-1]]
-                }
-                if(rotX<=Tree$CutPoint[currentNode]){
-                    currentNode <- Tree$Children[currentNode,1L]
+            while(Forest[[j]]$Children[currentNode]!=0L){
+                s<-length(Forest[[j]]$matA[[currentNode]])/2
+                rotX <-sum(Forest[[j]]$matA[[currentNode]][(1:s)*2]*X[i,Forest[[j]]$matA[[currentNode]][(1:s)*2-1]])
+                if(rotX<=Forest[[j]]$CutPoint[currentNode]){
+                    currentNode <- Forest[[j]]$Children[currentNode,1L]
                 }else{
-                    currentNode <- Tree$Children[currentNode,2L]
+                    currentNode <- Forest[[j]]$Children[currentNode,2L]
                 }
             }
-            classProb <- classProb + Tree$ClassProb[currentNode,]
+            classProb <- Forest[[j]]$ClassProb[currentNode,]
+            guess <- order(classProb,decreasing=T)[2L]
+            predictmat[[j]][i,]<- c(i,guess,classProb)
         }
-        z <- c(z,order(classProb,decreasing=T)[1L])
     }
-    return(z)
+    return(predictmat)
 }
 
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #                         OOB Error as tree grows 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-OOBgrow <- function(Y,OOBmat){
-    if(!is.null(OOBmat$OOBmat)){
-        OOBmat<-OOBmat$OOBmat
-    }
-    z<-integer()
-    forestSize <- length(OOBmat) - 1L
-    numClass <- ncol(OOBmat[[1L]])-2
-    OOBcurrent<- matrix(data = 0, nrow = length(Y), ncol = numClass)
+errgrow <- function(Y,probmat){
+    z<-integer(length(Y))
+    forestSize <- length(probmat) - 1L
+    numClass <- ncol(probmat[[1L]])-2
+    probcurrent<- matrix(data = 0, nrow = length(Y), ncol = numClass)
     numWrong<- 0L
     numTotal<- 0L
     for(q in 1:forestSize){
-        for(j in 1:nrow(OOBmat[[q]])){
-            OOBcurrent[OOBmat[[q]][j,1L], ] <- OOBcurrent[OOBmat[[q]][j,1L], ]+OOBmat[[q]][j,3:(2+numClass)]
+        for(j in 1:nrow(probmat[[q]])){
+            probcurrent[probmat[[q]][j,1L], ] <- probcurrent[probmat[[q]][j,1L], ]+probmat[[q]][j,3:(2+numClass)]
         }
         numWrong<- 0L
         numTotal<- 0L
         for(m in 1:length(Y)){
-            if(any(OOBcurrent[m,]!=0)){
-                if(order(OOBcurrent[m,],decreasing=T)[1L]!=Y[m]){
+            if(any(probcurrent[m,]!=0)){
+                if(order(probcurrent[m,],decreasing=T)[1L]!=Y[m]){
                     numWrong <- numWrong+1L
                 }
                 numTotal<-numTotal+1L
             }
         }
-        z <- c(z,numWrong/numTotal)
+        z[q] <- numWrong/numTotal
     }
     return(z)
 }
@@ -621,7 +621,66 @@ errOOB <- function(X, Y, Forest, NumCores=0){
     return(OOBmat)
 }
 
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#                      Run predict byte compiled and parallel 
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+predict <- function(X, Forest, NumCores=0){
+    if(!require(compiler)){
+        cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to predict.\n")
+        comp_predict <<- runpredict
+    }
 
+    if(!exists("comp_predict")){
+        setCompilerOptions("optimize"=3)
+        comp_predict <<- runpredict
+    } 
+
+    f_size <- length(Forest)
+    X<- as.matrix(X)
+    if(NumCores!=1){
+        if(require(parallel)){
+            if(NumCores==0){
+                #Use all but 1 core if NumCores=0.
+                NumCores=detectCores()-1L
+            }
+            #Start mclapply with NumCores Cores.
+            if (f_size%%NumCores==0){
+                chunk_size <- f_size/NumCores
+                comp_predict_caller <- function(z, ...) comp_predict(X=X, Forest=Forest,index=z, chunk_size=chunk_size)
+                predictmat <- do.call(c,mclapply(1:NumCores,comp_predict_caller, mc.cores=NumCores))
+            }else{
+                if(f_size > NumCores){
+                    chunk_size <- floor(f_size/NumCores)
+                    comp_predict_caller <- function(z, ...) comp_predict(X=X,Forest=Forest,index=z, chunk_size=chunk_size)
+                    predictmat <- do.call(c,mclapply(1:NumCores,comp_predict_caller, mc.cores=NumCores))
+                }
+                comp_predict_caller <- function(z, ...) comp_predict(X=X,Forest=Forest[(f_size*chunk_size+1):f_size],index=z, chunk_size=1L)
+                predictmat <- c(predictmat,do.call(c, (mclapply(1:(f_size%%NumCores), comp_predict_caller, mc.cores=(f_size%%NumCores)))))
+            }
+        }else{
+            #Parallel package not available.
+            cat("Package 'parallel' not available.\nExecution will continue without parallelization.\nThis will increase the time required to create the forest\n")
+            predictmat <-comp_predict(X, Forest)
+        }
+    }else{
+        #Use just one core.
+        predictmat <-comp_predict(X, Forest)
+    }
+
+    num_classes <- ncol(Forest[[1]]$ClassProb)
+    predictmat[[f_size+1]] <- matrix(0,nrow=nrow(X), ncol=2+num_classes)
+    for(m in 1:f_size){
+        for(k in 1:nrow(X)){
+            predictmat[[f_size+1]][predictmat[[m]][k,1],3:(2+num_classes)]<- predictmat[[f_size+1]][predictmat[[m]][k,1],3:(2+num_classes)] + predictmat[[m]][k,3:(2+num_classes)]
+        }
+    }
+
+for(z in 1:nrow(X)){ 
+        predictmat[[f_size+1]][z,1] <- z
+        predictmat[[f_size+1]][z,2] <- order(predictmat[[f_size+1]][z,3:(2+num_classes)],decreasing=T)[1L]
+    }
+    return(predictmat)
+}
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #                      Run Error rate byte compiled and parallel 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
