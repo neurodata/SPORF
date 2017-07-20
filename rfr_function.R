@@ -190,6 +190,178 @@ runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, replacement, strat
                 ##################################################################
                 #                    Find Best Split
                 ##################################################################
+            
+            #################### Updated split search (end) ####################
+                
+            #     # initialize variables for loop through projection
+            #     consecutive <- 0L
+            #     ClassCountsLeft[] <- 0L
+            #     ClassCountsRight[] <- ClassCounts
+            #     xl <- x[1L]
+            #     yl <- y[1L]
+            #     multiY <- F
+            #     potential.split <- 0L
+            #     for (m in 1:(NdSize[CurrentNode]-1L)){
+            #       xr <- x[m+1L]
+            #       yr <- y[m+1L]
+            #       
+            #       if (xl == xr) {
+            #         consecutive <- consecutive + 1L
+            #         if (yl == yr) {
+            #           next
+            #         } else {
+            #           if (!multiY) {
+            #             multiY <- T
+            #             if (potential.split != 0) {
+            #               ClassProbLeft <- potential.ClassCountsLeft/potential.split
+            #               ClassProbRight <- potential.ClassCountsRight/(NdSize[CurrentNode]-potential.split)
+            #               DeltaI <- I - sum(ClassCountsLeft*(1 - ClassProbLeft) + ClassCountsRight*(1 - ClassProbRight))
+            #               if (DeltaI >= MaxDeltaI){
+            #                 # Save current best DeltaI
+            #                 if (DeltaI != MaxDeltaI){
+            #                   MaxDeltaI <- DeltaI
+            #                   nBest <- 1L
+            #                   BV[nBest] <- q
+            #                   BS[nBest] <- potential.split
+            #                 }else{
+            #                   # Save all DeltaI equal to current max DeltaI
+            #                   nBest <- nBest + 1L
+            #                   BV[nBest] <- q
+            #                   BS[nBest] <- potential.split
+            #                 }
+            #               }
+            #               potential.split <- 0L
+            #             }
+            #           }
+            #         }
+            #         ClassCountsLeft[yl] <-ClassCountsLeft[yl] + consecutive 
+            #         ClassCountsRight[yl] <- ClassCountsRight[yl] - consecutive
+            #         consecutive <- 0L
+            #         yl <- yr
+            #       } else {
+            #         consecutive <- consecutive + 1L
+            #         ClassCountsLeft[yl] <-ClassCountsLeft[yl] + consecutive 
+            #         ClassCountsRight[yl] <- ClassCountsRight[yl] - consecutive
+            #         consecutive <- 0L
+            #         if (yl == yr) {
+            #           if (multiY) {
+            #             ClassProbLeft <- ClassCountsLeft/m
+            #             ClassProbRight <- ClassCountsRight/(NdSize[CurrentNode]-m)
+            #             # Calculate change in impurity based on current split
+            #             DeltaI <- I - sum(ClassCountsLeft*(1 - ClassProbLeft) + ClassCountsRight*(1 - ClassProbRight))
+            #             
+            #             # Determine if this split is currently the best option
+            #             if (DeltaI >= MaxDeltaI){
+            #               # Save current best DeltaI
+            #               if (DeltaI != MaxDeltaI){
+            #                 MaxDeltaI <- DeltaI
+            #                 nBest <- 1L
+            #                 BV[nBest] <- q
+            #                 BS[nBest] <- m
+            #               }else{
+            #                 # Save all DeltaI equal to current max DeltaI
+            #                 nBest <- nBest + 1L
+            #                 BV[nBest] <- q
+            #                 BS[nBest] <- m
+            #               }
+            #             }
+            #           } else {
+            #             potential.split <- m
+            #             potential.ClassCountsLeft <- ClassCountsLeft
+            #             potential.ClassCountsRight <- ClassCountsRight
+            #           }
+            #         } else {
+            #           ClassProbLeft <- ClassCountsLeft/m
+            #           ClassProbRight <- ClassCountsRight/(NdSize[CurrentNode]-m)
+            #           # Calculate change in impurity based on current split
+            #           DeltaI <- I - sum(ClassCountsLeft*(1 - ClassProbLeft) + ClassCountsRight*(1 - ClassProbRight))
+            #           
+            #           # Determine if this split is currently the best option
+            #           if (DeltaI >= MaxDeltaI){
+            #             # Save current best DeltaI
+            #             if (DeltaI != MaxDeltaI){
+            #               MaxDeltaI <- DeltaI
+            #               nBest <- 1L
+            #               BV[nBest] <- q
+            #               BS[nBest] <- m
+            #             }else{
+            #               # Save all DeltaI equal to current max DeltaI
+            #               nBest <- nBest + 1L
+            #               BV[nBest] <- q
+            #               BS[nBest] <- m
+            #             }
+            #           }
+            #           yl <- yr
+            #         }
+            #         multiY <- F
+            #         xl <- xr
+            #       }
+            # 
+            # if (MaxDeltaI == 0) {
+            #   ClassProb[CurrentNode,] <- ClProb
+            #   NodeStack <- NodeStack[-1L]
+            #   CurrentNode <- NodeStack[1L]
+            #   if(is.na(CurrentNode)){
+            #     break
+            #   }
+            #   next
+            # }
+            # 
+            # # If there were multiple best splits then randomly choose
+            # # between the best.
+            # if (nBest > 1L){
+            #   # Break ties at random
+            #   BestIdx <- ceiling(runif(1,0,nBest))
+            #   BestVar <- BV[BestIdx]
+            #   BestSplitIdx <- BS[BestIdx]
+            # }else{
+            #   BestVar <- BV[1L]
+            #   BestSplitIdx <- BS[1L]
+            # }
+            # # Recalculate the best projection
+            # lrows<-which(sparseM[,2L]==BestVar)
+            # Xnode[1:NdSize[CurrentNode]]<-X[NodeRows[[1L]],sparseM[lrows,1], drop=FALSE]%*%sparseM[lrows,3, drop=FALSE]
+            # 
+            # # reorder the projection and find the cut value
+            # SortIdx[1:NdSize[CurrentNode]] <- order(Xnode[1:NdSize[CurrentNode]] )
+            # # determine split value as mean of values on either side of split
+            # BestSplitValue <- sum(Xnode[SortIdx[BestSplitIdx:(BestSplitIdx+1L)]])/2
+            # 
+            # # find which child node each sample will go to and move
+            # # them accordingly
+            # MoveLeft <- Xnode[1:NdSize[CurrentNode]]  <= BestSplitValue
+            # # numMove <- sum(MoveLeft)
+            # #Check to see if a split occured, or if all elements being moved one direction.
+            # # Move samples left or right based on split
+            # Assigned2Node[[NextUnusedNode]] <- NodeRows[[1L]][MoveLeft]
+            # Assigned2Node[[NextUnusedNode+1L]] <- NodeRows[[1L]][!MoveLeft]
+            # 
+            # #highest Parent keeps track of the highest needed matrix and cutpoint
+            # # this reduces what is stored in the forest structure
+            # if(CurrentNode>highestParent){
+            #   highestParent <- CurrentNode
+            # }
+            # # Determine children nodes and their attributes
+            # Children[CurrentNode,1L] <- NextUnusedNode
+            # Children[CurrentNode,2L] <- NextUnusedNode+1L
+            # NDepth[NextUnusedNode]=NDepth[CurrentNode]+1L
+            # NDepth[NextUnusedNode+1L]=NDepth[CurrentNode]+1L
+            # # Pop the current node off the node stack
+            # # this allows for a breadth first traversal
+            # NodeStack <- NodeStack[-1L]
+            # NodeStack <- c(NextUnusedNode, NextUnusedNode+1L, NodeStack)
+            # NextUnusedNode <- NextUnusedNode + 2L
+            # # Store the projection matrix for the best split
+            # if (options[[3]] != "frc" && options[[3]] != "continuous") {
+            #   matA[[CurrentNode]] <- as.integer(t(sparseM[which(sparseM[,2]==BestVar),c(1,3)]))
+            # } else {
+            #   matA[[CurrentNode]] <- t(sparseM[which(sparseM[,2]==BestVar),c(1,3)])
+            # }
+            # CutPoint[CurrentNode] <- BestSplitValue
+                
+            #################### Updated split search (end) ####################
+                
+                
 
                 # initialize variables for loop through projection
                 consecutive <- 0L
