@@ -1,4 +1,4 @@
-runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB, Progress){
+runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB, CNS, Progress){
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     # rfr builds a randomer classification forest structure made up of a list
     # of trees.  This forest is randomer because each node is rotated before 
@@ -45,9 +45,18 @@ runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, replacement, strat
     # options is a list of inputs to the user provided projection matrix
     # creation function -- FUN.
     #
+    # rotate is a boolean specifying whether or not to randomly rotate the
+    # for each tree. If TRUE, then a different random rotation will be applied
+    # to each bagged subsample prior to building each tree. If the number of
+    # dimensions is greater than 1000, then a random subset of 1000 of the
+    # dimensions will be rotated and the others will be left alone
+    #
     # COOB is a boolean that determines whether or not OOB error is calculated.
     # If bagging equals zero then COOB is ignored.  If bagging does not equal 
     # zero and COOB is TRUE then OOB is calculated and printed to the screen.
+    # 
+    # CNS is a boolean that specifies whether to store the node size of each
+    # node.
     #
     # Progress is a boolean.  When true a progress marker is printed to the 
     # screen every time a tree is grown.  This is useful for large input.
@@ -64,8 +73,7 @@ runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, replacement, strat
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     # Predefine variables to prevent recreation during loops
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-    nClasses <- length(classCt)
+       nClasses <- length(classCt)
     forest <- vector("list",trees)
     ClassCountsLeft <- integer(nClasses)
     ClassCountsRight <- integer(nClasses)
@@ -80,11 +88,14 @@ runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, replacement, strat
     BestVar <-0L 
     BestSplitIdx<-0L 
     BestSplitValue <- 0
+    currIN <- 0L
+    currLN <- 0L
     w <- nrow(X)
     p <- ncol(X)
     perBag <- (1-bagging)*w
     Xnode<-double(w) # allocate space to store the current projection
     SortIdx<-integer(w) 
+    x <- double(w)
     y <- integer(w)
     if(object.size(X) > 1000000){
         OS<-TRUE
@@ -102,14 +113,20 @@ runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, replacement, strat
         MaxNumNodes <- 2L^(MaxDepth+1L)  # number of tree nodes for space reservation
     }
 
-    ClassProb <- matrix(data = 0, nrow = MaxNumNodes, ncol = nClasses)
-    CutPoint <- double(MaxNumNodes)
-    Children <- matrix(data = 0L, nrow = MaxNumNodes,ncol = 2L)
+    maxIN <- ceiling(MaxNumNodes/2)
+    treeMap <- integer(MaxNumNodes)
+    ClassProb <- matrix(data = 0, nrow = maxIN, ncol = nClasses)
+    CutPoint <- double(maxIN)
+    Children <- integer(maxIN)
+    NdSize <- integer(MaxNumNodes)
     NDepth <- integer(MaxNumNodes)
-    matA <- vector("list", MaxNumNodes) 
     Assigned2Node<- vector("list",MaxNumNodes) 
     ind <- double(w)
-    NodeSize <- integer(MaxNumNodes)
+    #Matrix A storage variables
+    matAindex <- integer(maxIN)
+    matAsize <- ceiling(w/2)
+    matAstore <- integer(matAsize)
+    matAindex[1] <- 0L
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -118,29 +135,35 @@ runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, replacement, strat
 
     for(treeX in 1:trees){
         # intialize values for new tree before processing nodes
-        ClassProb[] <- 0
-        CutPoint[] <- NA
-        Children[] <- 0L
-        NDepth[]<- 0L #delete this?
+        #  treeMap[] <- 0L
+        #ClassProb[] <- 0
+        #CutPoint[] <- 0
+        #Children[] <- 0L
+        #NdSize[] <- 0L
+        #NDepth[]<- 0L #delete this?
         NDepth[1]<-1L
         CurrentNode <- 1L
         NextUnusedNode <- 2L
         NodeStack <- 1L
         highestParent <- 1L
-        NodeSize[] <- 0L
         ind[] <- 0L
-        #matA[] <- list(NULL)
+        currIN <- 0L
+        currLN <- 0L
         # Determine bagging set 
         # Assigned2Node is the set of row indices of X assigned to current node
         if(bagging != 0){
             if(replacement){
-                if(stratify){
-                    ind[1:classCt[1]]<-sample(Cindex[[1]], classCt[1], replace=TRUE)
-                    for(z in 2:nClasses){
-                        ind[(classCt[z-1]+1):classCt[z]]<- sample(Cindex[[z]], classCt[z]-classCt[z-1], replace=TRUE)
+                go <- T
+                while (go) {
+                    if(stratify){
+                        ind[1:classCt[1]]<-sample(Cindex[[1]], classCt[1], replace=TRUE)
+                        for(z in 2:nClasses){
+                            ind[(classCt[z-1]+1):classCt[z]]<- sample(Cindex[[z]], classCt[z]-classCt[z-1], replace=TRUE)
+                        }
+                    }else{
+                        ind<-sample(1:w, w, replace=TRUE)
                     }
-                }else{
-                    ind<-sample(1:w, w, replace=TRUE)
+                    go <- all(1:w %in% ind)
                 }
                 Assigned2Node[[1]] <- ind
             }else{
@@ -156,16 +179,17 @@ runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, replacement, strat
             # determine working samples for current node.
             NodeRows <- Assigned2Node[CurrentNode] 
             Assigned2Node[[CurrentNode]]<-NA #remove saved indexes
-            NdSize <- length(NodeRows[[1L]]) #determine node size
+            NdSize[CurrentNode] <- length(NodeRows[[1L]]) #determine node size
             # determine number of samples in current node then
             # determine their percentages in the node
             ClassCounts <- tabulate(Y[NodeRows[[1L]]], nClasses)
-            ClProb <- ClassCounts/NdSize
+            ClProb <- ClassCounts/NdSize[CurrentNode]
             # compute impurity for current node
             I <- sum(ClassCounts*(1 - ClProb))
             # if node is impure and large enough then attempt to find good split
-            if (NdSize < MinParent || I <= 0 || NDepth[CurrentNode]==MaxDepth){
-                ClassProb[CurrentNode,] <- ClProb
+            if (NdSize[CurrentNode] < MinParent || I <= 0 || NDepth[CurrentNode]==MaxDepth){
+                treeMap[CurrentNode] <- currLN <- currLN - 1
+                ClassProb[currLN*-1,] <- ClProb
                 NodeStack <- NodeStack[-1L]
                 CurrentNode <- NodeStack[1L]
                 if(is.na(CurrentNode)){
@@ -176,291 +200,258 @@ runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, replacement, strat
 
             # create projection matrix (sparseM) by calling the custom function FUN
             sparseM <- FUN(options)
+            nnz <- nrow(sparseM)
             # Check each projection to determine which splits the best.
             MaxDeltaI <- 0
             nBest <- 1L
-            for(q in unique(sparseM[,2])){
+            nz.idx <- 1L
+
+            while (nz.idx <= nnz) {
+                # for(q in unique(sparseM[,2])){
+                # Parse sparseM to the column of the projection matrix at this iteration
+                feature.idx <- sparseM[nz.idx, 2L]
+                feature.nnz <- 0L
+                while(sparseM[nz.idx + feature.nnz, 2L] == feature.idx) {
+                    feature.nnz <- feature.nnz + 1L
+                    if (nz.idx + feature.nnz > nnz) {
+                        break
+                    }
+                }
+                lrows <- nz.idx:(nz.idx + feature.nnz - 1L)
+
                 #Project input into new space
-                lrows <- which(sparseM[,2]==q)
-                Xnode[1:NdSize] <- X[NodeRows[[1L]],sparseM[lrows,1], drop=FALSE]%*%sparseM[lrows,3, drop=FALSE]
+                Xnode[1:NdSize[CurrentNode]] <- X[NodeRows[[1L]],sparseM[lrows,1], drop=FALSE]%*%sparseM[lrows,3, drop=FALSE]
+
                 #Sort the projection, Xnode, and rearrange Y accordingly
-                SortIdx[1:NdSize] <- order(Xnode[1:NdSize] )
-                y[1:NdSize] <- Y[NodeRows[[1L]]][SortIdx[1:NdSize]]
+                SortIdx[1:NdSize[CurrentNode]] <- order(Xnode[1:NdSize[CurrentNode]])
+                x[1:NdSize[CurrentNode]] <- Xnode[SortIdx[1:NdSize[CurrentNode]]]
+                y[1:NdSize[CurrentNode]] <- Y[NodeRows[[1L]]][SortIdx[1:NdSize[CurrentNode]]]
 
                 ##################################################################
                 #                    Find Best Split
                 ##################################################################
-            
-            #################### Updated split search (end) ####################
-                
-            #     # initialize variables for loop through projection
-            #     consecutive <- 0L
-            #     ClassCountsLeft[] <- 0L
-            #     ClassCountsRight[] <- ClassCounts
-            #     xl <- x[1L]
-            #     yl <- y[1L]
-            #     multiY <- F
-            #     potential.split <- 0L
-            #     for (m in 1:(NdSize[CurrentNode]-1L)){
-            #       xr <- x[m+1L]
-            #       yr <- y[m+1L]
-            #       
-            #       if (xl == xr) {
-            #         consecutive <- consecutive + 1L
-            #         if (yl == yr) {
-            #           next
-            #         } else {
-            #           if (!multiY) {
-            #             multiY <- T
-            #             if (potential.split != 0) {
-            #               ClassProbLeft <- potential.ClassCountsLeft/potential.split
-            #               ClassProbRight <- potential.ClassCountsRight/(NdSize[CurrentNode]-potential.split)
-            #               DeltaI <- I - sum(ClassCountsLeft*(1 - ClassProbLeft) + ClassCountsRight*(1 - ClassProbRight))
-            #               if (DeltaI >= MaxDeltaI){
-            #                 # Save current best DeltaI
-            #                 if (DeltaI != MaxDeltaI){
-            #                   MaxDeltaI <- DeltaI
-            #                   nBest <- 1L
-            #                   BV[nBest] <- q
-            #                   BS[nBest] <- potential.split
-            #                 }else{
-            #                   # Save all DeltaI equal to current max DeltaI
-            #                   nBest <- nBest + 1L
-            #                   BV[nBest] <- q
-            #                   BS[nBest] <- potential.split
-            #                 }
-            #               }
-            #               potential.split <- 0L
-            #             }
-            #           }
-            #         }
-            #         ClassCountsLeft[yl] <-ClassCountsLeft[yl] + consecutive 
-            #         ClassCountsRight[yl] <- ClassCountsRight[yl] - consecutive
-            #         consecutive <- 0L
-            #         yl <- yr
-            #       } else {
-            #         consecutive <- consecutive + 1L
-            #         ClassCountsLeft[yl] <-ClassCountsLeft[yl] + consecutive 
-            #         ClassCountsRight[yl] <- ClassCountsRight[yl] - consecutive
-            #         consecutive <- 0L
-            #         if (yl == yr) {
-            #           if (multiY) {
-            #             ClassProbLeft <- ClassCountsLeft/m
-            #             ClassProbRight <- ClassCountsRight/(NdSize[CurrentNode]-m)
-            #             # Calculate change in impurity based on current split
-            #             DeltaI <- I - sum(ClassCountsLeft*(1 - ClassProbLeft) + ClassCountsRight*(1 - ClassProbRight))
-            #             
-            #             # Determine if this split is currently the best option
-            #             if (DeltaI >= MaxDeltaI){
-            #               # Save current best DeltaI
-            #               if (DeltaI != MaxDeltaI){
-            #                 MaxDeltaI <- DeltaI
-            #                 nBest <- 1L
-            #                 BV[nBest] <- q
-            #                 BS[nBest] <- m
-            #               }else{
-            #                 # Save all DeltaI equal to current max DeltaI
-            #                 nBest <- nBest + 1L
-            #                 BV[nBest] <- q
-            #                 BS[nBest] <- m
-            #               }
-            #             }
-            #           } else {
-            #             potential.split <- m
-            #             potential.ClassCountsLeft <- ClassCountsLeft
-            #             potential.ClassCountsRight <- ClassCountsRight
-            #           }
-            #         } else {
-            #           ClassProbLeft <- ClassCountsLeft/m
-            #           ClassProbRight <- ClassCountsRight/(NdSize[CurrentNode]-m)
-            #           # Calculate change in impurity based on current split
-            #           DeltaI <- I - sum(ClassCountsLeft*(1 - ClassProbLeft) + ClassCountsRight*(1 - ClassProbRight))
-            #           
-            #           # Determine if this split is currently the best option
-            #           if (DeltaI >= MaxDeltaI){
-            #             # Save current best DeltaI
-            #             if (DeltaI != MaxDeltaI){
-            #               MaxDeltaI <- DeltaI
-            #               nBest <- 1L
-            #               BV[nBest] <- q
-            #               BS[nBest] <- m
-            #             }else{
-            #               # Save all DeltaI equal to current max DeltaI
-            #               nBest <- nBest + 1L
-            #               BV[nBest] <- q
-            #               BS[nBest] <- m
-            #             }
-            #           }
-            #           yl <- yr
-            #         }
-            #         multiY <- F
-            #         xl <- xr
-            #       }
-            # 
-            # if (MaxDeltaI == 0) {
-            #   ClassProb[CurrentNode,] <- ClProb
-            #   NodeStack <- NodeStack[-1L]
-            #   CurrentNode <- NodeStack[1L]
-            #   if(is.na(CurrentNode)){
-            #     break
-            #   }
-            #   next
-            # }
-            # 
-            # # If there were multiple best splits then randomly choose
-            # # between the best.
-            # if (nBest > 1L){
-            #   # Break ties at random
-            #   BestIdx <- ceiling(runif(1,0,nBest))
-            #   BestVar <- BV[BestIdx]
-            #   BestSplitIdx <- BS[BestIdx]
-            # }else{
-            #   BestVar <- BV[1L]
-            #   BestSplitIdx <- BS[1L]
-            # }
-            # # Recalculate the best projection
-            # lrows<-which(sparseM[,2L]==BestVar)
-            # Xnode[1:NdSize[CurrentNode]]<-X[NodeRows[[1L]],sparseM[lrows,1], drop=FALSE]%*%sparseM[lrows,3, drop=FALSE]
-            # 
-            # # reorder the projection and find the cut value
-            # SortIdx[1:NdSize[CurrentNode]] <- order(Xnode[1:NdSize[CurrentNode]] )
-            # # determine split value as mean of values on either side of split
-            # BestSplitValue <- sum(Xnode[SortIdx[BestSplitIdx:(BestSplitIdx+1L)]])/2
-            # 
-            # # find which child node each sample will go to and move
-            # # them accordingly
-            # MoveLeft <- Xnode[1:NdSize[CurrentNode]]  <= BestSplitValue
-            # # numMove <- sum(MoveLeft)
-            # #Check to see if a split occured, or if all elements being moved one direction.
-            # # Move samples left or right based on split
-            # Assigned2Node[[NextUnusedNode]] <- NodeRows[[1L]][MoveLeft]
-            # Assigned2Node[[NextUnusedNode+1L]] <- NodeRows[[1L]][!MoveLeft]
-            # 
-            # #highest Parent keeps track of the highest needed matrix and cutpoint
-            # # this reduces what is stored in the forest structure
-            # if(CurrentNode>highestParent){
-            #   highestParent <- CurrentNode
-            # }
-            # # Determine children nodes and their attributes
-            # Children[CurrentNode,1L] <- NextUnusedNode
-            # Children[CurrentNode,2L] <- NextUnusedNode+1L
-            # NDepth[NextUnusedNode]=NDepth[CurrentNode]+1L
-            # NDepth[NextUnusedNode+1L]=NDepth[CurrentNode]+1L
-            # # Pop the current node off the node stack
-            # # this allows for a breadth first traversal
-            # NodeStack <- NodeStack[-1L]
-            # NodeStack <- c(NextUnusedNode, NextUnusedNode+1L, NodeStack)
-            # NextUnusedNode <- NextUnusedNode + 2L
-            # # Store the projection matrix for the best split
-            # if (options[[3]] != "frc" && options[[3]] != "continuous") {
-            #   matA[[CurrentNode]] <- as.integer(t(sparseM[which(sparseM[,2]==BestVar),c(1,3)]))
-            # } else {
-            #   matA[[CurrentNode]] <- t(sparseM[which(sparseM[,2]==BestVar),c(1,3)])
-            # }
-            # CutPoint[CurrentNode] <- BestSplitValue
-                
-            #################### Updated split search (end) ####################
-                
-                
 
                 # initialize variables for loop through projection
                 consecutive <- 0L
                 ClassCountsLeft[] <- 0L
                 ClassCountsRight[] <- ClassCounts
+                xl <- x[1L]
                 yl <- y[1L]
-                for (m in 1:(NdSize-1L)){
+                multiY <- F
+                potential.split <- 0L
+                for (m in 1:(NdSize[CurrentNode]-1L)){
+                    xr <- x[m+1L]
                     yr <- y[m+1L]
-                    consecutive <- consecutive +1L
-                    # only calculate Class Probs if current class is different
-                    # from the previous class
-                    if (yl == yr ){
-                        next
-                    }
-                    ClassCountsLeft[yl] <-ClassCountsLeft[yl] + consecutive 
-                    ClassCountsRight[yl] <- ClassCountsRight[yl] - consecutive
-                    consecutive <- 0L
-                    yl <- yr
 
-                    # Calculate class probabilities
-                    ClassProbLeft <- ClassCountsLeft/m
-                    ClassProbRight <- ClassCountsRight/(NdSize-m)
-                    # Calculate change in impurity based on current split
-                    DeltaI <- I - sum(ClassCountsLeft*(1 - ClassProbLeft) + ClassCountsRight*(1 - ClassProbRight))
-
-                    # Determine if this split is currently the best option
-                    if (DeltaI >= MaxDeltaI){
-                        # Save current best DeltaI
-                        if (DeltaI != MaxDeltaI){
-                            MaxDeltaI <- DeltaI
-                            nBest <- 1L
-                        }else{
-                            # Save all DeltaI equal to current max DeltaI
-                            nBest <- nBest + 1L
+                    if (xl == xr) {
+                        consecutive <- consecutive + 1L
+                        if (yl == yr) {
+                            next
+                        } else {
+                            if (!multiY) {
+                                multiY <- T
+                                if (potential.split != 0) {
+                                    ClassProbLeft <- potential.ClassCountsLeft/potential.split
+                                    ClassProbRight <- potential.ClassCountsRight/(NdSize[CurrentNode]-potential.split)
+                                    DeltaI <- I - sum(ClassCountsLeft*(1 - ClassProbLeft) + ClassCountsRight*(1 - ClassProbRight))
+                                    if (DeltaI >= MaxDeltaI){
+                                        # Save current best DeltaI
+                                        if (DeltaI != MaxDeltaI){
+                                            MaxDeltaI <- DeltaI
+                                            nBest <- 1L
+                                            BS[nBest] <- potential.split
+                                            BV[nBest] <- nz.idx
+                                        }else{
+                                            # Save all DeltaI equal to current max DeltaI
+                                            nBest <- nBest + 1L
+                                            BS[nBest] <- potential.split
+                                            BV[nBest] <- nz.idx
+                                        }
+                                    }
+                                    potential.split <- 0L
+                                }
+                            }
                         }
-                        BV[nBest] <- q
-                        BS[nBest] <- m
+                        ClassCountsLeft[yl] <-ClassCountsLeft[yl] + consecutive 
+                        ClassCountsRight[yl] <- ClassCountsRight[yl] - consecutive
+                        consecutive <- 0L
+                        yl <- yr
+                    } else if ((xl + xr)/2 == xr) {
+                        consecutive <- consecutive + 1L
+                        if (yl == yr) {
+                            next
+                        } else {
+                            if (!multiY) {
+                                multiY <- T
+                                if (potential.split != 0) {
+                                    ClassProbLeft <- potential.ClassCountsLeft/potential.split
+                                    ClassProbRight <- potential.ClassCountsRight/(NdSize[CurrentNode]-potential.split)
+                                    DeltaI <- I - sum(ClassCountsLeft*(1 - ClassProbLeft) + ClassCountsRight*(1 - ClassProbRight))
+                                    if (DeltaI >= MaxDeltaI){
+                                        # Save current best DeltaI
+                                        if (DeltaI != MaxDeltaI){
+                                            MaxDeltaI <- DeltaI
+                                            nBest <- 1L
+                                            BS[nBest] <- potential.split
+                                            BV <- nz.idx
+                                        }else{
+                                            # Save all DeltaI equal to current max DeltaI
+                                            nBest <- nBest + 1L
+                                            BS[nBest] <- potential.split
+                                            BV[nBest] <- nz.idx
+                                        }
+                                    }
+                                    potential.split <- 0L
+                                }
+                            }
+                        }
+                        ClassCountsLeft[yl] <-ClassCountsLeft[yl] + consecutive 
+                        ClassCountsRight[yl] <- ClassCountsRight[yl] - consecutive
+                        consecutive <- 0L
+                        xl <- xr
+                        yl <- yr
+                    } else {
+                        consecutive <- consecutive + 1L
+                        ClassCountsLeft[yl] <-ClassCountsLeft[yl] + consecutive 
+                        ClassCountsRight[yl] <- ClassCountsRight[yl] - consecutive
+                        consecutive <- 0L
+                        if (yl == yr) {
+                            if (multiY) {
+                                ClassProbLeft <- ClassCountsLeft/m
+                                ClassProbRight <- ClassCountsRight/(NdSize[CurrentNode]-m)
+                                # Calculate change in impurity based on current split
+                                DeltaI <- I - sum(ClassCountsLeft*(1 - ClassProbLeft) + ClassCountsRight*(1 - ClassProbRight))
 
+                                # Determine if this split is currently the best option
+                                if (DeltaI >= MaxDeltaI){
+                                    # Save current best DeltaI
+                                    if (DeltaI != MaxDeltaI){
+                                        MaxDeltaI <- DeltaI
+                                        nBest <- 1L
+                                        BS[nBest] <- m
+                                        BV[nBest] <- nz.idx
+                                    }else{
+                                        # Save all DeltaI equal to current max DeltaI
+                                        nBest <- nBest + 1L
+                                        BS[nBest] <- m
+                                        BV[nBest] <- nz.idx
+                                    }
+                                }
+                            } else {
+                                potential.split <- m
+                                potential.ClassCountsLeft <- ClassCountsLeft
+                                potential.ClassCountsRight <- ClassCountsRight
+                            }
+                        } else {
+                            ClassProbLeft <- ClassCountsLeft/m
+                            ClassProbRight <- ClassCountsRight/(NdSize[CurrentNode]-m)
+                            # Calculate change in impurity based on current split
+                            DeltaI <- I - sum(ClassCountsLeft*(1 - ClassProbLeft) + ClassCountsRight*(1 - ClassProbRight))
+
+                            # Determine if this split is currently the best option
+                            if (DeltaI >= MaxDeltaI){
+                                # Save current best DeltaI
+                                if (DeltaI != MaxDeltaI){
+                                    MaxDeltaI <- DeltaI
+                                    nBest <- 1L
+                                    BS[nBest] <- m
+                                    BV[nBest] <- nz.idx
+                                }else{
+                                    # Save all DeltaI equal to current max DeltaI
+                                    nBest <- nBest + 1L
+                                    BS[nBest] <- m
+                                    BV[nBest] <- nz.idx
+                                }
+                            }
+                            yl <- yr
+                        }
+                        multiY <- F
+                        xl <- xr
                     }
                 }
-            }#end loop through projections.
+                nz.idx <- nz.idx + feature.nnz
+            }
+
+            if (MaxDeltaI == 0) {
+                treeMap[CurrentNode] <- currLN <- currLN - 1
+                ClassProb[currLN*-1,] <- ClProb
+                NodeStack <- NodeStack[-1L]
+                CurrentNode <- NodeStack[1L]
+                if(is.na(CurrentNode)){
+                    break
+                }
+                next
+            }
 
             # If there were multiple best splits then randomly choose
             # between the best.
             if (nBest > 1L){
                 # Break ties at random
                 BestIdx <- ceiling(runif(1,0,nBest))
-                BestVar <- BV[BestIdx]
                 BestSplitIdx <- BS[BestIdx]
+                BestVar.startidx <- BV[BestIdx]
             }else{
-                BestVar <- BV[1L]
                 BestSplitIdx <- BS[1L]
+                BestVar.startidx <- BV[1L]
             }
+
             # Recalculate the best projection
-            lrows<-which(sparseM[,2L]==BestVar)
-            Xnode[1:NdSize]<-X[NodeRows[[1L]],sparseM[lrows,1], drop=FALSE]%*%sparseM[lrows,3, drop=FALSE]
+            feature.idx <- sparseM[BestVar.startidx, 2L]
+            feature.nnz <- 0L
+            while(sparseM[BestVar.startidx + feature.nnz, 2L] == feature.idx) {
+                feature.nnz <- feature.nnz + 1L
+                if (BestVar.startidx + feature.nnz > nnz) {
+                    break
+                }
+            }
+            lrows <- BestVar.startidx:(BestVar.startidx + feature.nnz - 1L)
+            Xnode[1:NdSize[CurrentNode]]<-X[NodeRows[[1L]],sparseM[lrows,1], drop=FALSE]%*%sparseM[lrows,3, drop=FALSE]
 
             # reorder the projection and find the cut value
-            SortIdx[1:NdSize] <- order(Xnode[1:NdSize] )
+            SortIdx[1:NdSize[CurrentNode]] <- order(Xnode[1:NdSize[CurrentNode]] )
             # determine split value as mean of values on either side of split
             BestSplitValue <- sum(Xnode[SortIdx[BestSplitIdx:(BestSplitIdx+1L)]])/2
 
             # find which child node each sample will go to and move
             # them accordingly
-            MoveLeft <- Xnode[1:NdSize]  <= BestSplitValue
-            numMove <- sum(MoveLeft)
-            #Check to see if a split occured, or if all elements being moved one direction.
-            if(numMove!=0L && numMove!=NdSize){
-                # Move samples left or right based on split
-                Assigned2Node[[NextUnusedNode]] <- NodeRows[[1L]][MoveLeft]
-                Assigned2Node[[NextUnusedNode+1L]] <- NodeRows[[1L]][!MoveLeft]
+            MoveLeft <- Xnode[1:NdSize[CurrentNode]]  <= BestSplitValue
 
-                #highest Parent keeps track of the highest needed matrix and cutpoint
-                # this reduces what is stored in the forest structure
-                if(CurrentNode>highestParent){
-                    highestParent <- CurrentNode
-                }
-                # Determine children nodes and their attributes
-                Children[CurrentNode,1L] <- NextUnusedNode
-                Children[CurrentNode,2L] <- NextUnusedNode+1L
-                NDepth[NextUnusedNode]=NDepth[CurrentNode]+1L
-                NDepth[NextUnusedNode+1L]=NDepth[CurrentNode]+1L
-                # Pop the current node off the node stack
-                # this allows for a breadth first traversal
-                NodeStack <- NodeStack[-1L]
-                NodeStack <- c(NextUnusedNode, NextUnusedNode+1L, NodeStack)
-                NextUnusedNode <- NextUnusedNode + 2L
-                # Store the projection matrix for the best split
-                matA[[CurrentNode]] <- as.integer(t(sparseM[which(sparseM[,2]==BestVar),c(1,3)]))
-                CutPoint[CurrentNode] <- BestSplitValue
-            }else{
-                # There wasn't a good split so ignore this node and move to the next
-                NodeStack <- NodeStack[-1L]
+            # Move samples left or right based on split
+            Assigned2Node[[NextUnusedNode]] <- NodeRows[[1L]][MoveLeft]
+            Assigned2Node[[NextUnusedNode+1L]] <- NodeRows[[1L]][!MoveLeft]
+
+            # highestParent keeps track of the highest needed matrix and cutpoint
+            # this reduces what is stored in the forest structure
+            if(CurrentNode>highestParent){
+                highestParent <- CurrentNode
             }
+            # Determine children nodes and their attributes
+            treeMap[CurrentNode] <- currIN <- currIN + 1 
+            Children[currIN] <- NextUnusedNode
+            NDepth[NextUnusedNode]=NDepth[CurrentNode]+1L
+            NDepth[NextUnusedNode+1L]=NDepth[CurrentNode]+1L
+            # Pop the current node off the node stack
+            # this allows for a breadth first traversal
+            NodeStack <- NodeStack[-1L]
+            NodeStack <- c(NextUnusedNode, NextUnusedNode+1L, NodeStack)
+            NextUnusedNode <- NextUnusedNode + 2L
+            # Store the projection matrix for the best split
+            currMatAlength <- length(sparseM[lrows,c(1,3)])
+            if(matAindex[currIN] + currMatAlength > matAsize){ #grow the vector when needed.
+                matAsize <- matAsize*2
+                matAstore[matAsize] <- 0
+            }
+            if (options[[3]] != "frc" && options[[3]] != "continuous") {
+                matAstore[(matAindex[currIN]+1):(matAindex[currIN]+currMatAlength)] <- as.integer(t(sparseM[lrows,c(1,3)]))
+            } else {
+                matAstore[(matAindex[currIN]+1):(matAindex[currIN]+currMatAlength)] <- t(sparseM[lrows,c(1,3)])
+            }
+            matAindex[currIN+1] <- matAindex[currIN]+currMatAlength 
+            CutPoint[currIN] <- BestSplitValue
+
             # Store ClassProbs for this node.
-            # Only really useful for leaf nodes, but could be used instead of recalculating 
+            # Only really useful for leaf nodes, but could be used instead of recalculating
             # at each node which is how it is currently.
-            NodeSize[CurrentNode] <- NdSize
-            ClassProb[CurrentNode,] <- ClProb
             CurrentNode <- NodeStack[1L]
             if(is.na(CurrentNode)){
                 break
@@ -471,10 +462,21 @@ runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, replacement, strat
             gc()
         }
         # save current tree structure to the forest
-        if(bagging!=0 && COOB){
-            forest[[treeX]] <- list("CutPoint"=CutPoint[1:highestParent],"ClassProb"=ClassProb[1L:(NextUnusedNode-1L),,drop=FALSE],"Children"=Children[1L:(NextUnusedNode-1L),,drop=FALSE], "matA"=matA[1L:highestParent], "ind"=which(!(1:w %in% ind)), "NdSize"=NodeSize[1L:highestParent])
-        }else{
-            forest[[treeX]] <- list("CutPoint"=CutPoint[1:highestParent],"ClassProb"=ClassProb[1L:(NextUnusedNode-1L),,drop=FALSE],"Children"=Children[1L:(NextUnusedNode-1L),,drop=FALSE], "matA"=matA[1L:highestParent], "NdSize"=NodeSize[1L:highestParent])
+
+        currLN <- currLN * -1
+        if (CNS) {
+            if(bagging!=0 && COOB){
+                forest[[treeX]] <- list("treeMap"=treeMap[1:NextUnusedNode-1L], "CutPoint"=CutPoint[1:currIN],"ClassProb"=ClassProb[1L:currLN,,drop=FALSE],"Children"=Children[1L:currIN], "matAstore"=matAstore[1:matAindex[currIN+1]], "matAindex"=matAindex[1L:(currIN+1)], "ind"=which(!(1:w %in% ind)), "NdSize" = NdSize[1L:(NextUnusedNode-1L)])
+            }else{
+                forest[[treeX]] <- list("treeMap"=treeMap[1:NextUnusedNode-1L], "CutPoint"=CutPoint[1:currIN],"ClassProb"=ClassProb[1L:currLN,,drop=FALSE],"Children"=Children[1L:currIN], "matAstore"=matAstore[1:matAindex[currIN+1]], "matAindex"=matAindex[1L:(currIN+1)], "NdSize" = NdSize[1L:(NextUnusedNode-1L)])
+            }
+        }
+        else {
+            if(bagging!=0 && COOB){
+                forest[[treeX]] <- list("treeMap"=treeMap[1:NextUnusedNode-1L], "CutPoint"=CutPoint[1:currIN],"ClassProb"=ClassProb[1L:currLN,,drop=FALSE],"Children"=Children[1L:currIN], "matAstore"=matAstore[1:matAindex[currIN+1]], "matAindex"=matAindex[1L:(currIN+1)], "ind"=which(!(1:w %in% ind)))
+            }else{
+                forest[[treeX]] <- list("treeMap"=treeMap[1:NextUnusedNode-1L], "CutPoint"=CutPoint[1:currIN],"ClassProb"=ClassProb[1L:currLN,,drop=FALSE],"Children"=Children[1L:currIN], "matAstore"=matAstore[1:matAindex[currIN+1]], "matAindex"=matAindex[1L:(currIN+1)])
+            }
         }
         if(Progress){
             cat("|")
@@ -482,7 +484,6 @@ runrfr <- function(X, Y, MinParent, trees, MaxDepth, bagging, replacement, strat
     }
     return(forest)
 }
-
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #                      Default option to make projection matrix 
@@ -521,23 +522,28 @@ RunErr <- function(X,Y,Forest, index=0L, chunk_size=0L){
     forestSize <- length(Forest)
     classProb<-double(length(Forest[[1]]$ClassProb[1,]))
     z <- integer()
+    tm <- integer()
+    indexHigh <- 0L
+    indexLow <- 0L
     rotX<-0
     currentNode<-0L
     for(i in 1:n){
         classProb[] <- 0
         for(j in 1:forestSize){
-            Tree <- Forest[[j]]
             currentNode <- 1L
-            while(Tree$Children[currentNode]!=0L){
-                s<-length(Tree$matA[[currentNode]])/2
-                rotX<-sum(Tree$matA[[currentNode]][(1:s)*2]*X[i,Tree$matA[[currentNode]][(1:s)*2-1]])
-                if(rotX<=Tree$CutPoint[currentNode]){
-                    currentNode <- Tree$Children[currentNode,1L]
+
+            while((tm<- Forest[[j]]$treeMap[currentNode])>0L){
+                indexHigh <- Forest[[j]]$matAindex[tm+1]
+                indexLow <- Forest[[j]]$matAindex[tm]
+                s<-(indexHigh-indexLow)/2
+                rotX<-sum(Forest[[j]]$matAstore[(indexLow+1):indexHigh][(1:s)*2]*X[i,Forest[[j]]$matAstore[(indexLow+1):indexHigh][(1:s)*2-1]])
+                if(rotX<=Forest[[j]]$CutPoint[tm]){
+                    currentNode <- Forest[[j]]$Children[tm]
                 }else{
-                    currentNode <- Tree$Children[currentNode,2L]
+                    currentNode <- Forest[[j]]$Children[tm]+1
                 }
             }
-            classProb <- classProb + Tree$ClassProb[currentNode,]
+            classProb <- classProb + Forest[[j]]$ClassProb[tm*-1,]
         }
         z <- c(z,order(classProb,decreasing=T)[1L])
     }
@@ -552,35 +558,65 @@ RunErr <- function(X,Y,Forest, index=0L, chunk_size=0L){
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #                       Calculate OOB Error Rate
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-runerrOOB <- function(X,Y,Forest, index=0L, chunk_size=0L){
-    if(index && chunk_size){
-        Forest<- Forest[(((index-1)*chunk_size)+1L):(index*chunk_size)]
-    }
+runerrOOB <- function(X, Y, Forest) {
     forestSize <- length(Forest) 
     OOBmat <- vector("list", forestSize)
     rotX<-0
     currentNode<-0L
     curr_ind <- 0
+    tm <- 0L
     classProb<-double(length(Forest[[1]]$ClassProb[1,]))
-    for(j in 1:(forestSize)){
-        OOBmat[[j]]<-matrix(0,nrow=length(Forest[[j]]$ind), ncol=2+ncol(Forest[[1]]$ClassProb))
-        curr_ind <- 1
-        for (i in Forest[[j]]$ind){
-            currentNode <- 1L
-            while(Forest[[j]]$Children[currentNode]!=0L){
-                s<-length(Forest[[j]]$matA[[currentNode]])/2
-                rotX <-sum(Forest[[j]]$matA[[currentNode]][(1:s)*2]*X[i,Forest[[j]]$matA[[currentNode]][(1:s)*2-1]])
-                if(rotX<=Forest[[j]]$CutPoint[currentNode]){
-                    currentNode <- Forest[[j]]$Children[currentNode,1L]
-                }else{
-                    currentNode <- Forest[[j]]$Children[currentNode,2L]
-                }
+    for (j in 1:(forestSize)) {
+        if (!is.null(Forest[[j]]$rotmat)) {
+            if (is.null(Forest[[j]]$rotdims)) {
+                Xtree <- X%*%Forest[[j]]$rotmat
+            } else {
+                Xtree <- X
+                Xtree[, Forest[[j]]$rotdims] <- Xtree[, Forest[[j]]$rotdims]%*%Forest[[j]]$rotmat
             }
-            classProb <- Forest[[j]]$ClassProb[currentNode,]
-            OOBmat[[j]][curr_ind,]<- c(i,Y[i],classProb)
-            curr_ind<-curr_ind+1
+
+            OOBmat[[j]]<-matrix(0,nrow=length(Forest[[j]]$ind), ncol=2+ncol(Forest[[1]]$ClassProb))
+            curr_ind <- 1
+            for (i in Forest[[j]]$ind) {
+                currentNode <- 1L
+                while ((tm <- Forest[[j]]$treeMap[currentNode])>0L) {
+                    indexHigh <- Forest[[j]]$matAindex[tm+1]
+                    indexLow <- Forest[[j]]$matAindex[tm]
+                    s<-(indexHigh-indexLow)/2
+                    rotX<-sum(Forest[[j]]$matAstore[(indexLow+1):indexHigh][(1:s)*2]*X[i,Forest[[j]]$matAstore[(indexLow+1):indexHigh][(1:s)*2-1]])
+                    if (rotX<=Forest[[j]]$CutPoint[tm]) {
+                        currentNode <- Forest[[j]]$Children[tm]
+                    } else {
+                        currentNode <- Forest[[j]]$Children[tm]+1
+                    }
+                }
+                classProb <- Forest[[j]]$ClassProb[tm*-1,]
+                OOBmat[[j]][curr_ind,]<- c(i,Y[i],classProb)
+                curr_ind<-curr_ind+1
+            }
+        } else {
+            OOBmat[[j]]<-matrix(0,nrow=length(Forest[[j]]$ind), ncol=2+ncol(Forest[[1]]$ClassProb))
+            curr_ind <- 1
+            for (i in Forest[[j]]$ind) {
+                currentNode <- 1L
+                while ((tm<-Forest[[j]]$treeMap[currentNode])>0L) {
+                    indexHigh <- Forest[[j]]$matAindex[tm+1]
+                    indexLow <- Forest[[j]]$matAindex[tm]
+                    s<-(indexHigh-indexLow)/2
+                    rotX<-sum(Forest[[j]]$matAstore[(indexLow+1):indexHigh][(1:s)*2]*X[i,Forest[[j]]$matAstore[(indexLow+1):indexHigh][(1:s)*2-1]])
+                    if (rotX<=Forest[[j]]$CutPoint[tm]) {
+                        currentNode <- Forest[[j]]$Children[tm]
+                    } else {
+                        currentNode <- Forest[[j]]$Children[tm]+1
+                    }
+                }
+                classProb <- Forest[[j]]$ClassProb[tm*-1,]
+                OOBmat[[j]][curr_ind,]<- c(i,Y[i],classProb)
+                curr_ind<-curr_ind+1
+            }
         }
     }
+
     return(OOBmat)
 }
 
@@ -588,11 +624,7 @@ runerrOOB <- function(X,Y,Forest, index=0L, chunk_size=0L){
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #                          Make Predictions
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-runpredict <- function(X,Forest, index=0L, chunk_size=0L){
-    if(index && chunk_size){
-        Forest<- Forest[(((index-1)*chunk_size)+1L):(index*chunk_size)]
-    }
-
+runpredict <- function(X, Forest){
     forestSize <- length(Forest)
     predictmat <- vector("list", forestSize)
     rotX<-0
@@ -601,21 +633,50 @@ runpredict <- function(X,Forest, index=0L, chunk_size=0L){
     classProb<-double(length(Forest[[1]]$ClassProb[1,]))
     num_classes <- ncol(Forest[[1]]$ClassProb)
     for(j in 1:(forestSize)){
-        predictmat[[j]]<-matrix(0,nrow=nrow(X), ncol=2+num_classes)
-        for (i in 1:nrow(X)){
-            currentNode <- 1L
-            while(Forest[[j]]$Children[currentNode]!=0L){
-                s<-length(Forest[[j]]$matA[[currentNode]])/2
-                rotX <-sum(Forest[[j]]$matA[[currentNode]][(1:s)*2]*X[i,Forest[[j]]$matA[[currentNode]][(1:s)*2-1]])
-                if(rotX<=Forest[[j]]$CutPoint[currentNode]){
-                    currentNode <- Forest[[j]]$Children[currentNode,1L]
-                }else{
-                    currentNode <- Forest[[j]]$Children[currentNode,2L]
+        if (is.null(Forest[[j]]$rotmat)) {
+            predictmat[[j]]<-matrix(0,nrow=nrow(X), ncol=2+num_classes)
+            for (i in 1:nrow(X)){
+                currentNode <- 1L
+                while((tm <- Forest[[j]]$treeMap[currentNode])>0L){
+                    indexHigh <- Forest[[j]]$matAindex[tm+1]
+                    indexLow <- Forest[[j]]$matAindex[tm]
+                    s<-(indexHigh-indexLow)/2
+                    rotX<-sum(Forest[[j]]$matAstore[(indexLow+1):indexHigh][(1:s)*2]*X[i,Forest[[j]]$matAstore[(indexLow+1):indexHigh][(1:s)*2-1]])
+                    if(rotX<=Forest[[j]]$CutPoint[Forest[[j]]$treeMap[currentNode]]){
+                        currentNode <- Forest[[j]]$Children[Forest[[j]]$treeMap[currentNode]]
+                    }else{
+                        currentNode <- Forest[[j]]$Children[Forest[[j]]$treeMap[currentNode]]+1
+                    }
                 }
+                classProb <- Forest[[j]]$ClassProb[Forest[[j]]$treeMap[currentNode]*-1,]
+                guess <- order(classProb,decreasing=T)[1L]
+                predictmat[[j]][i,]<- c(i,guess,classProb)
             }
-            classProb <- Forest[[j]]$ClassProb[currentNode,]
-            guess <- order(classProb,decreasing=T)[2L]
-            predictmat[[j]][i,]<- c(i,guess,classProb)
+        } else {
+            if (is.null(Forest[[j]]$rotdims)) {
+                Xtree <- X%*%Forest[[j]]$rotmat
+            } else {
+                Xtree <- X
+                Xtree[, Forest[[j]]$rotdims] <- Xtree[, Forest[[j]]$rotdims]%*%Forest[[j]]$rotmat
+            }
+            predictmat[[j]]<-matrix(0,nrow=nrow(Xtree), ncol=2+num_classes)
+            for (i in 1:nrow(Xtree)){
+                currentNode <- 1L
+                while((tm <- Forest[[j]]$treeMap[currentNode])>0L){
+                    indexHigh <- Forest[[j]]$matAindex[tm+1]
+                    indexLow <- Forest[[j]]$matAindex[tm]
+                    s<-(indexHigh-indexLow)/2
+                    rotX<-sum(Forest[[j]]$matAstore[(indexLow+1):indexHigh][(1:s)*2]*X[i,Forest[[j]]$matAstore[(indexLow+1):indexHigh][(1:s)*2-1]])
+                    if(rotX<=Forest[[j]]$CutPoint[Forest[[j]]$treeMap[currentNode]]){
+                        currentNode <- Forest[[j]]$Children[Forest[[j]]$treeMap[currentNode]]
+                    }else{
+                        currentNode <- Forest[[j]]$Children[Forest[[j]]$treeMap[currentNode]]+1
+                    }
+                }
+                classProb <- Forest[[j]]$ClassProb[Forest[[j]]$treeMap[currentNode]*-1,]
+                guess <- order(classProb,decreasing=T)[1L]
+                predictmat[[j]][i,]<- c(i,guess,classProb)
+            }
         }
     }
     return(predictmat)
@@ -651,15 +712,15 @@ errgrow <- function(Y,probmat){
     return(z)
 }
 
-
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #   Run R-Rerf byte compiled and parallel                       
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-rfr <- function(X, Y, MinParent=6L, trees=100L, MaxDepth=0L, bagging = .2, replacement=TRUE, stratify=FALSE, FUN=makeA, options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)), COOB=FALSE, Progress=FALSE, NumCores=0L){
+rfr <- function(X, Y, MinParent=6L, trees=100L, MaxDepth=0L, bagging = .2, replacement=TRUE, stratify=FALSE, FUN=makeA, options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)), rank.transform = FALSE, COOB=FALSE, CNS=FALSE, Progress=FALSE, NumCores=0L, seed = 1L){
 
     #keep from making copies of X
-    if(!is.matrix(X)){
-        X <- as.matrix(X)
+    X <- as.matrix(X)
+    if (rank.transform) {
+        X <- rank.matrix(X)
     }
     if(!is.integer(Y)){
         Y <- as.integer(Y)
@@ -689,31 +750,27 @@ rfr <- function(X, Y, MinParent=6L, trees=100L, MaxDepth=0L, bagging = .2, repla
 
     if (NumCores!=1L){
         if(require(parallel)){
+            RNGkind("L'Ecuyer-CMRG")
+            set.seed(seed)
+            mc.reset.stream()
             if(NumCores==0){
                 #Use all but 1 core if NumCores=0.
                 NumCores=detectCores()-1L
             }
-            if (trees%%NumCores==0){
-                tree_per <- trees/NumCores
-                mcrun<- function(...) comp_rfr (X, Y, MinParent, trees=tree_per, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB=COOB, Progress=Progress)
-                forest<-do.call(c,mclapply(seq_len(NumCores), mcrun, mc.cores =NumCores, mc.set.seed=TRUE))
-            }else{
-                if(trees > NumCores){
-                    tree_per <- floor(trees/NumCores)
-                    mcrun<- function(...) comp_rfr (X, Y, MinParent, trees=tree_per, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB=COOB, Progress=Progress)
-                    forest<- do.call(c, mclapply(seq_len(NumCores), mcrun, mc.cores=NumCores))
-                }
-                mcrun<- function(...) comp_rfr (X, Y, MinParent, trees=1, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB=COOB, Progress=Progress)
-                forest<-c(forest,do.call(c,mclapply(seq_len(trees%%NumCores), mcrun, mc.cores=trees%%NumCores, mc.set.seed=TRUE)))
-            }
+            NumCores=min(NumCores,trees)
+            mcrun<- function(...) comp_rfr (X, Y, MinParent, trees=1, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB=COOB, CNS=CNS, Progress=Progress)
+            gc()
+            forest<-do.call(c,mclapply(1:trees, mcrun, mc.cores =NumCores, mc.set.seed=TRUE))
         }else{
             #Parallel package not available.
             cat("Package 'parallel' not available.\nExecution will continue without parallelization.\nThis will increase the time required to create the forest\n")
-            forest<-comp_rfr(X, Y, MinParent, trees, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB=COOB, Progress=Progress)
+            set.seed(seed)
+            forest<-comp_rfr(X, Y, MinParent, trees, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB=COOB, CNS=CNS, Progress=Progress)
         }
     }else{
         #Use just one core.
-        forest<-comp_rfr(X, Y, MinParent, trees, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB, Progress=Progress)
+        set.seed(seed)
+        forest<-comp_rfr(X, Y, MinParent, trees, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB, CNS, Progress)
     }
     if(Progress){
         cat("\n\n")
@@ -722,11 +779,15 @@ rfr <- function(X, Y, MinParent=6L, trees=100L, MaxDepth=0L, bagging = .2, repla
     return(forest)
 }
 
-
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #                      Run OOB Error rate byte compiled and parallel 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-OOBpredict <- function(X, Y, Forest, NumCores=0){
+OOBpredict <- function(X, Y, Forest, NumCores=0, rank.transform = F){
+    if (rank.transform){
+        X <- rank.matrix(X)
+    }
+    n <- nrow(X)
+
     if(!require(compiler)){
         cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to find the OOB error rate.\n")
         comp_errOOB <<- runerrOOB
@@ -734,17 +795,10 @@ OOBpredict <- function(X, Y, Forest, NumCores=0){
 
     if(!exists("comp_errOOB")){
         setCompilerOptions("optimize"=3)
-        comp_errOOB <<- runerrOOB
         comp_errOOB <<- cmpfun(runerrOOB)
     } 
 
     f_size <- length(Forest)
-    if(!is.matrix(X)){
-        X<- as.matrix(X)
-    }
-    if(!is.integer(Y)){
-        Y <- as.integer(Y)
-    }
     if(NumCores!=1){
         if(require(parallel)){
             if(NumCores==0){
@@ -754,16 +808,23 @@ OOBpredict <- function(X, Y, Forest, NumCores=0){
             #Start mclapply with NumCores Cores.
             if (f_size%%NumCores==0){
                 chunk_size <- f_size/NumCores
-                comp_errOOB_caller <- function(z, ...) comp_errOOB(X=X,Y=Y,Forest=Forest,index=z, chunk_size=chunk_size)
+                comp_errOOB_caller <- function(z, ...) comp_errOOB(X=X,Y=Y,Forest=Forest[((z - 1L)*chunk_size + 1L):(z*chunk_size)])
+                gc()
                 OOBmat <- do.call(c,mclapply(1:NumCores,comp_errOOB_caller, mc.cores=NumCores))
             }else{
                 if(f_size > NumCores){
                     chunk_size <- floor(f_size/NumCores)
-                    comp_errOOB_caller <- function(z, ...) comp_errOOB(X=X,Y=Y,Forest=Forest,index=z, chunk_size=chunk_size)
+                    comp_errOOB_caller <- function(z, ...) comp_errOOB(X=X,Y=Y,Forest=Forest[((z - 1L)*chunk_size + 1L):(z*chunk_size)])
+                    gc()
                     OOBmat <- do.call(c,mclapply(1:NumCores,comp_errOOB_caller, mc.cores=NumCores))
+                    comp_errOOB_caller <- function(z, ...) comp_errOOB(X=X,Y=Y,Forest=Forest[NumCores*chunk_size + z])
+                    gc()
+                    OOBmat <- c(OOBmat,do.call(c, (mclapply(1:(f_size%%NumCores), comp_errOOB_caller, mc.cores=(f_size%%NumCores)))))
+                }else{
+                    comp_errOOB_caller <- function(z, ...) comp_errOOB(X=X,Y=Y,Forest=Forest[z])
+                    gc()
+                    OOBmat <- do.call(c, mclapply(1:f_size, comp_errOOB_caller, mc.cores=f_size))
                 }
-                comp_errOOB_caller <- function(z, ...) comp_errOOB(X=X,Y=Y,Forest=Forest[(NumCores*chunk_size+1):f_size],index=z, chunk_size=1L)
-                OOBmat <- c(OOBmat,do.call(c, (mclapply(1:(f_size%%NumCores), comp_errOOB_caller, mc.cores=(f_size%%NumCores)))))
             }
         }else{
             #Parallel package not available.
@@ -777,21 +838,26 @@ OOBpredict <- function(X, Y, Forest, NumCores=0){
 
     num_classes <- ncol(Forest[[1]]$ClassProb)
     # Have to make the last entry before this bottom will work.
-    OOBmat[[f_size+1]] <- matrix(0,nrow=nrow(X), ncol=2+num_classes)
-    #OOBmat[[forestSize]][i,] <- OOBmat[[forestSize]][i,] + classProb
+    OOBmat[[f_size+1]] <- matrix(0,nrow=n, ncol=2+num_classes)
+    oobCounts <- vector(mode = "integer", length = n)
     for(m in 1:f_size){
+        oobCounts[Forest[[m]]$ind] <- oobCounts[Forest[[m]]$ind] + 1
         for(k in 1:length(OOBmat[[m]][,1])){
             OOBmat[[f_size+1]][OOBmat[[m]][k,1],3:(2+num_classes)]<- OOBmat[[f_size+1]][OOBmat[[m]][k,1],3:(2+num_classes)] + OOBmat[[m]][k,3:(2+num_classes)]
         }
     }
+    has.counts <- oobCounts != 0L
+    OOBmat[[f_size+1]][has.counts, -c(1,2)] <- OOBmat[[f_size+1]][has.counts, -c(1,2)]/oobCounts[has.counts]
     numWrong<- 0L
     numTotal<- 0L
     Y<- as.numeric(Y)
-    for(k in 1:nrow(X)){ 
+    for(k in 1:n){ 
         OOBmat[[f_size+1]][k,1] <- k
         OOBmat[[f_size+1]][k,2] <- Y[k]
         if(any(OOBmat[[f_size+1]][k,3:(2+num_classes)]!=0)){
-            if(order(OOBmat[[f_size+1]][k,3:(2+num_classes)],decreasing=T)[1L]!=Y[k]){
+            Yhat <- order(OOBmat[[f_size+1]][k,3:(2+num_classes)],decreasing=T)[1L]
+            OOBmat[[f_size+1]][k, 2] <- Yhat
+            if(Yhat!=Y[k]){
                 numWrong <- numWrong+1L
             }
             numTotal<-numTotal+1L
@@ -804,7 +870,16 @@ OOBpredict <- function(X, Y, Forest, NumCores=0){
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #                      Run predict byte compiled and parallel 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-predict <- function(X, Forest, NumCores=0){
+predict <- function(X, Forest, NumCores=0, rank.transform = F, Xtrain = NULL){
+
+    if (rank.transform) {
+        if (is.null(Xtrain)) {
+            ############ error ############
+        } else {
+            X <- rank.interpolate(Xtrain, X)
+        }
+    }
+
     if(!require(compiler)){
         cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to predict.\n")
         comp_predict <<- runpredict
@@ -812,13 +887,10 @@ predict <- function(X, Forest, NumCores=0){
 
     if(!exists("comp_predict")){
         setCompilerOptions("optimize"=3)
-        comp_predict <<- runpredict
+        comp_predict <<- cmpfun(runpredict)
     } 
 
     f_size <- length(Forest)
-    if(!is.matrix(X)){
-        X<- as.matrix(X)
-    }
     if(NumCores!=1){
         if(require(parallel)){
             if(NumCores==0){
@@ -828,20 +900,27 @@ predict <- function(X, Forest, NumCores=0){
             #Start mclapply with NumCores Cores.
             if (f_size%%NumCores==0){
                 chunk_size <- f_size/NumCores
-                comp_predict_caller <- function(z, ...) comp_predict(X=X, Forest=Forest,index=z, chunk_size=chunk_size)
+                comp_predict_caller <- function(z, ...) comp_predict(X=X, Forest=Forest[((z - 1L)*chunk_size + 1L):(z*chunk_size)])
+                gc()
                 predictmat <- do.call(c,mclapply(1:NumCores,comp_predict_caller, mc.cores=NumCores))
             }else{
                 if(f_size > NumCores){
                     chunk_size <- floor(f_size/NumCores)
-                    comp_predict_caller <- function(z, ...) comp_predict(X=X,Forest=Forest,index=z, chunk_size=chunk_size)
+                    comp_predict_caller <- function(z, ...) comp_predict(X=X,Forest=Forest[((z - 1L)*chunk_size + 1L):(z*chunk_size)])
+                    gc()
                     predictmat <- do.call(c,mclapply(1:NumCores,comp_predict_caller, mc.cores=NumCores))
+                    comp_predict_caller <- function(z, ...) comp_predict(X=X,Forest=Forest[NumCores*chunk_size + z])
+                    gc()
+                    predictmat <- c(predictmat,do.call(c, (mclapply(1:(f_size%%NumCores), comp_predict_caller, mc.cores=(f_size%%NumCores)))))
+                }else{
+                    comp_predict_caller <- function(z, ...) comp_predict(X=X,Forest=Forest[z])
+                    gc()
+                    predictmat <- do.call(c, mclapply(1:f_size, comp_predict_caller, mc.cores=f_size))
                 }
-                comp_predict_caller <- function(z, ...) comp_predict(X=X,Forest=Forest[(NumCores*chunk_size+1):f_size],index=z, chunk_size=1L)
-                predictmat <- c(predictmat,do.call(c, (mclapply(1:(f_size%%NumCores), comp_predict_caller, mc.cores=(f_size%%NumCores)))))
             }
         }else{
             #Parallel package not available.
-            cat("Package 'parallel' not available.\nExecution will continue without parallelization.\nThis will increase the time required to create the forest\n")
+            cat("Package 'parallel' not available.\nExecution will continue without parallelization.\nThis will increase the time required to predict.\n")
             predictmat <-comp_predict(X, Forest)
         }
     }else{
@@ -880,12 +959,7 @@ error_rate <- function(X,Y,Forest, NumCores=0L){
         comp_err <<- cmpfun(RunErr)
     } 
 
-    if(!is.matrix(X)){
-        X<- as.matrix(X)
-    }
-    if(!is.integer(Y)){
-        Y <- as.integer(Y)
-    }
+    X<- as.matrix(X)
     if(NumCores!=1){
         if(require(parallel)){
             if(NumCores==0){
@@ -896,14 +970,17 @@ error_rate <- function(X,Y,Forest, NumCores=0L){
             if (nrow(X)%%NumCores==0){
                 chunk_size <- nrow(X)/NumCores
                 comp_err_caller <- function(z, ...) comp_err(X=X,Y=Y,Forest=Forest,index=z, chunk_size=chunk_size)
+                gc()
                 total_misclassified <- sum(as.numeric(mclapply(1:NumCores,comp_err_caller, mc.cores=NumCores)))
             }else{
                 if(nrow(X) > NumCores){
                     chunk_size <- floor(nrow(X)/NumCores)
                     comp_err_caller <- function(z, ...) comp_err(X=X,Y=Y,Forest=Forest,index=z, chunk_size=chunk_size)
+                    gc()
                     total_misclassified <- sum(as.numeric(mclapply(1:NumCores,comp_err_caller, mc.cores=NumCores)))
                 }
                 comp_err_caller <- function(z, ...) comp_err(X=X[(NumCores*chunk_size+1L):nrow(X),,drop=FALSE],Y=Y[(NumCores*chunk_size+1L):nrow(X)],Forest=Forest,index=z, chunk_size=1L)
+                gc()
                 total_misclassified <- total_misclassified + sum(as.numeric(mclapply(1:(nrow(X)%%NumCores), comp_err_caller, mc.cores=(nrow(X)%%NumCores))))
             }
         }else{
@@ -916,4 +993,29 @@ error_rate <- function(X,Y,Forest, NumCores=0L){
         total_misclassified <-comp_err(X, Y, Forest)
     }
     return(total_misclassified/nrow(X))
+}
+
+skip.streams <- function(n) {
+    x <- .Random.seed
+    for (i in seq_len(n))
+        x <- nextRNGStream(x)
+    assign('.Random.seed', x, pos=.GlobalEnv)
+}
+
+# function for finding the indices where a label change occurs in a sorted Y vector
+groupidx <- function(Y) {
+    n <- length(Y)
+    class.start.idx <- vector("integer", Y[n])
+    y <- 1L
+    class.start.idx[1L] <- 1L
+    for (i in 2:n) {
+        if (Y[i] != y) {
+            y <- Y[i]
+            class.start.idx[y] <- i
+            if (y == Y[n]) {
+                break
+            }
+        }
+    }
+    return(class.start.idx)
 }
