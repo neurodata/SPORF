@@ -12,5 +12,4 @@ branches:
 install: true
 
 script:
-    - pwd
-    - Rscript irisTest.R
+    - Rscript Test/irisTest.R
