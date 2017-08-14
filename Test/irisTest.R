@@ -3,8 +3,8 @@ numT <- 5#0
 require(parallel)
 numC <- detectCores() 
 
-RerF_baseline <- "rfr_function.R"
-RerF_candidate <- "../rfr_function.R"
+RerF_baseline <- "Test/rfr_function.R"
+RerF_candidate <- "rfr_function.R"
 trainSet <- "Iris"
 testDS <- function(RerF_baseline, RerF_candidate, numTests, numTrees, cores, p1){
     #X <- read.csv(file(trainSet), header=FALSE)

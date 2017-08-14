@@ -3,6 +3,8 @@ cache: packages
 r:
     - release
 
+pandoc: false
+
 sudo: false
 
 branches:
