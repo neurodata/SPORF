@@ -10,4 +10,4 @@ install: true
 
 script:
     - cd /home/neurodata/R-RerF
-    - irisTest.R
+    - Rscript irisTest.R
