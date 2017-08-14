@@ -1,4 +1,7 @@
-language: c
+language: r
+cache: packages
+r:
+    - release
 
 sudo: false
 
