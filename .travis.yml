@@ -1,0 +1,13 @@
+language: c
+
+sudo: false
+
+branches:
+    only:
+        - master
+
+install: true
+
+script:
+    - cd /home/neurodata/R-RerF
+    - irisTest.R
