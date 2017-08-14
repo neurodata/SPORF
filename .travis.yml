@@ -12,5 +12,5 @@ branches:
 install: true
 
 script:
-    - cd /home/neurodata/R-RerF
+    - pwd
     - Rscript irisTest.R
