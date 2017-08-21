@@ -14,5 +14,6 @@ branches:
 install: true
 
 script:
+    - lscpu
     - Rscript Test/irisTest.R
     - Rscript Test/orthantTest.R
