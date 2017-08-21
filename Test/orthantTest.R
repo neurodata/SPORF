@@ -1,5 +1,5 @@
-trees <- 2
-numT <- 1
+trees <- 10
+numT <- 10
 require(parallel)
 numC <- detectCores() 
 
@@ -199,8 +199,7 @@ testDS <- function(RerF_baseline, RerF_candidate, trainSet, testSet, numTests, n
     flush.console()
     return(pass)
 }
-
-retVal <- testDS(RerF_baseline,RerF_candidate, numT, trees, numC, 2)
+retVal <- testDS(RerF_baseline,RerF_candidate, trainSet, testSet, numT, trees, numC, .5)
 
 if(!retVal){
     quit(status=1)
