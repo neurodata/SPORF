@@ -1,7 +1,7 @@
 trees <- 10
 numT <- 10
 require(parallel)
-numC <- detectCores() 
+numC <- 1#detectCores() 
 
 RerF_baseline <- "Test/rfr_function.R"
 RerF_candidate <- "rfr_function.R"
