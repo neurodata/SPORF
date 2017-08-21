@@ -14,4 +14,5 @@ branches:
 install: true
 
 script:
+    - Rscript Test/irisTest.R
     - Rscript Test/orthantTest.R
