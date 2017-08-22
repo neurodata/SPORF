@@ -1,6 +1,6 @@
 require(Rcpp)
 require(RcppArmadillo)
-sourceCpp("~/RerF/Code/Classifiers/split.cpp")
+sourceCpp("~/RerF/Code/Classifiers/split2.cpp")
 
 build.tree <- function(X, Y, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB, CNS, Progress, rotate){
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
