@@ -15,8 +15,6 @@ branches:
     only:
         - master
 
-install: true
-
 script:
     - lscpu
     - Rscript Test/irisTest.R
