@@ -12,11 +12,8 @@ branches:
 env:
     - NOT_CRAN=false
 
-install: true
-
-r_packages:
-    - Rcpp
-    - RcppArmadillo
+install:
+    - Rscript Test/installPackages.R
 
 script:
     - lscpu
