@@ -1,7 +1,7 @@
 trees <- 20#500
 numT <- 5#0
 require(parallel)
-numC <- detectCores() 
+numC <- 2#detectCores() 
 
 RerF_baseline <- "Test/rfr_function.R"
 RerF_candidate <- "rfr_function.R"
@@ -43,7 +43,7 @@ testDS <- function(RerF_baseline, RerF_candidate, numTests, numTrees, cores, p1)
     for (i in 1:numTests){
         initMem <- sum(gc(reset=TRUE)[9:10])
         ptm <- proc.time()
-        forest<-rfr(X,Y,trees=numTrees, MinParent=2L, MaxDepth="inf", stratify=TRUE, COOB=TRUE, NumCores=cores,  options=c(ncol(X), ceiling(ncol(X)^p1),1L, 1/ncol(X)), seed = sample(1:10000,1)) 
+        forest<-rerf(X,Y,trees=numTrees, MinParent=2L, MaxDepth="inf", stratify=TRUE, COOB=TRUE, NumCores=cores,  options=c(ncol(X), ceiling(ncol(X)^p1),1L, 1/ncol(X)), seed = sample(1:10000,1)) 
         ptmtrain_baseline[i]<- (proc.time() - ptm)[3]
         memSize_baseline[i] <- sum(gc()[9:10]) - initMem
         if (length(forest)!=numTrees){
@@ -52,7 +52,7 @@ testDS <- function(RerF_baseline, RerF_candidate, numTests, numTrees, cores, p1)
         }
         temp_size <- 0
         for(z in 1:length(forest)){
-            temp_size <- temp_size + length(forest[[z]]$ClassProb[,1])
+            temp_size <- temp_size + length(forest[[z]]$treeMap)
             for(q in 1:length(forest[[z]]$ClassProb[,1])){
                 if (sum(forest[[z]]$ClassProb[q,]) == 0){
                     print("A node with 0 samples exists")
@@ -62,21 +62,14 @@ testDS <- function(RerF_baseline, RerF_candidate, numTests, numTrees, cores, p1)
         }
         NodeSize_baseline[i] <- temp_size/length(forest)
         ptm <- proc.time()
-        capture.output(OOBmat_temp <- OOBpredict(X,Y,forest, cores))
+        OOBmat_temp <- OOBpredict(X,forest, cores)
 ptmOOB_baseline[i] <- (proc.time() - ptm)[3]
-        OOBmat_cols <- length(OOBmat_temp[[length(OOBmat_temp)]][1,])
+        #OOBmat_cols <- length(OOBmat_temp[[length(OOBmat_temp)]][1,])
         numWrong<- 0L
         numTotal<- 0L
 
-        for(k in 1:nrow(X)){ 
-            if(any(OOBmat_temp[[length(OOBmat_temp)]][k,3:OOBmat_cols]!=0)){
-                if(order(OOBmat_temp[[length(OOBmat_temp)]][k,3:OOBmat_cols],decreasing=T)[1L]!=Y[k]){
-                    numWrong <- numWrong+1L
-                }
-                numTotal<-numTotal+1L
-            }
-        }
-        OOBerror_baseline[i] <- 100*numWrong/numTotal
+       numWrong <-  length(X[,1]) - sum(max.col(OOBmat_temp) == Y)
+        OOBerror_baseline[i] <- 100*numWrong/length(X[,1])
         ptm <- proc.time()
         error_baseline[i] <- error_rate(Xtest,Ytest,forest, NumCores = cores)
         ptmtest_baseline[i]<- (proc.time() - ptm)[3]
@@ -103,7 +96,7 @@ ptmOOB_candidate <- NA
     for (i in 1:numTests){
         initMem <- sum(gc(reset=TRUE)[9:10])
         ptm <- proc.time()
-        forest<-rfr(X,Y,trees=numTrees, MinParent=2L, MaxDepth="inf", stratify=TRUE, COOB=TRUE, NumCores=cores,  options=c(ncol(X), ceiling(ncol(X)^p1),1L, 1/ncol(X)), seed = sample(1:10000,1)) 
+        forest<-rerf(X,Y,trees=numTrees, MinParent=2L, MaxDepth="inf", stratify=TRUE, COOB=TRUE, NumCores=cores,  options=c(ncol(X), ceiling(ncol(X)^p1),1L, 1/ncol(X)), seed = sample(1:10000,1)) 
         memSize_candidate[i] <- sum(gc()[9:10]) - initMem
         ptmtrain_candidate[i]<- (proc.time() - ptm)[3]
         if (length(forest)!=numTrees){
@@ -112,8 +105,7 @@ ptmOOB_candidate <- NA
         }
         temp_size <- 0
         for(z in 1:length(forest)){
-#Error, change the "/2", it should not be there.  This is testing only.
-            temp_size <- temp_size + length(forest[[z]]$ClassProb[,1])/2
+            temp_size <- temp_size + length(forest[[z]]$treeMap)
             for(q in 1:length(forest[[z]]$ClassProb[,1])){
                 if (sum(forest[[z]]$ClassProb[q,]) == 0){
                     print("A node with 0 samples exists")
@@ -123,21 +115,15 @@ ptmOOB_candidate <- NA
         }
         NodeSize_candidate[i] <- temp_size/length(forest)
         ptm <- proc.time()
-        capture.output(OOBmat_temp <- OOBpredict(X,Y,forest, cores))
+        OOBmat_temp <- OOBpredict(X,forest, cores)
 ptmOOB_candidate[i] <- (proc.time() - ptm)[3]
-        OOBmat_cols <- length(OOBmat_temp[[length(OOBmat_temp)]][1,])
+        #OOBmat_cols <- length(OOBmat_temp[[length(OOBmat_temp)]][1,])
         numWrong<- 0L
         numTotal<- 0L
 
-        for(k in 1:nrow(X)){ 
-            if(any(OOBmat_temp[[length(OOBmat_temp)]][k,3:OOBmat_cols]!=0)){
-                if(order(OOBmat_temp[[length(OOBmat_temp)]][k,3:OOBmat_cols],decreasing=T)[1L]!=Y[k]){
-                    numWrong <- numWrong+1L
-                }
-                numTotal<-numTotal+1L
-            }
-        }
-        OOBerror_candidate[i] <- 100*numWrong/numTotal
+numWrong <-  length(X[,1]) - sum(max.col(OOBmat_temp) == Y)
+        OOBerror_candidate[i] <- 100*numWrong/length(X[,1])
+
         ptm <- proc.time()
         error_candidate[i] <- error_rate(Xtest,Ytest,forest,NumCores = cores)
         ptmtest_candidate[i]<- (proc.time() - ptm)[3]
