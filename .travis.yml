@@ -9,12 +9,8 @@ branches:
     only:
         - master
 
-env:
-    - NOT_CRAN=false
-
 install:
     - Rscript Test/installPackages.R
 
 script:
-    - lscpu
     - Rscript Test/irisTest.R
