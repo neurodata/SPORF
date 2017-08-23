@@ -13,4 +13,5 @@ install:
     - Rscript Test/installPackages.R
 
 script:
-    - Rscript Test/irisTest.R
+    - Rscript Test/orthantTest.R
+    - Rscript Test/orthantTest2.R
