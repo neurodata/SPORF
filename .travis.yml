@@ -3,6 +3,10 @@ cache: packages
 r:
     - release
 
+r_packages:
+    - Rcpp
+    - RcppArmadillo
+
 pandoc: false
 
 sudo: false
@@ -12,9 +16,6 @@ branches:
         - master
 
 install: true
-r_packages:
-    - Rcpp
-    - RcppArmadillo
 
 script:
     - lscpu
