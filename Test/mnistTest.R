@@ -7,8 +7,8 @@ numC <- min(detectCores(), trees)
 RerF_baseline <- "Test/rfr_function.R"
 RerF_candidate <- "rfr_function.R"
 
-trainSet <- "Test/Trunk_train.csv"
-testSet <- "Test/Trunk_test.csv"
+trainSet <- "Test/mnist_train.csv"
+testSet <- "Test/mnist_test.csv"
 
 testDS <- function(RerF_baseline, RerF_candidate, trainSet, testSet, numTests, numTrees, cores, p1){
     X <- read.csv(file(trainSet), header=FALSE)

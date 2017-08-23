@@ -7,8 +7,8 @@ numC <- min(detectCores(), trees)
 RerF_baseline <- "Test/rfr_function.R"
 RerF_candidate <- "rfr_function.R"
 
-trainSet <- "Test/Trunk_train.csv"
-testSet <- "Test/Trunk_test.csv"
+trainSet <- "Test/Sparse_parity_train.csv"
+testSet <- "Test/Sparse_parity_test.csv"
 
 testDS <- function(RerF_baseline, RerF_candidate, trainSet, testSet, numTests, numTrees, cores, p1){
     X <- read.csv(file(trainSet), header=FALSE)
@@ -187,7 +187,7 @@ wt <- wilcox.test(ptmOOB_baseline, ptmOOB_candidate, alternative="l")$p.value
     return(pass)
 }
 
-retVal <- testDS(RerF_baseline,RerF_candidate, trainSet, testSet, numT, trees, numC, .5)
+retVal <- testDS(RerF_baseline,RerF_candidate, trainSet, testSet, numT, trees, numC, 2)
 
 if(!retVal){
     quit(status=1)
