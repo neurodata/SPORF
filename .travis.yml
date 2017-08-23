@@ -13,6 +13,7 @@ install:
     - Rscript Test/installPackages.R
 
 script:
+    - printf "starting run\n"
     - Rscript Test/orthantTest.R
     - Rscript Test/orthantTest2.R
     - Rscript Test/trunkTest.R
