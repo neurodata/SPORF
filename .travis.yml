@@ -12,6 +12,9 @@ branches:
         - master
 
 install: true
+r_packages:
+    - Rcpp
+    - RcppArmadillo
 
 script:
     - lscpu
