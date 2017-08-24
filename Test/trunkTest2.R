@@ -2,7 +2,8 @@ trees <- 50
 numT <- 2
 require(parallel)
 
-numC <- min(detectCores(), trees)
+#numC <- min(detectCores(), trees)
+numC <- 2
 
 RerF_baseline <- "Test/rfr_function.R"
 RerF_candidate <- "rfr_function.R"
@@ -188,6 +189,8 @@ wt <- wilcox.test(ptmOOB_baseline, ptmOOB_candidate, alternative="l")$p.value
 }
 
 retVal <- testDS(RerF_baseline,RerF_candidate, trainSet, testSet, numT, trees, numC, 2)
+
+flush.console()
 
 if(!retVal){
     quit(status=1)
