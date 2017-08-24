@@ -16,8 +16,8 @@ script:
     - printf "starting run\n"
     - Rscript Test/orthantTest.R
     - Rscript Test/orthantTest2.R
-    - #Rscript Test/trunkTest.R
-    - #Rscript Test/trunkTest2.R
+    - Rscript Test/trunkTest.R
+    - Rscript Test/trunkTest2.R
     - #Rscript Test/sparseTest.R
     - #Rscript Test/sparseTest2.R
     - #Rscript Test/mnistTest.R
