@@ -13,7 +13,7 @@ install:
     - Rscript Test/installPackages.R
 
 script:
-    - printf "starting run\n"
+    - travis_wait printf "starting run\n"
     - travis_wait Rscript Test/orthantTest.R
     - #travis_wait Rscript Test/orthantTest2.R
     - #travis_wait Rscript Test/trunkTest.R
