@@ -1,4 +1,4 @@
-trees <- 100
+trees <- 50
 numT <- 12#0
 require(parallel)
 
