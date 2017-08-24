@@ -1,5 +1,5 @@
-trees <- 100
-numT <- 12
+trees <- 50
+numT <- 4
 require(parallel)
 
 numC <- min(detectCores(), trees)
