@@ -189,6 +189,8 @@ wt <- wilcox.test(ptmOOB_baseline, ptmOOB_candidate, alternative="l")$p.value
 
 retVal <- testDS(RerF_baseline,RerF_candidate, trainSet, testSet, numT, trees, numC, 2)
 
+flush.console()
+
 if(!retVal){
     quit(status=1)
 }
