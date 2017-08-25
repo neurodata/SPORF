@@ -133,7 +133,7 @@ build.tree <- function(X, Y, MinParent, MaxDepth, bagging, replacement, stratify
       X[, rotdims] <- X[, rotdims]%*%rotmat
     } else {
       rotmat <- rrot(p)
-      X <- X%*%rotmat
+      X[] <- X%*%rotmat
     }
   }
   
@@ -475,7 +475,7 @@ runerrOOB <- function(X, tree, comp.mode = "batch") {
   # do we need to rotate the data?
   if (!is.null(tree$rotmat)) {
     if (is.null(tree$rotdims)) {
-      X <- X%*%tree$rotmat
+      X[] <- X%*%tree$rotmat
     } else {
       X[, tree$rotdims] <- X[, tree$rotdims]%*%tree$rotmat
     }
@@ -541,7 +541,7 @@ runpredict <- function(X, tree, comp.mode = "batch"){
   # do we need to rotate the data?
   if (!is.null(tree$rotmat)) {
     if (is.null(tree$rotdims)) {
-      X <- X%*%tree$rotmat
+      X[] <- X%*%tree$rotmat
     } else {
       X[, tree$rotdims] <- X[, tree$rotdims]%*%tree$rotmat
     }
@@ -629,7 +629,10 @@ errgrow <- function(Y,probmat){
 rerf <- function(X, Y, MinParent=6L, trees=100L, MaxDepth=0L, bagging = .2, replacement=TRUE, stratify=FALSE, FUN=makeA, options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)), rank.transform = FALSE, COOB=FALSE, CNS=FALSE, Progress=FALSE, rotate = F, NumCores=0L, seed = 1L){
   
   #keep from making copies of X
-  X <- as.matrix(X)
+  
+  if (!is.matrix(X)) {
+    X <- as.matrix(X)
+  }
   if (rank.transform) {
     X <- rank.matrix(X)
   }
@@ -792,16 +795,23 @@ OOBpredict <- function(X, Forest, NumCores=0, rank.transform = F, comp.mode = "b
   return(scores)
 }
 
+if(!require(compiler)){
+  cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to compute OOB predictions.\n")
+} else {
+  OOBpredict <- cmpfun(OOBpredict)
+}
+
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #                      Run predict byte compiled and parallel 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-predict <- function(X, Forest, NumCores=0, rank.transform = F, Xtrain = NULL, comp.mode = "batch"){
+predict <- function(X, Forest, NumCores=0, rank.transform = F, Xtrain = NULL, comp.mode = "batch", out.mode = "aggregate"){
   if (!is.matrix(X)) {
     X <- as.matrix(X)
   }
   if (rank.transform) {
     if (is.null(Xtrain)) {
       ############ error ############
+      stop("The model was trained on rank-transformed data. Xtrain must be provided in order to embed Xtest into the rank space")
     } else {
       X <- rank.interpolate(Xtrain, X)
     }
@@ -848,16 +858,26 @@ predict <- function(X, Forest, NumCores=0, rank.transform = F, Xtrain = NULL, co
     Yhats <- lapply(Forest, FUN = comp_predict_caller)
   }
   
-  num_classes <- ncol(Forest[[1]]$ClassProb)
-  scores <- matrix(0,nrow=nrow(X), ncol=num_classes)
-  for(m in 1:f_size){
-    scores <- scores + Yhats[[m]]
-    for(k in 1:nrow(X)){
-      scores[k, Yhats[[m]][k]] <- scores[k, Yhats[[m]][k]] + 1
+  if (out.mode == "individual") {
+    return(matrix(unlist(Yhats), nrow(X), f_size))
+  } else {
+    num_classes <- ncol(Forest[[1]]$ClassProb)
+    scores <- matrix(0,nrow=nrow(X), ncol=num_classes)
+    for(m in 1:f_size){
+      # scores <- scores + Yhats[[m]]
+      for(k in 1:nrow(X)){
+        scores[k, Yhats[[m]][k]] <- scores[k, Yhats[[m]][k]] + 1
+      }
     }
+    scores <- scores/f_size
+    return(scores)
   }
-  scores <- scores/f_size
-  return(scores)
+}
+
+if(!require(compiler)){
+  cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to predict.\n")
+} else {
+  predict <- cmpfun(predict)
 }
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1012,4 +1032,142 @@ rrot <- function(p) {
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
   return(qr.Q(qr(matrix(rnorm(p^2), p, p))))
+}
+
+rank.matrix <- function(X, na.last = T, ties.method = "average") {
+  if (is.matrix(X)) {
+    X.rank <- apply(X, 2, FUN = function(x) rank(x, na.last = na.last, ties.method = ties.method))
+  } else {
+    X.rank <- rank(X, na.last = na.last, ties.method = ties.method)
+  }
+  return(X.rank)
+}
+
+# rankInterpolate <- function(Xtrain, Xtest) {
+#   if (!is.matrix(Xtrain)) {
+#     Xtrain <- as.matrix(Xtrain)
+#   }
+#   if (!is.matrix(Xtest)) {
+#     Xtest <- as.matrix(Xtest)
+#   }
+#   ntrain <- nrow(Xtrain)
+#   p <- ncol(Xtrain)
+#   train.idx <- 1:ntrain
+#   ntest <- nrow(Xtest)
+#   n <- ntrain + ntest
+#   test.idx <- (ntrain + 1L):n
+#   X <- rbind(Xtrain, Xtest)
+#   sort.idx <- apply(X, 2, function(x) sort(x, index.return = T)$ix)
+#   Xtrain.rank <- rank.matrix(Xtrain)
+#   Xtest.rank <- matrix(0, nrow = ntest, ncol = p)
+#   for (j in 1:p) {
+#     i <- 1L
+#     sort.train.idx <- sort.idx[, j] <= ntrain
+#     sort.test.idx <- which(!sort.train.idx)
+#     sort.train.idx <- which(sort.train.idx)
+#     min.idx <- sort.idx[sort.train.idx[1], j]
+#     min.train <- Xtrain[min.idx, j]
+#     min.train.rank <- Xtrain.rank[min.idx, j]
+#     max.idx <- sort.idx[sort.train.idx[ntrain], j]
+#     max.train <- Xtrain[max.idx, j]
+#     max.train.rank <- Xtrain.rank[max.idx, j]
+#     for (ix in sort.test.idx) {
+#       i <- sort.idx[ix, j]
+#       # for (i in sort.idx[sort.test.idx, j]) {
+#       i.test <- i - ntrain
+#       if (Xtest[i.test, j] < min.train) {
+#         Xtest.rank[i.test, j] <- 0
+#       } else if (Xtest[i.test, j] == min.train) {
+#         Xtest.rank[i.test, j] <- min.train.rank
+#       } else if (Xtest[i.test, j] > max.train) {
+#         Xtest.rank[i.test, j] <- ntrain + 1
+#       } else if (Xtest[i.test, j] == max.train) { 
+#         Xtest.rank[i.test, j] <- max.train.rank
+#       } else {
+#         ix.below <- 0L
+#         is.test <- T
+#         while (is.test) {
+#           ix.below <- ix.below + 1L
+#           is.test <- sort.idx[ix - ix.below, j] > ntrain
+#         }
+#         ix.above <- 0L
+#         is.test <- T
+#         while (is.test) {
+#           ix.above <- ix.above + 1L
+#           is.test <- sort.idx[ix + ix.above, j] > ntrain
+#         }
+#         i.below <- sort.idx[ix - ix.below, j]
+#         i.above <- sort.idx[ix + ix.above, j]
+#         if (Xtest[i.test, j] == X[i.above, j]) {
+#           Xtest.rank[i.test, j] <- Xtrain.rank[i.above, j]
+#         } else if (Xtest[i.test, j] == X[i.below, j]) {
+#           Xtest.rank[i.test, j] <- Xtrain.rank[i.below, j]
+#         } else {
+#           Xtest.rank[i.test, j] <- ((X[i, j] - X[i.below, j])/(X[i.above, j] - X[i.below, j]))*(Xtrain.rank[i.above, j] - Xtrain.rank[i.below, j]) + Xtrain.rank[i.below, j]
+#         }
+#       }
+#     }
+#   }
+#   return(Xtest.rank)
+# }
+
+runRankInterpolate <- function(Xtrain, Xtest) {
+  if (!is.matrix(Xtrain)) {
+    Xtrain <- as.matrix(Xtrain)
+  }
+  if (!is.matrix(Xtest)) {
+    Xtest <- as.matrix(Xtest)
+  }
+  ntrain <- nrow(Xtrain)
+  p <- ncol(Xtrain)
+  ntest <- nrow(Xtest)
+  sort.idx <- apply(Xtrain, 2, order)
+  sort.idx.test <- apply(Xtest, 2, order)
+  Xtrain.rank <- rank.matrix(Xtrain)
+  Xtest.rank <- matrix(0, nrow = ntest, ncol = p)
+  for (j in seq.int(p)) {
+    stidx <- 1L
+    below.range <- T
+    for (it in seq.int(ntest)) {
+      if (below.range) {
+        if (Xtrain[sort.idx[1L, j], j] > Xtest[sort.idx.test[it, j], j]) {
+          Xtest.rank[sort.idx.test[it, j], j] <- 0
+          next
+        }
+        below.range <- F
+      }
+      if (Xtrain[sort.idx[ntrain, j], j] < Xtest[sort.idx.test[it, j], j]) {
+        Xtest.rank[sort.idx.test[it:ntest, j], j] <- ntrain + 1
+        break
+      }
+      itr <- stidx
+      while(Xtrain[sort.idx[itr, j], j] < Xtest[sort.idx.test[it, j], j]) {
+        itr <- itr + 1L
+      }
+      stidx <- itr
+      if (Xtrain[sort.idx[itr, j], j] == Xtest[sort.idx.test[it, j], j]) {
+        Xtest.rank[sort.idx.test[it, j], j] <- Xtrain.rank[sort.idx[itr, j], j]
+      } else {
+        x.below <- Xtrain[sort.idx[itr - 1L, j], j]
+        x.above <- Xtrain[sort.idx[itr, j], j]
+        xr.below <- Xtrain.rank[sort.idx[itr - 1L, j], j]
+        xr.above <- Xtrain.rank[sort.idx[itr, j], j]
+        Xtest.rank[sort.idx.test[it, j], j] <- (Xtest[sort.idx.test[it, j], j] - x.below)/(x.above - x.below)*(xr.above - xr.below) + xr.below
+      }
+    }
+  }
+  return(Xtest.rank)
+}
+
+rank.interpolate <- function(Xtrain, Xtest) {
+  if (!require(compiler)) {
+    compRank <<- runRankInterpolate
+  }
+  
+  if (!exists("compRank")) {
+    setCompilerOptions("optimize" = 3)
+    compRank <<- cmpfun(runRankInterpolate)
+  }
+  
+  return(sapply(seq.int(ncol(Xtest)), FUN = function(cl) compRank(Xtrain[, cl], Xtest[, cl])))
 }
