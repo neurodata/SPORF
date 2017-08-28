@@ -1,8 +1,9 @@
-trees <- 100
-numT <- 20
+trees <- 5
+numT <- 5
 require(parallel)
 
 numC <- min(detectCores(), trees)
+numC <- 2
 
 RerF_baseline <- "Test/rfr_function.R"
 RerF_candidate <- "rfr_function.R"
