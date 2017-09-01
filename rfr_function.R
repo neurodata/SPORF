@@ -1,6 +1,9 @@
 require(Rcpp)
 require(RcppArmadillo)
-sourceCpp("~/RerF/Code/Classifiers/split.cpp")
+require(RcppZiggurat)
+require(AUC)
+require(dummies)
+sourceCpp("split.cpp")
 
 build.tree <- function(X, Y, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB, CNS, Progress, rotate){
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -116,7 +119,11 @@ build.tree <- function(X, Y, MinParent, MaxDepth, bagging, replacement, stratify
   #Matrix A storage variables
   matAindex <- integer(maxIN)
   matAsize <- ceiling(w/2)
-  matAstore <- integer(matAsize)
+  if (options[[3]] != "frc" && options[[3]] != "continuous" && options[[3]] != "frcn") {
+    matAstore <- integer(matAsize)
+  } else {
+    matAstore <- double(matAsize)
+  }
   matAindex[1L] <- 0L
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
@@ -295,7 +302,7 @@ build.tree <- function(X, Y, MinParent, MaxDepth, bagging, replacement, stratify
       matAsize <- matAsize*2
       matAstore[matAsize] <- 0L
     }
-    if (options[[3]] != "frc" && options[[3]] != "continuous") {
+    if (options[[3]] != "frc" && options[[3]] != "continuous" && options[[3]] != "frcn") {
       matAstore[(matAindex[currIN]+1):(matAindex[currIN]+currMatAlength)] <- as.integer(t(sparseM[lrows,c(1,3)]))
     } else {
       matAstore[(matAindex[currIN]+1):(matAindex[currIN]+currMatAlength)] <- t(sparseM[lrows,c(1,3)])
@@ -464,7 +471,7 @@ RunErr <- function(X,Y,Forest, index=0L, chunk_size=0L){
 #                       Calculate OOB Error Rate
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 runerrOOB <- function(X, tree, comp.mode = "batch") {
-  X <- X[tree$ind, ]
+  X <- X[tree$ind, , drop = F]
   currentNode<-0L
   curr_ind <- 0L
   tm <- 0L
@@ -591,6 +598,53 @@ runpredict <- function(X, tree, comp.mode = "batch"){
     }
   }
   return(Yhats)
+}
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#                          Predict leaf node
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+runpredict.leaf <- function(X, tree){
+  tm <- 0L
+  currentNode<-0L
+  curr_ind <- 0L
+  classProb<-double(length(tree$ClassProb[1,]))
+  num_classes <- ncol(tree$ClassProb)
+  n <- nrow(X)
+  
+  # do we need to rotate the data?
+  if (!is.null(tree$rotmat)) {
+    if (is.null(tree$rotdims)) {
+      X[] <- X%*%tree$rotmat
+    } else {
+      X[, tree$rotdims] <- X[, tree$rotdims]%*%tree$rotmat
+    }
+  }
+  
+  leafIdx <- integer(n)
+  
+  Xnode <- double(n)
+    numNodes <- length(tree$treeMap)
+    Assigned2Node <- vector("list", numNodes)
+    Assigned2Node[[1L]] <- 1:n
+    for (m in 1:numNodes) {
+      nodeSize <- length(Assigned2Node[[m]])
+      if (nodeSize > 0L) {
+        if ((tm <- tree$treeMap[m]) > 0L) {
+          indexHigh <- tree$matAindex[tm+1L]
+          indexLow <- tree$matAindex[tm] + 1L
+          s <- (indexHigh - indexLow + 1L)/2L
+          Xnode[1:nodeSize] <- X[Assigned2Node[[m]],tree$matAstore[indexLow:indexHigh][(1:s)*2L-1L], drop = F]%*%
+            tree$matAstore[indexLow:indexHigh][(1:s)*2L]
+          moveLeft <- Xnode[1:nodeSize] <= tree$CutPoint[tm]
+          Assigned2Node[[tree$Children[tm]]] <- Assigned2Node[[m]][moveLeft]
+          Assigned2Node[[tree$Children[tm] + 1L]] <- Assigned2Node[[m]][!moveLeft]
+        } else {
+          leafIdx[Assigned2Node[[m]]] <- tm*-1L
+        }
+      }
+      Assigned2Node[m] <-list(NULL)
+    }
+  return(leafIdx)
 }
 
 
@@ -880,6 +934,100 @@ if(!require(compiler)){
   predict <- cmpfun(predict)
 }
 
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#                      Run predict leaf node byte compiled and parallel 
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+compute.similarity <- function(X, Forest, NumCores=0, rank.transform = F, Xtrain = NULL){
+  if (!is.matrix(X)) {
+    X <- as.matrix(X)
+  }
+  if (rank.transform) {
+    if (is.null(Xtrain)) {
+      ############ error ############
+      stop("The model was trained on rank-transformed data. Xtrain must be provided in order to embed Xtest into the rank space")
+    } else {
+      X <- rank.interpolate(Xtrain, X)
+    }
+  }
+  
+  n <- nrow(X)
+  
+  if(!require(compiler)){
+    cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to predict.\n")
+    comp_predict.leaf <<- runpredict.leaf
+  }
+  
+  if(!exists("comp_predict.leaf")){
+    setCompilerOptions("optimize"=3)
+    comp_predict.leaf <<- cmpfun(runpredict.leaf)
+  } 
+  
+  comp_predict_caller <- function(tree, ...) comp_predict.leaf(X=X, tree=tree)
+  
+  f_size <- length(Forest)
+  if(NumCores!=1){
+    if(require(parallel)){
+      if(NumCores==0){
+        #Use all but 1 core if NumCores=0.
+        NumCores=detectCores()-1L
+      }
+      #Start mclapply with NumCores Cores.
+      NumCores <- min(NumCores, f_size)
+      gc()
+      if ((object.size(Forest) > 2e9) | (object.size(X) > 2e9)) {
+        cl <- makeCluster(spec = NumCores, type = "PSOCK")
+        clusterExport(cl = cl, varlist = c("X", "comp_predict.leaf"), envir = environment())
+        leafIdx <- parLapply(cl = cl, Forest, fun = comp_predict_caller)
+      } else {
+        cl <- makeCluster(spec = NumCores, type = "FORK")
+        leafIdx <- parLapply(cl = cl, Forest, fun = comp_predict_caller)
+      }
+      stopCluster(cl)
+    }else{
+      #Parallel package not available.
+      cat("Package 'parallel' not available.\nExecution will continue without parallelization.\nThis will increase the time required to predict.\n")
+      leafIdx <- lapply(Forest, FUN = comp_predict_caller)
+    }
+  }else{
+    #Use just one core.
+    leafIdx <- lapply(Forest, FUN = comp_predict_caller)
+  }
+  
+  leafIdx <- matrix(unlist(leafIdx), nrow = n, ncol = f_size)
+  
+  similarity <- matrix(0, nrow = n, ncol = n)
+  
+  for (m in 1:f_size) {
+    sortIdx <- order(leafIdx[, m])
+    nLeaf <- nrow(Forest[[m]]$ClassProb)
+    leafCounts <- tabulate(leafIdx[, m], nLeaf)
+    leafCounts.cum <- cumsum(leafCounts)
+    if (leafCounts[1L] > 1L) {
+      prs <- combn(sort(sortIdx[seq.int(leafCounts[1L])]), 2L)
+      idx <- (prs[1L, ] - 1L)*n + prs[2L, ]
+      similarity[idx] <- similarity[idx] + 1
+    }
+    for (k in seq.int(nLeaf - 1L) + 1L) {
+      if (leafCounts[k] > 1L) {
+        prs <- combn(sort(sortIdx[(leafCounts.cum[k - 1L] + 1L):leafCounts.cum[k]]), 2L)
+        idx <- (prs[1L, ] - 1L)*n + prs[2L, ]
+        similarity[idx] <- similarity[idx] + 1
+      }
+    }
+  }
+  
+  similarity <- similarity + t(similarity)
+  diag(similarity) <- f_size
+  
+  return(similarity/f_size)
+}
+
+if(!require(compiler)){
+  cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to predict.\n")
+} else {
+  compute.similarity <- cmpfun(compute.similarity)
+}
+
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #                      Run Error rate byte compiled and parallel 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -974,7 +1122,7 @@ rmat <- function(options) {
     nnzs <- round(p*d*rho)
     ind <- sort(sample.int((p*d), nnzs, replace = F))
     return(cbind(((ind - 1L) %% p) + 1L, floor((ind - 1L) / p) + 1L,
-                 runif(nnzs, min = -1, max = 1)))
+                 zrnorm(nnzs)))
   } else if (method == "rf") {
     return(cbind(sample.int(p, d, replace = F), 1:d, rep(1L, d)))
   } else if (method == "poisson") {
@@ -1013,6 +1161,18 @@ rmat <- function(options) {
       nz.cols[(nnz.cum[i - 1L] + 1L):nnz.cum[i]] <- i
     }
     return(cbind(nz.rows, nz.cols, runif(nnz.cum[d], -1, 1)))
+  } else if (method == "frcn") {
+    nmix <- options[[4L]]
+    nnz.cum <- seq.int(nmix, nmix*d, nmix)
+    nz.rows <- integer(nnz.cum[d])
+    nz.cols <- integer(nnz.cum[d])
+    nz.rows[1:nmix] <- sample.int(p, nmix, replace = F)
+    nz.cols[1:nmix] <- 1L
+    for (i in 2:d) {
+      nz.rows[(nnz.cum[i - 1L] + 1L):nnz.cum[i]] <- sample.int(p, nmix, replace = F)
+      nz.cols[(nnz.cum[i - 1L] + 1L):nnz.cum[i]] <- i
+    }
+    return(cbind(nz.rows, nz.cols, zrnorm(nnz.cum[d])))
   }
 }
 
@@ -1034,6 +1194,10 @@ rrot <- function(p) {
   return(qr.Q(qr(matrix(rnorm(p^2), p, p))))
 }
 
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#                      Rank transform the training data 
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 rank.matrix <- function(X, na.last = T, ties.method = "average") {
   if (is.matrix(X)) {
     X.rank <- apply(X, 2, FUN = function(x) rank(x, na.last = na.last, ties.method = ties.method))
@@ -1043,73 +1207,9 @@ rank.matrix <- function(X, na.last = T, ties.method = "average") {
   return(X.rank)
 }
 
-# rankInterpolate <- function(Xtrain, Xtest) {
-#   if (!is.matrix(Xtrain)) {
-#     Xtrain <- as.matrix(Xtrain)
-#   }
-#   if (!is.matrix(Xtest)) {
-#     Xtest <- as.matrix(Xtest)
-#   }
-#   ntrain <- nrow(Xtrain)
-#   p <- ncol(Xtrain)
-#   train.idx <- 1:ntrain
-#   ntest <- nrow(Xtest)
-#   n <- ntrain + ntest
-#   test.idx <- (ntrain + 1L):n
-#   X <- rbind(Xtrain, Xtest)
-#   sort.idx <- apply(X, 2, function(x) sort(x, index.return = T)$ix)
-#   Xtrain.rank <- rank.matrix(Xtrain)
-#   Xtest.rank <- matrix(0, nrow = ntest, ncol = p)
-#   for (j in 1:p) {
-#     i <- 1L
-#     sort.train.idx <- sort.idx[, j] <= ntrain
-#     sort.test.idx <- which(!sort.train.idx)
-#     sort.train.idx <- which(sort.train.idx)
-#     min.idx <- sort.idx[sort.train.idx[1], j]
-#     min.train <- Xtrain[min.idx, j]
-#     min.train.rank <- Xtrain.rank[min.idx, j]
-#     max.idx <- sort.idx[sort.train.idx[ntrain], j]
-#     max.train <- Xtrain[max.idx, j]
-#     max.train.rank <- Xtrain.rank[max.idx, j]
-#     for (ix in sort.test.idx) {
-#       i <- sort.idx[ix, j]
-#       # for (i in sort.idx[sort.test.idx, j]) {
-#       i.test <- i - ntrain
-#       if (Xtest[i.test, j] < min.train) {
-#         Xtest.rank[i.test, j] <- 0
-#       } else if (Xtest[i.test, j] == min.train) {
-#         Xtest.rank[i.test, j] <- min.train.rank
-#       } else if (Xtest[i.test, j] > max.train) {
-#         Xtest.rank[i.test, j] <- ntrain + 1
-#       } else if (Xtest[i.test, j] == max.train) { 
-#         Xtest.rank[i.test, j] <- max.train.rank
-#       } else {
-#         ix.below <- 0L
-#         is.test <- T
-#         while (is.test) {
-#           ix.below <- ix.below + 1L
-#           is.test <- sort.idx[ix - ix.below, j] > ntrain
-#         }
-#         ix.above <- 0L
-#         is.test <- T
-#         while (is.test) {
-#           ix.above <- ix.above + 1L
-#           is.test <- sort.idx[ix + ix.above, j] > ntrain
-#         }
-#         i.below <- sort.idx[ix - ix.below, j]
-#         i.above <- sort.idx[ix + ix.above, j]
-#         if (Xtest[i.test, j] == X[i.above, j]) {
-#           Xtest.rank[i.test, j] <- Xtrain.rank[i.above, j]
-#         } else if (Xtest[i.test, j] == X[i.below, j]) {
-#           Xtest.rank[i.test, j] <- Xtrain.rank[i.below, j]
-#         } else {
-#           Xtest.rank[i.test, j] <- ((X[i, j] - X[i.below, j])/(X[i.above, j] - X[i.below, j]))*(Xtrain.rank[i.above, j] - Xtrain.rank[i.below, j]) + Xtrain.rank[i.below, j]
-#         }
-#       }
-#     }
-#   }
-#   return(Xtest.rank)
-# }
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#   Embed test data into the rank space defined by training data via linear interpolation
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 runRankInterpolate <- function(Xtrain, Xtest) {
   if (!is.matrix(Xtrain)) {
@@ -1170,4 +1270,328 @@ rank.interpolate <- function(Xtrain, Xtest) {
   }
   
   return(sapply(seq.int(ncol(Xtest)), FUN = function(cl) compRank(Xtrain[, cl], Xtest[, cl])))
+}
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#        Compute various performance metrics over a grid of hyperparameter values 
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+rerf_eval <- function(Xtrain, Ytrain, Xtest, Ytest, params = list(trees = 500L, randomMatrix = "binary", d = round(sqrt(ncol(Xtrain))), sparsity = 1/ncol(Xtrain), rotate = F, rank.transform = F, MinParent = 2L, MaxDepth = "inf", bagging = 1/exp(1), COOB = T, CNS = F, replacement = T, stratify = T, NumCores = 1L, seed = 1L), store.predictions = F) {
+  
+  p <- ncol(Xtrain)
+  nClasses <- length(unique(Ytrain))
+  
+  params.names <- names(params)
+  
+  if (!("trees" %in% params.names)) {
+    params$trees <- 500L
+  }
+  
+  if (!("randomMatrix" %in% params.names)) {
+    params$randomMatrix <- "binary"
+  }
+  
+  if (!("d" %in% params.names)) {
+    params$d <- round(sqrt(p))
+  }
+  
+  if (!("sparsity" %in% params.names)) {
+    if (params$randomMatrix == "binary" || params$randomMatrix == "continuous") {
+      params$sparsity <- 1/p
+    } else if (params$randomMatrix == "frc" || params$randomMatrix == "frcn") {
+      params$sparsity <- 2
+    } else if (params$randomMatrix == "poisson") {
+      params$sparsity <- 1
+    } else if (params$randomMatrix == "rf") {
+      params$sparsity <- 1
+    }
+  }
+  
+  if (!("rotate" %in% params.names)) {
+    params$rotate <- F
+  }
+  
+  if (!("rank.transform" %in% params.names)) {
+    params$rank.transform <- F
+  }
+  
+  if (!("MinParent" %in% params.names)) {
+    params$MinParent <- 2L
+  }
+  
+  if (!("MaxDepth" %in% params.names)) {
+    params$MaxDepth <- "inf"
+  }
+  
+  if (!("bagging" %in% params.names)) {
+    params$bagging <- 1/exp(1)
+  }
+  
+  if (!("COOB" %in% params.names)) {
+    params$COOB <- T
+  }
+  
+  if (!("CNS" %in% params.names)) {
+    params$CNS <- F
+  }
+  
+  if (!("replacement" %in% params.names)) {
+    params$replacement <- T
+  }
+  
+  if (!("stratify" %in% params.names)) {
+    params$stratify <- T
+  }
+  
+  if (!("NumCores" %in% params.names)) {
+    params$NumCores <- 1L
+  }
+  
+  if (!("seed" %in% params.names)) {
+    params$seed <- 1L
+  }
+  set.seed(params$seed)
+  
+  # compile before the actual run so that training time of first iteration is consistent with the rest
+  if (require(compiler)){
+    if(!exists("comp_rfr")){
+      setCompilerOptions("optimize"=3)
+      comp_tree <<- cmpfun(build.tree)
+    }
+    if(!exists("comp_errOOB")){
+      setCompilerOptions("optimize"=3)
+      comp_errOOB <<- cmpfun(runerrOOB)
+    }
+    if(!exists("comp_predict")){
+      setCompilerOptions("optimize"=3)
+      comp_predict <<- cmpfun(runpredict)
+    }
+  }
+  
+  if (params$randomMatrix == "binary" || params$randomMatrix == "continuous" || params$randomMatrix == "poisson" ||
+      params$randomMatrix == "frc" || params$randomMatrix == "frcn") {
+    nforest <- length(params$d)*length(params$sparsity)
+    trainTime <- vector(mode = "numeric", length = nforest)
+    oobTime <- vector(mode = "numeric", length = nforest)
+    testTime <- vector(mode = "numeric", length = nforest)
+    testError <- vector(mode = "numeric", length = nforest)
+    oobError <- vector(mode = "numeric", length = nforest)
+    oobAUC <- vector(mode = "numeric", length = nforest)
+    treeStrength <- vector(mode = "numeric", length = nforest)
+    treeCorrelation <- vector(mode = "numeric", length = nforest)
+    numNodes <- vector(mode = "numeric", length = nforest)
+    if (store.predictions) {
+      Yhat <- matrix(0, nrow = ntest, ncol = nforest)
+    }
+    for (i in 1:length(params$sparsity)) {
+      for (j in 1:length(params$d)) {
+        options <- list(p, params$d[j], params$randomMatrix, params$sparsity[i])
+        forest.idx <- (i - 1)*length(params$d) + j
+        
+        print(paste("Evaluating forest ", as.character(forest.idx), " of ", as.character(nforest), sep = ""))
+        
+        # train
+        print("training")
+        start.time <- proc.time()
+        forest <- rerf(Xtrain, Ytrain, trees = params$trees, FUN = randmat, options = options, rank.transform = params$rank.transform,
+                       MinParent = params$MinParent, MaxDepth = params$MaxDepth, bagging = params$bagging, COOB = params$COOB,
+                       CNS = params$CNS, replacement = params$replacement, stratify = params$stratify, NumCores = params$NumCores, seed = params$seed)
+        trainTime[forest.idx] <- (proc.time() - start.time)[[3L]]
+        print("training complete")
+        print(paste("elapsed time: ", trainTime[forest.idx], sep = ""))
+        
+        # compute out-of-bag metrics
+        print("computing out-of-bag predictions")
+        start.time <- proc.time()
+        oobScores <- OOBpredict(Xtrain, forest, NumCores = params$NumCores, rank.transform = params$rank.transform)
+        oobTime[forest.idx] <- (proc.time() - start.time)[[3L]]
+        print("out-of-bag predictions complete")
+        print(paste("elapsed time: ", oobTime[forest.idx], sep = ""))
+        oobError[forest.idx] <- mean(max.col(oobScores) != Ytrain)
+        if (nClasses > 2L) {
+          Ybin <- as.factor(as.vector(dummy(Ytrain)))
+          oobAUC[forest.idx] <- auc(roc(as.vector(oobScores), Ybin))
+        } else {
+          # Ytrain starts from 1, but here we need it to start from 0
+          oobAUC[forest.idx] <- auc(roc(oobScores[, 2L], as.factor(Ytrain - 1L)))
+        }
+        
+        numNodes[forest.idx] <- mean(sapply(forest, FUN = function(tree) length(tree$treeMap)))
+        
+        # make predictions on test set
+        print("computing predictions on test set")
+        start.time <- proc.time()
+        testScores <- predict(Xtest, forest, NumCores = params$NumCores, rank.transform = params$rank.transform, Xtrain = Xtrain)
+        testTime[forest.idx] <- (proc.time() - start.time)[[3L]]
+        print("test set predictions complete")
+        print(paste("elapsed time: ", testTime[forest.idx], sep = ""))
+        
+        # compute error on test set
+        if (store.predictions) {
+          Yhat[, forest.idx] <- max.col(testScores)
+          testError[forest.idx] <- mean(Yhat[, forest.idx] != Ytest)
+        } else {
+          Yhat <- max.col(testScores)
+          testError[forest.idx] <- mean(Yhat != Ytest)
+        }
+        
+        # compute strength and correlation
+        preds <- predict(Xtest, forest, NumCores = params$NumCores, rank.transform = params$rank.transform, Xtrain = Xtrain, out.mode = "individual")
+        sc <- strcorr(preds, Ytest, nClasses)
+        treeStrength[forest.idx] <- sc$s
+        treeCorrelation[forest.idx] <- sc$rho
+        
+        # # save forest models
+        # save(forest, file = fileName)
+      }
+    }
+  } else {
+    params$d <- params$d[params$d <= p]
+    nforest <- length(params$d)
+    trainTime <- vector(mode = "numeric", length = nforest)
+    oobTime <- vector(mode = "numeric", length = nforest)
+    testTime <- vector(mode = "numeric", length = nforest)
+    testError <- vector(mode = "numeric", length = nforest)
+    oobError <- vector(mode = "numeric", length = nforest)
+    oobAUC <- vector(mode = "numeric", length = nforest)
+    treeStrength <- vector(mode = "numeric", length = nforest)
+    treeCorrelation <- vector(mode = "numeric", length = nforest)
+    numNodes <- vector(mode = "numeric", length = nforest)
+    if (store.predictions) {
+      Yhat <- matrix(0, nrow = ntest, ncol = nforest)
+    }
+    for (forest.idx in 1:nforest) {
+      options <- list(p, params$d[forest.idx], params$randomMatrix, NULL)
+      
+      print(paste("Evaluating forest ", as.character(forest.idx), " of ", as.character(nforest), sep = ""))
+      
+      # train
+      print("training")
+      start.time <- proc.time()
+      forest <- rerf(Xtrain, Ytrain, trees = params$trees, FUN = randmat, options = options, rank.transform = params$rank.transform,
+                     MinParent = params$MinParent, MaxDepth = params$MaxDepth, bagging = params$bagging, COOB = params$COOB,
+                     CNS = params$CNS, replacement = params$replacement, stratify = params$stratify, NumCores = params$NumCores, seed = params$seed)
+      trainTime[forest.idx] <- (proc.time() - start.time)[[3L]]
+      print("training complete")
+      print(paste("elapsed time: ", trainTime[forest.idx], sep = ""))
+      
+      # compute out-of-bag metrics
+      print("computing out-of-bag predictions")
+      start.time <- proc.time()
+      oobScores <- OOBpredict(Xtrain, forest, NumCores = params$NumCores, rank.transform = params$rank.transform)
+      oobTime[forest.idx] <- (proc.time() - start.time)[[3L]]
+      print("out-of-bag predictions complete")
+      print(paste("elapsed time: ", oobTime[forest.idx], sep = ""))
+      oobError[forest.idx] <- mean(max.col(oobScores) != Ytrain)
+      if (nClasses > 2L) {
+        Ybin <- as.factor(as.vector(dummy(Ytrain)))
+        oobAUC[forest.idx] <- auc(roc(as.vector(oobScores), Ybin))
+      } else {
+        # Ytrain starts from 1, but here we need it to start from 0
+        oobAUC[forest.idx] <- auc(roc(oobScores[, 2L], as.factor(Ytrain - 1L)))
+      }
+      
+      numNodes[forest.idx] <- mean(sapply(forest, FUN = function(tree) length(tree$treeMap)))
+      
+      # make predictions on test set
+      print("computing predictions on test set")
+      start.time <- proc.time()
+      testScores <- predict(Xtest, forest, NumCores = params$NumCores, rank.transform = params$rank.transform, Xtrain)
+      testTime[forest.idx] <- (proc.time() - start.time)[[3L]]
+      print("test set predictions complete")
+      print(paste("elapsed time: ", testTime[forest.idx], sep = ""))
+      
+      # compute error on test set
+      if (store.predictions) {
+        Yhat[, forest.idx] <- max.col(testScores)
+        testError[forest.idx] <- mean(Yhat[, forest.idx] != Ytest)
+      } else {
+        Yhat <- max.col(testScores)
+        testError[forest.idx] <- mean(Yhat != Ytest)
+      }
+      
+      # compute strength and correlation
+      preds <- predict(Xtest, forest, NumCores = params$NumCores, rank.transform = params$rank.transform, Xtrain = Xtrain, out.mode = "individual")
+      sc <- strcorr(preds, Ytest, nClasses)
+      treeStrength[forest.idx] <- sc$s
+      treeCorrelation[forest.idx] <- sc$rho
+    }
+  }
+  
+  # select best model
+  minError.idx <- which(oobError == min(oobError))
+  if (length(minError.idx) > 1L) {
+    maxAUC.idx <- which(oobAUC[minError.idx] == max(oobAUC[minError.idx]))
+    if (length(maxAUC.idx) > 1L) {
+      maxAUC.idx <- sample(maxAUC.idx, 1L)
+    }
+    best.idx <- minError.idx[maxAUC.idx]  
+  } else {
+    best.idx <- minError.idx
+  }
+  
+  if (store.predictions) {
+    return(list(Yhat = Yhat[, best.idx], testError = testError, trainTime = trainTime, oobTime = oobTime, testTime = testTime, oobError = oobError, oobAUC = oobAUC, treeStrength = treeStrength, treeCorrelation = treeCorrelation, numNodes = numNodes, best.idx = best.idx, params = params))
+  } else {
+    return(list(testError = testError, trainTime = trainTime, oobTime = oobTime, testTime = testTime, oobError = oobError, oobAUC = oobAUC, treeStrength = treeStrength, treeCorrelation = treeCorrelation, numNodes = numNodes, best.idx = best.idx, params = params))
+  }
+}
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#        Compute tree strength and correlation as defined by Breiman (2001)
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+run.strcorr <- function(Yhats, Y, nClasses) {
+  n <- length(Y)
+  # Yhats <- sapply(predictmat, function(x) x[, 2])
+  nTrees <- ncol(Yhats)
+  Ptheta <- matrix(0, nrow = n, ncol = nClasses)
+  for (k in seq.int(nClasses)) {
+    Ptheta[, k] <- apply(Yhats == k, 1, sum)/nTrees
+  }
+  PthetaY <- Ptheta[1:n + (Y -1)*n]
+  modeNotY <- apply(cbind(Yhats, Y), 1, function(x) sample.mode(x[1:nTrees][x[1:nTrees] != x[nTrees + 1]]))
+  PthetaNotY <- Ptheta[1:n + (modeNotY - 1)*n]
+  PthetaNotY[is.na(PthetaNotY)] <- 0
+  
+  strength <- mean(PthetaY - PthetaNotY)
+  
+  rmg <- matrix(0, nrow = n, ncol = nTrees)
+  isallY <- is.na(modeNotY)
+  rmg[isallY, ] <- Y[isallY]
+  rmg[!isallY, ] <- apply(Yhats[!isallY, ], 2, function(x) (x == Y[!isallY]) - (x == modeNotY[!isallY]))
+  rho <- cor(rmg)
+  sigma <- apply(rmg, 2, sd)
+  diag.idx <- seq(1, nTrees^2, nTrees + 1)
+  pairwise.sigma <- combn(nTrees, 2, FUN = function(x) sigma[x[1]]*sigma[x[2]])
+  rho.bar <- mean(rho[lower.tri(rho)]*pairwise.sigma)/mean(pairwise.sigma)
+  return(list(s = strength, rho = rho.bar))
+}
+
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#        Compute tree strength and correlation byte-compiled
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+strcorr <- function(Yhats, Y, nClasses) {
+  if(!require(compiler)){
+    cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to compute strength and correlation.\n")
+    strcorr.comp <<- run.strcorr
+  }
+  
+  if(!exists("strcorr.comp")){
+    setCompilerOptions("optimize"=3)
+    strcorr.comp <<- cmpfun(run.strcorr)
+  }
+  
+  return(strcorr.comp(Yhats, Y, nClasses))
+}
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#        Compute the mode of an array of discrete values
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+sample.mode <- function(x) {
+  x.unique <- unique(x)
+  return(x.unique[which.max(tabulate(match(x, x.unique)))])
 }
