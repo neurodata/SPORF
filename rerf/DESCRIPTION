@@ -1,0 +1,11 @@
+Package: rerf
+Type: Package
+Title: What the package does (short line)
+Version: 1.0
+Date: 2017-09-01
+Author: Who wrote it
+Maintainer: Who to complain to <yourfault@somewhere.net>
+Description: More about what it does (maybe more than one line)
+License: What license is it under?
+Imports: Rcpp (>= 0.12.12)
+LinkingTo: Rcpp, RcppArmadillo
