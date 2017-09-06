@@ -1,6 +1,6 @@
 rank.interpolate <-
 function(Xtrain, Xtest) {
-  if (!require(compiler)) {
+  if (!requireNamespace(compiler)) {
     compRank <<- runRankInterpolate
   }
   

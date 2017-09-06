@@ -14,7 +14,7 @@ function(X, Forest, NumCores=0, rank.transform = F, Xtrain = NULL){
   
   n <- nrow(X)
   
-  if(!require(compiler)){
+  if(!requireNamespace(compiler)){
     cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to predict.\n")
     comp_predict.leaf <<- runpredict.leaf
   }
@@ -28,7 +28,7 @@ function(X, Forest, NumCores=0, rank.transform = F, Xtrain = NULL){
   
   f_size <- length(Forest)
   if(NumCores!=1){
-    if(require(parallel)){
+    if(requireNamespace(parallel)){
       if(NumCores==0){
         #Use all but 1 core if NumCores=0.
         NumCores=detectCores()-1L

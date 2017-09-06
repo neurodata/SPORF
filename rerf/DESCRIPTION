@@ -6,6 +6,6 @@ Date: 2017-09-01
 Author: Who wrote it
 Maintainer: Who to complain to <yourfault@somewhere.net>
 Description: More about what it does (maybe more than one line)
-License: What license is it under?
-Imports: Rcpp (>= 0.12.12)
+License: GPL-2
+Imports: Rcpp (>= 0.12.12), AUC, dummies, compiler, parallel
 LinkingTo: Rcpp, RcppArmadillo

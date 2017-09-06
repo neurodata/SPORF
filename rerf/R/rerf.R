@@ -1,3 +1,23 @@
+#' RerF Forest Generator
+#'
+#' Creates a decision forest based on an input matrix and class vector.  This is the main function in the rerf package.
+#'
+#' @param X an n sample by d feature matrix (preferable) or data frame
+#' @param Y an n length vector of class labels.  Class labels must be numeric and be within the range 1 to the number of classes.
+#' @param MinParent the minimum splittable node size.  A node size < MinParent will be a leaf node.
+#'
+#' @return Forest
+#'
+#' @author James and Tyler, jbrowne6@jhu.edu and
+#' 
+#' @examples
+#' rerf(as.matrix(iris[,1:4]), as.numeric(iris[,5]))
+#'
+#' @export
+#' @importFrom compiler setCompilerOptions cmpfun
+#' @importFrom parallel detectCores
+#'
+
 rerf <-
 function(X, Y, MinParent=6L, trees=100L, MaxDepth=0L, bagging = .2, replacement=TRUE, stratify=FALSE, FUN=makeA, options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)), rank.transform = FALSE, COOB=FALSE, CNS=FALSE, Progress=FALSE, rotate = F, NumCores=0L, seed = 1L){
   
@@ -26,23 +46,23 @@ function(X, Y, MinParent=6L, trees=100L, MaxDepth=0L, bagging = .2, replacement=
     Cindex<-NULL
   }
   
-  if (!require(compiler)){
+  if (!requireNamespace(compiler)){
     cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to create the forest.\n")
     comp_tree <<- build.tree
   }
   if(!exists("comp_tree")){
-    setCompilerOptions("optimize"=3)
-    comp_tree <<- cmpfun(build.tree)
+      compiler::setCompilerOptions("optimize"=3)
+    comp_tree <<- compiler::cmpfun(build.tree)
   }
   
   if (NumCores!=1L){
-    if(require(parallel)){
+    if(requireNamespace(parallel)){
       RNGkind("L'Ecuyer-CMRG")
       set.seed(seed)
       mc.reset.stream()
       if(NumCores==0){
         #Use all but 1 core if NumCores=0.
-        NumCores=detectCores()-1L
+        NumCores=parallel::detectCores()-1L
       }
       NumCores=min(NumCores,trees)
       mcrun<- function(...) comp_tree(X, Y, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB=COOB, CNS=CNS, Progress=Progress, rotate)
@@ -51,7 +71,7 @@ function(X, Y, MinParent=6L, trees=100L, MaxDepth=0L, bagging = .2, replacement=
     }else{
       #Parallel package not available.
       cat("Package 'parallel' not available.\nExecution will continue without parallelization.\nThis will increase the time required to create the forest\n")
-      if (!require(compiler)) {
+      if (!requireNamespace(compiler)) {
         cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to create the forest.\n")
         comp_forest <<- function(X, Y, trees, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB, CNS, Progress, rotate, seed) {
           set.seed(seed)
@@ -73,7 +93,7 @@ function(X, Y, MinParent=6L, trees=100L, MaxDepth=0L, bagging = .2, replacement=
     }
   }else{
     #Use just one core.
-    if (!require(compiler)) {
+    if (!requireNamespace(compiler)) {
       cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to create the forest.\n")
       comp_forest <<- function(X, Y, trees, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB, CNS, Progress, rotate, seed) {
         set.seed(seed)

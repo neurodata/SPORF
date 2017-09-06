@@ -76,7 +76,7 @@ function(Xtrain, Ytrain, Xtest, Ytest, params = list(trees = 500L, randomMatrix 
   set.seed(params$seed)
   
   # compile before the actual run so that training time of first iteration is consistent with the rest
-  if (require(compiler)){
+  if (requireNamespace(compiler)){
     if(!exists("comp_rfr")){
       setCompilerOptions("optimize"=3)
       comp_tree <<- cmpfun(build.tree)
@@ -133,10 +133,10 @@ function(Xtrain, Ytrain, Xtest, Ytest, params = list(trees = 500L, randomMatrix 
         oobError[forest.idx] <- mean(max.col(oobScores) != Ytrain)
         if (nClasses > 2L) {
           Ybin <- as.factor(as.vector(dummy(Ytrain)))
-          oobAUC[forest.idx] <- auc(roc(as.vector(oobScores), Ybin))
+          oobAUC[forest.idx] <- AUC::auc(roc(as.vector(oobScores), Ybin))
         } else {
           # Ytrain starts from 1, but here we need it to start from 0
-          oobAUC[forest.idx] <- auc(roc(oobScores[, 2L], as.factor(Ytrain - 1L)))
+          oobAUC[forest.idx] <- AUC::auc(roc(oobScores[, 2L], as.factor(Ytrain - 1L)))
         }
         
         numNodes[forest.idx] <- mean(sapply(forest, FUN = function(tree) length(tree$treeMap)))
@@ -207,11 +207,11 @@ function(Xtrain, Ytrain, Xtest, Ytest, params = list(trees = 500L, randomMatrix 
       print(paste("elapsed time: ", oobTime[forest.idx], sep = ""))
       oobError[forest.idx] <- mean(max.col(oobScores) != Ytrain)
       if (nClasses > 2L) {
-        Ybin <- as.factor(as.vector(dummy(Ytrain)))
-        oobAUC[forest.idx] <- auc(roc(as.vector(oobScores), Ybin))
+        Ybin <- as.factor(as.vector(dummies::dummy(Ytrain)))
+        oobAUC[forest.idx] <- AUC::auc(roc(as.vector(oobScores), Ybin))
       } else {
         # Ytrain starts from 1, but here we need it to start from 0
-        oobAUC[forest.idx] <- auc(roc(oobScores[, 2L], as.factor(Ytrain - 1L)))
+        oobAUC[forest.idx] <- AUC::auc(roc(oobScores[, 2L], as.factor(Ytrain - 1L)))
       }
       
       numNodes[forest.idx] <- mean(sapply(forest, FUN = function(tree) length(tree$treeMap)))

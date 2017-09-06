@@ -3,7 +3,7 @@ function(X,Y,Forest, NumCores=0L){
   if(!is.null(Forest$forest)){
     Forest<-Forest$forest
   }
-  if(!require(compiler)){
+  if(!requireNamespace(compiler)){
     cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to find the error rate.\n")
     comp_err <<- RunErr
   }
@@ -15,7 +15,7 @@ function(X,Y,Forest, NumCores=0L){
   
   X<- as.matrix(X)
   if(NumCores!=1){
-    if(require(parallel)){
+    if(requireNamespace(parallel)){
       if(NumCores==0){
         #Use all but 1 core if NumCores=0.
         NumCores=detectCores()-1L

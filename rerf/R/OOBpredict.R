@@ -8,23 +8,23 @@ function(X, Forest, NumCores=0, rank.transform = F, comp.mode = "batch"){
   }
   n <- nrow(X)
   
-  if(!require(compiler)){
+  if(!requireNamespace(compiler)){
     cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to find the OOB error rate.\n")
     comp_errOOB <<- runerrOOB
   }
   
   if(!exists("comp_errOOB")){
-    setCompilerOptions("optimize"=3)
-    comp_errOOB <<- cmpfun(runerrOOB)
+      compiler::setCompilerOptions("optimize"=3)
+    comp_errOOB <<- compiler::cmpfun(runerrOOB)
   } 
   comp_errOOB_caller <- function(tree, ...) comp_errOOB(X = X, tree = tree, comp.mode = comp.mode)
   
   f_size <- length(Forest)
   if(NumCores!=1){
-    if(require(doParallel)){
+    if(requireNamespace(doParallel)){
       if(NumCores==0){
         #Use all but 1 core if NumCores=0.
-        NumCores=detectCores()-1L
+        NumCores=parallel::detectCores()-1L
       }
       #Start mclapply with NumCores Cores.
       NumCores <- min(NumCores, f_size)
