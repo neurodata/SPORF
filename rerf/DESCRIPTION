@@ -9,3 +9,4 @@ Description: More about what it does (maybe more than one line)
 License: GPL-2
 Imports: Rcpp (>= 0.12.12), AUC, dummies, compiler, parallel
 LinkingTo: Rcpp, RcppArmadillo
+RoxygenNote: 6.0.1
