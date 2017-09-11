@@ -1,3 +1,28 @@
+#' RerF Tree Generator
+#'
+#' Creates a single decision tree based on an input matrix and class vector.  This is the function used by rerf to generate trees.
+#'
+#' @param X an n sample by d feature matrix (preferable) or data frame
+#' @param Y an n length vector of class labels.  Class labels must be numeric and be within the range 1 to the number of classes.
+#' @param MinParent the minimum splittable node size.  A node size < MinParent will be a leaf node. (MinParent = 6)
+#' @param MaxDepth the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If MaxDepth=0, the tree will be allowed to grow without bound.  (MaxDepth=0)  
+#' @param bagging a non-zero value means a random sample of X will be used during tree creation.  If replacement = FALSE the bagging value determines the percentage of samples to leave out-of-bag.  If replacement = TRUE the non-zero bagging value is ignored. (bagging=.2) 
+#' @param replacement if true then n samples are chosen, with replacement, from X. (replacement=TRUE)
+#' @param stratify if true then class sample proportions are maintained during the random sampling.  Ignored if replacement = FALSE. (stratify = FALSE).
+#' @param Cindex a vector of lists.  Each list holds the indexes of its respective class (e.g. list 1 contains the index of each class 1 sample).
+#' @param classCt a cumulative sum of class counts.  
+#' @param FUN a function that creates the random projection matrix. (FUN=makeA) 
+#' @param options a list of parameters to be used by FUN. (options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)))
+#' @param COOB if true the samples omitted during the creation of a tree are stored as part of the tree.  This is required to run the OOB function. (COOB=FALSE)
+#' @param CNS ????? (CNS=FALSE)
+#' @param Progress if true a pipe is printed after each tree is created.  This is useful for large datasets. (Progress=FALSE)
+#' @param rotate ????? (rotate=FALSE)
+#'
+#' @return Tree
+#'
+#' @author James and Tyler, jbrowne6@jhu.edu and
+#' 
+
 build.tree <-
 function(X, Y, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB, CNS, Progress, rotate){
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -85,11 +110,6 @@ function(X, Y, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, clas
   SortIdx<-integer(w) 
   x <- double(w)
   y <- integer(w)
-  # if(object.size(X) > 1000000){
-  #   OS<-TRUE
-  # }else{
-  #   OS<-FALSE
-  # }
   
   # Calculate the Max Depth and the max number of possible nodes
   if(MaxDepth == "inf"){
@@ -251,8 +271,6 @@ function(X, Y, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, clas
     # Recalculate the best projection
     feature.idx <- sparseM[ret$BestVar, 2L]
     feature.nnz <- 0L
-    # print(BestVar.startidx)
-    # print(feature.idx)
     while(sparseM[ret$BestVar + feature.nnz, 2L] == feature.idx) {
       feature.nnz <- feature.nnz + 1L
       if (ret$BestVar + feature.nnz > nnz) {
