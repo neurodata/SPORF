@@ -5,10 +5,10 @@
 #' @param X an n sample by d feature matrix (preferable) or data frame which was used to train the provided forest.
 #' @param forest a forest trained using the rerf function, with COOB=TRUE.
 #' @param num.cores the number of cores to use while training. If num.cores=0 then 1 less than the number of cores reported by the OS are used. (num.cores=0)
-#' @param rank.transform ????? (rank.transform=FALSE)
-#' @param Xtrain ????? (Xtrain=NULL)
+#' @param rank.transform TRUE indicates that the forest was built on rank-transformed data. (rank.transform=FALSE)
+#' @param Xtrain an n by d numeric matrix (preferable) or data frame. This should be the same data matrix/frame used to train the forest, and is only required if rank.transform is TRUE. (Xtrain=NULL)
 #' 
-#' @return ?????
+#' @return similarity
 #'
 #' @author James and Tyler, jbrowne6@jhu.edu and
 #' 
@@ -94,6 +94,6 @@ function(X, forest, num.cores=0, rank.transform = F, Xtrain = NULL){
   
   similarity <- similarity + t(similarity)
   diag(similarity) <- f_size
-  
-  return(similarity/f_size)
+  similarity <- similarity/f_size
+  return(similarity)
 }

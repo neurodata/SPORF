@@ -1,16 +1,15 @@
-#' OOB Error Rate 
+#' Compute out-of-bag prediction scores
 #'
 #' Determines the OOB error rate for a forest trained with COOB=TRUE.
 #'
 #' @param X an n sample by d feature matrix (preferable) or data frame which was used to train the provided forest.
 #' @param forest a forest trained using the rerf function, with COOB=TRUE.
 #' @param num.cores the number of cores to use while training. If num.cores=0 then 1 less than the number of cores reported by the OS are used. (num.cores=0)
-#' @param rank.transform ????? (rank.transform=FALSE)
-#' @param comp.mode ????? (comp.mode="batch")
+#' @param rank.transform TRUE indicates that the forest was built on rank-transformed data. (rank.transform=FALSE)
 #'
-#' @return OOBErrorRate
+#' @return scores
 #'
-#' @author James and Tyler, jbrowne6@jhu.edu and
+#' @author James and Tyler, jbrowne6@jhu.edu and ttomita2@jhmi.edu
 #' 
 #' @examples
 #' library(rerf)
@@ -25,11 +24,11 @@
 #'
 
 OOBPredict <-
-    function(X, forest, num.cores=0, rank.transform = F, comp.mode = "batch"){
+    function(X, forest, num.cores=0, rank.transform = F){
         if (!is.matrix(X)) {
             X <- as.matrix(X)
         }
-        if (rank.transform){
+        if (rank.transform) {
             X <- rank.matrix(X)
         }
         n <- nrow(X)
@@ -37,13 +36,13 @@ OOBPredict <-
             compiler::setCompilerOptions("optimize"=3)
             comp_errOOB <- compiler::cmpfun(runerrOOB)
             
-        comp_errOOB_caller <- function(tree, ...) comp_errOOB(X = X, tree = tree, comp.mode = comp.mode)
+        comp_errOOB_caller <- function(tree, ...) comp_errOOB(X = X, tree = tree)
 
         f_size <- length(forest)
-        if(num.cores!=1){
-                if(num.cores==0){
+        if (num.cores != 1L) {
+                if (num.cores == 0L) {
                     #Use all but 1 core if num.cores=0.
-                    num.cores=parallel::detectCores()-1L
+                    num.cores <- parallel::detectCores()-1L
                 }
                 #Start mclapply with num.cores Cores.
                 num.cores <- min(num.cores, f_size)
@@ -57,11 +56,11 @@ OOBPredict <-
                     Yhats <- parallel::parLapply(cl = cl, forest, fun = comp_errOOB_caller)
                 }
                 parallel::stopCluster(cl)
-        }else{
+        } else {
             #Use just one core.
             Yhats <- lapply(forest, FUN = comp_errOOB_caller)
         }
-        num_classes <- ncol(forest[[1]]$ClassProb)
+        num_classes <- ncol(forest[[1L]]$ClassProb)
         # Have to make the last entry before this bottom will work.
         scores <- matrix(0,nrow=n, ncol=num_classes)
         oobCounts <- vector(mode = "integer", length = n)

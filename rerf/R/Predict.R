@@ -1,16 +1,15 @@
-#' Predict Sample Classification
+#' Compute class predictions for each observation in X
 #'
 #' Predicts the classification of samples using a trained forest.
 #'
-#' @param X an n sample by d feature matrix (preferable) or data frame. 
+#' @param X an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features of a test set, which should be different from the training set.
 #' @param forest a forest trained using the rerf function.
 #' @param num.cores the number of cores to use while training. If NumCores=0 then 1 less than the number of cores reported by the OS are used. (NumCores=0)
-#' @param rank.transform ????? (rank.transform=FALSE)
-#' @param Xtrain ????? (Xtrain=NULL)
-#' @param comp.mode ????? (comp.mode="batch")
-#' @param out.mode ????? (out.mode= "aggregate")
+#' @param rank.transform TRUE indicates that the forest was built on rank-transformed data. (rank.transform=FALSE)
+#' @param Xtrain  an n by d numeric matrix (preferable) or data frame. This should be the same data matrix/frame used to train the forest, and is only required if rank.transform is TRUE. (Xtrain=NULL)
+#' @param aggregate.output if TRUE then the tree predictions are aggregated via majority vote. Otherwise, the individual tree predictions are returned. (aggregate.output=TRUE)
 #'
-#' @return classificationVector an integer vector of length n which specifies the class prediction for each of the n samples.
+#' @return predictions
 #'
 #' @author James and Tyler, jbrowne6@jhu.edu and
 #' 
@@ -28,7 +27,7 @@
 #'
 
 Predict <-
-    function(X, forest, num.cores=0, rank.transform = F, Xtrain = NULL, comp.mode = "batch", out.mode = "aggregate"){
+    function(X, forest, num.cores=0, rank.transform = F, Xtrain = NULL, aggregate.output = T){
         if (!is.matrix(X)) {
             X <- as.matrix(X)
         }
@@ -44,11 +43,11 @@ Predict <-
             compiler::setCompilerOptions("optimize"=3)
             comp_predict <- compiler::cmpfun(runpredict)
 
-        comp_predict_caller <- function(tree, ...) comp_predict(X=X, tree=tree, comp.mode = comp.mode)
+        comp_predict_caller <- function(tree, ...) comp_predict(X=X, tree=tree)
 
         f_size <- length(forest)
-        if(num.cores!=1){
-                if(num.cores==0){
+        if (num.cores != 1L) {
+                if (num.cores == 0L) {
                     #Use all but 1 core if num.cores=0.
                     num.cores=parallel::detectCores()-1L
                 }
@@ -65,22 +64,22 @@ Predict <-
                 }
                 parallel::stopCluster(cl)
 
-        }else{
+        } else {
             #Use just one core.
             Yhats <- lapply(forest, FUN = comp_predict_caller)
         }
 
-        if (out.mode == "individual") {
-            return(matrix(unlist(Yhats), nrow(X), f_size))
+        if (!aggregate.output) {
+            predictions <- matrix(unlist(Yhats), nrow(X), f_size)
         } else {
-            num_classes <- ncol(forest[[1]]$ClassProb)
-            scores <- matrix(0,nrow=nrow(X), ncol=num_classes)
-            for(m in 1:f_size){
-                for(k in 1:nrow(X)){
-                    scores[k, Yhats[[m]][k]] <- scores[k, Yhats[[m]][k]] + 1
+            num_classes <- ncol(forest[[1L]]$ClassProb)
+            predictions <- matrix(0,nrow=nrow(X), ncol=num_classes)
+            for (m in 1:f_size) {
+                for (k in 1:nrow(X)) {
+                    predictions[k, Yhats[[m]][k]] <- predictions[k, Yhats[[m]][k]] + 1
                 }
             }
-            scores <- scores/f_size
-            return(scores)
+            predictions <- predictions/f_size
         }
+        return(predictions)
     }
