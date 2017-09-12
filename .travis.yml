@@ -9,6 +9,11 @@ branches:
     only:
         - master
 
+addons:
+      apt:
+          packages:
+              - libgsl0-dev
+                        
 before_install:
     - cd rerf
 
