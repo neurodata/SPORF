@@ -1,4 +1,18 @@
-randmat <-
+#' Create a Random Matrix 
+#'
+#' Create a random matrix using given params.
+#'
+#' @param options ?????
+#'
+#' @return random.matrix ?????
+#'
+#' @author James and Tyler, jbrowne6@jhu.edu and
+#' 
+#'
+#' @importFrom RcppZiggurat zrnorm
+#'
+
+RandMat <-
 function(options) {
   p <- options[[1]] # number of dimensions
   d <- options[[2]] # this determines the number of columns in the projection matrix.
@@ -15,7 +29,7 @@ function(options) {
     nnzs <- round(p*d*rho)
     ind <- sort(sample.int((p*d), nnzs, replace = F))
     return(cbind(((ind - 1L) %% p) + 1L, floor((ind - 1L) / p) + 1L,
-                 zrnorm(nnzs)))
+                 RcppZiggurat::zrnorm(nnzs)))
   } else if (method == "rf") {
     return(cbind(sample.int(p, d, replace = F), 1:d, rep(1L, d)))
   } else if (method == "poisson") {
@@ -39,8 +53,6 @@ function(options) {
         nz.cols[(nnz.cum[i - 1L] + 1L):nnz.cum[i]] <- i
       }
     }
-    # nz.rows <- c(unlist(sapply(nnzPerCol, function(x) sort(sample.int(p, x, replace = F)))))
-    # nz.cols <- c(unlist(mapply(rep, 1:d, nnzPerCol)))
     return(cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz.cum[d], replace = T)))
   } else if (method == "frc") {
     nmix <- options[[4L]]
@@ -65,6 +77,6 @@ function(options) {
       nz.rows[(nnz.cum[i - 1L] + 1L):nnz.cum[i]] <- sample.int(p, nmix, replace = F)
       nz.cols[(nnz.cum[i - 1L] + 1L):nnz.cum[i]] <- i
     }
-    return(cbind(nz.rows, nz.cols, zrnorm(nnz.cum[d])))
+    return(cbind(nz.rows, nz.cols, RcppZiggurat::zrnorm(nnz.cum[d])))
   }
 }

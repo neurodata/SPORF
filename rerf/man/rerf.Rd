@@ -8,7 +8,7 @@ rerf(X, Y, MinParent = 6L, trees = 100L, MaxDepth = 0L, bagging = 0.2,
   replacement = TRUE, stratify = FALSE, FUN = makeA,
   options = c(ncol(X), round(ncol(X)^0.5), 1L, 1/ncol(X)),
   rank.transform = FALSE, COOB = FALSE, CNS = FALSE, Progress = FALSE,
-  rotate = F, NumCores = 0L, seed = 1L)
+  rotate = F, num.cores = 0L, seed = 1L)
 }
 \arguments{
 \item{X}{an n sample by d feature matrix (preferable) or data frame}
@@ -41,7 +41,7 @@ rerf(X, Y, MinParent = 6L, trees = 100L, MaxDepth = 0L, bagging = 0.2,
 
 \item{rotate}{????? (rotate=FALSE)}
 
-\item{NumCores}{the number of cores to use while training. If NumCores=0 then 1 less than the number of cores reported by the OS are used. (NumCores=0)}
+\item{num.cores}{the number of cores to use while training. If num.cores=0 then 1 less than the number of cores reported by the OS are used. (num.cores=0)}
 
 \item{seed}{the seed to use for training the forest. (seed=1)}
 }
@@ -52,7 +52,8 @@ Forest
 Creates a decision forest based on an input matrix and class vector.  This is the main function in the rerf package.
 }
 \examples{
-rerf(as.matrix(iris[,1:4]), as.numeric(iris[,5]))
+library(rerf)
+trainedForest <- rerf(as.matrix(iris[,1:4]), as.numeric(iris[,5]), num.cores=1)
 
 }
 \author{

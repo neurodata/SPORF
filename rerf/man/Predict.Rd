@@ -29,7 +29,12 @@ classificationVector an integer vector of length n which specifies the class pre
 Predicts the classification of samples using a trained forest.
 }
 \examples{
-predict(as.matrix(iris[,1:4]), trainedForest)
+library(rerf)
+X <- as.matrix(iris[,1:4])
+Y <- as.numeric(iris[,5])
+trainedForest <- rerf(X, Y, num.cores=1)
+# Using a set of samples with unknown classification 
+Predict(X, trainedForest, num.cores=1)
 
 }
 \author{

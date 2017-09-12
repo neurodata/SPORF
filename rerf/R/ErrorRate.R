@@ -12,7 +12,12 @@
 #' @author James and Tyler, jbrowne6@jhu.edu and
 #' 
 #' @examples
-#' ErrorRate(as.matrix(iris[,1:4]), as.numeric(iris[,5]), trainedForest)
+#' library(rerf)
+#' X <- as.matrix(iris[,1:4])
+#' Y <- as.numeric(iris[,5])
+#' trainedForest <- rerf(X, Y, num.cores=1)
+#' # Using a test X and Y
+#' ErrorRate(X, Y, trainedForest, num.cores=1)
 #'
 #' @export
 #' @importFrom compiler setCompilerOptions cmpfun
@@ -21,10 +26,6 @@
 
 ErrorRate <-
 function(X,Y,forest, num.cores=0L){
-    #TODO: is this check still necessary?  I don't think so.
-  if(!is.null(forest$forest)){
-    forest<-forest$forest
-  }
   
       compiler::setCompilerOptions("optimize"=3)
     comp_err <- compiler::cmpfun(RunErr)

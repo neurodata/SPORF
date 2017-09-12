@@ -25,7 +25,10 @@ ComputeSimilarity(X, forest, num.cores = 0, rank.transform = F,
 This is the ?????
 }
 \examples{
-ComputeSimilarity(X, trainedForest)
+library(rerf)
+X <- as.matrix(iris[,1:4])
+trainedForest <- rerf(X, as.numeric(iris[,5]), num.cores=1)
+sim.matrix <- ComputeSimilarity(X, trainedForest, num.cores=1)
 
 }
 \author{

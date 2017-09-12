@@ -22,7 +22,12 @@ errorRate
 This function provides an error rate for a given sample and corresponding class values.
 }
 \examples{
-ErrorRate(as.matrix(iris[,1:4]), as.numeric(iris[,5]), trainedForest)
+library(rerf)
+X <- as.matrix(iris[,1:4])
+Y <- as.numeric(iris[,5])
+trainedForest <- rerf(X, Y, num.cores=1)
+# Using a test X and Y
+ErrorRate(X, Y, trainedForest, num.cores=1)
 
 }
 \author{

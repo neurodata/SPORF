@@ -13,8 +13,12 @@
 #' @author James and Tyler, jbrowne6@jhu.edu and
 #' 
 #' @examples
-#' ComputeSimilarity(X, trainedForest)
+#' library(rerf)
+#' X <- as.matrix(iris[,1:4])
+#' trainedForest <- rerf(X, as.numeric(iris[,5]), num.cores=1)
+#' sim.matrix <- ComputeSimilarity(X, trainedForest, num.cores=1)
 #'
+#' @export
 #' @importFrom compiler setCompilerOptions cmpfun
 #' @importFrom parallel detectCores makeCluster clusterExport parLapply stopCluster
 #'

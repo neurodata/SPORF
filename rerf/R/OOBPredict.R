@@ -13,7 +13,11 @@
 #' @author James and Tyler, jbrowne6@jhu.edu and
 #' 
 #' @examples
-#' OOBPredict(as.matrix(iris[,1:4]), trainedForest)
+#' library(rerf)
+#' X <- as.matrix(iris[,1:4])
+#' Y <- as.numeric(iris[,5])
+#' trainedForest <- rerf(X, Y, COOB=TRUE, num.cores=1)
+#' OOBPredict(X, trainedForest, num.cores=1)
 #'
 #' @export
 #' @importFrom compiler setCompilerOptions cmpfun

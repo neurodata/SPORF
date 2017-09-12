@@ -8,7 +8,7 @@ rerf_eval(Xtrain, Ytrain, Xtest, Ytest, params = list(trees = 500L,
   randomMatrix = "binary", d = round(sqrt(ncol(Xtrain))), sparsity =
   1/ncol(Xtrain), rotate = F, rank.transform = F, MinParent = 2L, MaxDepth =
   "inf", bagging = 1/exp(1), COOB = T, CNS = F, replacement = T, stratify = T,
-  NumCores = 1L, seed = 1L), store.predictions = F)
+  num.cores = 1L, seed = 1L), store.predictions = F)
 }
 \arguments{
 \item{Xtrain}{an n sample by d feature matrix (preferable) or data frame that will be used to train a forest.}
@@ -21,7 +21,7 @@ rerf_eval(Xtrain, Ytrain, Xtest, Ytest, params = list(trees = 500L,
 
 \item{params}{a list of parameters used in the various rerf functions}
 
-\item{store.predictions}{?? (store.predictions=FALSE)}
+\item{store.predictions}{????? (store.predictions=FALSE)}
 }
 \value{
 something ?????

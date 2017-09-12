@@ -17,10 +17,6 @@ Rate?????
 \description{
 Determines the OOB ????? error rate for a forest trained with COOB=TRUE.
 }
-\examples{
-RankInterpolate(Xtrain, Xtest)
-
-}
 \author{
 James and Tyler, jbrowne6@jhu.edu and
 }

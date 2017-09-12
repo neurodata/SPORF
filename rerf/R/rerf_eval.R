@@ -7,7 +7,7 @@
 #' @param Xtest an n sample by d feature matrix (preferable) or data frame that will be used to test a forest.
 #' @param Ytest an n length vector of class labels
 #' @param params a list of parameters used in the various rerf functions
-#' @param store.predictions ?? (store.predictions=FALSE)
+#' @param store.predictions ????? (store.predictions=FALSE)
 #'
 #' @return something ?????
 #'
@@ -18,7 +18,7 @@
 #'
 
 rerf_eval <-
-    function(Xtrain, Ytrain, Xtest, Ytest, params = list(trees = 500L, randomMatrix = "binary", d = round(sqrt(ncol(Xtrain))), sparsity = 1/ncol(Xtrain), rotate = F, rank.transform = F, MinParent = 2L, MaxDepth = "inf", bagging = 1/exp(1), COOB = T, CNS = F, replacement = T, stratify = T, NumCores = 1L, seed = 1L), store.predictions = F) {
+    function(Xtrain, Ytrain, Xtest, Ytest, params = list(trees = 500L, randomMatrix = "binary", d = round(sqrt(ncol(Xtrain))), sparsity = 1/ncol(Xtrain), rotate = F, rank.transform = F, MinParent = 2L, MaxDepth = "inf", bagging = 1/exp(1), COOB = T, CNS = F, replacement = T, stratify = T, num.cores = 1L, seed = 1L), store.predictions = F) {
 
         p <- ncol(Xtrain)
         nClasses <- length(unique(Ytrain))
@@ -85,8 +85,8 @@ rerf_eval <-
             params$stratify <- T
         }
 
-        if (!("NumCores" %in% params.names)) {
-            params$NumCores <- 1L
+        if (!("num.cores" %in% params.names)) {
+            params$num.cores <- 1L
         }
 
         if (!("seed" %in% params.names)) {
@@ -115,7 +115,7 @@ rerf_eval <-
             treeCorrelation <- vector(mode = "numeric", length = nforest)
             numNodes <- vector(mode = "numeric", length = nforest)
             if (store.predictions) {
-                Yhat <- matrix(0, nrow = ntest, ncol = nforest)
+                Yhat <- matrix(0, nrow = Xtest, ncol = nforest)
             }
             for (i in 1:length(params$sparsity)) {
                 for (j in 1:length(params$d)) {
@@ -129,7 +129,7 @@ rerf_eval <-
                     start.time <- proc.time()
                     forest <- rerf(Xtrain, Ytrain, trees = params$trees, FUN = RandMat, options = options, rank.transform = params$rank.transform,
                                    MinParent = params$MinParent, MaxDepth = params$MaxDepth, bagging = params$bagging, COOB = params$COOB,
-                                   CNS = params$CNS, replacement = params$replacement, stratify = params$stratify, NumCores = params$NumCores, seed = params$seed)
+                                   CNS = params$CNS, replacement = params$replacement, stratify = params$stratify, num.cores = params$num.cores, seed = params$seed)
                     trainTime[forest.idx] <- (proc.time() - start.time)[[3L]]
                     print("training complete")
                     print(paste("elapsed time: ", trainTime[forest.idx], sep = ""))
@@ -137,7 +137,7 @@ rerf_eval <-
                     # compute out-of-bag metrics
                     print("computing out-of-bag predictions")
                     start.time <- proc.time()
-                    oobScores <- OOBPredict(Xtrain, forest, NumCores = params$NumCores, rank.transform = params$rank.transform)
+                    oobScores <- OOBPredict(Xtrain, forest, num.cores = params$num.cores, rank.transform = params$rank.transform)
                     oobTime[forest.idx] <- (proc.time() - start.time)[[3L]]
                     print("out-of-bag predictions complete")
                     print(paste("elapsed time: ", oobTime[forest.idx], sep = ""))
@@ -155,7 +155,7 @@ rerf_eval <-
                     # make predictions on test set
                     print("computing predictions on test set")
                     start.time <- proc.time()
-                    testScores <- predict(Xtest, forest, NumCores = params$NumCores, rank.transform = params$rank.transform, Xtrain = Xtrain)
+                    testScores <- predict(Xtest, forest, num.cores = params$num.cores, rank.transform = params$rank.transform, Xtrain = Xtrain)
                     testTime[forest.idx] <- (proc.time() - start.time)[[3L]]
                     print("test set predictions complete")
                     print(paste("elapsed time: ", testTime[forest.idx], sep = ""))
@@ -170,7 +170,7 @@ rerf_eval <-
                     }
 
                     # compute strength and correlation
-                    preds <- predict(Xtest, forest, NumCores = params$NumCores, rank.transform = params$rank.transform, Xtrain = Xtrain, out.mode = "individual")
+                    preds <- predict(Xtest, forest, num.cores = params$num.cores, rank.transform = params$rank.transform, Xtrain = Xtrain, out.mode = "individual")
                     sc <- strcorr(preds, Ytest, nClasses)
                     treeStrength[forest.idx] <- sc$s
                     treeCorrelation[forest.idx] <- sc$rho
@@ -192,7 +192,7 @@ rerf_eval <-
             treeCorrelation <- vector(mode = "numeric", length = nforest)
             numNodes <- vector(mode = "numeric", length = nforest)
             if (store.predictions) {
-                Yhat <- matrix(0, nrow = ntest, ncol = nforest)
+                Yhat <- matrix(0, nrow = Xtest, ncol = nforest)
             }
             for (forest.idx in 1:nforest) {
                 options <- list(p, params$d[forest.idx], params$randomMatrix, NULL)
@@ -204,7 +204,7 @@ rerf_eval <-
                 start.time <- proc.time()
                 forest <- rerf(Xtrain, Ytrain, trees = params$trees, FUN = RandMat, options = options, rank.transform = params$rank.transform,
                                MinParent = params$MinParent, MaxDepth = params$MaxDepth, bagging = params$bagging, COOB = params$COOB,
-                               CNS = params$CNS, replacement = params$replacement, stratify = params$stratify, NumCores = params$NumCores, seed = params$seed)
+                               CNS = params$CNS, replacement = params$replacement, stratify = params$stratify, num.cores = params$num.cores, seed = params$seed)
                 trainTime[forest.idx] <- (proc.time() - start.time)[[3L]]
                 print("training complete")
                 print(paste("elapsed time: ", trainTime[forest.idx], sep = ""))
@@ -212,7 +212,7 @@ rerf_eval <-
                 # compute out-of-bag metrics
                 print("computing out-of-bag predictions")
                 start.time <- proc.time()
-                oobScores <- OOBPredict(Xtrain, forest, NumCores = params$NumCores, rank.transform = params$rank.transform)
+                oobScores <- OOBPredict(Xtrain, forest, num.cores = params$num.cores, rank.transform = params$rank.transform)
                 oobTime[forest.idx] <- (proc.time() - start.time)[[3L]]
                 print("out-of-bag predictions complete")
                 print(paste("elapsed time: ", oobTime[forest.idx], sep = ""))
@@ -230,7 +230,7 @@ rerf_eval <-
                 # make predictions on test set
                 print("computing predictions on test set")
                 start.time <- proc.time()
-                testScores <- predict(Xtest, forest, NumCores = params$NumCores, rank.transform = params$rank.transform, Xtrain)
+                testScores <- predict(Xtest, forest, num.cores = params$num.cores, rank.transform = params$rank.transform, Xtrain)
                 testTime[forest.idx] <- (proc.time() - start.time)[[3L]]
                 print("test set predictions complete")
                 print(paste("elapsed time: ", testTime[forest.idx], sep = ""))
@@ -245,7 +245,7 @@ rerf_eval <-
                 }
 
                 # compute strength and correlation
-                preds <- predict(Xtest, forest, NumCores = params$NumCores, rank.transform = params$rank.transform, Xtrain = Xtrain, out.mode = "individual")
+                preds <- predict(Xtest, forest, num.cores = params$num.cores, rank.transform = params$rank.transform, Xtrain = Xtrain, out.mode = "individual")
                 sc <- strcorr(preds, Ytest, nClasses)
                 treeStrength[forest.idx] <- sc$s
                 treeCorrelation[forest.idx] <- sc$rho

@@ -9,9 +9,6 @@
 #'
 #' @author James and Tyler, jbrowne6@jhu.edu and
 #' 
-#' @examples
-#' RankInterpolate(Xtrain, Xtest)
-#'
 #' @importFrom compiler setCompilerOptions cmpfun
 #'
 

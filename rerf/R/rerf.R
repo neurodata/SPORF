@@ -17,7 +17,7 @@
 #' @param CNS ????? (CNS=FALSE)
 #' @param Progress if true a pipe is printed after each tree is created.  This is useful for large datasets. (Progress=FALSE)
 #' @param rotate ????? (rotate=FALSE)
-#' @param NumCores the number of cores to use while training. If NumCores=0 then 1 less than the number of cores reported by the OS are used. (NumCores=0)
+#' @param num.cores the number of cores to use while training. If num.cores=0 then 1 less than the number of cores reported by the OS are used. (num.cores=0)
 #' @param seed the seed to use for training the forest. (seed=1)
 #'
 #' @return Forest
@@ -25,7 +25,8 @@
 #' @author James and Tyler, jbrowne6@jhu.edu and
 #' 
 #' @examples
-#' rerf(as.matrix(iris[,1:4]), as.numeric(iris[,5]))
+#' library(rerf)
+#' trainedForest <- rerf(as.matrix(iris[,1:4]), as.numeric(iris[,5]), num.cores=1)
 #'
 #' @export
 #' @importFrom compiler setCompilerOptions cmpfun
@@ -33,7 +34,7 @@
 #'
 
 rerf <-
-    function(X, Y, MinParent=6L, trees=100L, MaxDepth=0L, bagging = .2, replacement=TRUE, stratify=FALSE, FUN=makeA, options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)), rank.transform = FALSE, COOB=FALSE, CNS=FALSE, Progress=FALSE, rotate = F, NumCores=0L, seed = 1L){
+    function(X, Y, MinParent=6L, trees=100L, MaxDepth=0L, bagging = .2, replacement=TRUE, stratify=FALSE, FUN=makeA, options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)), rank.transform = FALSE, COOB=FALSE, CNS=FALSE, Progress=FALSE, rotate = F, num.cores=0L, seed = 1L){
 
         #keep from making copies of X
 
@@ -65,21 +66,21 @@ rerf <-
 
         mcrun<- function(...) comp_tree(X, Y, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB=COOB, CNS=CNS, Progress=Progress, rotate)
 
-        if (NumCores!=1L){
+        if (num.cores!=1L){
             RNGkind("L'Ecuyer-CMRG")
             set.seed(seed)
             parallel::mc.reset.stream()
-            if(NumCores==0){
-                #Use all but 1 core if NumCores=0.
-                NumCores=parallel::detectCores()-1L
+            if(num.cores==0){
+                #Use all but 1 core if num.cores=0.
+                num.cores=parallel::detectCores()-1L
             }
-            NumCores=min(NumCores,trees)
+            num.cores=min(num.cores,trees)
             gc()
-            forest <- parallel::mclapply(1:trees, mcrun, mc.cores = NumCores, mc.set.seed=TRUE)
+            forest <- parallel::mclapply(1:trees, mcrun, mc.cores = num.cores, mc.set.seed=TRUE)
         }else{
             #Use just one core.
 
-            forest <- lapply(1:trees, mcrun, mc.cores = NumCores, mc.set.seed=TRUE)
+            forest <- lapply(1:trees, mcrun, mc.cores = num.cores, mc.set.seed=TRUE)
         }
         return(forest)
     }
