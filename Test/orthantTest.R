@@ -41,7 +41,7 @@ testDS <- function(RerF_baseline, RerF_candidate, trainSet, testSet, numTests, n
 for (i in 1:numTests){
         initMem <- sum(gc(reset=TRUE)[9:10])
         ptm <- proc.time()
-        forest<-rerf(X,Y,trees=numTrees, MinParent=2L, MaxDepth="inf", stratify=TRUE, COOB=TRUE, num.cores=cores,  options=c(ncol(X), ceiling(ncol(X)^p1),1L, 1/ncol(X)), seed = sample(1:10000,1)) 
+        forest<-rerf(X,Y,trees=numTrees, MinParent=2L, MaxDepth="inf", stratify=TRUE, COOB=TRUE, NumCores=cores,  options=c(ncol(X), ceiling(ncol(X)^p1),1L, 1/ncol(X)), seed = sample(1:10000,1)) 
         ptmtrain_baseline[i]<- (proc.time() - ptm)[3]
         memSize_baseline[i] <- sum(gc()[9:10]) - initMem
         if (length(forest)!=numTrees){
@@ -60,7 +60,7 @@ for (i in 1:numTests){
         }
         NodeSize_baseline[i] <- temp_size/length(forest)
         ptm <- proc.time()
-        OOBmat_temp <- OOBPredict(X,forest, cores)
+        OOBmat_temp <- OOBpredict(X,forest, cores)
 ptmOOB_baseline[i] <- (proc.time() - ptm)[3]
         #OOBmat_cols <- length(OOBmat_temp[[length(OOBmat_temp)]][1,])
         numWrong<- 0L
@@ -69,7 +69,7 @@ ptmOOB_baseline[i] <- (proc.time() - ptm)[3]
        numWrong <-  length(X[,1]) - sum(max.col(OOBmat_temp) == Y)
         OOBerror_baseline[i] <- 100*numWrong/length(X[,1])
         ptm <- proc.time()
-        error_baseline[i] <- ErrorRate(Xtest,Ytest,forest, num.cores = cores)
+        error_baseline[i] <- error_rate(Xtest,Ytest,forest, NumCores = cores)
         ptmtest_baseline[i]<- (proc.time() - ptm)[3]
     }
     #####################################################################################################################
