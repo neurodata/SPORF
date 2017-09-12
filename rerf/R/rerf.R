@@ -60,76 +60,26 @@ rerf <-
             Cindex<-NULL
         }
 
-        if (!requireNamespace(compiler)){
-            cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to create the forest.\n")
-            comp_tree <<- build.tree
-        }
-        if(!exists("comp_tree")){
-            compiler::setCompilerOptions("optimize"=3)
-            comp_tree <<- compiler::cmpfun(build.tree)
-        }
+        compiler::setCompilerOptions("optimize"=3)
+        comp_tree <- compiler::cmpfun(BuildTree)
+
+        mcrun<- function(...) comp_tree(X, Y, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB=COOB, CNS=CNS, Progress=Progress, rotate)
 
         if (NumCores!=1L){
-            if(requireNamespace(parallel)){
-                RNGkind("L'Ecuyer-CMRG")
-                set.seed(seed)
-                parallel::mc.reset.stream()
-                if(NumCores==0){
-                    #Use all but 1 core if NumCores=0.
-                    NumCores=parallel::detectCores()-1L
-                }
-                NumCores=min(NumCores,trees)
-                mcrun<- function(...) comp_tree(X, Y, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB=COOB, CNS=CNS, Progress=Progress, rotate)
-                gc()
-                forest <- parallel::mclapply(1:trees, mcrun, mc.cores = NumCores, mc.set.seed=TRUE)
-            }else{
-                #Parallel package not available.
-                cat("Package 'parallel' not available.\nExecution will continue without parallelization.\nThis will increase the time required to create the forest\n")
-                if (!requireNamespace(compiler)) {
-                    cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to create the forest.\n")
-                    comp_forest <<- function(X, Y, trees, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB, CNS, Progress, rotate, seed) {
-                        set.seed(seed)
-                        return(lapply(1:trees, comp_tree(X, Y, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB=COOB, CNS=CNS, Progress=Progress, rotate=rotate)))
-                    }
-                }
-                if (!exists("comp_forest")) {
-                    build.forest <<- function(X, Y, trees, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB, CNS, Progress, rotate, seed) {
-                        set.seed(seed)
-                        forest <- vector("list", trees)
-                        for (t in 1:trees) {
-                            forest[[t]] <- comp_tree(X, Y, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB=COOB, CNS=CNS, Progress=Progress, rotate=rotate)
-                        }
-                        return(forest)
-                    }
-                    comp_forest <<- cmpfun(build.forest)
-                }
-                forest <- comp_forest(X, Y, trees, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB, CNS, Progress, rotate, seed)
+            RNGkind("L'Ecuyer-CMRG")
+            set.seed(seed)
+            parallel::mc.reset.stream()
+            if(NumCores==0){
+                #Use all but 1 core if NumCores=0.
+                NumCores=parallel::detectCores()-1L
             }
+            NumCores=min(NumCores,trees)
+            gc()
+            forest <- parallel::mclapply(1:trees, mcrun, mc.cores = NumCores, mc.set.seed=TRUE)
         }else{
             #Use just one core.
-            if (!requireNamespace(compiler)) {
-                cat("You do not have the 'compiler' package.\nExecution will continue without compilation.\nThis will increase the time required to create the forest.\n")
-                comp_forest <<- function(X, Y, trees, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB, CNS, Progress, rotate, seed) {
-                    set.seed(seed)
-                    return(lapply(1:trees, comp_tree(X, Y, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB=COOB, CNS=CNS, Progress=Progress, rotate=rotate)))
-                }
-            }
-            if (!exists("comp_forest")) {
-                build.forest <- function(X, Y, trees, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB, CNS, Progress, rotate, seed) {
-                    set.seed(seed)
-                    forest <- vector("list", trees)
-                    for (t in 1:trees) {
-                        forest[[t]] <- comp_tree(X, Y, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB=COOB, CNS=CNS, Progress=Progress, rotate=rotate)
-                    }
-                    return(forest)
-                }
-                comp_forest <<- cmpfun(build.forest)
-            }
-            forest <- comp_forest(X, Y, trees, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB, CNS, Progress, rotate, seed)
-        }
-        if(Progress){
-            cat("\n\n")
-        }
 
+            forest <- lapply(1:trees, mcrun, mc.cores = NumCores, mc.set.seed=TRUE)
+        }
         return(forest)
     }

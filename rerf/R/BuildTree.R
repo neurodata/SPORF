@@ -23,7 +23,7 @@
 #' @author James and Tyler, jbrowne6@jhu.edu and
 #' 
 
-build.tree <-
+BuildTree <-
 function(X, Y, MinParent, MaxDepth, bagging, replacement, stratify, Cindex, classCt, FUN, options, COOB, CNS, Progress, rotate){
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   # rfr builds a randomer classification forest structure made up of a list

@@ -7,6 +7,6 @@ Author: James and Tyler
 Maintainer: Who to complain to <yourfault@somewhere.net>
 Description: This package contains functions that will create forests, allow you to make predictions on the forest, and provide statistical data about the forest.
 License: GPL-2
-Imports: Rcpp (>= 0.12.12), AUC, dummies, compiler, parallel
+Imports: Rcpp (>= 0.12.12), AUC, dummies, compiler, parallel, RcppZiggurat
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 6.0.1
