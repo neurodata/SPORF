@@ -1,10 +1,10 @@
 #' Get K-fold CV partitions
 #'
-#' Reads in a csv file in which the kth line lists the indices of observations in the kth fold
+#' Returns a list in which the ith element is an integer vector of the indices of observations in the ith fold
 #'
-#' @param fileName ?????
+#' @param fileName a csv file in which the ith line indicates indices of observations in the ith fold.
 #'
-#' @return fold ?????
+#' @return fold
 #'
 #' @author James and Tyler, jbrowne6@jhu.edu and
 #' 

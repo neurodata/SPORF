@@ -17,7 +17,7 @@
 #' library(rerf)
 #' X <- as.matrix(iris[,1:4])
 #' Y <- as.numeric(iris[,5])
-#' trainedForest <- rerf(X, Y, num.cores=1)
+#' trainedForest <- RerF(X, Y, num.cores=1)
 #' # Using a set of samples with unknown classification 
 #' Predict(X, trainedForest, num.cores=1)
 #'
@@ -41,9 +41,9 @@ Predict <-
         }
 
             compiler::setCompilerOptions("optimize"=3)
-            comp_predict <- compiler::cmpfun(runpredict)
+            CompPredict <- compiler::cmpfun(RunPredict)
 
-        comp_predict_caller <- function(tree, ...) comp_predict(X=X, tree=tree)
+        CompPredictCaller <- function(tree, ...) CompPredict(X=X, tree=tree)
 
         f_size <- length(forest)
         if (num.cores != 1L) {
@@ -56,17 +56,17 @@ Predict <-
                 gc()
                 if ((object.size(forest) > 2e9) | (object.size(X) > 2e9)) {
                     cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
-                    parallel::clusterExport(cl = cl, varlist = c("X", "comp.mode", "comp_predict"), envir = environment())
-                    Yhats <- parallel::parLapply(cl = cl, forest, fun = comp_predict_caller)
+                    parallel::clusterExport(cl = cl, varlist = c("X", "comp.mode", "CompPredict"), envir = environment())
+                    Yhats <- parallel::parLapply(cl = cl, forest, fun = CompPredictCaller)
                 } else {
                     cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
-                    Yhats <- parallel::parLapply(cl = cl, forest, fun = comp_predict_caller)
+                    Yhats <- parallel::parLapply(cl = cl, forest, fun = CompPredictCaller)
                 }
                 parallel::stopCluster(cl)
 
         } else {
             #Use just one core.
-            Yhats <- lapply(forest, FUN = comp_predict_caller)
+            Yhats <- lapply(forest, FUN = CompPredictCaller)
         }
 
         if (!aggregate.output) {

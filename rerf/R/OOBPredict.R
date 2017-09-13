@@ -1,6 +1,6 @@
 #' Compute out-of-bag prediction scores
 #'
-#' Determines the OOB error rate for a forest trained with COOB=TRUE.
+#' Computes out-of-bag class prediction scores for a forest trained with COOB=TRUE.
 #'
 #' @param X an n sample by d feature matrix (preferable) or data frame which was used to train the provided forest.
 #' @param forest a forest trained using the rerf function, with COOB=TRUE.
@@ -15,7 +15,7 @@
 #' library(rerf)
 #' X <- as.matrix(iris[,1:4])
 #' Y <- as.numeric(iris[,5])
-#' trainedForest <- rerf(X, Y, COOB=TRUE, num.cores=1)
+#' trainedForest <- RerF(X, Y, COOB=TRUE, num.cores=1)
 #' OOBPredict(X, trainedForest, num.cores=1)
 #'
 #' @export
@@ -34,9 +34,9 @@ OOBPredict <-
         n <- nrow(X)
 
             compiler::setCompilerOptions("optimize"=3)
-            comp_errOOB <- compiler::cmpfun(runerrOOB)
+            CompOOB <- compiler::cmpfun(RunOOB)
             
-        comp_errOOB_caller <- function(tree, ...) comp_errOOB(X = X, tree = tree)
+        CompOOBCaller <- function(tree, ...) CompOOB(X = X, tree = tree)
 
         f_size <- length(forest)
         if (num.cores != 1L) {
@@ -49,16 +49,16 @@ OOBPredict <-
                 gc()
                 if ((object.size(forest) > 2e9) | (object.size(X) > 2e9)) {
                     cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
-                    parallel::clusterExport(cl = cl, varlist = c("X", "comp.mode", "comp_errOOB"), envir = environment())
-                    Yhats <- parallel::parLapply(cl = cl, forest, fun = comp_errOOB_caller)
+                    parallel::clusterExport(cl = cl, varlist = c("X", "CompOOB"), envir = environment())
+                    Yhats <- parallel::parLapply(cl = cl, forest, fun = CompOOBCaller)
                 } else {
                     cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
-                    Yhats <- parallel::parLapply(cl = cl, forest, fun = comp_errOOB_caller)
+                    Yhats <- parallel::parLapply(cl = cl, forest, fun = CompOOBCaller)
                 }
                 parallel::stopCluster(cl)
         } else {
             #Use just one core.
-            Yhats <- lapply(forest, FUN = comp_errOOB_caller)
+            Yhats <- lapply(forest, FUN = CompOOBCaller)
         }
         num_classes <- ncol(forest[[1L]]$ClassProb)
         # Have to make the last entry before this bottom will work.
