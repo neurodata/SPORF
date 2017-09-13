@@ -1,4 +1,16 @@
-runpredict <-
+#' Predict class labels on a test set using a single tree.
+#'
+#' This is the base function called by Predict().
+#'
+#' @param X an n sample by d feature matrix (preferable) or data frame which was used to train the provided forest.
+#' @param tree a tree from a forest returned by RerF().
+#'
+#' @return predictions
+#'
+#' @author James and Tyler, jbrowne6@jhu.edu and ttomita2@jhmi.edu
+#'
+
+RunPredict <-
 function(X, tree){
   tm <- 0L
   currentNode<-0L
@@ -16,7 +28,7 @@ function(X, tree){
     }
   }
   
-  Yhats <- integer(n)
+  predictions <- integer(n)
   
   # if (comp.mode == "individual") {
   #   Xnode <- 0
@@ -33,7 +45,7 @@ function(X, tree){
   #         currentNode <- tree$Children[tm] + 1L
   #       }
   #     }
-  #     Yhats[i] <- order(tree$ClassProb[tm*-1L, ], decreasing = T)[1L]
+  #     predictions[i] <- order(tree$ClassProb[tm*-1L, ], decreasing = T)[1L]
   #   }
   # } else {
   Xnode <- double(n)
@@ -53,10 +65,10 @@ function(X, tree){
         Assigned2Node[[tree$Children[tm]]] <- Assigned2Node[[m]][moveLeft]
         Assigned2Node[[tree$Children[tm] + 1L]] <- Assigned2Node[[m]][!moveLeft]
       } else {
-        Yhats[Assigned2Node[[m]]] <- order(tree$ClassProb[tm*-1L, ], decreasing = T)[1L]
+        predictions[Assigned2Node[[m]]] <- order(tree$ClassProb[tm*-1L, ], decreasing = T)[1L]
       }
     }
     Assigned2Node[m] <-list(NULL)
   }
-  return(Yhats)
+  return(predictions)
 }
