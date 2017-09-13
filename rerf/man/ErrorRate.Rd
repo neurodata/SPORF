@@ -25,7 +25,7 @@ This function provides an error rate for a given sample and corresponding class 
 library(rerf)
 X <- as.matrix(iris[,1:4])
 Y <- as.numeric(iris[,5])
-trainedForest <- rerf(X, Y, num.cores=1)
+trainedForest <- rerf(X, Y, 5, num.cores=1)
 # Using a test X and Y
 ErrorRate(X, Y, trainedForest, num.cores=1)
 

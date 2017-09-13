@@ -2,28 +2,26 @@
 % Please edit documentation in R/Predict.R
 \name{Predict}
 \alias{Predict}
-\title{Predict Sample Classification}
+\title{Compute class predictions for each observation in X}
 \usage{
 Predict(X, forest, num.cores = 0, rank.transform = F, Xtrain = NULL,
-  comp.mode = "batch", out.mode = "aggregate")
+  aggregate.output = T)
 }
 \arguments{
-\item{X}{an n sample by d feature matrix (preferable) or data frame.}
+\item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features of a test set, which should be different from the training set.}
 
 \item{forest}{a forest trained using the rerf function.}
 
 \item{num.cores}{the number of cores to use while training. If NumCores=0 then 1 less than the number of cores reported by the OS are used. (NumCores=0)}
 
-\item{rank.transform}{????? (rank.transform=FALSE)}
+\item{rank.transform}{TRUE indicates that the forest was built on rank-transformed data. (rank.transform=FALSE)}
 
-\item{Xtrain}{????? (Xtrain=NULL)}
+\item{Xtrain}{an n by d numeric matrix (preferable) or data frame. This should be the same data matrix/frame used to train the forest, and is only required if rank.transform is TRUE. (Xtrain=NULL)}
 
-\item{comp.mode}{????? (comp.mode="batch")}
-
-\item{out.mode}{????? (out.mode= "aggregate")}
+\item{aggregate.output}{if TRUE then the tree predictions are aggregated via majority vote. Otherwise, the individual tree predictions are returned. (aggregate.output=TRUE)}
 }
 \value{
-classificationVector an integer vector of length n which specifies the class prediction for each of the n samples.
+predictions
 }
 \description{
 Predicts the classification of samples using a trained forest.
@@ -32,7 +30,7 @@ Predicts the classification of samples using a trained forest.
 library(rerf)
 X <- as.matrix(iris[,1:4])
 Y <- as.numeric(iris[,5])
-trainedForest <- rerf(X, Y, num.cores=1)
+trainedForest <- rerf(X, Y, 5, num.cores=1)
 # Using a set of samples with unknown classification 
 Predict(X, trainedForest, num.cores=1)
 
