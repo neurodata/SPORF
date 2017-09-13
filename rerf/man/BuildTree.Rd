@@ -8,9 +8,9 @@ BuildTree(X, Y, MinParent, MaxDepth, bagging, replacement, stratify, Cindex,
   classCt, FUN, options, COOB, CNS, Progress, rotate)
 }
 \arguments{
-\item{X}{an n sample by d feature matrix (preferable) or data frame}
+\item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}
 
-\item{Y}{an n length vector of class labels.  Class labels must be numeric and be within the range 1 to the number of classes.}
+\item{Y}{an n length vector of class labels.  Class labels must be integer or numeric and be within the range 1 to the number of classes.}
 
 \item{MinParent}{the minimum splittable node size.  A node size < MinParent will be a leaf node. (MinParent = 6)}
 
@@ -18,9 +18,9 @@ BuildTree(X, Y, MinParent, MaxDepth, bagging, replacement, stratify, Cindex,
 
 \item{bagging}{a non-zero value means a random sample of X will be used during tree creation.  If replacement = FALSE the bagging value determines the percentage of samples to leave out-of-bag.  If replacement = TRUE the non-zero bagging value is ignored. (bagging=.2)}
 
-\item{replacement}{if true then n samples are chosen, with replacement, from X. (replacement=TRUE)}
+\item{replacement}{if TRUE then n samples are chosen, with replacement, from X. (replacement=TRUE)}
 
-\item{stratify}{if true then class sample proportions are maintained during the random sampling.  Ignored if replacement = FALSE. (stratify = FALSE).}
+\item{stratify}{if TRUE then class sample proportions are maintained during the random sampling.  Ignored if replacement = FALSE. (stratify = FALSE).}
 
 \item{Cindex}{a vector of lists.  Each list holds the indexes of its respective class (e.g. list 1 contains the index of each class 1 sample).}
 
@@ -30,13 +30,13 @@ BuildTree(X, Y, MinParent, MaxDepth, bagging, replacement, stratify, Cindex,
 
 \item{options}{a list of parameters to be used by FUN. (options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)))}
 
-\item{COOB}{if true the samples omitted during the creation of a tree are stored as part of the tree.  This is required to run the OOB function. (COOB=FALSE)}
+\item{COOB}{if TRUE then the samples omitted during the creation of a tree are stored as part of the tree.  This is required to run OOBPredict(). (COOB=FALSE)}
 
-\item{CNS}{????? (CNS=FALSE)}
+\item{CNS}{if TRUE then the number of training observations at each node is stored. This is required to run FeatureImportance() (CNS=FALSE) (CNS=FALSE)}
 
 \item{Progress}{if true a pipe is printed after each tree is created.  This is useful for large datasets. (Progress=FALSE)}
 
-\item{rotate}{????? (rotate=FALSE)}
+\item{rotate}{if TRUE then the data matrix X is uniformly randomly rotated. (rotate=FALSE)}
 }
 \value{
 Tree

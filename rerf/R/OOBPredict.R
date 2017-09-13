@@ -15,7 +15,7 @@
 #' library(rerf)
 #' X <- as.matrix(iris[,1:4])
 #' Y <- as.numeric(iris[,5])
-#' trainedForest <- rerf(X, Y, COOB=TRUE, num.cores=1)
+#' trainedForest <- rerf(X, Y, 5, COOB=TRUE, num.cores=1)
 #' OOBPredict(X, trainedForest, num.cores=1)
 #'
 #' @export

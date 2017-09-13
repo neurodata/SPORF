@@ -17,7 +17,7 @@
 #' library(rerf)
 #' X <- as.matrix(iris[,1:4])
 #' Y <- as.numeric(iris[,5])
-#' trainedForest <- rerf(X, Y, num.cores=1)
+#' trainedForest <- rerf(X, Y, 5, num.cores=1)
 #' # Using a set of samples with unknown classification 
 #' Predict(X, trainedForest, num.cores=1)
 #'

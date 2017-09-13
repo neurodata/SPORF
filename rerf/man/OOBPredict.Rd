@@ -2,10 +2,9 @@
 % Please edit documentation in R/OOBPredict.R
 \name{OOBPredict}
 \alias{OOBPredict}
-\title{OOB Error Rate}
+\title{Compute out-of-bag prediction scores}
 \usage{
-OOBPredict(X, forest, num.cores = 0, rank.transform = F,
-  comp.mode = "batch")
+OOBPredict(X, forest, num.cores = 0, rank.transform = F)
 }
 \arguments{
 \item{X}{an n sample by d feature matrix (preferable) or data frame which was used to train the provided forest.}
@@ -14,12 +13,10 @@ OOBPredict(X, forest, num.cores = 0, rank.transform = F,
 
 \item{num.cores}{the number of cores to use while training. If num.cores=0 then 1 less than the number of cores reported by the OS are used. (num.cores=0)}
 
-\item{rank.transform}{????? (rank.transform=FALSE)}
-
-\item{comp.mode}{????? (comp.mode="batch")}
+\item{rank.transform}{TRUE indicates that the forest was built on rank-transformed data. (rank.transform=FALSE)}
 }
 \value{
-OOBErrorRate
+scores
 }
 \description{
 Determines the OOB error rate for a forest trained with COOB=TRUE.
@@ -28,10 +25,10 @@ Determines the OOB error rate for a forest trained with COOB=TRUE.
 library(rerf)
 X <- as.matrix(iris[,1:4])
 Y <- as.numeric(iris[,5])
-trainedForest <- rerf(X, Y, COOB=TRUE, num.cores=1)
+trainedForest <- rerf(X, Y, 5, COOB=TRUE, num.cores=1)
 OOBPredict(X, trainedForest, num.cores=1)
 
 }
 \author{
-James and Tyler, jbrowne6@jhu.edu and
+James and Tyler, jbrowne6@jhu.edu and ttomita2@jhmi.edu
 }

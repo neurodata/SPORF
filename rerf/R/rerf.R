@@ -27,7 +27,7 @@
 #' 
 #' @examples
 #' library(rerf)
-#' trainedForest <- rerf(as.matrix(iris[,1:4]), as.numeric(iris[,5]), num.cores=1)
+#' trainedForest <- rerf(as.matrix(iris[,1:4]), as.numeric(iris[,5]), 5, num.cores=1)
 #'
 #' @export
 #' @importFrom compiler setCompilerOptions cmpfun
