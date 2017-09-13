@@ -15,7 +15,7 @@
 #' @examples
 #' library(rerf)
 #' X <- as.matrix(iris[,1:4])
-#' trainedForest <- rerf(X, as.numeric(iris[,5]), 5, num.cores=1)
+#' trainedForest <- RerF(X, as.numeric(iris[,5]), 5, num.cores=1)
 #' sim.matrix <- ComputeSimilarity(X, trainedForest, num.cores=1)
 #'
 #' @export
@@ -41,9 +41,9 @@ function(X, forest, num.cores=0, rank.transform = F, Xtrain = NULL){
   n <- nrow(X)
   
     compiler::setCompilerOptions("optimize"=3)
-    comp_predict.leaf <- compiler::cmpfun(runpredict.leaf)
+    CompPredictLeaf <- compiler::cmpfun(RunPredictLeaf)
   
-  comp_predict_caller <- function(tree, ...) comp_predict.leaf(X=X, tree=tree)
+  CompPredictCaller <- function(tree, ...) CompPredictLeaf(X=X, tree=tree)
   
   f_size <- length(forest)
   if(num.cores!=1){
@@ -56,17 +56,17 @@ function(X, forest, num.cores=0, rank.transform = F, Xtrain = NULL){
       gc()
       if ((object.size(forest) > 2e9) | (object.size(X) > 2e9)) {
         cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
-        parallel::clusterExport(cl = cl, varlist = c("X", "comp_predict.leaf"), envir = environment())
-        leafIdx <- parallel::parLapply(cl = cl, forest, fun = comp_predict_caller)
+        parallel::clusterExport(cl = cl, varlist = c("X", "CompPredictLeaf"), envir = environment())
+        leafIdx <- parallel::parLapply(cl = cl, forest, fun = CompPredictCaller)
       } else {
         cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
-        leafIdx <- parallel::parLapply(cl = cl, forest, fun = comp_predict_caller)
+        leafIdx <- parallel::parLapply(cl = cl, forest, fun = CompPredictCaller)
       }
       parallel::stopCluster(cl)
       
   }else{
     #Use just one core.
-    leafIdx <- lapply(forest, FUN = comp_predict_caller)
+    leafIdx <- lapply(forest, FUN = CompPredictCaller)
   }
   
   leafIdx <- matrix(unlist(leafIdx), nrow = n, ncol = f_size)

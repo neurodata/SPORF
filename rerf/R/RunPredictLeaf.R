@@ -1,4 +1,4 @@
-runpredict.leaf <-
+RunPredictLeaf <-
 function(X, tree){
   tm <- 0L
   currentNode<-0L

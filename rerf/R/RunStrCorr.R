@@ -1,4 +1,4 @@
-run.strcorr <-
+RunStrCorr <-
 function(Yhats, Y, nClasses) {
   n <- length(Y)
   nTrees <- ncol(Yhats)
@@ -16,7 +16,7 @@ function(Yhats, Y, nClasses) {
   rmg <- matrix(0, nrow = n, ncol = nTrees)
   isallY <- is.na(modeNotY)
   rmg[isallY, ] <- Y[isallY]
-  rmg[!isallY, ] <- apply(Yhats[!isallY, ], 2L, function(x) (x == Y[!isallY]) - (x == modeNotY[!isallY]))
+  rmg[!isallY, ] <- apply(Yhats[!isallY, , drop = F], 2L, function(x) (x == Y[!isallY]) - (x == modeNotY[!isallY]))
   rho <- cor(rmg)
   sigma <- apply(rmg, 2L, sd)
   diag.idx <- seq(1, nTrees^2, nTrees + 1L)
