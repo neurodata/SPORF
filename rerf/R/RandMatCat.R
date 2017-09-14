@@ -14,7 +14,7 @@
 #' @importFrom RcppZiggurat zrnorm
 #'
 
-RandMat <-
+RandMatCat <-
   function(options) {
     p <- options[[1L]] # number of dimensions
     d <- options[[2L]] # this determines the number of columns in the projection matrix.
