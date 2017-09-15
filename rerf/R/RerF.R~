@@ -43,7 +43,7 @@ RerF <-
             X <- as.matrix(X)
         }
         if (rank.transform) {
-            X <- RankMatrix(X)
+            X <- rank.matrix(X)
         }
         if(!is.integer(Y)){
             Y <- as.integer(Y)

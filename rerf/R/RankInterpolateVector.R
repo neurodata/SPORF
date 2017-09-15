@@ -1,4 +1,4 @@
-runRankInterpolate <-
+RankInterpolateVector <-
 function(Xtrain, Xtest) {
   if (!is.matrix(Xtrain)) {
     Xtrain <- as.matrix(Xtrain)

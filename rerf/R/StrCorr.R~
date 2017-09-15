@@ -1,4 +1,4 @@
-RunStrCorr <-
+StrCorr <-
 function(Yhats, Y, nClasses) {
   n <- length(Y)
   nTrees <- ncol(Yhats)
@@ -22,5 +22,6 @@ function(Yhats, Y, nClasses) {
   diag.idx <- seq(1, nTrees^2, nTrees + 1L)
   pairwise.sigma <- combn(nTrees, 2L, FUN = function(x) sigma[x[1]]*sigma[x[2L]])
   rho.bar <- mean(rho[lower.tri(rho)]*pairwise.sigma)/mean(pairwise.sigma)
-  return(list(s = strength, rho = rho.bar))
+  scor <- list(s = strength, rho = rho.bar)
+  return(scor)
 }

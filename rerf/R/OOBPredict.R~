@@ -29,7 +29,7 @@ OOBPredict <-
             X <- as.matrix(X)
         }
         if (rank.transform) {
-            X <- RankMatrix(X)
+            X <- rank.matrix(X)
         }
         n <- nrow(X)
 

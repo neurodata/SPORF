@@ -15,9 +15,6 @@
 
 RankInterpolate <-
 function(Xtrain, Xtest) {
-  
-    compiler::setCompilerOptions("optimize" = 3)
-    compRank <- compiler::cmpfun(runRankInterpolate)
-  
-  return(sapply(seq.int(ncol(Xtest)), FUN = function(cl) compRank(Xtrain[, cl], Xtest[, cl])))
+    Xrank <- sapply(seq.int(ncol(Xtest)), FUN = function(cl) RankInterpolateVector(Xtrain[, cl], Xtest[, cl]))
+    return(Xrank)
 }

@@ -1,25 +1,27 @@
-#' Compute strength and correlation of trees
-#'
-#' Returns estimates of the strength and correlation of the trees in a forest according to the definitions in Breiman 2001.
-#'
-#' @param Yhats ?????
-#' @param Y ?????
-#' @param nClasses ?????
-#'
-#' @return random.matrix ?????
-#'
-#' @author James and Tyler, jbrowne6@jhu.edu and
-#' 
-#' @export
-#' @importFrom compiler setCompilerOptions cmpfun
-#'
-
 StrCorr <-
 function(Yhats, Y, nClasses) {
+  n <- length(Y)
+  nTrees <- ncol(Yhats)
+  Ptheta <- matrix(0, nrow = n, ncol = nClasses)
+  for (k in seq.int(nClasses)) {
+    Ptheta[, k] <- apply(Yhats == k, 1L, sum)/nTrees
+  }
+  PthetaY <- Ptheta[1:n + (Y - 1L)*n]
+  modeNotY <- apply(cbind(Yhats, Y), 1, function(x) SampleMode(x[1:nTrees][x[1:nTrees] != x[nTrees + 1L]]))
+  PthetaNotY <- Ptheta[1:n + (modeNotY - 1L)*n]
+  PthetaNotY[is.na(PthetaNotY)] <- 0
   
-      compiler::setCompilerOptions("optimize"=3)
-    strcorr.comp <- compiler::cmpfun(run.strcorr)
+  strength <- mean(PthetaY - PthetaNotY)
   
-  
-  return(strcorr.comp(Yhats, Y, nClasses))
+  rmg <- matrix(0, nrow = n, ncol = nTrees)
+  isallY <- is.na(modeNotY)
+  rmg[isallY, ] <- Y[isallY]
+  rmg[!isallY, ] <- apply(Yhats[!isallY, , drop = F], 2L, function(x) (x == Y[!isallY]) - (x == modeNotY[!isallY]))
+  rho <- cor(rmg)
+  sigma <- apply(rmg, 2L, sd)
+  diag.idx <- seq(1, nTrees^2, nTrees + 1L)
+  pairwise.sigma <- combn(nTrees, 2L, FUN = function(x) sigma[x[1]]*sigma[x[2L]])
+  rho.bar <- mean(rho[lower.tri(rho)]*pairwise.sigma)/mean(pairwise.sigma)
+  scor <- list(s = strength, rho = rho.bar)
+  return(scor)
 }
