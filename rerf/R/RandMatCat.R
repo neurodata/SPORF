@@ -1,16 +1,13 @@
-#' Create a random projection matrix 
+#' Create a Random Matrix for use when categorical features are present
 #'
-#' Create a random projection matrix using given params. This function differs from RandMat() in that it first samples feature indices from a categorical data matrix/frame that has not been one-of-K encoded.
-#' For each categorical feature index sampled, only one of the K feature indices corresponding to the one-of-K encoding is sampled. This method corrects for the fact that features with large K
-#' (numbers of categories) will become overrepresented when one-of-K encoded. It also ensures that multiple features in the same one-of-K set are not sampled simultaneously.
+#' The same as the function RandMat, except that this function is used when a cat.map object is provided (see RerF and GetCatMap for details).
+#' 
+#' @param options the same as that for RandMat, except an additional fifth argument cat.map is taken, which specifies which one-of-K encoded columns in X correspond to the same categorical feature. 
 #'
-#' @param options ?????
-#'
-#' @return random.matrix ?????
+#' @return random.matrix
 #'
 #' @author James and Tyler, jbrowne6@jhu.edu and
-#' 
-#' @export
+#'
 #' @importFrom RcppZiggurat zrnorm
 #'
 
