@@ -12,7 +12,7 @@
 #' @param class.ind a vector of lists.  Each list holds the indexes of its respective class (e.g. list 1 contains the index of each class 1 sample).
 #' @param class.ct a cumulative sum of class counts.  
 #' @param fun a function that creates the random projection matrix. (fun=makeA) 
-#' @param options a list of parameters to be used by fun. (options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)))
+#' @param mat.options a list of parameters to be used by fun. (mat.options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)))
 #' @param store.oob if TRUE then the samples omitted during the creation of a tree are stored as part of the tree.  This is required to run OOBPredict(). (store.oob=FALSE)
 #' @param store.ns if TRUE then the number of training observations at each node is stored. This is required to run FeatureImportance() (store.ns=FALSE) (store.ns=FALSE)
 #' @param progress if true a pipe is printed after each tree is created.  This is useful for large datasets. (progress=FALSE)
@@ -24,7 +24,7 @@
 #' 
 
 BuildTree <-
-function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind, class.ct, fun, options, store.oob, store.ns, progress, rotate){
+function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind, class.ct, fun, mat.options, store.oob, store.ns, progress, rotate){
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   # rfr builds a randomer classification forest structure made up of a list
   # of trees.  This forest is randomer because each node is rotated before 
@@ -68,7 +68,7 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
   # number of columns in the input matrix X and u is any integer > 0.
   # u can also vary from node to node.
   #
-  # options is a list of inputs to the user provided projection matrix
+  # mat.options is a list of inputs to the user provided projection matrix
   # creation function -- fun.
   #
   # rotate is a boolean specifying whether or not to randomly rotate the
@@ -133,7 +133,7 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
   #Matrix A storage variables
   matAindex <- integer(maxIN)
   matAsize <- ceiling(w/2)
-  if (options[[3]] != "frc" && options[[3]] != "continuous" && options[[3]] != "frcn") {
+  if (mat.options[[3]] != "frc" && mat.options[[3]] != "continuous" && mat.options[[3]] != "frcn") {
     matAstore <- integer(matAsize)
   } else {
     matAstore <- double(matAsize)
@@ -222,7 +222,7 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
     }
     
     # create projection matrix (sparseM) by calling the custom function fun
-    sparseM <- fun(options)
+    sparseM <- fun(mat.options)
     nnz <- nrow(sparseM)
     # Check each projection to determine which splits the best.
     ret$MaxDeltaI <- 0
@@ -316,7 +316,7 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
       matAsize <- matAsize*2
       matAstore[matAsize] <- 0L
     }
-    if (options[[3]] != "frc" && options[[3]] != "continuous" && options[[3]] != "frcn") {
+    if (mat.options[[3]] != "frc" && mat.options[[3]] != "continuous" && mat.options[[3]] != "frcn") {
       matAstore[(matAindex[currIN]+1):(matAindex[currIN]+currMatAlength)] <- as.integer(t(sparseM[lrows,c(1,3)]))
     } else {
       matAstore[(matAindex[currIN]+1):(matAindex[currIN]+currMatAlength)] <- t(sparseM[lrows,c(1,3)])

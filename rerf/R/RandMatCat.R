@@ -2,7 +2,7 @@
 #'
 #' The same as the function RandMat, except that this function is used when a cat.map object is provided (see RerF and GetCatMap for details).
 #' 
-#' @param options the same as that for RandMat, except an additional fifth argument cat.map is taken, which specifies which one-of-K encoded columns in X correspond to the same categorical feature. 
+#' @param mat.options the same as that for RandMat, except an additional fifth argument cat.map is taken, which specifies which one-of-K encoded columns in X correspond to the same categorical feature. 
 #'
 #' @return random.matrix
 #'
@@ -12,15 +12,15 @@
 #'
 
 RandMatCat <-
-  function(options) {
-    p <- options[[1L]] # number of dimensions
-    d <- options[[2L]] # this determines the number of columns in the projection matrix.
-    method <- options[[3L]] # defines the distribution of the random projection matrix
-    catMap <- options[[5L]]
+  function(mat.options) {
+    p <- mat.options[[1L]] # number of dimensions
+    d <- mat.options[[2L]] # this determines the number of columns in the projection matrix.
+    method <- mat.options[[3L]] # defines the distribution of the random projection matrix
+    catMap <- mat.options[[5L]]
     pnum <- catMap[[1L]][1L] - 1L
     #Create the random matrix, a sparse matrix of 1's, -1's, and 0's.
     if (method == "binary") {
-      rho <- options[[4L]]
+      rho <- mat.options[[4L]]
       nnzs <- round(p*d*rho)
       ind <- sort(sample.int((p*d), nnzs, replace = F))
       rw <- ((ind - 1L) %% p) + 1L
@@ -32,7 +32,7 @@ RandMatCat <-
       return(cbind(rw, floor((ind - 1L) / p) + 1L,
                    sample(c(1L, -1L), nnzs, replace = T)))
     } else if (method == "continuous") {
-      rho <- options[[4L]]
+      rho <- mat.options[[4L]]
       nnzs <- round(p*d*rho)
       ind <- sort(sample.int((p*d), nnzs, replace = F))
       rw <- ((ind - 1L) %% p) + 1L
@@ -52,7 +52,7 @@ RandMatCat <-
       }
       return(cbind(rw, 1:d, rep(1L, d)))
     } else if (method == "poisson") {
-      lambda <- options[[4L]]
+      lambda <- mat.options[[4L]]
       go <- T
       while (go) {
         nnzPerCol <- rpois(d, lambda)
@@ -78,7 +78,7 @@ RandMatCat <-
       }
       return(cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz, replace = T)))
     } else if (method == "frc") {
-      nmix <- options[[4L]]
+      nmix <- mat.options[[4L]]
       nnz <- nmix*d
       nz.rows <- integer(nnz)
       nz.cols <- integer(nnz)
@@ -96,7 +96,7 @@ RandMatCat <-
       }
       return(cbind(nz.rows, nz.cols, runif(nnz, -1, 1)))
     } else if (method == "frcn") {
-      nmix <- options[[4L]]
+      nmix <- mat.options[[4L]]
       nnz <- nmix*d
       nz.rows <- integer(nnz)
       nz.cols <- integer(nnz)

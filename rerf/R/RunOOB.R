@@ -1,9 +1,9 @@
 #' Predict class labels on out-of-bag observations using a single tree.
 #'
-#' This is the base function called by OOBPredict().
+#' This is the base function called by OOBPredict.
 #'
 #' @param X an n sample by d feature matrix (preferable) or data frame which was used to train the provided forest.
-#' @param tree a tree from a forest returned by RerF().
+#' @param tree a tree from a forest returned by RerF.
 #'
 #' @return predictions
 #'

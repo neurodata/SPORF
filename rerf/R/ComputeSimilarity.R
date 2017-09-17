@@ -1,11 +1,10 @@
 #' Compute Similarities
 #'
-#' This is the ?????
+#' Computes pairwise similarities between observations. The similarity between two points is defined as the fraction of trees such that two points fall into the same leaf node.
 #' 
 #' @param X an n sample by d feature matrix (preferable) or data frame which was used to train the provided forest.
 #' @param forest a forest trained using the rerf function, with COOB=TRUE.
 #' @param num.cores the number of cores to use while training. If num.cores=0 then 1 less than the number of cores reported by the OS are used. (num.cores=0)
-#' @param rank.transform TRUE indicates that the forest was built on rank-transformed data. (rank.transform=FALSE)
 #' @param Xtrain an n by d numeric matrix (preferable) or data frame. This should be the same data matrix/frame used to train the forest, and is only required if rank.transform is TRUE. (Xtrain=NULL)
 #' 
 #' @return similarity
@@ -25,11 +24,11 @@
 
 
 ComputeSimilarity <-
-function(X, forest, num.cores=0, rank.transform = F, Xtrain = NULL){
+function(X, forest, num.cores=0, Xtrain = NULL){
   if (!is.matrix(X)) {
     X <- as.matrix(X)
   }
-  if (rank.transform) {
+  if (forest$params$rank.transform) {
     if (is.null(Xtrain)) {
       ############ error ############
       stop("The model was trained on rank-transformed data. Xtrain must be provided in order to embed Xtest into the rank space")
@@ -45,7 +44,7 @@ function(X, forest, num.cores=0, rank.transform = F, Xtrain = NULL){
   
   CompPredictCaller <- function(tree, ...) CompPredictLeaf(X=X, tree=tree)
   
-  f_size <- length(forest)
+  f_size <- length(forest$trees)
   if(num.cores!=1){
       if(num.cores==0){
         #Use all but 1 core if num.cores=0.
@@ -57,16 +56,16 @@ function(X, forest, num.cores=0, rank.transform = F, Xtrain = NULL){
       if ((object.size(forest) > 2e9) | (object.size(X) > 2e9)) {
         cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
         parallel::clusterExport(cl = cl, varlist = c("X", "CompPredictLeaf"), envir = environment())
-        leafIdx <- parallel::parLapply(cl = cl, forest, fun = CompPredictCaller)
+        leafIdx <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
       } else {
         cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
-        leafIdx <- parallel::parLapply(cl = cl, forest, fun = CompPredictCaller)
+        leafIdx <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
       }
       parallel::stopCluster(cl)
       
   }else{
     #Use just one core.
-    leafIdx <- lapply(forest, FUN = CompPredictCaller)
+    leafIdx <- lapply(forest$trees, FUN = CompPredictCaller)
   }
   
   leafIdx <- matrix(unlist(leafIdx), nrow = n, ncol = f_size)
@@ -75,7 +74,7 @@ function(X, forest, num.cores=0, rank.transform = F, Xtrain = NULL){
   
   for (m in 1:f_size) {
     sortIdx <- order(leafIdx[, m])
-    nLeaf <- nrow(forest[[m]]$ClassProb)
+    nLeaf <- nrow(forest$trees[[m]]$ClassProb)
     leafCounts <- tabulate(leafIdx[, m], nLeaf)
     leafCounts.cum <- cumsum(leafCounts)
     if (leafCounts[1L] > 1L) {

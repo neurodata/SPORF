@@ -3,9 +3,8 @@
 #' Predicts the classification of samples using a trained forest.
 #'
 #' @param X an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features of a test set, which should be different from the training set.
-#' @param forest a forest trained using the rerf function.
+#' @param forest a forest trained using the RerF function.
 #' @param num.cores the number of cores to use while training. If NumCores=0 then 1 less than the number of cores reported by the OS are used. (NumCores=0)
-#' @param rank.transform TRUE indicates that the forest was built on rank-transformed data. (rank.transform=FALSE)
 #' @param Xtrain  an n by d numeric matrix (preferable) or data frame. This should be the same data matrix/frame used to train the forest, and is only required if rank.transform is TRUE. (Xtrain=NULL)
 #' @param aggregate.output if TRUE then the tree predictions are aggregated via majority vote. Otherwise, the individual tree predictions are returned. (aggregate.output=TRUE)
 #'
@@ -31,7 +30,7 @@ Predict <-
         if (!is.matrix(X)) {
             X <- as.matrix(X)
         }
-        if (rank.transform) {
+        if (forest$params$rank.transform) {
             if (is.null(Xtrain)) {
                 ############ error ############
                 stop("The model was trained on rank-transformed data. Xtrain must be provided in order to embed Xtest into the rank space")
@@ -45,7 +44,7 @@ Predict <-
 
         CompPredictCaller <- function(tree, ...) CompPredict(X=X, tree=tree)
 
-        f_size <- length(forest)
+        f_size <- length(forest$trees)
         if (num.cores != 1L) {
                 if (num.cores == 0L) {
                     #Use all but 1 core if num.cores=0.
@@ -57,22 +56,22 @@ Predict <-
                 if ((object.size(forest) > 2e9) | (object.size(X) > 2e9)) {
                     cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
                     parallel::clusterExport(cl = cl, varlist = c("X", "comp.mode", "CompPredict"), envir = environment())
-                    Yhats <- parallel::parLapply(cl = cl, forest, fun = CompPredictCaller)
+                    Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
                 } else {
                     cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
-                    Yhats <- parallel::parLapply(cl = cl, forest, fun = CompPredictCaller)
+                    Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
                 }
                 parallel::stopCluster(cl)
 
         } else {
             #Use just one core.
-            Yhats <- lapply(forest, FUN = CompPredictCaller)
+            Yhats <- lapply(forest$trees, FUN = CompPredictCaller)
         }
 
         if (!aggregate.output) {
             predictions <- matrix(unlist(Yhats), nrow(X), f_size)
         } else {
-            num_classes <- ncol(forest[[1L]]$ClassProb)
+            num_classes <- ncol(forest$trees[[1L]]$ClassProb)
             predictions <- matrix(0,nrow=nrow(X), ncol=num_classes)
             for (m in 1:f_size) {
                 for (k in 1:nrow(X)) {
