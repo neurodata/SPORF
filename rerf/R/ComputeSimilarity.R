@@ -24,7 +24,7 @@
 
 
 ComputeSimilarity <-
-function(X, forest, num.cores=0, Xtrain = NULL){
+function(X, forest, num.cores = 0L, Xtrain = NULL){
   if (!is.matrix(X)) {
     X <- as.matrix(X)
   }
@@ -45,8 +45,8 @@ function(X, forest, num.cores=0, Xtrain = NULL){
   CompPredictCaller <- function(tree, ...) CompPredictLeaf(X=X, tree=tree)
   
   f_size <- length(forest$trees)
-  if(num.cores!=1){
-      if(num.cores==0){
+  if(num.cores != 1L){
+      if(num.cores == 0L){
         #Use all but 1 core if num.cores=0.
         num.cores=parallel::detectCores()-1L
       }

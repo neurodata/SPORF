@@ -7,6 +7,7 @@
 #' @param num.cores the number of cores to use while training. If NumCores=0 then 1 less than the number of cores reported by the OS are used. (NumCores=0)
 #' @param Xtrain  an n by d numeric matrix (preferable) or data frame. This should be the same data matrix/frame used to train the forest, and is only required if rank.transform is TRUE. (Xtrain=NULL)
 #' @param aggregate.output if TRUE then the tree predictions are aggregated via majority vote. Otherwise, the individual tree predictions are returned. (aggregate.output=TRUE)
+#' @param output.scores if TRUE then predicted class scores (probabilities) for each observation are returned rather than class labels. (output.scores = FALSE)
 #'
 #' @return predictions
 #'
@@ -26,7 +27,7 @@
 #'
 
 Predict <-
-    function(X, forest, num.cores=0, rank.transform = F, Xtrain = NULL, aggregate.output = T){
+    function(X, forest, num.cores = 0L, Xtrain = NULL, aggregate.output = TRUE, output.scores = FALSE){
         if (!is.matrix(X)) {
             X <- as.matrix(X)
         }
@@ -69,7 +70,7 @@ Predict <-
         }
 
         if (!aggregate.output) {
-            predictions <- matrix(unlist(Yhats), nrow(X), f_size)
+          predictions <- matrix(forest$labels[unlist(Yhats)], nrow(X), f_size)
         } else {
             num_classes <- ncol(forest$trees[[1L]]$ClassProb)
             predictions <- matrix(0,nrow=nrow(X), ncol=num_classes)
@@ -79,6 +80,10 @@ Predict <-
                 }
             }
             predictions <- predictions/f_size
+            if (!output.scores) {
+              predictions <- forest$labels[max.col(predictions)]
+            }
         }
+        
         return(predictions)
     }
