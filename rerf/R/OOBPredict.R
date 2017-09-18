@@ -14,9 +14,10 @@
 #' @examples
 #' library(rerf)
 #' X <- as.matrix(iris[,1:4])
-#' Y <- as.numeric(iris[,5])
-#' trainedForest <- RerF(X, Y, store.oob=TRUE, num.cores=1)
-#' OOBPredict(X, trainedForest, num.cores=1)
+#' Y <- iris[[5L]]
+#' forest <- RerF(X, Y, store.oob=TRUE, num.cores = 1L)
+#' predictions <- OOBPredict(X, forest, num.cores = 1L)
+#' oob.error <- mean(predictions != Y)
 #'
 #' @export
 #' @importFrom compiler setCompilerOptions cmpfun
@@ -77,7 +78,11 @@ OOBPredict <-
         has.counts <- oobCounts != 0L
         predictions[has.counts, ] <- predictions[has.counts, ]/oobCounts[has.counts]
         if (!output.scores) {
-          predictions <- forest$labels[max.col(predictions)]
+          if (is.integer(forest$labels)) {
+            predictions <- forest$labels[max.col(predictions)]
+          } else {
+            predictions <- factor(forest$labels[max.col(predictions)], levels = forest$labels)
+          }
         }
         return(predictions)
     }

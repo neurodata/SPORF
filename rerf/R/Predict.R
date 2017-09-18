@@ -15,11 +15,13 @@
 #' 
 #' @examples
 #' library(rerf)
+#' trainIdx <- c(1:40, 51:90, 101:140)
 #' X <- as.matrix(iris[,1:4])
 #' Y <- as.numeric(iris[,5])
-#' trainedForest <- RerF(X, Y, num.cores=1)
+#' forest <- RerF(X[trainIdx, ], Y[trainIdx], num.cores = 1L)
 #' # Using a set of samples with unknown classification 
-#' Predict(X, trainedForest, num.cores=1)
+#' predictions <- Predict(X[-trainIdx, ], forest, num.cores = 1L)
+#' error.rate <- mean(predictions != Y[-trainIdx])
 #'
 #' @export
 #' @importFrom compiler setCompilerOptions cmpfun
@@ -81,7 +83,11 @@ Predict <-
             }
             predictions <- predictions/f_size
             if (!output.scores) {
-              predictions <- forest$labels[max.col(predictions)]
+              if (is.integer(forest$labels)) {
+                predictions <- forest$labels[max.col(predictions)]
+              } else {
+                predictions <- factor(forest$labels[max.col(predictions)], levels = forest$labels)
+              }
             }
         }
         
