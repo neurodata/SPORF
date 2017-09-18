@@ -14,7 +14,6 @@
 #' @author James and Tyler, jbrowne6@jhu.edu and
 #' 
 #'
-#' @export
 #'
 
 GetCatMap <-
