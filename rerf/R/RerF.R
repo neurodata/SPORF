@@ -51,6 +51,10 @@ RerF <-
             fun <- RandMat
           }
         }
+      } else {
+        if (is.null(fun)) {
+          fun <- RandMat
+        }
       }
         
         #keep from making copies of X
