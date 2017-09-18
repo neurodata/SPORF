@@ -93,7 +93,7 @@ RerF <-
         forest$params <- list(min.parent = min.parent, max.depth = max.depth, bagging = bagging,
                               replacement = replacement, stratify = stratify, fun = fun, mat.options = mat.options,
                               rank.transform = rank.transform, store.oob = store.oob, store.ns = store.ns,
-                              rotate = rotate, seed = seed))
+                              rotate = rotate, seed = seed)
         
         if (num.cores!=1L){
             RNGkind("L'Ecuyer-CMRG")
