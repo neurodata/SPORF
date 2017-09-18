@@ -35,7 +35,7 @@
 #'
 
 RerF <-
-    function(X, Y, min.parent = 6L, trees = 100L, max.depth = 0L, bagging = .2, replacement = TRUE, stratify = FALSE, fun = NULL, mat.options = c(ncol(X), ceiling(sqrt(ncol(X))), "binary", 1/ncol(X)), rank.transform = FALSE, store.oob = FALSE, store.ns = FALSE, progress = FALSE, rotate = F, num.cores = 0L, seed = 1L, cat.map.file = NULL){
+    function(X, Y, min.parent = 6L, trees = 100L, max.depth = 0L, bagging = .2, replacement = TRUE, stratify = FALSE, fun = NULL, mat.options = list(p = ncol(X), d = ceiling(sqrt(ncol(X))), random.matrix = "binary", rho = 1/ncol(X)), rank.transform = FALSE, store.oob = FALSE, store.ns = FALSE, progress = FALSE, rotate = F, num.cores = 0L, seed = 1L, cat.map.file = NULL){
 
       forest <- list(trees = NULL, labels = NULL, params = NULL)
       
