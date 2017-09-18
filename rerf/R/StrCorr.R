@@ -15,14 +15,18 @@
 #' library(rerf)
 #' trainIdx <- c(1:40, 51:90, 101:140)
 #' X <- as.matrix(iris[,1:4])
-#' Y <- as.numeric(iris[,5])
+#' Y <- iris[[5]]
 #' forest <- RerF(X[trainIdx, ], Y[trainIdx], num.cores = 1L)
 #' predictions <- Predict(X[-trainIdx, ], forest, num.cores = 1L, aggregate.output = FALSE)
 #' scor <- StrCorr(predictions, Y[-trainIdx])
 
 StrCorr <-
 function(Yhats, Y) {
-  cl.labels <- unique(c(Yhats, Y))
+  if (is.factor(Y)) {
+    cl.labels <- unique(c(Yhats, as.character(Y)))
+  } else {
+    cl.labels <- unique(c(Yhats, Y))
+  }
   nClasses <- length(cl.labels)
   Yhats <- matrix(as.integer(factor(Yhats, levels = cl.labels)), nrow = nrow(Yhats), ncol = ncol(Yhats))
   Y <- as.integer(factor(Y, levels = cl.labels))
