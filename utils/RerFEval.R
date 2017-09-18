@@ -1,6 +1,6 @@
 #' Rerf Evaluate 
 #'
-#' Evaluate Rerf ????
+#' Evaluate Rerf models for several values of mat.options[[2]] and mat.options[[4]]
 #'
 #' @param Xtrain an n sample by d feature matrix (preferable) or data frame that will be used to train a forest.
 #' @param Ytrain an n length vector of class labels
@@ -17,7 +17,7 @@
 #' @importFrom compiler setCompilerOptions cmpfun
 #'
 
-rerf_eval <-
+RerFEval <-
     function(Xtrain, Ytrain, Xtest, Ytest, params = list(trees = 500L, randomMatrix = "binary", d = round(sqrt(ncol(Xtrain))), sparsity = 1/ncol(Xtrain), rotate = F, rank.transform = F, MinParent = 2L, MaxDepth = "inf", bagging = 1/exp(1), COOB = T, CNS = F, replacement = T, stratify = T, num.cores = 1L, seed = 1L), store.predictions = F) {
 
         p <- ncol(Xtrain)
