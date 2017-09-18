@@ -149,11 +149,11 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
   if (rotate) {
     # if p > 1000 then rotate only a random subset of 1000 of the dimensions
     if (p > 1000L) {
-      rotmat <- rrot(1000L)
+      rotmat <- RandRot(1000L)
       rotdims <- sample.int(p, 1000L)
       X[, rotdims] <- X[, rotdims]%*%rotmat
     } else {
-      rotmat <- rrot(p)
+      rotmat <- RandRot(p)
       X[] <- X%*%rotmat
     }
   }
