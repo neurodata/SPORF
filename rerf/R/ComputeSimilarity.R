@@ -5,7 +5,7 @@
 #' @param X an n sample by d feature matrix (preferable) or data frame which was used to train the provided forest.
 #' @param forest a forest trained using the rerf function, with COOB=TRUE.
 #' @param num.cores the number of cores to use while training. If num.cores=0 then 1 less than the number of cores reported by the OS are used. (num.cores=0)
-#' @param @param Xtrain  an n by d numeric matrix (preferable) or data frame. This should be the same data matrix/frame used to train the forest, and is only required if RerF was called with rank.transform = TRUE. (Xtrain=NULL)
+#' @param Xtrain  an n by d numeric matrix (preferable) or data frame. This should be the same data matrix/frame used to train the forest, and is only required if RerF was called with rank.transform = TRUE. (Xtrain=NULL)
 #' 
 #' @return similarity
 #'
