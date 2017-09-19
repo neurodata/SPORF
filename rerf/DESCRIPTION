@@ -1,11 +1,11 @@
 Package: rerf
 Type: Package
-Title: Randomer Forest Creation and Testing
+Title: Randomer Forest
 Version: 1.0
 Date: 2017-09-01
 Author: James and Tyler
 Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: This package contains functions that will create randomer forests, allow you to make predictions on the forest, and provide statistical data about the forest.
+Description: This package contains functions that will create randomer forests, allow you to make predictions with the forest, and provide statistical data about the forest.
 License: GPL-2
 Imports: Rcpp (>= 0.12.12), compiler, parallel, RcppZiggurat
 LinkingTo: Rcpp, RcppArmadillo

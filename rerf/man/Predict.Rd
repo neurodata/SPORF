@@ -4,21 +4,21 @@
 \alias{Predict}
 \title{Compute class predictions for each observation in X}
 \usage{
-Predict(X, forest, num.cores = 0, rank.transform = F, Xtrain = NULL,
-  aggregate.output = T)
+Predict(X, forest, num.cores = 0L, Xtrain = NULL, aggregate.output = TRUE,
+  output.scores = FALSE)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features of a test set, which should be different from the training set.}
 
-\item{forest}{a forest trained using the rerf function.}
+\item{forest}{a forest trained using the RerF function.}
 
 \item{num.cores}{the number of cores to use while training. If NumCores=0 then 1 less than the number of cores reported by the OS are used. (NumCores=0)}
 
-\item{rank.transform}{TRUE indicates that the forest was built on rank-transformed data. (rank.transform=FALSE)}
-
-\item{Xtrain}{an n by d numeric matrix (preferable) or data frame. This should be the same data matrix/frame used to train the forest, and is only required if rank.transform is TRUE. (Xtrain=NULL)}
+\item{Xtrain}{an n by d numeric matrix (preferable) or data frame. This should be the same data matrix/frame used to train the forest, and is only required if RerF was called with rank.transform = TRUE. (Xtrain=NULL)}
 
 \item{aggregate.output}{if TRUE then the tree predictions are aggregated via majority vote. Otherwise, the individual tree predictions are returned. (aggregate.output=TRUE)}
+
+\item{output.scores}{if TRUE then predicted class scores (probabilities) for each observation are returned rather than class labels. (output.scores = FALSE)}
 }
 \value{
 predictions
@@ -28,11 +28,13 @@ Predicts the classification of samples using a trained forest.
 }
 \examples{
 library(rerf)
+trainIdx <- c(1:40, 51:90, 101:140)
 X <- as.matrix(iris[,1:4])
 Y <- as.numeric(iris[,5])
-trainedForest <- rerf(X, Y, 5, num.cores=1)
+forest <- RerF(X[trainIdx, ], Y[trainIdx], num.cores = 1L)
 # Using a set of samples with unknown classification 
-Predict(X, trainedForest, num.cores=1)
+predictions <- Predict(X[-trainIdx, ], forest, num.cores = 1L)
+error.rate <- mean(predictions != Y[-trainIdx])
 
 }
 \author{

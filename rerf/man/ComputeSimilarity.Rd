@@ -4,8 +4,7 @@
 \alias{ComputeSimilarity}
 \title{Compute Similarities}
 \usage{
-ComputeSimilarity(X, forest, num.cores = 0, rank.transform = F,
-  Xtrain = NULL)
+ComputeSimilarity(X, forest, num.cores = 0L, Xtrain = NULL)
 }
 \arguments{
 \item{X}{an n sample by d feature matrix (preferable) or data frame which was used to train the provided forest.}
@@ -14,21 +13,20 @@ ComputeSimilarity(X, forest, num.cores = 0, rank.transform = F,
 
 \item{num.cores}{the number of cores to use while training. If num.cores=0 then 1 less than the number of cores reported by the OS are used. (num.cores=0)}
 
-\item{rank.transform}{TRUE indicates that the forest was built on rank-transformed data. (rank.transform=FALSE)}
-
-\item{Xtrain}{an n by d numeric matrix (preferable) or data frame. This should be the same data matrix/frame used to train the forest, and is only required if rank.transform is TRUE. (Xtrain=NULL)}
+\item{Xtrain}{an n by d numeric matrix (preferable) or data frame. This should be the same data matrix/frame used to train the forest, and is only required if RerF was called with rank.transform = TRUE. (Xtrain=NULL)}
 }
 \value{
 similarity
 }
 \description{
-This is the ?????
+Computes pairwise similarities between observations. The similarity between two points is defined as the fraction of trees such that two points fall into the same leaf node.
 }
 \examples{
 library(rerf)
 X <- as.matrix(iris[,1:4])
-trainedForest <- rerf(X, as.numeric(iris[,5]), 5, num.cores=1)
-sim.matrix <- ComputeSimilarity(X, trainedForest, num.cores=1)
+Y <- iris[[5L]]
+forest <- RerF(X, Y, num.cores = 1L)
+sim.matrix <- ComputeSimilarity(X, forest, num.cores = 1L)
 
 }
 \author{

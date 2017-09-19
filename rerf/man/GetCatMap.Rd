@@ -2,18 +2,23 @@
 % Please edit documentation in R/GetCatMap.R
 \name{GetCatMap}
 \alias{GetCatMap}
-\title{Get K-fold CV partitions}
+\title{Get categorical feature map.}
 \usage{
 GetCatMap(fileName)
 }
 \arguments{
-\item{fileName}{?????}
+\item{fileName}{a string indicating the file name of the categorical map csv file.}
 }
 \value{
-catMap ?????
+catMap a list in which the ith element indicates which columns in a one-of-K encoded data matrix correspond to the ith original categorical feature.
 }
 \description{
-Reads in a csv file in which the kth line lists the indices of observations in the kth fold
+Returns a list in which the ith element indicates which columns in a one-of-K encoded data matrix correspond to the ith original categorical feature.
+It reads in a csv file in which the ith line indicates the column indices of the data matrix corresponding to the ith categorical feature.
+The data matrix should be processed such that the one-of-K encoded categorical features must come after the numeric features. If there are d_cat categorical
+features, then the csv file should contain d_cat lines. If there are d_num numeric features and the first categorical feature has K1 categories, then the first line in the
+csv file should read d_num+1,...,d_num+K1. If the second categorical feature has K2 categories, then the second line should read d_num+K1+1,...,d_num+K1+K2.
+And so on. This function simply reads the lines into a list of integer vectors.
 }
 \author{
 James and Tyler, jbrowne6@jhu.edu and
