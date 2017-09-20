@@ -100,7 +100,7 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
   # Predefine variables to prevent recreation during loops
   #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   nClasses <- length(class.ct)
-  ret <- list(MaxDeltaI = 0, BestVar = 0L, BestSplitIdx = 0L)
+  ret <- list(MaxDeltaI = 0, BestVar = 0L, BestSplit = 0)
   currIN <- 0L
   currLN <- 0L
   w <- nrow(X)
@@ -254,7 +254,7 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
       ##################################################################
       
       ret[] <- findSplit(x = x[1:NdSize[CurrentNode]], y = y[1:NdSize[CurrentNode]], ndSize = NdSize[CurrentNode], I = I,
-                         maxdI = ret$MaxDeltaI, bv = ret$BestVar, bs = ret$BestSplitIdx, nzidx = nz.idx, cc = ClassCounts)
+                         maxdI = ret$MaxDeltaI, bv = ret$BestVar, bs = ret$BestSplit, nzidx = nz.idx, cc = ClassCounts)
       
       nz.idx <- nz.idx + feature.nnz
     }
@@ -283,13 +283,13 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
     Xnode[1:NdSize[CurrentNode]]<-X[NodeRows[[1L]],sparseM[lrows,1], drop=FALSE]%*%sparseM[lrows,3, drop=FALSE]
     
     # reorder the projection and find the cut value
-    SortIdx[1:NdSize[CurrentNode]] <- order(Xnode[1:NdSize[CurrentNode]] )
+    # SortIdx[1:NdSize[CurrentNode]] <- order(Xnode[1:NdSize[CurrentNode]] )
     # determine split value as mean of values on either side of split
-    BestSplitValue <- sum(Xnode[SortIdx[ret$BestSplitIdx:(ret$BestSplitIdx+1L)]])/2
+    # BestSplitValue <- sum(Xnode[SortIdx[ret$BestSplit:(ret$BestSplit+1L)]])/2
     
     # find which child node each sample will go to and move
     # them accordingly
-    MoveLeft <- Xnode[1:NdSize[CurrentNode]]  <= BestSplitValue
+    MoveLeft <- Xnode[1:NdSize[CurrentNode]]  <= ret$BestSplit
     
     # Move samples left or right based on split
     Assigned2Node[[NextUnusedNode]] <- NodeRows[[1L]][MoveLeft]
@@ -322,7 +322,7 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
       matAstore[(matAindex[currIN]+1):(matAindex[currIN]+currMatAlength)] <- t(sparseM[lrows,c(1,3)])
     }
     matAindex[currIN+1] <- matAindex[currIN]+currMatAlength 
-    CutPoint[currIN] <- BestSplitValue
+    CutPoint[currIN] <- ret$BestSplit
     
     # Store ClassProbs for this node.
     # Only really useful for leaf nodes, but could be used instead of recalculating

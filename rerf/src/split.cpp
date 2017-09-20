@@ -5,15 +5,16 @@ using namespace Rcpp;
 
 // [[Rcpp::export]]
 List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize, const double & I,
-	       double maxdI, int bv, int bs, const int nzidx, arma::vec cc) {
+	       double maxdI, int bv, double bs, const int nzidx, arma::vec cc) {
     double xl, xr, dI;
-    int yl, yr, cons, potsplit;
+    int yl, yr, cons, bsidx, potsplit;
     bool multiy;
 
     arma::vec ccl(cc.n_elem, arma::fill::zeros);
     arma::vec ccr = cc;
     arma::vec cpl, cpr, potccl, potccr;
 
+    bsidx = 0;
     cons = 0;
     xl = x[0];
     yl = y[0] - 1;
@@ -38,7 +39,7 @@ List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize,
 			if (dI > maxdI) {
 			    // save current best split information
 			    maxdI = dI;
-			    bs = potsplit;
+			    bsidx = potsplit;
 			    bv = nzidx;
 			}
 			potsplit = 0;
@@ -63,7 +64,7 @@ List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize,
 			if (dI > maxdI) {
 			    // save current best split information
 			    maxdI = dI;
-			    bs = potsplit;
+			    bsidx = potsplit;
 			    bv = nzidx;
 			}
 			potsplit = 0;
@@ -88,7 +89,7 @@ List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize,
 		    if (dI > maxdI) {
 			// save current best split information
 			maxdI = dI;
-			bs = i + 1;
+			bsidx = i + 1;
 			bv = nzidx;
 		    }
 		} else {
@@ -103,7 +104,7 @@ List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize,
 		if (dI > maxdI) {
 		    // save current best split information
 		    maxdI = dI;
-		    bs = i + 1;
+		    bsidx = i + 1;
 		    bv = nzidx;
 		}
 		yl = yr;
@@ -112,5 +113,9 @@ List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize,
 	    xl = xr;
 	}
     }
-     return List::create(_["MaxDeltaI"] = maxdI, _["BestVar"] = bv, _["BestSplitIdx"] = bs);
+    
+    if (bsidx != 0) {
+	bs = (x[bsidx - 1] + x[bsidx])/2;
+    }
+    return List::create(_["MaxDeltaI"] = maxdI, _["BestVar"] = bv, _["BestSplit"] = bs);
 }
