@@ -7,9 +7,9 @@
 #' @param num.cores the number of cores to use while training. If num.cores=0 then 1 less than the number of cores reported by the OS are used. (num.cores=0)
 #' @param Xtrain  an n by d numeric matrix (preferable) or data frame. This should be the same data matrix/frame used to train the forest, and is only required if RerF was called with rank.transform = TRUE. (Xtrain=NULL)
 #' 
-#' @return similarity
+#' @return similarity a normalized n by n matrix of pairwise similarities
 #'
-#' @author James and Tyler, jbrowne6@jhu.edu and
+#' @author James Browne and Tyler Tomita, jbrowne6@jhu.edu and ttomita2@jhmi.edu
 #' 
 #' @examples
 #' library(rerf)
@@ -40,7 +40,7 @@ function(X, forest, num.cores = 0L, Xtrain = NULL){
   
   n <- nrow(X)
   
-    compiler::setCompilerOptions("optimize"=3)
+    compiler::setCompilerOptions("optimize"=3L)
     CompPredictLeaf <- compiler::cmpfun(RunPredictLeaf)
   
   CompPredictCaller <- function(tree, ...) CompPredictLeaf(X=X, tree=tree)
@@ -53,15 +53,15 @@ function(X, forest, num.cores = 0L, Xtrain = NULL){
       }
       #Start mclapply with num.cores Cores.
       num.cores <- min(num.cores, f_size)
-      gc()
-      if ((object.size(forest) > 2e9) | (object.size(X) > 2e9)) {
+    #  gc()
+    #  if ((object.size(forest) > 2e9) | (object.size(X) > 2e9)) {
         cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
-        parallel::clusterExport(cl = cl, varlist = c("X", "CompPredictLeaf"), envir = environment())
+    #    parallel::clusterExport(cl = cl, varlist = c("X", "CompPredictLeaf"), envir = environment())
         leafIdx <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
-      } else {
-        cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
-        leafIdx <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
-      }
+    #  } else {
+    #    cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
+    #    leafIdx <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
+    #  }
       parallel::stopCluster(cl)
       
   }else{
@@ -73,7 +73,7 @@ function(X, forest, num.cores = 0L, Xtrain = NULL){
   
   similarity <- matrix(0, nrow = n, ncol = n)
   
-  for (m in 1:f_size) {
+  for (m in 1L:f_size) {
     sortIdx <- order(leafIdx[, m])
     nLeaf <- nrow(forest$trees[[m]]$ClassProb)
     leafCounts <- tabulate(leafIdx[, m], nLeaf)
@@ -81,13 +81,13 @@ function(X, forest, num.cores = 0L, Xtrain = NULL){
     if (leafCounts[1L] > 1L) {
       prs <- combn(sort(sortIdx[seq.int(leafCounts[1L])]), 2L)
       idx <- (prs[1L, ] - 1L)*n + prs[2L, ]
-      similarity[idx] <- similarity[idx] + 1
+      similarity[idx] <- similarity[idx] + 1L
     }
     for (k in seq.int(nLeaf - 1L) + 1L) {
       if (leafCounts[k] > 1L) {
         prs <- combn(sort(sortIdx[(leafCounts.cum[k - 1L] + 1L):leafCounts.cum[k]]), 2L)
         idx <- (prs[1L, ] - 1L)*n + prs[2L, ]
-        similarity[idx] <- similarity[idx] + 1
+        similarity[idx] <- similarity[idx] + 1L
       }
     }
   }

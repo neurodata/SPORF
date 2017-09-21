@@ -125,7 +125,7 @@ RerF <-
             forest$trees <- parallel::mclapply(1:trees, mcrun, mc.cores = num.cores, mc.set.seed=TRUE)
         }else{
             #Use just one core.
-            forest$trees <- lapply(1:trees, mcrun, mc.cores = num.cores, mc.set.seed=TRUE)
+            forest$trees <- lapply(1:trees, mcrun)
         }
         return(forest)
     }

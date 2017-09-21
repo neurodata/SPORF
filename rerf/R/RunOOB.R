@@ -7,7 +7,7 @@
 #'
 #' @return predictions prediction matrix used by OOBPredict
 #'
-#' @author James and Tyler, jbrowne6@jhu.edu and ttomita2@jhmi.edu
+#' @author James Browne and Tyler Tomita, jbrowne6@jhu.edu and ttomita2@jhmi.edu
 #'
 
 RunOOB <-

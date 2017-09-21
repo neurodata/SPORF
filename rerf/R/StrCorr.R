@@ -7,7 +7,7 @@
 #'
 #' @return scor
 #'
-#' @author James and Tyler, jbrowne6@jhu.edu and
+#' @author James Browne and Tyler Tomita, jbrowne6@jhu.edu and ttomita2@jhmi.edu
 #' 
 #' @export
 #'
@@ -37,8 +37,8 @@ function(Yhats, Y) {
     Ptheta[, k] <- apply(Yhats == k, 1L, sum)/nTrees
   }
   PthetaY <- Ptheta[1:n + (Y - 1L)*n]
-  modeNotY <- apply(cbind(Yhats, Y), 1, function(x) SampleMode(x[1:nTrees][x[1:nTrees] != x[nTrees + 1L]]))
-  PthetaNotY <- Ptheta[1:n + (modeNotY - 1L)*n]
+  modeNotY <- apply(cbind(Yhats, Y), 1, function(x) SampleMode(x[1L:nTrees][x[1L:nTrees] != x[nTrees + 1L]]))
+  PthetaNotY <- Ptheta[1L:n + (modeNotY - 1L)*n]
   PthetaNotY[is.na(PthetaNotY)] <- 0
   
   strength <- mean(PthetaY - PthetaNotY)
@@ -50,7 +50,7 @@ function(Yhats, Y) {
   rho <- cor(rmg)
   sigma <- apply(rmg, 2L, sd)
   diag.idx <- seq(1, nTrees^2, nTrees + 1L)
-  pairwise.sigma <- combn(nTrees, 2L, FUN = function(x) sigma[x[1]]*sigma[x[2L]])
+  pairwise.sigma <- combn(nTrees, 2L, FUN = function(x) sigma[x[1L]]*sigma[x[2L]])
   rho.bar <- mean(rho[lower.tri(rho)]*pairwise.sigma)/mean(pairwise.sigma)
   scor <- list(s = strength, rho = rho.bar)
   return(scor)

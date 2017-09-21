@@ -16,7 +16,7 @@ ComputeSimilarity(X, forest, num.cores = 0L, Xtrain = NULL)
 \item{Xtrain}{an n by d numeric matrix (preferable) or data frame. This should be the same data matrix/frame used to train the forest, and is only required if RerF was called with rank.transform = TRUE. (Xtrain=NULL)}
 }
 \value{
-similarity
+similarity a normalized n by n matrix of pairwise similarities
 }
 \description{
 Computes pairwise similarities between observations. The similarity between two points is defined as the fraction of trees such that two points fall into the same leaf node.
@@ -30,5 +30,5 @@ sim.matrix <- ComputeSimilarity(X, forest, num.cores = 1L)
 
 }
 \author{
-James and Tyler, jbrowne6@jhu.edu and
+James Browne and Tyler Tomita, jbrowne6@jhu.edu and ttomita2@jhmi.edu
 }

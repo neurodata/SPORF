@@ -11,7 +11,7 @@ function(Xtrain, Xtest) {
   ntest <- nrow(Xtest)
   sort.idx <- apply(Xtrain, 2, order)
   sort.idx.test <- apply(Xtest, 2, order)
-  Xtrain.rank <- rank.matrix(Xtrain)
+  Xtrain.rank <- RankMatrix(Xtrain)
   Xtest.rank <- matrix(0, nrow = ntest, ncol = p)
   for (j in seq.int(p)) {
     stidx <- 1L
