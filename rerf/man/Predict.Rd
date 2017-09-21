@@ -38,5 +38,5 @@ error.rate <- mean(predictions != Y[-trainIdx])
 
 }
 \author{
-James and Tyler, jbrowne6@jhu.edu and
+James Browne and Tyler Tomita, jbrowne6@jhu.edu and ttomita2@jhmi.edu
 }

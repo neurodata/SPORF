@@ -26,7 +26,6 @@ function(X, tree) {
   currentNode<-0L
   curr_ind <- 0L
   tm <- 0L
-  classProb<-double(length(tree$ClassProb[1L,]))
   n <- nrow(X)
   predictions <- integer(n)
   
@@ -43,7 +42,7 @@ function(X, tree) {
         s <- (indexHigh - indexLow + 1L)/2L
         Xnode[1:nodeSize] <- X[Assigned2Node[[m]],tree$matAstore[indexLow:indexHigh][(1L:s)*2L-1L], drop = F]%*%
           tree$matAstore[indexLow:indexHigh][(1L:s)*2L]
-        moveLeft <- Xnode[1:nodeSize] <= tree$CutPoint[tm]
+        moveLeft <- Xnode[1L:nodeSize] <= tree$CutPoint[tm]
         Assigned2Node[[tm*2L]] <- Assigned2Node[[m]][moveLeft]
         Assigned2Node[[tm*2L + 1L]] <- Assigned2Node[[m]][!moveLeft]
       } else {

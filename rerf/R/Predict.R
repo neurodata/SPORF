@@ -42,7 +42,7 @@ Predict <-
             }
         }
 
-            compiler::setCompilerOptions("optimize"=3)
+            compiler::setCompilerOptions("optimize"=3L)
             CompPredict <- compiler::cmpfun(RunPredict)
 
         CompPredictCaller <- function(tree, ...) CompPredict(X=X, tree=tree)
@@ -55,15 +55,15 @@ Predict <-
                 }
                 #Start mclapply with num.cores Cores.
                 num.cores <- min(num.cores, f_size)
-                gc()
-                if ((object.size(forest) > 2e9) | (object.size(X) > 2e9)) {
+          #      gc()
+          #      if ((object.size(forest) > 2e9) | (object.size(X) > 2e9)) {
                     cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
-                    parallel::clusterExport(cl = cl, varlist = c("X", "comp.mode", "CompPredict"), envir = environment())
+                #    parallel::clusterExport(cl = cl, varlist = c("X", "comp.mode", "CompPredict"), envir = environment())
                     Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
-                } else {
-                    cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
-                    Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
-                }
+          #      } else {
+          #          cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
+          #          Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
+          #      }
                 parallel::stopCluster(cl)
 
         } else {
@@ -75,10 +75,10 @@ Predict <-
           predictions <- matrix(forest$labels[unlist(Yhats)], nrow(X), f_size)
         } else {
             num_classes <- ncol(forest$trees[[1L]]$ClassProb)
-            predictions <- matrix(0,nrow=nrow(X), ncol=num_classes)
-            for (m in 1:f_size) {
-                for (k in 1:nrow(X)) {
-                    predictions[k, Yhats[[m]][k]] <- predictions[k, Yhats[[m]][k]] + 1
+            predictions <- matrix(0L,nrow=nrow(X), ncol=num_classes)
+            for (m in 1L:f_size) {
+                for (k in 1L:nrow(X)) {
+                    predictions[k, Yhats[[m]][k]] <- predictions[k, Yhats[[m]][k]] + 1L
                 }
             }
             predictions <- predictions/f_size
