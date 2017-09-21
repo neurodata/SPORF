@@ -12,11 +12,11 @@ RunPredict(X, tree)
 \item{tree}{a tree from a forest returned by RerF.}
 }
 \value{
-predictions
+predictions an n length vector of prediction based on the tree provided to this function
 }
 \description{
 This is the base function called by Predict.
 }
 \author{
-James and Tyler, jbrowne6@jhu.edu and ttomita2@jhmi.edu
+James Browne and Tyler Tomita, jbrowne6@jhu.edu and ttomita2@jhmi.edu
 }

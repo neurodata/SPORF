@@ -5,9 +5,9 @@
 #' @param X an n sample by d feature matrix (preferable) or data frame which was used to train the provided forest.
 #' @param tree a tree from a forest returned by RerF.
 #'
-#' @return predictions
+#' @return predictions an n length vector of prediction based on the tree provided to this function
 #'
-#' @author James and Tyler, jbrowne6@jhu.edu and ttomita2@jhmi.edu
+#' @author James Browne and Tyler Tomita, jbrowne6@jhu.edu and ttomita2@jhmi.edu 
 #'
 
 RunPredict <-
@@ -30,24 +30,6 @@ function(X, tree){
   
   predictions <- integer(n)
   
-  # if (comp.mode == "individual") {
-  #   Xnode <- 0
-  #   for (i in 1L:n){
-  #     currentNode <- 1L
-  #     while((tm <- tree$treeMap[currentNode]) > 0L){
-  #       indexHigh <- tree$matAindex[tm + 1L]
-  #       indexLow <- tree$matAindex[tm]
-  #       s <- (indexHigh-indexLow)/2L
-  #       Xnode <- sum(tree$matAstore[(indexLow+1L):indexHigh][(1:s)*2L]*X[i,tree$matAstore[(indexLow+1L):indexHigh][(1:s)*2L-1L]])
-  #       if(Xnode <= tree$CutPoint[tm]){
-  #         currentNode <- tree$Children[tm]
-  #       }else{
-  #         currentNode <- tree$Children[tm] + 1L
-  #       }
-  #     }
-  #     predictions[i] <- order(tree$ClassProb[tm*-1L, ], decreasing = T)[1L]
-  #   }
-  # } else {
   Xnode <- double(n)
   numNodes <- length(tree$treeMap)
   Assigned2Node <- vector("list", numNodes)
@@ -62,8 +44,8 @@ function(X, tree){
         Xnode[1:nodeSize] <- X[Assigned2Node[[m]],tree$matAstore[indexLow:indexHigh][(1:s)*2L-1L], drop = F]%*%
           tree$matAstore[indexLow:indexHigh][(1:s)*2L]
         moveLeft <- Xnode[1:nodeSize] <= tree$CutPoint[tm]
-        Assigned2Node[[tree$Children[tm]]] <- Assigned2Node[[m]][moveLeft]
-        Assigned2Node[[tree$Children[tm] + 1L]] <- Assigned2Node[[m]][!moveLeft]
+        Assigned2Node[[tm*2L]] <- Assigned2Node[[m]][moveLeft]
+        Assigned2Node[[tm*2L+1L]] <- Assigned2Node[[m]][!moveLeft]
       } else {
         predictions[Assigned2Node[[m]]] <- order(tree$ClassProb[tm*-1L, ], decreasing = T)[1L]
       }

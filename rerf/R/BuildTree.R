@@ -112,20 +112,16 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
   y <- integer(w)
   
   # Calculate the Max Depth and the max number of possible nodes
-  if(max.depth == "inf"){
-    MaxNumNodes <- 2L*w # number of tree nodes for space reservation
-  }else{
-    if(max.depth==0){
-      max.depth <- ceiling((log2(w)+log2(nClasses))/2)
-    }
-    MaxNumNodes <- 2L^(max.depth+1L)  # number of tree nodes for space reservation
-  }
-  
+if (max.depth == 0L){
+            MaxNumNodes <- 2L*w 
+        }else{
+            MaxNumNodes <- min(2L*w, 2L^(max.depth+1L)) 
+        }
+    
   maxIN <- ceiling(MaxNumNodes/2)
   treeMap <- integer(MaxNumNodes)
   ClassProb <- matrix(data = 0, nrow = maxIN, ncol = nClasses)
   CutPoint <- double(maxIN)
-  Children <- integer(maxIN)
   NdSize <- integer(MaxNumNodes)
   NDepth <- integer(MaxNumNodes)
   Assigned2Node<- vector("list",MaxNumNodes) 
@@ -184,9 +180,9 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
             }
           }
         } else {
-          ind<-sample(1:w, w, replace=TRUE)
+          ind<-sample(1L:w, w, replace=TRUE)
         }
-        go <- all(1:w %in% ind)
+        go <- all(1L:w %in% ind)
       }
       Assigned2Node[[1L]] <- ind
     } else {
@@ -200,12 +196,10 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
   # main loop over nodes
   while (CurrentNode < NextUnusedNode) {
     # determine working samples for current node.
-    NodeRows <- Assigned2Node[CurrentNode] 
-    Assigned2Node[[CurrentNode]]<-NA #remove saved indexes
-    NdSize[CurrentNode] <- length(NodeRows[[1L]]) #determine node size
+    NdSize[CurrentNode] <- length(Assigned2Node[[CurrentNode]]) #determine node size
     # determine number of samples in current node then
     # determine their percentages in the node
-    ClassCounts <- tabulate(Y[NodeRows[[1L]]], nClasses)
+    ClassCounts <- tabulate(Y[Assigned2Node[[CurrentNode]]], nClasses)
     ClProb <- ClassCounts/NdSize[CurrentNode]
     # compute impurity for current node
     I <- sum(ClassCounts*(1 - ClProb))
@@ -214,6 +208,7 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
       treeMap[CurrentNode] <- currLN <- currLN - 1L
       ClassProb[currLN*-1,] <- ClProb
       NodeStack <- NodeStack[-1L]
+    Assigned2Node[[CurrentNode]]<-NA #remove saved indexes
       CurrentNode <- NodeStack[1L]
       if(is.na(CurrentNode)){
         break
@@ -242,12 +237,12 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
       lrows <- nz.idx:(nz.idx + feature.nnz - 1L)
       
       #Project input into new space
-      Xnode[1:NdSize[CurrentNode]] <- X[NodeRows[[1L]],sparseM[lrows,1], drop=FALSE]%*%sparseM[lrows,3, drop=FALSE]
+      Xnode[1L:NdSize[CurrentNode]] <- X[Assigned2Node[[CurrentNode]],sparseM[lrows,1L], drop=FALSE]%*%sparseM[lrows,3L, drop=FALSE]
       
       #Sort the projection, Xnode, and rearrange Y accordingly
-      SortIdx[1:NdSize[CurrentNode]] <- order(Xnode[1:NdSize[CurrentNode]])
-      x[1:NdSize[CurrentNode]] <- Xnode[SortIdx[1:NdSize[CurrentNode]]]
-      y[1:NdSize[CurrentNode]] <- Y[NodeRows[[1L]]][SortIdx[1:NdSize[CurrentNode]]]
+      SortIdx[1:NdSize[CurrentNode]] <- order(Xnode[1L:NdSize[CurrentNode]])
+      x[1L:NdSize[CurrentNode]] <- Xnode[SortIdx[1L:NdSize[CurrentNode]]]
+      y[1L:NdSize[CurrentNode]] <- Y[Assigned2Node[[CurrentNode]]][SortIdx[1:NdSize[CurrentNode]]]
       
       ##################################################################
       #                    Find Best Split
@@ -261,8 +256,9 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
     
     if (ret$MaxDeltaI == 0) {
       treeMap[CurrentNode] <- currLN <- currLN - 1L
-      ClassProb[currLN*-1,] <- ClProb
+      ClassProb[currLN*-1L,] <- ClProb
       NodeStack <- NodeStack[-1L]
+    Assigned2Node[[CurrentNode]]<-NA #remove saved indexes
       CurrentNode <- NodeStack[1L]
       if(is.na(CurrentNode)){
         break
@@ -280,7 +276,7 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
       }
     }
     lrows <- ret$BestVar:(ret$BestVar + feature.nnz - 1L)
-    Xnode[1:NdSize[CurrentNode]]<-X[NodeRows[[1L]],sparseM[lrows,1], drop=FALSE]%*%sparseM[lrows,3, drop=FALSE]
+    Xnode[1:NdSize[CurrentNode]]<-X[Assigned2Node[[CurrentNode]],sparseM[lrows,1L], drop=FALSE]%*%sparseM[lrows,3L, drop=FALSE]
     
     # reorder the projection and find the cut value
     # SortIdx[1:NdSize[CurrentNode]] <- order(Xnode[1:NdSize[CurrentNode]] )
@@ -289,11 +285,11 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
     
     # find which child node each sample will go to and move
     # them accordingly
-    MoveLeft <- Xnode[1:NdSize[CurrentNode]]  <= ret$BestSplit
+    MoveLeft <- Xnode[1L:NdSize[CurrentNode]]  <= ret$BestSplit
     
     # Move samples left or right based on split
-    Assigned2Node[[NextUnusedNode]] <- NodeRows[[1L]][MoveLeft]
-    Assigned2Node[[NextUnusedNode+1L]] <- NodeRows[[1L]][!MoveLeft]
+    Assigned2Node[[NextUnusedNode]] <- Assigned2Node[[CurrentNode]][MoveLeft]
+    Assigned2Node[[NextUnusedNode+1L]] <- Assigned2Node[[CurrentNode]][!MoveLeft]
     
     # highestParent keeps track of the highest needed matrix and cutpoint
     # this reduces what is stored in the forest structure
@@ -302,7 +298,6 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
     }
     # Determine children nodes and their attributes
     treeMap[CurrentNode] <- currIN <- currIN + 1L
-    Children[currIN] <- NextUnusedNode
     NDepth[NextUnusedNode]=NDepth[CurrentNode]+1L
     NDepth[NextUnusedNode+1L]=NDepth[CurrentNode]+1L
     # Pop the current node off the node stack
@@ -311,15 +306,15 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
     NodeStack <- c(NextUnusedNode, NextUnusedNode+1L, NodeStack)
     NextUnusedNode <- NextUnusedNode + 2L
     # Store the projection matrix for the best split
-    currMatAlength <- length(sparseM[lrows,c(1,3)])
+    currMatAlength <- length(sparseM[lrows,c(1L,3L)])
     if(matAindex[currIN] + currMatAlength > matAsize){ #grow the vector when needed.
-      matAsize <- matAsize*2
+      matAsize <- matAsize*2L
       matAstore[matAsize] <- 0L
     }
-    if (mat.options[[3]] != "frc" && mat.options[[3]] != "continuous" && mat.options[[3]] != "frcn") {
-      matAstore[(matAindex[currIN]+1):(matAindex[currIN]+currMatAlength)] <- as.integer(t(sparseM[lrows,c(1,3)]))
+    if (mat.options[[3L]] != "frc" && mat.options[[3L]] != "continuous" && mat.options[[3]] != "frcn") {
+      matAstore[(matAindex[currIN]+1L):(matAindex[currIN]+currMatAlength)] <- as.integer(t(sparseM[lrows,c(1L,3L)]))
     } else {
-      matAstore[(matAindex[currIN]+1):(matAindex[currIN]+currMatAlength)] <- t(sparseM[lrows,c(1,3)])
+      matAstore[(matAindex[currIN]+1L):(matAindex[currIN]+currMatAlength)] <- t(sparseM[lrows,c(1L,3L)])
     }
     matAindex[currIN+1] <- matAindex[currIN]+currMatAlength 
     CutPoint[currIN] <- ret$BestSplit
@@ -327,86 +322,31 @@ function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind,
     # Store ClassProbs for this node.
     # Only really useful for leaf nodes, but could be used instead of recalculating
     # at each node which is how it is currently.
+    Assigned2Node[[CurrentNode]]<-NA #remove saved indexes
     CurrentNode <- NodeStack[1L]
     if(is.na(CurrentNode)){
       break
     }
   }
-  
-  # If input is large then garbage collect prior to adding onto the forest structure.
-  # if(OS){
-  #   gc()
-  # }
-  
-  # save current tree structure to the forest
-  
-  currLN <- currLN * -1
-  if (rotate) {
-    if (p > 1000L) {
-      if (store.ns) {
-        if(bagging!=0 && store.oob){
-          tree <- list("treeMap"=treeMap[1:NextUnusedNode-1L], "CutPoint"=CutPoint[1:currIN],"ClassProb"=ClassProb[1L:currLN,,drop=FALSE],"Children"=Children[1L:currIN],
-                       "matAstore"=matAstore[1:matAindex[currIN+1]], "matAindex"=matAindex[1L:(currIN+1)], "ind"=which(!(1:w %in% ind)),
-                       "NdSize" = NdSize[1L:(NextUnusedNode-1L)], "rotmat" = rotmat, "rotdims" = rotdims)
-        }else{
-          tree <- list("treeMap"=treeMap[1:NextUnusedNode-1L], "CutPoint"=CutPoint[1:currIN],"ClassProb"=ClassProb[1L:currLN,,drop=FALSE],"Children"=Children[1L:currIN],
-                       "matAstore"=matAstore[1:matAindex[currIN+1]], "matAindex"=matAindex[1L:(currIN+1)], "NdSize" = NdSize[1L:(NextUnusedNode-1L)],
-                       "rotmat" = rotmat, "rotdims" = rotdims)
+ 
+  currLN <- currLN * -1L
+                 tree <- list("treeMap" = treeMap[1L:NextUnusedNode-1L], "CutPoint"=CutPoint[1L:currIN], "ClassProb"=ClassProb[1L:currLN,,drop=FALSE], "matAstore"=matAstore[1L:matAindex[currIN+1L]], "matAindex"=matAindex[1L:(currIN+1L)], "ind"=NULL, "NdSize"=NULL, "rotmat"=NULL, "rotdims"=NULL)
+        if (rotate) {
+            tree$rotmat <- rotmat
         }
-      } else {
-        if(bagging!=0 && store.oob){
-          tree <- list("treeMap"=treeMap[1:NextUnusedNode-1L], "CutPoint"=CutPoint[1:currIN],"ClassProb"=ClassProb[1L:currLN,,drop=FALSE],"Children"=Children[1L:currIN],
-                       "matAstore"=matAstore[1:matAindex[currIN+1]], "matAindex"=matAindex[1L:(currIN+1)], "ind"=which(!(1:w %in% ind)),
-                       "rotmat" = rotmat, "rotdims" = rotdims)
-        }else{
-          tree <- list("treeMap"=treeMap[1:NextUnusedNode-1L], "CutPoint"=CutPoint[1:currIN],"ClassProb"=ClassProb[1L:currLN,,drop=FALSE],"Children"=Children[1L:currIN],
-                       "matAstore"=matAstore[1:matAindex[currIN+1]], "matAindex"=matAindex[1L:(currIN+1)], "rotmat" = rotmat, "rotdims" = rotdims)
+        #is rotdims for > 1000 or < 1000? TODO
+        if (p > 1000L) {
+            tree$rotdims <- rotdims
         }
-      }
-    } else {
-      if (store.ns) {
-        if(bagging!=0 && store.oob){
-          tree <- list("treeMap"=treeMap[1:NextUnusedNode-1L], "CutPoint"=CutPoint[1:currIN],"ClassProb"=ClassProb[1L:currLN,,drop=FALSE],"Children"=Children[1L:currIN],
-                       "matAstore"=matAstore[1:matAindex[currIN+1]], "matAindex"=matAindex[1L:(currIN+1)], "ind"=which(!(1:w %in% ind)),
-                       "NdSize" = NdSize[1L:(NextUnusedNode-1L)], "rotmat" = rotmat)
-        }else{
-          tree <- list("treeMap"=treeMap[1:NextUnusedNode-1L], "CutPoint"=CutPoint[1:currIN],"ClassProb"=ClassProb[1L:currLN,,drop=FALSE],"Children"=Children[1L:currIN],
-                       "matAstore"=matAstore[1:matAindex[currIN+1]], "matAindex"=matAindex[1L:(currIN+1)], "NdSize" = NdSize[1L:(NextUnusedNode-1L)],
-                       "rotmat" = rotmat)
+        if(store.ns){
+            tree$NdSize <- NdSize[1L:(NextUnusedNode-1L)]
         }
-      } else {
         if(bagging!=0 && store.oob){
-          tree <- list("treeMap"=treeMap[1:NextUnusedNode-1L], "CutPoint"=CutPoint[1:currIN],"ClassProb"=ClassProb[1L:currLN,,drop=FALSE],"Children"=Children[1L:currIN],
-                       "matAstore"=matAstore[1:matAindex[currIN+1]], "matAindex"=matAindex[1L:(currIN+1)], "ind"=which(!(1:w %in% ind)),
-                       "rotmat" = rotmat)
-        }else{
-          tree <- list("treeMap"=treeMap[1:NextUnusedNode-1L], "CutPoint"=CutPoint[1:currIN],"ClassProb"=ClassProb[1L:currLN,,drop=FALSE],"Children"=Children[1L:currIN],
-                       "matAstore"=matAstore[1:matAindex[currIN+1]], "matAindex"=matAindex[1L:(currIN+1)], "rotmat" = rotmat)
+            tree$ind <- which(!(1L:w %in% ind))
         }
-      }
-    }
-  } else {
-    if (store.ns) {
-      if(bagging!=0 && store.oob){
-        tree <- list("treeMap"=treeMap[1:NextUnusedNode-1L], "CutPoint"=CutPoint[1:currIN],"ClassProb"=ClassProb[1L:currLN,,drop=FALSE],"Children"=Children[1L:currIN],
-                     "matAstore"=matAstore[1:matAindex[currIN+1]], "matAindex"=matAindex[1L:(currIN+1)], "ind"=which(!(1:w %in% ind)), "NdSize" = NdSize[1L:(NextUnusedNode-1L)])
-      }else{
-        tree <- list("treeMap"=treeMap[1:NextUnusedNode-1L], "CutPoint"=CutPoint[1:currIN],"ClassProb"=ClassProb[1L:currLN,,drop=FALSE],"Children"=Children[1L:currIN],
-                     "matAstore"=matAstore[1:matAindex[currIN+1]], "matAindex"=matAindex[1L:(currIN+1)], "NdSize" = NdSize[1L:(NextUnusedNode-1L)])
-      }
-    } else {
-      if(bagging!=0 && store.oob){
-        tree <- list("treeMap"=treeMap[1:NextUnusedNode-1L], "CutPoint"=CutPoint[1:currIN],"ClassProb"=ClassProb[1L:currLN,,drop=FALSE],"Children"=Children[1L:currIN],
-                     "matAstore"=matAstore[1:matAindex[currIN+1]], "matAindex"=matAindex[1L:(currIN+1)], "ind"=which(!(1:w %in% ind)))
-      }else{
-        tree <- list("treeMap"=treeMap[1:NextUnusedNode-1L], "CutPoint"=CutPoint[1:currIN],"ClassProb"=ClassProb[1L:currLN,,drop=FALSE],"Children"=Children[1L:currIN],
-                     "matAstore"=matAstore[1:matAindex[currIN+1]], "matAindex"=matAindex[1L:(currIN+1)])
-      }
-    }
-  }
   
   if(progress){
-    cat("|")
+    print("|")
   }
   return(tree)
 }

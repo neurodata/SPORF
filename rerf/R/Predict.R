@@ -11,7 +11,7 @@
 #'
 #' @return predictions
 #'
-#' @author James and Tyler, jbrowne6@jhu.edu and
+#' @author James Browne and Tyler Tomita, jbrowne6@jhu.edu and ttomita2@jhmi.edu 
 #' 
 #' @examples
 #' library(rerf)

@@ -35,28 +35,36 @@
 #'
 
 RerF <-
-    function(X, Y, min.parent = 6L, trees = 100L, max.depth = 0L, bagging = .2, replacement = TRUE, stratify = FALSE, fun = NULL, mat.options = list(p = ncol(X), d = ceiling(sqrt(ncol(X))), random.matrix = "binary", rho = 1/ncol(X)), rank.transform = FALSE, store.oob = FALSE, store.ns = FALSE, progress = FALSE, rotate = F, num.cores = 0L, seed = 1L, cat.map.file = NULL){
+    function(X, Y, min.parent = 6L, trees = 100L, 
+             max.depth = 0L, bagging = .2, 
+             replacement = TRUE, stratify = FALSE, 
+             fun = NULL, 
+             mat.options = list(p = ncol(X), d = ceiling(sqrt(ncol(X))), random.matrix = "binary", rho = 1/ncol(X)), 
+             rank.transform = FALSE, store.oob = FALSE, 
+             store.ns = FALSE, progress = FALSE, 
+             rotate = F, num.cores = 0L, 
+             seed = 1L, cat.map.file = NULL){
 
-      forest <- list(trees = NULL, labels = NULL, params = NULL)
-      
-      # check if data matrix X has one-of-K encoded categorical features that need to be handled specially using RandMatCat instead of RandMat
-      if (!is.null(cat.map.file)) {
-        if (file.exists(cat.map.file)) {
-          if (is.null(fun)) {
-            fun <- RandMatCat
-            mat.options[5L] <- GetCatMap(cat.map.file)
-          }
+        forest <- list(trees = NULL, labels = NULL, params = NULL)
+
+        # check if data matrix X has one-of-K encoded categorical features that need to be handled specially using RandMatCat instead of RandMat
+        if (!is.null(cat.map.file)) {
+            if (file.exists(cat.map.file)) {
+                if (is.null(fun)) {
+                    fun <- RandMatCat
+                    mat.options[5L] <- GetCatMap(cat.map.file)
+                }
+            } else {
+                if (is.null(fun)) {
+                    fun <- RandMat
+                }
+            }
         } else {
-          if (is.null(fun)) {
-            fun <- RandMat
-          }
+            if (is.null(fun)) {
+                fun <- RandMat
+            }
         }
-      } else {
-        if (is.null(fun)) {
-          fun <- RandMat
-        }
-      }
-        
+
         #keep from making copies of X
         if (!is.matrix(X)) {
             X <- as.matrix(X)
@@ -64,29 +72,26 @@ RerF <-
         if (rank.transform) {
             X <- RankMatrix(X)
         }
-      
+
         # adjust Y to go from 1 to num.class if needed
         if (is.factor(Y)) {
-          forest$labels <- levels(Y)
-          Y <- as.integer(Y)
+            forest$labels <- levels(Y)
+            Y <- as.integer(Y)
         } else if (is.numeric(Y)) {
-          forest$labels <- sort(unique(Y))
-          Y <- as.integer(as.factor(Y))
+            forest$labels <- sort(unique(Y))
+            Y <- as.integer(as.factor(Y))
         } else {
-          stop("Incompatible data type. Y must be of type factor or numeric.")
+            stop("Incompatible data type. Y must be of type factor or numeric.")
         }
         num.class <- length(forest$labels)
-        classCt <- tabulate(Y, num.class)
-        for(q in 2:num.class){
-          classCt[q] <- classCt[q]+classCt[q-1L]
-        }
+        classCt <- cumsum(tabulate(Y, num.class))
         if(stratify){
-          Cindex<-vector("list",num.class)
-          for(m in 1L:num.class){
-            Cindex[[m]]<-which(Y==m)
-          }
+            Cindex<-vector("list",num.class)
+            for(m in 1L:num.class){
+                Cindex[[m]]<-which(Y==m)
+            }
         }else{
-          Cindex<-NULL
+            Cindex<-NULL
         }
 
         compiler::setCompilerOptions("optimize"=3)
@@ -94,11 +99,19 @@ RerF <-
 
         mcrun<- function(...) comp_tree(X, Y, min.parent, max.depth, bagging, replacement, stratify, Cindex, classCt, fun, mat.options, store.oob=store.oob, store.ns=store.ns, progress=progress, rotate)
 
-        forest$params <- list(min.parent = min.parent, max.depth = max.depth, bagging = bagging,
-                              replacement = replacement, stratify = stratify, fun = fun, mat.options = mat.options,
-                              rank.transform = rank.transform, store.oob = store.oob, store.ns = store.ns,
-                              rotate = rotate, seed = seed)
-        
+        forest$params <- list(min.parent = min.parent, 
+                              max.depth = max.depth, 
+                              bagging = bagging,
+                              replacement = replacement, 
+                              stratify = stratify, 
+                              fun = fun, 
+                              mat.options = mat.options,
+                              rank.transform = rank.transform, 
+                              store.oob = store.oob, 
+                              store.ns = store.ns,
+                              rotate = rotate, 
+                              seed = seed)
+
         if (num.cores!=1L){
             RNGkind("L'Ecuyer-CMRG")
             set.seed(seed)
@@ -112,7 +125,6 @@ RerF <-
             forest$trees <- parallel::mclapply(1:trees, mcrun, mc.cores = num.cores, mc.set.seed=TRUE)
         }else{
             #Use just one core.
-
             forest$trees <- lapply(1:trees, mcrun, mc.cores = num.cores, mc.set.seed=TRUE)
         }
         return(forest)

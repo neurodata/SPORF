@@ -12,7 +12,7 @@ RunOOB(X, tree)
 \item{tree}{a tree from a forest returned by RerF.}
 }
 \value{
-predictions
+predictions prediction matrix used by OOBPredict
 }
 \description{
 This is the base function called by OOBPredict.

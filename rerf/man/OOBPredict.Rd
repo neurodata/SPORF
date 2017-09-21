@@ -16,7 +16,7 @@ OOBPredict(X, forest, num.cores = 0L, output.scores = FALSE)
 \item{output.scores}{if TRUE then predicted class scores (probabilities) for each observation are returned rather than class labels. (output.scores = FALSE)}
 }
 \value{
-predictions
+predictions a length n vector of predictions in a format similar to the Y vector used to train the forest
 }
 \description{
 Computes out-of-bag class predictions for a forest trained with store.oob=TRUE.
@@ -31,5 +31,5 @@ oob.error <- mean(predictions != Y)
 
 }
 \author{
-James and Tyler, jbrowne6@jhu.edu and ttomita2@jhmi.edu
+James Browne and Tyler Tomita, jbrowne6@jhu.edu and ttomita2@jhmi.edu
 }

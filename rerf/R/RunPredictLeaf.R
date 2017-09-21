@@ -31,8 +31,8 @@ function(X, tree){
         Xnode[1:nodeSize] <- X[Assigned2Node[[m]],tree$matAstore[indexLow:indexHigh][(1:s)*2L-1L], drop = F]%*%
           tree$matAstore[indexLow:indexHigh][(1:s)*2L]
         moveLeft <- Xnode[1:nodeSize] <= tree$CutPoint[tm]
-        Assigned2Node[[tree$Children[tm]]] <- Assigned2Node[[m]][moveLeft]
-        Assigned2Node[[tree$Children[tm] + 1L]] <- Assigned2Node[[m]][!moveLeft]
+        Assigned2Node[[tm*2]] <- Assigned2Node[[m]][moveLeft]
+        Assigned2Node[[tm*2 + 1L]] <- Assigned2Node[[m]][!moveLeft]
       } else {
         leafIdx[Assigned2Node[[m]]] <- tm*-1L
       }

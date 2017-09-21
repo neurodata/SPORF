@@ -7,10 +7,10 @@
 #' @param num.cores the number of cores to use while training. If num.cores=0 then 1 less than the number of cores reported by the OS are used. (num.cores=0)
 #' @param output.scores if TRUE then predicted class scores (probabilities) for each observation are returned rather than class labels. (output.scores = FALSE)
 #'
-#' @return predictions
+#' @return predictions a length n vector of predictions in a format similar to the Y vector used to train the forest
 #'
-#' @author James and Tyler, jbrowne6@jhu.edu and ttomita2@jhmi.edu
-#' 
+#' @author James Browne and Tyler Tomita, jbrowne6@jhu.edu and ttomita2@jhmi.edu 
+#'
 #' @examples
 #' library(rerf)
 #' X <- as.matrix(iris[,1:4])
@@ -38,7 +38,7 @@ OOBPredict <-
         }
         n <- nrow(X)
 
-        compiler::setCompilerOptions("optimize"=3)
+        compiler::setCompilerOptions("optimize"=3L)
         CompOOB <- compiler::cmpfun(RunOOB)
             
         CompOOBCaller <- function(tree, ...) CompOOB(X = X, tree = tree)
@@ -51,15 +51,15 @@ OOBPredict <-
                 }
                 #Start mclapply with num.cores Cores.
                 num.cores <- min(num.cores, f_size)
-                gc()
-                if ((object.size(forest) > 2e9) | (object.size(X) > 2e9)) {
+               # gc()
+               # if ((object.size(forest) > 2e9) | (object.size(X) > 2e9)) {
                     cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
-                    parallel::clusterExport(cl = cl, varlist = c("X", "CompOOB"), envir = environment())
+               #     parallel::clusterExport(cl = cl, varlist = c("X", "CompOOB"), envir = environment())
                     Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompOOBCaller)
-                } else {
-                    cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
-                    Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompOOBCaller)
-                }
+               # } else {
+               #     cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
+               #     Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompOOBCaller)
+               # }
                 parallel::stopCluster(cl)
         } else {
             #Use just one core.
@@ -72,7 +72,7 @@ OOBPredict <-
         for(m in 1:f_size){
             oobCounts[forest$trees[[m]]$ind] <- oobCounts[forest$trees[[m]]$ind] + 1L
             for(k in 1:length(forest$trees[[m]]$ind)){
-                predictions[forest$trees[[m]]$ind[k], Yhats[[m]][k]] <- predictions[forest$trees[[m]]$ind[k], Yhats[[m]][k]] + 1
+                predictions[forest$trees[[m]]$ind[k], Yhats[[m]][k]] <- predictions[forest$trees[[m]]$ind[k], Yhats[[m]][k]] + 1L
             }
         }
         has.counts <- oobCounts != 0L
