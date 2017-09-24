@@ -50,8 +50,20 @@ OOBPredict <-
                 num.cores <- parallel::detectCores()-1L
             }
             num.cores <- min(num.cores, f_size)
-            cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
-            Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompOOBCaller)
+
+            gc()
+            if ((object.size(forest) > 2e9) || (object.size(X) > 2e9) || forest$params$rotate) {
+                cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
+                parallel::clusterExport(cl = cl, varlist = c("X", "RunOOB"), envir = environment())
+                Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompOOBCaller)
+            } else {
+                cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
+                Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompOOBCaller)
+            }
+
+           # num.cores <- min(num.cores, f_size)
+           # cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
+      #      Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompOOBCaller)
             parallel::stopCluster(cl)
         } else {
             #Use just one core.
