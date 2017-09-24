@@ -51,6 +51,21 @@ Predict <-
                 num.cores=parallel::detectCores()-1L
             }
             num.cores <- min(num.cores, f_size)
+            gc()
+            if ((object.size(forest) > 2e9) || 
+                (object.size(X) > 2e9) || 
+                forest$params$rotate) {
+
+                cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
+                parallel::clusterExport(cl = cl, varlist = c("X", "RunPredict"), envir = environment())
+                Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
+
+            } else {
+                cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
+                Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
+            }
+
+            num.cores <- min(num.cores, f_size)
             #Start a cluster with num.cores Cores.
             cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
 
