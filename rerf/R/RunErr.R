@@ -1,3 +1,18 @@
+#' Determine Error Rate of Forest
+#'
+#' This function is no longer used.  It was the workhorse function for Error Predict. 
+#'
+#' @param X an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features of a test set, which should be different from the training set.
+#' @param forest a forest trained using the RerF function.
+#' @param num.cores the number of cores to use while training. If NumCores=0 then 1 less than the number of cores reported by the OS are used. (NumCores=0)
+#' @param Xtrain  an n by d numeric matrix (preferable) or data frame. This should be the same data matrix/frame used to train the forest, and is only required if RerF was called with rank.transform = TRUE. (Xtrain=NULL)
+#' @param aggregate.output if TRUE then the tree predictions are aggregated via majority vote. Otherwise, the individual tree predictions are returned. (aggregate.output=TRUE)
+#' @param output.scores if TRUE then predicted class scores (probabilities) for each observation are returned rather than class labels. (output.scores = FALSE)
+#'
+#' @return predictions an n length vector of predictions
+#'
+#' @author James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu) 
+#
 RunErr <-
 function(X,Y,Forest, index=0L, chunk_size=0L){
   if(index && chunk_size){

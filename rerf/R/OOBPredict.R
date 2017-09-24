@@ -22,14 +22,17 @@
 #' @export
 #' @importFrom compiler setCompilerOptions cmpfun
 #' @importFrom parallel detectCores makeCluster parLapply stopCluster
-#'
 
 OOBPredict <-
-    function(X, forest, num.cores = 0L, output.scores = FALSE){
+    function(X, 
+             forest, 
+             num.cores = 0L, 
+             output.scores = FALSE){
+
         if (!forest$params$store.oob) {
-          stop("out-of-bag indices for each tree are not stored. RerF must be called with store.oob = TRUE in order to run OOBPredict.")
+            stop("out-of-bag indices for each tree are not stored. RerF must be called with store.oob = TRUE in order to run OOBPredict.")
         }
-      
+
         if (!is.matrix(X)) {
             X <- as.matrix(X)
         }
@@ -40,27 +43,19 @@ OOBPredict <-
 
         compiler::setCompilerOptions("optimize"=3L)
         CompOOB <- compiler::cmpfun(RunOOB)
-            
+
         CompOOBCaller <- function(tree, ...) CompOOB(X = X, tree = tree)
 
         f_size <- length(forest$trees)
         if (num.cores != 1L) {
-                if (num.cores == 0L) {
-                    #Use all but 1 core if num.cores=0.
-                    num.cores <- parallel::detectCores()-1L
-                }
-                #Start mclapply with num.cores Cores.
-                num.cores <- min(num.cores, f_size)
-               # gc()
-               # if ((object.size(forest) > 2e9) | (object.size(X) > 2e9)) {
-                    cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
-               #     parallel::clusterExport(cl = cl, varlist = c("X", "CompOOB"), envir = environment())
-                    Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompOOBCaller)
-               # } else {
-               #     cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
-               #     Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompOOBCaller)
-               # }
-                parallel::stopCluster(cl)
+            if (num.cores == 0L) {
+                #Use all but 1 core if num.cores=0.
+                num.cores <- parallel::detectCores()-1L
+            }
+            num.cores <- min(num.cores, f_size)
+            cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
+            Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompOOBCaller)
+            parallel::stopCluster(cl)
         } else {
             #Use just one core.
             Yhats <- lapply(forest$trees, FUN = CompOOBCaller)
@@ -78,11 +73,11 @@ OOBPredict <-
         has.counts <- oobCounts != 0L
         predictions[has.counts, ] <- predictions[has.counts, ]/oobCounts[has.counts]
         if (!output.scores) {
-          if (is.integer(forest$labels)) {
-            predictions <- forest$labels[max.col(predictions)]
-          } else {
-            predictions <- factor(forest$labels[max.col(predictions)], levels = forest$labels)
-          }
+            if (is.integer(forest$labels)) {
+                predictions <- forest$labels[max.col(predictions)]
+            } else {
+                predictions <- factor(forest$labels[max.col(predictions)], levels = forest$labels)
+            }
         }
         return(predictions)
     }

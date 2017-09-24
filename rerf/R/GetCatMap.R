@@ -11,10 +11,7 @@
 #'
 #' @return catMap a list in which the ith element indicates which columns in a one-of-K encoded data matrix correspond to the ith original categorical feature.
 #'
-#' @author James and Tyler, jbrowne6@jhu.edu and
-#' 
-#'
-#'
+#' @author James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu) 
 
 GetCatMap <-
   function(fileName) {

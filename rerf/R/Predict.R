@@ -9,9 +9,9 @@
 #' @param aggregate.output if TRUE then the tree predictions are aggregated via majority vote. Otherwise, the individual tree predictions are returned. (aggregate.output=TRUE)
 #' @param output.scores if TRUE then predicted class scores (probabilities) for each observation are returned rather than class labels. (output.scores = FALSE)
 #'
-#' @return predictions
+#' @return predictions an n length vector of predictions
 #'
-#' @author James Browne and Tyler Tomita, jbrowne6@jhu.edu and ttomita2@jhmi.edu 
+#' @author James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu) 
 #' 
 #' @examples
 #' library(rerf)
@@ -42,29 +42,23 @@ Predict <-
             }
         }
 
-            compiler::setCompilerOptions("optimize"=3L)
-            CompPredict <- compiler::cmpfun(RunPredict)
+        compiler::setCompilerOptions("optimize"=3L)
+        CompPredict <- compiler::cmpfun(RunPredict)
 
         CompPredictCaller <- function(tree, ...) CompPredict(X=X, tree=tree)
 
         f_size <- length(forest$trees)
         if (num.cores != 1L) {
-                if (num.cores == 0L) {
-                    #Use all but 1 core if num.cores=0.
-                    num.cores=parallel::detectCores()-1L
-                }
-                #Start mclapply with num.cores Cores.
-                num.cores <- min(num.cores, f_size)
-          #      gc()
-          #      if ((object.size(forest) > 2e9) | (object.size(X) > 2e9)) {
-                    cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
-                #    parallel::clusterExport(cl = cl, varlist = c("X", "comp.mode", "CompPredict"), envir = environment())
-                    Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
-          #      } else {
-          #          cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
-          #          Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
-          #      }
-                parallel::stopCluster(cl)
+            if (num.cores == 0L) {
+                #Use all but 1 core if num.cores=0.
+                num.cores=parallel::detectCores()-1L
+            }
+            num.cores <- min(num.cores, f_size)
+            #Start a cluster with num.cores Cores.
+            cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
+
+            Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
+            parallel::stopCluster(cl)
 
         } else {
             #Use just one core.
@@ -72,7 +66,7 @@ Predict <-
         }
 
         if (!aggregate.output) {
-          predictions <- matrix(forest$labels[unlist(Yhats)], nrow(X), f_size)
+            predictions <- matrix(forest$labels[unlist(Yhats)], nrow(X), f_size)
         } else {
             num_classes <- ncol(forest$trees[[1L]]$ClassProb)
             predictions <- matrix(0L,nrow=nrow(X), ncol=num_classes)
@@ -83,13 +77,13 @@ Predict <-
             }
             predictions <- predictions/f_size
             if (!output.scores) {
-              if (is.integer(forest$labels)) {
-                predictions <- forest$labels[max.col(predictions)]
-              } else {
-                predictions <- factor(forest$labels[max.col(predictions)], levels = forest$labels)
-              }
+                if (is.integer(forest$labels)) {
+                    predictions <- forest$labels[max.col(predictions)]
+                } else {
+                    predictions <- factor(forest$labels[max.col(predictions)], levels = forest$labels)
+                }
             }
         }
-        
+
         return(predictions)
     }

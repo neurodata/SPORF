@@ -30,5 +30,5 @@ sim.matrix <- ComputeSimilarity(X, forest, num.cores = 1L)
 
 }
 \author{
-James Browne and Tyler Tomita, jbrowne6@jhu.edu and ttomita2@jhmi.edu
+James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu)
 }

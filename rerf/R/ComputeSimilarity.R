@@ -9,7 +9,7 @@
 #' 
 #' @return similarity a normalized n by n matrix of pairwise similarities
 #'
-#' @author James Browne and Tyler Tomita, jbrowne6@jhu.edu and ttomita2@jhmi.edu
+#' @author James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu) 
 #' 
 #' @examples
 #' library(rerf)
@@ -25,75 +25,72 @@
 
 
 ComputeSimilarity <-
-function(X, forest, num.cores = 0L, Xtrain = NULL){
-  if (!is.matrix(X)) {
-    X <- as.matrix(X)
-  }
-  if (forest$params$rank.transform) {
-    if (is.null(Xtrain)) {
-      ############ error ############
-      stop("The model was trained on rank-transformed data. Xtrain must be provided in order to embed Xtest into the rank space")
-    } else {
-      X <- RankInterpolate(Xtrain, X)
+    function(X, 
+             forest, 
+             num.cores = 0L, 
+             Xtrain = NULL){
+
+        if (!is.matrix(X)) {
+            X <- as.matrix(X)
+        }
+        if (forest$params$rank.transform) {
+            if (is.null(Xtrain)) {
+                ############ error ############
+                stop("The model was trained on rank-transformed data. Xtrain must be provided in order to embed Xtest into the rank space")
+            } else {
+                X <- RankInterpolate(Xtrain, X)
+            }
+        }
+
+        n <- nrow(X)
+
+        compiler::setCompilerOptions("optimize"=3L)
+        CompPredictLeaf <- compiler::cmpfun(RunPredictLeaf)
+
+        CompPredictCaller <- function(tree, ...) CompPredictLeaf(X=X, tree=tree)
+
+        f_size <- length(forest$trees)
+        # run single core or multicore
+        if(num.cores != 1L){
+            # Use all but 1 core if num.cores=0.
+            if(num.cores == 0L){
+                num.cores=parallel::detectCores()-1L
+            }
+            num.cores <- min(num.cores, f_size)
+            #Start cluster with num.cores cores
+            cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
+            leafIdx <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
+            parallel::stopCluster(cl)
+
+        }else{
+            #Use just one core.
+            leafIdx <- lapply(forest$trees, FUN = CompPredictCaller)
+        }
+
+        leafIdx <- matrix(unlist(leafIdx), nrow = n, ncol = f_size)
+
+        similarity <- matrix(0, nrow = n, ncol = n)
+
+        for (m in 1L:f_size) {
+            sortIdx <- order(leafIdx[, m])
+            nLeaf <- nrow(forest$trees[[m]]$ClassProb)
+            leafCounts <- tabulate(leafIdx[, m], nLeaf)
+            leafCounts.cum <- cumsum(leafCounts)
+            if (leafCounts[1L] > 1L) {
+                prs <- combn(sort(sortIdx[seq.int(leafCounts[1L])]), 2L)
+                idx <- (prs[1L, ] - 1L)*n + prs[2L, ]
+                similarity[idx] <- similarity[idx] + 1L
+            }
+            for (k in seq.int(nLeaf - 1L) + 1L) {
+                if (leafCounts[k] > 1L) {
+                    prs <- combn(sort(sortIdx[(leafCounts.cum[k - 1L] + 1L):leafCounts.cum[k]]), 2L)
+                    idx <- (prs[1L, ] - 1L)*n + prs[2L, ]
+                    similarity[idx] <- similarity[idx] + 1L
+                }
+            }
+        }
+        similarity <- similarity + t(similarity)
+        diag(similarity) <- f_size
+        similarity <- similarity/f_size
+        return(similarity)
     }
-  }
-  
-  n <- nrow(X)
-  
-    compiler::setCompilerOptions("optimize"=3L)
-    CompPredictLeaf <- compiler::cmpfun(RunPredictLeaf)
-  
-  CompPredictCaller <- function(tree, ...) CompPredictLeaf(X=X, tree=tree)
-  
-  f_size <- length(forest$trees)
-  if(num.cores != 1L){
-      if(num.cores == 0L){
-        #Use all but 1 core if num.cores=0.
-        num.cores=parallel::detectCores()-1L
-      }
-      #Start mclapply with num.cores Cores.
-      num.cores <- min(num.cores, f_size)
-    #  gc()
-    #  if ((object.size(forest) > 2e9) | (object.size(X) > 2e9)) {
-        cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
-    #    parallel::clusterExport(cl = cl, varlist = c("X", "CompPredictLeaf"), envir = environment())
-        leafIdx <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
-    #  } else {
-    #    cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
-    #    leafIdx <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
-    #  }
-      parallel::stopCluster(cl)
-      
-  }else{
-    #Use just one core.
-    leafIdx <- lapply(forest$trees, FUN = CompPredictCaller)
-  }
-  
-  leafIdx <- matrix(unlist(leafIdx), nrow = n, ncol = f_size)
-  
-  similarity <- matrix(0, nrow = n, ncol = n)
-  
-  for (m in 1L:f_size) {
-    sortIdx <- order(leafIdx[, m])
-    nLeaf <- nrow(forest$trees[[m]]$ClassProb)
-    leafCounts <- tabulate(leafIdx[, m], nLeaf)
-    leafCounts.cum <- cumsum(leafCounts)
-    if (leafCounts[1L] > 1L) {
-      prs <- combn(sort(sortIdx[seq.int(leafCounts[1L])]), 2L)
-      idx <- (prs[1L, ] - 1L)*n + prs[2L, ]
-      similarity[idx] <- similarity[idx] + 1L
-    }
-    for (k in seq.int(nLeaf - 1L) + 1L) {
-      if (leafCounts[k] > 1L) {
-        prs <- combn(sort(sortIdx[(leafCounts.cum[k - 1L] + 1L):leafCounts.cum[k]]), 2L)
-        idx <- (prs[1L, ] - 1L)*n + prs[2L, ]
-        similarity[idx] <- similarity[idx] + 1L
-      }
-    }
-  }
-  
-  similarity <- similarity + t(similarity)
-  diag(similarity) <- f_size
-  similarity <- similarity/f_size
-  return(similarity)
-}

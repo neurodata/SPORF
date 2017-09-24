@@ -23,7 +23,7 @@
 #'
 #' @return forest
 #'
-#' @author James and Tyler, jbrowne6@jhu.edu and
+#' @author James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu) 
 #' 
 #' @examples
 #' library(rerf)
@@ -32,7 +32,6 @@
 #' @export
 #' @importFrom compiler setCompilerOptions cmpfun
 #' @importFrom parallel detectCores mclapply mc.reset.stream
-#'
 
 RerF <-
     function(X, Y, min.parent = 6L, trees = 100L, 

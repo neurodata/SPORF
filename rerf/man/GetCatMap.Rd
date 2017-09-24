@@ -21,5 +21,5 @@ csv file should read d_num+1,...,d_num+K1. If the second categorical feature has
 And so on. This function simply reads the lines into a list of integer vectors.
 }
 \author{
-James and Tyler, jbrowne6@jhu.edu and
+James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu)
 }

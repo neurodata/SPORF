@@ -21,7 +21,7 @@ Predict(X, forest, num.cores = 0L, Xtrain = NULL, aggregate.output = TRUE,
 \item{output.scores}{if TRUE then predicted class scores (probabilities) for each observation are returned rather than class labels. (output.scores = FALSE)}
 }
 \value{
-predictions
+predictions an n length vector of predictions
 }
 \description{
 Predicts the classification of samples using a trained forest.
@@ -38,5 +38,5 @@ error.rate <- mean(predictions != Y[-trainIdx])
 
 }
 \author{
-James Browne and Tyler Tomita, jbrowne6@jhu.edu and ttomita2@jhmi.edu
+James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu)
 }

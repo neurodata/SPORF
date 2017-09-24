@@ -3,8 +3,8 @@ Type: Package
 Title: Randomer Forest
 Version: 1.0
 Date: 2017-09-01
-Author: James and Tyler
-Maintainer: Who to complain to <yourfault@somewhere.net>
+Author: James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu)
+Maintainer: James Browne <jbrowne6@jhu.edu>
 Description: This package contains functions that will create randomer forests, allow you to make predictions with the forest, and provide statistical data about the forest.
 License: GPL-2
 Imports: Rcpp (>= 0.12.12), compiler, parallel, RcppZiggurat
