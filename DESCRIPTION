@@ -9,4 +9,5 @@ Description: This package contains functions that will create randomer forests, 
 License: GPL-2
 Imports: Rcpp (>= 0.12.12), compiler, parallel, RcppZiggurat
 LinkingTo: Rcpp, RcppArmadillo
+ByteCompile: true
 RoxygenNote: 6.0.1
