@@ -27,5 +27,5 @@ predictions <- Predict(X[-trainIdx, ], forest, num.cores = 1L, aggregate.output 
 scor <- StrCorr(predictions, Y[-trainIdx])
 }
 \author{
-James Browne and Tyler Tomita, jbrowne6@jhu.edu and ttomita2@jhmi.edu
+James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu)
 }

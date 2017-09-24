@@ -13,10 +13,8 @@ RandMat(mat.options)
 random.matrix
 }
 \description{
-Create a random matrix. At each node of a tree, a p-by-d random matrix is sampled and used to generate a new set of d features,
-each of which is a linear combination of the original p features. Thus, the columns of the random matrix can be viewed as a set of bases
-in a new feature space.
+Create a random matrix. At each node of a tree, a p-by-d random matrix is sampled and used to generate a new set of d features, each of which is a linear combination of the original p features. Thus, the columns of the random matrix can be viewed as a set of bases in a new feature space.
 }
 \author{
-James and Tyler, jbrowne6@jhu.edu and
+James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu)
 }

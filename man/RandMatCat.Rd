@@ -16,5 +16,5 @@ random.matrix
 The same as the function RandMat, except that this function is used when a cat.map object is provided (see RerF and GetCatMap for details).
 }
 \author{
-James and Tyler, jbrowne6@jhu.edu and
+James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu)
 }
