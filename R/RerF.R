@@ -93,10 +93,7 @@ RerF <-
             Cindex<-NULL
         }
 
-        compiler::setCompilerOptions("optimize"=3)
-        comp_tree <- compiler::cmpfun(BuildTree)
-
-        mcrun<- function(...) comp_tree(X, Y, min.parent, max.depth, bagging, replacement, stratify, Cindex, classCt, fun, mat.options, store.oob=store.oob, store.ns=store.ns, progress=progress, rotate)
+        mcrun<- function(...) BuildTree(X, Y, min.parent, max.depth, bagging, replacement, stratify, Cindex, classCt, fun, mat.options, store.oob=store.oob, store.ns=store.ns, progress=progress, rotate)
 
         forest$params <- list(min.parent = min.parent, 
                               max.depth = max.depth, 

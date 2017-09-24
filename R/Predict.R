@@ -42,10 +42,7 @@ Predict <-
             }
         }
 
-        compiler::setCompilerOptions("optimize"=3L)
-        CompPredict <- compiler::cmpfun(RunPredict)
-
-        CompPredictCaller <- function(tree, ...) CompPredict(X=X, tree=tree)
+        CompPredictCaller <- function(tree, ...) RunPredict(X=X, tree=tree)
 
         f_size <- length(forest$trees)
         if (num.cores != 1L) {

@@ -41,10 +41,7 @@ OOBPredict <-
         }
         n <- nrow(X)
 
-        compiler::setCompilerOptions("optimize"=3L)
-        CompOOB <- compiler::cmpfun(RunOOB)
-
-        CompOOBCaller <- function(tree, ...) CompOOB(X = X, tree = tree)
+        CompOOBCaller <- function(tree, ...) RunOOB(X = X, tree = tree)
 
         f_size <- length(forest$trees)
         if (num.cores != 1L) {
