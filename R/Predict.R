@@ -65,11 +65,6 @@ Predict <-
                 Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
             }
 
-            num.cores <- min(num.cores, f_size)
-            #Start a cluster with num.cores Cores.
-            cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
-
-            Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
             parallel::stopCluster(cl)
 
         } else {
