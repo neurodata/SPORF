@@ -10,4 +10,5 @@ License: GPL-2
 Imports: Rcpp (>= 0.12.12), compiler, parallel, RcppZiggurat
 LinkingTo: Rcpp, RcppArmadillo
 ByteCompile: true
+Remotes: neurodata/R-RerF
 RoxygenNote: 6.0.1
