@@ -213,11 +213,9 @@ BuildTree <-
             sparseM <- fun(mat.options)
             nnz <- nrow(sparseM) # the number of non zeroes in the sparse matrix
             # set initial values for the find best split computation for the current node.
-            #   ret$MaxDeltaI <-I 
+            ret$MaxDeltaI <- 0
             nz.idx <- 1L
-            MinDeltaI <- I
-            nBest <- 1L
-            cutVal <- NA
+
             # Check each projection to determine which splits the best.
             while (nz.idx <= nnz) {
                 # Parse sparseM to the column of the projection matrix at this iteration
@@ -245,78 +243,32 @@ BuildTree <-
                 ##################################################################
                 # calculate deltaI for this rotation and return the best current deltaI
                 # find split is an Rcpp call.
-                #                ret[] <- findSplit(x = x[1:NdSize[CurrentNode]], 
-                #                                   y = y[1:NdSize[CurrentNode]], 
-                #                                   ndSize = NdSize[CurrentNode], 
-                #                                   I = I,
-                #                                   maxdI = ret$MaxDeltaI, 
-                #                                   bv = ret$BestVar, 
-                #                                   bs = ret$BestSplit, 
-                #                                   nzidx = nz.idx, 
-                #                                   cc = ClassCounts)
+                ret[] <- findSplit(x = x[1:NdSize[CurrentNode]], 
+                                   y = y[1:NdSize[CurrentNode]], 
+                                   ndSize = NdSize[CurrentNode], 
+                                   I = I,
+                                   maxdI = ret$MaxDeltaI, 
+                                   bv = ret$BestVar, 
+                                   bs = ret$BestSplit, 
+                                   nzidx = nz.idx, 
+                                   cc = ClassCounts)
 
-                #####################################################
-
-                uniqueX <- !duplicated.default(x[1L:NdSize[CurrentNode]], fromLast=TRUE)
-                numUnique <- sum(uniqueX)
-                if (numUnique == 1){
-                    nz.idx <- nz.idx + feature.nnz
-                    next
-                }
-                inY <- ClassCounts != 0
-                numInY <- sum(inY)
-                Ls <- vapply((1:nClasses)[inY], function(m) {cumsum(y[1L:NdSize[CurrentNode]]==m)[uniqueX]}, 1:numUnique)
-                Rs <- matrix(ClassCounts[inY], nrow(Ls), numInY, byrow=TRUE) - Ls
-
-                giniSums <- .rowSums(Ls*(1-Ls/.rowSums(Ls, nrow(Rs), numInY,FALSE)) + Rs*(1-Rs/.rowSums(Rs, nrow(Rs), numInY,FALSE)), nrow(Rs), numInY, FALSE)
-
-                DeltaI <- min(giniSums[1:(numUnique-1)])
-
-                # Determine if this split is currently the best option
-                if (DeltaI < MinDeltaI){
-                    minIndex <- sum(Ls[match(DeltaI, giniSums),])
-                    cutVal <- sum(x[minIndex:(minIndex+1)])/2
-                    #  if(cutVal == x[minIndex] || cutVal == x[minIndex+1]){
-                    # nz.idx <- nz.idx + feature.nnz
-                    #  next
-                    #      }
-                    MinDeltaI <- DeltaI
-                    nz.idxBest <- nz.idx
-                    # It is possible that cutVal equals x[minIndex] or cutVal equals x[minIndex+1]
-                    # This rare occurence happens when the two x values differ by an insignificant amount.
-                }
                 nz.idx <- nz.idx + feature.nnz
-
             }
 
             # check to see if a valid split was found.
-            #            if (ret$MaxDeltaI == 0) {
-            #                # store tree map data (negative value means this is a leaf node
-            #                treeMap[CurrentNode] <- currLN <- currLN - 1L
-            #                ClassProb[currLN*-1L,] <- ClProb
-            #                NodeStack <- NodeStack[-1L] # pop current node off stack
-            #                Assigned2Node[[CurrentNode]]<-NA #remove saved indexes
-            #                CurrentNode <- NodeStack[1L] # point to current top of node stack
-            #                if(is.na(CurrentNode)){
-            #                    break
-            #                }
-            #                next
-            #            }
-            ########################################
-            if (MinDeltaI == I) {
+            if (ret$MaxDeltaI == 0) {
+                # store tree map data (negative value means this is a leaf node
                 treeMap[CurrentNode] <- currLN <- currLN - 1L
                 ClassProb[currLN*-1L,] <- ClProb
-                NodeStack <- NodeStack[-1L]
-                Assigned2Node[[CurrentNode]]<-NA
-                CurrentNode <- NodeStack[1L]
+                NodeStack <- NodeStack[-1L] # pop current node off stack
+                Assigned2Node[[CurrentNode]]<-NA #remove saved indexes
+                CurrentNode <- NodeStack[1L] # point to current top of node stack
                 if(is.na(CurrentNode)){
                     break
                 }
                 next
             }
-            #########################################
-            ret$BestVar <- nz.idxBest
-            ret$BestSplit <- cutVal
 
             # Recalculate the best projection and reproject the data
             feature.idx <- sparseM[ret$BestVar, 2L]
