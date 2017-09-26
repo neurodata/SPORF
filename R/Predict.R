@@ -24,7 +24,6 @@
 #' error.rate <- mean(predictions != Y[-trainIdx])
 #'
 #' @export
-#' @importFrom compiler setCompilerOptions cmpfun
 #' @importFrom parallel detectCores makeCluster clusterExport parLapply stopCluster
 #'
 
@@ -52,9 +51,7 @@ Predict <-
             }
             num.cores <- min(num.cores, f_size)
             gc()
-            if ((object.size(forest) > 2e9) || 
-                (object.size(X) > 2e9) || 
-                forest$params$rotate) {
+            if ((object.size(forest) > 2e9) || (object.size(X) > 2e9)) {
 
                 cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
                 parallel::clusterExport(cl = cl, varlist = c("X", "RunPredict"), envir = environment())

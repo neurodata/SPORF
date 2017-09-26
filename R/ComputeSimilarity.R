@@ -19,7 +19,6 @@
 #' sim.matrix <- ComputeSimilarity(X, forest, num.cores = 1L)
 #'
 #' @export
-#' @importFrom compiler setCompilerOptions cmpfun
 #' @importFrom parallel detectCores makeCluster clusterExport parLapply stopCluster
 #'
 
@@ -44,10 +43,8 @@ ComputeSimilarity <-
 
         n <- nrow(X)
 
-        compiler::setCompilerOptions("optimize"=3L)
-        CompPredictLeaf <- compiler::cmpfun(RunPredictLeaf)
 
-        CompPredictCaller <- function(tree, ...) CompPredictLeaf(X=X, tree=tree)
+        CompPredictCaller <- function(tree, ...) RunPredictLeaf(X=X, tree=tree)
 
         f_size <- length(forest$trees)
         # run single core or multicore
@@ -57,9 +54,16 @@ ComputeSimilarity <-
                 num.cores=parallel::detectCores()-1L
             }
             num.cores <- min(num.cores, f_size)
+            gc()
             #Start cluster with num.cores cores
-            cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
-            leafIdx <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
+            if ((object.size(forest) > 2e9) || (object.size(X) > 2e9)) {
+              cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
+              parallel::clusterExport(cl = cl, varlist = c("X", "RunPredictLeaf"), envir = environment())
+              leafIdx <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
+            } else {
+              cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
+              Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
+            }
             parallel::stopCluster(cl)
 
         }else{
