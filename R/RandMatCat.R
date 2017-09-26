@@ -1,12 +1,14 @@
 #' Create a Random Matrix for use when categorical features are present
 #'
-#' The same as the function RandMat, except that this function is used when a cat.map object is provided (see RerF and GetCatMap for details).
+#' The same as the function RandMat, except that this function is used when a cat.map object is provided (see RerF for details).
 #' 
 #' @param mat.options the same as that for RandMat, except an additional fifth argument cat.map is taken, which specifies which one-of-K encoded columns in X correspond to the same categorical feature. 
 #'
 #' @return random.matrix
 #'
 #' @author James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu) 
+#' 
+#' @export
 #'
 #' @importFrom RcppZiggurat zrnorm
 

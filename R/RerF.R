@@ -10,7 +10,7 @@
 #' @param bagging a non-zero value means a random sample of X will be used during tree creation.  If replacement = FALSE the bagging value determines the percentage of samples to leave out-of-bag.  If replacement = TRUE the non-zero bagging value is ignored. (bagging=.2) 
 #' @param replacement if TRUE then n samples are chosen, with replacement, from X. (replacement=TRUE)
 #' @param stratify if TRUE then class sample proportions are maintained during the random sampling.  Ignored if replacement = FALSE. (stratify = FALSE).
-#' @param fun a function that creates the random projection matrix. (fun=NULL) 
+#' @param fun a function that creates the random projection matrix. If NULL and cat.map is NULL, then RandMat is used. If NULL and cat.map is not NULL, then RandMatCat is used, which adjusts the sampling of features when categorical features have been one-of-K encoded. If a custom function is to be used, then it must return a matrix in sparse representation, in which each nonzero is an array of the form (row.index, column.index, value). See RandMat or RandMatCat for details. (fun=NULL) 
 #' @param mat.options a list of parameters to be used by fun. (mat.options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)))
 #' @param rank.transform if TRUE then each feature is rank-transformed (i.e. smallest value becomes 1 and largest value becomes n) (rank.transform=FALSE)
 #' @param store.oob if TRUE then the samples omitted during the creation of a tree are stored as part of the tree.  This is required to run OOBPredict(). (store.oob=FALSE)
@@ -19,7 +19,7 @@
 #' @param rotate if TRUE then the data matrix X is uniformly randomly rotated for each tree. (rotate=FALSE)
 #' @param num.cores the number of cores to use while training. If num.cores=0 then 1 less than the number of cores reported by the OS are used. (num.cores=0)
 #' @param seed the seed to use for training the forest. (seed=1)
-#' @param cat.map.file a file specifying the grouping of one-of-K encoded columns  (see GetCatMap). If NULL, or if an invalid file is specified, then all features in X are treated as numeric.
+#' @param cat.map a list specifying which columns in X correspond to the same one-of-K encoded feature. Each element of cat.map is a numeric vector specifying the K column indices of X corresponding to the same categorical feature after one-of-K encoding. All one-of-K encoded features in X must come after the numeric features. The K encoded columns corresponding to the same categorical feature must be placed contiguously within X. The reason for specifying cat.map is to adjust for the fact that one-of-K encoding cateogorical features results in a dilution of numeric features, since a single categorical feature is expanded to K binary features. If cat.map = NULL, then RerF assumes all features are numeric (i.e. none of the features have been one-of-K encoded).
 #'
 #' @return forest
 #'
@@ -30,7 +30,6 @@
 #' forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L)
 #'
 #' @export
-#' @importFrom compiler setCompilerOptions cmpfun
 #' @importFrom parallel detectCores mclapply mc.reset.stream
 
 RerF <-
@@ -42,26 +41,19 @@ RerF <-
              rank.transform = FALSE, store.oob = FALSE, 
              store.ns = FALSE, progress = FALSE, 
              rotate = F, num.cores = 0L, 
-             seed = 1L, cat.map.file = NULL){
+             seed = 1L, cat.map = NULL){
 
         forest <- list(trees = NULL, labels = NULL, params = NULL)
 
         # check if data matrix X has one-of-K encoded categorical features that need to be handled specially using RandMatCat instead of RandMat
-        if (!is.null(cat.map.file)) {
-            if (file.exists(cat.map.file)) {
-                if (is.null(fun)) {
-                    fun <- RandMatCat
-                    mat.options[5L] <- GetCatMap(cat.map.file)
-                }
-            } else {
-                if (is.null(fun)) {
-                    fun <- RandMat
-                }
-            }
-        } else {
-            if (is.null(fun)) {
-                fun <- RandMat
-            }
+        if (is.null(fun)) {
+          if (!is.null(cat.map) && !rotate) {
+            fun <- RandMatCat
+            mat.options[[5L]] <- cat.map
+          }
+          else {
+            fun <- RandMat
+          }
         }
 
         #keep from making copies of X
