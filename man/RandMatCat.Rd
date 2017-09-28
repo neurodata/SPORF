@@ -13,7 +13,7 @@ RandMatCat(mat.options)
 random.matrix
 }
 \description{
-The same as the function RandMat, except that this function is used when a cat.map object is provided (see RerF and GetCatMap for details).
+The same as the function RandMat, except that this function is used when a cat.map object is provided (see RerF for details).
 }
 \author{
 James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu)

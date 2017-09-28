@@ -9,7 +9,7 @@ RerF(X, Y, min.parent = 6L, trees = 100L, max.depth = 0L, bagging = 0.2,
   = ncol(X), d = ceiling(sqrt(ncol(X))), random.matrix = "binary", rho =
   1/ncol(X)), rank.transform = FALSE, store.oob = FALSE, store.ns = FALSE,
   progress = FALSE, rotate = F, num.cores = 0L, seed = 1L,
-  cat.map.file = NULL)
+  cat.map = NULL)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}
@@ -28,7 +28,7 @@ RerF(X, Y, min.parent = 6L, trees = 100L, max.depth = 0L, bagging = 0.2,
 
 \item{stratify}{if TRUE then class sample proportions are maintained during the random sampling.  Ignored if replacement = FALSE. (stratify = FALSE).}
 
-\item{fun}{a function that creates the random projection matrix. (fun=NULL)}
+\item{fun}{a function that creates the random projection matrix. If NULL and cat.map is NULL, then RandMat is used. If NULL and cat.map is not NULL, then RandMatCat is used, which adjusts the sampling of features when categorical features have been one-of-K encoded. If a custom function is to be used, then it must return a matrix in sparse representation, in which each nonzero is an array of the form (row.index, column.index, value). See RandMat or RandMatCat for details. (fun=NULL)}
 
 \item{mat.options}{a list of parameters to be used by fun. (mat.options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)))}
 
@@ -46,7 +46,7 @@ RerF(X, Y, min.parent = 6L, trees = 100L, max.depth = 0L, bagging = 0.2,
 
 \item{seed}{the seed to use for training the forest. (seed=1)}
 
-\item{cat.map.file}{a file specifying the grouping of one-of-K encoded columns  (see GetCatMap). If NULL, or if an invalid file is specified, then all features in X are treated as numeric.}
+\item{cat.map}{a list specifying which columns in X correspond to the same one-of-K encoded feature. Each element of cat.map is a numeric vector specifying the K column indices of X corresponding to the same categorical feature after one-of-K encoding. All one-of-K encoded features in X must come after the numeric features. The K encoded columns corresponding to the same categorical feature must be placed contiguously within X. The reason for specifying cat.map is to adjust for the fact that one-of-K encoding cateogorical features results in a dilution of numeric features, since a single categorical feature is expanded to K binary features. If cat.map = NULL, then RerF assumes all features are numeric (i.e. none of the features have been one-of-K encoded).}
 }
 \value{
 forest
