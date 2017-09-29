@@ -11,6 +11,7 @@
 #' @export
 #'
 #' @importFrom RcppZiggurat zrnorm
+#' @importFrom stats rpois runif
 
 RandMat <-
 function(mat.options) {
@@ -37,7 +38,7 @@ function(mat.options) {
     lambda <- mat.options[[4L]]
     go <- T
     while (go) {
-      nnzPerCol <- rpois(d, lambda)
+      nnzPerCol <- stats::rpois(d, lambda)
       go <- !any(nnzPerCol)
     }
     nnzPerCol[nnzPerCol > p] <- p
@@ -66,7 +67,7 @@ function(mat.options) {
       nz.cols[start.idx:end.idx] <- i
       start.idx <- end.idx + 1L
     }
-    random.matrix <- cbind(nz.rows, nz.cols, runif(nnz, -1, 1))
+    random.matrix <- cbind(nz.rows, nz.cols, stats::runif(nnz, -1, 1))
   } else if (method == "frcn") {
     nmix <- mat.options[[4L]]
     nnz <- nmix*d

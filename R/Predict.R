@@ -25,6 +25,7 @@
 #'
 #' @export
 #' @importFrom parallel detectCores makeCluster clusterExport parLapply stopCluster
+#' @importFrom utils object.size
 #'
 
 Predict <-
@@ -51,7 +52,7 @@ Predict <-
             }
             num.cores <- min(num.cores, f_size)
             gc()
-            if ((object.size(forest) > 2e9) || (object.size(X) > 2e9)) {
+            if ((utils::object.size(forest) > 2e9) || (utils::object.size(X) > 2e9)) {
 
                 cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
                 parallel::clusterExport(cl = cl, varlist = c("X", "RunPredict"), envir = environment())
