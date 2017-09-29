@@ -15,11 +15,11 @@ addons:
               - libgsl0-dev
                         
 before_install:
-    - cd rerf
+    - #
 
 script:
     - printf "starting run\n"
-        - Rscript ../Test/orthantTest.R
+        - Rscript Test/orthantTest.R
       # - Rscript Test/orthantTest2.R
       # - Rscript Test/trunkTest.R
       # - Rscript Test/trunkTest2.R
