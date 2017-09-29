@@ -37,7 +37,7 @@ RerF <-
              max.depth = 0L, bagging = .2, 
              replacement = TRUE, stratify = FALSE, 
              fun = NULL, 
-             mat.options = list(p = ncol(X), d = ceiling(sqrt(ncol(X))), random.matrix = "binary", rho = 1/ncol(X)), 
+             mat.options = list(p = ifelse(is.null(cat.map), ncol(X), length(cat.map)), d = ceiling(sqrt(ncol(X))), random.matrix = "binary", rho = 1/ncol(X)), 
              rank.transform = FALSE, store.oob = FALSE, 
              store.ns = FALSE, progress = FALSE, 
              rotate = F, num.cores = 0L, 
