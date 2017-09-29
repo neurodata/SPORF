@@ -35,6 +35,7 @@ testDS <- function(trainSet, testSet, numTests, numTrees, cores, p1){
 
     pass <- TRUE
 
+dev_mode(on=FALSE)
 library(rerf)
     ptmtrain_baseline <- NA
     ptmtest_baseline <- NA
