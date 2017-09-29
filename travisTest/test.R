@@ -16,9 +16,8 @@ skipMNIST <- TRUE
 trainSets <- c("Orthant_train.csv", "Sparse_parity_train.csv", "Trunk_train.csv", "mnist_train.csv")
 testSets <- c("Orthant_test.csv", "Sparse_parity_test.csv", "Trunk_test.csv", "mnist_test.csv")
 
-dev_mode(on=TRUE)
-install_github("neurodata/R-Rerf@baseline")
 dev_mode(on=FALSE)
+install_github("neurodata/R-Rerf@baseline")
 
 pass <- TRUE
 
@@ -36,7 +35,6 @@ testDS <- function(trainSet, testSet, numTests, numTrees, cores, p1){
 
     pass <- TRUE
 
-dev_mode(on=FALSE)
 library(rerf)
     ptmtrain_baseline <- NA
     ptmtest_baseline <- NA
