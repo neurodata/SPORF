@@ -6,8 +6,10 @@
 \usage{
 RerF(X, Y, min.parent = 6L, trees = 100L, max.depth = 0L, bagging = 0.2,
   replacement = TRUE, stratify = FALSE, fun = NULL, mat.options = list(p
-  = ncol(X), d = ceiling(sqrt(ncol(X))), random.matrix = "binary", rho =
-  1/ncol(X)), rank.transform = FALSE, store.oob = FALSE, store.ns = FALSE,
+  = ifelse(is.null(cat.map), ncol(X), length(cat.map)), d =
+  ceiling(sqrt(ncol(X))), random.matrix = "binary", rho =
+  ifelse(is.null(cat.map), 1/ncol(X), 1/length(cat.map))),
+  rank.transform = FALSE, store.oob = FALSE, store.ns = FALSE,
   progress = FALSE, rotate = F, num.cores = 0L, seed = 1L,
   cat.map = NULL)
 }
@@ -55,8 +57,39 @@ forest
 Creates a decision forest based on an input matrix and class vector.  This is the main function in the rerf package.
 }
 \examples{
+### Train RerF on numeric data ###
 library(rerf)
 forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L)
+
+### Train RerF on one-of-K encoded categorical data ###
+df1 <- as.data.frame(Titanic)
+nc <- ncol(df1)
+df2 <- df1[NULL, -nc]
+for (i in which(df1$Freq != 0L)) {
+  df2 <- rbind(df2, df1[rep(i, df1$Freq[i]), -nc])
+}
+n <- nrow(df2) # number of observations
+p <- ncol(df2) - 1L # number of features
+num.categories <- apply(df2[, 1:p], 2, function(x) length(unique(x)))
+p.enc <- sum(num.categories) # number of features after one-of-K encoding
+X <- matrix(0, nrow = n, ncol = p.enc) # initialize training data matrix X
+cat.map <- vector("list", p)
+col.idx <- 0L
+# one-of-K encode each categorical feature and store in X
+for (j in 1:p) {
+  cat.map[[j]] <- (col.idx + 1L):(col.idx + num.categories[j])
+  X[, cat.map[[j]]] <- dummies::dummy(df2[[j]]) # converts categorical feature to K dummy variables
+  col.idx <- col.idx + num.categories[j]
+}
+Y <- df2$Survived
+
+# specifying the cat.map in RerF allows training to be aware of which dummy variables correspond
+# to the same categorical feature
+forest <- RerF(X, Y, num.cores = 1L, cat.map = cat.map)
+
+### Train a random rotation ensemble of CART decision trees (see Blaser and Fryzlewicz 2016) ###
+forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L,
+mat.options = list(4, 2, "rf", NULL), rotate = TRUE)
 
 }
 \author{

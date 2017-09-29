@@ -1,5 +1,6 @@
 useDynLib(rerf)
 #exportPattern("^[[:alpha:]]+")
+importFrom(dummies, dummy)
 importFrom(compiler, setCompilerOptions, cmpfun)
 importFrom(RcppZiggurat, zrnorm)
 importFrom(parallel, detectCores, makeCluster, parLapply, stopCluster, clusterExport, nextRNGStream)

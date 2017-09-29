@@ -52,11 +52,17 @@
 #' }
 #' Y <- df2$Survived
 #' 
-#' # specifying the cat.map in RerF allows the training process to be aware of which dummy variables correspond to the same categorical feature
-#' forest <- RerF(X, Y, num.cores = 1L, mat.options = list(p, 2L, "binary", 1/p), cat.map = cat.map)
+#' # specifying the cat.map in RerF allows training to be aware of which dummy variables correspond
+#' # to the same categorical feature
+#' forest <- RerF(X, Y, num.cores = 1L, cat.map = cat.map)
+#' 
+#' ### Train a random rotation ensemble of CART decision trees (see Blaser and Fryzlewicz 2016) ###
+#' forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L,
+#' mat.options = list(4, 2, "rf", NULL), rotate = TRUE)
 #'
 #' @export
 #' @importFrom parallel detectCores mclapply mc.reset.stream
+#' @importFrom dummies dummy
 
 RerF <-
     function(X, Y, min.parent = 6L, trees = 100L, 
