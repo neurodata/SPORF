@@ -189,7 +189,7 @@ wt <- wilcox.test(ptmOOB_baseline, ptmOOB_candidate, alternative="l")$p.value
 lh <- NA
 for (z in 1:(2*length(trainSets)-skipMNIST)){
     gc()
-    lh[z] <- testDS(RerF_baseline,RerF_candidate, trainSets[ceiling(z/2)], testSets[ceiling(z/2)], numTests[z], numTrees[z], cores[z], pvals[z])
+    lh[z] <- testDS(trainSets[ceiling(z/2)], testSets[ceiling(z/2)], numTests[z], numTrees[z], cores[z], pvals[z])
     if (lh[z]==FALSE){
         pass <- FALSE
         print(paste(trainSets[ceiling(z/2)], " failed"))
