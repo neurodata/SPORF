@@ -20,6 +20,7 @@
 #'
 #' @export
 #' @importFrom parallel detectCores makeCluster clusterExport parLapply stopCluster
+#' @importFrom utils object.size combn
 #'
 
 
@@ -56,7 +57,7 @@ ComputeSimilarity <-
             num.cores <- min(num.cores, f_size)
             gc()
             #Start cluster with num.cores cores
-            if ((object.size(forest) > 2e9) || (object.size(X) > 2e9)) {
+            if ((utils::object.size(forest) > 2e9) || (utils::object.size(X) > 2e9)) {
               cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
               parallel::clusterExport(cl = cl, varlist = c("X", "RunPredictLeaf"), envir = environment())
               leafIdx <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
@@ -81,13 +82,13 @@ ComputeSimilarity <-
             leafCounts <- tabulate(leafIdx[, m], nLeaf)
             leafCounts.cum <- cumsum(leafCounts)
             if (leafCounts[1L] > 1L) {
-                prs <- combn(sort(sortIdx[seq.int(leafCounts[1L])]), 2L)
+                prs <- utils::combn(sort(sortIdx[seq.int(leafCounts[1L])]), 2L)
                 idx <- (prs[1L, ] - 1L)*n + prs[2L, ]
                 similarity[idx] <- similarity[idx] + 1L
             }
             for (k in seq.int(nLeaf - 1L) + 1L) {
                 if (leafCounts[k] > 1L) {
-                    prs <- combn(sort(sortIdx[(leafCounts.cum[k - 1L] + 1L):leafCounts.cum[k]]), 2L)
+                    prs <- utils::combn(sort(sortIdx[(leafCounts.cum[k - 1L] + 1L):leafCounts.cum[k]]), 2L)
                     idx <- (prs[1L, ] - 1L)*n + prs[2L, ]
                     similarity[idx] <- similarity[idx] + 1L
                 }

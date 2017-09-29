@@ -21,6 +21,7 @@
 #'
 #' @export
 #' @importFrom parallel detectCores makeCluster parLapply stopCluster
+#' @importFrom utils object.size
 
 OOBPredict <-
     function(X, 
@@ -51,7 +52,7 @@ OOBPredict <-
             num.cores <- min(num.cores, f_size)
 
             gc()
-            if ((object.size(forest) > 2e9) || (object.size(X) > 2e9)) {
+            if ((utils::object.size(forest) > 2e9) || (utils::object.size(X) > 2e9)) {
                 cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
                 parallel::clusterExport(cl = cl, varlist = c("X", "RunOOB"), envir = environment())
                 Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompOOBCaller)

@@ -19,6 +19,9 @@
 #' forest <- RerF(X[trainIdx, ], Y[trainIdx], num.cores = 1L)
 #' predictions <- Predict(X[-trainIdx, ], forest, num.cores = 1L, aggregate.output = FALSE)
 #' scor <- StrCorr(predictions, Y[-trainIdx])
+#'
+#' @importFrom stats cor sd
+#' @importFrom utils combn
 
 StrCorr <-
     function(Yhats, Y) {
@@ -47,10 +50,10 @@ StrCorr <-
         isallY <- is.na(modeNotY)
         rmg[isallY, ] <- Y[isallY]
         rmg[!isallY, ] <- apply(Yhats[!isallY, , drop = F], 2L, function(x) (x == Y[!isallY]) - (x == modeNotY[!isallY]))
-        rho <- cor(rmg)
-        sigma <- apply(rmg, 2L, sd)
+        rho <- stats::cor(rmg)
+        sigma <- apply(rmg, 2L, stats::sd)
         diag.idx <- seq(1, nTrees^2, nTrees + 1L)
-        pairwise.sigma <- combn(nTrees, 2L, FUN = function(x) sigma[x[1L]]*sigma[x[2L]])
+        pairwise.sigma <- utils::combn(nTrees, 2L, FUN = function(x) sigma[x[1L]]*sigma[x[2L]])
         rho.bar <- mean(rho[lower.tri(rho)]*pairwise.sigma)/mean(pairwise.sigma)
         scor <- list(s = strength, rho = rho.bar)
         return(scor)

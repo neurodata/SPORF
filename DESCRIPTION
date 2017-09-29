@@ -7,8 +7,7 @@ Author: James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu)
 Maintainer: James Browne <jbrowne6@jhu.edu>
 Description: This package contains functions that will create randomer forests, allow you to make predictions with the forest, and provide statistical data about the forest.
 License: GPL-2
-Imports: Rcpp (>= 0.12.12), compiler, parallel, RcppZiggurat
+Imports: parallel, RcppZiggurat, utils, stats
 LinkingTo: Rcpp, RcppArmadillo
 ByteCompile: true
-Remotes: neurodata/R-RerF
 RoxygenNote: 6.0.1

@@ -25,6 +25,7 @@ Y <- iris[[5]]
 forest <- RerF(X[trainIdx, ], Y[trainIdx], num.cores = 1L)
 predictions <- Predict(X[-trainIdx, ], forest, num.cores = 1L, aggregate.output = FALSE)
 scor <- StrCorr(predictions, Y[-trainIdx])
+
 }
 \author{
 James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu)
