@@ -61,7 +61,7 @@
 #' mat.options = list(4, 2, "rf", NULL), rotate = TRUE)
 #'
 #' @export
-#' @importFrom parallel detectCores mclapply mc.reset.stream
+#' @importFrom parallel detectCores mclapply
 #' @importFrom dummies dummy
 
 RerF <-
@@ -135,7 +135,6 @@ RerF <-
         if (num.cores!=1L){
             RNGkind("L'Ecuyer-CMRG")
             set.seed(seed)
-            parallel::mc.reset.stream()
             if(num.cores==0){
                 #Use all but 1 core if num.cores=0.
                 num.cores=parallel::detectCores()-1L
