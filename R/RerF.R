@@ -132,7 +132,7 @@ RerF <-
                               rotate = rotate, 
                               seed = seed)
 
-        if (num.cores!=1L){
+        if (num.cores!=1L & .Platform$OS.type!="windows"){
             RNGkind("L'Ecuyer-CMRG")
             set.seed(seed)
             if(num.cores==0){
