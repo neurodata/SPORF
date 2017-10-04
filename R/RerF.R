@@ -61,7 +61,7 @@
 #' mat.options = list(4, 2, "rf", NULL), rotate = TRUE)
 #'
 #' @export
-#' @importFrom parallel detectCores mclapply
+#' @importFrom parallel detectCores mclapply makePSOCKcluster clusterEvalQ clusterSetRNGStream
 #' @importFrom dummies dummy
 
 RerF <-
@@ -132,16 +132,24 @@ RerF <-
                               rotate = rotate, 
                               seed = seed)
 
-        if (num.cores!=1L & .Platform$OS.type!="windows"){
+        if (num.cores!=1L){
             RNGkind("L'Ecuyer-CMRG")
-            set.seed(seed)
             if(num.cores==0){
                 #Use all but 1 core if num.cores=0.
                 num.cores=parallel::detectCores()-1L
             }
             num.cores=min(num.cores,trees)
             gc()
+            if(.Platform$OS.type=="windows"){
+                cl <- makePSOCKcluster(num.cores)
+                parallel::clusterSetRNGStream(cl, seed)
+                parallel::clusterEvalQ(cl, library("rerf"))
+                forest$trees <- parallel::parLapply(cl, 1:trees, mcrun)
+                parallel::stopCluster(cl)
+            }else{
+            set.seed(seed)
             forest$trees <- parallel::mclapply(1:trees, mcrun, mc.cores = num.cores, mc.set.seed=TRUE)
+            }
         }else{
             #Use just one core.
             forest$trees <- lapply(1:trees, mcrun)

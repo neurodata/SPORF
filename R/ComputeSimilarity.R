@@ -57,7 +57,9 @@ ComputeSimilarity <-
             num.cores <- min(num.cores, f_size)
             gc()
             #Start cluster with num.cores cores
-            if ((utils::object.size(forest) > 2e9) || (utils::object.size(X) > 2e9)) {
+            if ((utils::object.size(forest) > 2e9) | 
+                (utils::object.size(X) > 2e9) | 
+                .Platform$OS.type=="windows") {
               cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
               parallel::clusterExport(cl = cl, varlist = c("X", "RunPredictLeaf"), envir = environment())
               leafIdx <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
