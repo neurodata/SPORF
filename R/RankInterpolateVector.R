@@ -10,7 +10,11 @@ RankInterpolateVector <-
         p <- ncol(Xtrain)
         ntest <- nrow(Xtest)
         sort.idx <- apply(Xtrain, 2, order)
-        sort.idx.test <- apply(Xtest, 2, order)
+        if (ntest == 1L) {
+          sort.idx.test <- matrix(1L, nrow = 1L, ncol = p)
+        } else {
+          sort.idx.test <- apply(Xtest, 2, order)
+        }
         Xtrain.rank <- RankMatrix(Xtrain)
         Xtest.rank <- matrix(0, nrow = ntest, ncol = p)
         for (j in seq.int(p)) {
