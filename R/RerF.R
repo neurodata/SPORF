@@ -141,7 +141,7 @@ RerF <-
             num.cores=min(num.cores,trees)
             gc()
             if(.Platform$OS.type=="windows"){
-                cl <- makePSOCKcluster(num.cores)
+                cl <- parallel::makePSOCKcluster(num.cores)
                 parallel::clusterSetRNGStream(cl, seed)
                 parallel::clusterEvalQ(cl, library("rerf"))
                 forest$trees <- parallel::parLapply(cl, 1:trees, mcrun)
