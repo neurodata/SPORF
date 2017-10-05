@@ -10,26 +10,25 @@ RerF is similar to Random Forest (RF), but, whereas RF bases cutpoints on indivi
 - [x] Compute tree strength and correlation (StrCorr)
 - [ ] Unsupervised learning
 
-## 
-- [x] Bagging
-- [x] Max Depth Limit
-- [x] Projection matrix as parameter
-- [x] Stratified Sampling
-- [x] Intelligent use of categorical data
-
 ## Installation:
 - Non-Windows users install the GNU Scientific Library (libgsl0-dev).
 - Windows users install Rtools (https://cran.r-project.org/bin/windows/Rtools/)
-Install dev-tools in R.  install.packages("devtools")
-- Windows users 
-
-
+- Install dev-tools.  From within R- 
+```install.packages("devtools")```
+- Install R-RerF from github.  From within R-  
+```devtools::install_github("neurodata/R-Rerf")```
 
 ## Use:
-
+Load the library- 
+```library(rerf)```
 
 ###   To create a forest:
 To create a forest the minimum data needed is an n by d sample matrix (x) and an n length vector of corresponding classes (y).  Each row of x is a sample and each column of x is a feature.
+
+From within R-  
+> forest <- RerF(x,y)
+
+
 
 1. Download rfr_function.R
    2. In R --> ```source('path/to/file/rfr_function.R')```  
