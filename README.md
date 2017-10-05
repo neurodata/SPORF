@@ -1,20 +1,37 @@
 # R-RerF
-## This is the R implementation of Randomer Forest([RerF](https://arxiv.org/pdf/1506.03410v2.pdf "arxiv link to RerF paper"))
+## This is an R implementation of Randomer Forest([RerF](https://arxiv.org/pdf/1506.03410v2.pdf "arxiv link to RerF paper"))
 
+RerF is similar to Random Forest (RF), but, whereas RF bases cutpoints on individual features, RerF projects the samples at each node into multiple different spaces.  These projections create new features which are then used to determine the best cut point based on minimizing impurity.   
 
-## Features of R-Rerf:
-- [x] Train a forest
-- [x] Determine Error Rate of Forest
-- [x] Make Predictions
+## Functions of R-Rerf:
+- [x] Train a classification forest (RerF)
+- [x] Determine Error Rate of Forest (Predict and OOBPredict)
+- [x] Compute Similarities (ComputeSimilarity)
+- [x] Compute tree strength and correlation (StrCorr)
+- [ ] Unsupervised learning
+
+## 
 - [x] Bagging
-- [x] Out-Of-Bag Error Estimation
 - [x] Max Depth Limit
 - [x] Projection matrix as parameter
 - [x] Stratified Sampling
+- [x] Intelligent use of categorical data
+
+## Installation:
+- Non-Windows users install the GNU Scientific Library (libgsl0-dev).
+- Windows users install Rtools (https://cran.r-project.org/bin/windows/Rtools/)
+Install dev-tools in R.  install.packages("devtools")
+- Windows users 
+
+
 
 ## Use:
+
+
 ###   To create a forest:
-   1. Download rfr_function.R
+To create a forest the minimum data needed is an n by d sample matrix (x) and an n length vector of corresponding classes (y).  Each row of x is a sample and each column of x is a feature.
+
+1. Download rfr_function.R
    2. In R --> ```source('path/to/file/rfr_function.R')```  
    3. In R --> ```forest <- rfr(X, Y, MinParent=6L, trees=100L, MaxDepth=0L, bagging = .2, replacement=TRUE, stratify=FALSE, FUN=makeA, options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)), COOB=FALSE, Progress=FALSE, NumCores=0L)```  
   - **forest** --> this is the return value from rfr.  the trained forest structure is used as input to the other functions.
