@@ -2,10 +2,11 @@ Package: rerf
 Type: Package
 Title: Randomer Forest
 Version: 1.0
-Date: 2017-09-01
+Date: 2017-10-05
 Author: James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu)
 Maintainer: James Browne <jbrowne6@jhu.edu>
-Description: This package contains functions that will create randomer forests, allow you to make predictions with the forest, and provide statistical data about the forest.
+Description: Random Forest (RF) typically refers to Breimans Forest-IC, which uses axis-parallel, or orthogonal trees. That is, the feature space is recursively split along directions parallel to the axes of the feature space. Thus, in cases in which the classes seem inseparable along any single dimension, RF may be suboptimal. 
+To address this, Breiman also proposed and characterized Forest-RC, which used linear combinations of coordinates rather than individual coordinates, to split along.  This package implements Randomer Forest (rerf) which is similar to Forest-RC, but rerf takes linear combinations of coordinates at every node rather than per tree.
 License: GPL-2
 Imports: parallel, RcppZiggurat, utils, stats, dummies
 LinkingTo: Rcpp, RcppArmadillo
