@@ -17,6 +17,3 @@ predictions an n length vector of prediction based on the tree provided to this 
 \description{
 This is the base function called by Predict.
 }
-\author{
-James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu)
-}

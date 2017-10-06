@@ -17,6 +17,3 @@ similarity based on one tree
 \description{
 This is the base function called by ComputeSimilarity.
 }
-\author{
-James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu)
-}

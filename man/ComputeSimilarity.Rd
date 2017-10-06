@@ -29,6 +29,3 @@ forest <- RerF(X, Y, num.cores = 1L)
 sim.matrix <- ComputeSimilarity(X, forest, num.cores = 1L)
 
 }
-\author{
-James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu)
-}

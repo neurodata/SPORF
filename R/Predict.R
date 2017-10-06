@@ -11,8 +11,6 @@
 #'
 #' @return predictions an n length vector of predictions
 #'
-#' @author James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu) 
-#' 
 #' @examples
 #' library(rerf)
 #' trainIdx <- c(1:40, 51:90, 101:140)

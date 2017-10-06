@@ -20,8 +20,6 @@
 #'
 #' @return Tree
 #'
-#' @author James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu)
-#' 
 
 BuildTree <-
     function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind, class.ct, fun, mat.options, store.oob, store.ns, progress, rotate){

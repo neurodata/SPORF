@@ -92,6 +92,3 @@ forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L,
 mat.options = list(4, 2, "rf", NULL), rotate = TRUE)
 
 }
-\author{
-James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu)
-}

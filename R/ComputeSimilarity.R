@@ -9,8 +9,6 @@
 #' 
 #' @return similarity a normalized n by n matrix of pairwise similarities
 #'
-#' @author James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu) 
-#' 
 #' @examples
 #' library(rerf)
 #' X <- as.matrix(iris[,1:4])

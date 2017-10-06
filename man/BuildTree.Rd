@@ -44,6 +44,3 @@ Tree
 \description{
 Creates a single decision tree based on an input matrix and class vector.  This is the function used by rerf to generate trees.
 }
-\author{
-James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu)
-}

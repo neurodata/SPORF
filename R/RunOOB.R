@@ -7,8 +7,6 @@
 #'
 #' @return predictions prediction matrix used by OOBPredict
 #'
-#' @author James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu) 
-#'
 
 RunOOB <-
     function(X, tree) {

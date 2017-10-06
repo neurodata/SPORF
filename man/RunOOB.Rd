@@ -17,6 +17,3 @@ predictions prediction matrix used by OOBPredict
 \description{
 This is the base function called by OOBPredict.
 }
-\author{
-James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu)
-}

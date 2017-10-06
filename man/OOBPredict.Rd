@@ -30,6 +30,3 @@ predictions <- OOBPredict(X, forest, num.cores = 1L)
 oob.error <- mean(predictions != Y)
 
 }
-\author{
-James Browne and Tyler Tomita, jbrowne6@jhu.edu and ttomita2@jhmi.edu
-}

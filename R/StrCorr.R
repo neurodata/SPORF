@@ -7,8 +7,6 @@
 #'
 #' @return scor
 #'
-#' @author James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu) 
-#' 
 #' @export
 #'
 #' @examples

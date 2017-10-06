@@ -7,8 +7,6 @@
 #'
 #' @return predictions an n length vector of prediction based on the tree provided to this function
 #'
-#' @author James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu) 
-#'
 
 RunPredict <-
     function(X, tree){

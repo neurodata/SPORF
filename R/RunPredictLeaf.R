@@ -7,8 +7,6 @@
 #'
 #' @return similarity based on one tree
 #'
-#' @author James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu) 
-#'
 
 
 RunPredictLeaf <-

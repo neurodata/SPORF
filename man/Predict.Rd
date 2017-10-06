@@ -37,6 +37,3 @@ predictions <- Predict(X[-trainIdx, ], forest, num.cores = 1L, Xtrain = X[trainI
 error.rate <- mean(predictions != Y[-trainIdx])
 
 }
-\author{
-James Browne (jbrowne6@jhu.edu) and Tyler Tomita (ttomita2@jhmi.edu)
-}

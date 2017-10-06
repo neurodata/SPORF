@@ -9,8 +9,6 @@
 #'
 #' @return predictions a length n vector of predictions in a format similar to the Y vector used to train the forest
 #'
-#' @author James Browne and Tyler Tomita, jbrowne6@jhu.edu and ttomita2@jhmi.edu 
-#'
 #' @examples
 #' library(rerf)
 #' X <- as.matrix(iris[,1:4])
