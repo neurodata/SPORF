@@ -5,7 +5,8 @@
 \title{RerF Tree Generator}
 \usage{
 BuildTree(X, Y, min.parent, max.depth, bagging, replacement, stratify,
-  class.ind, class.ct, fun, mat.options, store.oob, store.ns, progress, rotate)
+  class.ind, class.ct, fun, mat.options, store.oob, store.impurity, progress,
+  rotate)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}
@@ -32,7 +33,7 @@ BuildTree(X, Y, min.parent, max.depth, bagging, replacement, stratify,
 
 \item{store.oob}{if TRUE then the samples omitted during the creation of a tree are stored as part of the tree.  This is required to run OOBPredict(). (store.oob=FALSE)}
 
-\item{store.ns}{if TRUE then the number of training observations at each node is stored. This is required to run FeatureImportance() (store.ns=FALSE) (store.ns=FALSE)}
+\item{store.impurity}{if TRUE then the reduction in Gini impurity is stored for every split. This is required to run FeatureImportance() (store.impurity=FALSE)}
 
 \item{progress}{if true a pipe is printed after each tree is created.  This is useful for large datasets. (progress=FALSE)}
 

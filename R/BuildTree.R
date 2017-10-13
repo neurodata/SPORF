@@ -14,7 +14,7 @@
 #' @param fun a function that creates the random projection matrix. (fun=NULL) 
 #' @param mat.options a list of parameters to be used by fun. (mat.options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)))
 #' @param store.oob if TRUE then the samples omitted during the creation of a tree are stored as part of the tree.  This is required to run OOBPredict(). (store.oob=FALSE)
-#' @param store.ns if TRUE then the number of training observations at each node is stored. This is required to run FeatureImportance() (store.ns=FALSE) (store.ns=FALSE)
+#' @param store.impurity if TRUE then the reduction in Gini impurity is stored for every split. This is required to run FeatureImportance() (store.impurity=FALSE)
 #' @param progress if true a pipe is printed after each tree is created.  This is useful for large datasets. (progress=FALSE)
 #' @param rotate if TRUE then the data matrix X is uniformly randomly rotated. (rotate=FALSE)
 #'
@@ -22,7 +22,7 @@
 #'
 
 BuildTree <-
-    function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind, class.ct, fun, mat.options, store.oob, store.ns, progress, rotate){
+    function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind, class.ct, fun, mat.options, store.oob, store.impurity, progress, rotate){
         #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         # rfr builds a randomer classification forest structure made up of a list
         # of trees.  This forest is randomer because each node is rotated before 
@@ -71,8 +71,8 @@ BuildTree <-
         # If bagging equals zero then store.oob is ignored.  If bagging does not equal 
         # zero and store.oob is TRUE then OOB is calculated and printed to the screen.
         # 
-        # store.ns is a boolean that specifies whether to store the node size of each
-        # node.
+        # store.impurity is a boolean that specifies whether to store the reduction in impurity of each
+        # split.
         #
         # progress is a boolean.  When true a progress marker is printed to the 
         # screen every time a tree is grown.  This is useful for large input.
@@ -112,7 +112,10 @@ BuildTree <-
         treeMap <- integer(MaxNumNodes)
         ClassProb <- matrix(data = 0, nrow = maxIN, ncol = nClasses)
         CutPoint <- double(maxIN)
-        NdSize <- integer(MaxNumNodes)
+        # NdSize <- integer(MaxNumNodes)
+        if (store.impurity) {
+          delta.impurity <- double(maxIN)
+        }
         NDepth <- integer(MaxNumNodes)
         Assigned2Node<- vector("list",MaxNumNodes) 
         ind <- double(w)
@@ -185,14 +188,14 @@ BuildTree <-
 
         # main loop over nodes.  This loop ends when the node stack is empty.
         while (CurrentNode < NextUnusedNode) {
-            NdSize[CurrentNode] <- length(Assigned2Node[[CurrentNode]]) #determine node size
+            NdSize <- length(Assigned2Node[[CurrentNode]]) #determine node size
             # determine class proportions in the node
             ClassCounts <- tabulate(Y[Assigned2Node[[CurrentNode]]], nClasses)
-            ClProb <- ClassCounts/NdSize[CurrentNode]
+            ClProb <- ClassCounts/NdSize
             # compute impurity for current node
             I <- sum(ClassCounts*(1 - ClProb))
             # check to see if node split should be attempted
-            if (NdSize[CurrentNode] < min.parent || 
+            if (NdSize < min.parent || 
                 I <= 0 || 
                 NDepth[CurrentNode]==max.depth){
                 # store tree map data (negative value means this is a leaf node
@@ -229,21 +232,21 @@ BuildTree <-
                 lrows <- nz.idx:(nz.idx + feature.nnz - 1L)
 
                 #Project input into new space
-                Xnode[1L:NdSize[CurrentNode]] <- X[Assigned2Node[[CurrentNode]],sparseM[lrows,1L], drop=FALSE]%*%sparseM[lrows,3L, drop=FALSE]
+                Xnode[1L:NdSize] <- X[Assigned2Node[[CurrentNode]],sparseM[lrows,1L], drop=FALSE]%*%sparseM[lrows,3L, drop=FALSE]
 
                 #Sort the projection, Xnode, and rearrange Y accordingly
-                SortIdx[1:NdSize[CurrentNode]] <- order(Xnode[1L:NdSize[CurrentNode]])
-                x[1L:NdSize[CurrentNode]] <- Xnode[SortIdx[1L:NdSize[CurrentNode]]]
-                y[1L:NdSize[CurrentNode]] <- Y[Assigned2Node[[CurrentNode]]][SortIdx[1:NdSize[CurrentNode]]]
+                SortIdx[1:NdSize] <- order(Xnode[1L:NdSize])
+                x[1L:NdSize] <- Xnode[SortIdx[1L:NdSize]]
+                y[1L:NdSize] <- Y[Assigned2Node[[CurrentNode]]][SortIdx[1:NdSize]]
 
                 ##################################################################
                 #                    Find Best Split
                 ##################################################################
                 # calculate deltaI for this rotation and return the best current deltaI
                 # find split is an Rcpp call.
-                ret[] <- findSplit(x = x[1:NdSize[CurrentNode]], 
-                                   y = y[1:NdSize[CurrentNode]], 
-                                   ndSize = NdSize[CurrentNode], 
+                ret[] <- findSplit(x = x[1:NdSize], 
+                                   y = y[1:NdSize], 
+                                   ndSize = NdSize, 
                                    I = I,
                                    maxdI = ret$MaxDeltaI, 
                                    bv = ret$BestVar, 
@@ -278,11 +281,11 @@ BuildTree <-
                 }
             }
             lrows <- ret$BestVar:(ret$BestVar + feature.nnz - 1L)
-            Xnode[1:NdSize[CurrentNode]]<-X[Assigned2Node[[CurrentNode]],sparseM[lrows,1L], drop=FALSE]%*%sparseM[lrows,3L, drop=FALSE]
+            Xnode[1:NdSize]<-X[Assigned2Node[[CurrentNode]],sparseM[lrows,1L], drop=FALSE]%*%sparseM[lrows,3L, drop=FALSE]
 
             # find which child node each sample will go to and move
             # them accordingly
-            MoveLeft <- Xnode[1L:NdSize[CurrentNode]]  <= ret$BestSplit
+            MoveLeft <- Xnode[1L:NdSize]  <= ret$BestSplit
 
             # Move samples left or right based on split
             Assigned2Node[[NextUnusedNode]] <- Assigned2Node[[CurrentNode]][MoveLeft]
@@ -313,6 +316,9 @@ BuildTree <-
             }
             matAindex[currIN+1] <- matAindex[currIN]+currMatAlength 
             CutPoint[currIN] <- ret$BestSplit # store best cutpoint for this node
+            if (store.impurity) {
+              delta.impurity[currIN] <- ret$MaxDeltaI # store decrease in impurity for this node
+            }
 
             Assigned2Node[[CurrentNode]]<-NA #remove saved indexes
             CurrentNode <- NodeStack[1L]
@@ -323,19 +329,22 @@ BuildTree <-
 
         currLN <- currLN * -1L
         # create tree structure and populate with mandatory elements
-        tree <- list("treeMap" = treeMap[1L:NextUnusedNode-1L], "CutPoint"=CutPoint[1L:currIN], "ClassProb"=ClassProb[1L:currLN,,drop=FALSE], "matAstore"=matAstore[1L:matAindex[currIN+1L]], "matAindex"=matAindex[1L:(currIN+1L)], "ind"=NULL, "NdSize"=NULL, "rotmat"=NULL, "rotdims"=NULL)
+        tree <- list("treeMap" = treeMap[1L:NextUnusedNode-1L], "CutPoint"=CutPoint[1L:currIN], "ClassProb"=ClassProb[1L:currLN,,drop=FALSE],
+                     "matAstore"=matAstore[1L:matAindex[currIN+1L]], "matAindex"=matAindex[1L:(currIN+1L)], "ind"=NULL, "rotmat"=NULL,
+                     "rotdims"=NULL, "delta.impurity"=NULL)
         if (rotate) {
             tree$rotmat <- rotmat
+            #is rotdims for > 1000 or < 1000? TODO
+            if (p > 1000L) {
+              tree$rotdims <- rotdims
+            }
         }
-        #is rotdims for > 1000 or < 1000? TODO
-        if (p > 1000L) {
-            tree$rotdims <- rotdims
-        }
-        if(store.ns){
-            tree$NdSize <- NdSize[1L:(NextUnusedNode-1L)]
-        }
+
         if(bagging!=0 && store.oob){
             tree$ind <- which(!(1L:w %in% ind))
+        }
+        if (store.impurity) {
+          tree$delta.impurity <- delta.impurity[1L:currIN]
         }
 
         if(progress){

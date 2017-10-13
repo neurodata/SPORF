@@ -9,7 +9,7 @@ RerF(X, Y, min.parent = 6L, trees = 100L, max.depth = 0L, bagging = 0.2,
   = ifelse(is.null(cat.map), ncol(X), length(cat.map)), d =
   ceiling(sqrt(ncol(X))), random.matrix = "binary", rho =
   ifelse(is.null(cat.map), 1/ncol(X), 1/length(cat.map))),
-  rank.transform = FALSE, store.oob = FALSE, store.ns = FALSE,
+  rank.transform = FALSE, store.oob = FALSE, store.impurity = FALSE,
   progress = FALSE, rotate = F, num.cores = 0L, seed = 1L,
   cat.map = NULL)
 }
@@ -38,7 +38,7 @@ RerF(X, Y, min.parent = 6L, trees = 100L, max.depth = 0L, bagging = 0.2,
 
 \item{store.oob}{if TRUE then the samples omitted during the creation of a tree are stored as part of the tree.  This is required to run OOBPredict(). (store.oob=FALSE)}
 
-\item{store.ns}{if TRUE then the number of training observations at each node is stored. This is required to run FeatureImportance() (store.ns=FALSE)}
+\item{store.impurity}{if TRUE then the decrease in impurity is stored for each split. This is required to run FeatureImportance() (store.impurity=FALSE)}
 
 \item{progress}{if TRUE then a pipe is printed after each tree is created.  This is useful for large datasets. (progress=FALSE)}
 

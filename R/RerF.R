@@ -14,7 +14,7 @@
 #' @param mat.options a list of parameters to be used by fun. (mat.options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)))
 #' @param rank.transform if TRUE then each feature is rank-transformed (i.e. smallest value becomes 1 and largest value becomes n) (rank.transform=FALSE)
 #' @param store.oob if TRUE then the samples omitted during the creation of a tree are stored as part of the tree.  This is required to run OOBPredict(). (store.oob=FALSE)
-#' @param store.ns if TRUE then the number of training observations at each node is stored. This is required to run FeatureImportance() (store.ns=FALSE)
+#' @param store.impurity if TRUE then the decrease in impurity is stored for each split. This is required to run FeatureImportance() (store.impurity=FALSE)
 #' @param progress if TRUE then a pipe is printed after each tree is created.  This is useful for large datasets. (progress=FALSE)
 #' @param rotate if TRUE then the data matrix X is uniformly randomly rotated for each tree. (rotate=FALSE)
 #' @param num.cores the number of cores to use while training. If num.cores=0 then 1 less than the number of cores reported by the OS are used. (num.cores=0)
@@ -69,7 +69,7 @@ RerF <-
              fun = NULL, 
              mat.options = list(p = ifelse(is.null(cat.map), ncol(X), length(cat.map)), d = ceiling(sqrt(ncol(X))), random.matrix = "binary", rho = ifelse(is.null(cat.map), 1/ncol(X), 1/length(cat.map))), 
              rank.transform = FALSE, store.oob = FALSE, 
-             store.ns = FALSE, progress = FALSE, 
+             store.impurity = FALSE, progress = FALSE, 
              rotate = F, num.cores = 0L, 
              seed = 1L, cat.map = NULL){
 
@@ -115,7 +115,7 @@ RerF <-
             Cindex<-NULL
         }
 
-        mcrun<- function(...) BuildTree(X, Y, min.parent, max.depth, bagging, replacement, stratify, Cindex, classCt, fun, mat.options, store.oob=store.oob, store.ns=store.ns, progress=progress, rotate)
+        mcrun<- function(...) BuildTree(X, Y, min.parent, max.depth, bagging, replacement, stratify, Cindex, classCt, fun, mat.options, store.oob=store.oob, store.impurity=store.impurity, progress=progress, rotate)
 
         forest$params <- list(min.parent = min.parent, 
                               max.depth = max.depth, 
@@ -126,7 +126,7 @@ RerF <-
                               mat.options = mat.options,
                               rank.transform = rank.transform, 
                               store.oob = store.oob, 
-                              store.ns = store.ns,
+                              store.impurity = store.impurity,
                               rotate = rotate, 
                               seed = seed)
 
