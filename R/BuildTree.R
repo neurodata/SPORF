@@ -236,20 +236,56 @@ BuildTree <-
                 x[1L:NdSize[CurrentNode]] <- Xnode[SortIdx[1L:NdSize[CurrentNode]]]
                 y[1L:NdSize[CurrentNode]] <- Y[Assigned2Node[[CurrentNode]]][SortIdx[1:NdSize[CurrentNode]]]
 
+                Yval <- y[1]
+                Yindex <- 2
+
+while(Yval == y[Yindex]){
+   Yindex <- Yindex +1
+}
+Xval <- x[Yindex]
+Xind <- 0
+while(Xval != x[Xind+1] && Xind < Yindex){
+    Xind <- Xind +1
+    }
+if(Xind > ret$MaxDeltaI){
+ret$MaxDeltaI <- Xind
+ret$BestVar <- nz.idx
+ret$BestSplit <- (x[Xind+1]+x[Xind])/2
+}
+
+
+Yval <- y[NdSize[CurrentNode]]
+                Yindex <- NdSize[CurrentNode]-1
+
+while(Yval == y[Yindex]){
+   Yindex <- Yindex -1
+}
+Xval <- x[Yindex]
+Xind <- NdSize[CurrentNode]
+while(Xval != x[Xind-1] && Xind > Yindex){
+    Xind <- Xind -1
+    }
+
+if((NdSize[CurrentNode]-Xind+1) > ret$MaxDeltaI){
+ret$MaxDeltaI <- (NdSize[CurrentNode]-Xind+1)
+ret$BestVar <- nz.idx
+ret$BestSplit <- (x[Xind]+x[Xind-1])/2
+}
+
                 ##################################################################
                 #                    Find Best Split
                 ##################################################################
                 # calculate deltaI for this rotation and return the best current deltaI
                 # find split is an Rcpp call.
-                ret[] <- findSplit(x = x[1:NdSize[CurrentNode]], 
-                                   y = y[1:NdSize[CurrentNode]], 
-                                   ndSize = NdSize[CurrentNode], 
-                                   I = I,
-                                   maxdI = ret$MaxDeltaI, 
-                                   bv = ret$BestVar, 
-                                   bs = ret$BestSplit, 
-                                   nzidx = nz.idx, 
-                                   cc = ClassCounts)
+            #    ret[] <- findSplit(x = x[1:NdSize[CurrentNode]], 
+            #                       y = y[1:NdSize[CurrentNode]], 
+            #                       ndSize = NdSize[CurrentNode], 
+            #                       I = I,
+            #                       maxdI = ret$MaxDeltaI, 
+            #                       bv = ret$BestVar, 
+            #                       bs = ret$BestSplit, 
+            #                       nzidx = nz.idx, 
+            #                       cc = ClassCounts)
 
                 nz.idx <- nz.idx + feature.nnz
             }
@@ -279,7 +315,7 @@ BuildTree <-
             }
             lrows <- ret$BestVar:(ret$BestVar + feature.nnz - 1L)
             Xnode[1:NdSize[CurrentNode]]<-X[Assigned2Node[[CurrentNode]],sparseM[lrows,1L], drop=FALSE]%*%sparseM[lrows,3L, drop=FALSE]
-
+            
             # find which child node each sample will go to and move
             # them accordingly
             MoveLeft <- Xnode[1L:NdSize[CurrentNode]]  <= ret$BestSplit
@@ -328,7 +364,7 @@ BuildTree <-
             tree$rotmat <- rotmat
         }
         #is rotdims for > 1000 or < 1000? TODO
-        if (p > 1000L) {
+        if (p > 1000L & rotate) {
             tree$rotdims <- rotdims
         }
         if(store.ns){
