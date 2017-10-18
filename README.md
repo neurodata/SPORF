@@ -11,6 +11,7 @@ RerF is similar to Random Forest (RF), but, whereas RF bases cutpoints on indivi
 - [x] Determine Error Rate of Forest (Predict and OOBPredict)
 - [x] Compute Similarities (ComputeSimilarity)
 - [x] Compute tree strength and correlation (StrCorr)
+- [x] Compute feature importance
 - [ ] Unsupervised learning
 
 ## Installation:
@@ -71,4 +72,12 @@ Y <- iris[[5]]
 forest <- RerF(X[trainIdx, ], Y[trainIdx], num.cores = 1L)
 predictions <- Predict(X[-trainIdx, ], forest, num.cores = 1L, aggregate.output =     FALSE)
 scor <- StrCorr(predictions, Y[-trainIdx])
+```
+
+###   Compute feature importance
+Computes the Gini importance for all of the unique projections used to split the data. The returned value is a list with members imp and proj. The member imp is a numeric vector of feature importances sorted in decreasing order. The member proj is a list the same length as imp of vectors specifying the split projections corresponding to the values in imp. The projections are represented by the vector such that the odd numbered indices indicate the canonical feature indices and the even numbered indices indicate the linear coefficients. For example a vector (1,-1,4,1,5,-1) is the projection -X1 + X4 - X5. **Note**: it is highly advised to run this only when the splitting features (projections) have unweighted coefficients, such as for the default setting or for RF.
+```
+
+forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L, store.impurity = TRUE)
+feature.imp <- FeatureImportance(forest, num.cores = 1L)
 ```
