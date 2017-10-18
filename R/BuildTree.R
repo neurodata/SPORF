@@ -241,15 +241,42 @@ BuildTree <-
                 ##################################################################
                 # calculate deltaI for this rotation and return the best current deltaI
                 # find split is an Rcpp call.
-                ret[] <- findSplit(x = x[1:NdSize[CurrentNode]], 
-                                   y = y[1:NdSize[CurrentNode]], 
-                                   ndSize = NdSize[CurrentNode], 
-                                   I = I,
-                                   maxdI = ret$MaxDeltaI, 
-                                   bv = ret$BestVar, 
-                                   bs = ret$BestSplit, 
-                                   nzidx = nz.idx, 
-                                   cc = ClassCounts)
+
+#assume y ==1 for cancer and y==0 for no cancer
+                xInd <- NdSize[CurrentNode]
+                while(y[xInd] == 1){
+                    xInd <- xInd -1
+                }
+                if(xInd != NdSize[CurrentNode]){
+xInd <- xInd +1
+                }
+                while( xInd < NdSize[CurrentNode] & x[xInd-1] == x[xInd]){
+xInd <- xInd +1
+                }
+if(NdSize[CurrentNode] - xInd > ret$MaxDeltaI){
+ret$MaxDeltaI <- NdSize[CurrentNode] - xInd
+ret$BestVar <- nz.idx
+ret$BestSplit <- (x[xInd]+x[xInd-1])/2
+}
+                
+###### This is part 1.B, and should be made optional.
+                xInd <- 1
+                while(y[xInd] == 0){
+                    xInd <- xInd +1
+                }
+if(xInd != 1 ){
+xInd <- xInd -1
+                }
+                while( xInd > 0 & x[xInd] == x[xInd+1]){
+xInd <- xInd -1
+                }
+if(xInd > ret$MaxDeltaI){
+ret$MaxDeltaI <- xInd
+ret$BestVar <- nz.idx
+ret$BestSplit <- (x[xInd]+x[xInd+1])/2
+}
+
+
 
                 nz.idx <- nz.idx + feature.nnz
             }
