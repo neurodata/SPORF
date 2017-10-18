@@ -78,6 +78,11 @@ scor <- StrCorr(predictions, Y[-trainIdx])
 Computes the Gini importance for all of the unique projections used to split the data. The returned value is a list with members imp and proj. The member imp is a numeric vector of feature importances sorted in decreasing order. The member proj is a list the same length as imp of vectors specifying the split projections corresponding to the values in imp. The projections are represented by the vector such that the odd numbered indices indicate the canonical feature indices and the even numbered indices indicate the linear coefficients. For example a vector (1,-1,4,1,5,-1) is the projection -X1 + X4 - X5. **Note**: it is highly advised to run this only when the splitting features (projections) have unweighted coefficients, such as for the default setting or for RF.
 ```
 
-forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L, store.impurity = TRUE)
+X <- as.matrix(iris[, 1:4]) # feature matrix
+Y <- iris$Species # class labels
+p <- ncol(X) # number of features in the data
+d <- ceiling(sqrt(p)) # number of features to sample at each split
+
+forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], mat.options = list(p, d, "rf", NULL), num.cores = 1L, store.impurity = TRUE)
 feature.imp <- FeatureImportance(forest, num.cores = 1L)
 ```
