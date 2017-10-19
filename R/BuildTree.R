@@ -242,42 +242,45 @@ BuildTree <-
                 # calculate deltaI for this rotation and return the best current deltaI
                 # find split is an Rcpp call.
 
-#assume y ==1 for cancer and y==0 for no cancer
+                #assume y ==1 for cancer and y==0 for no cancer
                 xInd <- NdSize[CurrentNode]
-                while(y[xInd] == 1){
+                while(y[xInd] == 2){
                     xInd <- xInd -1
                 }
-                if(xInd != NdSize[CurrentNode]){
-xInd <- xInd +1
+                xInd <- xInd +1
+                if(xInd <= NdSize[CurrentNode]){
+                    while(x[xInd-1] == x[xInd]){
+                        xInd <- xInd +1
+                        if(xInd > NdSize[CurrentNode]){
+                            break
+                        }
+                    }
+                    if(NdSize[CurrentNode] - xInd +1 > ret$MaxDeltaI){
+                        ret$MaxDeltaI <- NdSize[CurrentNode] - xInd + 1
+                        ret$BestVar <- nz.idx
+                        ret$BestSplit <- (x[xInd]+x[xInd-1])/2
+                    }
                 }
-                while( xInd < NdSize[CurrentNode] & x[xInd-1] == x[xInd]){
-xInd <- xInd +1
-                }
-if(NdSize[CurrentNode] - xInd > ret$MaxDeltaI){
-ret$MaxDeltaI <- NdSize[CurrentNode] - xInd
-ret$BestVar <- nz.idx
-ret$BestSplit <- (x[xInd]+x[xInd-1])/2
-}
-                
-###### This is part 1.B, and should be made optional.
+                ###### This is part 1.B, and should be made optional.
                 xInd <- 1
-                while(y[xInd] == 0){
+                while(y[xInd] == 1){
                     xInd <- xInd +1
                 }
-if(xInd != 1 ){
-xInd <- xInd -1
+                    xInd <- xInd -1
+if(xInd >= 1){
+                    while(x[xInd+1] == x[xInd]){
+                        xInd <- xInd -1
+                        if(xInd < 1){
+                            break
+                        }
+                    }
+                    if(xInd > ret$MaxDeltaI){
+                        ret$MaxDeltaI <- xInd
+                        ret$BestVar <- nz.idx
+                        ret$BestSplit <- (x[xInd]+x[xInd+1])/2
+                    }
                 }
-                while( xInd > 0 & x[xInd] == x[xInd+1]){
-xInd <- xInd -1
-                }
-if(xInd > ret$MaxDeltaI){
-ret$MaxDeltaI <- xInd
-ret$BestVar <- nz.idx
-ret$BestSplit <- (x[xInd]+x[xInd+1])/2
-}
-
-
-
+                
                 nz.idx <- nz.idx + feature.nnz
             }
 
