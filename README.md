@@ -5,7 +5,7 @@
 - [Repo contents](#repo-contents)
 - [Description](#description)
 - [Hardware Requirements](#hardware-requirements)
-- [R Package Dependencies](#r-package-dependencies)
+- [Software Dependencies](#software-dependencies)
 - [Installation](#installation)
 - [How to Use](#how-to-use)
 - [Reproduction and Verification](#reproduction-and-verification)
@@ -29,11 +29,14 @@ Randomer Forest (RerF) is a generalization of the Random Forest (RF) algorithm. 
 ## Hardware Requirements
 Any machine with >= 2 GB RAM
 
-## `R` Package Dependencies:
-- `dummies`
-- `compiler`
-- `RcppZiggurat`
-- `parallel`
+
+## Software Dependencies
+- `R`
+- `R` packages:
+  - `dummies`
+  - `compiler`
+  - `RcppZiggurat`
+  - `parallel`
 
 ## Installation
 - Installation normally takes ~5-10 minutes
