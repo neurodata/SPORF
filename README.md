@@ -17,12 +17,16 @@ Randomer Forest (RerF) is a generalization of the Random Forest (RF) algorithm. 
 
 ### via CRAN
 From within R-
+
 ```install.packages("rerf")```
 
 ### via devtools
 Install dev-tools if not currently installed. From within R-  
+
 ```install.packages("devtools")```
+
 Install R-RerF from github.  From within R-  
+
 ```devtools::install_github("neurodata/R-Rerf")```
 
 ## Use:
