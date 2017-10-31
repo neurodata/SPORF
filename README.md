@@ -45,11 +45,11 @@ From within R-
 ```install.packages("rerf")```
 
 ### Development Version from Github:
-Install dev-tools if not currently installed. From within R-  
+First install the `devtools` package if not currently installed. From within R-  
 
 ```install.packages("devtools")```
 
-Install R-RerF from github.  From within R-  
+Now you can install `rerf` from github.  From within R-  
 
 ```devtools::install_github("neurodata/R-Rerf")```
 
