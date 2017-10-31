@@ -39,12 +39,12 @@ Any machine with >= 2 GB RAM
 - Non-Windows users install the GNU Scientific Library (libgsl0-dev).
 - Windows users install Rtools (https://cran.r-project.org/bin/windows/Rtools/)
 
-### From CRAN:
+### Stable Release from CRAN:
 From within R-
 
 ```install.packages("rerf")```
 
-### From Github:
+### Development Version from Github:
 Install dev-tools if not currently installed. From within R-  
 
 ```install.packages("devtools")```
