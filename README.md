@@ -4,15 +4,7 @@
 
 ## This is an R implementation of Randomer Forest([RerF](https://arxiv.org/pdf/1506.03410v2.pdf "arxiv link to RerF paper"))
 
-RerF is similar to Random Forest (RF), but, whereas RF bases cutpoints on individual features, RerF projects the samples at each node into multiple different spaces.  These projections create new features which are then used to determine the best cut point based on minimizing impurity.   
-
-## Functions of R-Rerf:
-- [x] Train a classification forest (RerF)
-- [x] Determine Error Rate of Forest (Predict and OOBPredict)
-- [x] Compute Similarities (ComputeSimilarity)
-- [x] Compute tree strength and correlation (StrCorr)
-- [x] Compute feature importance
-- [ ] Unsupervised learning
+RerF is a generalization of the Random Forest (RF) algorithm. RF partitions the input (feature) space via a series of recursive binary hyperplanes. Hyperplanes are constrained to be axis-aligned. In other words, each partition is a test of the form X<sub>i</sub> > t, where t is a threshold and X<sub>i</sub> is one of p inputs (features) {X<sub>1</sub>, ..., X<sub>p</sub>}. The best axis-aligned split is found by sampling a random subset of the p inputs and choosing the one that best partitions the observed data according to some specified split criterion. RerF relaxes the constraint that the splitting hyperplanes must be axis-aligned. That is, each partition in RerF is a test of the form w<sub>1</sub>X<sub>i + ... + w<sub>p</sub>X<sub>p</sub> > t. The orientations of hyperplanes are sampled randomly via a user-specified distribution on the coefficients w<sub>i</sub>, although we do provide an empirically validated default distribution.
 
 ## Installation:
 - Non-Windows users install the GNU Scientific Library (libgsl0-dev).
