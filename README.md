@@ -1,17 +1,28 @@
-# R-RerF
+# [Randomer Forest](https://arxiv.org/pdf/1506.03410v2.pdf "arxiv link to RerF paper")
 
 [![CRAN Status Badge](http://www.r-pkg.org/badges/version/rerf)](http://cran.r-project.org/web/packages/rerf)
 
-## This is an R implementation of Randomer Forest( [RerF](https://arxiv.org/pdf/1506.03410v2.pdf "arxiv link to RerF paper"))
+## Contents
+- [**R**](https://github.com/neurodata/R-RerF/tree/master/R): `R` building blocks for user interface code. Internally called by user interface.
+- [**man**](https://github.com/fneurodata/R-RerF/tree/master/man): Package documentation
+- [**src**](https://github.com/neurodata/R-RerF/tree/master/src): C++ functions called from within R
+- [**travisTest**](https://github.com/fneurodata/R-RerF/tree/master/travisTest): Travis CI tests
 
-RerF is a generalization of the Random Forest (RF) algorithm. RF partitions the input (feature) space via a series of recursive binary hyperplanes. Hyperplanes are constrained to be axis-aligned. In other words, each partition is a test of the form X<sub>i</sub> > t, where t is a threshold and X<sub>i</sub> is one of p inputs (features) {X<sub>1</sub>, ..., X<sub>p</sub>}. The best axis-aligned split is found by sampling a random subset of the p inputs and choosing the one that best partitions the observed data according to some specified split criterion. RerF relaxes the constraint that the splitting hyperplanes must be axis-aligned. That is, each partition in RerF is a test of the form w<sub>1</sub>X<sub>1</sub> + ... + w<sub>p</sub>X<sub>p</sub> > t. The orientations of hyperplanes are sampled randomly via a user-specified distribution on the coefficients w<sub>i</sub>, although an empirically validated default distribution is provided.
+## Description:
+Randomer Forest (RerF) is a generalization of the Random Forest (RF) algorithm. RF partitions the input (feature) space via a series of recursive binary hyperplanes. Hyperplanes are constrained to be axis-aligned. In other words, each partition is a test of the form X<sub>i</sub> > t, where t is a threshold and X<sub>i</sub> is one of p inputs (features) {X<sub>1</sub>, ..., X<sub>p</sub>}. The best axis-aligned split is found by sampling a random subset of the p inputs and choosing the one that best partitions the observed data according to some specified split criterion. RerF relaxes the constraint that the splitting hyperplanes must be axis-aligned. That is, each partition in RerF is a test of the form w<sub>1</sub>X<sub>1</sub> + ... + w<sub>p</sub>X<sub>p</sub> > t. The orientations of hyperplanes are sampled randomly via a user-specified distribution on the coefficients w<sub>i</sub>, although an empirically validated default distribution is provided. Currently only classification is supported. Regression and unsupervised learning will be supported in the future.
 
 ## Installation:
 - Non-Windows users install the GNU Scientific Library (libgsl0-dev).
 - Windows users install Rtools (https://cran.r-project.org/bin/windows/Rtools/)
-- Install dev-tools.  From within R-  
+
+### via CRAN
+From within R-
+```install.packages("rerf")```
+
+### via devtools
+Install dev-tools if not currently installed. From within R-  
 ```install.packages("devtools")```
-- Install R-RerF from github.  From within R-  
+Install R-RerF from github.  From within R-  
 ```devtools::install_github("neurodata/R-Rerf")```
 
 ## Use:
