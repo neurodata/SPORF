@@ -36,6 +36,7 @@ Any machine with >= 2 GB RAM
 - `parallel`
 
 ## Installation
+- Installation normally takes ~5-10 minutes
 - Non-Windows users install the GNU Scientific Library (libgsl0-dev).
 - Windows users install Rtools (https://cran.r-project.org/bin/windows/Rtools/)
 
@@ -54,6 +55,9 @@ Next install `rerf` from github.  From within R-
 ```devtools::install_github("neurodata/R-Rerf")```
 
 ## How to Use
+
+Runtime for the following examples should be < 1 sec on any machine.
+
 ### Load the library :
 ```library(rerf)```
 
