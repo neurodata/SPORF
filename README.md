@@ -2,25 +2,49 @@
 
 [![CRAN Status Badge](http://www.r-pkg.org/badges/version/rerf)](http://cran.r-project.org/web/packages/rerf)
 
+- [Repo contents](#repo-contents)
+- [Description](#description)
+- [Hardware Requirements](#hardware-requirements)
+- [R Package Dependencies](#r-package-dependencies)
+- [Installation](#installation)
+- [How to Use](#how-to-use)
+- [Reproduction and Verification](#reproduction-and-verification)
+
 ## Repo Contents
 - [**R**](https://github.com/neurodata/R-RerF/tree/master/R): `R` building blocks for user interface code. Internally called by user interface.
 - [**man**](https://github.com/fneurodata/R-RerF/tree/master/man): Package documentation
 - [**src**](https://github.com/neurodata/R-RerF/tree/master/src): C++ functions called from within R
 - [**travisTest**](https://github.com/fneurodata/R-RerF/tree/master/travisTest): Travis CI tests
 
-## Description:
+## Description
 Randomer Forest (RerF) is a generalization of the Random Forest (RF) algorithm. RF partitions the input (feature) space via a series of recursive binary hyperplanes. Hyperplanes are constrained to be axis-aligned. In other words, each partition is a test of the form X<sub>i</sub> > t, where t is a threshold and X<sub>i</sub> is one of p inputs (features) {X<sub>1</sub>, ..., X<sub>p</sub>}. The best axis-aligned split is found by sampling a random subset of the p inputs and choosing the one that best partitions the observed data according to some specified split criterion. RerF relaxes the constraint that the splitting hyperplanes must be axis-aligned. That is, each partition in RerF is a test of the form w<sub>1</sub>X<sub>1</sub> + ... + w<sub>p</sub>X<sub>p</sub> > t. The orientations of hyperplanes are sampled randomly via a user-specified distribution on the coefficients w<sub>i</sub>, although an empirically validated default distribution is provided. Currently only classification is supported. Regression and unsupervised learning will be supported in the future.
 
-## Installation:
+
+## Tested on
+
+- Mac OSX: 10.11 10.12 (Sierra)
+- Linux: Ubuntu 16.04, CentOS 6
+- Windows: 10
+
+## Hardware Requirements
+Any machine with >= 2 GB RAM
+
+## `R` Package Dependencies:
+- `dummies`
+- `compiler`
+- `RcppZiggurat`
+- `parallel`
+
+## Installation
 - Non-Windows users install the GNU Scientific Library (libgsl0-dev).
 - Windows users install Rtools (https://cran.r-project.org/bin/windows/Rtools/)
 
-### From CRAN
+### From CRAN:
 From within R-
 
 ```install.packages("rerf")```
 
-### From Github
+### From Github:
 Install dev-tools if not currently installed. From within R-  
 
 ```install.packages("devtools")```
@@ -29,13 +53,7 @@ Install R-RerF from github.  From within R-
 
 ```devtools::install_github("neurodata/R-Rerf")```
 
-### `R` Package Dependencies
-- `dummies`
-- `compiler`
-- `RcppZiggurat`
-- `parallel`
-
-## Use:
+## How to Use
 ### Load the library :
 ```library(rerf)```
 
@@ -53,32 +71,42 @@ forest <- RerF(X, Y, seed = 1L)
 ```
 > forest$trees[[1]]
 $treeMap
- [1]  1 -1  2  3  6  4 -5 -2  5 -3 -4  7 -8 -6 -7
+ [1]   1   2 -17   3   4  -1  -2   5   8  -3   6   7  -6  -4  -5   9 -16  10 -15
+[20]  -7  11  12 -14  13  14  -8  -9 -10  15 -11  16 -12 -13
 
 $CutPoint
-[1]  3.20  4.55 -4.95 -1.75 -4.90 -1.75 -4.85
+ [1]  -0.80  -6.85  -1.90   4.35  -2.75  -5.90   7.55  -2.85 -10.75  -3.35
+[11]   3.45  -3.15   4.90   4.60  -3.05   6.40
 
 $ClassProb
-     [,1]      [,2]      [,3]
-[1,]    1 0.0000000 0.0000000
-[2,]    0 0.0000000 1.0000000
-[3,]    0 0.3333333 0.6666667
-[4,]    0 1.0000000 0.0000000
-[5,]    0 0.0000000 1.0000000
-[6,]    0 0.0000000 1.0000000
-[7,]    0 0.2500000 0.7500000
-[8,]    0 1.0000000 0.0000000
+      [,1]      [,2]      [,3]
+ [1,]    0 1.0000000 0.0000000
+ [2,]    0 0.0000000 1.0000000
+ [3,]    0 1.0000000 0.0000000
+ [4,]    0 0.3333333 0.6666667
+ [5,]    0 1.0000000 0.0000000
+ [6,]    0 1.0000000 0.0000000
+ [7,]    0 0.0000000 1.0000000
+ [8,]    0 1.0000000 0.0000000
+ [9,]    0 0.0000000 1.0000000
+[10,]    0 1.0000000 0.0000000
+[11,]    0 0.0000000 1.0000000
+[12,]    0 0.0000000 1.0000000
+[13,]    0 0.6666667 0.3333333
+[14,]    0 0.0000000 1.0000000
+[15,]    0 1.0000000 0.0000000
+[16,]    0 0.0000000 1.0000000
+[17,]    1 0.0000000 0.0000000
 
 $matAstore
- [1]  3  1  4  1  2  1  4  1  1 -1  4 -1  3 -1  4 -1  3 -1
+ [1]  4 -1  1 -1  1 -1  3  1  2  1  4  1  2 -1  1 -1  1  1  4  1  2 -1  1 -1  3
+[26] -1  2 -1  3  1  4 -1  2 -1  3  1  3  1  2 -1  1  1
 
 $matAindex
-[1]  0  4  8 10 12 14 16 18
+ [1]  0  2  4  8 12 14 16 20 22 26 28 32 34 36 38 40 42
 
 $ind
- [1]   8  15  19  20  22  23  28  42  43  47  49  56  57  58  59  60  62  63  65
-[20]  66  69  72  73  77  79  80  89  91  93  95 105 108 109 111 114 116 117 120
-[39] 121 123 124 130 133 136 137 139 144 145
+NULL
 
 $rotmat
 NULL
@@ -144,7 +172,7 @@ oob.error <- mean(predictions != Y)
  [55] versicolor versicolor versicolor versicolor versicolor versicolor
  [61] versicolor versicolor versicolor versicolor versicolor versicolor
  [67] versicolor versicolor versicolor versicolor virginica  versicolor
- [73] virginica  versicolor versicolor versicolor versicolor virginica 
+ [73] versicolor versicolor versicolor versicolor versicolor virginica 
  [79] versicolor versicolor versicolor versicolor versicolor virginica 
  [85] versicolor versicolor versicolor versicolor versicolor versicolor
  [91] versicolor versicolor versicolor versicolor versicolor versicolor
@@ -154,13 +182,13 @@ oob.error <- mean(predictions != Y)
 [115] virginica  virginica  virginica  virginica  virginica  versicolor
 [121] virginica  virginica  virginica  virginica  virginica  virginica 
 [127] virginica  virginica  virginica  virginica  virginica  virginica 
-[133] virginica  versicolor versicolor virginica  virginica  virginica 
-[139] versicolor virginica  virginica  virginica  virginica  virginica 
+[133] virginica  versicolor virginica  virginica  virginica  virginica 
+[139] virginica  virginica  virginica  virginica  virginica  virginica 
 [145] virginica  virginica  virginica  virginica  virginica  virginica 
 Levels: setosa versicolor virginica
 
 > oob.error
-[1] 0.06
+[1] 0.04
 ```
   
 ### Compute similarities:
@@ -176,14 +204,14 @@ sim.matrix <- ComputeSimilarity(X, forest, num.cores = 1L)
 
 ```
 > sim.matrix[1, ]
-  [1] 1.00 0.91 0.94 0.93 1.00 0.98 0.99 1.00 0.90 0.95 0.99 1.00 0.91 0.90 0.87
- [16] 0.81 0.98 1.00 0.88 0.99 1.00 0.99 0.99 0.96 0.97 0.92 1.00 1.00 1.00 0.94
- [31] 0.94 1.00 0.98 0.92 0.95 0.96 0.95 1.00 0.90 1.00 1.00 0.85 0.94 0.98 0.99
- [46] 0.90 0.99 0.94 1.00 0.96 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
- [61] 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
- [76] 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.01 0.00 0.00 0.00 0.00 0.00
- [91] 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.01 0.00 0.00 0.00 0.00 0.00 0.00
-[106] 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+  [1] 1.00 0.94 0.94 0.94 1.00 0.97 0.97 1.00 0.91 0.96 0.99 1.00 0.94 0.91 0.89
+ [16] 0.83 0.98 1.00 0.90 1.00 1.00 1.00 0.98 0.97 1.00 0.94 1.00 1.00 1.00 0.94
+ [31] 0.96 1.00 0.98 0.90 0.96 0.96 0.93 1.00 0.91 1.00 1.00 0.87 0.93 0.98 0.98
+ [46] 0.92 1.00 0.94 0.99 0.97 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.01 0.00 0.00
+ [61] 0.01 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+ [76] 0.00 0.00 0.00 0.00 0.00 0.01 0.01 0.00 0.00 0.00 0.01 0.00 0.00 0.00 0.00
+ [91] 0.00 0.00 0.00 0.01 0.00 0.00 0.00 0.00 0.02 0.00 0.00 0.00 0.00 0.00 0.00
+[106] 0.00 0.00 0.00 0.00 0.01 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.01 0.00 0.00
 [121] 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
 [136] 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
 ```
@@ -204,10 +232,10 @@ scor <- StrCorr(predictions, Y[-trainIdx])
 ```
 > scor
 $s
-[1] 0.9336667
+[1] 0.9413333
 
 $rho
-[1] 0.7413237
+[1] 0.8451606
 ```
 
 ### Compute feature (projection) importance (this feature is not available in the current CRAN release):
@@ -225,3 +253,22 @@ feature.imp <- FeatureImportance(forest, num.cores = 1L)
 ```
 
 **Expected output:**
+
+```
+> feature.imp
+$imp
+[1] 4455.7292 4257.6306  861.6474  178.5267
+
+$proj
+$proj[[1]]
+[1] 3 1
+
+$proj[[2]]
+[1] 4 1
+
+$proj[[3]]
+[1] 1 1
+
+$proj[[4]]
+[1] 2 1
+```
