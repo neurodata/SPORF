@@ -49,7 +49,7 @@ First install the `devtools` package if not currently installed. From within R-
 
 ```install.packages("devtools")```
 
-Now you can install `rerf` from github.  From within R-  
+Next install `rerf` from github.  From within R-  
 
 ```devtools::install_github("neurodata/R-Rerf")```
 
