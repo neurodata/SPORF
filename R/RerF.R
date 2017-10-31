@@ -150,6 +150,7 @@ RerF <-
             }
         }else{
             #Use just one core.
+	    set.seed(seed)
             forest$trees <- lapply(1:trees, mcrun)
         }
         return(forest)
