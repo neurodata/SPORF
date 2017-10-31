@@ -2,7 +2,7 @@
 
 [![CRAN Status Badge](http://www.r-pkg.org/badges/version/rerf)](http://cran.r-project.org/web/packages/rerf)
 
-## Contents
+## Repo Contents
 - [**R**](https://github.com/neurodata/R-RerF/tree/master/R): `R` building blocks for user interface code. Internally called by user interface.
 - [**man**](https://github.com/fneurodata/R-RerF/tree/master/man): Package documentation
 - [**src**](https://github.com/neurodata/R-RerF/tree/master/src): C++ functions called from within R
@@ -15,12 +15,12 @@ Randomer Forest (RerF) is a generalization of the Random Forest (RF) algorithm. 
 - Non-Windows users install the GNU Scientific Library (libgsl0-dev).
 - Windows users install Rtools (https://cran.r-project.org/bin/windows/Rtools/)
 
-### via CRAN
+### From CRAN
 From within R-
 
 ```install.packages("rerf")```
 
-### via devtools
+### From Github
 Install dev-tools if not currently installed. From within R-  
 
 ```install.packages("devtools")```
@@ -28,6 +28,12 @@ Install dev-tools if not currently installed. From within R-
 Install R-RerF from github.  From within R-  
 
 ```devtools::install_github("neurodata/R-Rerf")```
+
+### `R` Package Dependencies
+- `dummies`
+- `compiler`
+- `RcppZiggurat`
+- `parallel`
 
 ## Use:
 ###   Load the library :
