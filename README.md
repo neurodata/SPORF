@@ -8,7 +8,6 @@
 - [Software Dependencies](#software-dependencies)
 - [Installation](#installation)
 - [How to Use](#how-to-use)
-- [Reproduction and Verification](#reproduction-and-verification)
 
 ## Repo Contents
 - [**R**](https://github.com/neurodata/R-RerF/tree/master/R): `R` building blocks for user interface code. Internally called by user interface.
