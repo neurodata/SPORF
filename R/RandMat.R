@@ -20,10 +20,11 @@ function(mat.options) {
   #Create the random matrix, a sparse matrix of 1's, -1's, and 0's.
   if (method == "binary") {
     rho <- mat.options[[4L]]
+    prob <- mat.options[[5L]]
     nnzs <- round(p*d*rho)
     ind <- sort(sample.int((p*d), nnzs, replace = F))
     random.matrix <- cbind(((ind - 1L) %% p) + 1L, floor((ind - 1L) / p) + 1L,
-                           sample(c(1L, -1L), nnzs, replace = T))
+                           sample(c(1L, -1L), nnzs, replace = T, prob = c(prob, 1 - prob)))
   } else if (method == "continuous") {
     rho <- mat.options[[4L]]
     nnzs <- round(p*d*rho)
@@ -79,6 +80,50 @@ function(mat.options) {
       start.idx <- end.idx + 1L
     }
     random.matrix <- cbind(nz.rows, nz.cols, zrnorm(nnz))
+  } else if (method == "image-patch") {
+    iw <- mat.options[[4L]] # image width
+    ih <- mat.options[[5L]] # image height
+    pw.min <- mat.options[[6L]] # minimum patch width
+    pw.max <- mat.options[[7L]] # maximum patch width
+    pw <- sample.int(pw.max - pw.min + 1L, 2*d, replace = T) + pw.min - 1L
+    sample.height <- ih - pw[1:d] + 1L
+    sample.width <- iw - pw[(d + 1L):(2*d)] + 1L
+    nnz <- sum(pw[1:d]*pw[(d + 1L):(2*d)])
+    nz.rows <- integer(nnz)
+    nz.cols <- integer(nnz)
+    start.idx <- 1L
+    for (i in seq.int(d)) {
+      top.left <- sample.int(sample.height[i]*sample.width[i], 1L)
+      top.left <- floor((top.left - 1L)/sample.height[i])*(ih - sample.height[i]) + top.left
+      # top.left <- floor((top.left - 1L)/sample.height[i]) + top.left
+      end.idx <- start.idx + pw[i]*pw[i + d] - 1L
+      nz.rows[start.idx:end.idx] <- sapply((1:pw[i + d]) - 1L, function(x) top.left:(top.left + pw[i] - 1L) + x*ih)
+      nz.cols[start.idx:end.idx] <- i
+      start.idx <- end.idx + 1L
+    }
+    # random.matrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz, replace = T))
+    random.matrix <- cbind(nz.rows, nz.cols, rep(1L, nnz))
+  } else if (method == "image-control") {
+    iw <- mat.options[[4L]] # image width
+    ih <- mat.options[[5L]] # image height
+    pw.min <- mat.options[[6L]] # minimum patch width
+    pw.max <- mat.options[[7L]] # maximum patch width
+    pw <- sample.int(pw.max - pw.min + 1L, 2*d, replace = T) + pw.min - 1L
+    nnzPerCol <- pw[1:d]*pw[(d + 1L):(2*d)]
+    sample.height <- ih - pw[1:d] + 1L
+    sample.width <- iw - pw[(d + 1L):(2*d)] + 1L
+    nnz <- sum(nnzPerCol)
+    nz.rows <- integer(nnz)
+    nz.cols <- integer(nnz)
+    start.idx <- 1L
+    for (i in seq.int(d)) {
+      end.idx <- start.idx + nnzPerCol[i] - 1L
+      nz.rows[start.idx:end.idx] <- sample.int(p, nnzPerCol[i], replace = F)
+      nz.cols[start.idx:end.idx] <- i
+      start.idx <- end.idx + 1L
+    }
+    # random.matrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz, replace = T))
+    random.matrix <- cbind(nz.rows, nz.cols, rep(1L, nnz))
   }
   return(random.matrix)
 }
