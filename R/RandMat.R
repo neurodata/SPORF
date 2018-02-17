@@ -124,6 +124,23 @@ function(mat.options) {
     }
     # random.matrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz, replace = T))
     random.matrix <- cbind(nz.rows, nz.cols, rep(1L, nnz))
+  } else if (method == "custom") {
+    nnz.sample <- mat.options[[4L]]
+    try(if(any(nnz.sample > p) | any(nnz.sample == 0)) stop("nnzs per projection must be no more than the number of features"))
+    nnz.prob <- mat.options[[5L]]
+    go <- T
+    nnzPerCol <- sample(nnz.sample, d, replace = T, prob = nnz.prob)
+    nnz <- sum(nnzPerCol)
+    nz.rows <- integer(nnz)
+    nz.cols <- integer(nnz)
+    start.idx <- 1L
+    for (i in seq.int(d)) {
+      end.idx <- start.idx + nnzPerCol[i] - 1L
+      nz.rows[start.idx:end.idx] <- sample.int(p, nnzPerCol[i], replace = F)
+      nz.cols[start.idx:end.idx] <- i
+      start.idx <- end.idx + 1L
+    }
+    random.matrix <- cbind(nz.rows, nz.cols, zrnorm(nnz))
   }
   return(random.matrix)
 }
