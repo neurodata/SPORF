@@ -123,9 +123,10 @@ BuildTree <-
         matAindex <- integer(maxIN)
         matAsize <- ceiling(w/2)
 
-        if (mat.options[[3]] != "frc" && 
-            mat.options[[3]] != "continuous" && 
-            mat.options[[3]] != "frcn") {
+        if (mat.options[[3L]] != "frc" && 
+            mat.options[[3L]] != "continuous" && 
+            mat.options[[3L]] != "frcn" &&
+            mat.options[[3L]] != "custom") {
             matAstore <- integer(matAsize)
         } else {
             matAstore <- double(matAsize)
@@ -309,7 +310,8 @@ BuildTree <-
             }
             if (mat.options[[3L]] != "frc" && 
                 mat.options[[3L]] != "continuous" && 
-                mat.options[[3]] != "frcn") {
+                mat.options[[3L]] != "frcn" &&
+                mat.options[[3L]] != "custom") {
                 matAstore[(matAindex[currIN]+1L):(matAindex[currIN]+currMatAlength)] <- as.integer(t(sparseM[lrows,c(1L,3L)]))
             } else {
                 matAstore[(matAindex[currIN]+1L):(matAindex[currIN]+currMatAlength)] <- t(sparseM[lrows,c(1L,3L)])
