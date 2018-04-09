@@ -278,3 +278,26 @@ $proj[[3]]
 $proj[[4]]
 [1] 2 1
 ```
+### Train Structured RerF (S-RerF) for image classification:
+S-RerF samples and evaluates a set of random features at each split node, where each feature is defined as a random linear combination of intensities of pixels  contained in a contiguous patch within an image. Thus, the generated features exploit local structure inherent in images.
+
+```
+data(mnist)
+# p is number of dimensions, d is the number of random features to evaluate, iw is image width, ih is image height, patch.min is min width of square patch to sample pixels from, and patch.max is the max width of square patch
+p <- ncol(mnist$Xtrain)
+d <- ceiling(sqrt(p))
+iw <- sqrt(p)
+ih <- iw
+patch.min <- 1L
+patch.max <- 5L
+forest <- RerF(mnist$Xtrain, mnist$Ytrain, num.cores = 1L, mat.options = list(p, d, "image-patch", iw, ih, patch.min, patch.max), seed = 1L)
+predictions <- Predict(mnist$Xtest, forest, num.cores = 1L)
+error.rate <- mean(predictions != mnist$Ytest)
+```
+
+**Expected output:**
+
+```
+> error.rate
+[1] 0.0544
+```
