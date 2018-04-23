@@ -5,3 +5,11 @@ findSplit <- function(x, y, ndSize, I, maxdI, bv, bs, nzidx, cc) {
     .Call('_rerf_findSplit', PACKAGE = 'rerf', x, y, ndSize, I, maxdI, bv, bs, nzidx, cc)
 }
 
+testFun <- function() {
+    .Call('_rerf_testFun', PACKAGE = 'rerf')
+}
+
+predictRF <- function(mat) {
+    .Call('_rerf_predictRF', PACKAGE = 'rerf', mat)
+}
+

@@ -25,9 +25,32 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// testFun
+int testFun();
+RcppExport SEXP _rerf_testFun() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(testFun());
+    return rcpp_result_gen;
+END_RCPP
+}
+// predictRF
+Rcpp::NumericVector predictRF(NumericMatrix mat);
+RcppExport SEXP _rerf_predictRF(SEXP matSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat(matSEXP);
+    rcpp_result_gen = Rcpp::wrap(predictRF(mat));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_rerf_findSplit", (DL_FUNC) &_rerf_findSplit, 9},
+    {"_rerf_testFun", (DL_FUNC) &_rerf_testFun, 0},
+    {"_rerf_predictRF", (DL_FUNC) &_rerf_predictRF, 1},
     {NULL, NULL, 0}
 };
 
