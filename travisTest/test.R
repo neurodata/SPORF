@@ -9,18 +9,15 @@ pvals <- c(.5,2,.5,2, .5,2,.5,1.35)
 #The 9th test must be manually changed.  This is the long MNIST.
 numTests <- c(rep(numT, 8), 10)
 cores <- c(rep(numC, 8), 25)
-# TODO: Why is number of trees same as number of tests?
 numTrees <- c(rep(trees, 8), 100)
 #This skips the MNIST test.  If you don't want to skip the test #then make skipMNIST FALSE
 skipMNIST <- TRUE
 
-trainSets <- c("Orthant_train.csv", "Sparse_parity_train.csv", "Trunk_train.csv", "mnist_train.csv", "calcium-spike-post_train.csv")
-testSets <- c("Orthant_test.csv", "Sparse_parity_test.csv", "Trunk_test.csv", "mnist_test.csv", "calcium-spike-post_test.csv")
+trainSets <- c("Orthant_train.csv", "Sparse_parity_train.csv", "Trunk_train.csv", "mnist_train.csv", "calcium-spike_train.csv")
+testSets <- c("Orthant_test.csv", "Sparse_parity_test.csv", "Trunk_test.csv", "mnist_test.csv", "calcium-spike_test.csv")
 
 dev_mode(on=FALSE)
-# TODO: Change back to neurodata when pull request
-install_github('jyim6/R-RerF')
-# install_github("neurodata/R-Rerf@baseline")
+install_github("neurodata/R-Rerf@baseline")
 
 pass <- TRUE
 

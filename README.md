@@ -123,7 +123,7 @@ NULL
 $delta.impurity
 NULL
 ```
-  
+
 "forest" is a trained forest which is needed for all other rerf functions.  Additional parameters and more complex examples of training a forest can be found using the help function (```?RerF```)
 
 ### Making predictions and determining error rate:
@@ -196,7 +196,7 @@ Levels: setosa versicolor virginica
 > oob.error
 [1] 0.04
 ```
-  
+
 ### Compute similarities:
 Computes pairwise similarities between observations. The similarity between two points is defined as the fraction of trees such that two points fall into the same leaf node (i.e. two samples are similar if they consistently show up in the same leaf node).  This function produces an n by n symmetric similarity matrix.  
 ```  
@@ -221,7 +221,7 @@ sim.matrix <- ComputeSimilarity(X, forest, num.cores = 1L)
 [121] 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
 [136] 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
 ```
-  
+
 ### Compute tree strengths and correlations:
 Computes estimates of tree strength and correlation according to the definitions in Breiman's 2001 Random Forests paper.  
 ```
@@ -279,6 +279,7 @@ $proj[[4]]
 [1] 2 1
 ```
 ### Train Structured RerF (S-RerF) for image classification:
+
 S-RerF samples and evaluates a set of random features at each split node, where each feature is defined as a random linear combination of intensities of pixels  contained in a contiguous patch within an image. Thus, the generated features exploit local structure inherent in images.
 
 ```
@@ -301,3 +302,39 @@ error.rate <- mean(predictions != mnist$Ytest)
 > error.rate
 [1] 0.0544
 ```
+### Train Structured RerF (S-RerF) for spike train inference:
+
+Similar to S-RerF for image classification except now in the Spike Train setting. 500 samples were stimulated from the following AR(2) model:
+$$
+c_t = \sum_{i=1}^2 \gamma_i c_{t-i} + s_t, \ \ \ s_t \sim Poisson(0.01) \\
+y_t = a \ c_t + \epsilon_t, \ \ \ \ \epsilon_t \sim \mathcal{N}(0, 1)
+$$
+whre $\gamma_1 = 1.7, \gamma_2 = -0.712$, $a = 1$. We sampled such that the were an equal number of spikes and non-spikes in the datasets. S-RerF was trained on these samples by computing local feature patches across the time series windows.
+
+```
+ts.train <- read.csv('calcium-spike_train.csv', header=FALSE)
+ts.test <- read.csv('calcium-spike_test.csv', header=FALSE)
+ts.train$X <- ts.train[,1:(ncol(ts.train)-1)]
+ts.train$Y <- ts.train[,ncol(ts.train)]
+ts.test$X <- ts.test[,1:(ncol(ts.test)-1)]
+ts.test$Y <- ts.test[,ncol(ts.test)]
+
+# p is number of dimensions, d is the number of random features to evaluate, patch.min is min width of a time series patch to sample, and patch.max is the max width of the patch.
+p <- ncol(ts.train$X)
+d <- ceiling(sqrt(p))
+patch.min <- 1L
+patch.max <- 5L
+forest <- RerF(ts.train$X, ts.train$Y, num.cores = 1L, mat.options = list(p, d, "ts-patch", patch.min, patch.max), seed = 1L)
+predictions <- Predict(ts.test$X, forest, num.cores = 1L)
+error.rate <- mean(predictions != ts.test$Y)
+```
+
+**Expected output**
+
+```
+> error.rate
+[1] 0.262
+```
+
+
+
