@@ -41,30 +41,36 @@ PackForest <-
 			datWrite <- c(datWrite, treeSizes[i], forest$trees[[i]]$treeMap, forest$trees[[i]]$CutPoint, classProbs, features)
 		}
 
+		print("starting forest write to csv")
 		write.table(datWrite, file = "forestPackTempFile.csv",row.names=FALSE, na="",col.names=FALSE, sep=" ", append=FALSE)
+		print("finished forest write to csv")
 
 		# write training data to csv for stat.  This should become optional
 		numberOfFeatures <- ncol(X)
 		numberOfTestObservations <- nrow(X)
-		tempTraversal <- c(numberOfTestObservations, numberOfFeatures)
+		listSize <- 2 + numberOfTestObservations*(numberOfFeatures + 1)
+		tempTraversal <- vector(mode = "numeric", length = listSize)
+		tempTraversal[1] <- numberOfTestObservations
+		tempTraversal[2] <- numberOfFeatures
 
 		#write.table(c(numberOfTestObservations, numberOfFeatures), file = "traversal.csv", row.names=FALSE, na="",col.names=FALSE, sep=" ",append=FALSE)
-		for(j in 1:numberOfTestObservations){
-			#write.table(c(Y[j]-1, X[j,]), file = "traversalPackTempFile.csv",row.names=FALSE, na="",col.names=FALSE, sep=" ", append=TRUE)
-		tempTraversal <-	c(tempTraversal, Y[j]-1, X[j,])
+		for(j in 0:(numberOfTestObservations-1)){
+		tempTraversal[2+j*(numberOfFeatures+1)+1] <- Y[j+1]-1
+		tempTraversal[(2+j*(numberOfFeatures+1)+2):(2+(j+1)*(numberOfFeatures+1))] <- X[j+1,]
 		}
+		print("starting traversal write to csv")
 		write.table(tempTraversal, file = "traversalPackTempFile.csv",row.names=FALSE, na="",col.names=FALSE, sep=" ", append=FALSE)
+		print("finished traversal write to csv")
 
+		
+		if (file.exists("forest.out")) file.remove("forest.out")
 		# Call C++ code to create and load the forest.
+		print("starting packing")
 		z <- testFun()
+		print("finished packing")
 		print(paste("z = ", z))
 
 		if (file.exists("forestPackTempFile.csv")) file.remove("forestPackTempFile.csv")
 		if (file.exists("traversalPackTempFile.csv")) file.remove("traversalPackTempFile.csv")
 
-#		if(file.exists("forest.out")){
-#preds <- predictRF(X)
-#}
-
-#		preds
 	}

@@ -75,23 +75,22 @@ void treeBin2::repackTree(padNodeStat* tree, int workingNode){
     }
 }
 
-
 treeBin2::treeBin2(std::ifstream &in){
 
-	in >> numOfTreesInBin;
-	in >> depth;
-	in >> numOfClasses;
-	in >> numOfNodes;
+	in.read((char*)&numOfTreesInBin, sizeof(int));
+	in.read((char*)&depth, sizeof(int));
+	in.read((char*)&numOfClasses, sizeof(int));
+	in.read((char*)&numOfNodes, sizeof(int));
 
-    bin = new padNode [numOfNodes+numOfClasses];
-		for(int i = 0; i < (numOfNodes+numOfClasses); i++){
-in >> bin[i].left;
-in >> bin[i].feature;
-in >> bin[i].cutValue;
-in >> bin[i].right;
-		}
-	
+	bin = new padNode [numOfNodes+numOfClasses];
+	for(int i = 0; i < (numOfNodes+numOfClasses); i++){
+		in.read((char*)&bin[i].left, sizeof(uint32_t));
+		in.read((char*)&bin[i].feature, sizeof(uint32_t));
+		in.read((char*)&bin[i].cutValue, sizeof(double));
+		in.read((char*)&bin[i].right, sizeof(uint32_t));
+	}
 }
+
 
 treeBin2::treeBin2(padNodeStat**& forest, int*& treeLength, int startTree, int finalTree, int headDepth, int numClasses){
     numOfTreesInBin = finalTree-startTree;
@@ -178,3 +177,5 @@ treeBin2::~treeBin2(){
 bool treeBin2::isInternalNode(int currentNodeNum){
    return numOfNodes > currentNodeNum;
 }
+
+

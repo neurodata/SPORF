@@ -24,5 +24,5 @@ PackPredict <-
 preds <- predictRF(X)
 }
 
-		preds
+		print(preds)
 	}
