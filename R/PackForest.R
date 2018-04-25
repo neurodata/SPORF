@@ -68,7 +68,6 @@ PackForest <-
 		print("starting packing")
 		z <- testFun()
 		print("finished packing")
-		print(paste("z = ", z))
 
 		if (file.exists("forestPackTempFile.csv")) file.remove("forestPackTempFile.csv")
 		if (file.exists("traversalPackTempFile.csv")) file.remove("traversalPackTempFile.csv")
