@@ -18,10 +18,10 @@
 #'
 
 PackPredict <-
-	function(X){
+	function(X, numCores=1){
 
 				if(file.exists("forest.out")){
-preds <- predictRF(X)
+preds <- predictRF(X, numCores)
 }
 
 return(preds)

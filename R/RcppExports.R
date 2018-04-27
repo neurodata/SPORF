@@ -9,7 +9,7 @@ testFun <- function() {
     .Call('_rerf_testFun', PACKAGE = 'rerf')
 }
 
-predictRF <- function(mat) {
-    .Call('_rerf_predictRF', PACKAGE = 'rerf', mat)
+predictRF <- function(mat, numCores) {
+    .Call('_rerf_predictRF', PACKAGE = 'rerf', mat, numCores)
 }
 

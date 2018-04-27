@@ -36,13 +36,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // predictRF
-Rcpp::NumericVector predictRF(NumericMatrix mat);
-RcppExport SEXP _rerf_predictRF(SEXP matSEXP) {
+Rcpp::NumericVector predictRF(const NumericMatrix mat, const int numCores);
+RcppExport SEXP _rerf_predictRF(SEXP matSEXP, SEXP numCoresSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type mat(matSEXP);
-    rcpp_result_gen = Rcpp::wrap(predictRF(mat));
+    Rcpp::traits::input_parameter< const NumericMatrix >::type mat(matSEXP);
+    Rcpp::traits::input_parameter< const int >::type numCores(numCoresSEXP);
+    rcpp_result_gen = Rcpp::wrap(predictRF(mat, numCores));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -50,7 +51,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_rerf_findSplit", (DL_FUNC) &_rerf_findSplit, 9},
     {"_rerf_testFun", (DL_FUNC) &_rerf_testFun, 0},
-    {"_rerf_predictRF", (DL_FUNC) &_rerf_predictRF, 1},
+    {"_rerf_predictRF", (DL_FUNC) &_rerf_predictRF, 2},
     {NULL, NULL, 0}
 };
 

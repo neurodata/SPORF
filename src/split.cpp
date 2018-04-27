@@ -135,7 +135,7 @@ int testFun(){
 
 
 // [[Rcpp::export]]
-Rcpp::NumericVector predictRF(NumericMatrix mat){
+Rcpp::NumericVector predictRF(const NumericMatrix mat, const int numCores){
 
 		int numObservations = mat.nrow();
 			int numFeatures = mat.ncol();
@@ -148,7 +148,7 @@ Rcpp::NumericVector predictRF(NumericMatrix mat){
 			for(int j = 0; j < numFeatures; j++){
 			currObs[j] = mat(i,j);
 			}
-			predictions[i] = tester.makePrediction(currObs,1);
+			predictions[i] = tester.makePrediction(currObs,numCores);
 			}
 				
 	return predictions;
