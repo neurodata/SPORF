@@ -114,6 +114,36 @@ function(mat.options) {
       start.idx <- end.idx + 1L
     }
     random.matrix <- cbind(nz.rows, nz.cols, zrnorm(nnz))
+  } else if (method == "ts-patch") {
+    # pw holds all sizes of patch to filter on. 
+    # There will be d patches of varying sizes
+    pw.min <- mat.options[[4L]] # Minimum patch size
+    pw.max <- mat.options[[5L]] # Maximum patch size
+    pw <- sample.int(pw.max - pw.min, d, replace=T) + pw.min
+    
+    # nnz is sum over how many points the projection will sum over
+    nnz <- sum(pw)
+    nz.rows <- integer(nnz) # vector to hold row coordinates of patch points
+    nz.cols <- integer(nnz) # vector to hold column coordinates of patch points
+    
+    # Here we create the patches and store them
+    start.idx <- 1L
+    for (i in seq.int(d)) {
+      pw.start <- sample.int(p, 1) # Sample where to start the patch
+      end.idx <- start.idx + pw[i] - 1L # Set the ending point of the patch
+      for (j in 1:pw[i]) {
+        # Handle boundary cases where patch goes past end of ts
+        if (j + pw.start - 1L > p) {
+          end.idx <- j + start.idx - 1L
+          break
+        }
+        nz.rows[j + start.idx - 1L] <- pw.start + j - 1L
+        nz.cols[j + start.idx - 1L] <- i
+      }
+      start.idx <- end.idx + 1L
+    }
+    random.matrix <- cbind(nz.rows, nz.cols, rep(1L, nnz))
+    random.matrix <- random.matrix[random.matrix[,1] > 0,] # Trim entries that are 0
   } else if (method == "image-patch") {
     iw <- mat.options[[4L]] # image width
     ih <- mat.options[[5L]] # image height

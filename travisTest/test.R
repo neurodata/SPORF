@@ -6,15 +6,15 @@ numC <- 3
 
 pvals <- c(.5,2,.5,2, .5,2,.5,1.35)
 
-#The 8th test must be manually changed.  This is the long MNIST.
-numTests <- c(rep(numT, 7), 10)
-cores <- c(rep(numC, 7), 25)
-numTrees <- c(rep(trees, 7), 100)
-#This skips the 8th test.  If you don't want to skip the test #then make skipMNIST FALSE
+#The 9th test must be manually changed.  This is the long MNIST.
+numTests <- c(rep(numT, 8), 10)
+cores <- c(rep(numC, 8), 25)
+numTrees <- c(rep(trees, 8), 100)
+#This skips the MNIST test.  If you don't want to skip the test #then make skipMNIST FALSE
 skipMNIST <- TRUE
 
-trainSets <- c("Orthant_train.csv", "Sparse_parity_train.csv", "Trunk_train.csv", "mnist_train.csv")
-testSets <- c("Orthant_test.csv", "Sparse_parity_test.csv", "Trunk_test.csv", "mnist_test.csv")
+trainSets <- c("Orthant_train.csv", "Sparse_parity_train.csv", "Trunk_train.csv", "mnist_train.csv", "calcium-spike_train.csv")
+testSets <- c("Orthant_test.csv", "Sparse_parity_test.csv", "Trunk_test.csv", "mnist_test.csv", "calcium-spike_test.csv")
 
 dev_mode(on=FALSE)
 install_github("neurodata/R-Rerf@baseline")
@@ -48,7 +48,7 @@ library(rerf)
 for (i in 1:numTests){
         initMem <- sum(gc(reset=TRUE)[9:10])
         ptm <- proc.time()
-        forest<-RerF(X,Y,trees=numTrees, min.parent=1L, max.depth=0, stratify=TRUE, store.oob=TRUE, num.cores=cores, seed = sample(1:10000,1)) 
+        forest<-RerF(X,Y,trees=numTrees, min.parent=1L, max.depth=0, stratify=TRUE, store.oob=TRUE, num.cores=cores, seed = sample(1:10000,1))
         ptmtrain_baseline[i]<- (proc.time() - ptm)[3]
         memSize_baseline[i] <- sum(gc()[9:10]) - initMem
         if (length(forest$trees)!=numTrees){
@@ -68,13 +68,13 @@ for (i in 1:numTests){
         NodeSize_baseline[i] <- temp_size/length(forest$trees)
         ptm <- proc.time()
 OOBmat_temp <- OOBPredict(X,forest, num.cores=cores)
-                        OOBerror_baseline[i] <- mean(OOBmat_temp !=Y) 
+                        OOBerror_baseline[i] <- mean(OOBmat_temp !=Y)
 ptmOOB_baseline[i] <- (proc.time() - ptm)[3]
         ptm <- proc.time()
         error_baseline[i] <- mean(Predict(Xtest,forest,num.cores = cores) != Ytest)
         ptmtest_baseline[i]<- (proc.time() - ptm)[3]
     }
-    
+
     print("Finished baseline.")
     #####################################################################################################################
 detach("package:rerf", unload=TRUE)
@@ -92,7 +92,7 @@ ptmOOB_candidate <- NA
     for (i in 1:numTests){
         initMem <- sum(gc(reset=TRUE)[9:10])
         ptm <- proc.time()
-        forest<-RerF(X,Y,trees=numTrees, min.parent=1L, max.depth=0, stratify=TRUE, store.oob=TRUE, num.cores=cores, seed = sample(1:10000,1)) 
+        forest<-RerF(X,Y,trees=numTrees, min.parent=1L, max.depth=0, stratify=TRUE, store.oob=TRUE, num.cores=cores, seed = sample(1:10000,1))
         ptmtrain_candidate[i]<- (proc.time() - ptm)[3]
         memSize_candidate[i] <- sum(gc()[9:10]) - initMem
         if (length(forest$trees)!=numTrees){
@@ -112,7 +112,7 @@ ptmOOB_candidate <- NA
         NodeSize_candidate[i] <- temp_size/length(forest$trees)
         ptm <- proc.time()
 OOBmat_temp <- OOBPredict(X,forest, num.cores=cores)
-                        OOBerror_candidate[i] <- mean(OOBmat_temp != Y) 
+                        OOBerror_candidate[i] <- mean(OOBmat_temp != Y)
 ptmOOB_candidate[i] <- (proc.time() - ptm)[3]
         ptm <- proc.time()
         error_candidate[i] <- mean(Predict(Xtest,forest,num.cores = cores) != Ytest)
