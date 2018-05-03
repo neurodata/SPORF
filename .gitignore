@@ -30,3 +30,12 @@
 *.exe
 *.out
 *.app
+
+# Valgrind
+*.out.*
+
+# generic don't upload
+*.ignore
+bin/
+*.swp
+
