@@ -1,6 +1,5 @@
 # include <RcppArmadillo.h>
-# include <improv8.h>
-// [[Rcpp::depends(RcppArmadillo)]]
+//# include <improv8.h>
 
 using namespace Rcpp;
 
@@ -122,6 +121,7 @@ List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize,
 }
 
 
+/*
 // [[Rcpp::export]]
 int packForestRCPP(){
 	const std::string forestFileName = "forestPackTempFile.csv";
@@ -154,4 +154,4 @@ Rcpp::NumericVector predictRF(const NumericMatrix mat, const int numCores){
 	return predictions;
 }
 
-
+*/
