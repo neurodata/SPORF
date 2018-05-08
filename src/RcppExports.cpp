@@ -25,13 +25,13 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// testFun
-int testFun();
-RcppExport SEXP _rerf_testFun() {
+// packForestRCPP
+int packForestRCPP();
+RcppExport SEXP _rerf_packForestRCPP() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(testFun());
+    rcpp_result_gen = Rcpp::wrap(packForestRCPP());
     return rcpp_result_gen;
 END_RCPP
 }
@@ -50,7 +50,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_rerf_findSplit", (DL_FUNC) &_rerf_findSplit, 9},
-    {"_rerf_testFun", (DL_FUNC) &_rerf_testFun, 0},
+    {"_rerf_packForestRCPP", (DL_FUNC) &_rerf_packForestRCPP, 0},
     {"_rerf_predictRF", (DL_FUNC) &_rerf_predictRF, 2},
     {NULL, NULL, 0}
 };

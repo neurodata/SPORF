@@ -1,12 +1,10 @@
-#' Compute class predictions for each observation in X
+#' Packs a forest and saves modified forest to disk for use by PackPredict function
 #'
-#' Predicts the classification of samples using a trained forest.
+#' Efficiently packs a forest trained with the RF option.  Two intermediate data structures are written to disk, forestPackTempFile.csv and traversalPackTempFile.csv.  The size of these data structures is proportional to a trained forest and training data respectively.  Both data structures are removed at the end of the operation.  The resulting forest is saved as forest.out.  The size of this file is similar to the size of the trained forest.
 #'
-#' @param X an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features of a test set, which should be different from the training set.
-#' @param forest a forest trained using the RerF function.
-#' @param Y the number of cores to use while training. If NumCores=0 then 1 less than the number of cores reported by the OS are used. (NumCores=0)
-#'
-#' @return predictions an n length vector of predictions
+#' @param X an n by d numeric matrix (preferable) or data frame used to train the forest. 
+#' @param Y a numeric vector of size n.  If the Y vector used to train the forest was not of type numeric then a simple call to as.numeric(Y) will suffice as input.
+#' @param forest a forest trained using the RerF function using the RF option.
 #'
 #' @examples
 #' library(rerf)
@@ -14,6 +12,9 @@
 #' X <- as.matrix(iris[,1:4])
 #' Y <- as.numeric(iris[,5])
 #'
+#' forest <- RerF(X,Y, mat.options = list(p = ncol(X), d =ceiling(sqrt(ncol(X))), random.matrix = "rf", rho = 1/ncol(X)))
+#' PackForest(X,Y,forest) 
+#' 
 #' @export
 #'
 
@@ -53,23 +54,21 @@ PackForest <-
 		tempTraversal[1] <- numberOfTestObservations
 		tempTraversal[2] <- numberOfFeatures
 
-		#write.table(c(numberOfTestObservations, numberOfFeatures), file = "traversal.csv", row.names=FALSE, na="",col.names=FALSE, sep=" ",append=FALSE)
+		print("starting traversal write to csv")
 		for(j in 0:(numberOfTestObservations-1)){
 		tempTraversal[2+j*(numberOfFeatures+1)+1] <- Y[j+1]-1
 		tempTraversal[(2+j*(numberOfFeatures+1)+2):(2+(j+1)*(numberOfFeatures+1))] <- X[j+1,]
 		}
-		print("starting traversal write to csv")
 		write.table(tempTraversal, file = "traversalPackTempFile.csv",row.names=FALSE, na="",col.names=FALSE, sep=" ", append=FALSE)
 		print("finished traversal write to csv")
-
 		
 		if (file.exists("forest.out")) file.remove("forest.out")
 		# Call C++ code to create and load the forest.
 		print("starting packing")
-		z <- testFun()
+		z <- packForestRCPP()
 		print("finished packing")
 
+		print("removing intermediate files")
 		if (file.exists("forestPackTempFile.csv")) file.remove("forestPackTempFile.csv")
 		if (file.exists("traversalPackTempFile.csv")) file.remove("traversalPackTempFile.csv")
-
 	}

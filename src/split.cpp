@@ -123,7 +123,7 @@ List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize,
 
 
 // [[Rcpp::export]]
-int testFun(){
+int packForestRCPP(){
 	const std::string forestFileName = "forestPackTempFile.csv";
 	const std::string traversalFileName = "traversalPackTempFile.csv";
 	const std::string packedFileName = "forest.out";
