@@ -26,11 +26,12 @@ USER_DIR = .
 CPPFLAGS += -isystem $(GTEST_DIR)/include 
 
 # Flags passed to the C++ compiler.
-CXXFLAGS += -g -std=c++11 -Wall -Wextra -pthread
+CXXFLAGS += -g -std=c++11 -O3 -Wall -pthread
 
+#-Wextra 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-TESTS = test 
+TESTS = test
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.

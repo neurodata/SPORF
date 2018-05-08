@@ -30,7 +30,7 @@ SOURCES     := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS     := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.$(OBJEXT)))
 
 #Defauilt Make
-all: resources $(TARGET)
+all: resources $(TARGET) test
 
 #Remake
 remake: cleaner all
@@ -75,7 +75,7 @@ debug: LIB := -fopenmp -ggdb
 debug: cleaner all
  
 #Test
-test: test/test.cpp
+test: 
 	$(MAKE) -C test
 
 #Non-File Targets

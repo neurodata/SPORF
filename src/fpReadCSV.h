@@ -1,11 +1,12 @@
-#ifndef fpUtil_h
-#define fpUtil_h
+#ifndef fpReadCSV_h
+#define fpReadCSV_h
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
 #include <exception>
 
+template <class T>
 class csvHandle
 {
 	private:
@@ -22,6 +23,11 @@ class csvHandle
 
 			streamHandle.open(forestCSVFileName);
 			numberOfRows = 0;
+
+			if(!streamHandle.good()){
+				throw std::runtime_error("Unable to open file." );
+				return;
+			}
 
 			while(streamHandle){
 				std::string row;
@@ -40,15 +46,18 @@ class csvHandle
 					if(!getline(stringStream,value,',')){
 						break;
 					}
-				++tempNumberOfColumns;
+					++tempNumberOfColumns;
 				}
 				if(!numberOfColumns){
-numberOfColumns = tempNumberOfColumns; 
+					numberOfColumns = tempNumberOfColumns; 
 				}
 				if(numberOfColumns != tempNumberOfColumns){
 					throw std::runtime_error("uneven row lengths in csv file." );
+					return;
 				}
 			}
+			streamHandle.clear(); // clear fail and eof bits
+			streamHandle.seekg(0, std::ios::beg); // return to beginning of stream
 		}
 
 		void printCSVStats(){
@@ -59,7 +68,14 @@ numberOfColumns = tempNumberOfColumns;
 		int returnNumRows(){return numberOfRows;}
 		int returnNumColumns(){return numberOfColumns;}
 
+		inline T returnNextElement(){
+			T temp;
+			streamHandle >> temp;
+			streamHandle.ignore(1, ',');
+			return temp;
+		}
+
 };
 
 
-#endif //fpUtil_h
+#endif //fpReadCSV_h
