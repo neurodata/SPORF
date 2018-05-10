@@ -333,6 +333,66 @@ int improv8::makePrediction(double*& observation){
   return returnClassPrediction(predictions, numOfClasses);
 }
 
+void improv8::makePrediction(double* observation, double* preds, int numFeatures, int numObservations, int numCores){
+
+	int predictions[numOfClasses]={};
+	int currentNode[forestRoots[0]->numOfTreesInBin];
+	int numberNotInLeaf;
+	int k, q;
+	int observationOffset = 0;
+/*
+	int xset=0;
+	for(int k = 0; k < 4; k++){
+	for(int j = 0; j < numFeatures; j++){
+		std::cout << observation[j+xset] << " ";
+	}
+	std::cout << "\n";
+	xset+=numFeatures;
+
+	}
+
+	*/
+
+
+	for(int j = 0; j < numObservations; j++){
+		for( k=0; k < numOfBins;k++){
+
+			for( q=0; q<forestRoots[k]->numOfTreesInBin; q++){
+				currentNode[q] = q;
+				__builtin_prefetch(&forestRoots[k]->bin[currentNode[q]], 0, 3);
+			}
+
+			do{
+				numberNotInLeaf = forestRoots[k]->numOfTreesInBin;
+
+				for( q=0; q<forestRoots[k]->numOfTreesInBin; q++){
+
+					if(forestRoots[k]->bin[currentNode[q]].isInternalNode()){
+
+						currentNode[q] = forestRoots[k]->bin[currentNode[q]].nextNode(observation[forestRoots[k]->bin[currentNode[q]].returnFeature()+observationOffset]);
+
+						__builtin_prefetch(&forestRoots[k]->bin[currentNode[q]], 0, 3);
+						continue;
+					}
+					--numberNotInLeaf;
+				}
+			}while(numberNotInLeaf > 0);
+
+			for( q=0; q<forestRoots[k]->numOfTreesInBin; q++){
+				++predictions[forestRoots[k]->bin[currentNode[q]].returnRightNode()];
+			}
+		}
+		preds[j] = returnClassPrediction(predictions, numOfClasses);
+for(int j = 0; j < numFeatures; j++){
+		std::cout << observation[j+observationOffset] << " ";
+	}
+	std::cout << "\n";
+
+		observationOffset+=numFeatures;
+	}
+}
+
+
 
 int improv8::makePrediction(double*& observation, int numCores){
 
@@ -341,7 +401,7 @@ int improv8::makePrediction(double*& observation, int numCores){
   int numberNotInLeaf;
   int k, q;
 
-#pragma omp parallel for num_threads(numCores) schedule(static) private(q, numberNotInLeaf, currentNode)
+//#pragma omp parallel for num_threads(numCores) schedule(static) private(q, numberNotInLeaf, currentNode)
   for( k=0; k < numOfBins;k++){
 
     for( q=0; q<forestRoots[k]->numOfTreesInBin; q++){
