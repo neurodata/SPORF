@@ -6,7 +6,7 @@
 #include <sstream>
 #include <exception>
 
-template <class T>
+//template <class T>
 class csvHandle
 {
 	private:
@@ -68,6 +68,7 @@ class csvHandle
 		int returnNumRows(){return numberOfRows;}
 		int returnNumColumns(){return numberOfColumns;}
 
+template <class T>
 		inline T returnNextElement(){
 			T temp;
 			streamHandle >> temp;
@@ -75,6 +76,14 @@ class csvHandle
 			return temp;
 		}
 
+/*
+inline int returnNextClassElement(){
+			int temp;
+			streamHandle >> temp;
+			streamHandle.ignore(1, ',');
+			return temp;
+		}
+*/
 };
 
 
