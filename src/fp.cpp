@@ -1,5 +1,6 @@
 #include "fpReadCSV.h"
 #include "fpDataSet.h"
+#include "fpDetermineOOB.h"
 #include <iostream>
 #include <exception>
 
@@ -13,6 +14,11 @@ try{
 	std::cout << "2,2 " << inputData.returnFeatureValue(2,2) << std::endl;
 	inputData.printCSVStats();
 	inputData.printTableOfValues();
+
+	OOB test(10);
+	test.printOOB();
+
+
 }catch(std::exception& e){
 	std::cout << "standard error: " << e.what() << std::endl;
 }
