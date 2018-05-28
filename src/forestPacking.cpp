@@ -35,7 +35,7 @@ Rcpp::NumericVector predictRF(const NumericMatrix mat, const int numCores){
 					//			currObs = as<std::vector<double>>(mat(i,_));
 					currObs[j] = mat(i,j);
 				}
-				predictions[i] = tester.makePrediction(currObs,numCores);
+				predictions[i] = tester.makePrediction(currObs,numCores)+1;
 			}
 			delete currObs;	
 //			 tester.makePrediction(mat.begin(), REAL(predictions),numFeatures,numObservations,1);

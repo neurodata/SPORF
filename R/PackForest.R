@@ -28,6 +28,10 @@ PackForest <-
 
 		# Write forest to CSV
 		treeNum <- length(forest$trees)
+		# Make sure forest is large enough to fit in bins and needs to be a power of two.  This should change to accept any number of trees greater than 16.
+if(treeNum < 16 | bitwAnd(treeNum,treeNum-1)){
+			stop("The number of trees must be greater than 16 and should be a power of 2.")
+		}
 		treeSizes <- NA
 		datWrite <- c(treeNum, ncol(forest$trees[[1]]$ClassProb))
 
