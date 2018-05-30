@@ -1,0 +1,32 @@
+default: 
+  logging_file: null
+  overwrite_checkpoint: true
+  na_mode: "sample"
+  algorithms_to_benchmark: !expr "c('RerF', 'RF')"
+  # For some reason using config::get('algorithms') inside another config
+  # sets off a call bomb.
+  result_metrics: !expr "c('n','p_num','p_cat','RerF', 'RF', 'RR-RF', 'CCF')"
+  verbose: true
+  epochs: 1
+  k_folds: 10
+  cores: 1
+    
+local:
+  overwrite_checkpoint: false
+  ## Base directory of where files are
+  base_dir: "~/Developer/Research/randomer_forest/R-RerF-fork/"
+  ## Directory of where data lies
+  data_dir: "~/Developer/Data/regression-datasets/ccfs-csv/"
+  ## Type of data to load
+  dataset_mode: "ccfs"
+  algorithms_to_benchmark: !expr "c('RerF', 'RF')"
+  logging_file: "/tmp/benchmark_log.txt"
+  ## algorithm parameters
+  n_trees: 500
+  
+marcc:
+  inherits: local
+  base_dir: "/home-2/jyim6@jhu.edu/scratch/R-RerF/"
+  data_dir: "/home-2/jyim6@jhu.edu/scratch/ccfs-master/Datasets/regression/"
+  logging_file: "/home-2/jyim6@jhu.edu/scratch/logs/benchmark_log.txt"
+
