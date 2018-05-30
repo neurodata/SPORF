@@ -184,6 +184,29 @@ wt <- wilcox.test(ptmOOB_baseline, ptmOOB_candidate, alternative="l")$p.value
     return(pass)
 }
 
+# Test for handling NA values
+X <- matrix(rnorm(1000L), 100L,10L)
+X[cbind(rbinom(100L, 1L, 0.05)*1:100, sample(10L, 100L, replace=TRUE))] <- NA
+Y <- rbinom(100L,1L,0.1)
+tryCatch(
+  forets <- RerF(X,Y),
+  warning=function(...) {
+    na.pass <<- FALSE
+  },
+  error=function(...) {
+    na.pass <<- FALSE
+  },
+  finally={
+    if (na.pass == TRUE) {
+      message("NA handling passed")
+    } else {
+      message("NA handling failed")
+      pass <<- FALSE
+    }
+  }
+)
+
+
 
 lh <- NA
 for (z in 1:(2*length(trainSets)-skipMNIST)){
