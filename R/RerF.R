@@ -77,11 +77,16 @@ RerF <-
 					 rotate = F, num.cores = 0L,
 					 seed = sample(0:100000000,1),
 					 cat.map = NULL, rfPack = FALSE,
+                     task = 'classification',
                      na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] }
                      )
     {
 
-		forest <- list(trees = NULL, labels = NULL, params = NULL)
+        # check if task is specified correctly
+        task <- sapply(task, tolower)
+        if (task != "classification" & task != "regression")
+          stop("Task must either be \"classification\" or \"regression\"")
+
 
 		# check if data matrix X has one-of-K encoded categorical features that need to be handled specially using RandMatCat instead of RandMat
 		if (is.null(fun)) {
@@ -98,17 +103,21 @@ RerF <-
             forest$labels <- levels(Y)
             Y <- as.integer(Y)
         } else if (is.numeric(Y)) {
-            forest$labels <- sort(unique(Y))
-            Y <- as.integer(as.factor(Y))
+            if (task == 'classification') {
+                forest$labels <- sort(unique(Y))
+                Y <- as.integer(as.factor(Y))
+            }
         } else {
             stop("Incompatible data type. Y must be of type factor or numeric.")
         }
-        num.class <- length(forest$labels)
-        classCt <- cumsum(tabulate(Y, num.class))
-        if(stratify){
-            Cindex<-vector("list",num.class)
-            for(m in 1L:num.class){
-                Cindex[[m]]<-which(Y==m)
+
+
+        if (task == "classification"){
+
+            # address na values.
+            if (any(is.na(X)) ) {
+                if (exists("na.action")) na.action(X,Y)
+                if (any(is.na(X))) warning("NA values exist in data matrix")
             }
         }else{
             Cindex<-NULL
@@ -138,16 +147,46 @@ RerF <-
 		} else {
 			stop("Incompatible data type. Y must be of type factor or numeric.")
 		}
-		num.class <- length(forest$labels)
-		classCt <- cumsum(tabulate(Y, num.class))
-		if(stratify){
-			Cindex<-vector("list",num.class)
-			for(m in 1L:num.class){
-				Cindex[[m]]<-which(Y==m)
-			}
-		}else{
-			Cindex<-NULL
-		}
+        num.class <- length(forest$labels)
+        classCt <- cumsum(tabulate(Y, num.class))
+        if(stratify){
+            Cindex<-vector("list",num.class)
+            for(m in 1L:num.class){
+                Cindex[[m]]<-which(Y==m)
+            }
+        }else{
+            Cindex<-NULL
+        }
+        mcrun<- function(...) BuildTree(
+                                        X, Y,
+                                        min.parent,
+                                        max.depth,
+                                        bagging,
+                                        replacement,
+                                        fun,
+                                        mat.options,
+                                        store.oob,
+                                        store.impurity,
+                                        progress,
+                                        rotate,
+                                        task,
+                                        stratify=stratify,
+                                        class.ind=Cindex,
+                                        class.ct=classCt
+                                        )
+
+    forest$params <- list(min.parent = min.parent,
+                          max.depth = max.depth,
+                          bagging = bagging,
+                          replacement = replacement,
+                          stratify = stratify,
+                          fun = fun,
+                          mat.options = mat.options,
+                          rank.transform = rank.transform,
+                          store.oob = store.oob,
+                          store.impurity = store.impurity,
+                          rotate = rotate,
+                          seed = seed)
 
 		# address na values.
 		if (any(is.na(X)) ) {

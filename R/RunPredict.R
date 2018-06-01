@@ -9,11 +9,10 @@
 #'
 
 RunPredict <-
-    function(X, tree){
+    function(X, tree, task){
         tm <- 0L
         currentNode<-0L
         curr_ind <- 0L
-        num_classes <- ncol(tree$ClassProb)
         n <- nrow(X)
 
         # do we need to rotate the data?
@@ -44,7 +43,12 @@ RunPredict <-
                     Assigned2Node[[tm*2L]] <- Assigned2Node[[m]][moveLeft]
                     Assigned2Node[[tm*2L+1L]] <- Assigned2Node[[m]][!moveLeft]
                 } else {
-                    predictions[Assigned2Node[[m]]] <- which.max(tree$ClassProb[tm*-1L, ])
+                    if (task == "classification"){
+                        predictions[Assigned2Node[[m]]] <- which.max(tree$ClassProb[tm*-1L, ])
+                    }  else {
+                        predictions[Assigned2Node[[m]]] <- tree$Regressors[tm*-1L]
+                    }
+
                 }
             }
             Assigned2Node[m] <-list(NULL)
