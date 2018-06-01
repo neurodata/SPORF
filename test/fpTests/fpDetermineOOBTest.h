@@ -1,5 +1,5 @@
 #include <string>
-#include "../../src/fpDetermineOOB.h"
+#include "../../src/baseFunctions/fpDetermineOOB.h"
 
 TEST(fpDetermineOOB, checkOOB )
 {

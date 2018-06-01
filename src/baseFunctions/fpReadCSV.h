@@ -6,7 +6,6 @@
 #include <sstream>
 #include <exception>
 
-//template <class T>
 class csvHandle
 {
 	private:
@@ -19,7 +18,7 @@ class csvHandle
 			streamHandle.close();
 		}
 
-		csvHandle(const std::string& forestCSVFileName){
+		csvHandle(const std::string& forestCSVFileName) : numberOfRows(0), numberOfColumns(0){
 
 			streamHandle.open(forestCSVFileName);
 			numberOfRows = 0;
@@ -52,6 +51,7 @@ class csvHandle
 					numberOfColumns = tempNumberOfColumns; 
 				}
 				if(numberOfColumns != tempNumberOfColumns){
+					std::cout << numberOfColumns << " " << tempNumberOfColumns << "\n";
 					throw std::runtime_error("uneven row lengths in csv file." );
 					return;
 				}
@@ -76,14 +76,6 @@ template <class T>
 			return temp;
 		}
 
-/*
-inline int returnNextClassElement(){
-			int temp;
-			streamHandle >> temp;
-			streamHandle.ignore(1, ',');
-			return temp;
-		}
-*/
 };
 
 

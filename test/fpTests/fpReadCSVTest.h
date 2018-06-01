@@ -1,9 +1,9 @@
 #include <string>
-#include "../../src/fpReadCSV.h"
+#include "../../src/baseFunctions/fpReadCSV.h"
 
 TEST(fpReadCSV, testReadValsCSV)
 {
-	const std::string csvFileName = "test/res/testCSV.csv";
+	const std::string csvFileName = "./res/testCSV.csv";
 	csvHandle testHandle(csvFileName);
 
 	EXPECT_EQ(testHandle.returnNextElement<double>(), 1);
@@ -18,7 +18,7 @@ TEST(fpReadCSV, testReadValsCSV)
 
 TEST(fpReadCSV, testReadCSV)
 {
-	const std::string csvFileName = "test/res/testCSV.csv";
+	const std::string csvFileName = "./res/testCSV.csv";
 	csvHandle testHandle(csvFileName);
 
 	EXPECT_EQ(3, testHandle.returnNumColumns());
@@ -28,7 +28,7 @@ TEST(fpReadCSV, testReadCSV)
 
 TEST(fpReadCSV, testMalformedCSV)
 {
-	const std::string csvFileName = "test/res/testCSVBad.csv";
+	const std::string csvFileName = "./res/testCSVBad.csv";
 //	csvHandle<double> testHandle;
 
 	ASSERT_THROW(csvHandle testHandle(csvFileName), std::runtime_error);
@@ -36,7 +36,7 @@ TEST(fpReadCSV, testMalformedCSV)
 
 TEST(fpReadCSV, unreadableFile)
 {
-	const std::string csvFileName = "test/res/testCSVNoExist.csv";
+	const std::string csvFileName = "./res/testCSVNoExist.csv";
 
 	ASSERT_THROW(csvHandle testHandle(csvFileName), std::runtime_error);
 }

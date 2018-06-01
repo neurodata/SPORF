@@ -1,32 +1,41 @@
-#include "fpReadCSV.h"
-#include "fpDataSet.h"
-#include "fpDetermineOOB.h"
+#include "baseFunctions/fpUtils.h"
 #include <iostream>
 #include <exception>
 
 int main(int argc, char* argv[]) {
 	const std::string csvFileName = "test/res/testCSV.csv";
-try{
+	try{
 
-	rankedInput<double> inputDataOld(csvFileName);
+		fpForest::forest = forestFactory::setForestType(0);
+		fpForest::setParameter("numTreesInForest", 2);
+		fpForest::setParameter("columnWithY", 1);
+		fpForest::setParameter("minParent", 4);
+		fpForest::setParameter("numClasses", 5);
+		fpForest::setParameter("mtry", 6);
+		fpForest::setParameter("CSVFileName", "test/res/testCSV.csv");
+	
+		fpForest::fpLoadData();
 
-	std::cout << "0,1 " << inputDataOld.returnFeatureValue(0,1) << std::endl;
-	std::cout << "2,2 " << inputDataOld.returnFeatureValue(2,2) << std::endl;
-	inputDataOld.printCSVStats();
-	inputDataOld.printTableOfValues();
+		fpForest::printAllParameters();
+		fpForest::forest->printForestType();
+		/*
+		rankedInput<double> inputDataOld(csvFileName);
 
-	OOB test(10);
-	test.printOOB();
+		std::cout << "0,1 " << inputDataOld.returnFeatureValue(0,1) << std::endl;
+		std::cout << "2,2 " << inputDataOld.returnFeatureValue(2,2) << std::endl;
+		inputDataOld.printCSVStats();
+		inputDataOld.printTableOfValues();
 
-	//double is the data type of X and int is the datatype of Y.
-	inputData<double,int> data(csvFileName,2-1);
-data.printXValues();
-data.printYValues();
+		OOB test(10);
+		test.printOOB();
 
-
-
-}catch(std::exception& e){
-	std::cout << "standard error: " << e.what() << std::endl;
-}
+		//double is the data type of X and int is the datatype of Y.
+		inputData<double,int> data(csvFileName,2-1);
+		data.printXValues();
+		data.printYValues();
+*/
+	}catch(std::exception& e){
+		std::cout << "standard error: " << e.what() << std::endl;
+	}
 
 }

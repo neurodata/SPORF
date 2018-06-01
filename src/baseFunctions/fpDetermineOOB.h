@@ -14,7 +14,7 @@ class OOB
 		std::vector<int> outSamples;
 
 	public:
-		OOB(int numObs){
+		OOB(const int &numObs){
 			numObservations = numObs;
 			numOOB = 0;
 			inSamples.resize(numObservations);
@@ -44,7 +44,6 @@ class OOB
 			}
 		}
 
-
 		void printOOB(){
 			std::cout << "samples in bag\n";
 			for(int n=0; n < numObservations; n++){
@@ -64,12 +63,12 @@ class OOB
 			return outSamples.size();
 		}
 
-		int returnInSample(int numSample){
-return inSamples[numSample];
+		inline int returnInSample(const int &numSample){
+			return inSamples[numSample];
 		}
 
-int returnOutSample(int numSample){
-return outSamples[numSample];
+		inline int returnOutSample(const int &numSample){
+			return outSamples[numSample];
 		}
 };
 

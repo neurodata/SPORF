@@ -40,11 +40,14 @@ GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
 
 # House-keeping build targets.
 
-all : $(TESTS)
+all : cleantest $(TESTS)
 
 clean :
 	rm -f $(TESTS) gtest.a gtest_main.a *.o
-
+	
+cleantest :
+	rm -f $(TESTS).o
+	
 # Builds gtest.a and gtest_main.a.
 
 # Usually you shouldn't tweak such internal variables, indicated by a

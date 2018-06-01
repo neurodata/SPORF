@@ -5,21 +5,21 @@
 #include <string>
 
 template <typename T>
-class inputYDataClassification
+class inputYData
 {
-	private:
+	protected:
 		std::vector < T > YData;
 
 	public:
-		void initializeYData(int numObs){
+		void initializeYData(const int &numObs){
 			YData.resize(numObs);
 		}
 
-		inline void setYElement(int elementNumber, int value){
+		inline void setYElement(const int &elementNumber, const T &value){
 			YData[elementNumber] = value;
 		}
 
-		inline T returnYElement(int elementNumber){
+		inline T returnYElement(const int &elementNumber){
 			return YData[elementNumber];
 		}
 
@@ -27,8 +27,42 @@ class inputYDataClassification
 			return YData.size();
 		}
 
-		//bool
 };
+
+
+template <typename T>
+class inputYDataClassification : public inputYData<T>
+{
+	private:
+		int maxClass;
+		std::vector<short> classesUsed;
+
+	public:
+		inputYDataClassification(): maxClass(-1){}
+		inline void setYElement(const int &elementNumber, const T &value){
+			inputYData<T>::YData[elementNumber] = value;
+			if(value > maxClass){
+				maxClass = value;
+				classesUsed.resize(maxClass+1,0);
+			}
+			classesUsed[value]=1;
+		}
+
+		inline int numClasses(){
+			return maxClass;
+		}
+
+		void checkClassRepresentation(){
+	//		std::cout << maxClass << "\n";
+			for(int i=0; i<maxClass; i++){
+				if(classesUsed[i]==0){
+	//		std::cout << i << "\n";
+				throw std::runtime_error("Not all classes represented in input." );
+					}
+			}
+		}
+};
+
 
 template <typename T>
 class inputXData
@@ -37,18 +71,18 @@ class inputXData
 		std::vector < std::vector<T> > XData;
 
 	public:
-		void initializeXData( int numFeatures, int numObservations){
+		void initializeXData( const int &numFeatures, const int &numObservations){
 			XData.resize(numFeatures);
 			for (int i=0; i<numFeatures; i++){
 				XData[i].resize(numObservations);
 			}
 		}
 
-		inline T returnElement( int feature, int observation){
+		inline T returnElement(const int &feature,const int &observation){
 			return XData[feature][observation];
 		}
 
-		inline void setXElement( int feature, int observation, T value){
+		inline void setXElement( const int &feature, const int &observation, const T &value){
 			XData[feature][observation] = value;
 		}
 
@@ -61,6 +95,7 @@ class inputXData
 		}
 };
 
+
 template <typename T, typename Q>
 class inputData
 {
@@ -69,10 +104,10 @@ class inputData
 		inputYDataClassification<Q> Y;
 
 	public:
-		inputData(const std::string& forestCSVFileName, int columnWithY)
+		inputData(const std::string& forestCSVFileName, const int &columnWithY)
 		{
 
-//			csvHandle<T> csvH(forestCSVFileName);
+			//			csvHandle<T> csvH(forestCSVFileName);
 			csvHandle csvH(forestCSVFileName);
 			if(columnWithY >= csvH.returnNumColumns()){
 				throw std::runtime_error("column with class labels does not exist." );
@@ -96,11 +131,11 @@ class inputData
 
 		}
 
-		inline Q returnClassOfObservation(int observationNum){
+		inline Q returnClassOfObservation(const int &observationNum){
 			return Y.returnYElement(observationNum);
 		}
 
-		inline T returnFeatureValue(int featureNum, int observationNum){
+		inline T returnFeatureValue(const int &featureNum, const int &observationNum){
 			return X.returnElement(featureNum, observationNum);
 		}
 
@@ -110,6 +145,14 @@ class inputData
 
 		inline int returnNumObservations(){
 			return Y.returnNumObservations();
+		}
+
+inline int returnNumClasses(){
+			return Y.numClasses();
+		}
+
+inline void checkY(){
+			return Y.checkClassRepresentation();
 		}
 
 		void printDataStats(){
