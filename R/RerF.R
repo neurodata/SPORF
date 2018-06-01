@@ -6,11 +6,11 @@
 #' @param Y an n length vector of class labels.  Class labels must be integer or numeric and be within the range 1 to the number of classes.
 #' @param min.parent the minimum splittable node size.  A node size < min.parent will be a leaf node. (min.parent = 6)
 #' @param trees the number of trees in the forest. (trees=100)
-#' @param max.depth the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=0, the tree will be allowed to grow without bound.  (max.depth=0)  
-#' @param bagging a non-zero value means a random sample of X will be used during tree creation.  If replacement = FALSE the bagging value determines the percentage of samples to leave out-of-bag.  If replacement = TRUE the non-zero bagging value is ignored. (bagging=.2) 
+#' @param max.depth the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=0, the tree will be allowed to grow without bound.  (max.depth=0)
+#' @param bagging a non-zero value means a random sample of X will be used during tree creation.  If replacement = FALSE the bagging value determines the percentage of samples to leave out-of-bag.  If replacement = TRUE the non-zero bagging value is ignored. (bagging=.2)
 #' @param replacement if TRUE then n samples are chosen, with replacement, from X. (replacement=TRUE)
 #' @param stratify if TRUE then class sample proportions are maintained during the random sampling.  Ignored if replacement = FALSE. (stratify = FALSE).
-#' @param fun a function that creates the random projection matrix. If NULL and cat.map is NULL, then RandMat is used. If NULL and cat.map is not NULL, then RandMatCat is used, which adjusts the sampling of features when categorical features have been one-of-K encoded. If a custom function is to be used, then it must return a matrix in sparse representation, in which each nonzero is an array of the form (row.index, column.index, value). See RandMat or RandMatCat for details. (fun=NULL) 
+#' @param fun a function that creates the random projection matrix. If NULL and cat.map is NULL, then RandMat is used. If NULL and cat.map is not NULL, then RandMatCat is used, which adjusts the sampling of features when categorical features have been one-of-K encoded. If a custom function is to be used, then it must return a matrix in sparse representation, in which each nonzero is an array of the form (row.index, column.index, value). See RandMat or RandMatCat for details. (fun=NULL)
 #' @param mat.options a list of parameters to be used by fun. (mat.options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)))
 #' @param rank.transform if TRUE then each feature is rank-transformed (i.e. smallest value becomes 1 and largest value becomes n) (rank.transform=FALSE)
 #' @param store.oob if TRUE then the samples omitted during the creation of a tree are stored as part of the tree.  This is required to run OOBPredict(). (store.oob=FALSE)
@@ -29,7 +29,7 @@
 #' ### Train RerF on numeric data ###
 #' library(rerf)
 #' forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L)
-#' 
+#'
 #' ### Train RerF on one-of-K encoded categorical data ###
 #' df1 <- as.data.frame(Titanic)
 #' nc <- ncol(df1)
@@ -51,11 +51,11 @@
 #'   col.idx <- col.idx + num.categories[j]
 #' }
 #' Y <- df2$Survived
-#' 
+#'
 #' # specifying the cat.map in RerF allows training to be aware of which dummy variables correspond
 #' # to the same categorical feature
 #' forest <- RerF(X, Y, num.cores = 1L, cat.map = cat.map)
-#' 
+#'
 #' ### Train a random rotation ensemble of CART decision trees (see Blaser and Fryzlewicz 2016) ###
 #' forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L,
 #' mat.options = list(4, 2, "rf", NULL), rotate = TRUE)
@@ -65,17 +65,23 @@
 #' @importFrom dummies dummy
 
 RerF <-
-    function(X, Y, min.parent = 6L, trees = 100L, 
-             max.depth = 0L, bagging = .2, 
-             replacement = TRUE, stratify = FALSE, 
-             fun = NULL, 
-             mat.options = list(p = ifelse(is.null(cat.map), ncol(X), length(cat.map)), d = ceiling(sqrt(ncol(X))), random.matrix = "binary", rho = ifelse(is.null(cat.map), 1/ncol(X), 1/length(cat.map)), prob = 0.5), 
-             rank.transform = FALSE, store.oob = FALSE, 
-             store.impurity = FALSE, progress = FALSE, 
-             rotate = F, num.cores = 0L, 
-             seed = 1L, cat.map = NULL, 
-             na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] } 
+    function(X, Y, min.parent = 6L, trees = 100L,
+             max.depth = 0L, bagging = .2,
+             replacement = TRUE, stratify = FALSE,
+             fun = NULL,
+             mat.options = list(p = ifelse(is.null(cat.map), ncol(X), length(cat.map)), d = ceiling(sqrt(ncol(X))), random.matrix = "binary", rho = ifelse(is.null(cat.map), 1/ncol(X), 1/length(cat.map)), prob = 0.5),
+             rank.transform = FALSE, store.oob = FALSE,
+             store.impurity = FALSE, progress = FALSE,
+             rotate = F, num.cores = 0L,
+             seed = 1L, cat.map = NULL,
+             task = 'classification',
+             na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] }
              ) {
+
+        # check if task is specified correctly
+        task <- sapply(task, tolower)
+        if (task != "classification" & task != "regression")
+          stop("Task must either be \"classification\" or \"regression\"")
 
         forest <- list(trees = NULL, labels = NULL, params = NULL)
 
@@ -103,41 +109,80 @@ RerF <-
             forest$labels <- levels(Y)
             Y <- as.integer(Y)
         } else if (is.numeric(Y)) {
-            forest$labels <- sort(unique(Y))
-            Y <- as.integer(as.factor(Y))
+            if (task == 'classification') {
+                forest$labels <- sort(unique(Y))
+                Y <- as.integer(as.factor(Y))
+            }
         } else {
             stop("Incompatible data type. Y must be of type factor or numeric.")
         }
-        num.class <- length(forest$labels)
-        classCt <- cumsum(tabulate(Y, num.class))
-        if(stratify){
-            Cindex<-vector("list",num.class)
-            for(m in 1L:num.class){
-                Cindex[[m]]<-which(Y==m)
+
+
+        if (task == "classification"){
+
+            # address na values.
+            if (any(is.na(X)) ) {
+                if (exists("na.action")) na.action(X,Y)
+                if (any(is.na(X))) warning("NA values exist in data matrix")
             }
-        }else{
-            Cindex<-NULL
-        }
-        
-        # address na values.
-        if (any(is.na(X)) ) {
-            if (exists("na.action")) na.action(X,Y)
-            if (any(is.na(X))) warning("NA values exist in data matrix")
+
+            num.class <- length(forest$labels)
+            classCt <- cumsum(tabulate(Y, num.class))
+            if(stratify){
+                Cindex<-vector("list",num.class)
+                for(m in 1L:num.class){
+                    Cindex[[m]]<-which(Y==m)
+                }
+            }else{
+                Cindex<-NULL
+            }
+            mcrun<- function(...) BuildTree(
+                                            X, Y,
+                                            min.parent,
+                                            max.depth,
+                                            bagging,
+                                            replacement,
+                                            fun,
+                                            mat.options,
+                                            store.oob,
+                                            store.impurity,
+                                            progress,
+                                            rotate,
+                                            task,
+                                            stratify=stratify,
+                                            class.ind=Cindex,
+                                            class.ct=classCt
+                                            )
+        } else {
+            mcrun<- function(...) {
+                BuildTree(
+                          X, Y,
+                          min.parent,
+                          max.depth,
+                          bagging,
+                          replacement,
+                          fun,
+                          mat.options,
+                          store.oob,
+                          store.impurity,
+                          progress,
+                          rotate,
+                          task
+                          )
+            }
         }
 
-        mcrun<- function(...) BuildTree(X, Y, min.parent, max.depth, bagging, replacement, stratify, Cindex, classCt, fun, mat.options, store.oob=store.oob, store.impurity=store.impurity, progress=progress, rotate)
-
-        forest$params <- list(min.parent = min.parent, 
-                              max.depth = max.depth, 
+        forest$params <- list(min.parent = min.parent,
+                              max.depth = max.depth,
                               bagging = bagging,
-                              replacement = replacement, 
-                              stratify = stratify, 
-                              fun = fun, 
+                              replacement = replacement,
+                              stratify = stratify,
+                              fun = fun,
                               mat.options = mat.options,
-                              rank.transform = rank.transform, 
-                              store.oob = store.oob, 
+                              rank.transform = rank.transform,
+                              store.oob = store.oob,
                               store.impurity = store.impurity,
-                              rotate = rotate, 
+                              rotate = rotate,
                               seed = seed)
 
         if (num.cores!=1L){

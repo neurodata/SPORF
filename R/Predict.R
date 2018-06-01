@@ -17,7 +17,7 @@
 #' X <- as.matrix(iris[,1:4])
 #' Y <- as.numeric(iris[,5])
 #' forest <- RerF(X[trainIdx, ], Y[trainIdx], num.cores = 1L, rank.transform = TRUE)
-#' # Using a set of samples with unknown classification 
+#' # Using a set of samples with unknown classification
 #' predictions <- Predict(X[-trainIdx, ], forest, num.cores = 1L, Xtrain = X[trainIdx, ])
 #' error.rate <- mean(predictions != Y[-trainIdx])
 #'
@@ -27,7 +27,7 @@
 #'
 
 Predict <-
-  function(X, forest, num.cores = 0L, Xtrain = NULL, aggregate.output = TRUE, output.scores = FALSE){
+  function(X, forest, num.cores = 0L, Xtrain = NULL, aggregate.output = TRUE, output.scores = FALSE, task = 'classification'){
     if (is.data.frame(X)) {
       X <- as.matrix(X)
     }
@@ -44,7 +44,7 @@ Predict <-
       }
     }
 
-    CompPredictCaller <- function(tree, ...) RunPredict(X=X, tree=tree)
+    CompPredictCaller <- function(tree, ...) RunPredict(X=X, tree=tree, task=task)
 
     f_size <- length(forest$trees)
     if (num.cores != 1L) {
@@ -54,8 +54,8 @@ Predict <-
       }
       num.cores <- min(num.cores, f_size)
       gc()
-      if ((utils::object.size(forest) > 2e9) | 
-          (utils::object.size(X) > 2e9) | 
+      if ((utils::object.size(forest) > 2e9) |
+          (utils::object.size(X) > 2e9) |
           .Platform$OS.type == "windows") {
 
         cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
@@ -75,24 +75,32 @@ Predict <-
     }
 
     if (!aggregate.output) {
-      predictions <- matrix(forest$labels[unlist(Yhats)], nrow(X), f_size)
+      if (task == 'classificaiton')
+        predictions <- matrix(forest$labels[unlist(Yhats)], nrow(X), f_size)
+      else
+        predictions <- matrix(unlist(Yhats), nrow(X), f_size)
     } else {
-      num_classes <- ncol(forest$trees[[1L]]$ClassProb)
-      predictions <- matrix(0L,nrow=nrow(X), ncol=num_classes)
-      for (m in 1L:f_size) {
-        for (k in 1L:nrow(X)) {
-          predictions[k, Yhats[[m]][k]] <- predictions[k, Yhats[[m]][k]] + 1L
+      if (task == 'classification') {
+        num_classes <- ncol(forest$trees[[1L]]$ClassProb)
+        predictions <- matrix(0L,nrow=nrow(X), ncol=num_classes)
+        for (m in 1L:f_size) {
+          for (k in 1L:nrow(X)) {
+            predictions[k, Yhats[[m]][k]] <- predictions[k, Yhats[[m]][k]] + 1L
+          }
         }
-      }
-      predictions <- predictions/f_size
-      if (!output.scores) {
-        if (is.integer(forest$labels)) {
-          predictions <- forest$labels[max.col(predictions)]
-        } else {
-          predictions <- factor(forest$labels[max.col(predictions)], levels = forest$labels)
+        predictions <- predictions/f_size
+        if (!output.scores) {
+          if (is.integer(forest$labels)) {
+            predictions <- forest$labels[max.col(predictions)]
+          } else {
+            predictions <- factor(forest$labels[max.col(predictions)], levels = forest$labels)
+          }
         }
+      } else {
+        predictions <-as.matrix( rowMeans(matrix(unlist(Yhats), nrow(X), f_size)))
       }
     }
+
 
     return(predictions)
   }
