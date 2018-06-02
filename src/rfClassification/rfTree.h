@@ -8,6 +8,9 @@ class rfTree
 {
 	protected:
 		std::vector< rfNode<T> > tree;
+
+	public:
+		
 	
 };
 #endif //rfTree_h

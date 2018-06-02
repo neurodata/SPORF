@@ -5,19 +5,19 @@
 int main(int argc, char* argv[]) {
 	const std::string csvFileName = "test/res/testCSV.csv";
 	try{
-
-		fpForest::forest = forestFactory::setForestType(0);
-		fpForest::setParameter("numTreesInForest", 2);
-		fpForest::setParameter("columnWithY", 1);
-		fpForest::setParameter("minParent", 4);
-		fpForest::setParameter("numClasses", 5);
-		fpForest::setParameter("mtry", 6);
-		fpForest::setParameter("CSVFileName", "test/res/testCSV.csv");
+		fp::fpForest forest;
+		forest.setParameter("forestType", "rfBase");
+		forest.setParameter("numTreesInForest", 2);
+		forest.setParameter("columnWithY", 1);
+		forest.setParameter("minParent", 4);
+		forest.setParameter("numClasses", 5);
+		forest.setParameter("mtry", 6);
+		forest.setParameter("CSVFileName", "test/res/testCSV.csv");
 	
-		fpForest::fpLoadData();
+	forest.growForest();
 
-		fpForest::printAllParameters();
-		fpForest::forest->printForestType();
+		forest.printParameters();
+		forest.printType();
 		/*
 		rankedInput<double> inputDataOld(csvFileName);
 

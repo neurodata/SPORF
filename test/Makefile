@@ -84,3 +84,4 @@ test.o : $(USER_DIR)/test.cpp $(GTEST_HEADERS)
 
 test : test.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o ../bin/$@
+	../bin/test

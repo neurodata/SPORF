@@ -1,11 +1,25 @@
-#ifndef fpDetermineOOB_h
-#define fpDetermineOOB_h
-#include <iostream>
-#include <random>
+#ifndef fpSplit_h
+#define fpSplit_h
+//#include <iostream>
+//#include <random>
 #include <vector>
-#include <algorithm>
+//#include <algorithm>
 
+template <T>
 namespace fp{
+
+	class splitGini(std::vector<T> featureVals, std::vector<int> labels){
+		protected:
+		//	T splitValue;
+		//	int featureNum;
+		//	float minGini;
+			std::vector<int> leftClasses;
+			std::vector<int> rightClasses;
+
+
+		public:
+
+	};
 
 	class OOB
 	{
