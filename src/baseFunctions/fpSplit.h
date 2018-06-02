@@ -3,90 +3,122 @@
 //#include <iostream>
 //#include <random>
 #include <vector>
-//#include <algorithm>
+#include <algorithm>
 
-template <T>
 namespace fp{
 
-	class splitGini(std::vector<T> featureVals, std::vector<int> labels){
-		protected:
-		//	T splitValue;
-		//	int featureNum;
-		//	float minGini;
-			std::vector<int> leftClasses;
-			std::vector<int> rightClasses;
+	template<T>
+		class splitInfo
+		{
+			protected:
+				T splitValue;
+				float gini;
+				int featureNum;
 
-
-		public:
-
-	};
-
-	class OOB
-	{
-		private:
-			int numObservations;
-			int numOOB;
-			std::vector<int> inSamples;
-			std::vector<int> outSamples;
-
-		public:
-			OOB(const int &numObs){
-				numObservations = numObs;
-				numOOB = 0;
-				inSamples.resize(numObservations);
-				//		outSamples.resize(numObservations*.4);
-
-				std::random_device rd; // obtain a random number from hardware
-				std::mt19937 eng(rd()); // seed the generator
-				std::uniform_int_distribution<> distr(0, numObservations-1);
-
-				for(int n=0; n<numObservations; n++){
-					inSamples[n] = distr(eng);
+			public:
+				inline void setSplitValue(T sVal){
+					splitValue = sVal;
 				}
-				std::sort(inSamples.begin(), inSamples.end());
+				inline T returnSplitValue(){
+					return splitValue;
+				}
 
-				int checkNum = 0;
-				int n = 0;
-				while(checkNum < numObservations){
-					if(checkNum < inSamples[n]){
-						outSamples.push_back(checkNum);
-						++checkNum;
-					}else if(inSamples[n] < checkNum){
-						++n;
-					}else{
-						++n;
-						++checkNum;
+				inline void setGini(float gVal){
+					gini = gVal;
+				}
+				inline float returnGiniValue(){
+					return gini;
+				}
+
+				inline void setFeatureNum(float fVal){
+					gini = fVal;
+				}
+				inline int returnFeatureNum(){
+					return featureNum;
+				}
+		};
+
+	template<T>
+		class labeledData
+		{
+			protected:
+				T dataElement;
+				int dataLabel;
+
+			public:
+				//labeledData(T dataE, int dataL): dataElement(dataE), dataLabel(dataL){}
+
+				bool operator < (const labeledData<T>& otherData) const
+				{
+					return dataElement < otherData.dataElement;
+				}
+
+				inline int returnDataLabel(){
+					return dataLabel;
+				}
+
+				inline T midVal (const labeledData<T>& otherData) const
+				{
+					return (dataElement + otherData.dataElement)/2;
+				}
+
+				void setPair(T dElement, int dLab){
+					dataElement = dElement;
+					dataLabel = dLab;
+				}
+		};
+
+	template<T>
+		class split{
+			protected:
+				int maxClass;
+				std::vector<int> leftClasses;
+				std::vector<int> rightClasses;
+
+				std::vector<T> featureVals;
+				std::vector<int> labels;
+
+				std::vector< labeledData<T> > combinedDataLabels;
+
+			public:
+				split():maxClass(0){}
+
+				void setCombinedVecSize(){
+combinedDataLabels.resize(labels.size());
+				}
+
+				void findNumClasses(){
+					rightClasses.resize(1);
+					for(auto i : labels){
+						if(i>maxClass){
+maxClass = i;
+					rightClasses.resize(i);
+						}
+++rightClasses[i];
 					}
+					leftClasses.resize(maxClass);
 				}
-			}
 
-			void printOOB(){
-				std::cout << "samples in bag\n";
-				for(int n=0; n < numObservations; n++){
-					std::cout << inSamples[n] << "\n";
+
+				splitInfo<T> giniSplit(){
+
+					// initialize return value
+					splitInfo<T> currSplitInfo;
+
+					// zip data and labels
+					for(unsigned i : indices(labels)){
+						combinedDataLabels[i].setPair(featureVals[i],labels[i]);
+					}
+
+					// sort feature Vals
+					std::sort(combinedDataLabels.begin(), combinedDataLabels.end());
+
+					// setup left and right sides
+
+					return currSplitInfo;
 				}
-				std::cout << "samples OOB\n";
-				for (std::vector<int>::iterator it = outSamples.begin() ; it != outSamples.end(); ++it){
-					std::cout << *it << "\n";
-				}
-			}
 
-			int returnInSampleSize(){
-				return inSamples.size();
-			}
-
-			int returnOutSampleSize(){
-				return outSamples.size();
-			}
-
-			inline int returnInSample(const int &numSample){
-				return inSamples[numSample];
-			}
-
-			inline int returnOutSample(const int &numSample){
-				return outSamples[numSample];
-			}
-	};//class fpDetermineOOB
+		};
 
 }//namespace fp
-#endif //fpDetermineOOB_h
+#endif //fpSplit_h
