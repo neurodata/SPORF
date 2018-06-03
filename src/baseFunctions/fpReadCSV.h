@@ -51,7 +51,7 @@ class csvHandle
 					numberOfColumns = tempNumberOfColumns; 
 				}
 				if(numberOfColumns != tempNumberOfColumns){
-					std::cout << numberOfColumns << " " << tempNumberOfColumns << "\n";
+		//			std::cout << numberOfColumns << " " << tempNumberOfColumns << "\n";
 					throw std::runtime_error("uneven row lengths in csv file." );
 					return;
 				}

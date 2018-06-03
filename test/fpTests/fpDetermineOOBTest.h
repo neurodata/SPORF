@@ -1,6 +1,8 @@
 #include <string>
 #include "../../src/baseFunctions/fpDetermineOOB.h"
 
+using namespace fp;
+
 TEST(fpDetermineOOB, checkOOB )
 {
 	int numOb = 1000;

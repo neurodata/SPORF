@@ -38,6 +38,9 @@ namespace fp {
 				setDataRelatedParameters(info, dat);
 				changeForestSize(info.returnNumTrees());
 
+				for(rfTree<T> i : trees){
+					i.buildTree(info, dat);
+				}
 			}
 
 			//		void growForest(const fpForest& forestInfo){
