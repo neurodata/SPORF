@@ -116,16 +116,14 @@ RerF <-
         } else {
             stop("Incompatible data type. Y must be of type factor or numeric.")
         }
-
-
+        
+        # address na values.
+        if (any(is.na(X)) ) {
+            if (exists("na.action")) na.action(X,Y)
+            if (any(is.na(X))) warning("NA values exist in data matrix")
+        }
+        
         if (task == "classification"){
-
-            # address na values.
-            if (any(is.na(X)) ) {
-                if (exists("na.action")) na.action(X,Y)
-                if (any(is.na(X))) warning("NA values exist in data matrix")
-            }
-
             num.class <- length(forest$labels)
             classCt <- cumsum(tabulate(Y, num.class))
             if(stratify){
@@ -136,40 +134,9 @@ RerF <-
             }else{
                 Cindex<-NULL
             }
-            mcrun<- function(...) BuildTree(
-                                            X, Y,
-                                            min.parent,
-                                            max.depth,
-                                            bagging,
-                                            replacement,
-                                            fun,
-                                            mat.options,
-                                            store.oob,
-                                            store.impurity,
-                                            progress,
-                                            rotate,
-                                            task,
-                                            stratify=stratify,
-                                            class.ind=Cindex,
-                                            class.ct=classCt
-                                            )
+            mcrun <- function(...) classTree(X, Y, min.parent, max.depth, bagging, replacement, stratify, Cindex, classCt, fun, mat.options, store.oob, store.impurity, progress, rotate)
         } else {
-            mcrun<- function(...) {
-                BuildTree(
-                          X, Y,
-                          min.parent,
-                          max.depth,
-                          bagging,
-                          replacement,
-                          fun,
-                          mat.options,
-                          store.oob,
-                          store.impurity,
-                          progress,
-                          rotate,
-                          task
-                          )
-            }
+            mcrun<- function(...) regTree(X, Y, min.parent, max.depth, bagging, replacement, fun, mat.options, store.oob, store.impurity, progress, rotate)
         }
 
         forest$params <- list(min.parent = min.parent,
