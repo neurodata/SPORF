@@ -110,25 +110,29 @@ RerF <-
         } else {
             stop("Incompatible data type. Y must be of type factor or numeric.")
         }
-
-
-        if (task == "classification"){
-
-            # address na values.
-            if (any(is.na(X)) ) {
-                if (exists("na.action")) na.action(X,Y)
-                if (any(is.na(X))) warning("NA values exist in data matrix")
-            }
-        }else{
-            Cindex<-NULL
-        }
-
+        
         # address na values.
         if (any(is.na(X)) ) {
             if (exists("na.action")) na.action(X,Y)
             if (any(is.na(X))) warning("NA values exist in data matrix")
         }
-
+        
+        if (task == "classification"){
+            num.class <- length(forest$labels)
+            classCt <- cumsum(tabulate(Y, num.class))
+            if(stratify){
+                Cindex<-vector("list",num.class)
+                for(m in 1L:num.class){
+                    Cindex[[m]]<-which(Y==m)
+                }
+            }else{
+                Cindex<-NULL
+            }
+            mcrun <- function(...) classTree(X, Y, min.parent, max.depth, bagging, replacement, stratify, Cindex, classCt, fun, mat.options, store.oob, store.impurity, progress, rotate)
+        } else {
+            mcrun<- function(...) regTree(X, Y, min.parent, max.depth, bagging, replacement, fun, mat.options, store.oob, store.impurity, progress, rotate)
+        }
+        
 		#keep from making copies of X
 		if (!is.matrix(X)) {
 			X <- as.matrix(X)

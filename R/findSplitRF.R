@@ -1,7 +1,3 @@
-
-
-
-
 findSplitRF <- function(x,
                         y,
                         ndSize,
@@ -10,7 +6,7 @@ findSplitRF <- function(x,
                         bv,
                         bs,
                         nzidx) {
-    for (i in 1:ndSize) {
+    for (i in 1:(ndSize-1)) {
         dI <- I - sum(c(split.mse(y[1:i]), split.mse(y[-(1:i)])))
         if (dI > maxdI) {
             maxdI <- dI

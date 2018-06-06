@@ -37,6 +37,7 @@ vignettes/*.pdf
 *.o
 *.so
 *.a
+<<<<<<< HEAD
 
 # files created during packing
 *.out
@@ -46,3 +47,6 @@ vignettes/*.pdf
 # auto generated Rcpp code
 src/RcppExports.cpp
 R/RcppExports.R
+=======
+.Rproj.user
+>>>>>>> Regresion working but not getting right results

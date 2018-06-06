@@ -1,3 +1,5 @@
 ^travisTest$
 ^\.travis\.yml$
 ^.*\\.gz$
+^.*\.Rproj$
+^\.Rproj\.user$
