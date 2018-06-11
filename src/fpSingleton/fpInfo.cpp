@@ -6,22 +6,15 @@ namespace fp {
 
 	fpInfo::fpInfo(): numTreesInForest(100),
 	minParent(1),	numClasses(-1), numFeatures(-1),
-	mtry(-1), fractionOfFeaturesToTest(-1.0),
-	numberOfNodes(0), maxDepth(0),sumLeafNodeDepths(0){}
+	mtry(-1), 
+	numberOfNodes(0), maxDepth(0),sumLeafNodeDepths(0), fractionOfFeaturesToTest(-1.0){}
 
-//void fpInfo::print(){
-//				forest->printForestType();
-//			}
-
-		//	void fpForest::growForest(){
-		//	fpLoadData();
-
-
-		//	}
 
 	void fpInfo::setParameter(const std::string& parameterName, const std::string& parameterValue){
-		if(false){
-		;
+		if(parameterName == "forestType"){
+			forestType = parameterValue;
+		}else if(parameterName == "CSVFileName"){
+			CSVFileName = parameterValue;
 		}else{
 			throw std::runtime_error("Unknown parameter type.(string)");
 		}
@@ -39,6 +32,8 @@ namespace fp {
 			mtry = (int)parameterValue;
 		}else if(parameterName == "fractionOfFeaturesToTest"){
 			fractionOfFeaturesToTest = parameterValue;
+		}else if(parameterName == "columnWithY"){
+			columnWithY = parameterValue;
 		}else {
 			throw std::runtime_error("Unknown parameter type.(double)");
 		}
@@ -56,28 +51,29 @@ namespace fp {
 			mtry = parameterValue;
 		}else if(parameterName == "fractionOfFeaturesToTest"){
 			fractionOfFeaturesToTest = (double)parameterValue;
+		}else if(parameterName == "columnWithY"){
+			columnWithY = parameterValue;
 		}else {
 			throw std::runtime_error("Unknown parameter type.(int)");
 		}
 	}
 
-void fpInfo::printAllParameters(){
+	void fpInfo::printAllParameters(){
 		std::cout << "numTreesInForest -> " << numTreesInForest << "\n";
 		std::cout << "minParent -> " << minParent << "\n";
 		std::cout << "numClasses -> " << numClasses << "\n";
+		std::cout << "numObservations -> " << numObservations << "\n";
 		std::cout << "numFeatures -> " << numFeatures << "\n";
 		std::cout << "mtry -> " << mtry << "\n";
 		std::cout << "fractionOfFeaturesToTest -> " << fractionOfFeaturesToTest << "\n";
+		std::cout << "CSV file name -> " <<  CSVFileName << "\n";
+		std::cout << "columnWithY -> " << columnWithY << "\n";
+		std::cout << "Type of Forest -> " << forestType << "\n";
 	}
-/*
-	void fpInfo::setDataRelatedParameters(inputData<double, int>* data){
-		numClasses = data->returnNumClasses();
-		numFeatures = data->returnNumFeatures();
-		if(fractionOfFeaturesToTest == -1){
-			mtry = sqrt(numFeatures);
-		}else{
-			mtry = fractionOfFeaturesToTest * numFeatures;
-		}
-*/
-	
+
+
+	void fpInfo::printForestType(){
+		std::cout << "Type of Forest -> " << forestType << "\n";
+	}
+
 }//namespace fp

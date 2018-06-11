@@ -20,6 +20,9 @@ class alignas(32) rfNode
 		inline T returnCutValue(){
 			return cutValue;
 		}
+		inline T setCutValue(T cVal){
+			cutValue = cVal;
+		}
 
 		inline int returnFeatureNumber(){
 			return feature;
@@ -59,7 +62,6 @@ class alignas(32) rfNode
 		void virtual printNode(){
 			std::cout << "cutValue " << cutValue <<", feature " << feature << ", left " << left << ", right " << right << "\n";
 		}
-
 
 };
 #endif //padNode_h

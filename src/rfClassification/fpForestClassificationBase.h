@@ -4,7 +4,9 @@
 #include "../baseFunctions/fpUtils.h"
 #include <vector>
 #include <stdio.h>
-#include "rfTree.h"
+#include <ctime>
+#include <cstdlib>
+//#include "rfTree.h"
 
 namespace fp {
 
@@ -12,19 +14,20 @@ namespace fp {
 		class fpForestClassificationBase : public fpForestBase
 	{
 		protected:
-			std::vector<rfTree<T> > trees;
+//			std::vector<rfTree<T> > trees;
 
 		public:
-			//		fpForestClassificationBase(){
+					fpForestClassificationBase(){
+						std::srand(unsigned(std::time(0)));
+					}
 
-			//		}
 			void printForestType(){
 				std::cout << "This is a basic classification forest.\n";
 			}
 
 
-			void changeForestSize(int numTrees){
-				trees.resize(numTrees);
+			void changeForestSize(){
+		;	//	trees.resize(numTrees);
 			}
 
 			void setDataRelatedParameters(fpInfo& info, fpData& dat){
@@ -34,13 +37,14 @@ namespace fp {
 
 			}
 
-			void growForest(fpInfo& info, fpData& dat){
-				setDataRelatedParameters(info, dat);
-				changeForestSize(info.returnNumTrees());
-
+			void growForest(){
+			//	setDataRelatedParameters(info, dat);
+				changeForestSize();
+/*
 				for(rfTree<T> i : trees){
 					i.buildTree(info, dat);
 				}
+				*/
 			}
 
 			//		void growForest(const fpForest& forestInfo){

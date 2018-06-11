@@ -1,12 +1,13 @@
 #include <string>
-#include "../../src/baseFunctions/fpDetermineOOB.h"
+#include "../../src/baseFunctions/inNodeClassIndices.h"
 
 using namespace fp;
 
-TEST(fpDetermineOOB, checkOOB )
+
+TEST(checkInNodeClassIndices, checkRootNodeIndexCreation )
 {
 	int numOb = 1000;
-	OOB test(numOb);
+	inNodeClassIndices test(numOb);
 
 	EXPECT_EQ(numOb, test.returnInSampleSize());
 	EXPECT_GT(numOb, test.returnOutSampleSize());
@@ -50,4 +51,3 @@ TEST(fpDetermineOOB, checkOOB )
 	EXPECT_TRUE(allNumbersExist);
 	EXPECT_EQ(numOb, numsTested);
 }
-

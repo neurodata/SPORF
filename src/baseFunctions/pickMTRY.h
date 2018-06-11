@@ -1,5 +1,5 @@
-#ifndef fpData_h
-#define fpData_h
+#ifndef pickMTRY_h
+#define pickMTRY_h
 
 //#include "fpUtils.h"
 #include <string>
@@ -7,18 +7,13 @@
 
 namespace fp {
 
-	class fpData{
+	class mtry{
 
 		protected:
-			// data input
-			std::string forestCSVFileName;
-			int columnWithY;
-			inputData<double, int>* inData;
+			static std::vector<int> nArray;
 
 		public:
-
-			fpData():columnWithY(-1){}
-
+static std::vector<int> pickMTRY(int numFeatures, int 
 
 			void setParameter(const std::string& parameterName, const std::string& parameterValue){
 				if(parameterName == "CSVFileName"){
@@ -73,5 +68,6 @@ namespace fp {
 				return inData->returnNumObservations();
 			}
 	}; // class fpData
+
 } //namespace fp
-#endif //fpData.h
+#endif //pickMTRY.h

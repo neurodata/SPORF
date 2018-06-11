@@ -2,6 +2,7 @@
 #define fpForest_h
 
 #include "fpUtils.h"
+#include "../fpSingleton/fpSingleton.h"
 #include <string>
 #include <memory>
 
@@ -10,54 +11,51 @@ namespace fp {
 	class fpForest{
 
 		protected:
-			// data input
-			fpInfo fpForestInfo;
-      std::unique_ptr<fpForestBase> forest;
-			fpData data;
+			      std::unique_ptr<fpForestBase> forest;
 
 		public:
 
-void setParameter(const std::string& parameterName, const std::string& parameterValue){
-		if(parameterName == "forestType"){
-		forest = forestFactory::setForestType(parameterValue);	
-		}else{
-	data.setParameter(parameterName, parameterValue);
-		}
-	}
-			
+			fpForest(){}
 
-			void setParameter(const std::string& parameterName, const double parameterValue){
-				if(parameterName =="columnWithY"){
-data.setParameter(parameterName, parameterValue);
-				}else{
-	fpForestInfo.setParameter(parameterName, parameterValue);
-			}
+
+			inline void setParameter(const std::string& parameterName, const std::string& parameterValue){
+				fpSingleton::getSingleton().setParameter(parameterName, parameterValue);	
 			}
 
-			void setParameter(const std::string& parameterName, const int parameterValue){
-if(parameterName =="columnWithY"){
-data.setParameter(parameterName, parameterValue);
-				}else{
-	fpForestInfo.setParameter(parameterName, parameterValue);
-			}
+
+			inline void setParameter(const std::string& parameterName, const double parameterValue){
+				fpSingleton::getSingleton().setParameter(parameterName, parameterValue);	
 			}
 
-			void printParameters(){
-fpForestInfo.printAllParameters();
-data.printAllParameters();
+			inline void setParameter(const std::string& parameterName, const int parameterValue){
+				fpSingleton::getSingleton().setParameter(parameterName, parameterValue);	
 			}
 
-			void printType(){
-forest->printForestType();
+			inline void printParameters(){
+				fpSingleton::getSingleton().printAllParameters();
+			}
+
+			inline void printForestType(){
+				fpSingleton::getSingleton().printForestType();
 			}
 
 			void loadData(){
-data.fpLoadData();
+				fpSingleton::getSingleton().loadData();
 			}
 
-void growForest(){
-data.fpLoadData();
-forest->growForest(fpForestInfo,data);
+			inline void setFunctionPointers(){
+;//fpSingleton::getSingleton().setFunctionPointers();
+			}
+
+inline void initializeForestType(){
+forest = forestFactory::setForestType(fpSingleton::getSingleton().returnForestType());
+			}
+
+			void growForest(){
+				loadData();
+				initializeForestType();
+			//	forest->growForest();
+				forest->printForestType();
 			}
 	}; // class fpForest
 } //namespace fp

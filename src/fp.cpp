@@ -1,4 +1,5 @@
 #include "baseFunctions/fpUtils.h"
+#include "fpSingleton/fpSingleton.h"
 #include <iostream>
 #include <exception>
 
@@ -17,7 +18,7 @@ int main(int argc, char* argv[]) {
 	forest.growForest();
 
 		forest.printParameters();
-		forest.printType();
+		forest.printForestType();
 		/*
 		rankedInput<double> inputDataOld(csvFileName);
 

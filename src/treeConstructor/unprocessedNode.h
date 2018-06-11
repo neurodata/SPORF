@@ -1,19 +1,19 @@
-#ifndef rfTree_h
-#define rfTree_h
-#include "rfNode.h"
-#include "../baseFunctions/fpUtils.h"
+#ifndef rfunprocessedNode_h
+#define rfunprocessedNode_h
+//#include "rfNode.h"
+//#include "../baseFunctions/fpUtils.h"
 //#include <stdio.h>
 #include <vector>
 #include <random>
 
 namespace fp{
 
-	template <typename T>
+	template <typename T> //
 		class unprocessedNode{
 			protected:
 				int parentID;
-				float nodeImpurity;
-				bool isLeftNode;
+				float nodeImpurity; //lower impurity is better
+				bool isLeftNode; //in order to set parent node with location
 
 				splitInfo<T> bestSplitInfo;
 
@@ -176,4 +176,4 @@ nodeQueue.push_back(
 				};
 
 		}
-#endif //rfTree_h
+#endif //unprocessedNode_h

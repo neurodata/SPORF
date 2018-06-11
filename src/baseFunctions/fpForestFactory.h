@@ -15,7 +15,6 @@ namespace fp{
 			//	std::uniqe_ptr<fpForestBase> pToForest;
 				if(parameterName == "rfBase"){
 					return std::unique_ptr<fpForestBase>{new fpForestClassificationBase<float>};
-					//pToForest = std::unique_ptr<fpForestBase>{new fpForestClassificationBase<float>};
 				}else{
 					throw std::runtime_error("Unimplemented forest type chosen." );
 					return NULL;

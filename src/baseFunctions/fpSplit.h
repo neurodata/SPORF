@@ -11,12 +11,13 @@ namespace fp{
 		class splitInfo
 		{
 			protected:
-				T splitValue;
 				float impurity;
-				int leftSize;
+				int featureNum;
+				T splitValue;
 
 			public:
 				splitInfo(): impurity(2){}
+
 				inline void setSplitValue(T sVal){
 					splitValue = sVal;
 				}
@@ -31,15 +32,16 @@ namespace fp{
 				inline float returnImpurity(){
 					return impurity;
 				}
-
-inline void setLeftSize(int lSize){
-					leftSize = lSize;
+				
+inline void setFeatureNum(int fNum){
+	featureNum = fNum;
 				}
 
-				inline float returnLeftSize(){
-					return leftSize;
+				inline int returnFeatureNum(){
+					return featureNum;
 				}
-		};
+
+						};
 
 
 	template<typename T>
@@ -88,6 +90,18 @@ inline void setLeftSize(int lSize){
 
 		public:
 			classTotals() : maxClass(-1), totalNumObj(0){}
+
+			inline int returnLargestClass(){
+				int largestClass; 
+				int numInClass=0;
+				for(int i = 0; i <= maxClass; ++i){
+					if(classVec[i] > numInClass){
+						numInClass = classVec[i];
+						largestClass = i;
+					}
+				}
+				return largestClass;
+			}
 
 			void findNumClasses(std::vector<int>& labs){
 				for(auto i : labs){
@@ -164,7 +178,7 @@ inline void setLeftSize(int lSize){
 					return overallImpurity;
 				}
 
-				void zipDataLabels(std::vector<T>& featureVals){
+				void zipDataLabels(std::vector<T> featureVals){
 					for(unsigned int i=0; i<labels.size(); ++i){
 						combinedDataLabels[i].setPair(featureVals[i],labels[i]);
 					}
@@ -178,13 +192,13 @@ inline void setLeftSize(int lSize){
 					return combinedDataLabels[leftIndex].checkInequality(combinedDataLabels[leftIndex+1]);
 				}
 
-				splitInfo<T> giniSplit(std::vector<T>& featureVals){
+				splitInfo<T> giniSplit(const std::vector<T>& featureVals, int featureNum){
 					float tempImpurity;
 					int numLabels = labels.size();
 
-
 					// initialize return value
 					splitInfo<T> currSplitInfo;
+					currSplitInfo.setFeatureNum(featureNum);
 
 					// zip data and labels
 					zipDataLabels(featureVals);
@@ -202,7 +216,7 @@ inline void setLeftSize(int lSize){
 							if(tempImpurity < currSplitInfo.returnImpurity()){
 								currSplitInfo.setImpurity(tempImpurity);
 								currSplitInfo.setSplitValue(midVal(i));
-								currSplitInfo.setLeftSize(i+1);
+							//	currSplitInfo.setLeftSize(i+1);
 							}
 						}
 					}
