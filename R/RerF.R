@@ -6,7 +6,7 @@
 #' @param Y an n length vector of class labels.  Class labels must be integer or numeric and be within the range 1 to the number of classes.
 #' @param min.parent the minimum splittable node size.  A node size < min.parent will be a leaf node. (min.parent = 6)
 #' @param trees the number of trees in the forest. (trees=100)
-#' @param max.depth the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=0, the tree will be allowed to grow without bound.  (max.depth=0)  
+#' @param max.depth the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=0, the tree will be allowed to grow without bound.  (max.depth=ceiling(log2(nrow(X))) )  
 #' @param bagging a non-zero value means a random sample of X will be used during tree creation.  If replacement = FALSE the bagging value determines the percentage of samples to leave out-of-bag.  If replacement = TRUE the non-zero bagging value is ignored. (bagging=.2) 
 #' @param replacement if TRUE then n samples are chosen, with replacement, from X. (replacement=TRUE)
 #' @param stratify if TRUE then class sample proportions are maintained during the random sampling.  Ignored if replacement = FALSE. (stratify = FALSE).
@@ -65,7 +65,7 @@
 
 RerF <-
     function(X, Y, min.parent = 6L, trees = 100L, 
-             max.depth = 0L, bagging = .2, 
+             max.depth = ceiling(log2(nrow(X))), bagging = .2, 
              replacement = TRUE, stratify = FALSE, 
              fun = NULL, 
              mat.options = list(p = ifelse(is.null(cat.map), ncol(X), length(cat.map)), d = ceiling(sqrt(ncol(X))), random.matrix = "binary", rho = ifelse(is.null(cat.map), 1/ncol(X), 1/length(cat.map)), prob = 0.5), 
