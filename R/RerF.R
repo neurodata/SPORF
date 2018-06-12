@@ -72,7 +72,7 @@ RerF <-
              rank.transform = FALSE, store.oob = FALSE, 
              store.impurity = FALSE, progress = FALSE, 
              rotate = F, num.cores = 0L, 
-             seed = sample((0:100000000,1)), cat.map = NULL){
+             seed = sample(0:100000000,1), cat.map = NULL){
 
         forest <- list(trees = NULL, labels = NULL, params = NULL)
 
