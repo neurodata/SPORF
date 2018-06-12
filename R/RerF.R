@@ -18,7 +18,7 @@
 #' @param progress if TRUE then a pipe is printed after each tree is created.  This is useful for large datasets. (progress=FALSE)
 #' @param rotate if TRUE then the data matrix X is uniformly randomly rotated for each tree. (rotate=FALSE)
 #' @param num.cores the number of cores to use while training. If num.cores=0 then 1 less than the number of cores reported by the OS are used. (num.cores=0)
-#' @param seed the seed to use for training the forest. (seed=1)
+#' @param seed the seed to use for training the forest.  For two runs to match you must use the same seed for each run AND you must also use the same number of cores for each run. (seed=sample((0:100000000,1)))
 #' @param cat.map a list specifying which columns in X correspond to the same one-of-K encoded feature. Each element of cat.map is a numeric vector specifying the K column indices of X corresponding to the same categorical feature after one-of-K encoding. All one-of-K encoded features in X must come after the numeric features. The K encoded columns corresponding to the same categorical feature must be placed contiguously within X. The reason for specifying cat.map is to adjust for the fact that one-of-K encoding cateogorical features results in a dilution of numeric features, since a single categorical feature is expanded to K binary features. If cat.map = NULL, then RerF assumes all features are numeric (i.e. none of the features have been one-of-K encoded).
 #' @param prob the probability of sampling +1 in the default random matrix function
 #'
@@ -72,7 +72,7 @@ RerF <-
              rank.transform = FALSE, store.oob = FALSE, 
              store.impurity = FALSE, progress = FALSE, 
              rotate = F, num.cores = 0L, 
-             seed = 1L, cat.map = NULL){
+             seed = sample((0:100000000,1)), cat.map = NULL){
 
         forest <- list(trees = NULL, labels = NULL, params = NULL)
 
