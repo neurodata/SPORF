@@ -6,7 +6,7 @@
 #' @param Y an n length vector of class labels.  Class labels must be integer or numeric and be within the range 1 to the number of classes.
 #' @param min.parent the minimum splittable node size.  A node size < min.parent will be a leaf node. (min.parent = 6)
 #' @param trees the number of trees in the forest. (trees=100)
-#' @param max.depth the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=0, the tree will be allowed to grow without bound.  (max.depth=0)  
+#' @param max.depth the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=0, the tree will be allowed to grow without bound.  (max.depth=ceiling(log2(nrow(X))) )  
 #' @param bagging a non-zero value means a random sample of X will be used during tree creation.  If replacement = FALSE the bagging value determines the percentage of samples to leave out-of-bag.  If replacement = TRUE the non-zero bagging value is ignored. (bagging=.2) 
 #' @param replacement if TRUE then n samples are chosen, with replacement, from X. (replacement=TRUE)
 #' @param stratify if TRUE then class sample proportions are maintained during the random sampling.  Ignored if replacement = FALSE. (stratify = FALSE).
@@ -18,10 +18,11 @@
 #' @param progress if TRUE then a pipe is printed after each tree is created.  This is useful for large datasets. (progress=FALSE)
 #' @param rotate if TRUE then the data matrix X is uniformly randomly rotated for each tree. (rotate=FALSE)
 #' @param num.cores the number of cores to use while training. If num.cores=0 then 1 less than the number of cores reported by the OS are used. (num.cores=0)
-#' @param seed the seed to use for training the forest. (seed=1)
+#' @param seed the seed to use for training the forest.  For two runs to match you must use the same seed for each run AND you must also use the same number of cores for each run. (seed=sample((0:100000000,1)))
 #' @param cat.map a list specifying which columns in X correspond to the same one-of-K encoded feature. Each element of cat.map is a numeric vector specifying the K column indices of X corresponding to the same categorical feature after one-of-K encoding. All one-of-K encoded features in X must come after the numeric features. The K encoded columns corresponding to the same categorical feature must be placed contiguously within X. The reason for specifying cat.map is to adjust for the fact that one-of-K encoding cateogorical features results in a dilution of numeric features, since a single categorical feature is expanded to K binary features. If cat.map = NULL, then RerF assumes all features are numeric (i.e. none of the features have been one-of-K encoded).
 #' @param prob the probability of sampling +1 in the default random matrix function
 #' @param na.action action to take if NA values are found. By default it will omit rows with NA values. NOTE: na.action is performed in-place. See default function.
+#' @param rfPack boolean flag to determine whether to pack a random forest in order to improve prediction speed.  This flag is only applicable when training a forest with the "rf" option.  (rfPack = TRUE)
 #'
 #' @return forest
 #'
@@ -66,16 +67,17 @@
 
 RerF <-
     function(X, Y, min.parent = 6L, trees = 100L, 
-             max.depth = 0L, bagging = .2, 
+             max.depth = ceiling(log2(nrow(X))), bagging = .2, 
              replacement = TRUE, stratify = FALSE, 
              fun = NULL, 
              mat.options = list(p = ifelse(is.null(cat.map), ncol(X), length(cat.map)), d = ceiling(sqrt(ncol(X))), random.matrix = "binary", rho = ifelse(is.null(cat.map), 1/ncol(X), 1/length(cat.map)), prob = 0.5), 
              rank.transform = FALSE, store.oob = FALSE, 
              store.impurity = FALSE, progress = FALSE, 
              rotate = F, num.cores = 0L, 
-             seed = 1L, cat.map = NULL, 
-             na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] } 
-             ) {
+             na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] },
+             seed = sample(0:100000000,1), 
+						 cat.map = NULL, rfPack = TRUE){
+
 
         forest <- list(trees = NULL, labels = NULL, params = NULL)
 
@@ -163,5 +165,8 @@ RerF <-
 	    set.seed(seed)
             forest$trees <- lapply(1:trees, mcrun)
         }
+				if(mat.options$random.matrix == "rf" & rfPack){
+PackForest(X,Y,forest)
+				}
         return(forest)
     }

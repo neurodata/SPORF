@@ -3,7 +3,8 @@
 .Rapp.history
 
 # Session Data files
-.RData
+# We are now including data.
+#.RData
 
 # Example code in package build process
 *-Ex.R
@@ -36,3 +37,11 @@ vignettes/*.pdf
 *.o
 *.so
 *.a
+
+# files created during packing
+*.out
+*.csv
+
+# auto generated Rcpp code
+src/RcppExports.cpp
+R/RcppExports.R
