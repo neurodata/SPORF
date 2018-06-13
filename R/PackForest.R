@@ -6,18 +6,7 @@
 #' @param Y a numeric vector of size n.  If the Y vector used to train the forest was not of type numeric then a simple call to as.numeric(Y) will suffice as input.
 #' @param forest a forest trained using the RerF function using the RF option.
 #'
-#' @examples
-#' library(rerf)
-#' trainIdx <- c(1:40, 51:90, 101:140)
-#' X <- as.matrix(iris[,1:4])
-#' Y <- as.numeric(iris[,5])
-#'
-#' forest <- RerF(X,Y, mat.options = list(p = ncol(X), d =ceiling(sqrt(ncol(X))), random.matrix = "rf", rho = 1/ncol(X)))
-#' PackForest(X,Y,forest) 
-#' 
-#' @export
-#'
-
+ 
 PackForest <-
 	function(X, Y, forest){
 
@@ -28,9 +17,9 @@ PackForest <-
 
 		# Write forest to CSV
 		treeNum <- length(forest$trees)
-		# Make sure forest is large enough to fit in bins and needs to be a power of two.  This should change to accept any number of trees greater than 16.
-if(treeNum < 16 | bitwAnd(treeNum,treeNum-1)){
-			stop("The number of trees must be greater than 16 and should be a power of 2.")
+		if(treeNum < 16 ){
+			print("unable to pack forest of size less than 16.")
+			return()
 		}
 		treeSizes <- NA
 		datWrite <- c(treeNum, ncol(forest$trees[[1]]$ClassProb))
@@ -48,7 +37,6 @@ if(treeNum < 16 | bitwAnd(treeNum,treeNum-1)){
 
 		print("starting forest write to csv")
 		write.table(datWrite, file = "forestPackTempFile.csv",row.names=FALSE, na="",col.names=FALSE, sep=" ", append=FALSE)
-		print("finished forest write to csv")
 
 		# write training data to csv for stat.  This should become optional
 		numberOfFeatures <- ncol(X)
@@ -64,13 +52,11 @@ if(treeNum < 16 | bitwAnd(treeNum,treeNum-1)){
 		tempTraversal[(2+j*(numberOfFeatures+1)+2):(2+(j+1)*(numberOfFeatures+1))] <- X[j+1,]
 		}
 		write.table(tempTraversal, file = "traversalPackTempFile.csv",row.names=FALSE, na="",col.names=FALSE, sep=" ", append=FALSE)
-		print("finished traversal write to csv")
 		
 		if (file.exists("forest.out")) file.remove("forest.out")
 		# Call C++ code to create and load the forest.
 		print("starting packing")
 		z <- packForestRCPP()
-		print("finished packing")
 
 		print("removing intermediate files")
 		if (file.exists("forestPackTempFile.csv")) file.remove("forestPackTempFile.csv")

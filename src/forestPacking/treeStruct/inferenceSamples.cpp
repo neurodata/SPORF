@@ -20,8 +20,8 @@ inferenceSamples::inferenceSamples(const std::string& testFile){
 
     fin >>  numObservations; 
     fin >> numFeatures;
-    printf("\nThere are %d observations to test\n", numObservations);
-    printf("There are %d features in each observation\n", numFeatures);
+   // printf("\nThere are %d observations to test\n", numObservations);
+   // printf("There are %d features in each observation\n", numFeatures);
 
     samplesMatrix = new double*[numObservations];
     observationClasses = new int[numObservations];

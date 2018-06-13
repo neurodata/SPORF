@@ -186,24 +186,7 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
     }
 
 
-    int currentNode = 0;
-#pragma omp parallel for schedule(static) private(currentNode)
-    for(int i = 0; i < observations.numObservations; i++){
-
-      for(int k=0; k < numTreesInForest; k++){
-        currentNode = 0;
-        while(tempForestRoots[k][currentNode].isInternalNode()){
-          if(tempForestRoots[k][currentNode].goLeft(observations.samplesMatrix[i][tempForestRoots[k][currentNode].returnFeature()])){
-            currentNode = tempForestRoots[k][currentNode].returnLeftNode(); 
-            continue;
-          }
-          currentNode = tempForestRoots[k][currentNode].returnRightNode(); 
-        }
-      }
-    }
-
     forestRoots =  new treeBin2*[numOfBins]; 
-    printf("starting binning\n");
     int finalTree;
     int startTree=0;
     int binSize = numTreesInForest/numberBins;
@@ -213,9 +196,6 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
     for(int q = 0; q < numberBins; q++){
       startTree = q*binSize;
       finalTree = startTree+binSize;
-      if(q < binRemainder){
-        finalTree++;
-      }
 
       if(finalTree > numTreesInForest){
         finalTree = numTreesInForest;
@@ -226,7 +206,6 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
       }
     }
 
-    printf("finished binning\n");
 
     delete[] numNodesInTree;
     delete[] tempForestRoots;
@@ -238,7 +217,6 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
     exit(1);
   }
 
-  printf("finished all\n");
 }
 
 improv8::~improv8(){
@@ -340,19 +318,6 @@ void improv8::makePrediction(double* observation, double* preds, int numFeatures
 	int numberNotInLeaf;
 	int k, q;
 	int observationOffset = 0;
-/*
-	int xset=0;
-	for(int k = 0; k < 4; k++){
-	for(int j = 0; j < numFeatures; j++){
-		std::cout << observation[j+xset] << " ";
-	}
-	std::cout << "\n";
-	xset+=numFeatures;
-
-	}
-
-	*/
-
 
 	for(int j = 0; j < numObservations; j++){
 		for( k=0; k < numOfBins;k++){
