@@ -92,7 +92,7 @@ inline void setFeatureNum(int fNum){
 			classTotals() : maxClass(-1), totalNumObj(0){}
 
 			inline int returnLargestClass(){
-				int largestClass; 
+				int largestClass=-1; 
 				int numInClass=0;
 				for(int i = 0; i <= maxClass; ++i){
 					if(classVec[i] > numInClass){

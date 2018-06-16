@@ -54,7 +54,7 @@ forest = forestFactory::setForestType(fpSingleton::getSingleton().returnForestTy
 			void growForest(){
 				loadData();
 				initializeForestType();
-			//	forest->growForest();
+				forest->growForest();
 				forest->printForestType();
 			}
 	}; // class fpForest

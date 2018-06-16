@@ -11,7 +11,6 @@ namespace fp {
 	class fpSingleton{
 
 		private:
-
 			static fpSingleton* infoSetting;
 			fpInfo fpForestInfo;
 			fpData data;
@@ -62,6 +61,10 @@ namespace fp {
 				return fpForestInfo.returnNumClasses();
 			}
 
+inline int returnMtry(){
+				return fpForestInfo.returnMtry();
+			}
+
 			inline std::string& returnForestType(){
 return fpForestInfo.returnForestType();
 }
@@ -81,6 +84,15 @@ return fpForestInfo.returnForestType();
 			inline int returnFeatureVal(const int featureNumber, const int observationNumber){
 				return data.returnFeatureVal(featureNumber, observationNumber);
 			}
+
+inline int returnNumTrees(){
+				return fpForestInfo.returnNumTrees();
+			}
+
+inline int returnMinParent(){
+				return fpForestInfo.returnMinParent();
+			}
+
 
 			inline bool loadDataFromCSV(){
 				return data.loadDataFromCSV(fpForestInfo);

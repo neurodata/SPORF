@@ -58,6 +58,10 @@ inline int returnNumClasses(){
 return numClasses;
 			}
 
+inline int returnMinParent(){
+return minParent;
+}
+
 inline int returnNumFeatures(){
 return numFeatures;
 			}

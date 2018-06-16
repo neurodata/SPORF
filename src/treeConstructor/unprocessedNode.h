@@ -2,16 +2,19 @@
 #define rfunprocessedNode_h
 //#include "rfNode.h"
 //#include "../baseFunctions/fpUtils.h"
+#include "../baseFunctions/fpSplit.h"
 //#include <stdio.h>
 #include <vector>
 #include <random>
 
 namespace fp{
 
+
 	template <typename T> //
 		class unprocessedNode{
 			protected:
 				int parentID;
+				int depth;
 				float nodeImpurity; //lower impurity is better
 				bool isLeftNode; //in order to set parent node with location
 
@@ -19,161 +22,182 @@ namespace fp{
 
 				//split* nodeSplit;
 
-				inNodeClassIndices obsIndices;
+				inNodeClassIndices* obsIndices;
+				inNodeClassIndices* leftIndices;
+				inNodeClassIndices* rightIndices;
 
 				std::vector<int> featuresToTry;
 				std::vector<T> featureHolder;
 				std::vector<int> labelHolder;
-			public:
-				unprocessedNode(const int numObsForRoot): obsIndices(numObsForRoot), parentID(0), isLeftNode(true){}
 
-				unprocessedNode(int parentID, bool isLeft):parentID(parentID),isLeftNode(isLeft){}
+			public:
+				unprocessedNode(int numObsForRoot):  parentID(0), depth(0), isLeftNode(true){
+					obsIndices = new inNodeClassIndices(numObsForRoot);
+				}
+
+				unprocessedNode(int parentID, int depth, bool isLeft):parentID(parentID),depth(depth),isLeftNode(isLeft){}
+
+				~unprocessedNode(){
+					if(obsIndices != NULL){
+						delete obsIndices;
+					}
+				}
+
+				inline inNodeClassIndices* returnLeftIndices(){
+return leftIndices;
+				}
+
+inline inNodeClassIndices* returnRightIndices(){
+return rightIndices;
+				}
 
 				inline int returnParentID(){
-return parentID;
+					return parentID;
 				}
 
-inline bool returnIsLeftNode(){
-return isLeftNode;
-}
+				inline int returnNodeImpurity(){
+					return nodeImpurity;
+				}
+
+				inline bool returnIsLeftNode(){
+					return isLeftNode;
+				}
+
+				inline bool returnDepth(){
+					return depth;
+				}
+
+				inline int returnBestFeature(){
+return bestSplitInfo.returnFeatureNum();
+				}
+
+				inline T returnBestCutValue(){
+return bestSplitInfo.returnSplitValue();
+				}
+
 				inline void setHolderSizes(){
-					labelHolder.resize(obsIndices.returnInSampleSize());
-					featureHolder.resize(obsIndices.returnInSampleSize());
+					labelHolder.resize(obsIndices->returnInSampleSize());
+					featureHolder.resize(obsIndices->returnInSampleSize());
 				}
 
-				inline void loadLabelHolder(fpData& dat){
-					for(unsigned int i =0; i < inB.size(); ++i){
-						labelHolder[i] = dat.returnLabel(i);
-					}
+				inline int returnInSampleSize(){
+					return obsIndices->returnInSampleSize();
 				}
 
-				inline void loadFeatureHolder(fpData& dat){
-					for(unsigned int i =0; i < inB.size(); ++i){
-						featureHolder[i] = dat.returnFeatureValue(featuresToTry.back(),i);
-					}
+inline int returnOutSampleSize(){
+					return obsIndices->returnOutSampleSize();
 				}
 
-				inline void pickMTRY(int numFeatures, int mtry){
-					for (int i=0; i<numFeatures; ++i) featuresToTry.push_back(i);
+inline int returnOutSampleError(int classNum){
+	int totalRight=0;
+	for(int i : obsIndices->returnOutSamples()){
+		if (i==classNum){
+			++totalRight;
+		}
+	}
+	return totalRight;
+}
+
+				inline void pickMTRY(){
+					for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i) featuresToTry.push_back(i);
 					std::random_shuffle ( featuresToTry.begin(), featuresToTry.end() );
-					featuresToTry.resize(mtry);
+					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
 				}
 
-				inline void setupHolders(fpData& dat){
+				inline int returnMTRYVectorSize(){
+					return featuresToTry.size();
+				}
+
+				inline void loadLabelHolder(){
+					for(int i =0; i < obsIndices->returnInSampleSize(); ++i){
+						labelHolder[i] = fpSingleton::getSingleton().returnLabel(i);
+					}
+				}
+
+				inline void loadFeatureHolder(){
+					for(int i =0; i < obsIndices->returnInSampleSize(); ++i){
+						featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back(),i);
+					}
+				}
+
+				inline float calculateNodeImpurity(std::vector<int> labels){
+					split<T>	nodeSplit(labels); //This is done twice
+					return nodeSplit.returnImpurity();
+				}
+
+				inline void setupNode(){
+					pickMTRY();
 					setHolderSizes();
-					loadLabelHolder(dat);
-				}
-
-				/*
-				inline float returnNodeImpurity(std::vector<int> labels){
-					split	nodeSplit(labels);
-					return nodeSplit->returnImpurity();
-				}
-				*/
-
-				inline void setupNode(fpInfo& info, fpData& dat){
-					pickMTRY(dat.returnNumFeatures(), info.returnMTRY());
-					setupHolders(dat);
-					nodeImpurity = returnNodeImpurity(labelHolder);
-				}
-
-				inline bool isLeafNode(){
-					return nodeImpurity == 0;
+					loadLabelHolder();
+					nodeImpurity = calculateNodeImpurity(labelHolder);
 				}
 
 
-				inline void setBestSplit(spiltInfo<T> tempSplit){
+				inline void setBestSplit(splitInfo<T> tempSplit, int featureNum){
 					if(tempSplit.returnImpurity() < bestSplitInfo.returnImpurity()){
 						bestSplitInfo = tempSplit;
+						bestSplitInfo.setFeatureNum(featureNum);
+					}
+				}
+
+				inline void loadIndices(inNodeClassIndices* indices){
+obsIndices = indices;
+				}
+
+				inline bool goLeft(const int& index){
+					if(fpSingleton::getSingleton().returnFeatureVal(bestSplitInfo.returnFeatureNum(),index) < bestSplitInfo.returnSplitValue()){
+						return true;
+					}else{
+						return false;
 					}
 				}
 
 
-				splitInfo<T> findBestSplit(fpData& dat){
-					spiltInfo<T> tempSplitInfo;
-					split findSplit(labelHolder);
-					while(!featuresToTry.empty()){
-						loadFeatureHolder(dat);
-						tempSplitInfo = findSplit.giniSplit(featureHolder ,featuresToTry.back());
-						featuresToTry.pop_back();
-						setBestSplit(tempSplitInfo);
+				inline void moveDataLeftOrRight(){
+					leftIndices = new inNodeClassIndices();
+					rightIndices = new inNodeClassIndices();
+
+					for (int i : obsIndices->returnInSamples()){
+						if(goLeft(i)){
+							leftIndices->addIndexToInSamples(i);	
+						}else{
+							rightIndices->addIndexToInSamples(i);	
+						}
 					}
-					return bestSplitInfo;
+
+					for (int i : obsIndices->returnOutSamples()){
+						if(goLeft(i)){
+							leftIndices->addIndexToOutSamples(i);	
+						}else{
+							rightIndices->addIndexToOutSamples(i);	
+						}
+					}
+					delete obsIndices;
+					obsIndices = NULL;
+				}
+
+
+				inline void findBestSplit(){
+					split<T> findSplit(labelHolder); //This is done twice
+					while(!featuresToTry.empty()){
+						loadFeatureHolder();
+						setBestSplit(findSplit.giniSplit(featureHolder ,featuresToTry.back()),featuresToTry.back());
+						featuresToTry.pop_back();
+					}
+					moveDataLeftOrRight();
 				}
 
 
 				inline int returnMaxClass(){
-					if(nodeImpurity==1){
+					if(nodeImpurity==0){
 						return labelHolder[0];
 					} else {
-classTotals findMaxClass;
-findMaxClass.findNumClasses(labelHolder);
-return findMaxClass.returnLargestClass();
+						classTotals findMaxClass;
+						findMaxClass.findNumClasses(labelHolder);
+						return findMaxClass.returnLargestClass();
 					}
 				}
 
-		};
-
-
-	template <typename T>
-		class rfTree
-		{
-			protected:
-				float OOBAccuracy;
-				int currNodeIndex;
-				std::vector< rfNode<T> > tree;
-				std::vector< unprocessedNode<T> > nodeQueue;
-				//	OOB* sampleIndices;
-
-			public:
-				rfTree() : OOBAccuracy(-1.0), currNodeIndex(-1){}
-
-				void setInitialNode(fpData& dat){
-					nodeQueue.push_back(unprocessedNode(dat.returnNumObservations()));
-				}
-
-				void setNode(unprocessedNode<T> temp){
- tree.back().setCutValue(temp.returnCutValue()); 
- tree.back().setFeature(temp.returnFeature()); 
-				}
-
-				void setLeafNode(){
-nodeQueue.back()
-tree.back().setClass(maxClass);
-				}
-
-				void buildTree(fpInfo& info, fpData& dat){
-					setInitialNode(dat);
-					//	tree.push_back();
-splitInfo<T> tempSplitInfo;
-						while(!nodeQueue.empty()){
-							nodeQueue.back().setupNode(info,dat);
-++currNodeIndex;
-tree.push_back();
-if(nodeQueue.back().returnIsLeftNode()){
-tree[nodeQueue.back().returnParentID()].setLeftValue(currNodeIndex);
-}else{
-tree[nodeQueue.back().returnParentID()].setRightValue(currNodeIndex);
-}
-							//pop last node off
-							if(nodeQueue.back().isLeafNode()){
-setLeafNode();
-nodeQueue.pop_back();
-							}else{
-tempSplitInfo = nodeQueue.back().findBestSplit(fpData& dat);
-unprocessedNode<T> temp = nodeQueue.back();
-nodeQueue.pop_back();
-setSplitNode(temp);
-
-nodeQueue.push_back(
-
-							}
-
-						}
-					}
-
-
-				};
-
-		}
+		}; //unprocessedNode.h
+}//namespace fp
 #endif //unprocessedNode_h

@@ -13,6 +13,7 @@ class alignas(32) rfNode
 		int right;
 
 	public:
+		rfNode():left(0), feature(0), right(0){}
 		inline bool isInternalNode(){
 			return left;
 		}
@@ -20,8 +21,12 @@ class alignas(32) rfNode
 		inline T returnCutValue(){
 			return cutValue;
 		}
-		inline T setCutValue(T cVal){
+		inline void setCutValue(T cVal){
 			cutValue = cVal;
+		}
+
+inline void setFeatureValue(int fVal){
+			feature = fVal;
 		}
 
 		inline int returnFeatureNumber(){
@@ -44,9 +49,11 @@ class alignas(32) rfNode
 			right = classNum;
 			left = 0;
 		}
+
 		inline void setLeftValue(int LVal){
 			left = LVal;	
 		}
+
 		inline void setRightValue(int RVal){
 			right = RVal;
 		}
