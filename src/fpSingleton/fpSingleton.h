@@ -45,6 +45,19 @@ namespace fp {
 				data.fpLoadData(fpForestInfo);
 			}
 
+			inline void loadTestData(){
+				data.fpLoadTestData(fpForestInfo);
+			}
+
+inline void deleteData(){
+				data.fpDeleteData();
+			}
+
+inline void deleteTestData(){
+				data.fpDeleteTestData();
+			}
+
+
 			inline void setNumFeatures(int numF){
 				fpForestInfo.setNumFeatures(numF);
 			}
@@ -81,8 +94,16 @@ return fpForestInfo.returnForestType();
 				return data.returnLabel(observationNumber);
 			}
 
-			inline int returnFeatureVal(const int featureNumber, const int observationNumber){
+inline int returnTestLabel(int observationNumber){
+				return data.returnTestLabel(observationNumber);
+			}
+
+			inline double returnFeatureVal(const int featureNumber, const int observationNumber){
 				return data.returnFeatureVal(featureNumber, observationNumber);
+			}
+
+inline double returnTestFeatureVal(const int featureNumber, const int observationNumber){
+				return data.returnTestFeatureVal(featureNumber, observationNumber);
 			}
 
 inline int returnNumTrees(){
@@ -93,6 +114,9 @@ inline int returnMinParent(){
 				return fpForestInfo.returnMinParent();
 			}
 
+inline void setDataDependentParameters(){
+fpForestInfo.setMTRY();
+}
 
 			inline bool loadDataFromCSV(){
 				return data.loadDataFromCSV(fpForestInfo);
@@ -113,8 +137,13 @@ inline int returnMinParent(){
 				return *this;
 			}
 
+//void initializeSingleton(){
+//	fpSingleton * fpSingleton::infoSetting = nullptr;
+//}
+
 	}; // class fpSingleton
-	fpSingleton * fpSingleton::infoSetting = nullptr;
+fpSingleton * fpSingleton::infoSetting = nullptr;
+//initializeSingleton()
 
 } //namespace fp
 #endif //fpSingleton.h

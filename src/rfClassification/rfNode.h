@@ -62,7 +62,7 @@ inline void setFeatureValue(int fVal){
 			return featureValue < cutValue;
 		}
 
-		inline int nextNode(double featureValue){
+		inline int nextNode(T featureValue){
 			return (featureValue < cutValue) ? left : right;
 		}
 

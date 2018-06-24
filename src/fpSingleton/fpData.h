@@ -12,31 +12,49 @@ namespace fp {
 
 		protected:
 			// data input
-		//	std::string forestCSVFileName;
-		//	int columnWithY;
+			//	std::string forestCSVFileName;
+			//	int columnWithY;
 			inputData<double, int>* inData;
-//			fpSingleton* forestInfo;
+			testData<double, int>* inTestData;
+			//			fpSingleton* forestInfo;
 
 		public:
 
 			fpData(){
-			//forestInfo = fpSingleton::getSingleton();
+				//forestInfo = fpSingleton::getSingleton();
 			}
 
 			~fpData(){
-		delete inData;	
+if(inData != NULL){
+					delete inData;
+					inData = NULL;
+				}
+if(inTestData != NULL){
+					delete inTestData;
+					inTestData = NULL;
+				}
 			}
 
-inline bool loadDataFromCSV(fpInfo& settings){
-return settings.loadDataFromCSV();
-}
+			inline bool loadDataFromCSV(fpInfo& settings){
+				return settings.loadDataFromCSV();
+			}
 			void fpLoadData(fpInfo& settings){
 				if(loadDataFromCSV(settings)){
 					inData = new inputData<double,int>(settings.returnCSVFileName(), settings.returnColumnWithY());
 				}else {
 					throw std::runtime_error("Unable to read data." );
 				}
-						setDataRelatedParameters(settings);
+				setDataRelatedParameters(settings);
+			}
+
+
+			void fpDeleteData(){
+				if(inData != NULL){
+					delete inData;
+					inData = NULL;
+				}else {
+					throw std::runtime_error("Unable to delete data.  Data does not exist." );
+				}
 			}
 
 			inline int returnNumClasses(){
@@ -52,19 +70,55 @@ return settings.loadDataFromCSV();
 			}
 
 			inline int returnLabel(int observationNumber){
-return inData->returnClassOfObservation(observationNumber);
+				return inData->returnClassOfObservation(observationNumber);
 			}
 
-			inline int returnFeatureVal(const int featureNumber, const int observationNumber){
-return inData->returnFeatureValue(featureNumber, observationNumber);
+			inline double returnFeatureVal(const int featureNumber, const int observationNumber){
+				return inData->returnFeatureValue(featureNumber, observationNumber);
 			}
 
 			inline void setDataRelatedParameters(fpInfo& settings){
-settings.setNumFeatures(this->returnNumFeatures());
-settings.setNumObservations(this->returnNumObservations());
-settings.setNumClasses(this->returnNumClasses());
+				settings.setNumFeatures(this->returnNumFeatures());
+				settings.setNumObservations(this->returnNumObservations());
+				settings.setNumClasses(this->returnNumClasses());
 			}
 
+inline int returnNumTestObservations(){
+				return inTestData->returnNumObservations();
+			}
+			
+inline void setTestDataRelatedParameters(fpInfo& settings){
+				settings.setNumObservations(this->returnNumTestObservations());
+			}
+
+			void fpLoadTestData(fpInfo& settings){
+				if(loadDataFromCSV(settings)){
+					inTestData = new testData<double,int>(settings.returnCSVFileName(), settings.returnColumnWithY());
+				}else {
+					throw std::runtime_error("Unable to read test data." );
+				}
+				setTestDataRelatedParameters(settings);
+			}
+
+
+
+void fpDeleteTestData(){
+				if(inTestData != NULL){
+					delete inTestData;
+					inTestData = NULL;
+				}else {
+					throw std::runtime_error("Unable to delete test data.  Test data does not exist." );
+				}
+			}
+
+			
+
+			inline int returnTestLabel(int observationNumber){
+				return inTestData->returnClassOfObservation(observationNumber);
+			}
+			inline int returnTestFeatureVal(const int featureNumber, const int observationNumber){
+				return inTestData->returnFeatureValue(featureNumber, observationNumber);
+			}
 	}; // class fpData
 } //namespace fp
 #endif //fpData.h

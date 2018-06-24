@@ -39,23 +39,23 @@ namespace fp{
 
 				~unprocessedNode(){
 					if(obsIndices != NULL){
-						delete obsIndices;
+						//delete obsIndices;
 					}
 				}
 
 				inline inNodeClassIndices* returnLeftIndices(){
-return leftIndices;
+					return leftIndices;
 				}
 
-inline inNodeClassIndices* returnRightIndices(){
-return rightIndices;
+				inline inNodeClassIndices* returnRightIndices(){
+					return rightIndices;
 				}
 
 				inline int returnParentID(){
 					return parentID;
 				}
 
-				inline int returnNodeImpurity(){
+				inline float returnNodeImpurity(){
 					return nodeImpurity;
 				}
 
@@ -68,11 +68,11 @@ return rightIndices;
 				}
 
 				inline int returnBestFeature(){
-return bestSplitInfo.returnFeatureNum();
+					return bestSplitInfo.returnFeatureNum();
 				}
 
 				inline T returnBestCutValue(){
-return bestSplitInfo.returnSplitValue();
+					return bestSplitInfo.returnSplitValue();
 				}
 
 				inline void setHolderSizes(){
@@ -84,19 +84,19 @@ return bestSplitInfo.returnSplitValue();
 					return obsIndices->returnInSampleSize();
 				}
 
-inline int returnOutSampleSize(){
+				inline int returnOutSampleSize(){
 					return obsIndices->returnOutSampleSize();
 				}
 
-inline int returnOutSampleError(int classNum){
-	int totalRight=0;
-	for(int i : obsIndices->returnOutSamples()){
-		if (i==classNum){
-			++totalRight;
-		}
-	}
-	return totalRight;
-}
+				inline int returnOutSampleError(int classNum){
+					int totalRight=0;
+					for(int i : obsIndices->returnOutSamples()){
+						if (i==classNum){
+							++totalRight;
+						}
+					}
+					return totalRight;
+				}
 
 				inline void pickMTRY(){
 					for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i) featuresToTry.push_back(i);
@@ -110,13 +110,13 @@ inline int returnOutSampleError(int classNum){
 
 				inline void loadLabelHolder(){
 					for(int i =0; i < obsIndices->returnInSampleSize(); ++i){
-						labelHolder[i] = fpSingleton::getSingleton().returnLabel(i);
+						labelHolder[i] = fpSingleton::getSingleton().returnLabel(obsIndices->returnInSample(i));
 					}
 				}
 
 				inline void loadFeatureHolder(){
 					for(int i =0; i < obsIndices->returnInSampleSize(); ++i){
-						featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back(),i);
+						featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back(),obsIndices->returnInSample(i));
 					}
 				}
 
@@ -141,7 +141,7 @@ inline int returnOutSampleError(int classNum){
 				}
 
 				inline void loadIndices(inNodeClassIndices* indices){
-obsIndices = indices;
+					obsIndices = indices;
 				}
 
 				inline bool goLeft(const int& index){

@@ -73,7 +73,7 @@ namespace fp {
 
 
 	void fpInfo::printForestType(){
-		std::cout << "Type of Forest -> " << forestType << "\n";
+		std::cout << forestType;
 	}
 
 }//namespace fp

@@ -49,14 +49,12 @@ class inputYDataClassification : public inputYData<T>
 		}
 
 		inline int numClasses(){
-			return maxClass;
+			return maxClass+1;
 		}
 
 		void checkClassRepresentation(){
-	//		std::cout << maxClass << "\n";
 			for(int i=0; i<maxClass; i++){
 				if(classesUsed[i]==0){
-	//		std::cout << i << "\n";
 				throw std::runtime_error("Not all classes represented in input." );
 					}
 			}
@@ -178,6 +176,113 @@ inline void checkY(){
 };
 
 
+template <typename T>
+class testXData
+{
+	private:
+		std::vector < std::vector<T> > XData;
+
+	public:
+		void initializeTestXData( const int &numFeatures, const int &numObservations){
+			XData.resize(numObservations);
+			for (int i=0; i<numObservations; i++){
+				XData[i].resize(numFeatures);
+			}
+		}
+
+		inline T returnElement(const int &feature,const int &observation){
+			return XData[observation][feature];
+		}
+
+		inline void setXElement( const int &feature, const int &observation, const T &value){
+			XData[observation][feature] = value;
+		}
+
+		inline int returnNumFeatures(){
+			return XData[0].size();
+		}
+
+		inline int returnNumObservations(){
+			return XData.size();
+		}
+};//testXData
+
+
+template <typename T, typename Q>
+class testData
+{
+	private:
+		testXData<T> X;
+		inputYDataClassification<Q> Y;
+
+	public:
+		testData(const std::string& forestCSVFileName, const int &columnWithY)
+		{
+
+			//			csvHandle<T> csvH(forestCSVFileName);
+			csvHandle csvH(forestCSVFileName);
+			if(columnWithY >= csvH.returnNumColumns()){
+				throw std::runtime_error("column with class labels does not exist." );
+				return;
+			}
+
+			X.initializeTestXData(csvH.returnNumColumns()-1, csvH.returnNumRows());
+			Y.initializeYData(csvH.returnNumRows());
+
+			for(int i=0; i<csvH.returnNumRows(); i++){
+				for(int j=0; j<csvH.returnNumColumns(); j++){
+					if(j < columnWithY){
+						X.setXElement(j,i, csvH.returnNextElement<T>());
+					}else if(j == columnWithY){
+						Y.setYElement(i, csvH.returnNextElement<Q>());
+					}else{
+						X.setXElement(j-1,i, csvH.returnNextElement<T>());
+					}
+				}
+			}
+		}
+
+		inline Q returnClassOfObservation(const int &observationNum){
+			return Y.returnYElement(observationNum);
+		}
+
+		inline T returnFeatureValue(const int &featureNum, const int &observationNum){
+			return X.returnElement(featureNum, observationNum);
+		}
+
+		inline int returnNumFeatures(){
+			return X.returnNumFeatures();
+		}
+
+		inline int returnNumObservations(){
+			return Y.returnNumObservations();
+		}
+
+inline int returnNumClasses(){
+			return Y.numClasses();
+		}
+
+		void printDataStats(){
+			std::cout << "there are " << this.returnNumFeatures() << " features.\n";
+			std::cout << "there are " << this.returnNumObservations() << " observations.\n";
+		}
+
+		void printXValues(){
+			for(int i = 0; i < this->returnNumFeatures(); i++){
+				for(int j = 0; j < this->returnNumObservations(); j++){
+					std::cout << this->returnFeatureValue(i,j) << " ";
+				}
+				std::cout << "\n";
+			}
+		}
+
+		void printYValues(){
+			for(int j = 0; j < this->returnNumObservations(); j++){
+				std::cout << this->returnClassOfObservation(j) << " ";
+			}
+			std::cout << "\n";
+		}
+};
 
 
 
@@ -213,6 +318,7 @@ class rankedElement
 			return featureValue;
 		}
 };
+
 
 
 

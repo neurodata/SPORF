@@ -4,6 +4,7 @@
 #include "../baseFunctions/fpUtils.h"
 #include <vector>
 #include <random>
+//#include <stdio.h>
 #include "../treeConstructor/unprocessedNode.h"
 
 namespace fp{
@@ -26,15 +27,17 @@ namespace fp{
 				}
 
 				inline bool shouldProcessNode(){
-					if(!nodeQueue.back().returnNodeImpurity()){
+					if(nodeQueue.back().returnNodeImpurity()==0){
 						return false;
 					}
-					if(nodeQueue.back().returnInSampleSize() < fpSingleton::getSingleton().returnMinParent()){
+					if(nodeQueue.back().returnInSampleSize() <= fpSingleton::getSingleton().returnMinParent()){
 						return false;
 					}
+					/*
 					if(nodeQueue.back().returnDepth() > fpSingleton::getSingleton().returnMinParent()){
 						return false;
 					}
+					*/
 					return true;
 				}
 
@@ -52,6 +55,7 @@ return correctOOB/totalOOB;
 					}else{
 						tree[nodeQueue.back().returnParentID()].setRightValue(returnLastNodeID());
 					}
+					
 				}
 
 				inline void setAsLeaf(){
@@ -76,6 +80,7 @@ tree.emplace_back();
 					linkParentToChild();
 					tree.back().setCutValue(nodeQueue.back().returnBestCutValue());
 					tree.back().setFeatureValue(nodeQueue.back().returnBestFeature());
+				//	tree.back().printNode();
 				}
 
 				inline void createChildren(){
@@ -92,6 +97,7 @@ inNodeClassIndices* leftIndices = nodeQueue.back().returnLeftIndices();
 
 
 			inline void processANode(){
+				
 					nodeQueue.back().setupNode();
 					if(shouldProcessNode()){
 					nodeQueue.back().findBestSplit();
@@ -100,7 +106,6 @@ inNodeClassIndices* leftIndices = nodeQueue.back().returnLeftIndices();
 					}else{
 						makeWholeNodeALeaf();
 					}
-
 				}
 
 				void processNodes(){
@@ -112,6 +117,19 @@ inNodeClassIndices* leftIndices = nodeQueue.back().returnLeftIndices();
 				void growTree(){
 					loadFirstNode();
 					processNodes();
+				}
+
+				int predictObservation(int observationNum){
+					int currNode = 0;
+					int featureNum = 0;
+T featureVal;
+					while(tree[currNode].isInternalNode()){
+						featureNum = tree[currNode].returnFeatureNumber();
+						featureVal =fpSingleton::getSingleton().returnTestFeatureVal(featureNum,observationNum);
+						currNode = tree[currNode].nextNode(featureVal);
+					}
+
+return tree[currNode].returnClass();
 				}
 		};
 

@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <math.h>
+#include <iostream>
 
 namespace fp {
 
@@ -43,30 +44,30 @@ namespace fp {
 			void printForestType();
 
 			inline std::string& returnCSVFileName(){
-return CSVFileName;
+				return CSVFileName;
 			}
 
-inline std::string& returnForestType(){
-		return forestType;
-	}
+			inline std::string& returnForestType(){
+				return forestType;
+			}
 
 			inline int returnColumnWithY(){
-return columnWithY;
+				return columnWithY;
 			}
 
-inline int returnNumClasses(){
-return numClasses;
+			inline int returnNumClasses(){
+				return numClasses;
 			}
 
-inline int returnMinParent(){
-return minParent;
-}
-
-inline int returnNumFeatures(){
-return numFeatures;
+			inline int returnMinParent(){
+				return minParent;
 			}
-inline int returnNumObservations(){
-return numObservations;
+
+			inline int returnNumFeatures(){
+				return numFeatures;
+			}
+			inline int returnNumObservations(){
+				return numObservations;
 			}
 
 			inline void setNumClasses(int numC){
@@ -82,7 +83,7 @@ return numObservations;
 			}
 
 			inline int returnNumTrees(){
-return numTreesInForest;
+				return numTreesInForest;
 			}
 
 			inline bool loadDataFromCSV(){
@@ -92,20 +93,20 @@ return numTreesInForest;
 				return false;
 			}
 
-inline int returnMtry(){
-return mtry;
-}
+			inline int returnMtry(){
+				return mtry;
+			}
 			inline bool useDefaultMTRY(){
-				return fractionOfFeaturesToTest == -1;
+				return fractionOfFeaturesToTest < 0;
 			}
 
 			inline void setMTRY(){
 				if(mtry == -1){
-				if(useDefaultMTRY()){
-					mtry = sqrt(numFeatures);
-				}else{
-					mtry = fractionOfFeaturesToTest * numFeatures;
-				}
+					if(useDefaultMTRY()){
+						mtry = sqrt(numFeatures);
+					}else{
+						mtry = fractionOfFeaturesToTest * numFeatures;
+					}
 				}
 			}
 
