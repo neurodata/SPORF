@@ -16,7 +16,7 @@ namespace fp{
 				T splitValue;
 
 			public:
-				splitInfo(): impurity(2){}
+				splitInfo(): impurity(3), featureNum(-1), splitValue(0){}
 
 				inline void setSplitValue(T sVal){
 					splitValue = sVal;
@@ -216,7 +216,6 @@ inline void setFeatureNum(int fNum){
 							if(tempImpurity < currSplitInfo.returnImpurity()){
 								currSplitInfo.setImpurity(tempImpurity);
 								currSplitInfo.setSplitValue(midVal(i));
-							//	currSplitInfo.setLeftSize(i+1);
 							}
 						}
 					}

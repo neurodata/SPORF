@@ -11,7 +11,7 @@ namespace fp {
 	class fpForest{
 
 		protected:
-			      std::unique_ptr<fpForestBase> forest;
+			std::unique_ptr<fpForestBase> forest;
 
 		public:
 
@@ -43,19 +43,46 @@ namespace fp {
 				fpSingleton::getSingleton().loadData();
 			}
 
-			inline void setFunctionPointers(){
-;//fpSingleton::getSingleton().setFunctionPointers();
+
+			void deleteData(){
+				fpSingleton::getSingleton().deleteData();
 			}
 
-inline void initializeForestType(){
-forest = forestFactory::setForestType(fpSingleton::getSingleton().returnForestType());
+			void deleteTestData(){
+				fpSingleton::getSingleton().deleteTestData();
+			}
+
+
+			inline void setFunctionPointers(){
+				;//fpSingleton::getSingleton().setFunctionPointers();
+			}
+
+			inline void initializeForestType(){
+				forest = forestFactory::setForestType(fpSingleton::getSingleton().returnForestType());
+			}
+
+			inline void setDataDependentParameters(){
+				fpSingleton::getSingleton().setDataDependentParameters();
 			}
 
 			void growForest(){
 				loadData();
 				initializeForestType();
+				setDataDependentParameters();
 				forest->growForest();
-				forest->printForestType();
+				deleteData();
+			}
+
+			void loadTestData(){
+				fpSingleton::getSingleton().loadTestData();
+			}
+
+			float testAccuracy(){
+				float testError;
+				loadTestData();
+				testError = forest->testForest();
+				deleteTestData();
+				return testError;
 			}
 	}; // class fpForest
 } //namespace fp

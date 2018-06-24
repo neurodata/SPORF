@@ -33,6 +33,9 @@ namespace fp{
 				int checkNum = 0;
 				int n = 0;
 				while(checkNum < numObservationsInDataSet){
+					//ensure stopping spot exists
+					inSamples.emplace_back(numObservationsInDataSet);
+					//find which values are missing
 					if(checkNum < inSamples[n]){
 						outSamples.push_back(checkNum);
 						++checkNum;
@@ -42,7 +45,10 @@ namespace fp{
 						++n;
 						++checkNum;
 					}
+				//remove ensured stopping spot.	
+					inSamples.pop_back();
 				}
+
 			}
 
 			void printIndices(){
@@ -64,11 +70,11 @@ namespace fp{
 				return outSamples.size();
 			}
 
-			inline int& returnInSample(const int &numSample){
+			inline int returnInSample(const int numSample){
 				return inSamples[numSample];
 			}
 
-			inline int& returnOutSample(const int &numSample){
+			inline int returnOutSample(const int numSample){
 				return outSamples[numSample];
 			}
 
