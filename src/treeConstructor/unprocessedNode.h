@@ -43,6 +43,11 @@ namespace fp{
 					}
 				}
 
+
+	inline int returnIndTotal(){
+return obsIndices->sumIndices();
+	}
+
 				inline inNodeClassIndices* returnLeftIndices(){
 					return leftIndices;
 				}
@@ -69,6 +74,10 @@ namespace fp{
 
 				inline int returnBestFeature(){
 					return bestSplitInfo.returnFeatureNum();
+				}
+
+				inline T returnBestImpurity(){
+					return bestSplitInfo.returnImpurity();
 				}
 
 				inline T returnBestCutValue(){
@@ -133,10 +142,11 @@ namespace fp{
 				}
 
 
-				inline void setBestSplit(splitInfo<T> tempSplit, int featureNum){
+				//inline void setBestSplit(splitInfo<T> tempSplit, int featureNum){
+				inline void setBestSplit(splitInfo<T> tempSplit){
 					if(tempSplit.returnImpurity() < bestSplitInfo.returnImpurity()){
 						bestSplitInfo = tempSplit;
-						bestSplitInfo.setFeatureNum(featureNum);
+				//		bestSplitInfo.setFeatureNum(featureNum);
 					}
 				}
 
@@ -157,10 +167,14 @@ namespace fp{
 					leftIndices = new inNodeClassIndices();
 					rightIndices = new inNodeClassIndices();
 
+					int lNum =0;
+					int rNum =0;
 					for (int i : obsIndices->returnInSamples()){
 						if(goLeft(i)){
+							++lNum;
 							leftIndices->addIndexToInSamples(i);	
 						}else{
+							++rNum;
 							rightIndices->addIndexToInSamples(i);	
 						}
 					}
@@ -181,10 +195,12 @@ namespace fp{
 					split<T> findSplit(labelHolder); //This is done twice
 					while(!featuresToTry.empty()){
 						loadFeatureHolder();
-						setBestSplit(findSplit.giniSplit(featureHolder ,featuresToTry.back()),featuresToTry.back());
+						setBestSplit(findSplit.giniSplit(featureHolder ,featuresToTry.back()));
 						featuresToTry.pop_back();
 					}
+					if(bestSplitInfo.returnImpurity() <= 1){
 					moveDataLeftOrRight();
+					}
 				}
 
 

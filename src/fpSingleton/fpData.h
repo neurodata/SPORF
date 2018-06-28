@@ -116,7 +116,7 @@ void fpDeleteTestData(){
 			inline int returnTestLabel(int observationNumber){
 				return inTestData->returnClassOfObservation(observationNumber);
 			}
-			inline int returnTestFeatureVal(const int featureNumber, const int observationNumber){
+			inline double returnTestFeatureVal(const int featureNumber, const int observationNumber){
 				return inTestData->returnFeatureValue(featureNumber, observationNumber);
 			}
 	}; // class fpData

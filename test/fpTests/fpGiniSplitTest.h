@@ -108,3 +108,27 @@ TEST(fpSplit, secondFeature )
 	EXPECT_EQ(returnVals.returnImpurity(), 0.0);
 	EXPECT_EQ(returnVals.returnFeatureNum(), 10);
 }
+
+
+TEST(fpSplit, largeSplit )
+{
+	int numOfLabels= 100;
+	std::vector<int> labels (numOfLabels, 4);
+	std::fill(labels.begin(),labels.begin()+(numOfLabels/2), 2);
+	std::fill(labels.begin()+numOfLabels/5,labels.begin()+(numOfLabels/4), 4);
+
+	std::vector<double> featureValues; 
+	for(int i = 0; i < numOfLabels; ++i){
+featureValues.push_back(double(i));
+	}
+
+	splitInfo<double> returnVals;
+	split<double> findSplitTest1(labels);
+
+	returnVals = findSplitTest1.giniSplit(featureValues, 1);
+
+	EXPECT_EQ(returnVals.returnSplitValue(), 49.5);
+	float impurity = 0;
+	impurity += 6*6/(50*50)+44*44/(50*50);
+	EXPECT_EQ(returnVals.returnImpurity(), impurity);
+}

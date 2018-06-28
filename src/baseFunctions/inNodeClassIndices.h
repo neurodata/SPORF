@@ -21,7 +21,9 @@ namespace fp{
 				inSamples.resize(numObservationsInDataSet);
 
 				std::random_device rd; // obtain a random number from hardware
+
 				std::mt19937 eng(rd()); // seed the generator
+
 				std::uniform_int_distribution<> distr(0, numObservationsInDataSet-1);
 
 				for(int n=0; n<numObservationsInDataSet; n++){
@@ -45,7 +47,7 @@ namespace fp{
 						++n;
 						++checkNum;
 					}
-				//remove ensured stopping spot.	
+					//remove ensured stopping spot.
 					inSamples.pop_back();
 				}
 
@@ -74,6 +76,14 @@ namespace fp{
 				return inSamples[numSample];
 			}
 
+			inline int sumIndices(){
+				int total = 0;
+				for(unsigned int i =0; i < inSamples.size(); i++){
+					total += inSamples[i];
+				}
+				return total;
+			}
+
 			inline int returnOutSample(const int numSample){
 				return outSamples[numSample];
 			}
@@ -94,5 +104,7 @@ namespace fp{
 				inSamples.push_back(index);
 			}
 	};//class inNodeClassIndices
+
 }//namespace fp
 #endif //inNodeClassIndices_h
+

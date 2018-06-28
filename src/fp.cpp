@@ -9,15 +9,15 @@ int main(int argc, char* argv[]) {
 	try{
 		fp::fpForest forest;
 		forest.setParameter("forestType", "rfBase");
-		forest.setParameter("numTreesInForest", 100);
+		forest.setParameter("numTreesInForest", 10);
 		forest.setParameter("minParent", 1);
 		forest.setParameter("numClasses", 5);
 //		forest.setParameter("mtry", 100);
-		//forest.setParameter("CSVFileName", "test/res/testCSV.csv");
-		forest.setParameter("CSVFileName", "src/iris.csv");
-		forest.setParameter("columnWithY", 4);
-	//	forest.setParameter("CSVFileName", "res/mnist.csv");
-	//	forest.setParameter("columnWithY", 0);
+//		forest.setParameter("CSVFileName", "test/res/testCSV.csv");
+//		forest.setParameter("CSVFileName", "res/iris.csv");
+//		forest.setParameter("columnWithY", 4);
+		forest.setParameter("CSVFileName", "res/mnist.csv");
+		forest.setParameter("columnWithY", 0);
 
 		forest.growForest();
 

@@ -57,7 +57,7 @@ TEST(fpDataSet, checkYInput )
 	inputData<double, int> dataYtest(csvFileName,0);
 
 
-	EXPECT_EQ(dataYtest.returnNumClasses(), 10);
+	EXPECT_EQ(dataYtest.returnNumClasses(), 11);
 
 	try{
 		dataYtest.checkY();

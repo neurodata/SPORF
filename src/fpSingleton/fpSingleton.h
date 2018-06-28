@@ -49,11 +49,11 @@ namespace fp {
 				data.fpLoadTestData(fpForestInfo);
 			}
 
-inline void deleteData(){
+			inline void deleteData(){
 				data.fpDeleteData();
 			}
 
-inline void deleteTestData(){
+			inline void deleteTestData(){
 				data.fpDeleteTestData();
 			}
 
@@ -74,13 +74,13 @@ inline void deleteTestData(){
 				return fpForestInfo.returnNumClasses();
 			}
 
-inline int returnMtry(){
+			inline int returnMtry(){
 				return fpForestInfo.returnMtry();
 			}
 
 			inline std::string& returnForestType(){
-return fpForestInfo.returnForestType();
-}
+				return fpForestInfo.returnForestType();
+			}
 
 			inline int returnNumFeatures(){
 				return fpForestInfo.returnNumFeatures();
@@ -94,7 +94,7 @@ return fpForestInfo.returnForestType();
 				return data.returnLabel(observationNumber);
 			}
 
-inline int returnTestLabel(int observationNumber){
+			inline int returnTestLabel(int observationNumber){
 				return data.returnTestLabel(observationNumber);
 			}
 
@@ -102,21 +102,21 @@ inline int returnTestLabel(int observationNumber){
 				return data.returnFeatureVal(featureNumber, observationNumber);
 			}
 
-inline double returnTestFeatureVal(const int featureNumber, const int observationNumber){
+			inline double returnTestFeatureVal(const int featureNumber, const int observationNumber){
 				return data.returnTestFeatureVal(featureNumber, observationNumber);
 			}
 
-inline int returnNumTrees(){
+			inline int returnNumTrees(){
 				return fpForestInfo.returnNumTrees();
 			}
 
-inline int returnMinParent(){
+			inline int returnMinParent(){
 				return fpForestInfo.returnMinParent();
 			}
 
-inline void setDataDependentParameters(){
-fpForestInfo.setMTRY();
-}
+			inline void setDataDependentParameters(){
+				fpForestInfo.setMTRY();
+			}
 
 			inline bool loadDataFromCSV(){
 				return data.loadDataFromCSV(fpForestInfo);
@@ -137,13 +137,13 @@ fpForestInfo.setMTRY();
 				return *this;
 			}
 
-//void initializeSingleton(){
-//	fpSingleton * fpSingleton::infoSetting = nullptr;
-//}
+			//void initializeSingleton(){
+			//	fpSingleton * fpSingleton::infoSetting = nullptr;
+			//}
 
 	}; // class fpSingleton
-fpSingleton * fpSingleton::infoSetting = nullptr;
-//initializeSingleton()
+	fpSingleton * fpSingleton::infoSetting = nullptr;
+	//initializeSingleton()
 
 } //namespace fp
 #endif //fpSingleton.h

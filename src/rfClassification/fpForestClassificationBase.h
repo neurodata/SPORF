@@ -5,6 +5,7 @@
 #include <vector>
 #include <stdio.h>
 #include <ctime>
+#include <chrono>
 #include <cstdlib>
 #include "rfTree.h"
 
@@ -30,10 +31,24 @@ namespace fp {
 			}
 
 			void growTrees(){
-				for(auto &tree : trees){
-					tree.growTree();
-					//std::cout << "OOB: " <<	tree.returnOOB() << "\n";
+				auto startTime = std::chrono::system_clock::now();
+				auto stopTime = std::chrono::system_clock::now();
+				//	std::chrono::duration<double, std::chrono::seconds> diffSeconds;
+				std::chrono::seconds diffSeconds;
+				std::chrono::seconds updateTime(30);
+
+				std::cout << "starting tree 1";
+
+				for(unsigned int i = 0; i < trees.size(); ++i){
+					stopTime = std::chrono::high_resolution_clock::now();
+					diffSeconds =	std::chrono::duration_cast<std::chrono::seconds>(stopTime - startTime);
+					if(diffSeconds > updateTime){
+						std::cout << "..." << i;
+						startTime = std::chrono::high_resolution_clock::now();
+					}
+					trees[i].growTree();
 				}
+				std::cout << "\n";
 			}
 
 			inline void checkParameters(){
@@ -47,18 +62,13 @@ namespace fp {
 			}
 
 			int predictClass(int observationNumber){
-			//	return 0;
-				
+
 				std::vector<int> classTally(fpSingleton::getSingleton().returnNumClasses(),0);
 				for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
-++classTally[trees[i].predictObservation(observationNumber)];
+					++classTally[trees[i].predictObservation(observationNumber)];
 				}
 
 				int bestClass = 0;
-			//	for(int i : classTally){
-			//	std::cout << i << ", ";
-			//	}
-			//	std::cout << "\n";
 				for(int j = 1; j < fpSingleton::getSingleton().returnNumClasses(); ++j){
 					if(classTally[bestClass] < classTally[j]){
 						bestClass = j;
@@ -74,9 +84,9 @@ namespace fp {
 				for (int i = 0; i <fpSingleton::getSingleton().returnNumObservations();i++){
 					++numTried;
 					int predClass = predictClass(i);
+
 					if(predClass != fpSingleton::getSingleton().returnTestLabel(i)){
 						++numWrong;
-//						std::cout << predClass << ":" << fpSingleton::getSingleton().returnTestLabel(i) << "\n";
 					}
 				}
 

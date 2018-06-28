@@ -12,11 +12,13 @@ namespace fp{
 		{
 			protected:
 				float impurity;
+				float leftImpurity;
+				float rightImpurity;
 				int featureNum;
 				T splitValue;
 
 			public:
-				splitInfo(): impurity(3), featureNum(-1), splitValue(0){}
+				splitInfo(): impurity(3), leftImpurity(-1), rightImpurity(-1), featureNum(-1), splitValue(0){}
 
 				inline void setSplitValue(T sVal){
 					splitValue = sVal;
@@ -32,16 +34,30 @@ namespace fp{
 				inline float returnImpurity(){
 					return impurity;
 				}
-				
-inline void setFeatureNum(int fNum){
-	featureNum = fNum;
+
+				inline void setLeftImpurity(float gVal){
+					impurity = gVal;
+				}
+				inline float returnLeftImpurity(){
+					return leftImpurity;
+				}
+
+				inline void setRightImpurity(float gVal){
+					impurity = gVal;
+				}
+				inline float returnRightImpurity(){
+					return rightImpurity;
+				}
+
+				inline void setFeatureNum(int fNum){
+					featureNum = fNum;
 				}
 
 				inline int returnFeatureNum(){
 					return featureNum;
 				}
 
-						};
+		};
 
 
 	template<typename T>
@@ -66,6 +82,7 @@ inline void setFeatureNum(int fNum){
 				inline T returnDataElement(){
 					return dataElement;
 				}
+
 				inline T midVal (const labeledData<T>& otherData) const
 				{
 					return (dataElement + otherData.dataElement)/2.0;
@@ -86,10 +103,11 @@ inline void setFeatureNum(int fNum){
 		protected:
 			int maxClass;
 			float totalNumObj;
+			float impurity;
 			std::vector<float> classVec;
 
 		public:
-			classTotals() : maxClass(-1), totalNumObj(0){}
+			classTotals() : maxClass(-1), totalNumObj(0), impurity(-1){}
 
 			inline int returnLargestClass(){
 				int largestClass=-1; 
@@ -100,6 +118,7 @@ inline void setFeatureNum(int fNum){
 						largestClass = i;
 					}
 				}
+				
 				return largestClass;
 			}
 
@@ -118,6 +137,10 @@ inline void setFeatureNum(int fNum){
 				return totalNumObj;
 			}
 
+			float returnImpurity(){
+				return impurity;
+			}
+
 			inline void setClassVecSize(int newSize){
 				classVec.resize(newSize);
 				std::fill(classVec.begin(), classVec.end(), 0.0);
@@ -127,12 +150,13 @@ inline void setFeatureNum(int fNum){
 				return classVec.size();
 			}
 
-			inline float returnImpurity(){
-				float impurity = 0.0;
+			inline float calcAndReturnImpurity(){
+				float currImpurity = 0.0;
 				for(auto i : classVec){
-					impurity+=(i*i)/(totalNumObj*totalNumObj);
+					currImpurity+=float(i*i)/(totalNumObj*totalNumObj);
 				}
-				return 1-impurity;
+				impurity = 1-currImpurity;
+				return impurity;
 			}
 
 			inline void decrementClass(int classNum){
@@ -167,7 +191,7 @@ inline void setFeatureNum(int fNum){
 					rightClasses.findNumClasses(labels);
 					leftClasses.setClassVecSize(rightClasses.returnClassVecSize());
 					this->setCombinedVecSize();
-					overallImpurity = rightClasses.returnImpurity();
+					overallImpurity = rightClasses.calcAndReturnImpurity();
 				}
 
 				void setCombinedVecSize(){
@@ -205,28 +229,30 @@ inline void setFeatureNum(int fNum){
 
 					// sort feature Vals
 					std::sort(combinedDataLabels.begin(), combinedDataLabels.end());
-
 					for(int i=0; i<numLabels-1; ++i){
 						leftClasses.incrementClass(combinedDataLabels[i].returnDataLabel());
 						rightClasses.decrementClass(combinedDataLabels[i].returnDataLabel());
 
-
 						if(checkInequalityWithNext(i)){
-							tempImpurity = leftClasses.returnImpurity() + rightClasses.returnImpurity();
+							tempImpurity = leftClasses.calcAndReturnImpurity() + rightClasses.calcAndReturnImpurity();
 							if(tempImpurity < currSplitInfo.returnImpurity()){
 								currSplitInfo.setImpurity(tempImpurity);
 								currSplitInfo.setSplitValue(midVal(i));
+								currSplitInfo.setLeftImpurity(leftClasses.returnImpurity());
+								currSplitInfo.setRightImpurity(rightClasses.returnImpurity());
 							}
+							
 						}
 					}
-
 					//setup for next possible run
 					leftClasses.incrementClass(combinedDataLabels.back().returnDataLabel());
 					rightClasses.decrementClass(combinedDataLabels.back().returnDataLabel());
+					//TODO ensure rightClasses is zero at this point.
 
 					rightClasses = leftClasses;
 					leftClasses.resetClassTotals();
-
+					//TODO ensure leftClasses is zero at this point.
+					
 					return currSplitInfo;
 				}
 

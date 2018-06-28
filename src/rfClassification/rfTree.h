@@ -16,11 +16,12 @@ namespace fp{
 				float OOBAccuracy;
 				float correctOOB;
 				float totalOOB;
+				int totalIndices;
 				std::vector< rfNode<T> > tree;
 				std::vector< unprocessedNode<T> > nodeQueue;
 
 			public:
-				rfTree() : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0){}
+				rfTree() : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0), totalIndices(0){}
 
 				void loadFirstNode(){
 					nodeQueue.emplace_back(fpSingleton::getSingleton().returnNumObservations());
@@ -72,6 +73,7 @@ correctOOB += nodeQueue.back().returnOutSampleError(tree.back().returnClass());
 					linkParentToChild();
 					setAsLeaf();
 					checkOOB();
+totalIndices += nodeQueue.back().returnIndTotal();
 					nodeQueue.pop_back();
 				}
 
@@ -80,18 +82,22 @@ tree.emplace_back();
 					linkParentToChild();
 					tree.back().setCutValue(nodeQueue.back().returnBestCutValue());
 					tree.back().setFeatureValue(nodeQueue.back().returnBestFeature());
-				//	tree.back().printNode();
 				}
+
+				bool isLeftNode = true;
+				bool isRightNode = false;
 
 				inline void createChildren(){
 inNodeClassIndices* leftIndices = nodeQueue.back().returnLeftIndices();
 				inNodeClassIndices* rightIndices = nodeQueue.back().returnRightIndices();
+				int childDepth = nodeQueue.back().returnDepth()+1;
 
 					nodeQueue.pop_back();
-					nodeQueue.emplace_back(returnLastNodeID(),nodeQueue.back().returnDepth()+1, true);
+
+					nodeQueue.emplace_back(returnLastNodeID(),childDepth, isLeftNode);
 					nodeQueue.back().loadIndices(leftIndices);
 
-					nodeQueue.emplace_back(returnLastNodeID(),nodeQueue.back().returnDepth()+1, false);
+					nodeQueue.emplace_back(returnLastNodeID(),childDepth, isRightNode);
 					nodeQueue.back().loadIndices(rightIndices);
 				}
 
@@ -101,8 +107,12 @@ inNodeClassIndices* leftIndices = nodeQueue.back().returnLeftIndices();
 					nodeQueue.back().setupNode();
 					if(shouldProcessNode()){
 					nodeQueue.back().findBestSplit();
+					if(nodeQueue.back().returnBestImpurity() > 1){
+						makeWholeNodeALeaf();
+					}else{
 						makeNodeInternal();
 						createChildren();
+					}
 					}else{
 						makeWholeNodeALeaf();
 					}
