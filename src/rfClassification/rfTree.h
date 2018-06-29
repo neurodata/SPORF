@@ -35,15 +35,15 @@ namespace fp{
 						return false;
 					}
 					/*
-					if(nodeQueue.back().returnDepth() > fpSingleton::getSingleton().returnMinParent()){
-						return false;
-					}
-					*/
+						 if(nodeQueue.back().returnDepth() > fpSingleton::getSingleton().returnMinParent()){
+						 return false;
+						 }
+						 */
 					return true;
 				}
 
 				inline float returnOOB(){
-return correctOOB/totalOOB;
+					return correctOOB/totalOOB;
 				}
 
 				inline int returnLastNodeID(){
@@ -56,7 +56,7 @@ return correctOOB/totalOOB;
 					}else{
 						tree[nodeQueue.back().returnParentID()].setRightValue(returnLastNodeID());
 					}
-					
+
 				}
 
 				inline void setAsLeaf(){
@@ -64,8 +64,8 @@ return correctOOB/totalOOB;
 				}
 
 				inline void checkOOB(){
-totalOOB += nodeQueue.back().returnOutSampleSize();
-correctOOB += nodeQueue.back().returnOutSampleError(tree.back().returnClass());
+					totalOOB += nodeQueue.back().returnOutSampleSize();
+					correctOOB += nodeQueue.back().returnOutSampleError(tree.back().returnClass());
 				}
 
 				inline void makeWholeNodeALeaf(){
@@ -73,50 +73,50 @@ correctOOB += nodeQueue.back().returnOutSampleError(tree.back().returnClass());
 					linkParentToChild();
 					setAsLeaf();
 					checkOOB();
-totalIndices += nodeQueue.back().returnIndTotal();
+					totalIndices += nodeQueue.back().returnIndTotal();
 					nodeQueue.pop_back();
 				}
 
 				inline void makeNodeInternal(){
-tree.emplace_back();
+					tree.emplace_back();
 					linkParentToChild();
 					tree.back().setCutValue(nodeQueue.back().returnBestCutValue());
 					tree.back().setFeatureValue(nodeQueue.back().returnBestFeature());
 				}
 
-				bool isLeftNode = true;
-				bool isRightNode = false;
 
 				inline void createChildren(){
-inNodeClassIndices* leftIndices = nodeQueue.back().returnLeftIndices();
-				inNodeClassIndices* rightIndices = nodeQueue.back().returnRightIndices();
-				int childDepth = nodeQueue.back().returnDepth()+1;
+					bool isLeftNode = true;
+
+					inNodeClassIndices* leftIndices = nodeQueue.back().returnLeftIndices();
+					inNodeClassIndices* rightIndices = nodeQueue.back().returnRightIndices();
+					int childDepth = nodeQueue.back().returnDepth()+1;
 
 					nodeQueue.pop_back();
 
 					nodeQueue.emplace_back(returnLastNodeID(),childDepth, isLeftNode);
 					nodeQueue.back().loadIndices(leftIndices);
 
-					nodeQueue.emplace_back(returnLastNodeID(),childDepth, isRightNode);
+					nodeQueue.emplace_back(returnLastNodeID(),childDepth, !isLeftNode);
 					nodeQueue.back().loadIndices(rightIndices);
 				}
 
 
-			inline void processANode(){
-				
+				inline void processANode(){
 					nodeQueue.back().setupNode();
 					if(shouldProcessNode()){
-					nodeQueue.back().findBestSplit();
-					if(nodeQueue.back().returnBestImpurity() > 1){
-						makeWholeNodeALeaf();
-					}else{
-						makeNodeInternal();
-						createChildren();
-					}
+						nodeQueue.back().findBestSplit();
+						if(nodeQueue.back().returnBestImpurity() > 1){
+							makeWholeNodeALeaf();
+						}else{
+							makeNodeInternal();
+							createChildren();
+						}
 					}else{
 						makeWholeNodeALeaf();
 					}
 				}
+
 
 				void processNodes(){
 					while(!nodeQueue.empty()){
@@ -124,22 +124,24 @@ inNodeClassIndices* leftIndices = nodeQueue.back().returnLeftIndices();
 					}
 				}
 
+
 				void growTree(){
 					loadFirstNode();
 					processNodes();
 				}
 
+
 				int predictObservation(int observationNum){
 					int currNode = 0;
 					int featureNum = 0;
-T featureVal;
+					T featureVal;
 					while(tree[currNode].isInternalNode()){
 						featureNum = tree[currNode].returnFeatureNumber();
 						featureVal =fpSingleton::getSingleton().returnTestFeatureVal(featureNum,observationNum);
 						currNode = tree[currNode].nextNode(featureVal);
 					}
 
-return tree[currNode].returnClass();
+					return tree[currNode].returnClass();
 				}
 		};
 
