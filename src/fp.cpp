@@ -4,8 +4,18 @@
 #include <exception>
 
 int main(int argc, char* argv[]) {
-	//const std::string csvFileName = "test/res/testCSV.csv";
-//	const std::string csvFileName = "./src/iris.csv";
+/*
+	fp::timeLogger logTime;
+					logTime.startFindSplitTimer();
+fp::inNodeClassIndices test(100000000);
+					logTime.stopFindSplitTimer();
+
+logTime.startSortTimer();
+fp::stratifiedInNodeClassIndices testw(100000000);
+logTime.stopSortTimer();
+
+logTime.printGrowTime();
+*/	
 	try{
 		fp::fpForest forest;
 		forest.setParameter("forestType", "rfBase");
@@ -14,10 +24,10 @@ int main(int argc, char* argv[]) {
 		forest.setParameter("numClasses", 5);
 //		forest.setParameter("mtry", 100);
 //		forest.setParameter("CSVFileName", "test/res/testCSV.csv");
-		forest.setParameter("CSVFileName", "res/iris.csv");
-		forest.setParameter("columnWithY", 4);
-//		forest.setParameter("CSVFileName", "res/mnist.csv");
-//		forest.setParameter("columnWithY", 0);
+	//	forest.setParameter("CSVFileName", "res/iris.csv");
+	//	forest.setParameter("columnWithY", 4);
+		forest.setParameter("CSVFileName", "res/mnist.csv");
+		forest.setParameter("columnWithY", 0);
 
 		forest.growForest();
 
@@ -29,5 +39,4 @@ int main(int argc, char* argv[]) {
 	}catch(std::exception& e){
 		std::cout << "standard error: " << e.what() << std::endl;
 	}
-
 }

@@ -13,36 +13,13 @@ namespace fp {
 		protected:
 			std::unique_ptr<fpForestBase> forest;
 
-		public:
-
-			fpForest(){}
-
-
-			inline void setParameter(const std::string& parameterName, const std::string& parameterValue){
-				fpSingleton::getSingleton().setParameter(parameterName, parameterValue);	
-			}
-
-
-			inline void setParameter(const std::string& parameterName, const double parameterValue){
-				fpSingleton::getSingleton().setParameter(parameterName, parameterValue);	
-			}
-
-			inline void setParameter(const std::string& parameterName, const int parameterValue){
-				fpSingleton::getSingleton().setParameter(parameterName, parameterValue);	
-			}
-
-			inline void printParameters(){
-				fpSingleton::getSingleton().printAllParameters();
-			}
-
-			inline void printForestType(){
-				fpSingleton::getSingleton().printForestType();
-			}
-
 			void loadData(){
 				fpSingleton::getSingleton().loadData();
 			}
 
+void loadTestData(){
+				fpSingleton::getSingleton().loadTestData();
+			}
 
 			void deleteData(){
 				fpSingleton::getSingleton().deleteData();
@@ -65,17 +42,45 @@ namespace fp {
 				fpSingleton::getSingleton().setDataDependentParameters();
 			}
 
+
+		public:
+
+			fpForest(){}
+
+			inline void setParameter(const std::string& parameterName, const std::string& parameterValue){
+				fpSingleton::getSingleton().setParameter(parameterName, parameterValue);	
+			}
+
+
+			inline void setParameter(const std::string& parameterName, const double parameterValue){
+				fpSingleton::getSingleton().setParameter(parameterName, parameterValue);	
+			}
+
+			inline void setParameter(const std::string& parameterName, const int parameterValue){
+				fpSingleton::getSingleton().setParameter(parameterName, parameterValue);	
+			}
+
+			inline void printParameters(){
+				fpSingleton::getSingleton().printAllParameters();
+			}
+
+			inline void printForestType(){
+				fpSingleton::getSingleton().printForestType();
+			}
+
+
 			void growForest(){
 				loadData();
 				initializeForestType();
 				setDataDependentParameters();
+				timeLogger x;
+				x.startGrowTimer();
 				forest->growForest();
+			x.stopGrowTimer();
+			x.printGrowTime();
 				deleteData();
 			}
-
-			void loadTestData(){
-				fpSingleton::getSingleton().loadTestData();
-			}
+			
 
 			float testAccuracy(){
 				float testError;

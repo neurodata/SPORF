@@ -1,18 +1,18 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-
-#include "../../src/baseFunctions/inNodeClassIndices.h"
+#include "../../src/baseFunctions/stratifiedInNodeClassIndices.h"
+#include "../../src/baseFunctions/fpUtils.h"
 
 using namespace fp;
 
-
-TEST(checkInNodeClassIndices, checkRootNodeIndexCreation )
+TEST(checkStratified, checkRootNodeIndexCreation )
 {
-	int numOb = 1000;
-	inNodeClassIndices test(numOb);
+			int numOb = 1000;
+	stratifiedInNodeClassIndices test(numOb);
 
-EXPECT_EQ(numOb, test.returnInSampleSize());
+	
+	EXPECT_EQ(numOb, test.returnInSampleSize());
 	EXPECT_GT(numOb, test.returnOutSampleSize());
 
 	//order vectors to check existence easier
@@ -60,4 +60,3 @@ EXPECT_EQ(numOb, test.returnInSampleSize());
 	EXPECT_TRUE(allNumbersExist);
 	EXPECT_EQ(numOb, numsTested);
 }
-

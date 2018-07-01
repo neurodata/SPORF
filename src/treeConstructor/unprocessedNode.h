@@ -22,9 +22,14 @@ namespace fp{
 
 				//split* nodeSplit;
 
-				inNodeClassIndices* obsIndices;
-				inNodeClassIndices* leftIndices;
-				inNodeClassIndices* rightIndices;
+				/*
+					 inNodeClassIndices* obsIndices;
+					 inNodeClassIndices* leftIndices;
+					 inNodeClassIndices* rightIndices;
+					 */
+				stratifiedInNodeClassIndices* obsIndices;
+				stratifiedInNodeClassIndices* leftIndices;
+				stratifiedInNodeClassIndices* rightIndices;
 
 				std::vector<int> featuresToTry;
 				std::vector<T> featureHolder;
@@ -32,7 +37,8 @@ namespace fp{
 
 			public:
 				unprocessedNode(int numObsForRoot):  parentID(0), depth(0), isLeftNode(true){
-					obsIndices = new inNodeClassIndices(numObsForRoot);
+					//	obsIndices = new inNodeClassIndices(numObsForRoot);
+					obsIndices = new stratifiedInNodeClassIndices(numObsForRoot);
 				}
 
 				unprocessedNode(int parentID, int depth, bool isLeft):parentID(parentID),depth(depth),isLeftNode(isLeft){}
@@ -44,15 +50,25 @@ namespace fp{
 				}
 
 
-	inline int returnIndTotal(){
-return obsIndices->sumIndices();
-	}
+				/*
+					 inline int returnIndTotal(){
+					 return obsIndices->sumIndices();
+					 }
+					 */
+				/*
+					 inline inNodeClassIndices* returnLeftIndices(){
+					 return leftIndices;
+					 }
 
-				inline inNodeClassIndices* returnLeftIndices(){
+					 inline inNodeClassIndices* returnRightIndices(){
+					 return rightIndices;
+					 }
+					 */
+				inline stratifiedInNodeClassIndices* returnLeftIndices(){
 					return leftIndices;
 				}
 
-				inline inNodeClassIndices* returnRightIndices(){
+				inline stratifiedInNodeClassIndices* returnRightIndices(){
 					return rightIndices;
 				}
 
@@ -85,8 +101,14 @@ return obsIndices->sumIndices();
 				}
 
 				inline void setHolderSizes(){
-					labelHolder.resize(obsIndices->returnInSampleSize());
-					featureHolder.resize(obsIndices->returnInSampleSize());
+					obsIndices->initializeBinnedSamples();
+					if(obsIndices->useBin()){
+						labelHolder.resize(obsIndices->returnBinnedSize());
+						featureHolder.resize(obsIndices->returnBinnedSize());
+					}else{
+						labelHolder.resize(obsIndices->returnInSampleSize());
+						featureHolder.resize(obsIndices->returnInSampleSize());
+					}
 				}
 
 				inline int returnInSampleSize(){
@@ -99,11 +121,14 @@ return obsIndices->sumIndices();
 
 				inline int returnOutSampleError(int classNum){
 					int totalRight=0;
-					for(int i : obsIndices->returnOutSamples()){
-						if (i==classNum){
-							++totalRight;
-						}
+					/*
+					//for(int i : obsIndices->returnOutSamples()){
+					for(unsigned int i =0; i <  obsIndices->returnSize(); ++i){
+					if (i==classNum){
+					++totalRight;
 					}
+					}
+					*/
 					return totalRight;
 				}
 
@@ -118,14 +143,35 @@ return obsIndices->sumIndices();
 				}
 
 				inline void loadLabelHolder(){
-					for(int i =0; i < obsIndices->returnInSampleSize(); ++i){
-						labelHolder[i] = fpSingleton::getSingleton().returnLabel(obsIndices->returnInSample(i));
+					if(obsIndices->useBin()){
+						for(int i =0; i < obsIndices->returnBinnedSize(); ++i){
+							labelHolder[i] = fpSingleton::getSingleton().returnLabel(obsIndices->returnBinnedInSample(i));
+						}
+					}else{
+						for(int i =0; i < obsIndices->returnInSampleSize(); ++i){
+							labelHolder[i] = fpSingleton::getSingleton().returnLabel(obsIndices->returnInSample(i));
+						}
 					}
+
+					/*
+						 std::cout << "labHolder size: " << labelHolder.size() << "\n";
+						 for(int m = 0; m < obsIndices->returnBinnedSize();++m){
+							 std::cout << labelHolder[m] << ",";
+						 }
+						 std::cout << "\n";
+						 */
 				}
 
+
 				inline void loadFeatureHolder(){
-					for(int i =0; i < obsIndices->returnInSampleSize(); ++i){
-						featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back(),obsIndices->returnInSample(i));
+					if(obsIndices->useBin()){
+						for(int i =0; i < obsIndices->returnBinnedSize(); ++i){
+							featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back(),obsIndices->returnBinnedInSample(i));
+						}
+					}else{
+						for(int i =0; i < obsIndices->returnInSampleSize(); ++i){
+							featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back(),obsIndices->returnInSample(i));
+						}
 					}
 				}
 
@@ -146,13 +192,19 @@ return obsIndices->sumIndices();
 				inline void setBestSplit(splitInfo<T> tempSplit){
 					if(tempSplit.returnImpurity() < bestSplitInfo.returnImpurity()){
 						bestSplitInfo = tempSplit;
-				//		bestSplitInfo.setFeatureNum(featureNum);
+						//		bestSplitInfo.setFeatureNum(featureNum);
 					}
 				}
 
-				inline void loadIndices(inNodeClassIndices* indices){
+				/*
+					 inline void loadIndices(inNodeClassIndices* indices){
+					 obsIndices = indices;
+					 }
+					 */
+				inline void loadIndices(stratifiedInNodeClassIndices* indices){
 					obsIndices = indices;
 				}
+
 
 				inline bool goLeft(const int& index){
 					if(fpSingleton::getSingleton().returnFeatureVal(bestSplitInfo.returnFeatureNum(),index) < bestSplitInfo.returnSplitValue()){
@@ -164,26 +216,50 @@ return obsIndices->sumIndices();
 
 
 				inline void moveDataLeftOrRight(){
-					leftIndices = new inNodeClassIndices();
-					rightIndices = new inNodeClassIndices();
+					/*
+						 leftIndices = new inNodeClassIndices();
+						 rightIndices = new inNodeClassIndices();
+						 */
+					leftIndices = new stratifiedInNodeClassIndices();
+					rightIndices = new stratifiedInNodeClassIndices();
 
 					int lNum =0;
 					int rNum =0;
-					for (int i : obsIndices->returnInSamples()){
-						if(goLeft(i)){
+					/*
+						 for (int i : obsIndices->returnInSamples()){
+						 if(goLeft(i)){
+						 ++lNum;
+						 leftIndices->addIndexToInSamples(i);	
+						 }else{
+						 ++rNum;
+						 rightIndices->addIndexToInSamples(i);	
+						 }
+						 }
+
+						 for (int i : obsIndices->returnOutSamples()){
+						 if(goLeft(i)){
+						 leftIndices->addIndexToOutSamples(i);	
+						 }else{
+						 rightIndices->addIndexToOutSamples(i);	
+						 }
+						 }
+
+*/
+					for (int i=0; i < obsIndices->returnInSampleSize();++i){
+						if(goLeft(obsIndices->returnInSample(i))){
 							++lNum;
-							leftIndices->addIndexToInSamples(i);	
+							leftIndices->addIndexToInSamples(obsIndices->returnInSample(i));	
 						}else{
 							++rNum;
-							rightIndices->addIndexToInSamples(i);	
+							rightIndices->addIndexToInSamples(obsIndices->returnInSample(i));	
 						}
 					}
 
-					for (int i : obsIndices->returnOutSamples()){
-						if(goLeft(i)){
-							leftIndices->addIndexToOutSamples(i);	
+					for (int i=0; i < obsIndices->returnOutSampleSize();++i){
+						if(goLeft(obsIndices->returnInSample(i))){
+							leftIndices->addIndexToOutSamples(obsIndices->returnInSample(i));	
 						}else{
-							rightIndices->addIndexToOutSamples(i);	
+							rightIndices->addIndexToOutSamples(obsIndices->returnInSample(i));	
 						}
 					}
 					delete obsIndices;
@@ -199,7 +275,7 @@ return obsIndices->sumIndices();
 						featuresToTry.pop_back();
 					}
 					if(bestSplitInfo.returnImpurity() <= 1){
-					moveDataLeftOrRight();
+						moveDataLeftOrRight();
 					}
 				}
 
@@ -214,6 +290,6 @@ return obsIndices->sumIndices();
 					}
 				}
 
-		}; //unprocessedNode.h
-}//namespace fp
+				}; //unprocessedNode.h
+				}//namespace fp
 #endif //unprocessedNode_h

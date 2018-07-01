@@ -2,6 +2,7 @@
 #define rfTree_h
 #include "rfNode.h"
 #include "../baseFunctions/fpUtils.h"
+//#include "../baseFunctions/timeLogger.h"
 #include <vector>
 #include <random>
 //#include <stdio.h>
@@ -73,7 +74,7 @@ namespace fp{
 					linkParentToChild();
 					setAsLeaf();
 					checkOOB();
-					totalIndices += nodeQueue.back().returnIndTotal();
+					//totalIndices += nodeQueue.back().returnIndTotal();
 					nodeQueue.pop_back();
 				}
 
@@ -88,8 +89,13 @@ namespace fp{
 				inline void createChildren(){
 					bool isLeftNode = true;
 
-					inNodeClassIndices* leftIndices = nodeQueue.back().returnLeftIndices();
-					inNodeClassIndices* rightIndices = nodeQueue.back().returnRightIndices();
+					/*
+						 inNodeClassIndices* leftIndices = nodeQueue.back().returnLeftIndices();
+						 inNodeClassIndices* rightIndices = nodeQueue.back().returnRightIndices();
+						 */
+					stratifiedInNodeClassIndices* leftIndices = nodeQueue.back().returnLeftIndices();
+					stratifiedInNodeClassIndices* rightIndices = nodeQueue.back().returnRightIndices();
+
 					int childDepth = nodeQueue.back().returnDepth()+1;
 
 					nodeQueue.pop_back();
@@ -103,7 +109,11 @@ namespace fp{
 
 
 				inline void processANode(){
+					timeLogger logTime;
+					logTime.startSortTimer();
 					nodeQueue.back().setupNode();
+					logTime.stopSortTimer();
+					logTime.startGiniTimer();
 					if(shouldProcessNode()){
 						nodeQueue.back().findBestSplit();
 						if(nodeQueue.back().returnBestImpurity() > 1){
@@ -115,6 +125,7 @@ namespace fp{
 					}else{
 						makeWholeNodeALeaf();
 					}
+					logTime.stopGiniTimer();
 				}
 
 

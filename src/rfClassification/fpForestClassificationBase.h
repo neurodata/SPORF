@@ -37,13 +37,13 @@ namespace fp {
 				std::chrono::seconds diffSeconds;
 				std::chrono::seconds updateTime(30);
 
-				std::cout << "starting tree 1";
+				std::cout << "starting tree 1" << std::flush;
 
 				for(unsigned int i = 0; i < trees.size(); ++i){
 					stopTime = std::chrono::high_resolution_clock::now();
 					diffSeconds =	std::chrono::duration_cast<std::chrono::seconds>(stopTime - startTime);
 					if(diffSeconds > updateTime){
-						std::cout << "..." << i;
+						std::cout << "..." << i << std::flush;
 						startTime = std::chrono::high_resolution_clock::now();
 					}
 					trees[i].growTree();

@@ -9,6 +9,9 @@ namespace fp{
 
 	class inNodeClassIndices
 	{
+
+
+
 		private:
 			std::vector<int> inSamples;
 			std::vector<int> outSamples;
@@ -16,8 +19,11 @@ namespace fp{
 			//TODO: the following functions would benefit from Vitter's Sequential Random Sampling
 		public:
 			inNodeClassIndices(){}
+
 			inNodeClassIndices(const int &numObservationsInDataSet){
 
+				std::vector<int> potentialSamples;
+				potentialSamples.resize(numObservationsInDataSet);
 				inSamples.resize(numObservationsInDataSet);
 
 				std::random_device rd; // obtain a random number from hardware
@@ -26,32 +32,67 @@ namespace fp{
 
 				std::uniform_int_distribution<> distr(0, numObservationsInDataSet-1);
 
+				for(int i=0; i < numObservationsInDataSet; ++i){
+					potentialSamples[i] = i;
+				}
+
+				int numUnusedObs = numObservationsInDataSet;
+				int randomObsID;
+				int tempMoveObs;
 				for(int n=0; n<numObservationsInDataSet; n++){
-					inSamples[n] = distr(eng);
-				}
-
-				std::sort(inSamples.begin(), inSamples.end());
-
-				int checkNum = 0;
-				int n = 0;
-				while(checkNum < numObservationsInDataSet){
-					//ensure stopping spot exists
-					inSamples.emplace_back(numObservationsInDataSet);
-					//find which values are missing
-					if(checkNum < inSamples[n]){
-						outSamples.push_back(checkNum);
-						++checkNum;
-					}else if(inSamples[n] < checkNum){
-						++n;
-					}else{
-						++n;
-						++checkNum;
+					randomObsID = distr(eng);
+					inSamples[n] = potentialSamples[randomObsID];
+					if(randomObsID < numUnusedObs){
+						--numUnusedObs;
+						tempMoveObs = potentialSamples[numUnusedObs];
+						potentialSamples[numUnusedObs] = potentialSamples[randomObsID];
+						potentialSamples[randomObsID] = tempMoveObs;
 					}
-					//remove ensured stopping spot.
-					inSamples.pop_back();
 				}
+
+				for(int n=0; n<numUnusedObs; ++n){
+					outSamples.push_back(potentialSamples[n]);
+				}
+			}		
+			/*
+			//This commented out implementation is better when numObs > 10 mil.
+			inNodeClassIndices(const int &numObservationsInDataSet){
+
+			inSamples.resize(numObservationsInDataSet);
+
+			std::random_device rd; // obtain a random number from hardware
+
+			std::mt19937 eng(rd()); // seed the generator
+
+			std::uniform_int_distribution<> distr(0, numObservationsInDataSet-1);
+
+			for(int n=0; n<numObservationsInDataSet; n++){
+			inSamples[n] = distr(eng);
+			}
+
+			std::sort(inSamples.begin(), inSamples.end());
+
+			int checkNum = 0;
+			int n = 0;
+			while(checkNum < numObservationsInDataSet){
+			//ensure stopping spot exists
+			inSamples.emplace_back(numObservationsInDataSet);
+			//find which values are missing
+			if(checkNum < inSamples[n]){
+			outSamples.push_back(checkNum);
+			++checkNum;
+			}else if(inSamples[n] < checkNum){
+			++n;
+			}else{
+			++n;
+			++checkNum;
+			}
+			//remove ensured stopping spot.
+			inSamples.pop_back();
+			}
 
 			}
+			*/
 
 			void printIndices(){
 				std::cout << "samples in bag\n";
