@@ -17,7 +17,7 @@ namespace fp{
 			int outSampleSize;
 
 			int binSize = 512;
-			int useBinning = true;
+			int useBinning = false;
 
 			//TODO: the following functions would benefit from Vitter's Sequential Random Sampling
 		public:
@@ -75,6 +75,15 @@ namespace fp{
 					outSampleSize += outSamples[i].size();
 				}
 
+			}
+
+
+			inline double returnImpurity(){
+				unsigned int sumClassTotalsSquared = 0;
+for(auto i : inSamples){
+					sumClassTotalsSquared+=i.size()*i.size();
+				}
+return 1-double(sumClassTotalsSquared)/(inSampleSize*inSampleSize);
 			}
 
 			void printIndices(){

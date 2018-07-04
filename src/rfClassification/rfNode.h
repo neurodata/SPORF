@@ -11,11 +11,20 @@ class alignas(32) rfNode
 		int feature;
 		T cutValue;
 		int right;
+		int depth;
 
 	public:
-		rfNode():left(0), feature(0), right(0){}
+		rfNode():left(0), feature(0), right(0), depth(0){}
 		inline bool isInternalNode(){
 			return left;
+		}
+
+		inline int returnDepth(){
+			return depth;
+		}
+
+inline void setDepth(int dep){
+			depth = dep;
 		}
 
 		inline T returnCutValue(){
@@ -25,7 +34,7 @@ class alignas(32) rfNode
 			cutValue = cVal;
 		}
 
-inline void setFeatureValue(int fVal){
+		inline void setFeatureValue(int fVal){
 			feature = fVal;
 		}
 
@@ -67,7 +76,12 @@ inline void setFeatureValue(int fVal){
 		}
 
 		void virtual printNode(){
-			std::cout << "cutValue " << cutValue <<", feature " << feature << ", left " << left << ", right " << right << "\n";
+			if(isInternalNode()){
+				std::cout << "internal ";
+			}else{
+				std::cout << "leaf ";
+			}
+			std::cout << "cutValue " << cutValue <<", feature " << feature << ", left " << left << ", right " << right << ", depth " << depth << "\n";
 		}
 
 };

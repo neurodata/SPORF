@@ -2,10 +2,8 @@
 #define rfTree_h
 #include "rfNode.h"
 #include "../baseFunctions/fpUtils.h"
-//#include "../baseFunctions/timeLogger.h"
 #include <vector>
 #include <random>
-//#include <stdio.h>
 #include "../treeConstructor/unprocessedNode.h"
 
 namespace fp{
@@ -17,12 +15,11 @@ namespace fp{
 				float OOBAccuracy;
 				float correctOOB;
 				float totalOOB;
-				int totalIndices;
 				std::vector< rfNode<T> > tree;
 				std::vector< unprocessedNode<T> > nodeQueue;
 
 			public:
-				rfTree() : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0), totalIndices(0){}
+				rfTree() : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0){}
 
 				void loadFirstNode(){
 					nodeQueue.emplace_back(fpSingleton::getSingleton().returnNumObservations());
@@ -57,42 +54,86 @@ namespace fp{
 					}else{
 						tree[nodeQueue.back().returnParentID()].setRightValue(returnLastNodeID());
 					}
-
 				}
+
+
+				inline int returnMaxDepth(){
+					int maxDepth=0;
+					for(auto nodes : tree){
+						if(maxDepth < nodes.returnDepth()){
+							maxDepth = nodes.returnDepth();
+						}
+					}
+					return maxDepth;
+				}
+
+
+				inline int returnNumLeafNodes(){
+					int numLeafNodes=0;
+					for(auto nodes : tree){
+						if(!nodes.isInternalNode()){
+							++numLeafNodes;
+						}
+					}
+					return numLeafNodes;
+				}
+
+
+				inline int returnLeafDepthSum(){
+					int leafDepthSums=0;
+					for(auto nodes : tree){
+						if(!nodes.isInternalNode()){
+							leafDepthSums += nodes.returnDepth();
+						}
+					}
+					return leafDepthSums;
+				}
+
 
 				inline void setAsLeaf(){
 					tree.back().setClass(nodeQueue.back().returnMaxClass());
+					tree.back().setDepth(nodeQueue.back().returnDepth());
 				}
+
 
 				inline void checkOOB(){
 					totalOOB += nodeQueue.back().returnOutSampleSize();
 					correctOOB += nodeQueue.back().returnOutSampleError(tree.back().returnClass());
 				}
 
+
 				inline void makeWholeNodeALeaf(){
 					tree.emplace_back();
 					linkParentToChild();
 					setAsLeaf();
 					checkOOB();
-					//totalIndices += nodeQueue.back().returnIndTotal();
 					nodeQueue.pop_back();
 				}
 
-				inline void makeNodeInternal(){
+				void printTree(){
+					for(auto nd : tree){
+						nd.printNode();
+					}
+				}
+
+				inline void createNodeInTree(){
 					tree.emplace_back();
 					linkParentToChild();
 					tree.back().setCutValue(nodeQueue.back().returnBestCutValue());
 					tree.back().setFeatureValue(nodeQueue.back().returnBestFeature());
+					tree.back().setDepth(nodeQueue.back().returnDepth());
+				}
+
+
+				inline void makeNodeInternal(){
+					createNodeInTree();
+					createChildren();
 				}
 
 
 				inline void createChildren(){
 					bool isLeftNode = true;
 
-					/*
-						 inNodeClassIndices* leftIndices = nodeQueue.back().returnLeftIndices();
-						 inNodeClassIndices* rightIndices = nodeQueue.back().returnRightIndices();
-						 */
 					stratifiedInNodeClassIndices* leftIndices = nodeQueue.back().returnLeftIndices();
 					stratifiedInNodeClassIndices* rightIndices = nodeQueue.back().returnRightIndices();
 
@@ -108,6 +149,16 @@ namespace fp{
 				}
 
 
+				inline void findTheBestSplit(){
+					nodeQueue.back().findBestSplit();
+				}
+
+
+				inline bool noGoodSplitFound(){
+					return nodeQueue.back().returnBestImpurity() > 1;
+				}
+
+
 				inline void processANode(){
 					timeLogger logTime;
 					logTime.startSortTimer();
@@ -115,12 +166,11 @@ namespace fp{
 					logTime.stopSortTimer();
 					logTime.startGiniTimer();
 					if(shouldProcessNode()){
-						nodeQueue.back().findBestSplit();
-						if(nodeQueue.back().returnBestImpurity() > 1){
+						findTheBestSplit();
+						if(noGoodSplitFound()){
 							makeWholeNodeALeaf();
 						}else{
 							makeNodeInternal();
-							createChildren();
 						}
 					}else{
 						makeWholeNodeALeaf();
@@ -151,7 +201,6 @@ namespace fp{
 						featureVal =fpSingleton::getSingleton().returnTestFeatureVal(featureNum,observationNum);
 						currNode = tree[currNode].nextNode(featureVal);
 					}
-
 					return tree[currNode].returnClass();
 				}
 		};

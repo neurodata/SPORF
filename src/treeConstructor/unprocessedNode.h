@@ -15,18 +15,11 @@ namespace fp{
 			protected:
 				int parentID;
 				int depth;
-				float nodeImpurity; //lower impurity is better
+				double nodeImpurity; //lower impurity is better
 				bool isLeftNode; //in order to set parent node with location
 
 				splitInfo<T> bestSplitInfo;
-
-				//split* nodeSplit;
-
-				/*
-					 inNodeClassIndices* obsIndices;
-					 inNodeClassIndices* leftIndices;
-					 inNodeClassIndices* rightIndices;
-					 */
+				
 				stratifiedInNodeClassIndices* obsIndices;
 				stratifiedInNodeClassIndices* leftIndices;
 				stratifiedInNodeClassIndices* rightIndices;
@@ -37,11 +30,10 @@ namespace fp{
 
 			public:
 				unprocessedNode(int numObsForRoot):  parentID(0), depth(0), isLeftNode(true){
-					//	obsIndices = new inNodeClassIndices(numObsForRoot);
 					obsIndices = new stratifiedInNodeClassIndices(numObsForRoot);
 				}
 
-				unprocessedNode(int parentID, int depth, bool isLeft):parentID(parentID),depth(depth),isLeftNode(isLeft){}
+				unprocessedNode(int parentID, int dep, bool isLeft):parentID(parentID),depth(dep),isLeftNode(isLeft){}
 
 				~unprocessedNode(){
 					if(obsIndices != NULL){
@@ -50,20 +42,6 @@ namespace fp{
 				}
 
 
-				/*
-					 inline int returnIndTotal(){
-					 return obsIndices->sumIndices();
-					 }
-					 */
-				/*
-					 inline inNodeClassIndices* returnLeftIndices(){
-					 return leftIndices;
-					 }
-
-					 inline inNodeClassIndices* returnRightIndices(){
-					 return rightIndices;
-					 }
-					 */
 				inline stratifiedInNodeClassIndices* returnLeftIndices(){
 					return leftIndices;
 				}
@@ -76,7 +54,7 @@ namespace fp{
 					return parentID;
 				}
 
-				inline float returnNodeImpurity(){
+				inline double returnNodeImpurity(){
 					return nodeImpurity;
 				}
 
@@ -84,7 +62,7 @@ namespace fp{
 					return isLeftNode;
 				}
 
-				inline bool returnDepth(){
+				inline int returnDepth(){
 					return depth;
 				}
 
@@ -92,7 +70,7 @@ namespace fp{
 					return bestSplitInfo.returnFeatureNum();
 				}
 
-				inline T returnBestImpurity(){
+				inline double returnBestImpurity(){
 					return bestSplitInfo.returnImpurity();
 				}
 
@@ -121,16 +99,15 @@ namespace fp{
 
 				inline int returnOutSampleError(int classNum){
 					int totalRight=0;
-					/*
-					//for(int i : obsIndices->returnOutSamples()){
-					for(unsigned int i =0; i <  obsIndices->returnSize(); ++i){
-					if (i==classNum){
-					++totalRight;
-					}
-					}
-					*/
+				//	//for(int i : obsIndices->returnOutSamples()){
+				//	for(unsigned int i =0; i <  obsIndices->returnSize(); ++i){
+			//		if (i==classNum){
+			//		++totalRight;
+			//		}
+			//		}
 					return totalRight;
 				}
+
 
 				inline void pickMTRY(){
 					for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i) featuresToTry.push_back(i);
@@ -175,16 +152,20 @@ namespace fp{
 					}
 				}
 
-				inline float calculateNodeImpurity(std::vector<int> labels){
+				inline float calculateNodeImpurity(){
+				return obsIndices->returnImpurity();
+				}
+
+inline float calculateNodeImpurity(std::vector<int> labels){
 					split<T>	nodeSplit(labels); //This is done twice
 					return nodeSplit.returnImpurity();
 				}
-
 				inline void setupNode(){
 					pickMTRY();
 					setHolderSizes();
 					loadLabelHolder();
-					nodeImpurity = calculateNodeImpurity(labelHolder);
+				//	nodeImpurity = calculateNodeImpurity(labelHolder);
+					nodeImpurity = calculateNodeImpurity();
 				}
 
 

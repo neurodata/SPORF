@@ -25,7 +25,7 @@ logTime.printGrowTime();
 //		forest.setParameter("mtry", 100);
 //		forest.setParameter("CSVFileName", "test/res/testCSV.csv");
 	//	forest.setParameter("CSVFileName", "res/iris.csv");
-	//	forest.setParameter("columnWithY", 4);
+//		forest.setParameter("columnWithY", 4);
 		forest.setParameter("CSVFileName", "res/mnist.csv");
 		forest.setParameter("columnWithY", 0);
 

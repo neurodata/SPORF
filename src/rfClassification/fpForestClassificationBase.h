@@ -48,17 +48,42 @@ namespace fp {
 					}
 					trees[i].growTree();
 				}
-				std::cout << "\n";
+				std::cout << "\n"<< std::flush;
 			}
 
 			inline void checkParameters(){
 				;
 			}
 
+			void treeStats(){
+				int maxDepth=0;
+				int totalLeafNodes=0;
+				int totalLeafDepth=0;
+
+				int tempMaxDepth;
+				for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
+					tempMaxDepth = trees[i].returnMaxDepth();
+					maxDepth = ((maxDepth < tempMaxDepth) ? tempMaxDepth : maxDepth);
+
+					totalLeafNodes += trees[i].returnNumLeafNodes();
+					totalLeafDepth += trees[i].returnLeafDepthSum();
+				}
+
+				std::cout << "max depth: " << maxDepth << "\n";
+				std::cout << "avg depth: " << float(totalLeafDepth)/float(totalLeafNodes) << "\n";
+				std::cout << "num leaf nodes: " << totalLeafNodes << "\n";
+			}
+
+			void printTree0(){
+				trees[0].printTree();
+			}
+
 			void growForest(){
 				//	checkParameters();
 				changeForestSize();
 				growTrees();
+				treeStats();
+				//	printTree0();
 			}
 
 			int predictClass(int observationNumber){
@@ -89,6 +114,7 @@ namespace fp {
 						++numWrong;
 					}
 				}
+				std::cout << "\nnumWrong= " << numWrong << "\n";
 
 				return numWrong/numTried;
 			}

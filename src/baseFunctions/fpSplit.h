@@ -12,9 +12,9 @@ namespace fp{
 		class splitInfo
 		{
 			protected:
-				float impurity;
-				float leftImpurity;
-				float rightImpurity;
+				double impurity;
+				double leftImpurity;
+				double rightImpurity;
 				int featureNum;
 				T splitValue;
 
@@ -29,24 +29,24 @@ namespace fp{
 					return splitValue;
 				}
 
-				inline void setImpurity(float gVal){
+				inline void setImpurity(double gVal){
 					impurity = gVal;
 				}
-				inline float returnImpurity(){
+				inline double returnImpurity(){
 					return impurity;
 				}
 
 				inline void setLeftImpurity(float gVal){
 					impurity = gVal;
 				}
-				inline float returnLeftImpurity(){
+				inline double returnLeftImpurity(){
 					return leftImpurity;
 				}
 
-				inline void setRightImpurity(float gVal){
+				inline void setRightImpurity(double gVal){
 					impurity = gVal;
 				}
-				inline float returnRightImpurity(){
+				inline double returnRightImpurity(){
 					return rightImpurity;
 				}
 
@@ -101,8 +101,8 @@ namespace fp{
 	class classTotals{
 		protected:
 			int maxClass;
-			float totalNumObj;
-			float impurity;
+			int totalNumObj;
+			double impurity;
 			std::vector<float> classVec;
 
 		public:
@@ -110,14 +110,13 @@ namespace fp{
 
 			inline int returnLargestClass(){
 				int largestClass=-1; 
-				int numInClass=0;
+				int numInClass=-1;
 				for(int i = 0; i <= maxClass; ++i){
 					if(classVec[i] > numInClass){
 						numInClass = classVec[i];
 						largestClass = i;
 					}
 				}
-
 				return largestClass;
 			}
 
@@ -132,11 +131,11 @@ namespace fp{
 				}
 			}
 
-			float returnNumItems(){
+			int returnNumItems(){
 				return totalNumObj;
 			}
 
-			float returnImpurity(){
+			double returnImpurity(){
 				return impurity;
 			}
 
@@ -149,24 +148,26 @@ namespace fp{
 				return classVec.size();
 			}
 
-			inline float calcAndReturnImpurity(){
-				float currImpurity = 0.0;
-				for(auto i : classVec){
-					currImpurity+=float(i*i)/(totalNumObj*totalNumObj);
+			inline double calcAndReturnImpurity(){
+				int sumClassTotalsSquared = 0;
+for(auto i : classVec){
+					sumClassTotalsSquared+=i*i;
 				}
-				impurity = 1-currImpurity;
-				return impurity;
+return 1.0-double(sumClassTotalsSquared)/double(totalNumObj*totalNumObj);
 			}
+
 
 			inline void decrementClass(int classNum){
 				--classVec[classNum];
 				--totalNumObj;
 			}
 
+
 			inline void incrementClass(int classNum){
 				++classVec[classNum];
 				++totalNumObj;
 			}
+
 
 			inline void resetClassTotals(){
 				std::fill(classVec.begin(), classVec.end(), 0);
@@ -178,7 +179,7 @@ namespace fp{
 	template<typename T>
 		class split{
 			protected:
-				float overallImpurity;
+				double overallImpurity;
 				classTotals leftClasses;
 				classTotals rightClasses;
 
@@ -221,14 +222,13 @@ namespace fp{
 					overallImpurity = rightClasses.calcAndReturnImpurity();
 				}
 
-				inline float returnImpurity(){
+				inline double returnImpurity(){
 					return overallImpurity;
 				}
 
 
-
 				splitInfo<T> giniSplit(const std::vector<T>& featureVals, int featureNum){
-					float tempImpurity;
+					double tempImpurity;
 					int numLabels = labels.size();
 					timeLogger logTime;
 
@@ -243,7 +243,6 @@ namespace fp{
 					// sort feature Vals
 					std::sort(combinedDataLabels.begin(), combinedDataLabels.end());
 
-					logTime.startGiniTimer();
 					// find split
 					for(int i=0; i<numLabels-1; ++i){
 						leftClasses.incrementClass(combinedDataLabels[i].returnDataLabel());
@@ -257,17 +256,14 @@ namespace fp{
 								currSplitInfo.setLeftImpurity(leftClasses.returnImpurity());
 								currSplitInfo.setRightImpurity(rightClasses.returnImpurity());
 							}
-
 						}
 					}
-					logTime.stopGiniTimer();
 
 					setupForNextRun();
 
 					logTime.stopFindSplitTimer();
 					return currSplitInfo;
 				}
-
 		};
 
 }//namespace fp
