@@ -134,6 +134,8 @@ namespace fp{
 				inline void createChildren(){
 					bool isLeftNode = true;
 
+						nodeQueue.back().moveDataLeftOrRight();
+
 					stratifiedInNodeClassIndices* leftIndices = nodeQueue.back().returnLeftIndices();
 					stratifiedInNodeClassIndices* rightIndices = nodeQueue.back().returnRightIndices();
 
@@ -155,7 +157,8 @@ namespace fp{
 
 
 				inline bool noGoodSplitFound(){
-					return nodeQueue.back().returnBestImpurity() > 1;
+					//return nodeQueue.back().returnBestImpurity() < 0;
+					return nodeQueue.back().returnBestFeature() == -1;
 				}
 
 

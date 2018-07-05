@@ -1,9 +1,6 @@
 #ifndef rfunprocessedNode_h
 #define rfunprocessedNode_h
-//#include "rfNode.h"
-//#include "../baseFunctions/fpUtils.h"
 #include "../baseFunctions/fpSplit.h"
-//#include <stdio.h>
 #include <vector>
 #include <random>
 
@@ -19,7 +16,7 @@ namespace fp{
 				bool isLeftNode; //in order to set parent node with location
 
 				splitInfo<T> bestSplitInfo;
-				
+
 				stratifiedInNodeClassIndices* obsIndices;
 				stratifiedInNodeClassIndices* leftIndices;
 				stratifiedInNodeClassIndices* rightIndices;
@@ -31,14 +28,18 @@ namespace fp{
 			public:
 				unprocessedNode(int numObsForRoot):  parentID(0), depth(0), isLeftNode(true){
 					obsIndices = new stratifiedInNodeClassIndices(numObsForRoot);
+					leftIndices=NULL;
+					rightIndices=NULL;
 				}
 
-				unprocessedNode(int parentID, int dep, bool isLeft):parentID(parentID),depth(dep),isLeftNode(isLeft){}
+				unprocessedNode(int parentID, int dep, bool isLeft):parentID(parentID),depth(dep),isLeftNode(isLeft){
+					leftIndices=NULL;
+					rightIndices=NULL;
+				}
 
 				~unprocessedNode(){
-					if(obsIndices != NULL){
-						//delete obsIndices;
-					}
+			//	delete leftIndices;
+			//	delete rightIndices;
 				}
 
 
@@ -99,12 +100,12 @@ namespace fp{
 
 				inline int returnOutSampleError(int classNum){
 					int totalRight=0;
-				//	//for(int i : obsIndices->returnOutSamples()){
-				//	for(unsigned int i =0; i <  obsIndices->returnSize(); ++i){
-			//		if (i==classNum){
-			//		++totalRight;
-			//		}
-			//		}
+					//	//for(int i : obsIndices->returnOutSamples()){
+					//	for(unsigned int i =0; i <  obsIndices->returnSize(); ++i){
+					//		if (i==classNum){
+					//		++totalRight;
+					//		}
+					//		}
 					return totalRight;
 				}
 
@@ -129,14 +130,6 @@ namespace fp{
 							labelHolder[i] = fpSingleton::getSingleton().returnLabel(obsIndices->returnInSample(i));
 						}
 					}
-
-					/*
-						 std::cout << "labHolder size: " << labelHolder.size() << "\n";
-						 for(int m = 0; m < obsIndices->returnBinnedSize();++m){
-							 std::cout << labelHolder[m] << ",";
-						 }
-						 std::cout << "\n";
-						 */
 				}
 
 
@@ -153,40 +146,30 @@ namespace fp{
 				}
 
 				inline float calculateNodeImpurity(){
-				return obsIndices->returnImpurity();
+					return obsIndices->returnImpurity();
 				}
 
-inline float calculateNodeImpurity(std::vector<int> labels){
-					split<T>	nodeSplit(labels); //This is done twice
-					return nodeSplit.returnImpurity();
-				}
+
 				inline void setupNode(){
 					pickMTRY();
 					setHolderSizes();
 					loadLabelHolder();
-				//	nodeImpurity = calculateNodeImpurity(labelHolder);
 					nodeImpurity = calculateNodeImpurity();
 				}
 
 
-				//inline void setBestSplit(splitInfo<T> tempSplit, int featureNum){
 				inline void setBestSplit(splitInfo<T> tempSplit){
 					if(tempSplit.returnImpurity() < bestSplitInfo.returnImpurity()){
 						bestSplitInfo = tempSplit;
-						//		bestSplitInfo.setFeatureNum(featureNum);
 					}
 				}
 
-				/*
-					 inline void loadIndices(inNodeClassIndices* indices){
-					 obsIndices = indices;
-					 }
-					 */
+
 				inline void loadIndices(stratifiedInNodeClassIndices* indices){
 					obsIndices = indices;
 				}
 
-
+/*
 				inline bool goLeft(const int& index){
 					if(fpSingleton::getSingleton().returnFeatureVal(bestSplitInfo.returnFeatureNum(),index) < bestSplitInfo.returnSplitValue()){
 						return true;
@@ -194,38 +177,36 @@ inline float calculateNodeImpurity(std::vector<int> labels){
 						return false;
 					}
 				}
-
+				*/
+inline bool goLeft(const int& index){
+	int inIndex = index;
+	int featureNum = bestSplitInfo.returnFeatureNum();
+	if(featureNum == -1){
+		std::cout << "found it\n";
+		exit(1);
+	}
+	double featureVal = fpSingleton::getSingleton().returnFeatureVal(featureNum,inIndex);
+		double splitVal = bestSplitInfo.returnSplitValue();
+					if(featureVal < splitVal ){
+						return true;
+					}else{
+						return false;
+					}
+				}
 
 				inline void moveDataLeftOrRight(){
-					/*
-						 leftIndices = new inNodeClassIndices();
-						 rightIndices = new inNodeClassIndices();
-						 */
+				if(leftIndices !=NULL){
+					delete leftIndices;
+				}
+				if(rightIndices !=NULL){
+					delete rightIndices;
+				}
+
 					leftIndices = new stratifiedInNodeClassIndices();
 					rightIndices = new stratifiedInNodeClassIndices();
 
 					int lNum =0;
 					int rNum =0;
-					/*
-						 for (int i : obsIndices->returnInSamples()){
-						 if(goLeft(i)){
-						 ++lNum;
-						 leftIndices->addIndexToInSamples(i);	
-						 }else{
-						 ++rNum;
-						 rightIndices->addIndexToInSamples(i);	
-						 }
-						 }
-
-						 for (int i : obsIndices->returnOutSamples()){
-						 if(goLeft(i)){
-						 leftIndices->addIndexToOutSamples(i);	
-						 }else{
-						 rightIndices->addIndexToOutSamples(i);	
-						 }
-						 }
-
-*/
 					for (int i=0; i < obsIndices->returnInSampleSize();++i){
 						if(goLeft(obsIndices->returnInSample(i))){
 							++lNum;
@@ -243,6 +224,7 @@ inline float calculateNodeImpurity(std::vector<int> labels){
 							rightIndices->addIndexToOutSamples(obsIndices->returnInSample(i));	
 						}
 					}
+
 					delete obsIndices;
 					obsIndices = NULL;
 				}
@@ -253,10 +235,8 @@ inline float calculateNodeImpurity(std::vector<int> labels){
 					while(!featuresToTry.empty()){
 						loadFeatureHolder();
 						setBestSplit(findSplit.giniSplit(featureHolder ,featuresToTry.back()));
+	
 						featuresToTry.pop_back();
-					}
-					if(bestSplitInfo.returnImpurity() <= 1){
-						moveDataLeftOrRight();
 					}
 				}
 
@@ -272,5 +252,5 @@ inline float calculateNodeImpurity(std::vector<int> labels){
 				}
 
 				}; //unprocessedNode.h
-				}//namespace fp
+		}//namespace fp
 #endif //unprocessedNode_h

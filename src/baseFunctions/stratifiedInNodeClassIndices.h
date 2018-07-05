@@ -29,7 +29,6 @@ namespace fp{
 				outSampleSize =0;
 			}
 
-
 			stratifiedInNodeClassIndices(const int &numObservationsInDataSet){
 
 				std::vector<int> potentialSamples;
@@ -79,11 +78,22 @@ namespace fp{
 
 
 			inline double returnImpurity(){
-				unsigned int sumClassTotalsSquared = 0;
-for(auto i : inSamples){
-					sumClassTotalsSquared+=i.size()*i.size();
+				if(false){
+					unsigned int sumClassTotalsSquared = 0;
+					for(auto i : inSamples){
+						sumClassTotalsSquared+=i.size()*i.size();
+					}
+					return 1-double(sumClassTotalsSquared)/(inSampleSize*inSampleSize);
+				}else{
+					double impSum = 0;
+					double classPercent;
+					for(auto i : inSamples){
+						classPercent = double(i.size())/double(inSampleSize);
+
+						impSum += double(i.size())*(1.0-classPercent);
+					}
+					return impSum;
 				}
-return 1-double(sumClassTotalsSquared)/(inSampleSize*inSampleSize);
 			}
 
 			void printIndices(){
@@ -115,12 +125,21 @@ return 1-double(sumClassTotalsSquared)/(inSampleSize*inSampleSize);
 
 			inline int returnInSample(const int numSample){
 				int totalViewed = 0;
+//				std::cout << "ifn1\n";
 				for(unsigned int i = 0; i < inSamples.size(); ++i){
-					if(numSample < totalViewed+int(inSamples[i].size())){
-						return inSamples[i][numSample-totalViewed];
+					if(numSample < (totalViewed+int(inSamples[i].size()))){
+						if((numSample-totalViewed)<0 || (numSample-totalViewed)>=int(inSamples[i].size())){
+							std::cout << numSample-totalViewed << " , " << inSamples[i].size() << "\n";
+							exit(1);
+						}
+						int retNum = inSamples[i][numSample-totalViewed];
+//						std::cout << "ifn12\n";
+						return retNum ;
 					}
 					totalViewed += inSamples[i].size();
 				}
+				std::cout << "it happened now\n";
+				exit(1);
 				return -1;
 			}
 
@@ -167,35 +186,37 @@ return 1-double(sumClassTotalsSquared)/(inSampleSize*inSampleSize);
 				return	binSamples[numSample];
 			}
 
-			/*
-				 inline std::vector<int>& returnInSamples(){
-				 std::vector<int> combiner;
-				 combiner.reserve(returnInSampleSize());
-				 for(unsigned int i = 0; i < inSamples.size(); ++i){
-				 combiner.insert( combiner.end(), inSamples[i].begin(), inSamples[i].end());
-				 }
-				 return combiner;
-				 }
-
-				 inline std::vector<int>& returnOutSamples(){
-				 std::vector<int> combiner;
-				 combiner.reserve(returnInSampleSize());
-				 for(unsigned int i = 0; i < inSamples.size(); ++i){
-				 combiner.insert( combiner.end(), inSamples[i].begin(), inSamples[i].end());
-				 }
-				 return combiner;
-				 }
-				 */
 
 			inline void addIndexToOutSamples(int index){
+				/*
+					 if(index < 0){
+					 std::cout << "here1";
+					 exit(1);
+					 }
+					 if(index >= fpSingleton::getSingleton().returnNumObservations()){
+					 std::cout << "here3";
+					 exit(1);
+					 }
+					 if(int(outSamples.size()) <= fpSingleton::getSingleton().returnLabel(index)){
+					 std::cout << "here31";
+					 exit(1);
+					 }
+					 if(0 > fpSingleton::getSingleton().returnLabel(index)){
+					 std::cout << "here32";
+					 exit(1);
+					 }
+					 */
 				++outSampleSize;
 				outSamples[fpSingleton::getSingleton().returnLabel(index)].push_back(index);
 			}
 
 			inline void addIndexToInSamples(int index){
 				++inSampleSize;
+				if(fpSingleton::getSingleton().returnLabel(index)<0 || fpSingleton::getSingleton().returnLabel(index) >= int(inSamples.size())){
+					std::cout << "asldkjf\n";
+					exit(1);
+				}
 				inSamples[fpSingleton::getSingleton().returnLabel(index)].push_back(index);
-
 			}
 	};//class stratifiedInNodeClassIndices
 

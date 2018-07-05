@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <limits>
 
 namespace fp{
 
@@ -19,7 +20,7 @@ namespace fp{
 				T splitValue;
 
 			public:
-				splitInfo(): impurity(3), leftImpurity(-1), rightImpurity(-1), featureNum(-1), splitValue(0){}
+				splitInfo(): impurity(std::numeric_limits<double>::max()), leftImpurity(-1), rightImpurity(-1), featureNum(-1), splitValue(0){}
 
 				inline void setSplitValue(T sVal){
 					splitValue = sVal;
@@ -37,18 +38,19 @@ namespace fp{
 				}
 
 				inline void setLeftImpurity(float gVal){
-					impurity = gVal;
+				leftImpurity = gVal;
 				}
 				inline double returnLeftImpurity(){
 					return leftImpurity;
 				}
 
 				inline void setRightImpurity(double gVal){
-					impurity = gVal;
+				rightImpurity = gVal;
 				}
+
 				inline double returnRightImpurity(){
 					return rightImpurity;
-				}
+}
 
 				inline void setFeatureNum(int fNum){
 					featureNum = fNum;
@@ -107,6 +109,7 @@ namespace fp{
 
 		public:
 			classTotals() : maxClass(-1), totalNumObj(0), impurity(-1){}
+			//	classTotals() : maxClass(-1), totalNumObj(0){}
 
 			inline int returnLargestClass(){
 				int largestClass=-1; 
@@ -149,11 +152,22 @@ namespace fp{
 			}
 
 			inline double calcAndReturnImpurity(){
-				int sumClassTotalsSquared = 0;
-for(auto i : classVec){
-					sumClassTotalsSquared+=i*i;
+				if(false){ //use gini impurity
+					int sumClassTotalsSquared = 0;
+					for(auto i : classVec){
+						sumClassTotalsSquared+=i*i;
+					}
+					return 1.0-double(sumClassTotalsSquared)/double(totalNumObj*totalNumObj);
+				}else{ //use what is this?
+					double impSum = 0;
+					double classPercent;
+					for(auto i : classVec){
+						classPercent = double(i)/double(totalNumObj);
+
+						impSum += double(i)*(1.0-classPercent);
+					}
+					return impSum;
 				}
-return 1.0-double(sumClassTotalsSquared)/double(totalNumObj*totalNumObj);
 			}
 
 
@@ -250,7 +264,8 @@ return 1.0-double(sumClassTotalsSquared)/double(totalNumObj*totalNumObj);
 
 						if(checkInequalityWithNext(i)){
 							tempImpurity = leftClasses.calcAndReturnImpurity() + rightClasses.calcAndReturnImpurity();
-							if(tempImpurity < currSplitInfo.returnImpurity()){
+							
+							if(tempImpurity < currSplitInfo.returnImpurity() && tempImpurity != overallImpurity){
 								currSplitInfo.setImpurity(tempImpurity);
 								currSplitInfo.setSplitValue(midVal(i));
 								currSplitInfo.setLeftImpurity(leftClasses.returnImpurity());
@@ -258,7 +273,11 @@ return 1.0-double(sumClassTotalsSquared)/double(totalNumObj*totalNumObj);
 							}
 						}
 					}
-
+					if(currSplitInfo.returnImpurity() == overallImpurity){
+						std::cout << "it happened\n";
+exit(1); //should never happen.  Why?
+								currSplitInfo.setImpurity(-1);
+					}
 					setupForNextRun();
 
 					logTime.stopFindSplitTimer();
