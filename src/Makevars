@@ -1,18 +1,10 @@
-#PKG_LIBS = -LforestPacking -limprov8
 CXX_STD = CXX11
 
-PKG_CFLAGS= -IforestPacking
 PKG_CXXFLAGS= -IforestPacking
 
-#.PHONY: all mylibs
+#PKG_CFLAGS = $(SHLIB_OPENMP_CFLAGS) -IforestPacking
+PKG_CFLAGS = -IforestPacking
 
-PKG_CFLAGS = $(SHLIB_OPENMP_CFLAGS)
-PKG_LIBS = $(SHLIB_OPENMP_CFLAGS)
-#all: $(SHLIB)
-#$(SHLIB):
-#$(SHLIB): mylibs
+#PKG_LIBS = $(SHLIB_OPENMP_CFLAGS)
 
-#OBJECTS = split.o forestPacking/improv8.o
 OBJECTS = forestPacking/treeStruct/padNode.o forestPacking/treeStruct/padForest.o forestPacking/treeStruct/inferenceSamples.o forestPacking/treeStruct/padNodeStat.o forestPacking/treeStruct/treeBin2.o split.o forestPacking.o forestPacking/improv8.o RcppExports.o 
-#mylibs:
-#  (cd forestPacking;  $(MAKE))
