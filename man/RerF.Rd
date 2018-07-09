@@ -4,14 +4,15 @@
 \alias{RerF}
 \title{RerF forest Generator}
 \usage{
-RerF(X, Y, min.parent = 6L, trees = 100L, max.depth = 0L, bagging = 0.2,
-  replacement = TRUE, stratify = FALSE, fun = NULL, mat.options = list(p
-  = ifelse(is.null(cat.map), ncol(X), length(cat.map)), d =
+RerF(X, Y, min.parent = 6L, trees = 100L,
+  max.depth = ceiling(log2(nrow(X))), bagging = 0.2, replacement = TRUE,
+  stratify = FALSE, fun = NULL, mat.options = list(p =
+  ifelse(is.null(cat.map), ncol(X), length(cat.map)), d =
   ceiling(sqrt(ncol(X))), random.matrix = "binary", rho =
   ifelse(is.null(cat.map), 1/ncol(X), 1/length(cat.map)), prob = 0.5),
   rank.transform = FALSE, store.oob = FALSE, store.impurity = FALSE,
-  progress = FALSE, rotate = F, num.cores = 0L, seed = 1L,
-  cat.map = NULL)
+  progress = FALSE, rotate = F, num.cores = 0L, seed = sample(0:1e+08,
+  1), cat.map = NULL, rfPack = FALSE)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}
@@ -22,7 +23,7 @@ RerF(X, Y, min.parent = 6L, trees = 100L, max.depth = 0L, bagging = 0.2,
 
 \item{trees}{the number of trees in the forest. (trees=100)}
 
-\item{max.depth}{the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=0, the tree will be allowed to grow without bound.  (max.depth=0)}
+\item{max.depth}{the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=0, the tree will be allowed to grow without bound.  (max.depth=ceiling(log2(nrow(X))) )}
 
 \item{bagging}{a non-zero value means a random sample of X will be used during tree creation.  If replacement = FALSE the bagging value determines the percentage of samples to leave out-of-bag.  If replacement = TRUE the non-zero bagging value is ignored. (bagging=.2)}
 
@@ -46,9 +47,11 @@ RerF(X, Y, min.parent = 6L, trees = 100L, max.depth = 0L, bagging = 0.2,
 
 \item{num.cores}{the number of cores to use while training. If num.cores=0 then 1 less than the number of cores reported by the OS are used. (num.cores=0)}
 
-\item{seed}{the seed to use for training the forest. (seed=1)}
+\item{seed}{the seed to use for training the forest.  For two runs to match you must use the same seed for each run AND you must also use the same number of cores for each run. (seed=sample((0:100000000,1)))}
 
 \item{cat.map}{a list specifying which columns in X correspond to the same one-of-K encoded feature. Each element of cat.map is a numeric vector specifying the K column indices of X corresponding to the same categorical feature after one-of-K encoding. All one-of-K encoded features in X must come after the numeric features. The K encoded columns corresponding to the same categorical feature must be placed contiguously within X. The reason for specifying cat.map is to adjust for the fact that one-of-K encoding cateogorical features results in a dilution of numeric features, since a single categorical feature is expanded to K binary features. If cat.map = NULL, then RerF assumes all features are numeric (i.e. none of the features have been one-of-K encoded).}
+
+\item{rfPack}{boolean flag to determine whether to pack a random forest in order to improve prediction speed.  This flag is only applicable when training a forest with the "rf" option.  (rfPack = FALSE)}
 
 \item{prob}{the probability of sampling +1 in the default random matrix function}
 }
@@ -91,6 +94,6 @@ forest <- RerF(X, Y, num.cores = 1L, cat.map = cat.map)
 
 ### Train a random rotation ensemble of CART decision trees (see Blaser and Fryzlewicz 2016) ###
 forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L,
-mat.options = list(4, 2, "rf", NULL), rotate = TRUE)
+mat.options = list(p=4, d=2,random.matrix="rf", 0.25), rotate = TRUE)
 
 }

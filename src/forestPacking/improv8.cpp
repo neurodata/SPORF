@@ -1,4 +1,5 @@
 #include <queue>
+#include <Rcpp.h>
 #include <iostream>
 #include <sstream>
 #include "improv8.h"
@@ -78,9 +79,7 @@ improv8::improv8(const std::string& forestFileName){
 
 	int testEOF;
 	if(infile >> testEOF){
-		infile.close();
-		std::cout << "not end of file \n";
-		exit(1);
+		Rprintf("not end of file \n");
 	}
 	infile.close();
 }
@@ -106,8 +105,7 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
 
     tempForestRoots = new padNodeStat*[numTreesInForest];
     if(tempForestRoots == NULL){
-      printf("memory for forest was not allocated");
-      exit(1);
+      Rprintf("memory for forest was not allocated");
     }
     int* numNodesInTree = new int[numTreesInForest];
     //Create each tree one at a time.
@@ -123,8 +121,7 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
       totalNumberOfNodes += numNodesInTree[i]; 
 
       if(numNodesInTree[i]%2 == 0){
-        printf("num of nodes is even"); 
-        exit(1);
+        Rprintf("num of nodes is even"); 
       }
       //Put all values pertaining to current tree in a vector
       for(int j = 0; j < numValuesForTree; j++){
@@ -134,8 +131,7 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
       //Allocate space for this tree
       tempForestRoots[i] = new padNodeStat[numNodesInTree[i]];
       if(tempForestRoots[i] == NULL){
-        printf("memory not allocated for tree");
-        exit(1);
+        Rprintf("memory not allocated for tree");
       }
       numInnerNodesActual = 0;
       for(int k = 0; k < numNodesInTree[i]; k++){
@@ -155,8 +151,7 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
       }
 
       if(numInnerNodesActual != numInnerNodes ){
-        printf("miscalculated inner Nodes: calc-%d, act-%d ", numInnerNodes, numInnerNodesActual);
-        exit(1);
+        Rprintf("miscalculated inner Nodes: calc-%d, act-%d ", numInnerNodes, numInnerNodesActual);
       }
 
       if(debugModeOn){
@@ -169,17 +164,16 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
 
       //Print current tree.  Just for checking.
       if(debugModeOn){
-        printf("start of tree %d.\n", i);
+        Rprintf("start of tree %d.\n", i);
         for (unsigned int z=0; z<numbers.size(); z++)
-          std::cout << numbers[z] << '\n';
+         Rprintf("%f\n", numbers[z]);
       }
     }
 
     //Pull one more float so that eof is TRUE.
     fin >> num;
     if(!fin.eof()){
-      printf("csv not exausted");
-      exit(1);
+      Rprintf("csv not exausted");
     }else{
       fin.close();
     }
@@ -189,7 +183,6 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
     int finalTree;
     int startTree=0;
     int binSize = numTreesInForest/numberBins;
-    int binRemainder = numTreesInForest%numberBins;
 
     for(int q = 0; q < numberBins; q++){
       startTree = q*binSize;
@@ -211,8 +204,7 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
 
 
   if(forestRoots == NULL){
-    printf("forest is empty\n");
-    exit(1);
+    Rprintf("forest is empty\n");
   }
 
 }
@@ -306,9 +298,9 @@ void improv8::makePrediction(double* observation, double* preds, int numFeatures
 		}
 		preds[j] = returnClassPrediction(predictions, numOfClasses);
 for(int j = 0; j < numFeatures; j++){
-		std::cout << observation[j+observationOffset] << " ";
+	//	std::cout << observation[j+observationOffset] << " ";
 	}
-	std::cout << "\n";
+//	std::cout << "\n";
 
 		observationOffset+=numFeatures;
 	}

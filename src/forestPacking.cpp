@@ -5,14 +5,13 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-int packForestRCPP(){
+void packForestRCPP(){
 	const std::string forestFileName = "forestPackTempFile.csv";
 	const std::string traversalFileName = "traversalPackTempFile.csv";
 	const std::string packedFileName = "forest.out";
 
 	improv8 tester(forestFileName,1,traversalFileName,16, 3);
 	tester.writeForest(packedFileName);
-
 }
 
 

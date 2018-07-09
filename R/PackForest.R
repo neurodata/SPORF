@@ -6,7 +6,9 @@
 #' @param Y a numeric vector of size n.  If the Y vector used to train the forest was not of type numeric then a simple call to as.numeric(Y) will suffice as input.
 #' @param forest a forest trained using the RerF function using the RF option.
 #'
- 
+#' @importFrom utils write.table
+#'
+
 PackForest <-
 	function(X, Y, forest){
 
@@ -51,7 +53,7 @@ PackForest <-
 		tempTraversal[2+j*(numberOfFeatures+1)+1] <- Y[j+1]-1
 		tempTraversal[(2+j*(numberOfFeatures+1)+2):(2+(j+1)*(numberOfFeatures+1))] <- X[j+1,]
 		}
-		write.table(tempTraversal, file = "traversalPackTempFile.csv",row.names=FALSE, na="",col.names=FALSE, sep=" ", append=FALSE)
+		utils::write.table(tempTraversal, file = "traversalPackTempFile.csv",row.names=FALSE, na="",col.names=FALSE, sep=" ", append=FALSE)
 		
 		if (file.exists("forest.out")) file.remove("forest.out")
 		# Call C++ code to create and load the forest.

@@ -70,7 +70,7 @@ void treeBin2::repackTree(padNodeStat* tree, int workingNode){
 
     }else{
         printf("There should not be leaf nodes here subfunction. (TreeBin2.cpp)\n");
-        exit(1);
+        //exit(1);
         //   bin[workingNode] = tree[nodeNumberInTree];
     }
 }
@@ -150,7 +150,7 @@ bin[j+numOfNodes].setClass(j);
                 }
             }else{
                 printf("There should not be leaf nodes here. (TreeBin2.cpp)\n");
-                exit(1);
+                //exit(1);
 
             }
         }
@@ -165,7 +165,7 @@ bin[j+numOfNodes].setClass(j);
 
     if( firstFreeNode != numOfNodes-1){
         printf("Not all nodes were filled: Num of Nodes- %d, Num used- %d\n",numOfNodes, firstFreeNode);
-        exit(1);
+        //exit(1);
     }
 }
 

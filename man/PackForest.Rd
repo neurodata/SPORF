@@ -2,27 +2,17 @@
 % Please edit documentation in R/PackForest.R
 \name{PackForest}
 \alias{PackForest}
-\title{Compute class predictions for each observation in X}
+\title{Packs a forest and saves modified forest to disk for use by PackPredict function}
 \usage{
 PackForest(X, Y, forest)
 }
 \arguments{
-\item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features of a test set, which should be different from the training set.}
+\item{X}{an n by d numeric matrix (preferable) or data frame used to train the forest.}
 
-\item{Y}{the number of cores to use while training. If NumCores=0 then 1 less than the number of cores reported by the OS are used. (NumCores=0)}
+\item{Y}{a numeric vector of size n.  If the Y vector used to train the forest was not of type numeric then a simple call to as.numeric(Y) will suffice as input.}
 
-\item{forest}{a forest trained using the RerF function.}
-}
-\value{
-predictions an n length vector of predictions
+\item{forest}{a forest trained using the RerF function using the RF option.}
 }
 \description{
-Predicts the classification of samples using a trained forest.
-}
-\examples{
-library(rerf)
-trainIdx <- c(1:40, 51:90, 101:140)
-X <- as.matrix(iris[,1:4])
-Y <- as.numeric(iris[,5])
-
+Efficiently packs a forest trained with the RF option.  Two intermediate data structures are written to disk, forestPackTempFile.csv and traversalPackTempFile.csv.  The size of these data structures is proportional to a trained forest and training data respectively.  Both data structures are removed at the end of the operation.  The resulting forest is saved as forest.out.  The size of this file is similar to the size of the trained forest.
 }

@@ -4,6 +4,8 @@
 #'
 #' @param X an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features of a test set, which should be different from the training set.
 #'
+#' @param num.cores the number of cores to use while predicting. (num.cores=0)
+#'
 #' @return predictions an n length vector of prediction class numbers
 #'
 #' @examples
@@ -12,7 +14,9 @@
 #' X <- as.matrix(iris[,1:4])
 #' Y <- as.numeric(iris[,5])
 #'
-#' forest <- RerF(X,Y, mat.options = list(p = ncol(X), d  =ceiling(sqrt(ncol(X))), random.matrix = "rf", rho = 1/ncol(X)))
+#' forest <- RerF(X,Y, mat.options = list(p = ncol(X), 
+#' d =ceiling(sqrt(ncol(X))), random.matrix = "rf", rho = 1/ncol(X)), 
+#' rfPack=TRUE, num.cores=2)
 #'
 #' predictions <- PackPredict(X)
 #'
@@ -20,10 +24,10 @@
 #'
 
 PackPredict <-
-	function(X, numCores=1){
+	function(X, num.cores=1){
 
 		if(file.exists("forest.out")){
-			preds <- predictRF(X, numCores)
+			preds <- predictRF(X, num.cores)
 		}else{
 			print("the file 'forest.out' does not exist")
 			return(NA)
