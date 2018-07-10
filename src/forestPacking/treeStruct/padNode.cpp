@@ -1,4 +1,5 @@
 #include "padNode.h"
+#include <Rcpp.h>
 #include <stdio.h>
 
 void padNode::setNode(double cVal, uint32_t feat, uint32_t l, uint32_t r){
@@ -9,7 +10,7 @@ void padNode::setNode(double cVal, uint32_t feat, uint32_t l, uint32_t r){
 }
 
 void padNode::printNode(){
-    printf("cutValue %f, feature %d, left %d, right %d\n", cutValue, feature, left, right);
+    Rprintf("cutValue %f, feature %d, left %d, right %d\n", cutValue, feature, left, right);
 }
 
 double padNode::returnCutValue(){

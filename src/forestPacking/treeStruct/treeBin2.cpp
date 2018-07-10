@@ -1,4 +1,5 @@
 #include "treeBin2.h"
+#include <Rcpp.h>
 
 
 void treeBin2::repackTree(padNodeStat* tree, int workingNode){
@@ -69,9 +70,7 @@ void treeBin2::repackTree(padNodeStat* tree, int workingNode){
         bin[workingNode].setRightValue(rightNodeNum);
 
     }else{
-        printf("There should not be leaf nodes here subfunction. (TreeBin2.cpp)\n");
-        //exit(1);
-        //   bin[workingNode] = tree[nodeNumberInTree];
+        Rprintf("There should not be leaf nodes here subfunction. (TreeBin2.cpp)\n");
     }
 }
 
@@ -149,8 +148,7 @@ bin[j+numOfNodes].setClass(j);
                     bin[currProcess].setRightValue(workingClass+numOfNodes);
                 }
             }else{
-                printf("There should not be leaf nodes here. (TreeBin2.cpp)\n");
-                //exit(1);
+                Rprintf("There should not be leaf nodes here. (TreeBin2.cpp)\n");
 
             }
         }
@@ -164,8 +162,7 @@ bin[j+numOfNodes].setClass(j);
     }
 
     if( firstFreeNode != numOfNodes-1){
-        printf("Not all nodes were filled: Num of Nodes- %d, Num used- %d\n",numOfNodes, firstFreeNode);
-        //exit(1);
+       Rprintf("Not all nodes were filled: Num of Nodes- %d, Num used- %d\n",numOfNodes, firstFreeNode);
     }
 }
 
