@@ -71,11 +71,8 @@ improv8::improv8(const std::string& forestFileName){
 	infile.read((char*)&debugModeOn, sizeof(bool));
 	infile.read((char*)&showAllResults, sizeof(bool));
 
-	forestRoots =  new treeBin2*[numOfBins]; 
-
-
 	for(int i = 0 ; i < numOfBins; i++){
-		forestRoots[i] = new treeBin2(infile);
+		forestRoots.emplace_back(infile);
 	}
 
 	int testEOF;
@@ -94,7 +91,7 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
 		totalNumberOfNodes = 0;
 		int numLeafNodesInForest = 0;
 		double num;
-		padNodeStat ** tempForestRoots;
+		std::vector<std::vector<padNodeStat> > tempForestRoots;
 		numOfBins = numberBins;
 
 		//First number in csv is the number of trees
@@ -104,11 +101,9 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
 		fin >> num;
 		numOfClasses = (int)num;
 
-		tempForestRoots = new padNodeStat*[numTreesInForest];
-		if(tempForestRoots == NULL){
-			Rprintf("memory for forest was not allocated");
-		}
-		int* numNodesInTree = new int[numTreesInForest];
+		tempForestRoots.resize(numTreesInForest);
+		std::vector<int> numNodesInTree(numTreesInForest);
+
 		//Create each tree one at a time.
 		for(int i =0; i < numTreesInForest; i++){
 			std::vector<double> numbers;
@@ -130,10 +125,8 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
 				numbers.push_back(num);  // store the number 
 			}
 			//Allocate space for this tree
-			tempForestRoots[i] = new padNodeStat[numNodesInTree[i]];
-			if(tempForestRoots[i] == NULL){
-				Rprintf("memory not allocated for tree");
-			}
+			tempForestRoots[i].resize(numNodesInTree[i]);
+
 			numInnerNodesActual = 0;
 			for(int k = 0; k < numNodesInTree[i]; k++){
 				if(numbers[k] > 0){
@@ -141,12 +134,14 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
 							int(numbers[numNodesInTree[i]*2+numbers[k]-1]),
 							int(numbers[k])*2-1,
 							int(numbers[k])*2);
+
 					++numInnerNodesActual;
 				}else{
 					tempForestRoots[i][k].setNode(-1.0,
 							int(0),
 							int(0),
 							int(numbers[numNodesInTree[i]+ numInnerNodes +(-1*numbers[k])-1]));
+
 					++numLeafNodesInForest;
 				}
 			}
@@ -179,8 +174,6 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
 			fin.close();
 		}
 
-
-		forestRoots =  new treeBin2*[numOfBins]; 
 		int finalTree;
 		int startTree=0;
 		int binSize = numTreesInForest/numberBins;
@@ -192,36 +185,20 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
 			if(finalTree > numTreesInForest){
 				finalTree = numTreesInForest;
 			}
-			forestRoots[q] = new treeBin2(tempForestRoots, numNodesInTree, startTree, finalTree, depthIntertwined, numOfClasses);
-			for(int i = startTree; i < finalTree; i++){
-				delete[] tempForestRoots[i];
-			}
+			forestRoots.emplace_back(tempForestRoots, numNodesInTree, startTree, finalTree, depthIntertwined, numOfClasses);
 		}
-
-
-		delete[] numNodesInTree;
-		delete[] tempForestRoots;
 	}         
-
-
-	if(forestRoots == NULL){
-		Rprintf("forest is empty\n");
-	}
 
 }
 
 improv8::~improv8(){
-	for(int i = 0; i < numOfBins; i++){
-		delete forestRoots[i];
-	}
-	delete[] forestRoots;
 }
 
 
 void improv8::makePredictions(const inferenceSamples& observations){
 
 	std::vector<int> predictions(numOfClasses);
-	std::vector<int> currentNode(forestRoots[0]->numOfTreesInBin);
+	std::vector<int> currentNode(forestRoots[0].numOfTreesInBin);
 	int numberNotInLeaf;
 	int  p, k, q;
 
@@ -232,28 +209,28 @@ void improv8::makePredictions(const inferenceSamples& observations){
 		}
 
 		for( k=0; k < numOfBins;++k){
-			for( q=0; q<forestRoots[k]->numOfTreesInBin; q++){
+			for( q=0; q<forestRoots[k].numOfTreesInBin; q++){
 				currentNode[q] = q;
-				__builtin_prefetch(&forestRoots[k]->bin[currentNode[q]], 0, 3);
+				__builtin_prefetch(&forestRoots[k].bin[currentNode[q]], 0, 3);
 			}
 
 			numberNotInLeaf = 1;
 			while(numberNotInLeaf > 0){
-				numberNotInLeaf = forestRoots[k]->numOfTreesInBin;
+				numberNotInLeaf = forestRoots[k].numOfTreesInBin;
 
-				for( q=0; q<forestRoots[k]->numOfTreesInBin; ++q){
+				for( q=0; q<forestRoots[k].numOfTreesInBin; ++q){
 
-					if(forestRoots[k]->bin[currentNode[q]].isInternalNode()){
-						currentNode[q] = forestRoots[k]->bin[currentNode[q]].nextNode(observations.samplesMatrix[i][forestRoots[k]->bin[currentNode[q]].returnFeature()]);
-						__builtin_prefetch(&forestRoots[k]->bin[currentNode[q]], 0, 3);
+					if(forestRoots[k].bin[currentNode[q]].isInternalNode()){
+						currentNode[q] = forestRoots[k].bin[currentNode[q]].nextNode(observations.samplesMatrix[i][forestRoots[k].bin[currentNode[q]].returnFeature()]);
+						__builtin_prefetch(&forestRoots[k].bin[currentNode[q]], 0, 3);
 						continue;
 					}
 					--numberNotInLeaf;
 				}
 			}
 
-			for( q=0; q<forestRoots[k]->numOfTreesInBin; q++){
-				++predictions[forestRoots[k]->bin[currentNode[q]].returnRightNode()];
+			for( q=0; q<forestRoots[k].numOfTreesInBin; q++){
+				++predictions[forestRoots[k].bin[currentNode[q]].returnRightNode()];
 			}
 
 		}
@@ -265,7 +242,7 @@ void improv8::makePredictions(const inferenceSamples& observations){
 void improv8::makePrediction(double* observation, double* preds, int numFeatures, int numObservations, int numCores){
 
 	std::vector<int> predictions(numOfClasses);
-	std::vector<int> currentNode(forestRoots[0]->numOfTreesInBin);
+	std::vector<int> currentNode(forestRoots[0].numOfTreesInBin);
 	int numberNotInLeaf;
 	int k, q;
 	int observationOffset = 0;
@@ -273,29 +250,29 @@ void improv8::makePrediction(double* observation, double* preds, int numFeatures
 	for(int j = 0; j < numObservations; j++){
 		for( k=0; k < numOfBins;k++){
 
-			for( q=0; q<forestRoots[k]->numOfTreesInBin; q++){
+			for( q=0; q<forestRoots[k].numOfTreesInBin; q++){
 				currentNode[q] = q;
-				__builtin_prefetch(&forestRoots[k]->bin[currentNode[q]], 0, 3);
+				__builtin_prefetch(&forestRoots[k].bin[currentNode[q]], 0, 3);
 			}
 
 			do{
-				numberNotInLeaf = forestRoots[k]->numOfTreesInBin;
+				numberNotInLeaf = forestRoots[k].numOfTreesInBin;
 
-				for( q=0; q<forestRoots[k]->numOfTreesInBin; q++){
+				for( q=0; q<forestRoots[k].numOfTreesInBin; q++){
 
-					if(forestRoots[k]->bin[currentNode[q]].isInternalNode()){
+					if(forestRoots[k].bin[currentNode[q]].isInternalNode()){
 
-						currentNode[q] = forestRoots[k]->bin[currentNode[q]].nextNode(observation[forestRoots[k]->bin[currentNode[q]].returnFeature()+observationOffset]);
+						currentNode[q] = forestRoots[k].bin[currentNode[q]].nextNode(observation[forestRoots[k].bin[currentNode[q]].returnFeature()+observationOffset]);
 
-						__builtin_prefetch(&forestRoots[k]->bin[currentNode[q]], 0, 3);
+						__builtin_prefetch(&forestRoots[k].bin[currentNode[q]], 0, 3);
 						continue;
 					}
 					--numberNotInLeaf;
 				}
 			}while(numberNotInLeaf > 0);
 
-			for( q=0; q<forestRoots[k]->numOfTreesInBin; q++){
-				++predictions[forestRoots[k]->bin[currentNode[q]].returnRightNode()];
+			for( q=0; q<forestRoots[k].numOfTreesInBin; q++){
+				++predictions[forestRoots[k].bin[currentNode[q]].returnRightNode()];
 			}
 		}
 		preds[j] = returnClassPrediction(predictions, numOfClasses);
@@ -308,33 +285,33 @@ void improv8::makePrediction(double* observation, double* preds, int numFeatures
 int improv8::makePrediction(double*& observation){
 
 	std::vector<int> predictions(numOfClasses);
-	std::vector<int> currentNode(forestRoots[0]->numOfTreesInBin);
+	std::vector<int> currentNode(forestRoots[0].numOfTreesInBin);
 	int numberNotInLeaf;
 	int k, q;
 
 	for( k=0; k < numOfBins;k++){
 
-		for( q=0; q<forestRoots[k]->numOfTreesInBin; q++){
+		for( q=0; q<forestRoots[k].numOfTreesInBin; q++){
 			currentNode[q] = q;
-			__builtin_prefetch(&forestRoots[k]->bin[currentNode[q]], 0, 3);
+			__builtin_prefetch(&forestRoots[k].bin[currentNode[q]], 0, 3);
 		}
 
 		do{
-			numberNotInLeaf = forestRoots[k]->numOfTreesInBin;
+			numberNotInLeaf = forestRoots[k].numOfTreesInBin;
 
-			for( q=0; q<forestRoots[k]->numOfTreesInBin; q++){
+			for( q=0; q<forestRoots[k].numOfTreesInBin; q++){
 
-				if(forestRoots[k]->bin[currentNode[q]].isInternalNode()){
-					currentNode[q] = forestRoots[k]->bin[currentNode[q]].nextNode(observation[forestRoots[k]->bin[currentNode[q]].returnFeature()]);
-					__builtin_prefetch(&forestRoots[k]->bin[currentNode[q]], 0, 3);
+				if(forestRoots[k].bin[currentNode[q]].isInternalNode()){
+					currentNode[q] = forestRoots[k].bin[currentNode[q]].nextNode(observation[forestRoots[k].bin[currentNode[q]].returnFeature()]);
+					__builtin_prefetch(&forestRoots[k].bin[currentNode[q]], 0, 3);
 					continue;
 				}
 				--numberNotInLeaf;
 			}
 		}while(numberNotInLeaf > 0);
 
-		for( q=0; q<forestRoots[k]->numOfTreesInBin; q++){
-			++predictions[forestRoots[k]->bin[currentNode[q]].returnRightNode()];
+		for( q=0; q<forestRoots[k].numOfTreesInBin; q++){
+			++predictions[forestRoots[k].bin[currentNode[q]].returnRightNode()];
 		}
 	}
 	return returnClassPrediction(predictions, numOfClasses);
@@ -344,33 +321,33 @@ int improv8::makePrediction(double*& observation){
 int improv8::makePrediction(double*& observation, int numCores){
 
 	std::vector<int> predictions(numOfClasses);
-	std::vector<int> currentNode(forestRoots[0]->numOfTreesInBin);
+	std::vector<int> currentNode(forestRoots[0].numOfTreesInBin);
 	int numberNotInLeaf;
 	int k, q;
 
 	for( k=0; k < numOfBins;k++){
 
-		for( q=0; q<forestRoots[k]->numOfTreesInBin; q++){
+		for( q=0; q<forestRoots[k].numOfTreesInBin; q++){
 			currentNode[q] = q;
-			__builtin_prefetch(&forestRoots[k]->bin[currentNode[q]], 0, 3);
+			__builtin_prefetch(&forestRoots[k].bin[currentNode[q]], 0, 3);
 		}
 
 		do{
-			numberNotInLeaf = forestRoots[k]->numOfTreesInBin;
+			numberNotInLeaf = forestRoots[k].numOfTreesInBin;
 
-			for( q=0; q<forestRoots[k]->numOfTreesInBin; q++){
+			for( q=0; q<forestRoots[k].numOfTreesInBin; q++){
 
-				if(forestRoots[k]->bin[currentNode[q]].isInternalNode()){
-					currentNode[q] = forestRoots[k]->bin[currentNode[q]].nextNode(observation[forestRoots[k]->bin[currentNode[q]].returnFeature()]);
-					__builtin_prefetch(&forestRoots[k]->bin[currentNode[q]], 0, 3);
+				if(forestRoots[k].bin[currentNode[q]].isInternalNode()){
+					currentNode[q] = forestRoots[k].bin[currentNode[q]].nextNode(observation[forestRoots[k].bin[currentNode[q]].returnFeature()]);
+					__builtin_prefetch(&forestRoots[k].bin[currentNode[q]], 0, 3);
 					continue;
 				}
 				--numberNotInLeaf;
 			}
 		}while(numberNotInLeaf > 0);
 
-		for( q=0; q<forestRoots[k]->numOfTreesInBin; q++){
-			++predictions[forestRoots[k]->bin[currentNode[q]].returnRightNode()];
+		for( q=0; q<forestRoots[k].numOfTreesInBin; q++){
+			++predictions[forestRoots[k].bin[currentNode[q]].returnRightNode()];
 		}
 	}
 	return returnClassPrediction(predictions, numOfClasses);
@@ -387,17 +364,17 @@ void improv8::writeForest(const std::string& forestFileName){
 	outfile.write((char*)&showAllResults, sizeof(bool));
 	for(int i = 0 ; i < numOfBins; i++){
 
-		outfile.write((char*)&forestRoots[i]->numOfTreesInBin, sizeof(int));
-		outfile.write((char*)&forestRoots[i]->depth, sizeof(int));
-		outfile.write((char*)&forestRoots[i]->numOfClasses, sizeof(int));
-		outfile.write((char*)&forestRoots[i]->numOfNodes, sizeof(int));
+		outfile.write((char*)&forestRoots[i].numOfTreesInBin, sizeof(int));
+		outfile.write((char*)&forestRoots[i].depth, sizeof(int));
+		outfile.write((char*)&forestRoots[i].numOfClasses, sizeof(int));
+		outfile.write((char*)&forestRoots[i].numOfNodes, sizeof(int));
 
-		for(int j = 0; j < (forestRoots[i]->numOfNodes+forestRoots[i]->numOfClasses); j++){
+		for(int j = 0; j < (forestRoots[i].numOfNodes+forestRoots[i].numOfClasses); j++){
 
-			outfile.write((char*)&forestRoots[i]->bin[j].left, sizeof(uint32_t));
-			outfile.write((char*)&forestRoots[i]->bin[j].feature, sizeof(uint32_t));
-			outfile.write((char*)&forestRoots[i]->bin[j].cutValue, sizeof(double));
-			outfile.write((char*)&forestRoots[i]->bin[j].right, sizeof(uint32_t));
+			outfile.write((char*)&forestRoots[i].bin[j].left, sizeof(uint32_t));
+			outfile.write((char*)&forestRoots[i].bin[j].feature, sizeof(uint32_t));
+			outfile.write((char*)&forestRoots[i].bin[j].cutValue, sizeof(double));
+			outfile.write((char*)&forestRoots[i].bin[j].right, sizeof(uint32_t));
 		}
 	}
 	outfile.close();

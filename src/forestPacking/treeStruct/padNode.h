@@ -5,8 +5,8 @@
 class alignas(32) padNode 
 {
 
+
     public:
-   // private:
         uint32_t left;
         uint32_t feature;
         double cutValue;

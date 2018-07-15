@@ -18,7 +18,6 @@ padForest() : debugModeOn(false), showAllResults(false){}
     int numOfClasses;
     bool debugModeOn;
     bool showAllResults;
-//    int returnClassPrediction(int *classTotals);
 
     };
 #endif //padForest.h

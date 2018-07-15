@@ -1,5 +1,5 @@
-#include <Rcpp.h>
 #include "inferenceSamples.h"
+#include <Rcpp.h>
 
 void inferenceSamples::percentRight(){
     int numCorrectPredictions = 0;
@@ -16,23 +16,34 @@ if(0){
 
 }
 
+float inferenceSamples::returnPercentRight(){
+    int numCorrectPredictions = 0;
+    for(int i = 0; i < numObservations; i++){
+if(0){
+           Rprintf("observation%d actual %d predicted %d\n", i, observationClasses[i],predictedClasses[i]);
+           }
+           if(observationClasses[i] == predictedClasses[i]){
+           numCorrectPredictions++;
+           }
+    }
+return (float)numCorrectPredictions/(float)numObservations;
+}
+
 inferenceSamples::inferenceSamples(const std::string& testFile){
     std::ifstream fin(testFile.c_str());
 
     fin >>  numObservations; 
     fin >> numFeatures;
+    Rprintf("\nThere are %d observations to test\n", numObservations);
+    Rprintf("There are %d features in each observation\n", numFeatures);
 
-    samplesMatrix = new double*[numObservations];
-    observationClasses = new int[numObservations];
-    predictedClasses = new int[numObservations];
-
-    if(samplesMatrix == NULL || observationClasses == NULL){
-        Rprintf("memory for samples was not allocated\n");
-    }
+    samplesMatrix.resize(numObservations);
+    observationClasses.resize(numObservations);
+		predictedClasses.resize(numObservations);
 
     for(int i = 0; i < numObservations; i++){
         fin >> observationClasses[i];
-        samplesMatrix[i] = new double[numFeatures];
+        samplesMatrix[i].resize(numFeatures);
         for(int j=0; j < numFeatures; j++){
             fin >> samplesMatrix[i][j];
         }
@@ -42,6 +53,7 @@ inferenceSamples::inferenceSamples(const std::string& testFile){
     fin >> eofTest;
     if(!fin.eof()){
         Rprintf("test csv not exausted");
+        fin.close();
     }else{
         fin.close();
     }
@@ -49,10 +61,4 @@ inferenceSamples::inferenceSamples(const std::string& testFile){
 
 
 inferenceSamples::~inferenceSamples(){
-    delete[] observationClasses;
-    delete[] predictedClasses;
-    for(int i = 0; i < numObservations; i++){
-        delete[] samplesMatrix[i];
-    }
-    delete[] samplesMatrix;
 }
