@@ -65,7 +65,8 @@ treeBin::treeBin(padNodeStat**& forest, int*& treeLength, int startTree, int fin
     for(int i = startTree; i < finalTree; i++){
         binSize += treeLength[i];
     }
-    bin = new padNode [binSize];
+   // bin = new padNode [binSize];
+    bin.resize(binSize);
 
     for(int j = startTree; j < finalTree; j++){
         bin[++firstFreeNode] = forest[j][0];
@@ -112,6 +113,6 @@ treeBin::treeBin(padNodeStat**& forest, int*& treeLength, int startTree, int fin
 }
 
 treeBin::~treeBin(){
-    delete[] bin;    
+    //delete[] bin;    
 }
 

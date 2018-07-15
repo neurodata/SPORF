@@ -71,11 +71,13 @@ improv8::improv8(const std::string& forestFileName){
 	infile.read((char*)&debugModeOn, sizeof(bool));
 	infile.read((char*)&showAllResults, sizeof(bool));
 
+	//forestRootsAct.resize(numOfBins);
 	forestRoots =  new treeBin2*[numOfBins]; 
 
 
 	for(int i = 0 ; i < numOfBins; i++){
 		forestRoots[i] = new treeBin2(infile);
+	//	forestRootsAct[i] = new treeBin2(infile);
 	}
 
 	int testEOF;
@@ -94,7 +96,8 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
 		totalNumberOfNodes = 0;
 		int numLeafNodesInForest = 0;
 		double num;
-		padNodeStat ** tempForestRoots;
+		std::vector<padNodeStat*> tempForestRoots;
+	//	padNodeStat ** tempForestRoots;
 		numOfBins = numberBins;
 
 		//First number in csv is the number of trees
@@ -104,11 +107,14 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
 		fin >> num;
 		numOfClasses = (int)num;
 
-		tempForestRoots = new padNodeStat*[numTreesInForest];
+		//tempForestRoots = new padNodeStat*[numTreesInForest];
+		tempForestRoots.resize(numTreesInForest);
+		/*
 		if(tempForestRoots == NULL){
 			Rprintf("memory for forest was not allocated");
 		}
-		int* numNodesInTree = new int[numTreesInForest];
+		*/
+		std::vector<int> numNodesInTree(numTreesInForest);
 		//Create each tree one at a time.
 		for(int i =0; i < numTreesInForest; i++){
 			std::vector<double> numbers;
@@ -131,9 +137,9 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
 			}
 			//Allocate space for this tree
 			tempForestRoots[i] = new padNodeStat[numNodesInTree[i]];
-			if(tempForestRoots[i] == NULL){
-				Rprintf("memory not allocated for tree");
-			}
+		//	if(tempForestRoots[i] == NULL){
+		//		Rprintf("memory not allocated for tree");
+		//	}
 			numInnerNodesActual = 0;
 			for(int k = 0; k < numNodesInTree[i]; k++){
 				if(numbers[k] > 0){
@@ -141,12 +147,14 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
 							int(numbers[numNodesInTree[i]*2+numbers[k]-1]),
 							int(numbers[k])*2-1,
 							int(numbers[k])*2);
+
 					++numInnerNodesActual;
 				}else{
 					tempForestRoots[i][k].setNode(-1.0,
 							int(0),
 							int(0),
 							int(numbers[numNodesInTree[i]+ numInnerNodes +(-1*numbers[k])-1]));
+
 					++numLeafNodesInForest;
 				}
 			}
@@ -180,6 +188,7 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
 		}
 
 
+//	forestRoots.resize(numOfBins);
 		forestRoots =  new treeBin2*[numOfBins]; 
 		int finalTree;
 		int startTree=0;
@@ -197,16 +206,12 @@ improv8::improv8(const std::string& forestCSVFileName, int source, const inferen
 				delete[] tempForestRoots[i];
 			}
 		}
-
-
-		delete[] numNodesInTree;
-		delete[] tempForestRoots;
 	}         
 
 
-	if(forestRoots == NULL){
-		Rprintf("forest is empty\n");
-	}
+//	if(forestRoots == NULL){
+//		Rprintf("forest is empty\n");
+//	}
 
 }
 

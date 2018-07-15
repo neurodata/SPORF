@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 //TODO Each observation should be cache line aligned.
 class inferenceSamples
@@ -12,10 +13,12 @@ class inferenceSamples
     public:
         int numObservations;
         int numFeatures;
-        int* observationClasses = NULL;
+				std::vector<int> observationClasses;
+        //int* observationClasses = NULL;
         int* predictedClasses = NULL;
         double** samplesMatrix = NULL;
 
+float returnPercentRight();
         void percentRight();
 
         inferenceSamples(const std::string& testFile);

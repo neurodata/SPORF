@@ -8,6 +8,7 @@
 #include "treeStruct/inferenceSamples.h"
 #include "treeStruct/padNodeStat.h"
 #include "treeStruct/treeBin2.h"
+#include <vector>
 
 class improv8: public padForest 
 {

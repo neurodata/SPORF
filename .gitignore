@@ -41,6 +41,7 @@ vignettes/*.pdf
 # files created during packing
 *.out
 *.csv
+*.swp
 
 # auto generated Rcpp code
 src/RcppExports.cpp
