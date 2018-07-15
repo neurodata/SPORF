@@ -14,9 +14,8 @@ class inferenceSamples
         int numObservations;
         int numFeatures;
 				std::vector<int> observationClasses;
-        //int* observationClasses = NULL;
-        int* predictedClasses = NULL;
-        double** samplesMatrix = NULL;
+				std::vector<int> predictedClasses;
+				std::vector<std::vector<double> > samplesMatrix;
 
 float returnPercentRight();
         void percentRight();

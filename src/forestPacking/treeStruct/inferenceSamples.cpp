@@ -1,17 +1,18 @@
 #include "inferenceSamples.h"
+#include <Rcpp.h>
 
 void inferenceSamples::percentRight(){
     int numCorrectPredictions = 0;
     for(int i = 0; i < numObservations; i++){
 if(0){
-           printf("observation%d actual %d predicted %d\n", i, observationClasses[i],predictedClasses[i]);
+           Rprintf("observation%d actual %d predicted %d\n", i, observationClasses[i],predictedClasses[i]);
            }
            if(observationClasses[i] == predictedClasses[i]){
            numCorrectPredictions++;
            }
     }
 
-     printf("%f%% of the predictions were correct\n", 100.0*(float)numCorrectPredictions/(float)numObservations);
+     Rprintf("%f%% of the predictions were correct\n", 100.0*(float)numCorrectPredictions/(float)numObservations);
 
 }
 
@@ -19,7 +20,7 @@ float inferenceSamples::returnPercentRight(){
     int numCorrectPredictions = 0;
     for(int i = 0; i < numObservations; i++){
 if(0){
-           printf("observation%d actual %d predicted %d\n", i, observationClasses[i],predictedClasses[i]);
+           Rprintf("observation%d actual %d predicted %d\n", i, observationClasses[i],predictedClasses[i]);
            }
            if(observationClasses[i] == predictedClasses[i]){
            numCorrectPredictions++;
@@ -33,22 +34,16 @@ inferenceSamples::inferenceSamples(const std::string& testFile){
 
     fin >>  numObservations; 
     fin >> numFeatures;
-    printf("\nThere are %d observations to test\n", numObservations);
-    printf("There are %d features in each observation\n", numFeatures);
+    Rprintf("\nThere are %d observations to test\n", numObservations);
+    Rprintf("There are %d features in each observation\n", numFeatures);
 
-    samplesMatrix = new double*[numObservations];
+    samplesMatrix.resize(numObservations);
     observationClasses.resize(numObservations);
-    //observationClasses = new int[numObservations];
-    predictedClasses = new int[numObservations];
-
-    if(samplesMatrix == NULL){
-        printf("memory for samples was not allocated\n");
-        exit(1);
-    }
+		predictedClasses.resize(numObservations);
 
     for(int i = 0; i < numObservations; i++){
         fin >> observationClasses[i];
-        samplesMatrix[i] = new double[numFeatures];
+        samplesMatrix[i].resize(numFeatures);
         for(int j=0; j < numFeatures; j++){
             fin >> samplesMatrix[i][j];
         }
@@ -57,8 +52,8 @@ inferenceSamples::inferenceSamples(const std::string& testFile){
     int eofTest;
     fin >> eofTest;
     if(!fin.eof()){
-        printf("test csv not exausted");
-        exit(1);
+        Rprintf("test csv not exausted");
+        fin.close();
     }else{
         fin.close();
     }
@@ -66,10 +61,4 @@ inferenceSamples::inferenceSamples(const std::string& testFile){
 
 
 inferenceSamples::~inferenceSamples(){
-   // delete[] observationClasses;
-    delete[] predictedClasses;
-    for(int i = 0; i < numObservations; i++){
-        delete[] samplesMatrix[i];
-    }
-    delete[] samplesMatrix;
 }
