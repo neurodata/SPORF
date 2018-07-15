@@ -2,7 +2,8 @@
 #include <Rcpp.h>
 
 
-void treeBin2::repackTree(padNodeStat* tree, int workingNode){
+void treeBin2::repackTree(std::vector<padNodeStat> tree, int workingNode){
+//void treeBin2::repackTree(padNodeStat* tree, int workingNode){
 
 	int nodeNumberInTree = bin[workingNode].returnRightNode();
 
@@ -108,7 +109,7 @@ treeBin2::treeBin2(std::ifstream &in){
 
 
 
-treeBin2::treeBin2(std::vector<padNodeStat *> forest, std::vector<int>& treeLength, int startTree, int finalTree, int headDepth, int numClasses){
+treeBin2::treeBin2(std::vector<std::vector<padNodeStat> > forest, std::vector<int>& treeLength, int startTree, int finalTree, int headDepth, int numClasses){
 	numOfTreesInBin = finalTree-startTree;
 	depth = headDepth;
 	int binSize = 0;

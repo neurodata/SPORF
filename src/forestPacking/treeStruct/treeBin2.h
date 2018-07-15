@@ -14,23 +14,23 @@
 
 class treeBin2   
 {
-    public:
-			std::vector<padNode> bin;
+	public:
+		std::vector<padNode> bin;
 
-    int numOfTreesInBin;
-    int depth;
-    int firstFreeNode = -1;
-    int currProcess = -1;
-    int numOfClasses = -1;
-    int numOfNodes = -1;
+		int numOfTreesInBin;
+		int depth;
+		int firstFreeNode = -1;
+		int currProcess = -1;
+		int numOfClasses = -1;
+		int numOfNodes = -1;
 
-    void repackTree(padNodeStat* tree, int workingNode);
+		void repackTree(std::vector<padNodeStat> tree, int workingNode);
 
-//    public:
-treeBin2(std::ifstream &in);
-treeBin2(std::vector<padNodeStat *> forest, std::vector<int>& treeLength, int startTree, int finalTree, int headDepth, int numClasses);
-~treeBin2();
-bool isInternalNode(int currentNodeNum);
+		//    public:
+		treeBin2(std::ifstream &in);
+		treeBin2(std::vector<std::vector<padNodeStat> > forest, std::vector<int>& treeLength, int startTree, int finalTree, int headDepth, int numClasses);
+		~treeBin2();
+		bool isInternalNode(int currentNodeNum);
 };
 
 
