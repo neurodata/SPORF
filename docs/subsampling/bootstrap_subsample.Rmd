@@ -1,0 +1,462 @@
+---
+title: "Random/Randomer Forest Bootstrap vs Subsample"
+author: "Jaewon Chung"
+output:
+  html_document:
+    code_folding: hide
+    fig_caption: yes
+    fig_height: 8
+    fig_width: 8
+    highlight: pygments
+    number_sections: yes
+    theme: cerulean
+    toc: yes
+    toc_depth: 2
+  keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+# Random Forest Bootstrap vs Subsampling
+Consider the usual Random Forest/RerF algorithm where samples are bagged in order to reduce variance. This experiment compares the performance of RF/RerF algorithm when samples are bagged and subsampled (no bagging). When subsampling, we consider $1 - \frac{1}{e} \approx 0.632$ number of samples.
+
+# Running RF
+Variables swept over:
+
+* mtrys - $p^{(1/4, 1/2, 3/4, 1)}$
+* replace - T or F
+* in_bag_samples = 0.632 when replace = F
+
+```{r randomForest, echo=T, eval=FALSE}
+# evaluate classifiers on benchmark datasets
+
+rm(list = ls())
+options(scipen = 999)
+
+library(randomForest)
+
+# Parameters
+
+# For local
+#rerfPath <- "./"
+#dataPath <- "./Data/processed/"
+#source(paste0(rerfPath, "R/Code/Utils/GetFolds.R"))
+#source(paste0(rerfPath, "R/Code/Utils/Utils.R"))
+
+# For MARCC
+rerfPath <- "~/work/jaewon/"
+dataPath <- "~/work/jaewon/RandomerForest/Data/uci/processed/"
+source(paste0(rerfPath, "RandomerForest/R/Utils/GetFolds.R"))
+source(paste0(rerfPath, "RandomerForest/R/Utils/Utils.R"))
+
+classifiers <- c("rf-bag", "rf-subsample")
+nCl <- length(classifiers)
+
+seed <- 20180626L
+
+set.seed(seed = seed)
+
+testError <- list()
+OOBError <- list()
+trainTime <- list()
+testTime <- list()
+bestIdx <- list()
+params <- list()
+
+
+dataSet <- "abalone"
+#dataSets <- read.table(paste0(dataPath, "names.txt"))[[1]]
+
+# Set variables
+testError[[dataSet]] <- vector(mode = "list", length = nCl)
+names(testError[[dataSet]]) <- classifiers
+OOBError[[dataSet]] <- vector(mode = "list", length = nCl)
+names(OOBError[[dataSet]]) <- classifiers
+trainTime[[dataSet]] <- vector(mode = "list", length = nCl)
+names(trainTime[[dataSet]]) <- classifiers
+testTime[[dataSet]] <- vector(mode = "list", length = nCl)
+names(testTime[[dataSet]]) <- classifiers
+bestIdx[[dataSet]] <- vector(mode = "list", length = nCl)
+names(bestIdx[[dataSet]]) <- classifiers
+params[[dataSet]] <- vector(mode = "list", length = nCl)
+names(params[[dataSet]]) <- classifiers
+
+# Data wrangling
+X <- as.matrix(read.table(paste0(dataPath, "data/", dataSet, ".csv"), header = F, sep = ",", quote = "", row.names = NULL))
+
+p <- ncol(X) - 1L
+n <- nrow(X)
+
+Y <- as.integer(X[, p + 1L]) + 1L
+X <- X[, -(p + 1L)]
+
+# remove columns with zero variance
+X <- X[, apply(X, 2, function(x) any(as.logical(diff(x))))]
+# mean-center and scale by sd
+X <- scale(X)
+
+# Get folds
+fold <- GetFolds(paste0(dataPath, "cv_partitions/", dataSet, "_partitions.txt"))
+nFolds <- length(fold)
+
+print(paste0("Evaluting Dataset: ", dataSet))
+cat("\n")
+
+for (m in classifiers) {
+  # Parameter tuning
+  if (m == "rf-bag") {
+    replace <- T
+  } else if (m == "rf-subsample") {
+    replace <- F
+  }
+  
+  # Control for different number of feature selection
+  if (p < 5) {
+    mtrys <- 1:p
+  } else {
+    mtrys <- ceiling(p^c(1 / 4, 1 / 2, 3 / 4, 1))
+    print(paste0("Mtrys: ", mtrys))
+  }
+  
+  if (n >= 1000) {
+    nodesize <- ceiling(n * 0.002)
+  } else {
+    nodesize <- 1
+  }
+  
+  params[[dataSet]][[m]] <- list(replace = replace, mtrys = mtrys, nodesize = nodesize)
+  
+  size <- length(mtrys)
+  OOBErrors <- matrix(as.double(rep(NA, size)), ncol = nFolds, nrow = size)
+  testErrors <- matrix(as.double(rep(NA, size)), ncol = nFolds, nrow = size)
+  
+  print(paste0("evaluating model: ", m))
+  for (fold.idx in seq.int(nFolds)) {
+    print(paste0("fitting fold: ", fold.idx))
+    
+    data <- splitData(X, Y, fold, fold.idx)
+    
+    for (mtrys.idx in seq.int(length(mtrys))) {
+      model <- randomForest(data$X.train, data$y.train, 
+                            mtry = mtrys[mtrys.idx], 
+                            replace = replace, 
+                            nodesize = nodesize)
+      
+      OOBErrors[mtrys.idx, fold.idx] <- model$err.rate[, 1][length(model$err.rate[, 1])]
+      testErrors[mtrys.idx, fold.idx] <- computePredictions(model, data$X.test, data$y.test)
+    }
+  }
+  
+  OOBError[[dataSet]][[m]] <- OOBErrors
+  testError[[dataSet]][[m]] <- testErrors
+}
+
+save(OOBError, testError, file = paste0(rerfPath, "RandomerForest/R/Result/2018.06.26/", dataSet, "_2018_06_26.RData"))
+```
+
+# Running RerF
+Variables swept over:
+
+* mtrys - $p^{(1/4, 1/2, 3/4, 1, 2)}$
+* sparsity - 1/p, 2/p, 3/p, 4/p, 5/p
+* replacement - T or F
+* in_bag_samples = 0.632 when replacement = F
+
+```{r rerf, echo=T, eval=FALSE}
+# evaluate classifiers on benchmark datasets
+
+rm(list=ls())
+options(scipen = 999)
+
+library(rerf)
+library(AUC)
+library(dummies)
+library(R.utils)
+
+date <- "2018.06.30/"
+
+## For MARCC
+rerfPath <- "~/work/jaewon/"
+dataPath <- "~/work/jaewon/RandomerForest/Data/uci/processed/"
+source(paste0(rerfPath, "RandomerForest/R/Utils/RerFEval.R"))
+source(paste0(rerfPath, "RandomerForest/R/Utils/GetCatMap.R"))
+source(paste0(rerfPath, "RandomerForest/R/Utils/GetFolds.R"))
+
+## For local
+# rerfPath <- "./"
+# dataPath <- "./Data/uci/processed/"
+# source(paste0(rerfPath, "R/Utils/RerFEval.R"))
+# source(paste0(rerfPath, "R/Utils/GetCatMap.R"))
+# source(paste0(rerfPath, "R/Utils/GetFolds.R"))
+
+
+testError <- list()
+testAUC <- list()
+OOBError <- list()
+OOBAUC <- list()
+trainTime <- list()
+OOBTime <- list()
+testTime <- list()
+treeStrength <- list()
+treeCorr <- list()
+numNodes <- list()
+bestIdx <- list()
+params <- list()
+
+dataSet <- "abalone"
+fold <- GetFolds(paste0(dataPath, "cv_partitions/", dataSet, "_partitions.txt"))
+nFolds <- length(fold)
+X <- as.matrix(read.table(paste0(dataPath, "data/", dataSet, ".csv"), header = F, sep = ",", quote = "", row.names = NULL))
+catMap <- NULL
+p <- ncol(X) - 1L
+p.ohe <- p
+Y <- as.integer(X[, p + 1L]) + 1L
+X <- X[, -(p + 1L)]
+# remove columns with zero variance
+X <- X[, apply(X, 2, function(x) any(as.logical(diff(x))))]
+# mean-center and scale by sd
+X <- scale(X)
+p <- ncol(X)
+
+## Parameters
+nTrees <- 500L
+min.parent <- 6L
+max.depth <- ceiling(log2(nrow(X) * 0.8))
+bagging <- 1 / exp(1)
+replacement <- T
+supervised <- 0
+num.cores <- 24L
+seed <- 20180629L
+timeout <- 500
+
+## Classifiers
+classifiers <- c("rerf-bag", "rerf-subsample")
+nCl <- length(classifiers)
+
+testError[[dataSet]] <- vector(mode = "list", length = nCl)
+names(testError[[dataSet]]) <- classifiers
+testAUC[[dataSet]] <- vector(mode = "list", length = nCl)
+names(testAUC[[dataSet]]) <- classifiers
+OOBError[[dataSet]] <- vector(mode = "list", length = nCl)
+names(OOBError[[dataSet]]) <- classifiers
+OOBAUC[[dataSet]] <- vector(mode = "list", length = nCl)
+names(OOBAUC[[dataSet]]) <- classifiers
+trainTime[[dataSet]] <- vector(mode = "list", length = nCl)
+names(trainTime[[dataSet]]) <- classifiers
+OOBTime[[dataSet]] <- vector(mode = "list", length = nCl)
+names(OOBTime[[dataSet]]) <- classifiers
+testTime[[dataSet]] <- vector(mode = "list", length = nCl)
+names(testTime[[dataSet]]) <- classifiers
+numNodes[[dataSet]] <- vector(mode = "list", length = nCl)
+names(numNodes[[dataSet]]) <- classifiers
+bestIdx[[dataSet]] <- vector(mode = "list", length = nCl)
+names(bestIdx[[dataSet]]) <- classifiers
+params[[dataSet]] <- vector(mode = "list", length = nCl)
+names(params[[dataSet]]) <- classifiers
+
+print(dataSet)
+
+for (m in classifiers) {
+  if (m == "rerf-bag" || m == "rerf-subsample") {
+    random.matrix <- "binary"
+    if (p < 5) {
+      mtrys <- c(1:p, p^2)
+    } else if (p >= 5 && p <= 100) {
+      mtrys <- ceiling(p^c(1/4, 1/2, 3/4, 1, 2))
+    } else {
+      mtrys <- ceiling(p^c(1/4, 1/2, 3/4, 1, 1.5))
+    }
+    sparsity <- (1:min(p-1, 5))/p
+    prob <- 0.5
+    
+    if (m == "rerf-subsample") {
+      replacement <- F
+    }
+  }
+  
+  params[[dataSet]][[m]] <- list(trees = nTrees, random.matrix = random.matrix, d = mtrys, sparsity = sparsity, prob = prob, rotate = rotate,
+                                 rank.transform = rank.transform, min.parent = min.parent, max.depth = max.depth, num.cores = num.cores,
+                                 seed = seed, cat.map = catMap, supervised = supervised, replacement = replacement, bagging = bagging)
+  
+  testError[[dataSet]][[m]] <- matrix(as.double(rep(NA, nFolds*length(sparsity)*length(mtrys)*length(supervised)*max(length(prob), 1))),
+                                      nrow = nFolds, ncol = length(sparsity)*length(mtrys)*length(supervised)*max(length(prob), 1))
+  testAUC[[dataSet]][[m]] <- matrix(as.double(rep(NA, nFolds*length(sparsity)*length(mtrys)*length(supervised)*max(length(prob), 1))),
+                                    nrow = nFolds, ncol = length(sparsity)*length(mtrys)*length(supervised)*max(length(prob), 1))
+  OOBError[[dataSet]][[m]] <- matrix(as.double(rep(NA, nFolds*length(sparsity)*length(mtrys)*length(supervised)*max(length(prob), 1))),
+                                     nrow = nFolds, ncol = length(sparsity)*length(mtrys)*length(supervised)*max(length(prob), 1))
+  OOBAUC[[dataSet]][[m]] <- matrix(as.double(rep(NA, nFolds*length(sparsity)*length(mtrys)*length(supervised)*max(length(prob), 1))),
+                                   nrow = nFolds, ncol = length(sparsity)*length(mtrys)*length(supervised)*max(length(prob), 1))
+  trainTime[[dataSet]][[m]] <- matrix(as.double(rep(NA, nFolds*length(sparsity)*length(mtrys)*length(supervised)*max(length(prob), 1))),
+                                      nrow = nFolds, ncol = length(sparsity)*length(mtrys)*length(supervised)*max(length(prob), 1))
+  OOBTime[[dataSet]][[m]] <- matrix(as.double(rep(NA, nFolds*length(sparsity)*length(mtrys)*length(supervised)*max(length(prob), 1))),
+                                    nrow = nFolds, ncol = length(sparsity)*length(mtrys)*length(supervised)*max(length(prob), 1))
+  testTime[[dataSet]][[m]] <- matrix(as.double(rep(NA, nFolds*length(sparsity)*length(mtrys)*length(supervised)*max(length(prob), 1))),
+                                     nrow = nFolds, ncol = length(sparsity)*length(mtrys)*length(supervised)*max(length(prob), 1))
+  numNodes[[dataSet]][[m]] <- matrix(as.double(rep(NA, nFolds*length(sparsity)*length(mtrys)*length(supervised)*max(length(prob), 1))),
+                                     nrow = nFolds, ncol = length(sparsity)*length(mtrys)*length(supervised)*max(length(prob), 1))
+  bestIdx[[dataSet]][[m]] <- as.integer(rep(NA, nFolds))
+  
+  print(params[[dataSet]][[m]])
+  
+  # loop over folds
+  for (k in seq.int(nFolds)) {
+    print(paste0("fold ", k))
+    
+    trainIdx <- unlist(fold[-k])
+    testIdx <- fold[[k]]
+    
+    # evaluate models
+    res <- RerFEval(X[trainIdx, ], Y[trainIdx], X[testIdx, ], Y[testIdx], params[[dataSet]][[m]], timeout = timeout)
+    
+    testError[[dataSet]][[m]][k, ] <- res$testError
+    testAUC[[dataSet]][[m]][k, ] <- res$testAUC
+    OOBError[[dataSet]][[m]][k, ] <- res$oobError
+    OOBAUC[[dataSet]][[m]][k, ] <- res$oobAUC
+    trainTime[[dataSet]][[m]][k, ] <- res$trainTime
+    OOBTime[[dataSet]][[m]][k, ] <- res$oobTime
+    testTime[[dataSet]][[m]][k, ] <- res$testTime
+    numNodes[[dataSet]][[m]][k, ] <- res$numNodes
+    bestIdx[[dataSet]][[m]][k] <- res$best.idx
+    
+    save(testError, testAUC, OOBError, OOBAUC, trainTime, OOBTime, testTime, numNodes, bestIdx, params, 
+         file = paste0(rerfPath, "RandomerForest/R/Experiments/", date, "Results/", dataSet, ".RData"))
+  }
+}
+```
+
+# Results
+
+The p-values corresponds to one-tailed Wilcox Ranked Test. Subsampling is not better than bagging.
+
+```{r plotting, fig.keep = 'none'}
+library('ggplot2')
+library('grid')
+library('gridExtra')
+library('gtable')
+
+plotResults <- function(df, classifiers, y.min = -1, y.max = 1) {
+  categories <- df[['Category']][seq(1, nrow(df), 5)]
+  error.cls.1 <- df[[classifiers[1]]]
+  error.cls.2 <- df[[classifiers[2]]]
+  
+  error.cls.1 <- rowMeans(t(matrix(error.cls.1, nrow = 5)))
+  error.cls.2 <- rowMeans(t(matrix(error.cls.2, nrow = 5)))
+  
+  # Compute One sided Wilcox Rank Test
+  alt <- 'less'
+  
+  wilcox.all <- wilcox.test(error.cls.1, error.cls.2, paired = T, alternative = alt, exact = F)
+  wilcox.categorical <- wilcox.test(error.cls.1[categories == 'categorical'], 
+                                    error.cls.2[categories == 'categorical'],
+                                    paired = T,
+                                    alternative = alt, 
+                                    exact = F)
+  wilcox.numeric <- wilcox.test(error.cls.1[categories == 'numeric'],
+                                error.cls.2[categories == 'numeric'], 
+                                paired = T,
+                                alternative = alt, 
+                                exact = F)
+  
+  pvalue.all <- format(round(wilcox.all$p.value, 2), scientific = T)
+  pvalue.categorical <- format(round(wilcox.categorical$p.value, 2), scientific = T)
+  pvalue.numeric <- format(round(wilcox.numeric$p.value, 2), scientific = T)
+  
+  mean.error <- sqrt((error.cls.1 + error.cls.2) / 2)
+  difference.error <- sqrt(abs(error.cls.1 - error.cls.2)) * sign(error.cls.1 - error.cls.2)
+  
+  df <- data.frame(mean.error, difference.error, categories)
+  names(df) <- c("mean", "diff", "category")
+  df$category <- factor(df$category)
+  
+  # Plot scatter
+  fig <- ggplot(df, aes(x = mean, y = diff, color = category)) + geom_point() +
+    theme(
+      panel.background = element_blank(), axis.line = element_line(colour = "black")
+    ) +
+    labs(
+      x = expression(sqrt("Mean Error")),
+      y = expression(sqrt("Difference in Error"))
+    ) +
+    geom_hline(yintercept = 0) +
+    xlim(0, 1) +
+    ylim(y.min, y.max) +
+    annotate("text", label = 'bold("Subsampling Better")', x = 1, y = y.max, parse = T, hjust = 'inward', vjust = 'inward') +
+    annotate("text", label = 'bold("Subsampling Worse")', x = 1, y = y.min, parse = T, hjust = 'inward', vjust = 'inward') + 
+    annotate("text", label = paste0("p=", pvalue.all), 
+             x = 0, y = y.min * .6, vjust = 'inward', hjust = 'inward', color = "black") +
+    annotate("text", label = paste0("p=", pvalue.categorical), 
+             x = 0, y = y.min * .8, vjust = 'inward', hjust = 'inward', color = "#F8766D") +
+    annotate("text", label = paste0("p=", pvalue.numeric), 
+             x = 0, y = y.min, vjust = 'inward', hjust = 'inward', color = "#00BFC4")
+  
+  # Plot KDE
+  kde <- ggplot(df, aes(x = diff, color = category)) +
+    stat_density(geom = 'line', position = 'identity') + 
+    stat_density(aes(x = diff, color = 'all'),  geom = 'line') +
+    theme(panel.background = element_blank(), 
+          axis.line = element_blank(),
+          axis.ticks = element_blank(),
+          axis.text = element_blank(), 
+          axis.title = element_blank(), 
+          legend.direction = "horizontal",
+          legend.position = "bottom") +
+    geom_hline(yintercept = 0) + 
+    geom_vline(xintercept = 0) + 
+    xlim(y.min, y.max) +
+    coord_flip() + 
+    scale_color_manual(values=c('#000000','#F8766D','#00BFC4'))
+  
+  # print(fig)
+  return(list(fig = fig, kde = kde))
+}
+
+
+load('./../2018.07.02/uci_results.RData')
+load('./../2018.07.04/df.rf.RData')
+
+res <- plotResults(df, c('RerF','RerF.subsample'), -.6, .6)
+fig.1 <- res$fig
+kde.1 <- res$kde + 
+  #scale_color_discrete("Dataset Type", labels = c('All', 'Categorical', 'Continuous')) +
+  scale_color_manual(values = c('#000000','#F8766D','#00BFC4'),
+                     labels = c("All",
+                                "Categorical",
+                                "Continuous"))
+
+res <- plotResults(df.rf, c('rf.bag', 'rf.subsample'), -.22, .22)
+fig.2 <- res$fig
+kde.2 <- res$kde
+
+# Get legend for separate plotting
+g_legend<-function(a.gplot){
+  tmp <- ggplot_gtable(ggplot_build(a.gplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)}
+
+leg <- g_legend(kde.1) #+ guides(colour = guide_legend(override.aes = list(size = 3))))
+# Combine figures
+g.1 <- ggplotGrob(fig.1 + theme(legend.position = 'none'))
+panel_id <- g.1$layout[g.1$layout$name == "panel",c("t","l")]
+g.1 <- gtable_add_cols(g.1, unit(4,"cm"))
+g.1 <- gtable_add_grob(g.1, ggplotGrob(kde.1 + theme(legend.position = 'none', plot.margin = unit(c(.13, 0, 0, 0), 'cm'))),
+                     t = panel_id$t, l = ncol(g.1))
+
+g.2 <- ggplotGrob(fig.2 + theme(legend.position = 'none'))
+panel_id <- g.2$layout[g.2$layout$name == "panel", c("t","l")]
+g.2 <- gtable_add_cols(g.2, unit(4,"cm"))
+g.2 <- gtable_add_grob(g.2, ggplotGrob(kde.2 + theme(legend.position = 'none', plot.margin = unit(c(.13, 0, 0, 0), 'cm'))),
+                     t = panel_id$t, l = ncol(g.2))
+
+top <- grid.arrange(g.1, nrow = 1, top = textGrob("RerF Bootstrap - Subsampling", gp=gpar(fontface = "bold")))
+bottom <- grid.arrange(g.2, nrow = 1, top = textGrob("RF Bootstrap - Subsampling", gp=gpar(fontface = "bold")))
+```
+
+```{r ggplot-2, fig.width = 8, fig.height = 8}
+output <- grid.arrange(top, bottom, leg, nrow = 3, heights=c(1, 1, .1))
+
+ggsave(filename = './result.pdf', plot = output, width = 7, height = 7)
+```
+
