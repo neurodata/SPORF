@@ -220,21 +220,77 @@ regTree <-
                 x[1L:NdSize] <- Xnode[SortIdx[1L:NdSize]]
                 y[1L:NdSize] <- Y[Assigned2Node[[CurrentNode]]][SortIdx[1:NdSize]]
                 
+                # Find non-duplicate projection values
+                duplicateSequence <- as.integer(duplicated(x[1L:NdSize]))
+                splitPoints <- which(duplicateSequence == 0)
+                
+                # Sort by y values if duplicates exist
+                # bitShift <- function(seq, dir) {
+                #     if (dir == "L") {
+                #         sapply(1:length(seq), function(i) {
+                #             if (i == length(seq)) return(0)
+                #             if (seq[i+1] == 1) {
+                #                 return(1)
+                #             } else {
+                #                 return(0)
+                #             }
+                #         })        
+                #     } else {
+                #         sapply(1:length(seq), function(i) {
+                #             if (i == 1) return(0)
+                #             if (seq[i-1] == 1) {
+                #                 return(1)
+                #             } else {
+                #                 return(0)
+                #             }
+                #         })   
+                #     }
+                # }
+
+                # duplicateSequence <- as.integer(duplicated(x[1:NdSize]))
+                # if (any(duplicateSequence == 1)) {
+                #     duplicateSequence <- bitShift(duplicateSequence, "L")
+                #     RshiftBits <- bitShift(duplicateSequence, "R")
+                #     duplicates <- bitwAnd(duplicateSequence, RshiftBits)
+                #     seqStarts <- bitwXor(duplicates, duplicateSequence)
+                #     seqStartIndices <- which(seqStarts == 1)
+                #     for ( i in 1:length(seqStartIndices) ) {
+                #         j <- seqStartIndices[i]
+                #         k <- ifelse(i == length(seqStartIndices), NdSize, seqStartIndices[i+1]-1)
+                #         SortIdx[j:k] <- order(y[j:k]) + (j-1)
+                #         x[j:k] <- x[SortIdx[j:k]]
+                #         y[j:k] <- y[SortIdx[j:k]]
+                #     }
+                #     # print("HERE")
+                # }
+                
                 ##################################################################
                 #                    Find Best Split
                 ##################################################################
                 # calculate deltaI for this rotation and return the best current deltaI
                 # find split is an Rcpp call.
-                ret[] <- findSplit(x = x[1:NdSize], 
-                                   y = y[1:NdSize], 
-                                   ndSize = NdSize, 
+                
+                # print(splitPoints)
+                ret[] <- findSplit(x = x[1:NdSize],
+                                   y = as.double(y[1:NdSize]),
+                                   splitPoints = splitPoints,
+                                   ndSize = NdSize,
                                    I = I,
-                                   maxdI = ret$MaxDeltaI, 
-                                   bv = ret$BestVar, 
-                                   bs = ret$BestSplit, 
-                                   nzidx = nz.idx, 
+                                   maxdI = ret$MaxDeltaI,
+                                   bv = ret$BestVar,
+                                   bs = ret$BestSplit,
+                                   nzidx = nz.idx,
                                    cc = c(1),
                                    task = 1)
+                
+                # ret[] <- findSplitRF(x[1:NdSize],
+                #                    y[1:NdSize],
+                #                    NdSize,
+                #                    I,
+                #                    ret$MaxDeltaI,
+                #                    ret$BestVar,
+                #                    ret$BestSplit,
+                #                    nz.idx)
                 
                 nz.idx <- nz.idx + feature.nnz
             }
@@ -282,11 +338,6 @@ regTree <-
             # Move samples left or right based on split
             Assigned2Node[[NextUnusedNode]] <- Assigned2Node[[CurrentNode]][MoveLeft]
             Assigned2Node[[NextUnusedNode+1L]] <- Assigned2Node[[CurrentNode]][!MoveLeft]
-            
-            if (length(Assigned2Node[[NextUnusedNode]]) == 0 | length(Assigned2Node[[NextUnusedNode+1L]]) == 0) {
-                print("Empty")
-                quit()
-            }
             
             # store tree map data (positive value means this is an internal node)
             treeMap[CurrentNode] <- currIN <- currIN + 1L
