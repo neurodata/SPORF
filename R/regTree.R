@@ -223,54 +223,14 @@ regTree <-
                 # Find non-duplicate projection values
                 duplicateSequence <- as.integer(duplicated(x[1L:NdSize]))
                 splitPoints <- which(duplicateSequence == 0)
-                
-                # Sort by y values if duplicates exist
-                # bitShift <- function(seq, dir) {
-                #     if (dir == "L") {
-                #         sapply(1:length(seq), function(i) {
-                #             if (i == length(seq)) return(0)
-                #             if (seq[i+1] == 1) {
-                #                 return(1)
-                #             } else {
-                #                 return(0)
-                #             }
-                #         })        
-                #     } else {
-                #         sapply(1:length(seq), function(i) {
-                #             if (i == 1) return(0)
-                #             if (seq[i-1] == 1) {
-                #                 return(1)
-                #             } else {
-                #                 return(0)
-                #             }
-                #         })   
-                #     }
-                # }
 
-                # duplicateSequence <- as.integer(duplicated(x[1:NdSize]))
-                # if (any(duplicateSequence == 1)) {
-                #     duplicateSequence <- bitShift(duplicateSequence, "L")
-                #     RshiftBits <- bitShift(duplicateSequence, "R")
-                #     duplicates <- bitwAnd(duplicateSequence, RshiftBits)
-                #     seqStarts <- bitwXor(duplicates, duplicateSequence)
-                #     seqStartIndices <- which(seqStarts == 1)
-                #     for ( i in 1:length(seqStartIndices) ) {
-                #         j <- seqStartIndices[i]
-                #         k <- ifelse(i == length(seqStartIndices), NdSize, seqStartIndices[i+1]-1)
-                #         SortIdx[j:k] <- order(y[j:k]) + (j-1)
-                #         x[j:k] <- x[SortIdx[j:k]]
-                #         y[j:k] <- y[SortIdx[j:k]]
-                #     }
-                #     # print("HERE")
-                # }
                 
                 ##################################################################
                 #                    Find Best Split
                 ##################################################################
                 # calculate deltaI for this rotation and return the best current deltaI
                 # find split is an Rcpp call.
-                
-                # print(splitPoints)
+
                 ret[] <- findSplit(x = x[1:NdSize],
                                    y = as.double(y[1:NdSize]),
                                    splitPoints = splitPoints,
@@ -282,15 +242,6 @@ regTree <-
                                    nzidx = nz.idx,
                                    cc = c(1),
                                    task = 1)
-                
-                # ret[] <- findSplitRF(x[1:NdSize],
-                #                    y[1:NdSize],
-                #                    NdSize,
-                #                    I,
-                #                    ret$MaxDeltaI,
-                #                    ret$BestVar,
-                #                    ret$BestSplit,
-                #                    nz.idx)
                 
                 nz.idx <- nz.idx + feature.nnz
             }
