@@ -1,8 +1,8 @@
 Package: rerf
 Type: Package
 Title: Randomer Forest
-Version: 1.0.0.9000
-Date: 2017-10-07
+Version: 1.1.2
+Date: 2018-07-05
 Authors@R: c(person("James", "Browne", role = c("aut", "cre"),
 	   	    email = "jbrowne6@jhu.edu"),
 	     person("Tyler", "Tomita", role = "aut",
@@ -27,5 +27,6 @@ License: GPL-2
 URL: https://github.com/neurodata/R-RerF
 Imports: parallel, RcppZiggurat, utils, stats, dummies
 LinkingTo: Rcpp, RcppArmadillo
+SystemRequirements: GNU make
 ByteCompile: true
 RoxygenNote: 6.0.1

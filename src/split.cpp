@@ -1,5 +1,4 @@
 # include <RcppArmadillo.h>
-// [[Rcpp::depends(RcppArmadillo)]]
 
 using namespace Rcpp;
 
@@ -28,9 +27,9 @@ List findSplitClassification(const NumericVector x, const IntegerVector y, const
     int yl, yr, cons, bsidx, potsplit;
     bool multiy;
 
-    arma::vec ccl(cc.n_elem, arma::fill::zeros);
-    arma::vec ccr = cc;
-    arma::vec cpl, cpr, potccl, potccr;
+	arma::vec ccl(cc.n_elem, arma::fill::zeros);
+	arma::vec ccr = cc;
+	arma::vec cpl, cpr, potccl, potccr;
 
     bsidx = 0;
     cons = 0;
@@ -54,12 +53,12 @@ List findSplitClassification(const NumericVector x, const IntegerVector y, const
 						cpl = potccl/potsplit;
 						cpr = potccr/(ndSize - potsplit);
 						dI = I - dot(ccl,(1 - cpl)) - dot(ccr,(1 - cpr));
-							if (dI > maxdI) {
-								// save current best split information
-								maxdI = dI;
-								bsidx = potsplit;
-								bv = nzidx;
-							}
+						if (dI > maxdI) {
+							// save current best split information
+							maxdI = dI;
+							bsidx = potsplit;
+							bv = nzidx;
+						}
 						potsplit = 0;
 					}
 				}
@@ -71,23 +70,23 @@ List findSplitClassification(const NumericVector x, const IntegerVector y, const
 		} else if ((xl + xr)/2 == xr) {
 			cons += 1;
 			if (yl == yr) {
-			continue;
+				continue;
 			} else {
-			if (~multiy) {
-				multiy = true;
-				if (potsplit != 0) {
-				cpl = potccl/potsplit;
-				cpr = potccr/(ndSize - potsplit);
-				dI = I - dot(ccl,(1 - cpl)) - dot(ccr,(1 - cpr));
-				if (dI > maxdI) {
-					// save current best split information
-					maxdI = dI;
-					bsidx = potsplit;
-					bv = nzidx;
+				if (~multiy) {
+					multiy = true;
+					if (potsplit != 0) {
+						cpl = potccl/potsplit;
+						cpr = potccr/(ndSize - potsplit);
+						dI = I - dot(ccl,(1 - cpl)) - dot(ccr,(1 - cpr));
+						if (dI > maxdI) {
+							// save current best split information
+							maxdI = dI;
+							bsidx = potsplit;
+							bv = nzidx;
+						}
+						potsplit = 0;
+					}
 				}
-				potsplit = 0;
-				}
-			}
 			}
 			ccl[yl] += cons;
 			ccr[yl] -= cons;
@@ -100,42 +99,42 @@ List findSplitClassification(const NumericVector x, const IntegerVector y, const
 			ccr[yl] -= cons;
 			cons = 0;
 			if (yl == yr) {
-			if (multiy) {
+				if (multiy) {
+					cpl = ccl/(i + 1);
+					cpr = ccr/(ndSize - (i + 1));
+					dI = I - dot(ccl,(1 - cpl)) - dot(ccr,(1 - cpr));
+					if (dI > maxdI) {
+						// save current best split information
+						maxdI = dI;
+						bsidx = i + 1;
+						bv = nzidx;
+					}
+				} else {
+					potsplit = i + 1;
+					potccl = ccl;
+					potccr = ccr;
+				}
+			} else {
 				cpl = ccl/(i + 1);
 				cpr = ccr/(ndSize - (i + 1));
 				dI = I - dot(ccl,(1 - cpl)) - dot(ccr,(1 - cpr));
 				if (dI > maxdI) {
-				// save current best split information
-				maxdI = dI;
-				bsidx = i + 1;
-				bv = nzidx;
+					// save current best split information
+					maxdI = dI;
+					bsidx = i + 1;
+					bv = nzidx;
 				}
-			} else {
-				potsplit = i + 1;
-				potccl = ccl;
-				potccr = ccr;
-			}
-			} else {
-			cpl = ccl/(i + 1);
-			cpr = ccr/(ndSize - (i + 1));
-			dI = I - dot(ccl,(1 - cpl)) - dot(ccr,(1 - cpr));
-			if (dI > maxdI) {
-				// save current best split information
-				maxdI = dI;
-				bsidx = i + 1;
-				bv = nzidx;
-			}
-			yl = yr;
+				yl = yr;
 			}
 			multiy = false;
 			xl = xr;
 		}
-    }
+	}
 
-    if (bsidx != 0) {
-	bs = (x[bsidx - 1] + x[bsidx])/2;
-    }
-    return List::create(_["MaxDeltaI"] = maxdI, _["BestVar"] = bv, _["BestSplit"] = bs);
+	if (bsidx != 0) {
+		bs = (x[bsidx - 1] + x[bsidx])/2;
+	}
+	return List::create(_["MaxDeltaI"] = maxdI, _["BestVar"] = bv, _["BestSplit"] = bs);
 }
 
 double mean(NumericVector x) {
@@ -160,13 +159,13 @@ List findSplitRegression(const NumericVector x, const NumericVector y, const Num
     int splitN = splitPoints.size();
     int splitEnd;
     // Rcpp::Rcout << std::to_string(splitN) << "\n";
-    
+
     if (splitN > 1) {
         for (int i = 1; i < splitN; ++i) {
             splitEnd = splitPoints[i]-2;
             dI = I - sum(NumericVector::create(mse(y[Range(0,splitEnd)]), mse(y[Range(splitEnd+1,ndSize-1)])));
             // Rcpp::Rcout << std::to_string(mse(y[Range(0,splitEnd)])) << "\n";
-            // Rcpp::Rcout << std::to_string(mse(y[Range(splitEnd,ndSize-1)])) << "\n";                                  
+            // Rcpp::Rcout << std::to_string(mse(y[Range(splitEnd,ndSize-1)])) << "\n";
             // Rcpp::Rcout << std::to_string(I) << "\n";
             // Rcpp::Rcout << std::to_string(dI) << "\n";
             if (dI > maxdI) {

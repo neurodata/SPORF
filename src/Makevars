@@ -1,0 +1,10 @@
+CXX_STD = CXX11
+
+PKG_CXXFLAGS= -IforestPacking
+
+#PKG_CFLAGS = $(SHLIB_OPENMP_CFLAGS) -IforestPacking
+PKG_CFLAGS = -IforestPacking
+
+#PKG_LIBS = $(SHLIB_OPENMP_CFLAGS)
+
+OBJECTS = forestPacking/treeStruct/padNode.o forestPacking/treeStruct/padForest.o forestPacking/treeStruct/inferenceSamples.o forestPacking/treeStruct/padNodeStat.o forestPacking/treeStruct/treeBin2.o split.o forestPacking.o forestPacking/improv8.o RcppExports.o 
