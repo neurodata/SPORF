@@ -158,16 +158,11 @@ List findSplitRegression(const NumericVector x, const NumericVector y, const Num
     double dI;
     int splitN = splitPoints.size();
     int splitEnd;
-    // Rcpp::Rcout << std::to_string(splitN) << "\n";
 
     if (splitN > 1) {
         for (int i = 1; i < splitN; ++i) {
             splitEnd = splitPoints[i]-2;
             dI = I - sum(NumericVector::create(mse(y[Range(0,splitEnd)]), mse(y[Range(splitEnd+1,ndSize-1)])));
-            // Rcpp::Rcout << std::to_string(mse(y[Range(0,splitEnd)])) << "\n";
-            // Rcpp::Rcout << std::to_string(mse(y[Range(splitEnd,ndSize-1)])) << "\n";
-            // Rcpp::Rcout << std::to_string(I) << "\n";
-            // Rcpp::Rcout << std::to_string(dI) << "\n";
             if (dI > maxdI) {
                 maxdI = dI;
                 bv = nzidx;

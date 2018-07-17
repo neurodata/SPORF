@@ -21,6 +21,9 @@
 # RStudio files
 .Rproj.user/
 
+# Drivers
+/drivers
+
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
