@@ -6,6 +6,27 @@
 
 using namespace Rcpp;
 
+// packForestRCPP
+void packForestRCPP();
+RcppExport SEXP _rerf_packForestRCPP() {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    packForestRCPP();
+    return R_NilValue;
+END_RCPP
+}
+// predictRF
+Rcpp::NumericVector predictRF(const NumericMatrix mat, const int numCores);
+RcppExport SEXP _rerf_predictRF(SEXP matSEXP, SEXP numCoresSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericMatrix >::type mat(matSEXP);
+    Rcpp::traits::input_parameter< const int >::type numCores(numCoresSEXP);
+    rcpp_result_gen = Rcpp::wrap(predictRF(mat, numCores));
+    return rcpp_result_gen;
+END_RCPP
+}
 // findSplit
 List findSplit(const NumericVector x, const NumericVector y, const NumericVector splitPoints, const int& ndSize, const double& I, double maxdI, int bv, double bs, const int nzidx, arma::vec cc, const int& task);
 RcppExport SEXP _rerf_findSplit(SEXP xSEXP, SEXP ySEXP, SEXP splitPointsSEXP, SEXP ndSizeSEXP, SEXP ISEXP, SEXP maxdISEXP, SEXP bvSEXP, SEXP bsSEXP, SEXP nzidxSEXP, SEXP ccSEXP, SEXP taskSEXP) {
@@ -29,6 +50,8 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_rerf_packForestRCPP", (DL_FUNC) &_rerf_packForestRCPP, 0},
+    {"_rerf_predictRF", (DL_FUNC) &_rerf_predictRF, 2},
     {"_rerf_findSplit", (DL_FUNC) &_rerf_findSplit, 11},
     {NULL, NULL, 0}
 };
