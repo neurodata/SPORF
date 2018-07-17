@@ -71,7 +71,12 @@ RerF <-
              max.depth = 0L, bagging = .2,
              replacement = TRUE, stratify = FALSE,
              fun = NULL,
-             mat.options = list(p = ifelse(is.null(cat.map), ncol(X), length(cat.map)), d = ceiling(sqrt(ncol(X))), random.matrix = "binary", rho = ifelse(is.null(cat.map), 1/ncol(X), 1/length(cat.map)), prob = 0.5),
+             mat.options = list(
+                 p = ifelse(is.null(cat.map), ncol(X), length(cat.map)), 
+                 d = ceiling(sqrt(ncol(X))), 
+                 random.matrix = "binary", 
+                 rho = ifelse(is.null(cat.map), 1/ncol(X), 1/length(cat.map)), 
+                 prob = 0.5),
              rank.transform = FALSE, store.oob = FALSE,
              store.impurity = FALSE, progress = FALSE,
              rotate = F, num.cores = 0L,
@@ -93,6 +98,17 @@ RerF <-
 		# @param na.action action to take if NA values are found. By default it will omit rows with NA values. NOTE: na.action is performed in-place. See default function.
 
 		forest <- list(trees = NULL, labels = NULL, params = NULL)
+		
+		# check if data matrix X has one-of-K encoded categorical features that need to be handled specially using RandMatCat instead of RandMat
+		if (is.null(fun)) {
+		    if (!is.null(cat.map) && !rotate) {
+		        fun <- RandMatCat
+		        mat.options[[6L]] <- cat.map
+		    }
+		    else {
+		        fun <- RandMat
+		    }
+		}
 
         # adjust Y to go from 1 to num.class if needed
         if (is.factor(Y)) {
@@ -148,7 +164,6 @@ RerF <-
 			if (any(is.na(X))) warning("NA values exist in data matrix")
 		}
 
-		mcrun<- function(...) BuildTree(X, Y, min.parent, max.depth, bagging, replacement, stratify, Cindex, classCt, fun, mat.options, store.oob=store.oob, store.impurity=store.impurity, progress=progress, rotate)
 
 		forest$params <- list(min.parent = min.parent,
 													max.depth = max.depth,
