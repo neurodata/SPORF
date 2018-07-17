@@ -7,13 +7,14 @@
 using namespace Rcpp;
 
 // findSplit
-List findSplit(const NumericVector x, const NumericVector y, const int& ndSize, const double& I, double maxdI, int bv, double bs, const int nzidx, arma::vec cc, const int& task);
-RcppExport SEXP _rerf_findSplit(SEXP xSEXP, SEXP ySEXP, SEXP ndSizeSEXP, SEXP ISEXP, SEXP maxdISEXP, SEXP bvSEXP, SEXP bsSEXP, SEXP nzidxSEXP, SEXP ccSEXP, SEXP taskSEXP) {
+List findSplit(const NumericVector x, const NumericVector y, const NumericVector splitPoints, const int& ndSize, const double& I, double maxdI, int bv, double bs, const int nzidx, arma::vec cc, const int& task);
+RcppExport SEXP _rerf_findSplit(SEXP xSEXP, SEXP ySEXP, SEXP splitPointsSEXP, SEXP ndSizeSEXP, SEXP ISEXP, SEXP maxdISEXP, SEXP bvSEXP, SEXP bsSEXP, SEXP nzidxSEXP, SEXP ccSEXP, SEXP taskSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const NumericVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< const NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const NumericVector >::type splitPoints(splitPointsSEXP);
     Rcpp::traits::input_parameter< const int& >::type ndSize(ndSizeSEXP);
     Rcpp::traits::input_parameter< const double& >::type I(ISEXP);
     Rcpp::traits::input_parameter< double >::type maxdI(maxdISEXP);
@@ -22,13 +23,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const int >::type nzidx(nzidxSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type cc(ccSEXP);
     Rcpp::traits::input_parameter< const int& >::type task(taskSEXP);
-    rcpp_result_gen = Rcpp::wrap(findSplit(x, y, ndSize, I, maxdI, bv, bs, nzidx, cc, task));
+    rcpp_result_gen = Rcpp::wrap(findSplit(x, y, splitPoints, ndSize, I, maxdI, bv, bs, nzidx, cc, task));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_rerf_findSplit", (DL_FUNC) &_rerf_findSplit, 10},
+    {"_rerf_findSplit", (DL_FUNC) &_rerf_findSplit, 11},
     {NULL, NULL, 0}
 };
 

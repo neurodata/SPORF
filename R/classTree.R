@@ -246,7 +246,8 @@ classTree <-
                 # calculate deltaI for this rotation and return the best current deltaI
                 # find split is an Rcpp call.
                 ret[] <- findSplit(x = x[1:NdSize], 
-                                   y = y[1:NdSize], 
+                                   y = y[1:NdSize],
+                                   splitPoints = c(0),
                                    ndSize = NdSize, 
                                    I = I,
                                    maxdI = ret$MaxDeltaI, 
