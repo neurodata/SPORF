@@ -67,7 +67,6 @@
 #' @importFrom stats na.action
 
 RerF <-
-<<<<<<< HEAD
 	function(X, Y, min.parent = 6L, trees = 500L,
 					 max.depth = ceiling(log2(nrow(X))), bagging = .2,
 					 replacement = TRUE, stratify = FALSE,
@@ -82,27 +81,6 @@ RerF <-
                      na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] }
                      )
     {
-=======
-    function(X, Y, min.parent = 6L, trees = 500L,
-             max.depth = 0L, bagging = .2,
-             replacement = TRUE, stratify = FALSE,
-             fun = NULL,
-             mat.options = list(
-                 p = ifelse(is.null(cat.map), ncol(X), length(cat.map)), 
-                 d = ceiling(sqrt(ncol(X))), 
-                 random.matrix = "binary", 
-                 rho = ifelse(is.null(cat.map), 1/ncol(X), 1/length(cat.map)), 
-                 prob = 0.5),
-             rank.transform = FALSE, store.oob = FALSE,
-             store.impurity = FALSE, progress = FALSE,
-             rotate = F, num.cores = 0L,
-             seed = sample(0:1000000000,1),
-             cat.map = NULL,
-             rfPack = FALSE,
-             task = 'classification',
-             na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] }
-             ) {
->>>>>>> Fixed more merge issues
 
         # check if task is specified correctly
         task <- sapply(task, tolower)
@@ -110,18 +88,6 @@ RerF <-
           stop("Task must either be \"classification\" or \"regression\"")
 
 
-<<<<<<< HEAD
-		# check if data matrix X has one-of-K encoded categorical features that need to be handled specially using RandMatCat instead of RandMat
-		if (is.null(fun)) {
-			if (!is.null(cat.map) && !rotate) {
-				fun <- RandMatCat
-				mat.options[[6L]] <- cat.map
-			}
-			else {
-				fun <- RandMat
-			}
-		}
-=======
 		# The below 'na.action' was removed from the parameter list of RerF because the CRAN check did not accept it and because it will potentially change the X and Y input by the user.
 		# na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] },
 		# @param na.action action to take if NA values are found. By default it will omit rows with NA values. NOTE: na.action is performed in-place. See default function.
@@ -139,7 +105,6 @@ RerF <-
 		    }
 		}
 
->>>>>>> Fixed more merge issues
         # adjust Y to go from 1 to num.class if needed
         if (is.factor(Y)) {
             forest$labels <- levels(Y)
