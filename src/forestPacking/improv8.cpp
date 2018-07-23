@@ -305,7 +305,8 @@ void improv8::makePrediction(double* observation, double* preds, int numFeatures
 }
 
 
-int improv8::makePrediction(double*& observation){
+int improv8::makePrediction(const std::vector<double>& observation){
+//int improv8::makePrediction(double*& observation){
 
 	std::vector<int> predictions(numOfClasses);
 	std::vector<int> currentNode(forestRoots[0]->numOfTreesInBin);

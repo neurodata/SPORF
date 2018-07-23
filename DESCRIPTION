@@ -1,7 +1,7 @@
 Package: rerf
 Type: Package
 Title: Randomer Forest
-Version: 1.1.1
+Version: 1.1.2
 Date: 2018-07-05
 Authors@R: c(person("James", "Browne", role = c("aut", "cre"),
 	   	    email = "jbrowne6@jhu.edu"),
@@ -30,3 +30,5 @@ LinkingTo: Rcpp, RcppArmadillo
 SystemRequirements: GNU make
 ByteCompile: true
 RoxygenNote: 6.0.1
+Depends: Rcpp
+RcppModules: forestPacking

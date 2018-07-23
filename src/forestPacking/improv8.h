@@ -8,8 +8,9 @@
 #include "treeStruct/inferenceSamples.h"
 #include "treeStruct/padNodeStat.h"
 #include "treeStruct/treeBin2.h"
+#include <vector>
 
-class improv8: public padForest 
+class improv8 : public padForest 
 {
 	private:
 		treeBin2** forestRoots = NULL;
@@ -21,7 +22,8 @@ class improv8: public padForest
 		~improv8();
 		void makePredictions(const inferenceSamples& observations);
 void makePrediction(double* observation, double* preds, int numFeatures, int numObservations, int numCores);
-		int makePrediction(double*& observation);
+		int makePrediction(const std::vector<double>& observation);
+		//int makePrediction(double*& observation);
 		int makePrediction(double*& observation, int numCore);
 		void writeForest(const std::string& forestFileName);
 		void changeNumBins(int newBinNum){
