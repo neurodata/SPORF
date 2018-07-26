@@ -11,6 +11,7 @@
 
 ## Repo Contents
 - [**R**](https://github.com/neurodata/R-RerF/tree/master/R): `R` building blocks for user interface code. Internally called by user interface.
+- [**docs**](https://github.com/neurodata/R-RerF/tree/master/docs): usage of the `R-RerF` package on real examples.
 - [**man**](https://github.com/neurodata/R-RerF/tree/master/man): Package documentation
 - [**src**](https://github.com/neurodata/R-RerF/tree/master/src): C++ functions called from within R
 - [**travisTest**](https://github.com/neurodata/R-RerF/tree/master/travisTest): Travis CI tests
