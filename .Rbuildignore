@@ -1,3 +1,4 @@
 ^travisTest$
+^docs$
 ^\.travis\.yml$
 ^.*\\.gz$

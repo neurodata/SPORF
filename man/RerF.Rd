@@ -4,7 +4,7 @@
 \alias{RerF}
 \title{RerF forest Generator}
 \usage{
-RerF(X, Y, min.parent = 6L, trees = 100L,
+RerF(X, Y, min.parent = 6L, trees = 500L,
   max.depth = ceiling(log2(nrow(X))), bagging = 0.2, replacement = TRUE,
   stratify = FALSE, fun = NULL, mat.options = list(p =
   ifelse(is.null(cat.map), ncol(X), length(cat.map)), d =
@@ -21,7 +21,7 @@ RerF(X, Y, min.parent = 6L, trees = 100L,
 
 \item{min.parent}{the minimum splittable node size.  A node size < min.parent will be a leaf node. (min.parent = 6)}
 
-\item{trees}{the number of trees in the forest. (trees=100)}
+\item{trees}{the number of trees in the forest. (trees=500)}
 
 \item{max.depth}{the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=0, the tree will be allowed to grow without bound.  (max.depth=ceiling(log2(nrow(X))) )}
 

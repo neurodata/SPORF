@@ -282,6 +282,41 @@ void improv8::makePrediction(double* observation, double* preds, int numFeatures
 }
 
 
+int improv8::makePrediction(std::vector<double>& observation){
+
+	std::vector<int> predictions(numOfClasses);
+	std::vector<int> currentNode(forestRoots[0].numOfTreesInBin);
+	int numberNotInLeaf;
+	int k, q;
+
+	for( k=0; k < numOfBins;k++){
+
+		for( q=0; q<forestRoots[k].numOfTreesInBin; q++){
+			currentNode[q] = q;
+			__builtin_prefetch(&forestRoots[k].bin[currentNode[q]], 0, 3);
+		}
+
+		do{
+			numberNotInLeaf = forestRoots[k].numOfTreesInBin;
+
+			for( q=0; q<forestRoots[k].numOfTreesInBin; q++){
+
+				if(forestRoots[k].bin[currentNode[q]].isInternalNode()){
+					currentNode[q] = forestRoots[k].bin[currentNode[q]].nextNode(observation[forestRoots[k].bin[currentNode[q]].returnFeature()]);
+					__builtin_prefetch(&forestRoots[k].bin[currentNode[q]], 0, 3);
+					continue;
+				}
+				--numberNotInLeaf;
+			}
+		}while(numberNotInLeaf > 0);
+
+		for( q=0; q<forestRoots[k].numOfTreesInBin; q++){
+			++predictions[forestRoots[k].bin[currentNode[q]].returnRightNode()];
+		}
+	}
+	return returnClassPrediction(predictions, numOfClasses);
+}
+
 int improv8::makePrediction(double*& observation){
 
 	std::vector<int> predictions(numOfClasses);

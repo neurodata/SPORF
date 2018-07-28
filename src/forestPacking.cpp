@@ -1,5 +1,6 @@
 #include <RcppArmadillo.h>
 #include <improv8.h>
+#include <vector>
 // [[Rcpp::depends(RcppArmadillo)]]
 
 using namespace Rcpp;
@@ -21,7 +22,7 @@ Rcpp::NumericVector predictRF(const NumericMatrix mat, const int numCores){
 		int numObservations = mat.nrow();
 			int numFeatures = mat.ncol();
 
-			double *currObs = new double[numFeatures];
+			std::vector<double> currObs(numFeatures);
 			Rcpp::NumericVector predictions(numObservations);
 
 			const std::string packedFileName = "forest.out";
@@ -30,10 +31,8 @@ Rcpp::NumericVector predictRF(const NumericMatrix mat, const int numCores){
 				for(int j = 0; j < numFeatures; j++){
 					currObs[j] = mat(i,j);
 				}
-				//predictions[i] = tester.makePrediction(currObs,numCores)+1;
 				predictions[i] = tester.makePrediction(currObs)+1;
 			}
-			delete currObs;	
 			return predictions;
 }
 
