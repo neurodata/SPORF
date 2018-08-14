@@ -25,6 +25,8 @@
 #'
 #' @return forest
 #'
+#' @useDynLib rerf
+#'
 #' @examples
 #' ### Train RerF on numeric data ###
 #' library(rerf)
