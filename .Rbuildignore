@@ -1,3 +1,5 @@
+^README.html$
+^README.Rmd$
 ^travisTest$
 ^docs$
 ^\.travis\.yml$
