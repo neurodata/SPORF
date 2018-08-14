@@ -5,14 +5,15 @@
 \title{RerF forest Generator}
 \usage{
 RerF(X, Y, min.parent = 6L, trees = 500L,
-  max.depth = ceiling(log2(nrow(X))), bagging = 0.2, replacement = TRUE,
-  stratify = FALSE, fun = NULL, mat.options = list(p =
-  ifelse(is.null(cat.map), ncol(X), length(cat.map)), d =
-  ceiling(sqrt(ncol(X))), random.matrix = "binary", rho =
-  ifelse(is.null(cat.map), 1/ncol(X), 1/length(cat.map)), prob = 0.5),
-  rank.transform = FALSE, store.oob = FALSE, store.impurity = FALSE,
-  progress = FALSE, rotate = F, num.cores = 0L, seed = sample(0:1e+08,
-  1), cat.map = NULL, rfPack = FALSE)
+  max.depth = ceiling(log2(nrow(X))), bagging = 0.2,
+  replacement = TRUE, stratify = FALSE, fun = NULL,
+  mat.options = list(p = ifelse(is.null(cat.map), ncol(X),
+  length(cat.map)), d = ceiling(sqrt(ncol(X))), random.matrix = "binary",
+  rho = ifelse(is.null(cat.map), 1/ncol(X), 1/length(cat.map)), prob =
+  0.5), rank.transform = FALSE, store.oob = FALSE,
+  store.impurity = FALSE, progress = FALSE, rotate = F,
+  num.cores = 0L, seed = sample(0:1e+08, 1), cat.map = NULL,
+  rfPack = FALSE)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}
