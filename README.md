@@ -5,8 +5,10 @@ README
 
 # [Randomer Forest](https://arxiv.org/pdf/1506.03410v2.pdf "arxiv link to RerF paper")
 
-[![CRAN Status Badge](http://www.r-pkg.org/badges/version/rerf)](https://cran.r-project.org/package=rerf)
-[![arXiv shield](https://img.shields.io/badge/arXiv-1506.03410-red.svg?style=flat)](https://arxiv.org/abs/1506.03410)
+[![CRAN Status
+Badge](https://www.r-pkg.org/badges/version/rerf)](https://cran.r-project.org/package=rerf)
+[![arXiv
+shield](https://img.shields.io/badge/arXiv-1506.03410-red.svg?style=flat)](https://arxiv.org/abs/1506.03410)
 
   - [Repo contents](#repo-contents)
   - [Description](#description)
