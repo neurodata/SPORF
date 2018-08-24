@@ -47,7 +47,7 @@ StrCorr <-
         rmg <- matrix(0, nrow = n, ncol = nTrees)
         isallY <- is.na(modeNotY)
         rmg[isallY, ] <- Y[isallY]
-        rmg[!isallY, ] <- apply(Yhats[!isallY, , drop = F], 2L, function(x) (x == Y[!isallY]) - (x == modeNotY[!isallY]))
+        rmg[!isallY, ] <- apply(Yhats[!isallY, , drop = FALSE], 2L, function(x) (x == Y[!isallY]) - (x == modeNotY[!isallY]))
         rho <- stats::cor(rmg)
         sigma <- apply(rmg, 2L, stats::sd)
         diag.idx <- seq(1, nTrees^2, nTrees + 1L)

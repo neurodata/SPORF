@@ -53,17 +53,17 @@ function(mat.options) {
     rho <- mat.options[[4L]]
     prob <- mat.options[[5L]]
     nnzs <- round(p*d*rho)
-    ind <- sort(sample.int((p*d), nnzs, replace = F))
+    ind <- sort(sample.int((p*d), nnzs, replace = FALSE))
     random.matrix <- cbind(((ind - 1L) %% p) + 1L, floor((ind - 1L) / p) + 1L,
                            sample(c(1L, -1L), nnzs, replace = T, prob = c(prob, 1 - prob)))
   } else if (method == "continuous") {
     rho <- mat.options[[4L]]
     nnzs <- round(p*d*rho)
-    ind <- sort(sample.int((p*d), nnzs, replace = F))
+    ind <- sort(sample.int((p*d), nnzs, replace = FALSE))
     random.matrix <- cbind(((ind - 1L) %% p) + 1L, floor((ind - 1L) / p) + 1L,
                            zrnorm(nnzs))
   } else if (method == "rf") {
-    random.matrix <- cbind(sample.int(p, d, replace = F), 1:d, rep(1L, d))
+    random.matrix <- cbind(sample.int(p, d, replace = FALSE), 1:d, rep(1L, d))
   } else if (method == "poisson") {
     lambda <- mat.options[[4L]]
     if (lambda <= 0) { 
@@ -82,12 +82,12 @@ function(mat.options) {
     for (i in seq.int(d)) {
       if (nnzPerCol[i] != 0L) {
         end.idx <- start.idx + nnzPerCol[i] - 1L
-        nz.rows[start.idx:end.idx] <- sample.int(p, nnzPerCol[i], replace = F)
+        nz.rows[start.idx:end.idx] <- sample.int(p, nnzPerCol[i], replace = FALSE)
         nz.cols[start.idx:end.idx] <- i
         start.idx <- end.idx + 1L
       }
     }
-    random.matrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz, replace = T))
+    random.matrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz, replace = TRUE))
   } else if (method == "frc") {
     nmix <- mat.options[[4L]]
     nnz <- nmix*d
@@ -96,7 +96,7 @@ function(mat.options) {
     start.idx <- 1L
     for (i in seq.int(d)) {
       end.idx <- start.idx + nmix - 1L
-      nz.rows[start.idx:end.idx] <- sample.int(p, nmix, replace = F)
+      nz.rows[start.idx:end.idx] <- sample.int(p, nmix, replace = FALSE)
       nz.cols[start.idx:end.idx] <- i
       start.idx <- end.idx + 1L
     }
@@ -109,7 +109,7 @@ function(mat.options) {
     start.idx <- 1L
     for (i in seq.int(d)) {
       end.idx <- start.idx + nmix - 1L
-      nz.rows[start.idx:end.idx] <- sample.int(p, nmix, replace = F)
+      nz.rows[start.idx:end.idx] <- sample.int(p, nmix, replace = FALSE)
       nz.cols[start.idx:end.idx] <- i
       start.idx <- end.idx + 1L
     }
@@ -119,7 +119,7 @@ function(mat.options) {
     # There will be d patches of varying sizes
     pw.min <- mat.options[[4L]] # Minimum patch size
     pw.max <- mat.options[[5L]] # Maximum patch size
-    pw <- sample.int(pw.max - pw.min, d, replace=T) + pw.min
+    pw <- sample.int(pw.max - pw.min, d, replace=TRUE) + pw.min
     
     # nnz is sum over how many points the projection will sum over
     nnz <- sum(pw)
@@ -149,7 +149,7 @@ function(mat.options) {
     ih <- mat.options[[5L]] # image height
     pw.min <- mat.options[[6L]] # minimum patch width
     pw.max <- mat.options[[7L]] # maximum patch width
-    pw <- sample.int(pw.max - pw.min + 1L, 2*d, replace = T) + pw.min - 1L
+    pw <- sample.int(pw.max - pw.min + 1L, 2*d, replace = TRUE) + pw.min - 1L
     sample.height <- ih - pw[1:d] + 1L
     sample.width <- iw - pw[(d + 1L):(2*d)] + 1L
     nnz <- sum(pw[1:d]*pw[(d + 1L):(2*d)])
@@ -165,14 +165,14 @@ function(mat.options) {
       nz.cols[start.idx:end.idx] <- i
       start.idx <- end.idx + 1L
     }
-    # random.matrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz, replace = T))
+    # random.matrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz, replace = TRUE))
     random.matrix <- cbind(nz.rows, nz.cols, rep(1L, nnz))
   } else if (method == "image-control") {
     iw <- mat.options[[4L]] # image width
     ih <- mat.options[[5L]] # image height
     pw.min <- mat.options[[6L]] # minimum patch width
     pw.max <- mat.options[[7L]] # maximum patch width
-    pw <- sample.int(pw.max - pw.min + 1L, 2*d, replace = T) + pw.min - 1L
+    pw <- sample.int(pw.max - pw.min + 1L, 2*d, replace = TRUE) + pw.min - 1L
     nnzPerCol <- pw[1:d]*pw[(d + 1L):(2*d)]
     sample.height <- ih - pw[1:d] + 1L
     sample.width <- iw - pw[(d + 1L):(2*d)] + 1L
@@ -182,11 +182,11 @@ function(mat.options) {
     start.idx <- 1L
     for (i in seq.int(d)) {
       end.idx <- start.idx + nnzPerCol[i] - 1L
-      nz.rows[start.idx:end.idx] <- sample.int(p, nnzPerCol[i], replace = F)
+      nz.rows[start.idx:end.idx] <- sample.int(p, nnzPerCol[i], replace = FALSE)
       nz.cols[start.idx:end.idx] <- i
       start.idx <- end.idx + 1L
     }
-    # random.matrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz, replace = T))
+    # random.matrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz, replace = TRUE))
     random.matrix <- cbind(nz.rows, nz.cols, rep(1L, nnz))
   } else if (method == "custom") {
     nnz.sample <- mat.options[[4L]]
@@ -200,7 +200,7 @@ function(mat.options) {
     start.idx <- 1L
     for (i in seq.int(d)) {
       end.idx <- start.idx + nnzPerCol[i] - 1L
-      nz.rows[start.idx:end.idx] <- sample.int(p, nnzPerCol[i], replace = F)
+      nz.rows[start.idx:end.idx] <- sample.int(p, nnzPerCol[i], replace = FALSE)
       nz.cols[start.idx:end.idx] <- i
       start.idx <- end.idx + 1L
     }

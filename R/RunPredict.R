@@ -38,7 +38,7 @@ RunPredict <-
                     indexHigh <- tree$matAindex[tm+1L]
                     indexLow <- tree$matAindex[tm] + 1L
                     s <- (indexHigh - indexLow + 1L)/2L
-                    Xnode[1:nodeSize] <- X[Assigned2Node[[m]],tree$matAstore[indexLow:indexHigh][(1:s)*2L-1L], drop = F]%*%
+                    Xnode[1:nodeSize] <- X[Assigned2Node[[m]],tree$matAstore[indexLow:indexHigh][(1:s)*2L-1L], drop = FALSE] %*% 
                         tree$matAstore[indexLow:indexHigh][(1:s)*2L]
                     moveLeft <- Xnode[1L:nodeSize] <= tree$CutPoint[tm]
                     Assigned2Node[[tm*2L]] <- Assigned2Node[[m]][moveLeft]
