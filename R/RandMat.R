@@ -69,7 +69,7 @@ function(mat.options) {
     if (lambda <= 0) { 
       stop(" Wrong parameter for Poisson, make sure lambda > 0.") 
     }
-    go <- T
+    go <- TRUE
     while (go) {
       nnzPerCol <- stats::rpois(d, lambda)
       go <- !any(nnzPerCol)
