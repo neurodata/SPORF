@@ -55,7 +55,7 @@ function(mat.options) {
     nnzs <- round(p*d*rho)
     ind <- sort(sample.int((p*d), nnzs, replace = FALSE))
     random.matrix <- cbind(((ind - 1L) %% p) + 1L, floor((ind - 1L) / p) + 1L,
-                           sample(c(1L, -1L), nnzs, replace = T, prob = c(prob, 1 - prob)))
+                           sample(c(1L, -1L), nnzs, replace = TRUE, prob = c(prob, 1 - prob)))
   } else if (method == "continuous") {
     rho <- mat.options[[4L]]
     nnzs <- round(p*d*rho)
@@ -192,8 +192,8 @@ function(mat.options) {
     nnz.sample <- mat.options[[4L]]
     try(if(any(nnz.sample > p) | any(nnz.sample == 0)) stop("nnzs per projection must be no more than the number of features"))
     nnz.prob <- mat.options[[5L]]
-    go <- T
-    nnzPerCol <- sample(nnz.sample, d, replace = T, prob = nnz.prob)
+    go <- TRUE
+    nnzPerCol <- sample(nnz.sample, d, replace = TRUE, prob = nnz.prob)
     nnz <- sum(nnzPerCol)
     nz.rows <- integer(nnz)
     nz.cols <- integer(nnz)

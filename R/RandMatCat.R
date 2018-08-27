@@ -31,7 +31,7 @@ RandMatCat <-
                 rw[isj] <- sample(catMap[[j - pnum]], length(rw[isj]), replace = TRUE)
             }
             return(cbind(rw, floor((ind - 1L) / p) + 1L,
-                         sample(c(1L, -1L), nnzs, replace = T, prob = c(prob, 1 - prob))))
+                         sample(c(1L, -1L), nnzs, replace = TRUE, prob = c(prob, 1 - prob))))
         } else if (method == "continuous") {
             rho <- mat.options[[4L]]
             nnzs <- round(p*d*rho)
@@ -54,7 +54,7 @@ RandMatCat <-
             return(cbind(rw, 1:d, rep(1L, d)))
         } else if (method == "poisson") {
             lambda <- mat.options[[4L]]
-            go <- T
+            go <- TRUE
             while (go) {
                 nnzPerCol <- stats::rpois(d, lambda)
                 go <- !any(nnzPerCol)
