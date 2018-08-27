@@ -29,7 +29,7 @@ Variables swept over:
 * replace - TRUE or FALSE
 * in_bag_samples = 0.632 when replace = FALSE
 
-```{r randomForest, echo=T, eval=FALSE}
+```{r randomForest, echo=TRUE, eval=FALSE}
 # evaluate classifiers on benchmark datasets
 
 rm(list = ls())
@@ -164,7 +164,7 @@ Variables swept over:
 * replacement - TRUE or FALSE
 * in_bag_samples = 0.632 when replacement = FALSE
 
-```{r rerf, echo=T, eval=FALSE}
+```{r rerf, echo=TRUE, eval=FALSE}
 # evaluate classifiers on benchmark datasets
 
 rm(list=ls())
