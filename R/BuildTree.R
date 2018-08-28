@@ -161,7 +161,7 @@ BuildTree <-
         # Assigned2Node is the set of row indices of X assigned to current node
         if(bagging != 0){
             if(replacement){
-                go <- T
+                go <- TRUE
                 while (go) {
                     # make sure each class is represented in proportion to classes in initial dataset
                     if(stratify){

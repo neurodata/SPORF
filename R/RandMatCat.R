@@ -23,38 +23,38 @@ RandMatCat <-
             rho <- mat.options[[4L]]
 	    prob <- mat.options[[5L]]
             nnzs <- round(p*d*rho)
-            ind <- sort(sample.int((p*d), nnzs, replace = F))
+            ind <- sort(sample.int((p*d), nnzs, replace = FALSE))
             rw <- ((ind - 1L) %% p) + 1L
             isCat <- rw > pnum
             for (j in (pnum + 1L):p) {
                 isj <- rw == j
-                rw[isj] <- sample(catMap[[j - pnum]], length(rw[isj]), replace = T)
+                rw[isj] <- sample(catMap[[j - pnum]], length(rw[isj]), replace = TRUE)
             }
             return(cbind(rw, floor((ind - 1L) / p) + 1L,
-                         sample(c(1L, -1L), nnzs, replace = T, prob = c(prob, 1 - prob))))
+                         sample(c(1L, -1L), nnzs, replace = TRUE, prob = c(prob, 1 - prob))))
         } else if (method == "continuous") {
             rho <- mat.options[[4L]]
             nnzs <- round(p*d*rho)
-            ind <- sort(sample.int((p*d), nnzs, replace = F))
+            ind <- sort(sample.int((p*d), nnzs, replace = FALSE))
             rw <- ((ind - 1L) %% p) + 1L
             isCat <- rw > pnum
             for (j in (pnum + 1L):p) {
                 isj <- rw == j
-                rw[isj] <- sample(catMap[[j - pnum]], length(rw[isj]), replace = T)
+                rw[isj] <- sample(catMap[[j - pnum]], length(rw[isj]), replace = TRUE)
             }
             return(cbind(rw, floor((ind - 1L) / p) + 1L,
                          zrnorm(nnzs)))
         } else if (method == "rf") {
-            rw <- sample.int(p, d, replace = F)
+            rw <- sample.int(p, d, replace = FALSE)
             isCat <- rw > pnum
             for (j in (pnum + 1L):p) {
                 isj <- rw == j
-                rw[isj] <- sample(catMap[[j - pnum]], length(rw[isj]), replace = T)
+                rw[isj] <- sample(catMap[[j - pnum]], length(rw[isj]), replace = TRUE)
             }
             return(cbind(rw, 1:d, rep(1L, d)))
         } else if (method == "poisson") {
             lambda <- mat.options[[4L]]
-            go <- T
+            go <- TRUE
             while (go) {
                 nnzPerCol <- stats::rpois(d, lambda)
                 go <- !any(nnzPerCol)
@@ -67,7 +67,7 @@ RandMatCat <-
             for (i in seq.int(d)) {
                 if (nnzPerCol[i] != 0L) {
                     end.idx <- start.idx + nnzPerCol[i] - 1L
-                    nz.rows[start.idx:end.idx] <- sample.int(p, nnzPerCol[i], replace = F)
+                    nz.rows[start.idx:end.idx] <- sample.int(p, nnzPerCol[i], replace = FALSE)
                     nz.cols[start.idx:end.idx] <- i
                     start.idx <- end.idx + 1L
                 }
@@ -75,9 +75,9 @@ RandMatCat <-
             isCat <- nz.rows > pnum
             for (j in (pnum + 1L):p) {
                 isj <- nz.rows == j
-                nz.rows[isj] <- sample(catMap[[j - pnum]], length(nz.rows[isj]), replace = T)
+                nz.rows[isj] <- sample(catMap[[j - pnum]], length(nz.rows[isj]), replace = TRUE)
             }
-            return(cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz, replace = T)))
+            return(cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz, replace = TRUE)))
         } else if (method == "frc") {
             nmix <- mat.options[[4L]]
             nnz <- nmix*d
@@ -86,14 +86,14 @@ RandMatCat <-
             start.idx <- 1L
             for (i in seq.int(d)) {
                 end.idx <- start.idx + nmix - 1L
-                nz.rows[start.idx:end.idx] <- sample.int(p, nmix, replace = F)
+                nz.rows[start.idx:end.idx] <- sample.int(p, nmix, replace = FALSE)
                 nz.cols[start.idx:end.idx] <- i
                 start.idx <- end.idx + 1L
             }
             isCat <- nz.rows > pnum
             for (j in (pnum + 1L):p) {
                 isj <- nz.rows == j
-                nz.rows[isj] <- sample(catMap[[j - pnum]], length(nz.rows[isj]), replace = T)
+                nz.rows[isj] <- sample(catMap[[j - pnum]], length(nz.rows[isj]), replace = TRUE)
             }
             return(cbind(nz.rows, nz.cols, stats::runif(nnz, -1, 1)))
         } else if (method == "frcn") {
@@ -104,14 +104,14 @@ RandMatCat <-
             start.idx <- 1L
             for (i in seq.int(d)) {
                 end.idx <- start.idx + nmix - 1L
-                nz.rows[start.idx:end.idx] <- sample.int(p, nmix, replace = F)
+                nz.rows[start.idx:end.idx] <- sample.int(p, nmix, replace = FALSE)
                 nz.cols[start.idx:end.idx] <- i
                 start.idx <- end.idx + 1L
             }
             isCat <- nz.rows > pnum
             for (j in (pnum + 1L):p) {
                 isj <- nz.rows == j
-                nz.rows[isj] <- sample(catMap[[j - pnum]], length(nz.rows[isj]), replace = T)
+                nz.rows[isj] <- sample(catMap[[j - pnum]], length(nz.rows[isj]), replace = TRUE)
             }
             return(cbind(nz.rows, nz.cols, zrnorm(nnz)))
         }

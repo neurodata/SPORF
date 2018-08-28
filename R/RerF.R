@@ -75,7 +75,7 @@ RerF <-
 					 mat.options = list(p = ifelse(is.null(cat.map), ncol(X), length(cat.map)), d = ceiling(sqrt(ncol(X))), random.matrix = "binary", rho = ifelse(is.null(cat.map), 1/ncol(X), 1/length(cat.map)), prob = 0.5), 
 					 rank.transform = FALSE, store.oob = FALSE, 
 					 store.impurity = FALSE, progress = FALSE, 
-					 rotate = F, num.cores = 0L, 
+					 rotate = FALSE, num.cores = 0L, 
 					 seed = sample(0:100000000,1), 
 					 cat.map = NULL, rfPack = FALSE){
 

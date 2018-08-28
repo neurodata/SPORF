@@ -59,7 +59,7 @@ FeatureImportance <- function(forest, num.cores = 0L) {
   }
   
   feature.imp <- apply(feature.imp, 1L, sum)
-  sort.idx <- order(feature.imp, decreasing = T)
+  sort.idx <- order(feature.imp, decreasing = TRUE)
   feature.imp <- feature.imp[sort.idx]
   unique.projections <- unique.projections[sort.idx]
   return(feature.imp <- list(imp = feature.imp, proj = unique.projections))
