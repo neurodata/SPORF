@@ -46,3 +46,4 @@ vignettes/*.pdf
 # auto generated Rcpp code
 src/RcppExports.cpp
 R/RcppExports.R
+.Rproj.user

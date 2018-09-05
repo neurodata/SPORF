@@ -4,3 +4,5 @@
 ^docs$
 ^\.travis\.yml$
 ^.*\\.gz$
+^.*\.Rproj$
+^\.Rproj\.user$
