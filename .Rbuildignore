@@ -3,6 +3,7 @@
 ^travisTest$
 ^docs$
 ^\.travis\.yml$
-^.*\\.gz$
+^.*\.gz$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^CONTRIBUTING.md$
