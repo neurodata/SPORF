@@ -23,7 +23,7 @@ Description: Random Forester (RerF) is an algorithm developed by Tomita (2016)
     between the two algorithms is where the random linear combinations
     occur: Forest-RC combines features at the per tree level whereas RerF
     takes linear combinations of coordinates at every node in the tree.
-License: Apache-2.0
+License: Apache License 2.0 | file LICENSE
 URL: https://github.com/neurodata/R-RerF
 Imports: parallel, RcppZiggurat, utils, stats, dummies
 LinkingTo: Rcpp, RcppArmadillo
