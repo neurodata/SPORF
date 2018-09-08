@@ -1,11 +1,197 @@
-#' Create a Random Matrix 
+#' Create a Random Matrix: Binary
+#'
+#'
+#' @param p the number of dimensions.
+#' @param d the number of desired columns in the projection matrix.
+#' @param rho a real number in \eqn{(0,1)} that specifies the distibution of
+#' non-zero elements in the random matrix.
+#' @param prob a probability \eqn{\in (0,1)} used for creating the random
+#' matrix.
+#'
+#' @return A random matrix to use in running \code{\link{RerF}}.
+#'
+#' @export
+#'
+#' @examples
+#'
+#' p <- 8
+#' d <- 3
+#' rho <- 0.25
+#' prob <- 0.5
+#' set.seed(4)
+#' a <- RandMatBinary(p, d, rho, prob)
+#'
+
+RandMatBinary <- function(p, d, rho = 0.5, prob = 0.5){
+  nnzs <- round(p*d*rho)
+  ind <- sort(sample.int((p*d), nnzs, replace = FALSE))
+  randomMatrix <- cbind(
+                        ((ind - 1L) %% p) + 1L,
+                        floor((ind - 1L) / p) + 1L,
+                        sample(c(1L, -1L), nnzs,
+                               replace = TRUE, prob = c(prob, 1 - prob))
+                       )
+  return(randomMatrix)
+}
+
+
+#' Create a Random Matrix: Continuous
+#'
+#'
+#' @param p the number of dimensions.
+#' @param d the number of desired columns in the projection matrix.
+#' @param rho a real number in \eqn{(0,1)} that specifies the distibution of
+#' non-zero elements in the random matrix.
+#' @param prob a probability \eqn{\in (0,1)} used for creating the random
+#' matrix.
+#'
+#' @return A random matrix to use in running \code{\link{RerF}}.
+#'
+#' @importFrom RcppZiggurat zrnorm
+#'
+#' @export
+#'
+#' @examples
+#'
+#' p <- 8
+#' d <- 3
+#' rho <- 0.25
+#' prob <- 0.5
+#' set.seed(4)
+#' a <- RandMatBinary(p, d, rho, prob)
+#'
+
+RandMatContinuous <- function(p, d, rho){
+  nnzs <- round(p * d * rho)
+  ind <- sort(sample.int((p * d), nnzs, replace = FALSE))
+  randomMatrix <- cbind(
+                        ((ind - 1L) %% p) + 1L,
+                        floor((ind - 1L) / p) + 1L,
+                        zrnorm(nnzs)
+                        )
+  return(randomMatrix)
+}
+
+#' Create a Random Matrix: Random Forest (RF)
+#'
+#'
+#' @param p the number of dimensions.
+#' @param d the number of desired columns in the projection matrix.
+#'
+#' @return A random matrix to use in running \code{\link{RerF}}.
+#'
+#' @export
+#'
+#' @examples
+#'
+#' p <- 8
+#' d <- 3
+#' set.seed(4)
+#' (a <- RandMatRF(p, d))
+#'
+
+RandMatRF <- function(p, d){
+  randomMatrix <- cbind(sample.int(p, d, replace = FALSE), 1:d, rep(1L, d))
+  return(randomMatrix)
+}
+
+
+#' Create a Random Matrix: Random Forest (RF)
+#'
+#'
+#' @param p the number of dimensions.
+#' @param d the number of desired columns in the projection matrix.
+#' @param lambda passed to the \code{\link[stats]{rpois}} function for generation of non-zero elements in the random matrix.
+#'
+#' @return A random matrix to use in running \code{\link{RerF}}.
+#'
+#' @export
+#'
+#' @examples
+#'
+#' p <- 8
+#' d <- 8
+#' lambda <- 0.5
+#' paramList <- list(p = p, d = d, lambda = lambda)
+#' set.seed(8)
+#' (a <- do.call(RandMatPoisson, paramList))
+#'
+
+RandMatPoisson <- function(p, d, lambda) {
+  if (lambda <= 0) {
+    stop(" Wrong parameter for Poisson, make sure lambda > 0.")
+  }
+
+  nnzPerCol <- stats::rpois(d, lambda)
+  while (!any(nnzPerCol)) {
+    nnzPerCol <- stats::rpois(d, lambda)
+  }
+
+  nnzPerCol[nnzPerCol > p] <- p
+  nnz <- sum(nnzPerCol)
+  nz.rows <- integer(nnz)
+  nz.cols <- integer(nnz)
+  start.idx <- 1L
+  for (i in seq.int(d)) {
+    if (nnzPerCol[i] != 0L) {
+      end.idx <- start.idx + nnzPerCol[i] - 1L
+      nz.rows[start.idx:end.idx] <- sample.int(p, nnzPerCol[i],
+                                               replace = FALSE)
+      nz.cols[start.idx:end.idx] <- i
+      start.idx <- end.idx + 1L
+    }
+  }
+
+  randomMatrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz,
+                                                  replace = TRUE))
+  return(randomMatrix)
+}
+
+
+#' Create a Random Matrix: FRC
+#'
+#'
+#' @param p the number of dimensions.
+#' @param d the number of desired columns in the projection matrix.
+#' @param lambda passed to the \code{\link[stats]{rpois}} function for generation of non-zero elements in the random matrix.
+#'
+#' @return A random matrix to use in running \code{\link{RerF}}.
+#'
+#' @export
+#'
+#' @examples
+#'
+#' p <- 8
+#' d <- 8
+#' nmix <- 5
+#' paramList <- list(p = p, d = d, nmix = nmix)
+#' set.seed(8)
+#' (a <- do.call(RandMatFRC, paramList))
+#'
+
+RandMatFRC <- function(p, d, nmix) {
+  nnz <- nmix * d
+  nz.rows <- integer(nnz)
+  nz.cols <- integer(nnz)
+  start.idx <- 1L
+  for (i in seq.int(d)) {
+    end.idx <- start.idx + nmix - 1L
+    nz.rows[start.idx:end.idx] <- sample.int(p, nmix, replace = FALSE)
+    nz.cols[start.idx:end.idx] <- i
+    start.idx <- end.idx + 1L
+  }
+  randomMatrix <- cbind(nz.rows, nz.cols, stats::runif(nnz, -1, 1))
+  return(randomMatrix)
+}
+
+#' Create a Random Matrix
 #'
 #' Create a random matrix. At each node of a tree, a p-by-d random
 #' matrix is sampled and used to generate a new set of d features, each
 #' of which is a linear combination of the original p features. Thus,
 #' the columns of the random matrix can be viewed as a set of bases in a
 #' new feature space.
-#' 
+#'
 #' @param mat.options a list of parameters specifying the distribution
 #' for sampling the random matrix. The first element specifies the
 #' dimensionality p of the data (# features). The second element
@@ -33,7 +219,7 @@
 #' randomly chosen, and each nonzero location is assigned a value
 #' uniformly randomly over the interval [-1,1]. "frcn" is the same as
 #' "frc" except the nonzeros are sampled from the standard normal
-#' distribution.  
+#' distribution.
 #'
 #' @return random.matrix
 #'
@@ -41,6 +227,8 @@
 #'
 #' @importFrom RcppZiggurat zrnorm
 #' @importFrom stats rpois runif
+
+
 
 RandMat <-
 function(mat.options) {
@@ -66,8 +254,8 @@ function(mat.options) {
     random.matrix <- cbind(sample.int(p, d, replace = FALSE), 1:d, rep(1L, d))
   } else if (method == "poisson") {
     lambda <- mat.options[[4L]]
-    if (lambda <= 0) { 
-      stop(" Wrong parameter for Poisson, make sure lambda > 0.") 
+    if (lambda <= 0) {
+      stop(" Wrong parameter for Poisson, make sure lambda > 0.")
     }
     go <- TRUE
     while (go) {
@@ -115,17 +303,17 @@ function(mat.options) {
     }
     random.matrix <- cbind(nz.rows, nz.cols, zrnorm(nnz))
   } else if (method == "ts-patch") {
-    # pw holds all sizes of patch to filter on. 
+    # pw holds all sizes of patch to filter on.
     # There will be d patches of varying sizes
     pw.min <- mat.options[[4L]] # Minimum patch size
     pw.max <- mat.options[[5L]] # Maximum patch size
     pw <- sample.int(pw.max - pw.min, d, replace=TRUE) + pw.min
-    
+
     # nnz is sum over how many points the projection will sum over
     nnz <- sum(pw)
     nz.rows <- integer(nnz) # vector to hold row coordinates of patch points
     nz.cols <- integer(nnz) # vector to hold column coordinates of patch points
-    
+
     # Here we create the patches and store them
     start.idx <- 1L
     for (i in seq.int(d)) {
