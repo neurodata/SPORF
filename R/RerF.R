@@ -4,7 +4,7 @@
 #'
 #' @param X an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.
 #' @param Y an n length vector of class labels.  Class labels must be integer or numeric and be within the range 1 to the number of classes.
-#' @param FUN a function that creates the random projection matrix. If NULL and cat.map is NULL, then RandMat is used. If NULL and cat.map is not NULL, then RandMatCat is used, which adjusts the sampling of features when categorical features have been one-of-K encoded. If a custom function is to be used, then it must return a matrix in sparse representation, in which each nonzero is an array of the form (row.index, column.index, value). See RandMat or RandMatCat for details. (fun=NULL)
+#' @param FUN a function that creates the random projection matrix. If NULL and cat.map is NULL, then RandMat is used. If NULL and cat.map is not NULL, then RandMatCat is used, which adjusts the sampling of features when categorical features have been one-of-K encoded. If a custom function is to be used, then it must return a matrix in sparse representation, in which each nonzero is an array of the form (row.index, column.index, value). See RandMat or RandMatCat for details.
 #' @param paramList parameters in a named list to be used by FUN.
 #' @param min.parent the minimum splittable node size.  A node size < min.parent will be a leaf node. (min.parent = 6)
 #' @param trees the number of trees in the forest. (trees=500)
@@ -62,7 +62,7 @@
 #'
 #'   ### Train a random rotation ensemble of CART decision trees (see Blaser and Fryzlewicz 2016)
 #'   forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L,
-#'                  mat.options = list(p=4, d=2,random.matrix="rf", 0.25), rotate = TRUE)
+#'                  FUN = RandMatRF, paramList = list(p=4, d=2), rotate = TRUE)
 #' }
 #'
 #' X <- as.matrix(iris[, 1:4]) # feature matrix
@@ -85,7 +85,7 @@
 #' @importFrom stats na.action
 
 RerF <-
-	function(X, Y, FUN = NULL, paramList, min.parent = 6L, trees = 500L,
+	function(X, Y, FUN = NULL, paramList = NULL, min.parent = 6L, trees = 500L,
 					 max.depth = ceiling(log2(nrow(X))), bagging = .2,
 					 replacement = TRUE, stratify = FALSE,
 					 rank.transform = FALSE, store.oob = FALSE,
@@ -101,20 +101,18 @@ RerF <-
 		forest <- list(trees = NULL, labels = NULL, params = NULL)
 
 		# check if data matrix X has one-of-K encoded categorical features that need to be handled specially using RandMatCat instead of RandMat
-    if(is.null(FUN)){
-      FUN <- match.fun(RandMatRF, descend = TRUE)
-    } else {
+    if (is.null(FUN)) {
+			if (!is.null(cat.map) && !rotate) {
+				FUN <- match.fun(FUN, descend = TRUE)
+	      paramList$cat.map <- cat.map
+			}
+			else {
+        FUN <- match.fun(rerf::RandMatRF)
+        paramList <- list(p = ncol(X), d = ceiling(sqrt(ncol(X))))
+			}
+		} else {
       FUN <- match.fun(FUN, descend = TRUE)
     }
-		#if (is.null(fun)) {
-		#	if (!is.null(cat.map) && !rotate) {
-		#		fun <- RandMatCat
-		#		mat.options[[6L]] <- cat.map
-		#	}
-		#	else {
-		#		fun <- RandMat
-		#	}
-		#}
 
 		#keep from making copies of X
 		if (!is.matrix(X)) {
@@ -176,7 +174,7 @@ RerF <-
 													replacement = replacement,
 													stratify = stratify,
 													fun = FUN,
-													mat.options = paramList,
+													paramList = paramList,
 													rank.transform = rank.transform,
 													store.oob = store.oob,
 													store.impurity = store.impurity,

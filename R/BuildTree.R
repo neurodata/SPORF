@@ -5,7 +5,7 @@
 #' @param X an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.
 #' @param Y an n length vector of class labels.  Class labels must be integer or numeric and be within the range 1 to the number of classes.
 #' @param FUN a function that creates the random projection matrix.
-#' @param paramList a named list of parameters to be used by FUN. (mat.options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)))
+#' @param paramList a named list of parameters to be used by FUN.  (paramList = list(p = ncol(X), d = round(ncol(X)^.5),1L, prob = 1/ncol(X)))
 #' @param min.parent the minimum splittable node size.  A node size < min.parent will be a leaf node. (min.parent = 6)
 #' @param max.depth the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=0, the tree will be allowed to grow without bound.  (max.depth=0)
 #' @param bagging a non-zero value means a random sample of X will be used during tree creation.  If replacement = FALSE the bagging value determines the percentage of samples to leave out-of-bag.  If replacement = TRUE the non-zero bagging value is ignored. (bagging=.2)
@@ -133,11 +133,10 @@ BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, repl
         matAindex <- integer(maxIN)
         matAsize <- ceiling(w/2)
 
-        if (identical(FUN, rerf::RandMatBinary)) {
-            #mat.options[[3L]] != "frc" &&
-            #mat.options[[3L]] != "continuous" &&
-            #mat.options[[3L]] != "frcn" &&
-            #mat.options[[3L]] != "custom") {
+        if (!identical(FUN, rerf::RandMatFRC)  &&
+            !identical(FUN, rerf::RandMatFRCN) &&
+            !identical(FUN, rerf::RandMatContinuous) &&
+            !identical(FUN, rerf::RandMatCustom)) {
             matAstore <- integer(matAsize)
         } else {
             matAstore <- double(matAsize)
@@ -319,11 +318,10 @@ BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, repl
                 matAsize <- matAsize*2L
                 matAstore[matAsize] <- 0L
             }
-            if (identical(FUN, rerf::RandMatBinary)) {
-            #if (mat.options[[3L]] != "frc" &&
-            #    mat.options[[3L]] != "continuous" &&
-            #    mat.options[[3L]] != "frcn" &&
-            #    mat.options[[3L]] != "custom") {
+            if (!identical(FUN, rerf::RandMatFRC)  &&
+                !identical(FUN, rerf::RandMatFRCN) &&
+                !identical(FUN, rerf::RandMatContinuous) &&
+                !identical(FUN, rerf::RandMatCustom)) {
               matAstore[(matAindex[currIN]+1L):(matAindex[currIN]+currMatAlength)] <- as.integer(t(sparseM[lrows,c(1L,3L)]))
             } else {
               matAstore[(matAindex[currIN]+1L):(matAindex[currIN]+currMatAlength)] <- t(sparseM[lrows,c(1L,3L)])

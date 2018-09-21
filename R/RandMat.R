@@ -7,6 +7,7 @@
 #' non-zero elements in the random matrix.
 #' @param prob a probability \eqn{\in (0,1)} used for creating the random
 #' matrix.
+#' @param catMap a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature. 
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
 #'
@@ -22,15 +23,32 @@
 #' a <- RandMatBinary(p, d, rho, prob)
 #'
 
-RandMatBinary <- function(p, d, rho = 0.5, prob = 0.5){
+RandMatBinary <- function(p, d, rho = 0.5, prob = 0.5, catMap = NULL){
   nnzs <- round(p*d*rho)
   ind <- sort(sample.int((p*d), nnzs, replace = FALSE))
-  randomMatrix <- cbind(
-                        ((ind - 1L) %% p) + 1L,
-                        floor((ind - 1L) / p) + 1L,
-                        sample(c(1L, -1L), nnzs,
-                               replace = TRUE, prob = c(prob, 1 - prob))
-                       )
+
+  ## Determine if categorical variables need to be taken into
+  ## consideration
+  if(is.null(catMap)) {
+    randomMatrix <- cbind(
+                          ((ind - 1L) %% p) + 1L,
+                          floor((ind - 1L) / p) + 1L,
+                          sample(c(1L, -1L), nnzs,
+                                 replace = TRUE, prob = c(prob, 1 - prob))
+                         )
+  } else {
+    pnum <- catMap[[1L]][1L] - 1L
+    rw <- ((ind - 1L) %% p) + 1L
+    isCat <- rw > pnum
+    for (j in (pnum + 1L):p) {
+      isj <- rw == j
+      rw[isj] <- sample(catMap[[j - pnum]], length(rw[isj]), replace = TRUE)
+    }
+    randomMatrix <- cbind(rw, floor((ind - 1L) / p) + 1L, 
+                          sample(c(1L, -1L), nnzs, 
+                                 replace = TRUE, 
+                                 prob = c(prob, 1 - prob)), deparse.level = 0)
+  }
   return(randomMatrix)
 }  ## END RandMatBinary
 
@@ -40,8 +58,8 @@ RandMatBinary <- function(p, d, rho = 0.5, prob = 0.5){
 #'
 #' @param p the number of dimensions.
 #' @param d the number of desired columns in the projection matrix.
-#' @param rho a real number in \eqn{(0,1)} that specifies the distibution of
-#' non-zero elements in the random matrix.
+#' @param rho a real number in \eqn{(0,1)} that specifies the distibution of non-zero elements in the random matrix.
+#' @param catMap a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature. 
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
 #'
@@ -54,27 +72,39 @@ RandMatBinary <- function(p, d, rho = 0.5, prob = 0.5){
 #' p <- 8
 #' d <- 3
 #' rho <- 0.25
-#' prob <- 0.5
 #' set.seed(4)
-#' a <- RandMatBinary(p, d, rho, prob)
+#' a <- RandMatContinuous(p, d, rho)
 #'
 
-RandMatContinuous <- function(p, d, rho){
+RandMatContinuous <- function(p, d, rho, catMap = NULL){
   nnzs <- round(p * d * rho)
   ind <- sort(sample.int((p * d), nnzs, replace = FALSE))
+
+  if(is.null(catMap)) {
   randomMatrix <- cbind(
                         ((ind - 1L) %% p) + 1L,
                         floor((ind - 1L) / p) + 1L,
                         zrnorm(nnzs)
                         )
+  } else {
+    pnum <- catMap[[1L]][1L] - 1L
+    rw <- ((ind - 1L) %% p) + 1L
+    isCat <- rw > pnum
+    for (j in (pnum + 1L):p) {
+        isj <- rw == j
+        rw[isj] <- sample(catMap[[j - pnum]], length(rw[isj]), replace = TRUE)
+    }
+    randomMatrix <- cbind(rw, floor((ind - 1L) / p) + 1L, zrnorm(nnzs), deparse.level = 0)
+  }
   return(randomMatrix)
-}  ## END RandMatContinuous 
+} ## END RandMatContinuous 
 
 #' Create a Random Matrix: Random Forest (RF)
 #'
 #'
 #' @param p the number of dimensions.
 #' @param d the number of desired columns in the projection matrix.
+#' @param catMap a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature. 
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
 #'
@@ -84,22 +114,35 @@ RandMatContinuous <- function(p, d, rho){
 #'
 #' p <- 8
 #' d <- 3
+#' paramList <- list(p = p, d = d)
 #' set.seed(4)
-#' (a <- RandMatRF(p, d))
+#' (a <- do.call(RandMatRF, paramList))
 #'
 
-RandMatRF <- function(p, d){
+RandMatRF <- function(p, d, catMap = NULL){
+  if(is.null(catMap)) {
   randomMatrix <- cbind(sample.int(p, d, replace = FALSE), 1:d, rep(1L, d))
+  } else {
+    pnum <- catMap[[1L]][1L] - 1L
+    rw <- ((ind - 1L) %% p) + 1L
+    isCat <- rw > pnum
+    for (j in (pnum + 1L):p) {
+      isj <- rw == j
+      rw[isj] <- sample(catMap[[j - pnum]], length(rw[isj]), replace = TRUE)
+    }
+    randomMatrix <- (cbind(rw, 1:d, rep(1L, d)))
+  }
   return(randomMatrix)
-}  ## END RandMatRF 
+} ## END RandMatRF 
 
 
-#' Create a Random Matrix: Random Forest (RF)
+#' Create a Random Matrix: Poisson
 #'
 #'
 #' @param p the number of dimensions.
 #' @param d the number of desired columns in the projection matrix.
 #' @param lambda passed to the \code{\link[stats]{rpois}} function for generation of non-zero elements in the random matrix.
+#' @param catMap a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature. 
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
 #'
@@ -117,7 +160,7 @@ RandMatRF <- function(p, d){
 #' (a <- do.call(RandMatPoisson, paramList))
 #'
 
-RandMatPoisson <- function(p, d, lambda) {
+RandMatPoisson <- function(p, d, lambda, catMap) {
   if (lambda <= 0) {
     stop(" Wrong parameter for Poisson, make sure lambda > 0.")
   }
@@ -142,10 +185,20 @@ RandMatPoisson <- function(p, d, lambda) {
     }
   }
 
-  randomMatrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz,
-                                                  replace = TRUE))
+  if(is.null(catMap)) {
+  randomMatrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz, replace = TRUE))
+  } else {
+    pnum <- catMap[[1L]][1L] - 1L
+    isCat <- nz.rows > pnum
+    for (j in (pnum + 1L):p) {
+      isj <- nz.rows == j
+      nz.rows[isj] <- sample(catMap[[j - pnum]], length(nz.rows[isj]), replace = TRUE)
+    }
+    randomMatrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz, replace = TRUE), 
+                          deparse.level = 0)
+  }
   return(randomMatrix)
-}  ## END RandMatPoisson
+} ## END RandMatPoisson
 
 
 #' Create a Random Matrix: FRC
@@ -154,6 +207,7 @@ RandMatPoisson <- function(p, d, lambda) {
 #' @param p the number of dimensions.
 #' @param d the number of desired columns in the projection matrix.
 #' @param nmix mupliplier to \code{d} to specify the number of non-zeros.
+#' @param catMap a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature. 
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
 #'
@@ -169,7 +223,7 @@ RandMatPoisson <- function(p, d, lambda) {
 #' (a <- do.call(RandMatFRC, paramList))
 #'
 
-RandMatFRC <- function(p, d, nmix) {
+RandMatFRC <- function(p, d, nmix, catMap = NULL) {
   nnz <- nmix * d
   nz.rows <- integer(nnz)
   nz.cols <- integer(nnz)
@@ -180,9 +234,20 @@ RandMatFRC <- function(p, d, nmix) {
     nz.cols[start.idx:end.idx] <- i
     start.idx <- end.idx + 1L
   }
-  randomMatrix <- cbind(nz.rows, nz.cols, stats::runif(nnz, -1, 1))
+
+  if(is.null(catMap)) {
+    randomMatrix <- cbind(nz.rows, nz.cols, stats::runif(nnz, -1, 1))
+  } else {
+    pnum <- catMap[[1L]][1L] - 1L
+    isCat <- nz.rows > pnum
+    for (j in (pnum + 1L):p) {
+        isj <- nz.rows == j
+        nz.rows[isj] <- sample(catMap[[j - pnum]], length(nz.rows[isj]), replace = TRUE)
+    }
+    randomMatrix <- cbind(nz.rows, nz.cols, stats::runif(nnz, -1, 1), deparse.level = 0)
+  }
   return(randomMatrix)
-}  ## END RandMatFRC 
+} ## END RandMatFRC 
 
 
 #' Create a Random Matrix: FRCN
@@ -191,6 +256,7 @@ RandMatFRC <- function(p, d, nmix) {
 #' @param p the number of dimensions.
 #' @param d the number of desired columns in the projection matrix.
 #' @param nmix mupliplier to \code{d} to specify the number of non-zeros.
+#' @param catMap a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature. 
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
 #'
@@ -208,7 +274,7 @@ RandMatFRC <- function(p, d, nmix) {
 #' (a <- do.call(RandMatFRCN, paramList))
 #'
 
-RandMatFRCN <- function(p, d, nmix) {
+RandMatFRCN <- function(p, d, nmix, catMap = NULL) {
     nnz <- nmix * d
     nz.rows <- integer(nnz)
     nz.cols <- integer(nnz)
@@ -219,8 +285,19 @@ RandMatFRCN <- function(p, d, nmix) {
       nz.cols[start.idx:end.idx] <- i
       start.idx <- end.idx + 1L
     }
-    random.matrix <- cbind(nz.rows, nz.cols, zrnorm(nnz))
-}  ## END RandMatFRCN
+
+    if(is.null(catMap)) {
+      isCat <- nz.rows > pnum
+      for (j in (pnum + 1L):p) {
+          isj <- nz.rows == j
+          nz.rows[isj] <- sample(catMap[[j - pnum]], length(nz.rows[isj]), replace = TRUE)
+      }
+      randomMatrix <- cbind(nz.rows, nz.cols, zrnorm(nnz), deparse.level = 0)
+    } else {
+      random.matrix <- cbind(nz.rows, nz.cols, zrnorm(nnz))
+    }
+  return(randomMatrix)
+} ## END RandMatFRCN
 
 
 #' Create a Random Matrix: ts-patch
