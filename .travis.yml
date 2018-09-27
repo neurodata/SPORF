@@ -19,4 +19,4 @@ script:
     - Rscript test.R
     - cd ../tests
     - printf "starting testthat run\n"
-    - Rscript test.R
+    - Rscript testthat.R
