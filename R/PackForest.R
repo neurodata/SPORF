@@ -13,7 +13,7 @@ PackForest <-
 	function(X, Y, forest){
 
 		# Make sure forest is of type random forest
-		if (!identical(FUN, rerf::RandMatRF)) {
+		if (!identical(forest$params$fun, rerf::RandMatRF)) {
 			stop("The trained forest is not of type random forest")
 		}
 

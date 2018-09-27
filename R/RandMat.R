@@ -20,34 +20,29 @@
 #' rho <- 0.25
 #' prob <- 0.5
 #' set.seed(4)
-#' a <- RandMatBinary(p, d, rho, prob)
+#' (a <- RandMatBinary(p, d, rho, prob))
 #'
 
-RandMatBinary <- function(p, d, rho = 0.5, prob = 0.5, catMap = NULL){
-  nnzs <- round(p*d*rho)
-  ind <- sort(sample.int((p*d), nnzs, replace = FALSE))
-
+RandMatBinary <- function(p, d, rho, prob, catMap = NULL) {
+  nnzs <- round(p * d * rho)
+  ind <- sort(sample.int((p * d), nnzs, replace = FALSE))
+  
   ## Determine if categorical variables need to be taken into
   ## consideration
-  if(is.null(catMap)) {
-    randomMatrix <- cbind(
-                          ((ind - 1L) %% p) + 1L,
-                          floor((ind - 1L) / p) + 1L,
-                          sample(c(1L, -1L), nnzs,
-                                 replace = TRUE, prob = c(prob, 1 - prob))
-                         )
+  if (is.null(catMap)) {
+    randomMatrix <- cbind(((ind - 1L)%%p) + 1L, floor((ind - 1L)/p) + 
+      1L, sample(c(1L, -1L), nnzs, replace = TRUE, prob = c(prob, 
+      1 - prob)))
   } else {
     pnum <- catMap[[1L]][1L] - 1L
-    rw <- ((ind - 1L) %% p) + 1L
+    rw <- ((ind - 1L)%%p) + 1L
     isCat <- rw > pnum
     for (j in (pnum + 1L):p) {
       isj <- rw == j
       rw[isj] <- sample(catMap[[j - pnum]], length(rw[isj]), replace = TRUE)
     }
-    randomMatrix <- cbind(rw, floor((ind - 1L) / p) + 1L, 
-                          sample(c(1L, -1L), nnzs, 
-                                 replace = TRUE, 
-                                 prob = c(prob, 1 - prob)), deparse.level = 0)
+    randomMatrix <- cbind(rw, floor((ind - 1L)/p) + 1L, sample(c(1L, 
+      -1L), nnzs, replace = TRUE, prob = c(prob, 1 - prob)), deparse.level = 0)
   }
   return(randomMatrix)
 }  ## END RandMatBinary
@@ -73,31 +68,30 @@ RandMatBinary <- function(p, d, rho = 0.5, prob = 0.5, catMap = NULL){
 #' d <- 3
 #' rho <- 0.25
 #' set.seed(4)
-#' a <- RandMatContinuous(p, d, rho)
+#' (a <- RandMatContinuous(p, d, rho))
 #'
 
-RandMatContinuous <- function(p, d, rho, catMap = NULL){
+RandMatContinuous <- function(p, d, rho, catMap = NULL) {
   nnzs <- round(p * d * rho)
   ind <- sort(sample.int((p * d), nnzs, replace = FALSE))
-
-  if(is.null(catMap)) {
-  randomMatrix <- cbind(
-                        ((ind - 1L) %% p) + 1L,
-                        floor((ind - 1L) / p) + 1L,
-                        zrnorm(nnzs)
-                        )
+  
+  if (is.null(catMap)) {
+    randomMatrix <- cbind(((ind - 1L)%%p) + 1L, floor((ind - 1L)/p) + 
+      1L, zrnorm(nnzs))
   } else {
     pnum <- catMap[[1L]][1L] - 1L
-    rw <- ((ind - 1L) %% p) + 1L
+    rw <- ((ind - 1L)%%p) + 1L
     isCat <- rw > pnum
     for (j in (pnum + 1L):p) {
-        isj <- rw == j
-        rw[isj] <- sample(catMap[[j - pnum]], length(rw[isj]), replace = TRUE)
+      isj <- rw == j
+      rw[isj] <- sample(catMap[[j - pnum]], length(rw[isj]), replace = TRUE)
     }
-    randomMatrix <- cbind(rw, floor((ind - 1L) / p) + 1L, zrnorm(nnzs), deparse.level = 0)
+    randomMatrix <- cbind(rw, floor((ind - 1L)/p) + 1L, zrnorm(nnzs), 
+      deparse.level = 0)
   }
   return(randomMatrix)
-} ## END RandMatContinuous 
+}  ## END RandMatContinuous 
+
 
 #' Create a Random Matrix: Random Forest (RF)
 #'
@@ -119,18 +113,18 @@ RandMatContinuous <- function(p, d, rho, catMap = NULL){
 #' (a <- do.call(RandMatRF, paramList))
 #'
 
-RandMatRF <- function(p, d, catMap = NULL){
-  if(is.null(catMap)) {
-  randomMatrix <- cbind(sample.int(p, d, replace = FALSE), 1:d, rep(1L, d))
+RandMatRF <- function(p, d, catMap = NULL) {
+	if (is.null(catMap)) {
+  	randomMatrix <- cbind(sample.int(p, d, replace = FALSE), 1:d, rep(1L, d))
   } else {
     pnum <- catMap[[1L]][1L] - 1L
-    rw <- ((ind - 1L) %% p) + 1L
+    rw <- sample.int(p, d, replace = FALSE)
     isCat <- rw > pnum
     for (j in (pnum + 1L):p) {
-      isj <- rw == j
+    	isj <- rw == j
       rw[isj] <- sample(catMap[[j - pnum]], length(rw[isj]), replace = TRUE)
     }
-    randomMatrix <- (cbind(rw, 1:d, rep(1L, d)))
+    randomMatrix <- cbind(rw, 1:d, rep(1L, d), deparse.level = 0)
   }
   return(randomMatrix)
 } ## END RandMatRF 
@@ -160,16 +154,16 @@ RandMatRF <- function(p, d, catMap = NULL){
 #' (a <- do.call(RandMatPoisson, paramList))
 #'
 
-RandMatPoisson <- function(p, d, lambda, catMap) {
+RandMatPoisson <- function(p, d, lambda, catMap = NULL) {
   if (lambda <= 0) {
     stop(" Wrong parameter for Poisson, make sure lambda > 0.")
   }
-
+  
   nnzPerCol <- stats::rpois(d, lambda)
   while (!any(nnzPerCol)) {
     nnzPerCol <- stats::rpois(d, lambda)
   }
-
+  
   nnzPerCol[nnzPerCol > p] <- p
   nnz <- sum(nnzPerCol)
   nz.rows <- integer(nnz)
@@ -178,27 +172,28 @@ RandMatPoisson <- function(p, d, lambda, catMap) {
   for (i in seq.int(d)) {
     if (nnzPerCol[i] != 0L) {
       end.idx <- start.idx + nnzPerCol[i] - 1L
-      nz.rows[start.idx:end.idx] <- sample.int(p, nnzPerCol[i],
-                                               replace = FALSE)
+      nz.rows[start.idx:end.idx] <- sample.int(p, nnzPerCol[i], replace = FALSE)
       nz.cols[start.idx:end.idx] <- i
       start.idx <- end.idx + 1L
     }
   }
-
-  if(is.null(catMap)) {
-  randomMatrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz, replace = TRUE))
+  
+  if (is.null(catMap)) {
+    randomMatrix <- cbind(nz.rows, nz.cols, sample(c(-1L, 1L), nnz, 
+      replace = TRUE))
   } else {
     pnum <- catMap[[1L]][1L] - 1L
     isCat <- nz.rows > pnum
     for (j in (pnum + 1L):p) {
       isj <- nz.rows == j
-      nz.rows[isj] <- sample(catMap[[j - pnum]], length(nz.rows[isj]), replace = TRUE)
+      nz.rows[isj] <- sample(catMap[[j - pnum]], length(nz.rows[isj]), 
+        replace = TRUE)
     }
-    randomMatrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz, replace = TRUE), 
-                          deparse.level = 0)
+    randomMatrix <- cbind(nz.rows, nz.cols, sample(c(-1L, 1L), nnz, 
+      replace = TRUE), deparse.level = 0)
   }
   return(randomMatrix)
-} ## END RandMatPoisson
+}  ## END RandMatPoisson
 
 
 #' Create a Random Matrix: FRC
@@ -210,7 +205,9 @@ RandMatPoisson <- function(p, d, lambda, catMap) {
 #' @param catMap a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature. 
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
-#'
+#' 
+#' @importFrom stats runif
+#' 
 #' @export
 #'
 #' @examples
@@ -219,7 +216,7 @@ RandMatPoisson <- function(p, d, lambda, catMap) {
 #' d <- 8
 #' nmix <- 5
 #' paramList <- list(p = p, d = d, nmix = nmix)
-#' set.seed(8)
+#' set.seed(4)
 #' (a <- do.call(RandMatFRC, paramList))
 #'
 
@@ -234,20 +231,22 @@ RandMatFRC <- function(p, d, nmix, catMap = NULL) {
     nz.cols[start.idx:end.idx] <- i
     start.idx <- end.idx + 1L
   }
-
-  if(is.null(catMap)) {
-    randomMatrix <- cbind(nz.rows, nz.cols, stats::runif(nnz, -1, 1))
+  
+  if (is.null(catMap)) {
+    randomMatrix <- cbind(nz.rows, nz.cols, runif(nnz, -1, 1))
   } else {
     pnum <- catMap[[1L]][1L] - 1L
     isCat <- nz.rows > pnum
     for (j in (pnum + 1L):p) {
-        isj <- nz.rows == j
-        nz.rows[isj] <- sample(catMap[[j - pnum]], length(nz.rows[isj]), replace = TRUE)
+      isj <- nz.rows == j
+      nz.rows[isj] <- sample(catMap[[j - pnum]], length(nz.rows[isj]), 
+        replace = TRUE)
     }
-    randomMatrix <- cbind(nz.rows, nz.cols, stats::runif(nnz, -1, 1), deparse.level = 0)
+    randomMatrix <- cbind(nz.rows, nz.cols, runif(nnz, -1, 1), 
+      deparse.level = 0)
   }
   return(randomMatrix)
-} ## END RandMatFRC 
+}  ## END RandMatFRC 
 
 
 #' Create a Random Matrix: FRCN
@@ -275,29 +274,31 @@ RandMatFRC <- function(p, d, nmix, catMap = NULL) {
 #'
 
 RandMatFRCN <- function(p, d, nmix, catMap = NULL) {
-    nnz <- nmix * d
-    nz.rows <- integer(nnz)
-    nz.cols <- integer(nnz)
-    start.idx <- 1L
-    for (i in seq.int(d)) {
-      end.idx <- start.idx + nmix - 1L
-      nz.rows[start.idx:end.idx] <- sample.int(p, nmix, replace = FALSE)
-      nz.cols[start.idx:end.idx] <- i
-      start.idx <- end.idx + 1L
+  nnz <- nmix * d
+  nz.rows <- integer(nnz)
+  nz.cols <- integer(nnz)
+  start.idx <- 1L
+  for (i in seq.int(d)) {
+    end.idx <- start.idx + nmix - 1L
+    nz.rows[start.idx:end.idx] <- sample.int(p, nmix, replace = FALSE)
+    nz.cols[start.idx:end.idx] <- i
+    start.idx <- end.idx + 1L
+  }
+  
+  if (is.null(catMap)) {
+    randomMatrix <- cbind(nz.rows, nz.cols, zrnorm(nnz))
+  } else {
+    pnum <- catMap[[1L]][1L] - 1L
+    isCat <- nz.rows > pnum
+    for (j in (pnum + 1L):p) {
+      isj <- nz.rows == j
+      nz.rows[isj] <- sample(catMap[[j - pnum]], length(nz.rows[isj]), 
+        replace = TRUE)
     }
-
-    if(is.null(catMap)) {
-      isCat <- nz.rows > pnum
-      for (j in (pnum + 1L):p) {
-          isj <- nz.rows == j
-          nz.rows[isj] <- sample(catMap[[j - pnum]], length(nz.rows[isj]), replace = TRUE)
-      }
-      randomMatrix <- cbind(nz.rows, nz.cols, zrnorm(nnz), deparse.level = 0)
-    } else {
-      random.matrix <- cbind(nz.rows, nz.cols, zrnorm(nnz))
-    }
+    randomMatrix <- cbind(nz.rows, nz.cols, zrnorm(nnz), deparse.level = 0)
+  }
   return(randomMatrix)
-} ## END RandMatFRCN
+}  ## END RandMatFRCN
 
 
 #' Create a Random Matrix: ts-patch
@@ -324,34 +325,34 @@ RandMatFRCN <- function(p, d, nmix, catMap = NULL) {
 #'
 
 RandMatTSpatch <- function(p, d, pwMin, pwMax) {
-    # pw holds all sizes of patch to filter on.
-    # There will be d patches of varying sizes
-    pw <- sample.int(pwMax - pwMin, d, replace=TRUE) + pwMin
-
-    # nnz is sum over how many points the projection will sum over
-    nnz <- sum(pw)
-    nz.rows <- integer(nnz) # vector to hold row coordinates of patch points
-    nz.cols <- integer(nnz) # vector to hold column coordinates of patch points
-
-    # Here we create the patches and store them
-    start.idx <- 1L
-    for (i in seq.int(d)) {
-      pw.start <- sample.int(p, 1) # Sample where to start the patch
-      end.idx <- start.idx + pw[i] - 1L # Set the ending point of the patch
-      for (j in 1:pw[i]) {
-        # Handle boundary cases where patch goes past end of ts
-        if (j + pw.start - 1L > p) {
-          end.idx <- j + start.idx - 1L
-          break
-        }
-        nz.rows[j + start.idx - 1L] <- pw.start + j - 1L
-        nz.cols[j + start.idx - 1L] <- i
+  # pw holds all sizes of patch to filter on.  There will be d patches of
+  # varying sizes
+  pw <- sample.int(pwMax - pwMin, d, replace = TRUE) + pwMin
+  
+  # nnz is sum over how many points the projection will sum over
+  nnz <- sum(pw)
+  nz.rows <- integer(nnz)  # vector to hold row coordinates of patch points
+  nz.cols <- integer(nnz)  # vector to hold column coordinates of patch points
+  
+  # Here we create the patches and store them
+  start.idx <- 1L
+  for (i in seq.int(d)) {
+    pw.start <- sample.int(p, 1)  # Sample where to start the patch
+    end.idx <- start.idx + pw[i] - 1L  # Set the ending point of the patch
+    for (j in 1:pw[i]) {
+      # Handle boundary cases where patch goes past end of ts
+      if (j + pw.start - 1L > p) {
+        end.idx <- j + start.idx - 1L
+        break
       }
-      start.idx <- end.idx + 1L
+      nz.rows[j + start.idx - 1L] <- pw.start + j - 1L
+      nz.cols[j + start.idx - 1L] <- i
     }
-    random.matrix <- cbind(nz.rows, nz.cols, rep(1L, nnz))
-    random.matrix <- random.matrix[random.matrix[,1] > 0,] # Trim entries that are 0
+    start.idx <- end.idx + 1L
   }
+  random.matrix <- cbind(nz.rows, nz.cols, rep(1L, nnz))
+  random.matrix <- random.matrix[random.matrix[, 1] > 0, ]  # Trim entries that are 0
+}
 
 
 
@@ -382,24 +383,28 @@ RandMatTSpatch <- function(p, d, pwMin, pwMax) {
 #'
 
 RandMatImagePatch <- function(p, d, ih, iw, pwMin, pwMax) {
-    pw <- sample.int(pwMax - pwMin + 1L, 2*d, replace = TRUE) + pwMin - 1L
-    sample.height <- ih - pw[1:d] + 1L
-    sample.width <- iw - pw[(d + 1L):(2*d)] + 1L
-    nnz <- sum(pw[1:d]*pw[(d + 1L):(2*d)])
-    nz.rows <- integer(nnz)
-    nz.cols <- integer(nnz)
-    start.idx <- 1L
-    for (i in seq.int(d)) {
-      top.left <- sample.int(sample.height[i]*sample.width[i], 1L)
-      top.left <- floor((top.left - 1L)/sample.height[i])*(ih - sample.height[i]) + top.left
-      # top.left <- floor((top.left - 1L)/sample.height[i]) + top.left
-      end.idx <- start.idx + pw[i]*pw[i + d] - 1L
-      nz.rows[start.idx:end.idx] <- sapply((1:pw[i + d]) - 1L, function(x) top.left:(top.left + pw[i] - 1L) + x*ih)
-      nz.cols[start.idx:end.idx] <- i
-      start.idx <- end.idx + 1L
-    }
-    # random.matrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz, replace = TRUE))
-    random.matrix <- cbind(nz.rows, nz.cols, rep(1L, nnz))
+  pw <- sample.int(pwMax - pwMin + 1L, 2 * d, replace = TRUE) + pwMin - 
+    1L
+  sample.height <- ih - pw[1:d] + 1L
+  sample.width <- iw - pw[(d + 1L):(2 * d)] + 1L
+  nnz <- sum(pw[1:d] * pw[(d + 1L):(2 * d)])
+  nz.rows <- integer(nnz)
+  nz.cols <- integer(nnz)
+  start.idx <- 1L
+  for (i in seq.int(d)) {
+    top.left <- sample.int(sample.height[i] * sample.width[i], 1L)
+    top.left <- floor((top.left - 1L)/sample.height[i]) * (ih - sample.height[i]) + 
+      top.left
+    # top.left <- floor((top.left - 1L)/sample.height[i]) + top.left
+    end.idx <- start.idx + pw[i] * pw[i + d] - 1L
+    nz.rows[start.idx:end.idx] <- sapply((1:pw[i + d]) - 1L, function(x) top.left:(top.left + 
+      pw[i] - 1L) + x * ih)
+    nz.cols[start.idx:end.idx] <- i
+    start.idx <- end.idx + 1L
+  }
+  # random.matrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz,
+  # replace = TRUE))
+  random.matrix <- cbind(nz.rows, nz.cols, rep(1L, nnz))
 }  ## END RandMatImagePatch
 
 
@@ -430,23 +435,25 @@ RandMatImagePatch <- function(p, d, ih, iw, pwMin, pwMax) {
 #'
 
 RandMatImageControl <- function(p, d, ih, iw, pwMin, pwMax) {
-    pw <- sample.int(pwMax - pwMin + 1L, 2*d, replace = TRUE) + pwMin - 1L
-    nnzPerCol <- pw[1:d]*pw[(d + 1L):(2*d)]
-    sample.height <- ih - pw[1:d] + 1L
-    sample.width <- iw - pw[(d + 1L):(2*d)] + 1L
-    nnz <- sum(nnzPerCol)
-    nz.rows <- integer(nnz)
-    nz.cols <- integer(nnz)
-    start.idx <- 1L
-    for (i in seq.int(d)) {
-      end.idx <- start.idx + nnzPerCol[i] - 1L
-      nz.rows[start.idx:end.idx] <- sample.int(p, nnzPerCol[i], replace = FALSE)
-      nz.cols[start.idx:end.idx] <- i
-      start.idx <- end.idx + 1L
-    }
-    # random.matrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz, replace = TRUE))
-    random.matrix <- cbind(nz.rows, nz.cols, rep(1L, nnz))
-  }  ## END RandMatImageControl
+  pw <- sample.int(pwMax - pwMin + 1L, 2 * d, replace = TRUE) + pwMin - 
+    1L
+  nnzPerCol <- pw[1:d] * pw[(d + 1L):(2 * d)]
+  sample.height <- ih - pw[1:d] + 1L
+  sample.width <- iw - pw[(d + 1L):(2 * d)] + 1L
+  nnz <- sum(nnzPerCol)
+  nz.rows <- integer(nnz)
+  nz.cols <- integer(nnz)
+  start.idx <- 1L
+  for (i in seq.int(d)) {
+    end.idx <- start.idx + nnzPerCol[i] - 1L
+    nz.rows[start.idx:end.idx] <- sample.int(p, nnzPerCol[i], replace = FALSE)
+    nz.cols[start.idx:end.idx] <- i
+    start.idx <- end.idx + 1L
+  }
+  # random.matrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz,
+  # replace = TRUE))
+  random.matrix <- cbind(nz.rows, nz.cols, rep(1L, nnz))
+}  ## END RandMatImageControl
 
 
 
@@ -478,18 +485,24 @@ RandMatImageControl <- function(p, d, ih, iw, pwMin, pwMax) {
 #'
 
 RandMatCustom <- function(p, d, nnzSample, nnzProb) {
-    try(if(any(nnzSample > p) | any(nnzSample == 0)) stop("nnzs per projection must be no more than the number of features"))
-    go <- TRUE
-    nnzPerCol <- sample(nnzSample, d, replace = TRUE, prob = nnzProb)
-    nnz <- sum(nnzPerCol)
-    nz.rows <- integer(nnz)
-    nz.cols <- integer(nnz)
-    start.idx <- 1L
-    for (i in seq.int(d)) {
-      end.idx <- start.idx + nnzPerCol[i] - 1L
-      nz.rows[start.idx:end.idx] <- sample.int(p, nnzPerCol[i], replace = FALSE)
-      nz.cols[start.idx:end.idx] <- i
-      start.idx <- end.idx + 1L
+  try({
+    if (any(nnzSample > p) | any(nnzSample == 0)) {
+      stop("nnzs per projection must be no more than the number of features")
     }
-    random.matrix <- cbind(nz.rows, nz.cols, zrnorm(nnz))
-  }  ## END RandMatCustom
+  })
+  go <- TRUE
+  nnzPerCol <- sample(nnzSample, d, replace = TRUE, prob = nnzProb)
+  nnz <- sum(nnzPerCol)
+  nz.rows <- integer(nnz)
+  nz.cols <- integer(nnz)
+  start.idx <- 1L
+  for (i in seq.int(d)) {
+    end.idx <- start.idx + nnzPerCol[i] - 1L
+    nz.rows[start.idx:end.idx] <- sample.int(p, nnzPerCol[i], replace = FALSE)
+    nz.cols[start.idx:end.idx] <- i
+    start.idx <- end.idx + 1L
+  }
+  random.matrix <- cbind(nz.rows, nz.cols, zrnorm(nnz))
+}  ## END RandMatCustom
+
+

@@ -25,67 +25,62 @@
 #' @return forest
 #'
 #' @useDynLib rerf
-#'
-#' @examples
-#' ### Train RerF on numeric data ###
-#' if(FALSE){
-#'   library(rerf)
-#'   forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L)
-#'
-#'   ### Train RerF on one-of-K encoded categorical data ###
-#'   df1 <- as.data.frame(Titanic)
-#'   nc <- ncol(df1)
-#'   df2 <- df1[NULL, -nc]
-#'   for (i in which(df1$Freq != 0L)) {
-#'     df2 <- rbind(df2, df1[rep(i, df1$Freq[i]), -nc])
-#'   }
-#'   n <- nrow(df2) # number of observations
-#'   p <- ncol(df2) - 1L # number of features
-#'   num.categories <- apply(df2[, 1:p], 2, function(x) length(unique(x)))
-#'   p.enc <- sum(num.categories) # number of features after one-of-K encoding
-#'   X <- matrix(0, nrow = n, ncol = p.enc) # initialize training data matrix X
-#'   cat.map <- vector("list", p)
-#'   col.idx <- 0L
-#'   # one-of-K encode each categorical feature and store in X
-#'   for (j in 1:p) {
-#'     cat.map[[j]] <- (col.idx + 1L):(col.idx + num.categories[j])
-#'     # convert categorical feature to K dummy variables
-#'     X[, cat.map[[j]]] <- dummies::dummy(df2[[j]])
-#'     col.idx <- col.idx + num.categories[j]
-#'   }
-#'   Y <- df2$Survived
-#'
-#'   # specifying the cat.map in RerF allows training to
-#'   # be aware of which dummy variables correspond
-#'   # to the same categorical feature
-#'   forest <- RerF(X, Y, num.cores = 1L, cat.map = cat.map)
-#'
-#'   ### Train a random rotation ensemble of CART decision trees (see Blaser and Fryzlewicz 2016)
-#'   forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L,
-#'                  FUN = RandMatRF, paramList = list(p=4, d=2), rotate = TRUE)
-#' }
-#'
-#' X <- as.matrix(iris[, 1:4]) # feature matrix
-#' Y <- iris$Species # class labels
-#' p <- ncol(X) # number of features in the data
-#' d <- ceiling(sqrt(p)) # number of features to sample at each split
-#'
-#' paramList <- list(p = p, d = d)
-#' RerF(X, Y, RandMatRF, paramList, num.cores = 1L)
-#'
-#'
-#'
-#'
-#'
-#'
-#'
-#' @export
 #' @importFrom parallel detectCores mclapply makePSOCKcluster clusterEvalQ clusterSetRNGStream
 #' @importFrom dummies dummy
 #' @importFrom stats na.action
+#'
+#' @export
+#' 
+#' 
+#' @examples
+#' ### Train RerF on numeric data ###
+#' library(rerf)
+#' forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L)
+#'
+#' ### Train RerF on one-of-K encoded categorical data ###
+#' df1 <- as.data.frame(Titanic)
+#' nc <- ncol(df1)
+#' df2 <- df1[NULL, -nc]
+#' for (i in which(df1$Freq != 0L)) {
+#'   df2 <- rbind(df2, df1[rep(i, df1$Freq[i]), -nc])
+#' }
+#' n <- nrow(df2) # number of observations
+#' p <- ncol(df2) - 1L # number of features
+#' num.categories <- apply(df2[, 1:p], 2, function(x) length(unique(x)))
+#' p.enc <- sum(num.categories) # number of features after one-of-K encoding
+#' X <- matrix(0, nrow = n, ncol = p.enc) # initialize training data matrix X
+#' cat.map <- vector("list", p)
+#' col.idx <- 0L
+#' # one-of-K encode each categorical feature and store in X
+#' for (j in 1:p) {
+#'   cat.map[[j]] <- (col.idx + 1L):(col.idx + num.categories[j])
+#'   # convert categorical feature to K dummy variables
+#'   X[, cat.map[[j]]] <- dummies::dummy(df2[[j]])
+#'   col.idx <- col.idx + num.categories[j]
+#' }
+#' Y <- df2$Survived
+#'
+#' # specifying the cat.map in RerF allows training to
+#' # be aware of which dummy variables correspond
+#' # to the same categorical feature
+#' forest <- RerF(X, Y, num.cores = 1L, cat.map = cat.map)
+#'
+#' ### Train a random rotation ensemble of CART decision trees (see Blaser and Fryzlewicz 2016)
+#' forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L,
+#'                FUN = RandMatRF, paramList = list(p = 4, d = 2), rotate = TRUE)
+#'
 
 RerF <-
-	function(X, Y, FUN = NULL, paramList = NULL, min.parent = 6L, trees = 500L,
+	function(X, Y, FUN = RandMatBinary, 
+           paramList = list(p = ifelse(is.null(cat.map), 
+                                       ncol(X), 
+                                       length(cat.map)), 
+                            d = ceiling(sqrt(ncol(X))), 
+                            rho = ifelse(is.null(cat.map), 
+                                         1/ncol(X), 
+                                         1/length(cat.map)), 
+                            prob = 0.5),
+           min.parent = 6L, trees = 500L,
 					 max.depth = ceiling(log2(nrow(X))), bagging = .2,
 					 replacement = TRUE, stratify = FALSE,
 					 rank.transform = FALSE, store.oob = FALSE,
@@ -98,20 +93,15 @@ RerF <-
 		# na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] },
 		# @param na.action action to take if NA values are found. By default it will omit rows with NA values. NOTE: na.action is performed in-place. See default function.
 
+    FUN <- match.fun(FUN, descend = TRUE)
+
 		forest <- list(trees = NULL, labels = NULL, params = NULL)
 
-		# check if data matrix X has one-of-K encoded categorical features that need to be handled specially using RandMatCat instead of RandMat
-    if (is.null(FUN)) {
-			if (!is.null(cat.map) && !rotate) {
-				FUN <- match.fun(FUN, descend = TRUE)
-	      paramList$cat.map <- cat.map
-			}
-			else {
-        FUN <- match.fun(rerf::RandMatRF)
-        paramList <- list(p = ncol(X), d = ceiling(sqrt(ncol(X))))
-			}
-		} else {
-      FUN <- match.fun(FUN, descend = TRUE)
+    # check if data matrix X has one-of-K encoded categorical features that
+    # need to be handled specially using RandMatCat instead of RandMat
+
+    if(!is.null(cat.map)){
+      paramList$catMap <- cat.map
     }
 
 		#keep from making copies of X
@@ -135,18 +125,22 @@ RerF <-
 		num.class <- length(forest$labels)
 		classCt <- cumsum(tabulate(Y, num.class))
 		if(stratify){
-			Cindex<-vector("list",num.class)
-			for(m in 1L:num.class){
-				Cindex[[m]]<-which(Y==m)
+			Cindex <- vector("list",num.class)
+			for (m in 1L:num.class) {
+				Cindex[[m]] <- which(Y == m)
 			}
-		}else{
-			Cindex<-NULL
+		} else {
+			Cindex <- NULL
 		}
 
 		# address na values.
 		if (any(is.na(X)) ) {
-			if (exists("na.action")) stats::na.action(X,Y)
-			if (any(is.na(X))) warning("NA values exist in data matrix")
+			if (exists("na.action")) {
+        stats::na.action(X,Y)
+      }
+			if (any(is.na(X))) {
+        warning("NA values exist in data matrix")
+      }
 		}
 
 		mcrun <- function(...) {
@@ -195,11 +189,11 @@ RerF <-
 				parallel::clusterEvalQ(cl, library("rerf"))
 				forest$trees <- parallel::parLapply(cl, 1:trees, mcrun)
 				parallel::stopCluster(cl)
-			}else{
+			} else {
 				set.seed(seed)
 				forest$trees <- parallel::mclapply(1:trees, mcrun, mc.cores = num.cores, mc.set.seed = TRUE)
 			}
-		}else{
+		} else {
 			#Use just one core.
 			set.seed(seed)
 			forest$trees <- lapply(1:trees, mcrun)

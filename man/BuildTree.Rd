@@ -15,7 +15,7 @@ BuildTree(X, Y, FUN, paramList, min.parent, max.depth, bagging,
 
 \item{FUN}{a function that creates the random projection matrix.}
 
-\item{paramList}{a named list of parameters to be used by FUN. (mat.options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)))}
+\item{paramList}{a named list of parameters to be used by FUN.  (paramList = list(p = ncol(X), d = round(ncol(X)^.5),1L, prob = 1/ncol(X)))}
 
 \item{min.parent}{the minimum splittable node size.  A node size < min.parent will be a leaf node. (min.parent = 6)}
 

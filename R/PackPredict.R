@@ -14,9 +14,9 @@
 #' X <- as.matrix(iris[,1:4])
 #' Y <- as.numeric(iris[,5])
 #'
-#' forest <- RerF(X,Y, mat.options = list(p = ncol(X), 
-#' d =ceiling(sqrt(ncol(X))), random.matrix = "rf", rho = 1/ncol(X)), 
-#' rfPack=TRUE, num.cores=2)
+#' paramList <- list(p = ncol(X), d = ceiling(sqrt(ncol(X))))
+#'
+#' forest <- RerF(X,Y, FUN = RandMatRF, paramList = paramList, rfPack=TRUE, num.cores=1)
 #'
 #' predictions <- PackPredict(X)
 #'
