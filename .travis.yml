@@ -17,6 +17,6 @@ script:
     - cd travisTest
     - printf "starting run\n"
     - Rscript test.R
-    - cd ../tests
+    - cd ../
     - printf "starting testthat run\n"
-    - Rscript testthat.R
+    - Rscript -e "devtools::test()"

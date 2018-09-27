@@ -1,8 +1,6 @@
 
-context("RandMat tests")
-library(testthat)
+context("RandMat* tests")
 library(rerf)
-#library(rerf, lib.loc = '~/neurodata/R/')
 
 ## These have been run with the options directly above them on 
 ## 20180830 with set.seed(317) and RcppZiggurat::zsetseed(14)
