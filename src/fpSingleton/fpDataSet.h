@@ -80,6 +80,10 @@ class inputXData
 			return XData[feature][observation];
 		}
 
+inline void prefetchElement(const int &feature,const int &observation){
+							__builtin_prefetch(&XData[feature][observation], 0, 2);
+		}
+
 		inline void setXElement( const int &feature, const int &observation, const T &value){
 			XData[feature][observation] = value;
 		}
@@ -137,6 +141,10 @@ class inputData
 			return X.returnElement(featureNum, observationNum);
 		}
 
+inline void prefetchFeatureValue(const int &featureNum, const int &observationNum){
+			X.prefetchElement(featureNum, observationNum);
+		}
+
 		inline int returnNumFeatures(){
 			return X.returnNumFeatures();
 		}
@@ -192,6 +200,10 @@ class testXData
 
 		inline T returnElement(const int &feature,const int &observation){
 			return XData[observation][feature];
+		}
+
+inline void prefetchElement(const int &feature,const int &observation){
+							__builtin_prefetch(XData[observation][feature], 0, 3);
 		}
 
 		inline void setXElement( const int &feature, const int &observation, const T &value){

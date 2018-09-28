@@ -4,7 +4,7 @@
 #include <string>
 #include <memory>
 #include "fpForestBase.h"
-#include "../rfClassification/fpForestClassificationBase.h"
+#include "../forestTypes/rfClassification/fpForestClassificationBase.h"
 
 namespace fp{
 
@@ -14,6 +14,8 @@ namespace fp{
 			static std::unique_ptr<fpForestBase> setForestType(const std::string& parameterName){
 			//	std::uniqe_ptr<fpForestBase> pToForest;
 				if(parameterName == "rfBase"){
+					return std::unique_ptr<fpForestBase>{new fpForestClassificationBase<float>};
+				}else if(parameterName == "smallSample"){
 					return std::unique_ptr<fpForestBase>{new fpForestClassificationBase<float>};
 				}else{
 					throw std::runtime_error("Unimplemented forest type chosen." );

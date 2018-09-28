@@ -77,6 +77,12 @@ if(inTestData != NULL){
 				return inData->returnFeatureValue(featureNumber, observationNumber);
 			}
 
+inline void prefetchFeatureVal(const int featureNumber, const int observationNumber){
+				inData->prefetchFeatureValue(featureNumber, observationNumber);
+			}
+
+
+
 			inline void setDataRelatedParameters(fpInfo& settings){
 				settings.setNumFeatures(this->returnNumFeatures());
 				settings.setNumObservations(this->returnNumObservations());

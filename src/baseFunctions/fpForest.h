@@ -17,7 +17,7 @@ namespace fp {
 				fpSingleton::getSingleton().loadData();
 			}
 
-void loadTestData(){
+			void loadTestData(){
 				fpSingleton::getSingleton().loadTestData();
 			}
 
@@ -76,11 +76,11 @@ void loadTestData(){
 				timeLogger x;
 				x.startGrowTimer();
 				forest->growForest();
-			x.stopGrowTimer();
-			x.printGrowTime();
+				x.stopGrowTimer();
+				x.printGrowTime();
 				deleteData();
 			}
-			
+
 
 			float testAccuracy(){
 				float testError;

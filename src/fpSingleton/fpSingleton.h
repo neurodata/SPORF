@@ -102,6 +102,10 @@ namespace fp {
 				return data.returnFeatureVal(featureNumber, observationNumber);
 			}
 
+inline void prefetchFeatureVal(const int featureNumber, const int observationNumber){
+				data.prefetchFeatureVal(featureNumber, observationNumber);
+			}
+
 			inline double returnTestFeatureVal(const int featureNumber, const int observationNumber){
 				return data.returnTestFeatureVal(featureNumber, observationNumber);
 			}

@@ -11,12 +11,13 @@ namespace fp{
 	{
 		private:
 			std::vector<std::vector<int> > inSamples;
+			std::vector<int> inSamps;
 			std::vector<std::vector<int> > outSamples;
 			std::vector<int> binSamples;
 			int inSampleSize;
 			int outSampleSize;
 
-			int binSize = 512;
+			int binSize = 100;
 			int useBinning = false;
 
 			//TODO: the following functions would benefit from Vitter's Sequential Random Sampling
@@ -31,38 +32,10 @@ namespace fp{
 
 			stratifiedInNodeClassIndices(const int &numObservationsInDataSet){
 
-				std::vector<int> potentialSamples;
-				potentialSamples.resize(numObservationsInDataSet);
-
 				inSamples.resize(fpSingleton::getSingleton().returnNumClasses());
 				outSamples.resize(fpSingleton::getSingleton().returnNumClasses());
 
-				std::random_device rd; // obtain a random number from hardware
-				std::mt19937 eng(rd()); // seed the generator
-
-				std::uniform_int_distribution<> distr(0, numObservationsInDataSet-1);
-
-				for(int i=0; i < numObservationsInDataSet; ++i){
-					potentialSamples[i] = i;
-				}
-
-				int numUnusedObs = numObservationsInDataSet;
-				int randomObsID;
-				int tempMoveObs;
-				for(int n=0; n<numObservationsInDataSet; n++){
-					randomObsID = distr(eng);
-					inSamples[fpSingleton::getSingleton().returnLabel(potentialSamples[randomObsID])].push_back(potentialSamples[randomObsID]);
-					if(randomObsID < numUnusedObs){
-						--numUnusedObs;
-						tempMoveObs = potentialSamples[numUnusedObs];
-						potentialSamples[numUnusedObs] = potentialSamples[randomObsID];
-						potentialSamples[randomObsID] = tempMoveObs;
-					}
-				}
-
-				for(int n=0; n<numUnusedObs; ++n){
-					outSamples[fpSingleton::getSingleton().returnLabel(potentialSamples[randomObsID])].push_back(potentialSamples[n]);
-				}
+				createInAndOutSets(numObservationsInDataSet);
 
 				inSampleSize =0;
 				outSampleSize =0;
@@ -74,6 +47,40 @@ namespace fp{
 					outSampleSize += outSamples[i].size();
 				}
 
+			}
+
+
+			inline void createInAndOutSets(const int &numObs){
+				std::vector<int> potentialSamples;
+				potentialSamples.resize(numObs);
+
+				std::random_device rd; // obtain a random number from hardware
+				std::mt19937 eng(rd()); // seed the generator
+
+				std::uniform_int_distribution<> distr(0, numObs-1);
+
+				for(int i=0; i < numObs; ++i){
+					potentialSamples[i] = i;
+				}
+
+				int numUnusedObs = numObs;
+				int randomObsID;
+				int tempMoveObs;
+				for(int n=0; n<numObs; n++){
+					randomObsID = distr(eng);
+					inSamples[fpSingleton::getSingleton().returnLabel(potentialSamples[randomObsID])].push_back(potentialSamples[randomObsID]);
+					inSamps.push_back(potentialSamples[randomObsID]);
+					if(randomObsID < numUnusedObs){
+						--numUnusedObs;
+						tempMoveObs = potentialSamples[numUnusedObs];
+						potentialSamples[numUnusedObs] = potentialSamples[randomObsID];
+						potentialSamples[randomObsID] = tempMoveObs;
+					}
+				}
+
+				for(int n=0; n<numUnusedObs; ++n){
+					outSamples[fpSingleton::getSingleton().returnLabel(potentialSamples[randomObsID])].push_back(potentialSamples[n]);
+				}
 			}
 
 
@@ -124,8 +131,10 @@ namespace fp{
 
 
 			inline int returnInSample(const int numSample){
+				return inSamps[numSample];
+				//The commented out below reduces memory size but is slow.
+				/*
 				int totalViewed = 0;
-//				std::cout << "ifn1\n";
 				for(unsigned int i = 0; i < inSamples.size(); ++i){
 					if(numSample < (totalViewed+int(inSamples[i].size()))){
 						if((numSample-totalViewed)<0 || (numSample-totalViewed)>=int(inSamples[i].size())){
@@ -133,7 +142,6 @@ namespace fp{
 							exit(1);
 						}
 						int retNum = inSamples[i][numSample-totalViewed];
-//						std::cout << "ifn12\n";
 						return retNum ;
 					}
 					totalViewed += inSamples[i].size();
@@ -141,6 +149,7 @@ namespace fp{
 				std::cout << "it happened now\n";
 				exit(1);
 				return -1;
+				*/
 			}
 
 
@@ -188,35 +197,18 @@ namespace fp{
 
 
 			inline void addIndexToOutSamples(int index){
-				/*
-					 if(index < 0){
-					 std::cout << "here1";
-					 exit(1);
-					 }
-					 if(index >= fpSingleton::getSingleton().returnNumObservations()){
-					 std::cout << "here3";
-					 exit(1);
-					 }
-					 if(int(outSamples.size()) <= fpSingleton::getSingleton().returnLabel(index)){
-					 std::cout << "here31";
-					 exit(1);
-					 }
-					 if(0 > fpSingleton::getSingleton().returnLabel(index)){
-					 std::cout << "here32";
-					 exit(1);
-					 }
-					 */
 				++outSampleSize;
 				outSamples[fpSingleton::getSingleton().returnLabel(index)].push_back(index);
 			}
 
 			inline void addIndexToInSamples(int index){
 				++inSampleSize;
-				if(fpSingleton::getSingleton().returnLabel(index)<0 || fpSingleton::getSingleton().returnLabel(index) >= int(inSamples.size())){
+				/*if(fpSingleton::getSingleton().returnLabel(index)<0 || fpSingleton::getSingleton().returnLabel(index) >= int(inSamples.size())){
 					std::cout << "asldkjf\n";
 					exit(1);
-				}
+					}*/
 				inSamples[fpSingleton::getSingleton().returnLabel(index)].push_back(index);
+				inSamps.push_back(index);
 			}
 	};//class stratifiedInNodeClassIndices
 

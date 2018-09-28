@@ -246,7 +246,6 @@ namespace fp{
 					int numLabels = labels.size();
 					timeLogger logTime;
 
-					logTime.startFindSplitTimer();
 					// initialize return value
 					splitInfo<T> currSplitInfo;
 					currSplitInfo.setFeatureNum(featureNum);
@@ -273,14 +272,16 @@ namespace fp{
 							}
 						}
 					}
+
 					if(currSplitInfo.returnImpurity() == overallImpurity){
 						std::cout << "it happened\n";
 exit(1); //should never happen.  Why?
 								currSplitInfo.setImpurity(-1);
 					}
+					logTime.startFindSplitTimer();
 					setupForNextRun();
-
 					logTime.stopFindSplitTimer();
+
 					return currSplitInfo;
 				}
 		};

@@ -1,7 +1,7 @@
 #ifndef fpForestClassification_h
 #define fpForestClassification_h
 //#include "../baseFunctions/fpForestBase.h"
-#include "../baseFunctions/fpUtils.h"
+#include "../../baseFunctions/fpUtils.h"
 #include <vector>
 #include <stdio.h>
 #include <ctime>
@@ -35,7 +35,7 @@ namespace fp {
 				auto stopTime = std::chrono::system_clock::now();
 				//	std::chrono::duration<double, std::chrono::seconds> diffSeconds;
 				std::chrono::seconds diffSeconds;
-				std::chrono::seconds updateTime(30);
+				std::chrono::seconds updateTime(10);
 
 				std::cout << "starting tree 1" << std::flush;
 

@@ -135,10 +135,19 @@ namespace fp{
 
 				inline void loadFeatureHolder(){
 					if(obsIndices->useBin()){
+for(int q=0; q<obsIndices->returnBinnedSize(); q++){
+						fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back(),obsIndices->returnBinnedInSample(q));
+						}
+
 						for(int i =0; i < obsIndices->returnBinnedSize(); ++i){
 							featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back(),obsIndices->returnBinnedInSample(i));
 						}
 					}else{
+						
+						for(int q=0; q<obsIndices->returnInSampleSize(); q++){
+						fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back(),obsIndices->returnInSample(q));
+						}
+						
 						for(int i =0; i < obsIndices->returnInSampleSize(); ++i){
 							featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back(),obsIndices->returnInSample(i));
 						}
@@ -231,9 +240,12 @@ inline bool goLeft(const int& index){
 
 
 				inline void findBestSplit(){
+					//timeLogger logTime;
 					split<T> findSplit(labelHolder); //This is done twice
 					while(!featuresToTry.empty()){
+					//logTime.startGiniTimer();
 						loadFeatureHolder();
+					//logTime.stopGiniTimer();
 						setBestSplit(findSplit.giniSplit(featureHolder ,featuresToTry.back()));
 	
 						featuresToTry.pop_back();
