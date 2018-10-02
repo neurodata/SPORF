@@ -14,7 +14,9 @@ before_install:
     - #
 
 script:
-    #- cd travisTest
-    #- printf "starting run\n"
-    #- Rscript test.R
-    - cd tests && Rscript testthat.R
+    - printf "starting testthat run\n"
+    - Rscript -e "devtools::test()"
+    - cd travisTest
+    - printf "starting run\n"
+    - Rscript test.R
+    
