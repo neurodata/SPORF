@@ -2,7 +2,6 @@
 
 export(ComputeSimilarity)
 export(FeatureImportance)
-export(OOBPredict)
 export(PackPredict)
 export(Predict)
 export(RandMat)

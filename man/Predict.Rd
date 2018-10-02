@@ -4,7 +4,7 @@
 \alias{Predict}
 \title{Compute class predictions for each observation in X}
 \usage{
-Predict(X, forest, num.cores = 0L, Xtrain = NULL,
+Predict(X, forest, OOB = FALSE, num.cores = 0L, Xtrain = NULL,
   aggregate.output = TRUE, output.scores = FALSE)
 }
 \arguments{
@@ -12,11 +12,15 @@ Predict(X, forest, num.cores = 0L, Xtrain = NULL,
 
 \item{forest}{a forest trained using the RerF function.}
 
+\item{OOB}{if TRUE then run predictions using out-of-bag samples.}
+
 \item{num.cores}{the number of cores to use while training. If NumCores=0 then 1 less than the number of cores reported by the OS are used. (NumCores=0)}
 
 \item{Xtrain}{an n by d numeric matrix (preferable) or data frame. This should be the same data matrix/frame used to train the forest, and is only required if RerF was called with rank.transform = TRUE. (Xtrain=NULL)}
 
-\item{aggregate.output}{if TRUE then the tree predictions are aggregated via majority vote. Otherwise, the individual tree predictions are returned. (aggregate.output=TRUE)}
+\item{aggregate.output}{if TRUE then the tree predictions are aggregated weighted by their probability estimates. Otherwise, the individual tree probabilities are returned. (aggregate.output=TRUE)
+
+TODO: Remove option for aggregate output? Only options for returning aggregate predictions or probabilities}
 
 \item{output.scores}{if TRUE then predicted class scores (probabilities) for each observation are returned rather than class labels. (output.scores = FALSE)}
 }
