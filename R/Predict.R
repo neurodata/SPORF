@@ -33,7 +33,7 @@ Predict <- function(X, forest, OOB = FALSE, num.cores = 0L, Xtrain = NULL, aggre
   output.scores = FALSE) {
   if (OOB) {
     if (!forest$params$store.oob) {
-      stop("out-of-bag indices for each tree are not stored. RerF must be called with store.oob = TRUE in order to run OOBPredict.")
+      stop("out-of-bag indices for each tree are not stored. RerF must be called with store.oob = TRUE.")
     }
     # Always aggregate output for OOB predictions
     aggregate.output <- TRUE
