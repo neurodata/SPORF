@@ -27,7 +27,7 @@
 #'
 
 Predict <-
-  function(X, forest, num.cores = 0L, Xtrain = NULL, aggregate.output = TRUE, output.scores = FALSE, task = 'classification'){
+  function(X, forest, num.cores = 0L, Xtrain = NULL, aggregate.output = TRUE, output.scores = FALSE){
     if (is.data.frame(X)) {
       X <- as.matrix(X)
     }
@@ -75,7 +75,7 @@ Predict <-
     }
 
     if (!aggregate.output) {
-      if (task == 'classificaiton')
+      if (task == 'classification')
         predictions <- matrix(forest$labels[unlist(Yhats)], nrow(X), f_size)
       else
         predictions <- matrix(unlist(Yhats), nrow(X), f_size)

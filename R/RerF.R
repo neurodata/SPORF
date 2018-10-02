@@ -78,20 +78,23 @@ RerF <-
 					 store.impurity = FALSE, progress = FALSE, 
 					 rotate = FALSE, num.cores = 0L, 
 					 seed = sample(0:100000000,1), 
-					 cat.map = NULL, rfPack = FALSE,
-					 task = 'classification',
-					 na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] }
+					 cat.map = NULL, rfPack = FALSE
              ) {
-
-        # check if task is specified correctly
-        task <- sapply(task, tolower)
-        if (task != "classification" & task != "regression")
-          stop("Task must either be \"classification\" or \"regression\"")
-
 
 		# The below 'na.action' was removed from the parameter list of RerF because the CRAN check did not accept it and because it will potentially change the X and Y input by the user.
 		# na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] },
 		# @param na.action action to take if NA values are found. By default it will omit rows with NA values. NOTE: na.action is performed in-place. See default function.
+
+        # adjust Y to go from 1 to num.class if needed
+        if (is.factor(Y)) {
+            forest$labels <- levels(Y)
+            Y <- as.integer(Y)
+			task <- "classification"
+        } else if (is.numeric(Y) | is.integer(Y)) {
+            task <- "regression"
+        } else {
+            stop("Incompatible data type. Y must be of type factor or numeric/integer.")
+        }
 
 		forest <- list(trees = NULL, labels = NULL, params = NULL)
 		
@@ -105,19 +108,6 @@ RerF <-
 		        fun <- RandMat
 		    }
 		}
-
-        # adjust Y to go from 1 to num.class if needed
-        if (is.factor(Y)) {
-            forest$labels <- levels(Y)
-            Y <- as.integer(Y)
-        } else if (is.numeric(Y)) {
-            if (task == 'classification') {
-                forest$labels <- sort(unique(Y))
-                Y <- as.integer(as.factor(Y))
-            }
-        } else {
-            stop("Incompatible data type. Y must be of type factor or numeric.")
-        }
 
         # address na values.
         if (any(is.na(X)) ) {
@@ -141,19 +131,6 @@ RerF <-
             mcrun<- function(...) regTree(X, Y, min.parent, max.depth, bagging, replacement, fun, mat.options, store.oob, store.impurity, progress, rotate)
         }
 
-        forest$params <- list(min.parent = min.parent,
-                              max.depth = max.depth,
-                              bagging = bagging,
-                              replacement = replacement,
-                              stratify = stratify,
-                              fun = fun,
-                              mat.options = mat.options,
-                              rank.transform = rank.transform,
-                              store.oob = store.oob,
-                              store.impurity = store.impurity,
-                              rotate = rotate,
-                              seed = seed)
-
 		# address na values.
 		if (any(is.na(X)) ) {
 			if (exists("na.action")) stats::na.action(X,Y)
@@ -172,7 +149,8 @@ RerF <-
 													store.oob = store.oob,
 													store.impurity = store.impurity,
 													rotate = rotate,
-													seed = seed)
+													seed = seed,													
+													task = task)
 
 		if (num.cores!=1L){
 			RNGkind("L'Ecuyer-CMRG")
