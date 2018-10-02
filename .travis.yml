@@ -11,7 +11,8 @@ addons:
               - libgsl0-dev
                         
 before_install:
-    - #
+    - sudo R -e "install.packages(c('testthat'), repos = 'http://cran.rstudio.com/')"
+
 
 script:
     - cd travisTest
