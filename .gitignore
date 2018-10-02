@@ -2,6 +2,9 @@
 .Rhistory
 .Rapp.history
 
+# R project files
+.Rproj.user
+
 # Session Data files
 # We are now including data.
 #.RData
@@ -17,6 +20,9 @@
 
 # RStudio files
 .Rproj.user/
+
+# Drivers
+/drivers
 
 # produced vignettes
 vignettes/*.html

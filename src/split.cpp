@@ -2,26 +2,44 @@
 
 using namespace Rcpp;
 
-// [[Rcpp::export]]
-List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize, const double & I,
-		double maxdI, int bv, double bs, const int nzidx, arma::vec cc) {
-	double xl, xr, dI;
-	int yl, yr, cons, bsidx, potsplit;
-	bool multiy;
+/**
+ * Computes the split of a node. Given a vectorized version of the node assigned data values,
+ * iterate through each split location to find the split that optimizes the information gain.
+ * Information gain will be gini impurity for classification and split variance for regression.
+ *
+ * @param x         the projected data vector to split
+ * @param y         the response vector
+ * @param ndSize    number of data points at the current node
+ * @param I         node sample objective value
+ * @param maxdI     current best split information gain
+ * @param bv        current best split projection variable
+ * @param bs        current best split split boundary
+ * @param nzidx     the projection variable being considered
+ * @param cc        class counts in classification
+ * @param task      the task being performed. 1 for regression, 0 for classification
+ *
+ *
+ */
+
+List findSplitClassification(const NumericVector x, const IntegerVector y, const int & ndSize, const double & I,
+	       double maxdI, int bv, double bs, const int nzidx, arma::vec cc) {
+    double xl, xr, dI;
+    int yl, yr, cons, bsidx, potsplit;
+    bool multiy;
 
 	arma::vec ccl(cc.n_elem, arma::fill::zeros);
 	arma::vec ccr = cc;
 	arma::vec cpl, cpr, potccl, potccr;
 
-	bsidx = 0;
-	cons = 0;
-	xl = x[0];
-	yl = y[0] - 1;
-	potsplit = 0;
-	multiy = false;
+    bsidx = 0;
+    cons = 0;
+    xl = x[0];
+    yl = y[0] - 1;
+    potsplit = 0;
+    multiy = false;
 
-	// iterate over split locations from left to right
-	for (int i = 0; i < ndSize - 1; ++i) {
+    // iterate over split locations from left to right
+    for (int i = 0; i < ndSize - 1; ++i) {
 		xr = x[i+1];
 		yr = y[i+1] - 1;
 		if (xl == xr) {
@@ -117,4 +135,55 @@ List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize,
 		bs = (x[bsidx - 1] + x[bsidx])/2;
 	}
 	return List::create(_["MaxDeltaI"] = maxdI, _["BestVar"] = bv, _["BestSplit"] = bs);
+}
+
+double mean(NumericVector x) {
+    int n = x.size();
+    double total = 0;
+
+    for(int i = 0; i < n; ++i) {
+        total += x[i];
+    }
+    return total / n;
+}
+
+double mse(NumericVector y) {
+    double y_mean = mean(y);
+    return sum(pow((y_mean - y),2));
+}
+
+
+List findSplitRegression(const NumericVector x, const NumericVector y, const NumericVector splitPoints, const int & ndSize, const double & I,
+	       double maxdI, int bv, double bs, const int nzidx) {
+    double dI;
+    int splitN = splitPoints.size();
+    int splitEnd;
+
+    if (splitN > 1) {
+        for (int i = 1; i < splitN; ++i) {
+            splitEnd = splitPoints[i]-2;
+            dI = I - sum(NumericVector::create(mse(y[Range(0,splitEnd)]), mse(y[Range(splitEnd+1,ndSize-1)])));
+            if (dI > maxdI) {
+                maxdI = dI;
+                bv = nzidx;
+                bs = ((double)x[splitEnd] + (double)x[splitEnd+1]) / 2.0;
+            }
+        }
+    }
+	return List::create(_["MaxDeltaI"] = maxdI, _["BestVar"] = bv, _["BestSplit"] = bs);
+}
+
+
+// [[Rcpp::export]]
+List findSplit(const NumericVector x, const NumericVector y, const NumericVector splitPoints, const int & ndSize, const double & I,
+	       double maxdI, int bv, double bs, const int nzidx, arma::vec cc, const int & task) {
+
+    List ret;
+    if (task == 0) {
+        const IntegerVector int_y = as<IntegerVector>(y);
+        ret = findSplitClassification(x, int_y, ndSize, I, maxdI, bv, bs, nzidx, cc);
+    } else {
+        ret = findSplitRegression(x, y, splitPoints, ndSize, I, maxdI, bv, bs, nzidx);
+    }
+    return ret;
 }
