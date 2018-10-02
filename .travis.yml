@@ -1,24 +1,20 @@
 language: r
 cache: packages
 r:
-    - release
+  - release
 
 sudo: false
 
 addons:
-      apt:
-          packages:
-              - libgsl0-dev
-                        
-before_install:
-    - sudo R -e "install.packages(c('testthat'), repos = 'http://cran.rstudio.com/')"
-
+  apt:
+    packages:
+      - libgsl0-dev
 
 script:
-    - cd travisTest
-    - printf "starting run\n"
-    - Rscript test.R
-    - cd ../tests
-    - printf \"starting testthat run\\n\"
-    - Rscript testthat.R
+  - cd travisTest
+  - printf "starting run\n"
+  - Rscript test.R
+  - cd ../tests
+  - printf \"starting testthat run\\n\"
+  - Rscript testthat.R
     
