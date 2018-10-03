@@ -15,10 +15,8 @@ r_packages:
   - devtools
   - testthat
 
-before_script:
-  - R -e "devtools::install(".")"
-
 script:
+  - Rscript .#build.R
   - cd tests
   - printf "starting testthat run\n"
   - Rscript testthat.R
