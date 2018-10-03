@@ -1,6 +1,5 @@
 language: r
 dist: trusty
-cache: packages
 
 r:
   - release
