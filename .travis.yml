@@ -16,7 +16,8 @@ r_packages:
   - testthat
 
 script:
-  - Rscript .#build.R
-  - cd tests
+  #- Rscript .#build.R
+  #- cd tests
   - printf "starting testthat run\n"
-  - Rscript testthat.R
+  #- Rscript testthat.R
+  - Rscript -e 'devtools::install();devtools::test()'
