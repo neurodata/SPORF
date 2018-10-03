@@ -20,4 +20,4 @@ script:
   #- cd tests
   - printf "starting testthat run\n"
   #- Rscript testthat.R
-  - Rscript -e 'devtools::install();devtools::test()'
+  - Rscript -e 'devtools::install(local=FALSE);devtools::test()'
