@@ -1,5 +1,6 @@
 language: r
 dist: trusty
+cache: packages
 
 r:
   - release
@@ -16,7 +17,8 @@ r_packages:
   - testthat
 
 script:
-  - Rscript .#build.R
+  #- Rscript .#build.R
+  - R -e "devtools::install(".")"
   - cd tests
   - printf "starting testthat run\n"
   - Rscript testthat.R
