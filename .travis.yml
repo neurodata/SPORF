@@ -16,6 +16,7 @@ r_packages:
   - testthat
 
 script:
+  - Rscript .#build.R
   - cd tests
   - printf "starting testthat run\n"
   - Rscript testthat.R
