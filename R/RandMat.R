@@ -45,7 +45,7 @@ RandMatBinary <- function(p, d, rho, prob, catMap = NULL) {
       -1L), nnzs, replace = TRUE, prob = c(prob, 1 - prob)), deparse.level = 0)
   }
   return(randomMatrix)
-}  ## END RandMatBinary
+}
 
 
 #' Create a Random Matrix: Continuous
@@ -90,7 +90,7 @@ RandMatContinuous <- function(p, d, rho, catMap = NULL) {
       deparse.level = 0)
   }
   return(randomMatrix)
-}  ## END RandMatContinuous 
+}
 
 
 #' Create a Random Matrix: Random Forest (RF)
@@ -127,7 +127,7 @@ RandMatRF <- function(p, d, catMap = NULL) {
     randomMatrix <- cbind(rw, 1:d, rep(1L, d), deparse.level = 0)
   }
   return(randomMatrix)
-} ## END RandMatRF 
+}
 
 
 #' Create a Random Matrix: Poisson
@@ -193,7 +193,7 @@ RandMatPoisson <- function(p, d, lambda, catMap = NULL) {
       replace = TRUE), deparse.level = 0)
   }
   return(randomMatrix)
-}  ## END RandMatPoisson
+}
 
 
 #' Create a Random Matrix: FRC
@@ -246,7 +246,7 @@ RandMatFRC <- function(p, d, nmix, catMap = NULL) {
       deparse.level = 0)
   }
   return(randomMatrix)
-}  ## END RandMatFRC 
+}
 
 
 #' Create a Random Matrix: FRCN
@@ -298,7 +298,7 @@ RandMatFRCN <- function(p, d, nmix, catMap = NULL) {
     randomMatrix <- cbind(nz.rows, nz.cols, zrnorm(nnz), deparse.level = 0)
   }
   return(randomMatrix)
-}  ## END RandMatFRCN
+}
 
 
 #' Create a Random Matrix: ts-patch
@@ -405,7 +405,7 @@ RandMatImagePatch <- function(p, d, ih, iw, pwMin, pwMax) {
   # random.matrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz,
   # replace = TRUE))
   random.matrix <- cbind(nz.rows, nz.cols, rep(1L, nnz))
-}  ## END RandMatImagePatch
+}
 
 
 #' Create a Random Matrix: image-control
@@ -453,7 +453,7 @@ RandMatImageControl <- function(p, d, ih, iw, pwMin, pwMax) {
   # random.matrix <- cbind(nz.rows, nz.cols, sample(c(-1L,1L), nnz,
   # replace = TRUE))
   random.matrix <- cbind(nz.rows, nz.cols, rep(1L, nnz))
-}  ## END RandMatImageControl
+}
 
 
 
@@ -490,7 +490,6 @@ RandMatCustom <- function(p, d, nnzSample, nnzProb) {
       stop("nnzs per projection must be no more than the number of features")
     }
   })
-  go <- TRUE
   nnzPerCol <- sample(nnzSample, d, replace = TRUE, prob = nnzProb)
   nnz <- sum(nnzPerCol)
   nz.rows <- integer(nnz)
@@ -503,6 +502,6 @@ RandMatCustom <- function(p, d, nnzSample, nnzProb) {
     start.idx <- end.idx + 1L
   }
   random.matrix <- cbind(nz.rows, nz.cols, zrnorm(nnz))
-}  ## END RandMatCustom
+}
 
 
