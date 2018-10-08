@@ -5,7 +5,7 @@ using namespace Rcpp;
 /**
  * Computes the split of a node. Given a vectorized version of the node assigned data values,
  * iterate through each split location to find the split that optimizes the information gain.
- * Information gain will be gini impurity for classification and split variance for regression.
+ * Information gain will be gini impurity for classification.
  *
  * @param x         the projected data vector to split
  * @param y         the response vector
@@ -152,7 +152,24 @@ double mse(NumericVector y) {
     return sum(pow((y_mean - y),2));
 }
 
-
+/**
+ * Computes the split of a node. Given a vectorized version of the node assigned data values,
+ * iterate through each split location in splitPoints to find the split that minimizes the 
+ * split MSE. The logic is similar to finding the split for classification. However, to
+ * account for ties, splitPoints only contains splits that send at least one data point
+ * to each child. Note that splitPoints is computed outside of this function.
+ *
+ * @param x            the projected data vector to split
+ * @param y            the response vector
+ * @param splitPoints  splitting values that ensure at least one data point goes to each child.
+ * @param I            current node objective value
+ * @param maxdI        current best split information gain
+ * @param bv           current best split projection variable
+ * @param bs           current best split split boundary
+ * @param nzidx        the projection variable being considered
+ *
+ *
+ */
 List findSplitRegression(const NumericVector x, const NumericVector y, const NumericVector splitPoints, const int & ndSize, const double & I,
 	       double maxdI, int bv, double bs, const int nzidx) {
     double dI;
