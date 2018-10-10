@@ -68,7 +68,7 @@
 #' @importFrom stats na.action
 
 RerF <-
-	function(X, Y, min.parent = 6L, trees = 500L, 
+	function(X, Y=NA, min.parent = 6L, trees = 500L, 
 					 max.depth = ceiling(log2(nrow(X))), bagging = .2, 
 					 replacement = TRUE, stratify = FALSE, 
 					 fun = NULL, 
@@ -83,6 +83,11 @@ RerF <-
 		# The below 'na.action' was removed from the parameter list of RerF because the CRAN check did not accept it and because it will potentially change the X and Y input by the user.
 		# na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] },
 		# @param na.action action to take if NA values are found. By default it will omit rows with NA values. NOTE: na.action is performed in-place. See default function.
+
+		if(is.na(Y)){
+return(UnsupervisedLumberjack(X = X, trees = trees, min.parent = min.parent, max.depth = max.depth))
+		}
+
 
 		forest <- list(trees = NULL, labels = NULL, params = NULL)
 
