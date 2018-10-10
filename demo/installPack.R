@@ -1,3 +1,9 @@
+#This should be run from the head of the package directory
+# e.g. Rscript demo/installPack.R
+#
+#The script installs a local version of RerF (i.e. a fork) by removing binary files, recreating necessary files, and installing the RerF package.
+
+
 if(file.exists("src/RcppExports.o"))file.remove("src/RcppExports.o")
 if(file.exists("src/split.o"))file.remove("src/split.o")
 if(file.exists("src/forestPacking.o"))file.remove("src/forestPacking.o")
