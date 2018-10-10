@@ -16,9 +16,11 @@
 #'
 
 
-
 UnsupervisedLumberjack <- 
-	function(X, numTrees=100, K=10, depth=NA){
+	function(X, trees=100, min.parent=10, max.depth=NA){
+		k <- min.parent
+		depth <- max.depth
+		numTrees <- trees
 
 		######## Define Helper functions ########
 		normalizeData <- function(X){
