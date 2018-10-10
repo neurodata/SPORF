@@ -12,7 +12,9 @@
 #' @examples
 #' library(rerf)
 #' X <- as.matrix(iris[,1:4])
-#' urerfStructure <- RerF(X, trees=100, K=10, depth=5)
+#' urerfStructure <- UnsupervisedLumberjack(X, trees=100, K=10, depth=5)
+#'
+#' @export
 #'
 
 
@@ -72,8 +74,6 @@ UnsupervisedLumberjack <-
 
 		normInfo <- normalizeDataInfo(X)
 		X <- normalizeData(X)
-		rfrus <- cmpfun(rfrus)
-		distNNRec <- cmpfun(distNNRec)
 
 		forest <- invisible(ifelse(is.na(depth),GrowUnsupervisedForest(X,trees=numTrees, MinParent=K), GrowUnsupervisedForest(X,trees=numTrees, MaxDepth=depth)))
 		sM <- createMatrixFromForest(forest)
@@ -86,6 +86,3 @@ UnsupervisedLumberjack <-
 
 		return(list(similarityMatrix=sM, forest=forest, colMin=normInfo$colMin, colMax=normInfo$colMax, outlierMean=outlierMean, outlierSD=outlierSD, trainSize=nrow(X)))
 	}
-
-
-
