@@ -20,7 +20,6 @@
 #'
 #' @return Tree
 #'
-#' @export
 #' @examples
 #'
 #' x <- iris[, -5]
