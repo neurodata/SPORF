@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Rscript -e "install.packages('devtools', repos = 'http://cran.us.r-project.org')"
 Rscript -e "devtools::document('R')"
 
 R CMD build --resave-data .
