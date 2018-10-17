@@ -5,6 +5,7 @@ Version: 2.0.0
 Date: 2018-10-11
 Authors@R: c(
 	  person("Jesse", "Patsolic", role = "ctb", email = "jpatsolic@jhu.edu"),
+      person("Benjamin", "Falk", role = "ctb", email = "falk.ben@jhu.edu"),
     person("James", "Browne", role = c("aut", "cre"), email = "jbrowne6@jhu.edu"),
 	  person("Tyler", "Tomita", role = "aut", email = "ttomita2@jhmi.edu"),
 	  person("Joshua", "Vogelstein", role = "ths", email = "jovo@jhu.edu")
