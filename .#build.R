@@ -2,8 +2,7 @@
 require(devtools)
 devtools::document('R')
 #devtools::check(".", args = c("--no-examples", "--no-tests"))
-devtools::build(".", args = c("--resave-data"))
-devtools::check(".", args = c("--as-cran"))
+devtools::check(cran=TRUE, build_args = c("--resave-data"))
 devtools::install(".")
 
 
