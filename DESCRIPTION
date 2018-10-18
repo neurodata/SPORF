@@ -1,12 +1,13 @@
 Package: rerf
 Type: Package
 Title: Randomer Forest
-Version: 1.1.3.9000
-Date: 2018-08-14
+Version: 2.0.0
+Date: 2018-10-11
 Authors@R: c(
+	  person("Jesse", "Patsolic", role = "ctb", email = "jpatsolic@jhu.edu"),
+      person("Benjamin", "Falk", role = "ctb", email = "falk.ben@jhu.edu"),
     person("James", "Browne", role = c("aut", "cre"), email = "jbrowne6@jhu.edu"),
 	  person("Tyler", "Tomita", role = "aut", email = "ttomita2@jhmi.edu"),
-	  person("Jesse", "Patsolic", role = "ctb", email = "jpatsolic@jhu.edu"),
 	  person("Joshua", "Vogelstein", role = "ths", email = "jovo@jhu.edu")
     )
 Description: Random Forester (RerF) is an algorithm developed by Tomita (2016)
@@ -23,9 +24,11 @@ Description: Random Forester (RerF) is an algorithm developed by Tomita (2016)
     between the two algorithms is where the random linear combinations
     occur: Forest-RC combines features at the per tree level whereas RerF
     takes linear combinations of coordinates at every node in the tree.
+Depends: R (>= 3.3.0)
 License: Apache License 2.0 | file LICENSE
-URL: https://github.com/neurodata/R-RerF
+URL: https://github.com/neurodata/lumberjack
 Imports: parallel, RcppZiggurat, utils, stats, dummies
+Suggests: roxygen2 (>= 5.0.0), testthat
 LinkingTo: Rcpp, RcppArmadillo
 SystemRequirements: GNU make
 ByteCompile: true

@@ -2,8 +2,12 @@
 ^README.Rmd$
 ^travisTest$
 ^docs$
+^\.git$
 ^\.travis\.yml$
 ^.*\.gz$
+^.*\.out$
+^.*\.o$
+^.*\.so$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^CONTRIBUTING.md$
