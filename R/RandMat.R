@@ -20,14 +20,9 @@
 #' prob <- 0.5
 #' set.seed(4)
 #' (a <- RandMatBinary(p, d, sparsity, prob))
-#' (a <- RandMatBinary(p, p + 1, sparsity, prob))
 #'
 
 RandMatBinary <- function(p, d, sparsity, prob, catMap = NULL) {
-  if(d > p){
-    stop("ERROR: parameter d is greater than the number of dimensions p.")
-  }
-
   nnzs <- round(p * d * sparsity)
   ind <- sort(sample.int((p * d), nnzs, replace = FALSE))
   
@@ -72,14 +67,10 @@ RandMatBinary <- function(p, d, sparsity, prob, catMap = NULL) {
 #' d <- 3
 #' sparsity <- 0.25
 #' set.seed(4)
-#' (a <- RandMatContinuous(p, d, rho))
+#' (a <- RandMatContinuous(p, d, sparsity))
 #'
 
 RandMatContinuous <- function(p, d, sparsity, catMap = NULL) {
-  if(d > p){
-    stop("ERROR: parameter d is greater than the number of dimensions p.")
-    }
-
   nnzs <- round(p * d * sparsity)
   ind <- sort(sample.int((p * d), nnzs, replace = FALSE))
   
@@ -169,10 +160,6 @@ RandMatRF <- function(p, d, catMap = NULL) {
 #'
 
 RandMatPoisson <- function(p, d, lambda, catMap = NULL) {
-  if(d > p){
-    stop("ERROR: parameter d is greater than the number of dimensions p.")
-    }
-
   if (lambda <= 0) {
     stop("ERROR: Wrong parameter for Poisson, make sure lambda > 0.")
   }
@@ -239,8 +226,8 @@ RandMatPoisson <- function(p, d, lambda, catMap = NULL) {
 #'
 
 RandMatFRC <- function(p, d, nmix, catMap = NULL) {
-  if(d > p){
-    stop("ERROR: parameter d is greater than the number of dimensions p.")
+  if(nmix > p){
+    stop("ERROR: parameter nmix is greater than the number of dimensions p.")
     }
 
   nnz <- nmix * d
@@ -351,10 +338,6 @@ RandMatFRCN <- function(p, d, nmix, catMap = NULL) {
 #'
 
 RandMatTSpatch <- function(p, d, pwMin, pwMax) {
-  if(d > p){
-    stop("ERROR: parameter d is greater than the number of dimensions p.")
-  }
-
   if(pwMin > pwMax){
     stop("ERROR: parameter pwMin is greater than pwMax.")
   }
@@ -417,10 +400,6 @@ RandMatTSpatch <- function(p, d, pwMin, pwMax) {
 #'
 
 RandMatImagePatch <- function(p, d, ih, iw, pwMin, pwMax) {
-  if(d > p){
-    stop("ERROR: parameter d is greater than the number of dimensions p.")
-  }
-
   if(pwMin > pwMax){
     stop("ERROR: parameter pwMin is greater than pwMax.")
   }
@@ -477,10 +456,6 @@ RandMatImagePatch <- function(p, d, ih, iw, pwMin, pwMax) {
 #'
 
 RandMatImageControl <- function(p, d, ih, iw, pwMin, pwMax) {
-  if(d > p){
-    stop("ERROR: parameter d is greater than the number of dimensions p.")
-  }
-
   if(pwMin > pwMax){
     stop("ERROR: parameter pwMin is greater than pwMax.")
   }
@@ -535,10 +510,6 @@ RandMatImageControl <- function(p, d, ih, iw, pwMin, pwMax) {
 #'
 
 RandMatCustom <- function(p, d, nnzSample, nnzProb) {
-  if(d > p){
-    stop("ERROR: parameter d is greater than the number of dimensions p.")
-  }
-
   try({
     if (any(nnzSample > p) | any(nnzSample == 0)) {
       stop("nnzs per projection must be no more than the number of features.")
