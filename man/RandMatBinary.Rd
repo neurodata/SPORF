@@ -4,18 +4,17 @@
 \alias{RandMatBinary}
 \title{Create a Random Matrix: Binary}
 \usage{
-RandMatBinary(p, d, rho, prob, catMap = NULL)
+RandMatBinary(p, d, sparsity, prob, catMap = NULL)
 }
 \arguments{
 \item{p}{the number of dimensions.}
 
 \item{d}{the number of desired columns in the projection matrix.}
 
-\item{rho}{a real number in \eqn{(0,1)} that specifies the distibution of
-non-zero elements in the random matrix.}
+\item{sparsity}{a real number in \eqn{(0,1)} that specifies the distribution of non-zero elements in the random matrix.}
 
-\item{prob}{a probability \eqn{\in (0,1)} used for creating the random
-matrix.}
+\item{prob}{a probability \eqn{\in (0,1)} used for sampling from
+\eqn{{-1,1}} where \code{prob = 0} will only sample -1 and \code{prob = 1} will only sample 1.}
 
 \item{catMap}{a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature.}
 }
@@ -29,9 +28,9 @@ Create a Random Matrix: Binary
 
 p <- 8
 d <- 3
-rho <- 0.25
+sparsity <- 0.25
 prob <- 0.5
 set.seed(4)
-(a <- RandMatBinary(p, d, rho, prob))
+(a <- RandMatBinary(p, d, sparsity, prob))
 
 }

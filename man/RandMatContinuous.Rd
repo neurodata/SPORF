@@ -4,14 +4,14 @@
 \alias{RandMatContinuous}
 \title{Create a Random Matrix: Continuous}
 \usage{
-RandMatContinuous(p, d, rho, catMap = NULL)
+RandMatContinuous(p, d, sparsity, catMap = NULL)
 }
 \arguments{
 \item{p}{the number of dimensions.}
 
 \item{d}{the number of desired columns in the projection matrix.}
 
-\item{rho}{a real number in \eqn{(0,1)} that specifies the distibution of non-zero elements in the random matrix.}
+\item{sparsity}{a real number in \eqn{(0,1)} that specifies the distribution of non-zero elements in the random matrix.}
 
 \item{catMap}{a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature.}
 }
@@ -25,7 +25,7 @@ Create a Random Matrix: Continuous
 
 p <- 8
 d <- 3
-rho <- 0.25
+sparsity <- 0.25
 set.seed(4)
 (a <- RandMatContinuous(p, d, rho))
 

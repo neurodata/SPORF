@@ -3,10 +3,9 @@
 #'
 #' @param p the number of dimensions.
 #' @param d the number of desired columns in the projection matrix.
-#' @param rho a real number in \eqn{(0,1)} that specifies the distibution of
-#' non-zero elements in the random matrix.
-#' @param prob a probability \eqn{\in (0,1)} used for creating the random
-#' matrix.
+#' @param sparsity a real number in \eqn{(0,1)} that specifies the distribution of non-zero elements in the random matrix.
+#' @param prob a probability \eqn{\in (0,1)} used for sampling from
+#' \eqn{{-1,1}} where \code{prob = 0} will only sample -1 and \code{prob = 1} will only sample 1.
 #' @param catMap a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature. 
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
@@ -17,14 +16,14 @@
 #'
 #' p <- 8
 #' d <- 3
-#' rho <- 0.25
+#' sparsity <- 0.25
 #' prob <- 0.5
 #' set.seed(4)
-#' (a <- RandMatBinary(p, d, rho, prob))
+#' (a <- RandMatBinary(p, d, sparsity, prob))
 #'
 
-RandMatBinary <- function(p, d, rho, prob, catMap = NULL) {
-  nnzs <- round(p * d * rho)
+RandMatBinary <- function(p, d, sparsity, prob, catMap = NULL) {
+  nnzs <- round(p * d * sparsity)
   ind <- sort(sample.int((p * d), nnzs, replace = FALSE))
   
   ## Determine if categorical variables need to be taken into
@@ -53,7 +52,7 @@ RandMatBinary <- function(p, d, rho, prob, catMap = NULL) {
 #'
 #' @param p the number of dimensions.
 #' @param d the number of desired columns in the projection matrix.
-#' @param rho a real number in \eqn{(0,1)} that specifies the distibution of non-zero elements in the random matrix.
+#' @param sparsity a real number in \eqn{(0,1)} that specifies the distribution of non-zero elements in the random matrix.
 #' @param catMap a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature. 
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
@@ -66,13 +65,13 @@ RandMatBinary <- function(p, d, rho, prob, catMap = NULL) {
 #'
 #' p <- 8
 #' d <- 3
-#' rho <- 0.25
+#' sparsity <- 0.25
 #' set.seed(4)
 #' (a <- RandMatContinuous(p, d, rho))
 #'
 
-RandMatContinuous <- function(p, d, rho, catMap = NULL) {
-  nnzs <- round(p * d * rho)
+RandMatContinuous <- function(p, d, sparsity, catMap = NULL) {
+  nnzs <- round(p * d * sparsity)
   ind <- sort(sample.int((p * d), nnzs, replace = FALSE))
   
   if (is.null(catMap)) {
@@ -132,7 +131,9 @@ RandMatRF <- function(p, d, catMap = NULL) {
 
 #' Create a Random Matrix: Poisson
 #'
-#'
+#' Samples a binary projection matrix where sparsity is distributed
+#' \eqn{Poisson(\lambda)}.
+#' 
 #' @param p the number of dimensions.
 #' @param d the number of desired columns in the projection matrix.
 #' @param lambda passed to the \code{\link[stats]{rpois}} function for generation of non-zero elements in the random matrix.

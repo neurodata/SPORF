@@ -19,7 +19,8 @@ RandMatPoisson(p, d, lambda, catMap = NULL)
 A random matrix to use in running \code{\link{RerF}}.
 }
 \description{
-Create a Random Matrix: Poisson
+Samples a binary projection matrix where sparsity is distributed
+\eqn{Poisson(\lambda)}.
 }
 \examples{
 
