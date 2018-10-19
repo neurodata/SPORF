@@ -4,21 +4,24 @@
 \alias{RerF}
 \title{RerF forest Generator}
 \usage{
-RerF(X, Y, min.parent = 6L, trees = 500L,
+RerF(X, Y, FUN = RandMatBinary, paramList = list(p =
+  ifelse(is.null(cat.map), ncol(X), length(cat.map)), d =
+  ceiling(sqrt(ncol(X))), sparsity = ifelse(is.null(cat.map), 1/ncol(X),
+  1/length(cat.map)), prob = 0.5), min.parent = 6L, trees = 500L,
   max.depth = ceiling(log2(nrow(X))), bagging = 0.2,
-  replacement = TRUE, stratify = FALSE, fun = NULL,
-  mat.options = list(p = ifelse(is.null(cat.map), ncol(X),
-  length(cat.map)), d = ceiling(sqrt(ncol(X))), random.matrix = "binary",
-  rho = ifelse(is.null(cat.map), 1/ncol(X), 1/length(cat.map)), prob =
-  0.5), rank.transform = FALSE, store.oob = FALSE,
-  store.impurity = FALSE, progress = FALSE, rotate = FALSE,
-  num.cores = 0L, seed = sample(0:1e+08, 1), cat.map = NULL,
-  rfPack = FALSE)
+  replacement = TRUE, stratify = FALSE, rank.transform = FALSE,
+  store.oob = FALSE, store.impurity = FALSE, progress = FALSE,
+  rotate = FALSE, num.cores = 0L, seed = sample(0:1e+08, 1),
+  cat.map = NULL, rfPack = FALSE)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}
 
 \item{Y}{an n length vector of class labels.  Class labels must be integer or numeric and be within the range 1 to the number of classes.}
+
+\item{FUN}{a function that creates the random projection matrix. If NULL and cat.map is NULL, then RandMat is used. If NULL and cat.map is not NULL, then RandMatCat is used, which adjusts the sampling of features when categorical features have been one-of-K encoded. If a custom function is to be used, then it must return a matrix in sparse representation, in which each nonzero is an array of the form (row.index, column.index, value). See RandMat or RandMatCat for details.}
+
+\item{paramList}{parameters in a named list to be used by FUN.}
 
 \item{min.parent}{the minimum splittable node size.  A node size < min.parent will be a leaf node. (min.parent = 6)}
 
@@ -31,10 +34,6 @@ RerF(X, Y, min.parent = 6L, trees = 500L,
 \item{replacement}{if TRUE then n samples are chosen, with replacement, from X. (replacement=TRUE)}
 
 \item{stratify}{if TRUE then class sample proportions are maintained during the random sampling.  Ignored if replacement = FALSE. (stratify = FALSE).}
-
-\item{fun}{a function that creates the random projection matrix. If NULL and cat.map is NULL, then RandMat is used. If NULL and cat.map is not NULL, then RandMatCat is used, which adjusts the sampling of features when categorical features have been one-of-K encoded. If a custom function is to be used, then it must return a matrix in sparse representation, in which each nonzero is an array of the form (row.index, column.index, value). See RandMat or RandMatCat for details. (fun=NULL)}
-
-\item{mat.options}{a list of parameters to be used by fun. (mat.options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)))}
 
 \item{rank.transform}{if TRUE then each feature is rank-transformed (i.e. smallest value becomes 1 and largest value becomes n) (rank.transform=FALSE)}
 
@@ -53,8 +52,6 @@ RerF(X, Y, min.parent = 6L, trees = 500L,
 \item{cat.map}{a list specifying which columns in X correspond to the same one-of-K encoded feature. Each element of cat.map is a numeric vector specifying the K column indices of X corresponding to the same categorical feature after one-of-K encoding. All one-of-K encoded features in X must come after the numeric features. The K encoded columns corresponding to the same categorical feature must be placed contiguously within X. The reason for specifying cat.map is to adjust for the fact that one-of-K encoding cateogorical features results in a dilution of numeric features, since a single categorical feature is expanded to K binary features. If cat.map = NULL, then RerF assumes all features are numeric (i.e. none of the features have been one-of-K encoded).}
 
 \item{rfPack}{boolean flag to determine whether to pack a random forest in order to improve prediction speed.  This flag is only applicable when training a forest with the "rf" option.  (rfPack = FALSE)}
-
-\item{prob}{the probability of sampling +1 in the default random matrix function}
 }
 \value{
 forest
@@ -84,17 +81,19 @@ col.idx <- 0L
 # one-of-K encode each categorical feature and store in X
 for (j in 1:p) {
   cat.map[[j]] <- (col.idx + 1L):(col.idx + num.categories[j])
-  X[, cat.map[[j]]] <- dummies::dummy(df2[[j]]) # converts categorical feature to K dummy variables
+  # convert categorical feature to K dummy variables
+  X[, cat.map[[j]]] <- dummies::dummy(df2[[j]])
   col.idx <- col.idx + num.categories[j]
 }
 Y <- df2$Survived
 
-# specifying the cat.map in RerF allows training to be aware of which dummy variables correspond
+# specifying the cat.map in RerF allows training to
+# be aware of which dummy variables correspond
 # to the same categorical feature
 forest <- RerF(X, Y, num.cores = 1L, cat.map = cat.map)
 
-### Train a random rotation ensemble of CART decision trees (see Blaser and Fryzlewicz 2016) ###
+### Train a random rotation ensemble of CART decision trees (see Blaser and Fryzlewicz 2016)
 forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L,
-mat.options = list(p=4, d=2,random.matrix="rf", 0.25), rotate = TRUE)
+               FUN = RandMatRF, paramList = list(p = 4, d = 2), rotate = TRUE)
 
 }

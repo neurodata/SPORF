@@ -315,7 +315,9 @@ d <- ceiling(sqrt(p)) # number of features to sample at each split
 
 # Here we specify that we want to run the standard random forest algorithm and we want to store the decrease in impurity at each split node. The latter option is required in order to compute Gini feature importance.
 
-forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], mat.options = list(p, d, random.matrix = "rf", NULL), num.cores = 1L, store.impurity = TRUE, seed = 1L)
+forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], FUN = RandMatRF,
+               paramList = list(p = p, d = d), num.cores = 1L, 
+               store.impurity = TRUE, seed = 1L)
 
 feature.imp <- FeatureImportance(forest, num.cores = 1L)
 ```
@@ -373,7 +375,10 @@ iw <- sqrt(p)
 ih <- iw
 patch.min <- 1L
 patch.max <- 5L
-forest <- RerF(Xtrain, Ytrain, num.cores = 1L, mat.options = list(p, d, random.matrix = "image-patch", iw, ih, patch.min, patch.max), seed = 1L)
+forest <- RerF(Xtrain, Ytrain, num.cores = 1L, FUN = RandMatImagePatch,
+               paramList = list(p = p, d = d, iw = iw, ih = ih, 
+                                pwMin = patch.min, pwMax = patch.max), 
+               seed = 1L)
 predictions <- Predict(Xtest, forest, num.cores = 1L)
 mnist.error.rate <- mean(predictions != Ytest)
 ```

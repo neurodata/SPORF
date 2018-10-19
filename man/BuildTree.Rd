@@ -4,14 +4,18 @@
 \alias{BuildTree}
 \title{RerF Tree Generator}
 \usage{
-BuildTree(X, Y, min.parent, max.depth, bagging, replacement, stratify,
-  class.ind, class.ct, fun, mat.options, store.oob, store.impurity,
+BuildTree(X, Y, FUN, paramList, min.parent, max.depth, bagging,
+  replacement, stratify, class.ind, class.ct, store.oob, store.impurity,
   progress, rotate)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}
 
 \item{Y}{an n length vector of class labels.  Class labels must be integer or numeric and be within the range 1 to the number of classes.}
+
+\item{FUN}{a function that creates the random projection matrix.}
+
+\item{paramList}{a named list of parameters to be used by FUN.  (paramList = list(p = ncol(X), d = round(ncol(X)^.5),1L, prob = 1/ncol(X)))}
 
 \item{min.parent}{the minimum splittable node size.  A node size < min.parent will be a leaf node. (min.parent = 6)}
 
@@ -27,10 +31,6 @@ BuildTree(X, Y, min.parent, max.depth, bagging, replacement, stratify,
 
 \item{class.ct}{a cumulative sum of class counts.}
 
-\item{fun}{a function that creates the random projection matrix. (fun=NULL)}
-
-\item{mat.options}{a list of parameters to be used by fun. (mat.options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)))}
-
 \item{store.oob}{if TRUE then the samples omitted during the creation of a tree are stored as part of the tree.  This is required to run OOBPredict(). (store.oob=FALSE)}
 
 \item{store.impurity}{if TRUE then the reduction in Gini impurity is stored for every split. This is required to run FeatureImportance() (store.impurity=FALSE)}
@@ -44,4 +44,11 @@ Tree
 }
 \description{
 Creates a single decision tree based on an input matrix and class vector.  This is the function used by rerf to generate trees.
+}
+\examples{
+
+x <- iris[, -5]
+y <- as.numeric(iris[, 5])
+#BuildTree(x, y, RandMatBinary, p = 4, d = 4, rho = 0.25, prob = 0.5)
+
 }
