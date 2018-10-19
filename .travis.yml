@@ -1,21 +1,23 @@
 language: r
-cache: packages
+dist: trusty
+
 r:
-    - release
+  - release
 
 sudo: false
 
 addons:
-      apt:
-          packages:
-              - libgsl0-dev
-                        
-before_install:
-    - #
+  apt:
+    packages:
+      - libgsl0-dev
+
+r_packages:
+  - devtools
+  - testthat
 
 script:
-    - printf "starting testthat run\n"
-    - Rscript -e "devtools::test()"
-    - cd travisTest
-    - printf "starting run\n"
-    - Rscript test.R
+  #- Rscript .#build.R
+  #- cd tests
+  - printf "starting testthat run\n"
+  #- Rscript testthat.R
+  - Rscript -e 'devtools::install(local=FALSE);devtools::test()'
