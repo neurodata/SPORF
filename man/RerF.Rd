@@ -6,7 +6,7 @@
 \usage{
 RerF(X, Y, FUN = RandMatBinary, paramList = list(p =
   ifelse(is.null(cat.map), ncol(X), length(cat.map)), d =
-  ceiling(sqrt(ncol(X))), rho = ifelse(is.null(cat.map), 1/ncol(X),
+  ceiling(sqrt(ncol(X))), sparsity = ifelse(is.null(cat.map), 1/ncol(X),
   1/length(cat.map)), prob = 0.5), min.parent = 6L, trees = 500L,
   max.depth = ceiling(log2(nrow(X))), bagging = 0.2,
   replacement = TRUE, stratify = FALSE, rank.transform = FALSE,
