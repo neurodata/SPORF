@@ -21,6 +21,7 @@
 #' @param seed the seed to use for training the forest.  For two runs to match you must use the same seed for each run AND you must also use the same number of cores for each run. (seed=sample((0:100000000,1)))
 #' @param cat.map a list specifying which columns in X correspond to the same one-of-K encoded feature. Each element of cat.map is a numeric vector specifying the K column indices of X corresponding to the same categorical feature after one-of-K encoding. All one-of-K encoded features in X must come after the numeric features. The K encoded columns corresponding to the same categorical feature must be placed contiguously within X. The reason for specifying cat.map is to adjust for the fact that one-of-K encoding cateogorical features results in a dilution of numeric features, since a single categorical feature is expanded to K binary features. If cat.map = NULL, then RerF assumes all features are numeric (i.e. none of the features have been one-of-K encoded).
 #' @param prob the probability of sampling +1 in the default random matrix function
+#' @param na.action action to take if NA values are found. By default it will omit rows with NA values. NOTE: na.action is performed in-place. See default function.
 #' @param rfPack boolean flag to determine whether to pack a random forest in order to improve prediction speed.  This flag is only applicable when training a forest with the "rf" option.  (rfPack = FALSE)
 #' @param na.action action to take if NA values are found. By default it will omit rows with NA values. NOTE: na.action is performed in-place. See default function.
 #'
@@ -67,20 +68,25 @@
 #' @importFrom stats na.action
 
 RerF <-
-	function(X, Y, min.parent = 6L, trees = 500L,
-					 max.depth = ceiling(log2(nrow(X))), bagging = .2,
-					 replacement = TRUE, stratify = FALSE,
-					 fun = NULL,
-					 mat.options = list(p = ifelse(is.null(cat.map), ncol(X), length(cat.map)), d = ceiling(sqrt(ncol(X))), random.matrix = "binary", rho = ifelse(is.null(cat.map), 1/ncol(X), 1/length(cat.map)), prob = 0.5),
-					 rank.transform = FALSE, store.oob = FALSE,
-					 store.impurity = FALSE, progress = FALSE,
-					 rotate = F, num.cores = 0L,
-					 seed = sample(0:100000000,1),
-					 cat.map = NULL, rfPack = FALSE,
-                     task = 'classification',
-                     na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] }
-                     )
-    {
+    function(X, Y, min.parent = 6L, trees = 500L,
+             max.depth = 0L, bagging = .2,
+             replacement = TRUE, stratify = FALSE,
+             fun = NULL,
+             mat.options = list(
+                 p = ifelse(is.null(cat.map), ncol(X), length(cat.map)), 
+                 d = ceiling(sqrt(ncol(X))), 
+                 random.matrix = "binary", 
+                 rho = ifelse(is.null(cat.map), 1/ncol(X), 1/length(cat.map)), 
+                 prob = 0.5),
+             rank.transform = FALSE, store.oob = FALSE,
+             store.impurity = FALSE, progress = FALSE,
+             rotate = F, num.cores = 0L,
+             seed = sample(0:1000000000,1),
+             cat.map = NULL,
+             rfPack = FALSE,
+             task = 'classification',
+             na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] }
+             ) {
 
         # check if task is specified correctly
         task <- sapply(task, tolower)
@@ -117,13 +123,13 @@ RerF <-
         } else {
             stop("Incompatible data type. Y must be of type factor or numeric.")
         }
-        
+
         # address na values.
         if (any(is.na(X)) ) {
             if (exists("na.action")) na.action(X,Y)
             if (any(is.na(X))) warning("NA values exist in data matrix")
         }
-        
+
         if (task == "classification"){
             num.class <- length(forest$labels)
             classCt <- cumsum(tabulate(Y, num.class))
@@ -139,65 +145,19 @@ RerF <-
         } else {
             mcrun<- function(...) regTree(X, Y, min.parent, max.depth, bagging, replacement, fun, mat.options, store.oob, store.impurity, progress, rotate)
         }
-        
-		#keep from making copies of X
-		if (!is.matrix(X)) {
-			X <- as.matrix(X)
-		}
-		if (rank.transform) {
-			X <- RankMatrix(X)
-		}
 
-		# adjust Y to go from 1 to num.class if needed
-		if (is.factor(Y)) {
-			forest$labels <- levels(Y)
-			Y <- as.integer(Y)
-		} else if (is.numeric(Y)) {
-			forest$labels <- sort(unique(Y))
-			Y <- as.integer(as.factor(Y))
-		} else {
-			stop("Incompatible data type. Y must be of type factor or numeric.")
-		}
-        num.class <- length(forest$labels)
-        classCt <- cumsum(tabulate(Y, num.class))
-        if(stratify){
-            Cindex<-vector("list",num.class)
-            for(m in 1L:num.class){
-                Cindex[[m]]<-which(Y==m)
-            }
-        }else{
-            Cindex<-NULL
-        }
-        mcrun<- function(...) BuildTree(
-                                        X, Y,
-                                        min.parent,
-                                        max.depth,
-                                        bagging,
-                                        replacement,
-                                        fun,
-                                        mat.options,
-                                        store.oob,
-                                        store.impurity,
-                                        progress,
-                                        rotate,
-                                        task,
-                                        stratify=stratify,
-                                        class.ind=Cindex,
-                                        class.ct=classCt
-                                        )
-
-    forest$params <- list(min.parent = min.parent,
-                          max.depth = max.depth,
-                          bagging = bagging,
-                          replacement = replacement,
-                          stratify = stratify,
-                          fun = fun,
-                          mat.options = mat.options,
-                          rank.transform = rank.transform,
-                          store.oob = store.oob,
-                          store.impurity = store.impurity,
-                          rotate = rotate,
-                          seed = seed)
+        forest$params <- list(min.parent = min.parent,
+                              max.depth = max.depth,
+                              bagging = bagging,
+                              replacement = replacement,
+                              stratify = stratify,
+                              fun = fun,
+                              mat.options = mat.options,
+                              rank.transform = rank.transform,
+                              store.oob = store.oob,
+                              store.impurity = store.impurity,
+                              rotate = rotate,
+                              seed = seed)
 
 		# address na values.
 		if (any(is.na(X)) ) {

@@ -152,22 +152,48 @@ double mse(NumericVector y) {
     return sum(pow((y_mean - y),2));
 }
 
+<<<<<<< HEAD
 
+=======
+/**
+ * Computes the split of a node. Given a vectorized version of the node assigned data values,
+ * iterate through each split location in splitPoints to find the split that minimizes the 
+ * split MSE. The logic is similar to finding the split for classification. However, to
+ * account for ties, splitPoints only contains splits that send at least one data point
+ * to each child. Note that splitPoints is computed outside of this function.
+ *
+ * @param x            the projected data vector to split
+ * @param y            the response vector
+ * @param splitPoints  splitting values that ensure at least one data point goes to each child.
+ * @param I            current node objective value
+ * @param maxdI        current best split information gain
+ * @param bv           current best split projection variable
+ * @param bs           current best split split boundary
+ * @param nzidx        the projection variable being considered
+ *
+ *
+ */
+>>>>>>> 935d5be2c67aa482ac5152e77d695478debb3fef
 List findSplitRegression(const NumericVector x, const NumericVector y, const NumericVector splitPoints, const int & ndSize, const double & I,
 	       double maxdI, int bv, double bs, const int nzidx) {
     double dI;
     int splitN = splitPoints.size();
     int splitEnd;
 <<<<<<< HEAD
+<<<<<<< HEAD
     // Rcpp::Rcout << std::to_string(splitN) << "\n";
     
 =======
 
 >>>>>>> Removed drivers
+=======
+
+>>>>>>> 935d5be2c67aa482ac5152e77d695478debb3fef
     if (splitN > 1) {
         for (int i = 1; i < splitN; ++i) {
             splitEnd = splitPoints[i]-2;
             dI = I - sum(NumericVector::create(mse(y[Range(0,splitEnd)]), mse(y[Range(splitEnd+1,ndSize-1)])));
+<<<<<<< HEAD
 <<<<<<< HEAD
             // Rcpp::Rcout << std::to_string(mse(y[Range(0,splitEnd)])) << "\n";
             // Rcpp::Rcout << std::to_string(mse(y[Range(splitEnd,ndSize-1)])) << "\n";                                  
@@ -175,6 +201,8 @@ List findSplitRegression(const NumericVector x, const NumericVector y, const Num
             // Rcpp::Rcout << std::to_string(dI) << "\n";
 =======
 >>>>>>> Removed drivers
+=======
+>>>>>>> 935d5be2c67aa482ac5152e77d695478debb3fef
             if (dI > maxdI) {
                 maxdI = dI;
                 bv = nzidx;

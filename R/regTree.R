@@ -276,9 +276,6 @@ regTree <-
                 }
                 next
             }
-            
-
-            
             # Move samples left or right based on split
             Assigned2Node[[NextUnusedNode]] <- Assigned2Node[[CurrentNode]][MoveLeft]
             Assigned2Node[[NextUnusedNode+1L]] <- Assigned2Node[[CurrentNode]][!MoveLeft]

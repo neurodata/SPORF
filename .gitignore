@@ -2,6 +2,9 @@
 .Rhistory
 .Rapp.history
 
+# R project files
+.Rproj.user
+
 # Session Data files
 # We are now including data.
 #.RData

@@ -34,6 +34,9 @@ Predict <-
     if(!is.matrix(X)){
         stop("Observations (X) must be a matrix or data frame.")
     }
+    if (task != "classification" & task != "regression" {
+        stop("Invalid task specified.")
+    }
 
     if (forest$params$rank.transform) {
       if (is.null(Xtrain)) {
@@ -75,7 +78,7 @@ Predict <-
     }
 
     if (!aggregate.output) {
-      if (task == 'classificaiton')
+      if (task == 'classification')
         predictions <- matrix(forest$labels[unlist(Yhats)], nrow(X), f_size)
       else
         predictions <- matrix(unlist(Yhats), nrow(X), f_size)
