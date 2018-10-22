@@ -22,8 +22,8 @@
 #' @importFrom parallel detectCores makeCluster parLapply stopCluster
 #' @importFrom utils object.size
 
-OOBPredict <- function(X, forest, num.cores = 0L, Xtrain = NULL, output.scores = FALSE) {
-  predictions <- Predict(X = X, forest = forest, OOB = TRUE, num.cores = num.cores, 
-    Xtrain = Xtrain, output.scores = output.scores)
+OOBPredict <- function(X, forest, num.cores = 0L, Xtrain = NULL, output.scores = FALSE, task = 'classification') {
+  predictions <- Predict(X = X, forest = forest, OOB = TRUE, num.cores = num.cores,
+    Xtrain = Xtrain, output.scores = output.scores, task = task)
   return(predictions)
 }

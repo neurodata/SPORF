@@ -30,8 +30,8 @@
 #' @importFrom stats na.action
 #'
 #' @export
-#' 
-#' 
+#'
+#'
 #' @examples
 #' ### Train RerF on numeric data ###
 #' library(rerf)
@@ -71,14 +71,14 @@
 #'
 
 RerF <-
-	function(X, Y, FUN = RandMatBinary, 
-           paramList = list(p = ifelse(is.null(cat.map), 
-                                       ncol(X), 
-                                       length(cat.map)), 
-                            d = ceiling(sqrt(ncol(X))), 
-                            sparsity = ifelse(is.null(cat.map), 
-                                              1/ncol(X), 
-                                              1/length(cat.map)), 
+	function(X, Y, FUN = RandMatBinary,
+           paramList = list(p = ifelse(is.null(cat.map),
+                                       ncol(X),
+                                       length(cat.map)),
+                            d = ceiling(sqrt(ncol(X))),
+                            sparsity = ifelse(is.null(cat.map),
+                                              1/ncol(X),
+                                              1/length(cat.map)),
                             prob = 0.5),
            min.parent = 6L, trees = 500L,
 					 max.depth = ceiling(log2(nrow(X))), bagging = .2,
@@ -87,93 +87,92 @@ RerF <-
 					 store.impurity = FALSE, progress = FALSE,
 					 rotate = FALSE, num.cores = 0L,
 					 seed = sample(0:100000000,1),
-					 cat.map = NULL, rfPack = FALSE){
-
-		# The below 'na.action' was removed from the parameter list of RerF because the CRAN check did not accept it and because it will potentially change the X and Y input by the user.
-		# na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] },
-		# @param na.action action to take if NA values are found. By default it will omit rows with NA values. NOTE: na.action is performed in-place. See default function.
+					 cat.map = NULL, rfPack = FALSE,
+					 task = 'classification'){
 
     FUN <- match.fun(FUN, descend = TRUE)
 
-		forest <- list(trees = NULL, labels = NULL, params = NULL)
-
-    # check if data matrix X has one-of-K encoded categorical features that
-    # need to be handled specially using RandMatCat instead of RandMat
-
-    if(!is.null(cat.map)){
-      paramList$catMap <- cat.map
+    #keep from making copies of X
+    if (!is.matrix(X)) {
+      X <- as.matrix(X)
+    }
+    if (rank.transform) {
+      X <- RankMatrix(X)
     }
 
-		#keep from making copies of X
-		if (!is.matrix(X)) {
-			X <- as.matrix(X)
-		}
-		if (rank.transform) {
-			X <- RankMatrix(X)
-		}
+    if (task == "classification") {
+      task_inputs <- preprocess.classification(X, Y, cat.map, stratify, paramList)
+      paramList <- task_inputs$paramList
+      forest <- task_inputs$forest
 
-		# adjust Y to go from 1 to num.class if needed
-		if (is.factor(Y)) {
-			forest$labels <- levels(Y)
-			Y <- as.integer(Y)
-		} else if (is.numeric(Y)) {
-			forest$labels <- sort(unique(Y))
-			Y <- as.integer(as.factor(Y))
-		} else {
-			stop("Incompatible data type. Y must be of type factor or numeric.")
-		}
-		num.class <- length(forest$labels)
-		classCt <- cumsum(tabulate(Y, num.class))
-		if(stratify){
-			Cindex <- vector("list",num.class)
-			for (m in 1L:num.class) {
-				Cindex[[m]] <- which(Y == m)
-			}
-		} else {
-			Cindex <- NULL
-		}
-
-		# address na values.
-		if (any(is.na(X)) ) {
-			if (exists("na.action")) {
-        stats::na.action(X,Y)
+      mcrun <- function(...) {
+        ClassificationTree(
+          X              = task_inputs$X,
+          Y              = task_inputs$Y,
+          FUN            = FUN,
+          paramList      = paramList,
+          min.parent     = min.parent,
+          max.depth      = max.depth,
+          bagging        = bagging,
+          replacement    = replacement,
+          stratify       = stratify,
+          class.ind      = task_inputs$Cindex,
+          class.ct       = task_inputs$classCt,
+          store.oob      = store.oob,
+          store.impurity = store.impurity,
+          progress       = progress,
+          rotate         = rotate
+        )
       }
-			if (any(is.na(X))) {
-        warning("NA values exist in data matrix")
-      }
-		}
 
-		mcrun <- function(...) {
-      BuildTree(X              = X,
-                Y              = Y,
-                FUN            = FUN,
-                paramList      = paramList,
-                min.parent     = min.parent,
-                max.depth      = max.depth,
-                bagging        = bagging,
-                replacement    = replacement,
-                stratify       = stratify,
-                class.ind      = Cindex,
-                class.ct       = classCt,
-                store.oob      = store.oob,
-                store.impurity = store.impurity,
-                progress       = progress,
-                rotate         = rotate
-               )
+      forest$params <- list(min.parent = min.parent,
+                            max.depth = max.depth,
+                            bagging = bagging,
+                            replacement = replacement,
+                            stratify = stratify,
+                            fun = FUN,
+                            paramList = paramList,
+                            rank.transform = rank.transform,
+                            store.oob = store.oob,
+                            store.impurity = store.impurity,
+                            rotate = rotate,
+                            seed = seed)
+    } else if (task == "regression") {
+      task_inputs <- preprocess.regression(X,Y)
+
+      mcrun <- function(...) {
+        RegressionTree(
+          X              = task_inputs$X,
+          Y              = task_inputs$Y,
+          FUN            = FUN,
+          paramList      = paramList,
+          min.parent     = min.parent,
+          max.depth      = max.depth,
+          bagging        = bagging,
+          replacement    = replacement,
+          store.oob      = store.oob,
+          store.impurity = store.impurity,
+          progress       = progress,
+          rotate         = rotate
+        )
+      }
+
+      forest$params <- list(min.parent = min.parent,
+                            max.depth = max.depth,
+                            bagging = bagging,
+                            replacement = replacement,
+                            stratify = stratify,
+                            fun = FUN,
+                            paramList = paramList,
+                            rank.transform = rank.transform,
+                            store.oob = store.oob,
+                            store.impurity = store.impurity,
+                            rotate = rotate,
+                            seed = seed)
+
+    } else {
+      stop("Invalid task specified")
     }
-
-		forest$params <- list(min.parent = min.parent,
-													max.depth = max.depth,
-													bagging = bagging,
-													replacement = replacement,
-													stratify = stratify,
-													fun = FUN,
-													paramList = paramList,
-													rank.transform = rank.transform,
-													store.oob = store.oob,
-													store.impurity = store.impurity,
-													rotate = rotate,
-													seed = seed)
 
 		if (num.cores!=1L){
 			RNGkind("L'Ecuyer-CMRG")
@@ -203,3 +202,4 @@ RerF <-
 		}
 		return(forest)
 	}
+

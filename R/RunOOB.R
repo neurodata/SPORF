@@ -8,18 +8,24 @@
 #' @return out prediction matrix used by OOBPredict
 #'
 
-RunOOB <- function(X, tree) {
+RunOOB <- function(X, tree, task = 'classification') {
   n.all <- nrow(X)
-  num.classes <- ncol(tree$ClassProb)
-  
+
+  if (task == 'classification')
+    num.classes <- ncol(tree$ClassProb)
+
   # Get OOB samples
   X <- X[tree$ind, , drop = FALSE]
-  
+
   # Predict OOB samples
-  predictions <- RunPredict(X, tree)
-  
+  predictions <- RunPredict(X, tree, task=task)
+
   # Create a matrix for all of samples
-  out <- matrix(0, nrow = n.all, ncol = num.classes)
+  if (task == 'classification') {
+    out <- matrix(0, nrow = n.all, ncol = num.classes)
+  } else {
+    out <- matrix(0, nrow = n.all, ncol = 1)
+  }
   out[tree$ind, ] <- predictions
   return(out)
 }
