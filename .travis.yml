@@ -20,4 +20,5 @@ script:
   #- cd tests
   - printf "starting testthat run\n"
   #- Rscript testthat.R
-  - Rscript -e 'devtools::Rcpp::compileAttributes();devtools::install(local=FALSE);devtools::test()'
+  - Rscript -e "install.packages('Rcpp', repos = 'http://cran.us.r-project.org');Rcpp::compileAttributes()"
+  - Rscript -e "devtools::install(local=FALSE);devtools::test()"
