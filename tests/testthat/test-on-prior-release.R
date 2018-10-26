@@ -1,7 +1,7 @@
 context("Iterate over multiple datasets/releases and multiple runs to test runtimes & accuracy")
 
 trees <- 10
-numT <- 1  # number of tests
+numT <- 2  # number of tests
 numC <- 3  # number of cores to use
 
 # Last test is usually skipped (MNIST data -- long)
