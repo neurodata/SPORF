@@ -76,13 +76,13 @@ RegressionTree <-
     matAindex <- integer(maxIN)
     matAsize <- ceiling(w / 2)
 
-    if (mat.options[[3L]] != "frc" &&
-        mat.options[[3L]] != "continuous" &&
-        mat.options[[3L]] != "frcn" &&
-        mat.options[[3L]] != "custom") {
-      matAstore <- integer(matAsize)
+    if (!identical(FUN, rerf::RandMatFRC)  &&
+        !identical(FUN, rerf::RandMatFRCN) &&
+        !identical(FUN, rerf::RandMatContinuous) &&
+        !identical(FUN, rerf::RandMatCustom)) {
+        matAstore <- integer(matAsize)
     } else {
-      matAstore <- double(matAsize)
+        matAstore <- double(matAsize)
     }
     matAindex[1L] <- 0L
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -129,6 +129,9 @@ RegressionTree <-
       NdSize <- length(Assigned2Node[[CurrentNode]]) #determine node size
       # compute impurity for current node
       nodeMean <- mean(Y[Assigned2Node[[CurrentNode]]])
+      if (is.nan(nodeMean)) {
+        print("HERE")
+      }
 
       I <- sum((nodeMean - Y[Assigned2Node[[CurrentNode]]]) ^ 2)
 
@@ -148,8 +151,8 @@ RegressionTree <-
         next
       }
 
-      # create projection matrix (sparseM) by calling the custom function fun
-      sparseM <- fun(mat.options)
+      # create projection matrix (sparseM) by calling the custom function FUN
+      sparseM <- do.call(FUN, paramList)
       nnz <-
         nrow(sparseM) # the number of non zeroes in the sparse matrix
       # set initial values for the find best split computation for the current node.
@@ -184,8 +187,6 @@ RegressionTree <-
         # Find non-duplicate projection values
         duplicateSequence <- as.integer(duplicated(x[1L:NdSize]))
         splitPoints <- which(duplicateSequence == 0)
-
-
         ##################################################################
         #                    Find Best Split
         ##################################################################
@@ -226,11 +227,13 @@ RegressionTree <-
       # find which child node each sample will go to and move
       # them accordingly
       MoveLeft <- Xnode[1L:NdSize]  <= ret$BestSplit
+      no_move <- all(MoveLeft == TRUE) || all(MoveLeft == FALSE)
 
       # check to see if a valid split was found.
-      move_left_number = length(Assigned2Node[[CurrentNode]][MoveLeft])
-      if (ret$MaxDeltaI == 0 |
-          NdSize == move_left_number | 0 == move_left_number)   {
+      # move_left_number = length(Assigned2Node[[CurrentNode]][MoveLeft])
+      if (no_move || ret$MaxDeltaI == 0 || length(splitPoints) == 0L) {
+      # if (ret$MaxDeltaI == 0 |
+      #     NdSize == move_left_number | 0 == move_left_number)   {
         # store tree map data (negative value means this is a leaf node
         treeMap[CurrentNode] <- currLN <- currLN - 1L
         Regressors[currLN * -1L] <- nodeMean
@@ -243,6 +246,14 @@ RegressionTree <-
         }
         next
       }
+
+
+
+
+
+
+
+
       # Move samples left or right based on split
       Assigned2Node[[NextUnusedNode]] <-
         Assigned2Node[[CurrentNode]][MoveLeft]
@@ -266,15 +277,13 @@ RegressionTree <-
         matAsize <- matAsize * 2L
         matAstore[matAsize] <- 0L
       }
-      if (mat.options[[3L]] != "frc" &&
-          mat.options[[3L]] != "continuous" &&
-          mat.options[[3L]] != "frcn" &&
-          mat.options[[3L]] != "custom") {
-        matAstore[(matAindex[currIN] + 1L):(matAindex[currIN] + currMatAlength)] <-
-          as.integer(t(sparseM[lrows, c(1L, 3L)]))
+      if (!identical(FUN, rerf::RandMatFRC)  &&
+          !identical(FUN, rerf::RandMatFRCN) &&
+          !identical(FUN, rerf::RandMatContinuous) &&
+          !identical(FUN, rerf::RandMatCustom)) {
+        matAstore[(matAindex[currIN]+1L):(matAindex[currIN]+currMatAlength)] <- as.integer(t(sparseM[lrows,c(1L,3L)]))
       } else {
-        matAstore[(matAindex[currIN] + 1L):(matAindex[currIN] + currMatAlength)] <-
-          t(sparseM[lrows, c(1L, 3L)])
+        matAstore[(matAindex[currIN]+1L):(matAindex[currIN]+currMatAlength)] <- t(sparseM[lrows,c(1L,3L)])
       }
       matAindex[currIN + 1] <- matAindex[currIN] + currMatAlength
       CutPoint[currIN] <-

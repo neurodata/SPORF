@@ -3,7 +3,7 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize, const double & I,
+List findSplitClassification(const NumericVector x, const IntegerVector y, const int & ndSize, const double & I,
 		double maxdI, int bv, double bs, const int nzidx, arma::vec cc) {
 	double xl, xr, dI;
 	int yl, yr, cons, bsidx, potsplit;
@@ -117,4 +117,77 @@ List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize,
 		bs = (x[bsidx - 1] + x[bsidx])/2;
 	}
 	return List::create(_["MaxDeltaI"] = maxdI, _["BestVar"] = bv, _["BestSplit"] = bs);
+}
+
+double mean(NumericVector x) {
+  int n = x.size();
+  double total = 0;
+
+  for(int i = 0; i < n; ++i) {
+    total += x[i];
+  }
+  return total / n;
+}
+
+double mse(NumericVector y) {
+  double y_mean = mean(y);
+  return sum(pow((y_mean - y),2));
+}
+
+List findSplitRegression(const NumericVector x, const NumericVector y, const NumericVector splitPoints, const int & ndSize, const double & I,
+	       double maxdI, int bv, double bs, const int nzidx) {
+    double dI;
+    int splitN = splitPoints.size();
+	int N = y.size();
+    int splitEnd;
+	NumericVector left;
+	NumericVector right;
+	double split_mse;
+	for (int i = 0; i < splitN; ++i) {
+		splitEnd = splitPoints[i]-1;
+		split_mse = 0;
+		if (splitEnd == 0) {
+			left = NumericVector::create(0);
+		} else if (splitEnd == 1) {
+			left = NumericVector::create(0);
+			split_mse = split_mse + mse(y[left]);
+		} else {
+			left = Range(0, splitEnd-1);
+			split_mse = split_mse + mse(y[left]);
+		}
+		if (splitEnd == N-1) {
+			right = NumericVector::create(N-1);
+			split_mse = split_mse + mse(y[right]);
+		} else {
+			right = Range(splitEnd, N-1);
+			split_mse = split_mse + mse(y[right]);
+		}
+		dI = I - split_mse;
+		// Rcpp::Rcout << std::to_string(mse(y[Range(0,splitEnd)])) << "\n";
+		// Rcpp::Rcout << std::to_string(mse(y[Range(splitEnd,ndSize-1)])) << "\n";
+		// Rcpp::Rcout << std::to_string(I) << "\n";
+		// Rcpp::Rcout << std::to_string(dI) << "\n";
+		if (dI > maxdI) {
+			maxdI = dI;
+			bv = nzidx;
+			bs = ((double)x[left[left.length()]] + (double)x[right[0]]) / 2.0;
+		}
+	}
+	return List::create(_["MaxDeltaI"] = maxdI, _["BestVar"] = bv, _["BestSplit"] = bs);
+}
+
+
+
+// [[Rcpp::export]]
+List findSplit(const NumericVector x, const NumericVector y, const NumericVector splitPoints, const int & ndSize, const double & I,
+	       double maxdI, int bv, double bs, const int nzidx, arma::vec cc, const int & task) {
+
+    List ret;
+    if (task == 0) {
+        const IntegerVector int_y = as<IntegerVector>(y);
+        ret = findSplitClassification(x, int_y, ndSize, I, maxdI, bv, bs, nzidx, cc);
+    } else {
+        ret = findSplitRegression(x, y, splitPoints, ndSize, I, maxdI, bv, bs, nzidx);
+    }
+    return ret;
 }

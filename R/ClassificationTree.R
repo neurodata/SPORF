@@ -257,12 +257,14 @@ ClassificationTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagg
                 ret[] <- findSplit(x = x[1:NdSize],
                                    y = y[1:NdSize],
                                    ndSize = NdSize,
+                                   splitPoints=c(1),
                                    I = I,
                                    maxdI = ret$MaxDeltaI,
                                    bv = ret$BestVar,
                                    bs = ret$BestSplit,
                                    nzidx = nz.idx,
-                                   cc = ClassCounts)
+                                   cc = ClassCounts,
+                                   task=0)
 
                 nz.idx <- nz.idx + feature.nnz
             }

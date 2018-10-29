@@ -15,7 +15,6 @@ RunPredict <- function(X, tree, task) {
   tm <- 0L
   currentNode <- 0L
   curr_ind <- 0L
-  num.classes <- ncol(tree$ClassProb)
   n <- nrow(X)
 
   # do we need to rotate the data?
@@ -26,8 +25,11 @@ RunPredict <- function(X, tree, task) {
       X[, tree$rotdims] <- X[, tree$rotdims] %*% tree$rotmat
     }
   }
-
-  predictions <- matrix(0, nrow = n, ncol = num.classes)
+  if (task == 'classification') {
+    predictions <- matrix(0, nrow = n, ncol = ncol(tree$ClassProb))
+  } else {
+    predictions <- matrix(0, nrow = n, ncol = 1)
+  }
 
   Xnode <- double(n)
   numNodes <- length(tree$treeMap)

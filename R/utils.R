@@ -52,14 +52,6 @@ preprocess.classification <- function(X, Y, cat.map, stratify, paramList) {
 preprocess.regression <- function(X, Y) {
   forest <- list(trees = NULL, labels = NULL, params = NULL)
 
-  # adjust Y to go from 1 to num.class if needed
-  if (is.numeric(Y)) {
-    forest$labels <- sort(unique(Y))
-    Y <- as.integer(as.factor(Y))
-  } else {
-    stop("Incompatible data type for regression. Y must be of type numeric.")
-  }
-
   # address na values.
   if (any(is.na(X)) ) {
     if (exists("na.action")) {

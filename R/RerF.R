@@ -139,6 +139,8 @@ RerF <-
                             seed = seed)
     } else if (task == "regression") {
       task_inputs <- preprocess.regression(X,Y)
+      forest <- task_inputs$forest
+
 
       mcrun <- function(...) {
         RegressionTree(

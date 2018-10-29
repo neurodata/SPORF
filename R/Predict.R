@@ -143,10 +143,15 @@ Predict <-
       if (output.scores) {
         return(proba)
       } else {
-        predictions <-
-          max.col(proba, ties.method = "random")  # Randomly break ties
-        if (task == 'classification')
+
+        if (task == 'classification') {
+          predictions <-
+            max.col(proba, ties.method = "random")  # Randomly break ties
           predictions <- factor(predictions, labels = labels)
+        } else {
+          predictions <-as.matrix(unlist(Yhats))
+          # predictions <-as.matrix( rowMeans(matrix(unlist(Yhats), nrow(X), f_size)))
+        }
         return(predictions)
       }
     }
