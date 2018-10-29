@@ -1,5 +1,7 @@
 context("Iterate over multiple datasets/releases and multiple runs to test runtimes & accuracy")
 
+require(devtools)
+
 trees <- 10
 numT <- 2  # number of tests
 numC <- 3  # number of cores to use
@@ -9,7 +11,7 @@ numTests <- c(rep(numT, 4), 10)
 cores <- c(rep(numC, 4), 25)
 numTrees <- c(rep(trees, 4), 100)
 
-path <- "tests/testthat/test_data/"
+path <- "test_data/"
 trainSets <- c("Orthant_train.csv", "Sparse_parity_train.csv", "Trunk_train.csv",
     "calcium-spike_train.csv", "mnist_train.csv")
 testSets <- c("Orthant_test.csv", "Sparse_parity_test.csv", "Trunk_test.csv", "calcium-spike_test.csv",
