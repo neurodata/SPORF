@@ -28,7 +28,7 @@ test_skips <- c(FALSE, FALSE, FALSE, FALSE, TRUE)  # skip MNIST data
 #' Gets memory used 
 #' @param x boolean passed to gc reset
 #'
-getMemUsed <- function(x) {
+getMemUsed <- function(x = FALSE) {
     tmp <- gc(reset = x)
     sum(tmp[, ncol(tmp) - 1])
 }
@@ -67,7 +67,7 @@ testDS <- function(trainSet, testSet, numTests, numTrees, cores) {
     
     for (i in 1:numTests) {
         # garbage collection, last two columns gives memory used since last call to gc
-        initMem <- getMemUsed()
+        initMem <- getMemUsed(TRUE)
         
         ptm <- proc.time()  # start timing
         
@@ -106,7 +106,7 @@ testDS <- function(trainSet, testSet, numTests, numTrees, cores) {
 
 testDSs <- function(trainSets, testSets, numTests, numTrees, cores, test_skips) {
     results <- list()
-    for (i in 1:which(!test_skips)) {
+    for (i in which(!test_skips)) {
         gc()  # run gc to keep timing pure?
         ret_vals <- testDS(trainSets[i], testSets[i], numTests[i], numTrees[i], cores[i])
         results[[i]] <- ret_vals
@@ -152,7 +152,7 @@ dist_same <- function(A, B) {
 
 test_that("test different parameters and performance to make sure they are similar", 
     {
-        for (i in 1:which(!test_skips)) {
+        for (i in which(!test_skips)) {
             for (param in 1:length(results_candidate[[1]])) {
                 print(names(results_candidate[[i]])[param])
                 expect_true(dist_same(results_candidate[[i]][[param]], results_baseline[[i]][[param]]))

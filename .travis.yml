@@ -22,3 +22,4 @@ script:
   #- Rscript testthat.R
   - Rscript -e "install.packages('Rcpp', repos = 'http://cran.us.r-project.org');Rcpp::compileAttributes()"
   - Rscript -e "devtools::install(local=FALSE);devtools::test()"
+  - Rscript travisTest/test-on-prior-release.R
