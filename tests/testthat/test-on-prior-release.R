@@ -100,7 +100,7 @@ testDSs <- function(trainSets, testSets, numTests, numTrees, cores, test_skips) 
 }
 
 # dev mode will let us load in a different version
-dev_mode(on = FALSE)
+devtools::dev_mode(on = FALSE)
 library("rerf")
 
 # this is the results from the candidate release
@@ -109,7 +109,7 @@ results_candidate <- testDSs(trainSets, testSets, numTests, numTrees, cores, tes
 detach("package:rerf", unload = TRUE)
 print("Finished current.")
 
-dev_mode(on = TRUE)
+devtools::dev_mode(on = TRUE)
 # Checking out `master` version (should be latest stable/released version)
 install_github("neurodata/lumberjack@master", local = FALSE, force=TRUE)
 library("rerf")
