@@ -61,10 +61,11 @@ Any machine with \>= 2 GB RAM
 
 ## Software Dependencies
 
-  - `R (>= 3.1.0)`
+  - `R (>= 3.3.0)`
   - `R` packages:
       - `dummies`
       - `compiler`
+      - `RcppArmadillo`
       - `RcppZiggurat`
       - `parallel`
 
@@ -79,18 +80,24 @@ Any machine with \>= 2 GB RAM
 
 From within R-
 
-    install.packages("rerf")
+``` r
+install.packages("rerf")
+```
 
 ### Development Version from Github:
 
 First install the `devtools` package if not currently installed. From
 within R-
 
-    install.packages("devtools")
+``` r
+install.packages("devtools")
+```
 
 Next install `rerf` from github. From within R-
 
-    devtools::install_github("neurodata/R-Rerf")
+``` r
+devtools::install_github("neurodata/R-Rerf", local = FALSE)
+```
 
 ## How to Use
 
@@ -98,7 +105,9 @@ Runtime for the following examples should be \< 1 sec on any machine.
 
 ### Load the library :
 
-    library(rerf)
+``` r
+library(rerf)
+```
 
 ### Create a forest:
 
@@ -287,10 +296,10 @@ scor <- StrCorr(predictions, Y[-trainIdx])
 ``` r
 scor
 #> $s
-#> [1] 0.8451333
+#> [1] 0.845
 #> 
 #> $rho
-#> [1] 0.4141002
+#> [1] 0.4186858
 ```
 
 ### Compute feature (projection) importance (DEV version only):
@@ -387,7 +396,7 @@ mnist.error.rate <- mean(predictions != Ytest)
 
 ``` r
 mnist.error.rate
-#> [1] 0.03154574
+#> [1] 0.0320715
 ```
 
 <!-- calcium-spike data are not properly documented at this time, waiting on @jasonkyuyim TBD by 20180813 -->

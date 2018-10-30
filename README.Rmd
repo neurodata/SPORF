@@ -58,10 +58,11 @@ Any machine with >= 2 GB RAM
 
 
 ## Software Dependencies
-- `R (>= 3.1.0)`
+- `R (>= 3.3.0)`
 - `R` packages:
   - `dummies`
   - `compiler`
+  - `RcppArmadillo`
   - `RcppZiggurat`
   - `parallel`
 
@@ -73,7 +74,7 @@ Any machine with >= 2 GB RAM
 ### Stable Release from CRAN:
 From within R-
 
-```
+```r
 install.packages("rerf")
 ```
 
@@ -81,14 +82,14 @@ install.packages("rerf")
 ### Development Version from Github:
 First install the `devtools` package if not currently installed. From within R-  
 
-```
+```r
 install.packages("devtools")
 ```
 
 Next install `rerf` from github.  From within R-  
 
-```
-devtools::install_github("neurodata/R-Rerf")
+```r
+devtools::install_github("neurodata/R-Rerf", local = FALSE)
 ```
 
 ## How to Use
@@ -97,7 +98,7 @@ Runtime for the following examples should be < 1 sec on any machine.
 
 ### Load the library :
 
-```
+```r
 library(rerf)
 ```
 
