@@ -25,5 +25,13 @@
 OOBPredict <- function(X, forest, num.cores = 0L, Xtrain = NULL, output.scores = FALSE) {
   predictions <- Predict(X = X, forest = forest, OOB = TRUE, num.cores = num.cores, 
     Xtrain = Xtrain, output.scores = output.scores)
+
+  if (any(is.na(preditions))) {
+    num <- sum(is.na(predictions))
+    mes1 <- sprintf("NA's generated in the OOB predictions because %d/%d observations were never out-of-bag.",
+      num, length(predictions))
+    mes2 <- "\nA fix for this is to re-train the forest using more trees."
+    warning(paste(mes1, mes2), call. = TRUE)
+  }
   return(predictions)
 }
