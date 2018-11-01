@@ -43,9 +43,6 @@ vignettes/*.pdf
 *.csv
 *.swp
 
-# auto generated Rcpp code (Rcpp::compileAttributes())
-src/RcppExports.cpp
-R/RcppExports.R
 .Rproj.user
 
 #automatically generated on Windows
