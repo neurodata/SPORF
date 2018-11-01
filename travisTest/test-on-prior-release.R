@@ -14,9 +14,9 @@ cores <- c(rep(numC, 4), 25)
 numTrees <- c(rep(trees, 4), 100)
 
 path <- "travisTest/"
-trainSets <- c("Orthant_train.csv", "Sparse_parity_train.csv", "Trunk_train.csv", 
+trainSets <- c("Orthant_train.csv", "Sparse_parity_train.csv", "Trunk_train.csv",
   "calcium-spike_train.csv", "mnist_train.csv")
-testSets <- c("Orthant_test.csv", "Sparse_parity_test.csv", "Trunk_test.csv", "calcium-spike_test.csv", 
+testSets <- c("Orthant_test.csv", "Sparse_parity_test.csv", "Trunk_test.csv", "calcium-spike_test.csv",
   "mnist_test.csv")
 trainSets <- sapply(trainSets, function(x) paste(path, x, sep = ""))
 testSets <- sapply(testSets, function(x) paste(path, x, sep = ""))
@@ -48,14 +48,14 @@ testDS <- function(trainSet, testSet, numTests, numTrees, cores) {
   X <- read.csv(trainSet, header = FALSE)
   Y <- as.numeric(X[, ncol(X)])
   X <- as.matrix(X[, 1:(ncol(X) - 1)])
-  
+
   Ymod <- 1 - as.numeric(min(levels(as.factor(Y))))
   Y <- Y + Ymod
-  
+
   Xtest <- read.csv(testSet, header = FALSE)
   Ytest <- as.numeric(Xtest[, ncol(Xtest)]) + Ymod
   Xtest <- as.matrix(Xtest[, 1:(ncol(Xtest) - 1)])
-  
+
   # initializing return values
   ptmtrain <- NA
   ptmtest <- NA
@@ -64,41 +64,41 @@ testDS <- function(trainSet, testSet, numTests, numTrees, cores) {
   OOBerror <- NA
   NodeSize <- NA
   memSize <- NA
-  
+
   for (i in 1:numTests) {
     # garbage collection, last two columns gives memory used since last call to gc
     initMem <- getMemUsed(TRUE)
-    
+
     ptm <- proc.time()  # start timing
-    
+
     # create forest
     forest <- RerF(X, Y, trees = numTrees, min.parent = 1L, max.depth = 0, stratify = TRUE, 
       store.oob = TRUE, num.cores = cores, seed = sample(1:10000, 1))
-    
+
     ptmtrain[i] <- (proc.time() - ptm)[3]  # time taken
-    
+
     memSize[i] <- getMemUsed() - initMem  # memory used
-    
+
     temp_size <- 0
     for (z in 1:length(forest$trees)) {
       temp_size <- temp_size + length(forest$trees[[z]]$treeMap)
     }
-    
+
     NodeSize[i] <- temp_size/length(forest$trees)
-    
+
     # time to do the OOB prediction
     ptm <- proc.time()
-    OOBmat_temp <- OOBPredict(X, forest, num.cores = cores)
+    OOBmat_temp <- suppressWarnings(OOBPredict(X, forest, num.cores = cores))
     OOBerror[i] <- mean(OOBmat_temp != Y, na.rm = TRUE)
     ptmOOB[i] <- (proc.time() - ptm)[3]
-    
+
     # time to do prediction
     ptm <- proc.time()
     error[i] <- mean(Predict(Xtest, forest, num.cores = cores) != Ytest)
     ptmtest[i] <- (proc.time() - ptm)[3]
   }
-  
-  ret_vals = list(ptmtrain = ptmtrain, ptmtest = ptmtest, ptmOOB = ptmOOB, error = error, 
+
+  ret_vals = list(ptmtrain = ptmtrain, ptmtest = ptmtest, ptmOOB = ptmOOB, error = error,
     OOBerror = OOBerror, NodeSize = NodeSize, memSize = memSize)
   return(ret_vals)
 }
@@ -114,7 +114,7 @@ testDSs <- function(trainSets, testSets, numTests, numTrees, cores, test_skips) 
   return(results)
 }
 
-# dev mode will let us load in a different version
+# first running on candidate
 devtools::dev_mode(on = FALSE)
 library("rerf")
 
@@ -122,11 +122,12 @@ library("rerf")
 results_candidate <- testDSs(trainSets, testSets, numTests, numTrees, cores, test_skips)
 
 detach("package:rerf", unload = TRUE)
-print("Finished current.")
+print("Finished candidate.")
 
+# dev mode will let us load in a different version
 devtools::dev_mode(on = TRUE)
-# Checking out `master` version (should be latest stable/released version)
-install_github("neurodata/lumberjack@master", local = FALSE, force = TRUE)
+# Checking out latest version on CRAN
+install.packages("rerf", repos='http://cran.us.r-project.org')
 library("rerf")
 
 # this is the results from the stable version
@@ -150,7 +151,7 @@ dist_same <- function(A, B) {
   return(TRUE)
 }
 
-test_that("test different parameters and performance to make sure they are similar", 
+test_that("test different parameters and performance to make sure they are similar",
   {
     for (i in which(!test_skips)) {
       for (param in 1:length(results_candidate[[1]])) {
