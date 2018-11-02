@@ -37,14 +37,14 @@ test_that("Iris OOB Predictions", {
   # Build as large of trees as possible
   forest <- RerF(X, Y, seed = 1L, num.cores = 1L, store.oob = TRUE, min.parent = 1, 
     max.depth = 0)
-  oob.predictions <- OOBPredict(X, forest)
+  oob.predictions <- OOBPredict(X, forest, num.cores = 1L)
   accuracy <- mean(Y == oob.predictions)
   expect_equal(accuracy, 143/150)
   
   # Limit depth of trees
   forest <- RerF(X, Y, seed = 1L, num.cores = 1L, store.oob = TRUE, min.parent = 1, 
     max.depth = 2)
-  oob.predictions <- OOBPredict(X, forest)
+  oob.predictions <- OOBPredict(X, forest, num.cores = 2L)
   accuracy <- mean(Y == oob.predictions)
   expect_equal(accuracy, 133/150)
 })
@@ -53,7 +53,7 @@ test_that("Iris Predictions", {
   # Build as large of trees as possible
   forest <- RerF(X.train, Y.train, seed = 3L, num.cores = 1L, min.parent = 1, 
     max.depth = 0)
-  predictions <- Predict(X.test, forest)
+  predictions <- Predict(X.test, forest, num.cores = 1L)
   accuracy <- mean(Y.test == predictions)
   expect_equal(accuracy, 64/70)
   
@@ -69,12 +69,12 @@ test_that("Output probabilities should equal 1", {
   forest <- RerF(X.train, Y.train, seed = 4L, num.cores = 1L, store.oob = TRUE, 
     min.parent = 1, max.depth = 3)
   # Test data predictions
-  predictions <- Predict(X.test, forest, output.scores = TRUE)
+  predictions <- Predict(X.test, forest, output.scores = TRUE, num.cores = 1L)
   nrows <- nrow(predictions)
   expect_equal(rep(1, nrows), rowSums(predictions))
   
   # OOB data predictions
-  oob.predictions <- OOBPredict(X.train, forest, output.scores = TRUE)
+  oob.predictions <- OOBPredict(X.train, forest, output.scores = TRUE, num.cores = 2L)
   nrows <- nrow(oob.predictions)
   expect_equal(rep(1, nrows), rowSums(oob.predictions))
 })
@@ -83,7 +83,7 @@ test_that("Not aggregate output, probabilities should still equal 1", {
   forest <- RerF(X.train, Y.train, seed = 5L, num.cores = 1L, store.oob = TRUE, 
     min.parent = 1, max.depth = 3)
   
-  predictions <- Predict(X.test, forest, output.scores = TRUE, aggregate.output = FALSE)
+  predictions <- Predict(X.test, forest, output.scores = TRUE, aggregate.output = FALSE, num.cores = 2L)
   trees <- length(predictions)
   for (i in 1:trees) {
     tree.predictions <- predictions[[i]]

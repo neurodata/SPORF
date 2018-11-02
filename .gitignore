@@ -43,7 +43,8 @@ vignettes/*.pdf
 *.csv
 *.swp
 
-# auto generated Rcpp code
-src/RcppExports.cpp
-R/RcppExports.R
 .Rproj.user
+
+#automatically generated on Windows
+rerf.dll
+src-i386
