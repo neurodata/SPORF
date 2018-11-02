@@ -13,88 +13,93 @@
 #' @return urerfStructure
 #'
 #' @export
-#' 
-#' 
+#'
+#'
 #' @examples
 #' ### Train RerF on numeric data ###
 #' library(rerf)
 #' urerfStructure <- Urerf((iris[, 1:4]))
 #'
-#' dissimilarityMatrix <-  hclust(as.dist(1-urerfStructure$similarityMatrix), method="mcquitty")
+#' dissimilarityMatrix <-  hclust(as.dist(1-urerfStructure$similarityMatrix), method='mcquitty')
 #' clusters <- cutree(dissimilarityMatrix, k=3)
 #'
 #'
 
-Urerf <-
-	function(X, trees=100, min.parent=round(nrow(X)^.5), max.depth=NA, mtry=round(ncol(X)^.5), normalizeData=TRUE){
+Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
+                  max.depth = NA, mtry = round(ncol(X)^0.5),
+                  normalizeData = TRUE) {
 
-		normalizeTheData <- function(X, normData){
-			if (normData){
-				X <- sweep(X, 2, apply(X, 2, min), "-")
-				return(sweep(X, 2, apply(X, 2, max), "/"))
-			}else{
-				return(X)
-			}
-		}
+  normalizeTheData <- function(X, normData) {
+    if (normData) {
+      X <- sweep(X, 2, apply(X, 2, min), "-")
+      return(sweep(X, 2, apply(X, 2, max), "/"))
+    } else {
+      return(X)
+    }
+  }
 
-		normalizeDataInfo <- function(X, normData){
-			if(normData){
-				colMin <- apply(X,2,min)
-				colMax <- apply(sweep(X, 2, apply(X, 2, min)), 2, max)
-			}else{
-				colMin <- 0
-				colMax <-1
-			}
-			list(colMin=colMin, colMax=colMax)
-		}
+  normalizeDataInfo <- function(X, normData) {
+    if (normData) {
+      colMin <- apply(X, 2, min)
+      colMax <- apply(sweep(X, 2, apply(X, 2, min)), 2, max)
+    } else {
+      colMin <- 0
+      colMax <- 1
+    }
+    list(colMin = colMin, colMax = colMax)
+  }
 
-		createMatrixFromForest <- function(Forest){
-			tS <- Forest[[1]]$TrainSize
-			numTrees <- length(Forest)
+  createMatrixFromForest <- function(Forest) {
+    tS <- Forest[[1]]$TrainSize
+    numTrees <- length(Forest)
 
-			simMatrix <- matrix(0,nrow=tS , ncol=tS)
+    simMatrix <- matrix(0, nrow = tS, ncol = tS)
 
-			for(i in 1:numTrees){
-				childNodes <- which(Forest[[i]]$Children[,1]==0)
-				for(j in childNodes){
-					for(k in 1:length(Forest[[i]]$ALeaf[[j]])){
-						for(iterator in 1:length(Forest[[i]]$ALeaf[[j]])){
-							simMatrix[Forest[[i]]$ALeaf[[j]][k],Forest[[i]]$ALeaf[[j]][iterator]] <- simMatrix[Forest[[i]]$ALeaf[[j]][k],Forest[[i]]$ALeaf[[j]][iterator]] + 1
-						}
-					}
-				}
-			}
-			simMatrix <- simMatrix/numTrees
-			if(any(diag(simMatrix) != 1)){
-				print("diag not zero")
-				diag(simMatrix) <- 1
-			}
-			return(simMatrix)
-		}
+    for (i in 1:numTrees) {
+      childNodes <- which(Forest[[i]]$Children[, 1] == 0)
+      for (j in childNodes) {
+        for (k in 1:length(Forest[[i]]$ALeaf[[j]])) {
+          for (iterator in 1:length(Forest[[i]]$ALeaf[[j]])) {
+            simMatrix[Forest[[i]]$ALeaf[[j]][k], Forest[[i]]$ALeaf[[j]][iterator]] <-
+              simMatrix[Forest[[i]]$ALeaf[[j]][k], Forest[[i]]$ALeaf[[j]][iterator]] + 1
+          }
+        }
+      }
+    }
+    simMatrix <- simMatrix/numTrees
+    if (any(diag(simMatrix) != 1)) {
+      print("diag not zero")
+      diag(simMatrix) <- 1
+    }
+    return(simMatrix)
+  }
 
-		########### Start Urerf #############
-		K <- min.parent
-		numTrees <- trees
-		depth <- max.depth
-		checkInputMatrix(X)
+  ########### Start Urerf #############
+  K <- min.parent
+  numTrees <- trees
+  depth <- max.depth
+  checkInputMatrix(X)
 
-		normInfo <- normalizeDataInfo(X,normalizeData)
-		X <- normalizeTheData(X,normalizeData)
+  normInfo <- normalizeDataInfo(X, normalizeData)
+  X <- normalizeTheData(X, normalizeData)
 
-		forest <-
-			if(is.na(depth)){
-				GrowUnsupervisedForest(X,trees=numTrees, MinParent=K, options=c(ncol(X), mtry,1L, 1/ncol(X)))
-			}else{
-				GrowUnsupervisedForest(X,trees=numTrees, MinParent=K, MaxDepth=depth,options=c(ncol(X), mtry,1L, 1/ncol(X)))
-			}
+  forest <- if (is.na(depth)) {
+    GrowUnsupervisedForest(X, trees = numTrees, MinParent = K, options = c(ncol(X),
+      mtry, 1L, 1/ncol(X)))
+  } else {
+    GrowUnsupervisedForest(X, trees = numTrees, MinParent = K, MaxDepth = depth,
+      options = c(ncol(X), mtry, 1L, 1/ncol(X)))
+  }
 
-		sM <- createMatrixFromForest(forest)
+  sM <- createMatrixFromForest(forest)
 
-		outliers <- apply(sM, 1, function(x) sum(sort(x,decreasing=TRUE)[1:3]))
+  outliers <- apply(sM, 1, function(x) sum(sort(x, decreasing = TRUE)[1:3]))
 
-		outlierMean <- mean(outliers)
-		outlierSD <- sd(outliers)
-		print(" ")
+  outlierMean <- mean(outliers)
+  outlierSD <- sd(outliers)
+  print(" ")
 
-		return(list(similarityMatrix=sM, forest=forest, colMin=normInfo$colMin, colMax=normInfo$colMax, outlierMean=outlierMean, outlierSD=outlierSD, trainSize=nrow(X)))
-	}
+  return(list(similarityMatrix = sM, forest = forest, colMin = normInfo$colMin,
+    colMax = normInfo$colMax, outlierMean = outlierMean, outlierSD = outlierSD,
+    trainSize = nrow(X)))
+}

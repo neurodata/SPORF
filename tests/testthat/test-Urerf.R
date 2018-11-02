@@ -6,33 +6,33 @@ set.seed(123456)
 
 test_that("bestCutForFeature", {
 
-						combinedFeature <- rep(5, 20)
+  combinedFeature <- rep(5, 20)
 
-						expect_true(is.null(TwoMeansCut(combinedFeature)))
+  expect_true(is.null(TwoMeansCut(combinedFeature)))
 
-						a <- 5
+  a <- 5
 
-						b <- 10
+  b <- 10
 
-						combinedFeature <- c(rep(a,20), rep(b,20))
+  combinedFeature <- c(rep(a, 20), rep(b, 20))
 
-						expect_equal(TwoMeansCut(combinedFeature), c((a+b)/2, 0))
+  expect_equal(TwoMeansCut(combinedFeature), c((a + b)/2, 0))
 
-						combinedFeature <- c(runif(10), runif(20)+2)
+  combinedFeature <- c(runif(10), runif(20) + 2)
 
-						result <- TwoMeansCut(combinedFeature)
+  result <- TwoMeansCut(combinedFeature)
 
-						expect_equal(result[1], mean(sort(combinedFeature)[10:11]))
+  expect_equal(result[1], mean(sort(combinedFeature)[10:11]))
 
-						expect_true(result[2] > 0)
+  expect_true(result[2] > 0)
 
-						a <- 0
+  a <- 0
 
-						b <- 10
+  b <- 10
 
-						combinedFeature <- c(rep(a,20), rep(b,20))
+  combinedFeature <- c(rep(a, 20), rep(b, 20))
 
-						expect_equal(TwoMeansCut(combinedFeature), c((a+b)/2, 0))
+  expect_equal(TwoMeansCut(combinedFeature), c((a + b)/2, 0))
 
 })
 
@@ -42,36 +42,36 @@ test_that("bestCutForFeature", {
 
 test_that("matrix attributes are legal", {
 
-						X <- NULL
+  X <- NULL
 
-						expect_error(checkInputMatrix(X),"the input is null.")
+  expect_error(checkInputMatrix(X), "the input is null.")
 
-						X <- cbind(0,matrix(runif(25), nrow=5))
+  X <- cbind(0, matrix(runif(25), nrow = 5))
 
-						expect_error(checkInputMatrix(X),"some columns are all zero.")
+  expect_error(checkInputMatrix(X), "some columns are all zero.")
 
-						X <- matrix(runif(25), nrow=5)
+  X <- matrix(runif(25), nrow = 5)
 
-						X[20] <- NA
+  X[20] <- NA
 
-						expect_error(checkInputMatrix(X),"some values are na or nan.")
+  expect_error(checkInputMatrix(X), "some values are na or nan.")
 
-						X[20] <- NaN
+  X[20] <- NaN
 
-						expect_error(checkInputMatrix(X),"some values are na or nan.")
+  expect_error(checkInputMatrix(X), "some values are na or nan.")
 
 })
 
 
 test_that("output is the right size and type", {
 
-						X <- as.matrix(iris[,1:4])
+  X <- as.matrix(iris[, 1:4])
 
-						similarityMatrix <- Urerf(X, 100, 10)$similarityMatrix
+  similarityMatrix <- Urerf(X, 100, 10)$similarityMatrix
 
 
-						expect_equal(nrow(similarityMatrix), 150)
+  expect_equal(nrow(similarityMatrix), 150)
 
-						expect_equal(ncol(similarityMatrix), 150)
+  expect_equal(ncol(similarityMatrix), 150)
 
 })
