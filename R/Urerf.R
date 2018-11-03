@@ -2,12 +2,11 @@
 #'
 #' Creates a decision forest based on an input matrix and class vector.  This is the main function in the rerf package.
 #'
-#' @param X an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.
+#' @param X an n by d numeric matrix. The rows correspond to observations and columns correspond to features.
 #' @param trees the number of trees in the forest. (trees=100)
 #' @param min.parent the minimum splittable node size.  A node size < min.parent will be a leaf node. (min.parent = round(nrow(X)^.5))
 #' @param max.depth the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=NA, the tree will be allowed to grow without bound.  (max.depth=NA)
 #' @param mtry the number of features to test at each node.  (mtry=round(ncol(X)^.5))
-#' @param max.depth the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=NA, the tree will be allowed to grow without bound.  (max.depth=NA)
 #' @param normalizeData a logical value that determines if input data is normalized to values ranging from 0 to 1 prior to processing.  (normalizeData=TRUE)
 #'
 #' @return urerfStructure
@@ -18,7 +17,7 @@
 #' @examples
 #' ### Train RerF on numeric data ###
 #' library(rerf)
-#' urerfStructure <- Urerf((iris[, 1:4]))
+#' urerfStructure <- Urerf(as.matrix(iris[, 1:4]))
 #'
 #' dissimilarityMatrix <-  hclust(as.dist(1-urerfStructure$similarityMatrix), method='mcquitty')
 #' clusters <- cutree(dissimilarityMatrix, k=3)

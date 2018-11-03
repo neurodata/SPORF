@@ -95,7 +95,7 @@ checkInputMatrix <- function(X) {
 #'
 #' @return tree
 #'
-#'
+#' @importFrom utils flush.console
 
 GrowUnsupervisedForest <-
   function(X, MinParent = 1, trees = 100,

@@ -4,15 +4,20 @@
 #'
 #' @param X an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.  X must be numeric or convertable to numeric.
 #' @param trees the number of trees to grow (trees = 100).
-#' @param K the minimum leaf node size.  Use of K increases liklihood that nodes will contain multiple observations. (K = 10)
-#' @param depth the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If depth=NA then K is used as the sole stopping criteria. (depth=NA)
+#' @param min.parent the minimum leaf node size.  Use of min.parent
+#' increases liklihood that nodes will contain multiple observations.
+#' e.g. (min.parent = 10)
+#' @param max.depth the longest allowable distance from the root of a
+#' tree to a leaf node (i.e. the maximum allowed height for a tree).  If
+#' depth=NA then min.parent is used as the sole stopping criteria. (depth=NA)
 #'
 #' @return urerfStructure
 #'
 #' @examples
 #' library(rerf)
 #' X <- as.matrix(iris[,1:4])
-#' urerfStructure <- UnsupervisedLumberjack(X, trees=100, K=10, depth=5)
+#' urerfStructure <- UnsupervisedLumberjack(X, trees=100,
+#'                                          min.parent=10, max.depth=5)
 #'
 #' @export
 #'
@@ -77,7 +82,7 @@ UnsupervisedLumberjack <- function(X, trees = 100, min.parent = 10,
   X <- normalizeData(X)
 
   forest <- invisible(ifelse(is.na(depth), GrowUnsupervisedForest(X, trees = numTrees,
-    MinParent = K), GrowUnsupervisedForest(X, trees = numTrees, MaxDepth = depth)))
+    MinParent = k), GrowUnsupervisedForest(X, trees = numTrees, MaxDepth = depth)))
   sM <- createMatrixFromForest(forest)
 
   outliers <- apply(sM, 1, function(x) sum(sort(x, decreasing = TRUE)[1:3]))
