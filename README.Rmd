@@ -2,6 +2,7 @@
 title: "README"
 output:
   html_document:
+    self_contained: true
     keep_md: true
     toc: true
     toc_depth: 2
@@ -36,10 +37,10 @@ knitr::opts_chunk$set(
 
 
 ## Repo Contents
-- [**R**](https://github.com/neurodata/R-RerF/tree/master/R): `R` building blocks for user interface code. Internally called by user interface.
-- [**man**](https://github.com/neurodata/R-RerF/tree/master/man): Package documentation
-- [**src**](https://github.com/neurodata/R-RerF/tree/master/src): C++ functions called from within R
-- [**tests**](https://github.com/neurodata/R-RerF/tree/master/tests): testthat tests
+- [**R**](https://github.com/neurodata/lumberjack/tree/master/R): `R` building blocks for user interface code. Internally called by user interface.
+- [**man**](https://github.com/neurodata/lumberjack/tree/master/man): Package documentation
+- [**src**](https://github.com/neurodata/lumberjack/tree/master/src): C++ functions called from within R
+- [**tests**](https://github.com/neurodata/lumberjack/tree/master/tests): testthat tests
 
 ## Description
 Lumberjack (aka Randomer Forest (RerF), or Random Projection Forests) is a generalization of the Random Forest (RF) algorithm. RF partitions the input (feature) space via a series of recursive binary hyperplanes. Hyperplanes are constrained to be axis-aligned. In other words, each partition is a test of the form X<sub>i</sub> > t, where t is a threshold and X<sub>i</sub> is one of p inputs (features) {X<sub>1</sub>, ..., X<sub>p</sub>}. The best axis-aligned split is found by sampling a random subset of the p inputs and choosing the one that best partitions the observed data according to some specified split criterion. RerF relaxes the constraint that the splitting hyperplanes must be axis-aligned. That is, each partition in RerF is a test of the form w<sub>1</sub>X<sub>1</sub> + ... + w<sub>p</sub>X<sub>p</sub> > t. The orientations of hyperplanes are sampled randomly via a user-specified distribution on the coefficients w<sub>i</sub>, although an empirically validated default distribution is provided. Currently only classification is supported. Regression and unsupervised learning will be supported in the future.
@@ -274,9 +275,9 @@ u1 <- Urerf(X, trees = 100)
 
 ### The dissimilarity matrix
 
-```{r, fig.width = 8, fig.height = 8}
+```{r dissimilarityMatrix}
 m <- as.matrix(u1$sim)
-plot(as.raster(m))
+#plot(as.raster(m))
 ```
 
 ### Running h-clust on the resulting dissimiliarity matrix

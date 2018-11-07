@@ -8,7 +8,7 @@ Urerf(X, trees = 100, min.parent = round(nrow(X)^0.5),
   max.depth = NA, mtry = round(ncol(X)^0.5), normalizeData = TRUE)
 }
 \arguments{
-\item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}
+\item{X}{an n by d numeric matrix. The rows correspond to observations and columns correspond to features.}
 
 \item{trees}{the number of trees in the forest. (trees=100)}
 
