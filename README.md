@@ -3,8 +3,7 @@ README
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-  - [\[Randomer Forest\](https://arxiv.org/pdf/1506.03410v2.pdf “arxiv
-    link to RerF paper”)](#randomer-forest)
+  - [Randomer Forest](#randomer-forest)
       - [Repo Contents](#repo-contents)
       - [Description](#description)
       - [Tested on](#tested-on)
