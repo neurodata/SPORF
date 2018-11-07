@@ -14,10 +14,13 @@ addons:
 r_packages:
   - devtools
   - testthat
+  - Rcpp
 
 script:
   - printf "Starting install and test with devtools.\n\n"
+  - Rscript -e "Rcpp::compileAttributes()"
   - Rscript -e "devtools::install(local=FALSE);devtools::test()"
+  - Rscript travisTest/test-on-prior-release.R
   - printf "Starting BUILD and CHECK --as-cran\n\n"
   - R CMD build --resave-data .
   - R CMD check --as-cran --no-manual rerf*tar.gz

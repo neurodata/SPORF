@@ -1,11 +1,9 @@
 ---
 title: "README"
 output:
-  html_document:
-    self_contained: true
-    keep_md: true
-    toc: true
-    toc_depth: 2
+  github_document:
+    html_preview: true
+    toc: false
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -16,7 +14,7 @@ output:
 ## takes about 30 seconds to run.
 require(rerf)
 system.time({
-  rmarkdown::render('README.Rmd', output_format = 'all')
+  rmarkdown::render('README.Rmd', output_format = "github_document")
   }
 )
 ```
@@ -28,6 +26,28 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+
+-   [[Randomer
+    Forest](https://arxiv.org/pdf/1506.03410v2.pdf "arxiv link to RerF paper")](#randomer-forest)
+    -   [Repo Contents](#repo-contents)
+    -   [Description](#description)
+    -   [Tested on](#tested-on)
+    -   [Hardware Requirements](#hardware-requirements)
+    -   [Software Dependencies](#software-dependencies)
+    -   [Installation](#installation)
+-   [Usage](#usage)
+    -   [Load the library :](#load-the-library)
+    -   [Create a forest:](#create-a-forest)
+    -   [Making predictions and determining error
+        rate:](#making-predictions-and-determining-error-rate)
+    -   [Compute similarities:](#compute-similarities)
+    -   [Compute tree strengths and
+        correlations:](#compute-tree-strengths-and-correlations)
+    -   [Train Structured RerF (S-RerF) for image
+        classification:](#train-structured-rerf-s-rerf-for-image-classification)
+    -   [Unsupervised classification
+        (U-RerF)](#unsupervised-classification-u-rerf)
+
 
 
 # [Randomer Forest](https://arxiv.org/pdf/1506.03410v2.pdf "arxiv link to RerF paper")
