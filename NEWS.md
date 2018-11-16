@@ -6,6 +6,9 @@ Changes in 2.0.0:
   future updates there may be some changes to function names, which will
   be noted in the NEWS file.
 
+* The option `rho` in the RerF function has been re-named to `sparsity`
+  to match with the algorithm explanation 
+
 * Predictions are made based on the average of posteriors rather than average of the predictions. 
 
 * The included RandMat functions have been re-structured for ease of use with their
