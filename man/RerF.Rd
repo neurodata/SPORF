@@ -5,9 +5,11 @@
 \title{RerF forest Generator}
 \usage{
 RerF(X, Y, FUN = RandMatBinary, paramList = list(p =
-  ifelse(is.null(cat.map), ncol(X), length(cat.map)), d =
-  ceiling(sqrt(ncol(X))), sparsity = ifelse(is.null(cat.map), 1/ncol(X),
-  1/length(cat.map)), prob = 0.5), min.parent = 6L, trees = 500L,
+  ifelse(is.null(cat.map), ncol(X), length(cat.map) + (ncol(X) -
+  length(Reduce(c, cat.map)))), d = ceiling(sqrt(ncol(X))), sparsity =
+  ifelse(is.null(cat.map), ifelse(ncol(X) >= 10, 3/ncol(X), 1/ncol(X)),
+  ifelse(length(cat.map) >= 10, 3/length(cat.map), 1/length(cat.map))),
+  prob = 0.5), min.parent = 6L, trees = 500L,
   max.depth = ceiling(log2(nrow(X))), bagging = 0.2,
   replacement = TRUE, stratify = FALSE, rank.transform = FALSE,
   store.oob = FALSE, store.impurity = FALSE, progress = FALSE,
