@@ -4,7 +4,7 @@
 \alias{RandMatImagePatch}
 \title{Create a Random Matrix: image-patch}
 \usage{
-RandMatImagePatch(p, d, ih, iw, pwMin, pwMax)
+RandMatImagePatch(p, d, ih, iw, pwMin, pwMax, ...)
 }
 \arguments{
 \item{p}{the number of dimensions.}
@@ -18,6 +18,8 @@ RandMatImagePatch(p, d, ih, iw, pwMin, pwMax)
 \item{pwMin}{the minimum patch size to sample.}
 
 \item{pwMax}{the maximum patch size to sample.}
+
+\item{...}{used to handle superfluous arguments passed in using paramList.}
 }
 \value{
 A random matrix to use in running \code{\link{RerF}}.

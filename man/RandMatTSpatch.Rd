@@ -4,7 +4,7 @@
 \alias{RandMatTSpatch}
 \title{Create a Random Matrix: ts-patch}
 \usage{
-RandMatTSpatch(p, d, pwMin, pwMax)
+RandMatTSpatch(p, d, pwMin, pwMax, ...)
 }
 \arguments{
 \item{p}{the number of dimensions.}
@@ -14,6 +14,8 @@ RandMatTSpatch(p, d, pwMin, pwMax)
 \item{pwMin}{the minimum patch size to sample.}
 
 \item{pwMax}{the maximum patch size to sample.}
+
+\item{...}{used to handle superfluous arguments passed in using paramList.}
 }
 \value{
 A random matrix to use in running \code{\link{RerF}}.

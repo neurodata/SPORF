@@ -4,7 +4,7 @@
 \alias{RandMatFRCN}
 \title{Create a Random Matrix: FRCN}
 \usage{
-RandMatFRCN(p, d, nmix, catMap = NULL)
+RandMatFRCN(p, d, nmix, catMap = NULL, ...)
 }
 \arguments{
 \item{p}{the number of dimensions.}
@@ -14,6 +14,8 @@ RandMatFRCN(p, d, nmix, catMap = NULL)
 \item{nmix}{mupliplier to \code{d} to specify the number of non-zeros.}
 
 \item{catMap}{a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature.}
+
+\item{...}{used to handle superfluous arguments passed in using paramList.}
 }
 \value{
 A random matrix to use in running \code{\link{RerF}}.

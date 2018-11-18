@@ -7,6 +7,7 @@
 #' @param prob a probability \eqn{\in (0,1)} used for sampling from
 #' \eqn{{-1,1}} where \code{prob = 0} will only sample -1 and \code{prob = 1} will only sample 1.
 #' @param catMap a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature. 
+#' @param ... used to handle superfluous arguments passed in using paramList.
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
 #'
@@ -22,7 +23,7 @@
 #' (a <- RandMatBinary(p, d, sparsity, prob))
 #'
 
-RandMatBinary <- function(p, d, sparsity, prob, catMap = NULL) {
+RandMatBinary <- function(p, d, sparsity, prob, catMap = NULL, ...) {
   nnzs <- round(p * d * sparsity)
   ind <- sort(sample.int((p * d), nnzs, replace = FALSE))
   
@@ -54,6 +55,7 @@ RandMatBinary <- function(p, d, sparsity, prob, catMap = NULL) {
 #' @param d the number of desired columns in the projection matrix.
 #' @param sparsity a real number in \eqn{(0,1)} that specifies the distribution of non-zero elements in the random matrix.
 #' @param catMap a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature. 
+#' @param ... used to handle superfluous arguments passed in using paramList.
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
 #'
@@ -70,7 +72,7 @@ RandMatBinary <- function(p, d, sparsity, prob, catMap = NULL) {
 #' (a <- RandMatContinuous(p, d, sparsity))
 #'
 
-RandMatContinuous <- function(p, d, sparsity, catMap = NULL) {
+RandMatContinuous <- function(p, d, sparsity, catMap = NULL, ...) {
   nnzs <- round(p * d * sparsity)
   ind <- sort(sample.int((p * d), nnzs, replace = FALSE))
   
@@ -98,6 +100,7 @@ RandMatContinuous <- function(p, d, sparsity, catMap = NULL) {
 #' @param p the number of dimensions.
 #' @param d the number of desired columns in the projection matrix.
 #' @param catMap a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature. 
+#' @param ... used to handle superfluous arguments passed in using paramList.
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
 #'
@@ -112,7 +115,7 @@ RandMatContinuous <- function(p, d, sparsity, catMap = NULL) {
 #' (a <- do.call(RandMatRF, paramList))
 #'
 
-RandMatRF <- function(p, d, catMap = NULL) {
+RandMatRF <- function(p, d, catMap = NULL, ...) {
   if(d > p){
     stop("ERROR: parameter d is greater than the number of dimensions p.")
     }
@@ -142,6 +145,7 @@ RandMatRF <- function(p, d, catMap = NULL) {
 #' @param d the number of desired columns in the projection matrix.
 #' @param lambda passed to the \code{\link[stats]{rpois}} function for generation of non-zero elements in the random matrix.
 #' @param catMap a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature. 
+#' @param ... used to handle superfluous arguments passed in using paramList.
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
 #'
@@ -159,7 +163,7 @@ RandMatRF <- function(p, d, catMap = NULL) {
 #' (a <- do.call(RandMatPoisson, paramList))
 #'
 
-RandMatPoisson <- function(p, d, lambda, catMap = NULL) {
+RandMatPoisson <- function(p, d, lambda, catMap = NULL, ...) {
   if (lambda <= 0) {
     stop("ERROR: Wrong parameter for Poisson, make sure lambda > 0.")
   }
@@ -208,6 +212,7 @@ RandMatPoisson <- function(p, d, lambda, catMap = NULL) {
 #' @param d the number of desired columns in the projection matrix.
 #' @param nmix mupliplier to \code{d} to specify the number of non-zeros.
 #' @param catMap a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature. 
+#' @param ... used to handle superfluous arguments passed in using paramList.
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
 #' 
@@ -225,7 +230,7 @@ RandMatPoisson <- function(p, d, lambda, catMap = NULL) {
 #' (a <- do.call(RandMatFRC, paramList))
 #'
 
-RandMatFRC <- function(p, d, nmix, catMap = NULL) {
+RandMatFRC <- function(p, d, nmix, catMap = NULL, ...) {
   if(nmix > p){
     stop("ERROR: parameter nmix is greater than the number of dimensions p.")
     }
@@ -265,6 +270,7 @@ RandMatFRC <- function(p, d, nmix, catMap = NULL) {
 #' @param d the number of desired columns in the projection matrix.
 #' @param nmix mupliplier to \code{d} to specify the number of non-zeros.
 #' @param catMap a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature. 
+#' @param ... used to handle superfluous arguments passed in using paramList.
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
 #'
@@ -282,7 +288,7 @@ RandMatFRC <- function(p, d, nmix, catMap = NULL) {
 #' (a <- do.call(RandMatFRCN, paramList))
 #'
 
-RandMatFRCN <- function(p, d, nmix, catMap = NULL) {
+RandMatFRCN <- function(p, d, nmix, catMap = NULL, ...) {
   if(d > p){
     stop("ERROR: parameter d is greater than the number of dimensions p.")
   }
@@ -321,6 +327,7 @@ RandMatFRCN <- function(p, d, nmix, catMap = NULL) {
 #' @param d the number of desired columns in the projection matrix.
 #' @param pwMin the minimum patch size to sample.
 #' @param pwMax the maximum patch size to sample.
+#' @param ... used to handle superfluous arguments passed in using paramList.
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
 #'
@@ -337,7 +344,7 @@ RandMatFRCN <- function(p, d, nmix, catMap = NULL) {
 #' (a <- do.call(RandMatTSpatch, paramList))
 #'
 
-RandMatTSpatch <- function(p, d, pwMin, pwMax) {
+RandMatTSpatch <- function(p, d, pwMin, pwMax, ...) {
   if(pwMin > pwMax){
     stop("ERROR: parameter pwMin is greater than pwMax.")
   }
@@ -382,6 +389,7 @@ RandMatTSpatch <- function(p, d, pwMin, pwMax) {
 #' @param iw the width (px) of the image.
 #' @param pwMin the minimum patch size to sample.
 #' @param pwMax the maximum patch size to sample.
+#' @param ... used to handle superfluous arguments passed in using paramList.
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
 #'
@@ -399,7 +407,7 @@ RandMatTSpatch <- function(p, d, pwMin, pwMax) {
 #' (a <- do.call(RandMatImagePatch, paramList))
 #'
 
-RandMatImagePatch <- function(p, d, ih, iw, pwMin, pwMax) {
+RandMatImagePatch <- function(p, d, ih, iw, pwMin, pwMax, ...) {
   if(pwMin > pwMax){
     stop("ERROR: parameter pwMin is greater than pwMax.")
   }
@@ -438,6 +446,7 @@ RandMatImagePatch <- function(p, d, ih, iw, pwMin, pwMax) {
 #' @param iw the width (px) of the image.
 #' @param pwMin the minimum patch size to sample.
 #' @param pwMax the maximum patch size to sample.
+#' @param ... used to handle superfluous arguments passed in using paramList.
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
 #'
@@ -455,7 +464,7 @@ RandMatImagePatch <- function(p, d, ih, iw, pwMin, pwMax) {
 #' (a <- do.call(RandMatImageControl, paramList))
 #'
 
-RandMatImageControl <- function(p, d, ih, iw, pwMin, pwMax) {
+RandMatImageControl <- function(p, d, ih, iw, pwMin, pwMax, ...) {
   if(pwMin > pwMax){
     stop("ERROR: parameter pwMin is greater than pwMax.")
   }
@@ -491,6 +500,7 @@ RandMatImageControl <- function(p, d, ih, iw, pwMin, pwMax) {
 #' sample at each \code{d}.  Each entry should be less than \code{p}.
 #' @param nnzProb a vector specifying probabilities in one-to-one correspondance
 #' with \code{nnzSample}.
+#' @param ... used to handle superfluous arguments passed in using paramList.
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
 #'
@@ -509,7 +519,7 @@ RandMatImageControl <- function(p, d, ih, iw, pwMin, pwMax) {
 #' (a <- do.call(RandMatCustom, paramList))
 #'
 
-RandMatCustom <- function(p, d, nnzSample, nnzProb) {
+RandMatCustom <- function(p, d, nnzSample, nnzProb, ...) {
   try({
     if (any(nnzSample > p) | any(nnzSample == 0)) {
       stop("nnzs per projection must be no more than the number of features.")
