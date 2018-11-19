@@ -126,12 +126,10 @@ RegressionTree <-
 
     # main loop over nodes.  This loop ends when the node stack is empty.
     while (CurrentNode < NextUnusedNode) {
+      print(CurrentNode)
       NdSize <- length(Assigned2Node[[CurrentNode]]) #determine node size
       # compute impurity for current node
       nodeMean <- mean(Y[Assigned2Node[[CurrentNode]]])
-      if (is.nan(nodeMean)) {
-        print("HERE")
-      }
 
       I <- sum((nodeMean - Y[Assigned2Node[[CurrentNode]]]) ^ 2)
 
@@ -227,13 +225,11 @@ RegressionTree <-
       # find which child node each sample will go to and move
       # them accordingly
       MoveLeft <- Xnode[1L:NdSize]  <= ret$BestSplit
-      no_move <- all(MoveLeft == TRUE) || all(MoveLeft == FALSE)
+      no_move <- all(MoveLeft == TRUE) || all(MoveLeft == FALSE) || all(is.na(MoveLeft))
 
       # check to see if a valid split was found.
       # move_left_number = length(Assigned2Node[[CurrentNode]][MoveLeft])
       if (no_move || ret$MaxDeltaI == 0 || length(splitPoints) == 0L) {
-      # if (ret$MaxDeltaI == 0 |
-      #     NdSize == move_left_number | 0 == move_left_number)   {
         # store tree map data (negative value means this is a leaf node
         treeMap[CurrentNode] <- currLN <- currLN - 1L
         Regressors[currLN * -1L] <- nodeMean
