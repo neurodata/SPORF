@@ -2,10 +2,11 @@
 % Please edit documentation in R/Urerf.R
 \name{Urerf}
 \alias{Urerf}
-\title{RerF forest Generator}
+\title{Unsupervised RerF forest Generator}
 \usage{
 Urerf(X, trees = 100, min.parent = round(nrow(X)^0.5),
-  max.depth = NA, mtry = round(ncol(X)^0.5), normalizeData = TRUE)
+  max.depth = NA, mtry = round(ncol(X)^0.5), normalizeData = TRUE,
+  Progress = TRUE)
 }
 \arguments{
 \item{X}{an n by d numeric matrix. The rows correspond to observations and columns correspond to features.}
@@ -19,12 +20,14 @@ Urerf(X, trees = 100, min.parent = round(nrow(X)^0.5),
 \item{mtry}{the number of features to test at each node.  (mtry=round(ncol(X)^.5))}
 
 \item{normalizeData}{a logical value that determines if input data is normalized to values ranging from 0 to 1 prior to processing.  (normalizeData=TRUE)}
+
+\item{Progress}{boolean for printing progress.}
 }
 \value{
 urerfStructure
 }
 \description{
-Creates a decision forest based on an input matrix and class vector.  This is the main function in the rerf package.
+Creates a decision forest based on an input matrix.
 }
 \examples{
 ### Train RerF on numeric data ###

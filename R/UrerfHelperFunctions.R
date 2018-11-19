@@ -14,7 +14,9 @@ TwoMeansCut <- function(X) {
     return(NULL)
   }
   sizeX <- length(X)
+  ## sort after removing zeros
   X <- sort(X[which(X != 0)])
+  ## Number of Non-Zeros
   sizeNNZ <- length(X)
   sizeZ <- sizeX - sizeNNZ
 
@@ -27,6 +29,7 @@ TwoMeansCut <- function(X) {
   errCurr <- 0
   cutPoint <- NULL
 
+  ## if any are zero
   if (sizeZ) {
     meanRight <- sumRight/sizeNNZ
     minErr <- sum((X - meanRight)^2)
@@ -44,11 +47,13 @@ TwoMeansCut <- function(X) {
       sumRight <- sumRight - m
       meanLeft <- sumLeft/leftsize
       meanRight <- sumRight/rightsize
+      ## Error left accounts for the zeros that were removed earlier.
       errLeft <- sum((X[1:index] - meanLeft)^2) + sizeZ * (meanLeft^2)
       errRight <- sum((X[(index + 1):sizeNNZ] - meanRight)^2)
 
       errCurr <- errLeft + errRight
       # Determine if this split is currently the best option
+      ## If current error is lowest, then save current cut point.
       if (errCurr < minErr) {
         cutPoint <- (X[index] + X[index + 1])/2
         minErr <- errCurr
@@ -157,7 +162,7 @@ GrowUnsupervisedForest <-
     # intialize values for new tree before processing nodes
     CutPoint[] <- 0
     Children[] <- 0L
-    NDepth[] <- 0L  #delete this?
+    NDepth[] <- 0L
     NDepth[1] <- 1L
     CurrentNode <- 1L
     NextUnusedNode <- 2L

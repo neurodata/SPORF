@@ -1,6 +1,6 @@
-#' RerF forest Generator
+#' Unsupervised RerF forest Generator
 #'
-#' Creates a decision forest based on an input matrix and class vector.  This is the main function in the rerf package.
+#' Creates a decision forest based on an input matrix.
 #'
 #' @param X an n by d numeric matrix. The rows correspond to observations and columns correspond to features.
 #' @param trees the number of trees in the forest. (trees=100)
@@ -8,6 +8,7 @@
 #' @param max.depth the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=NA, the tree will be allowed to grow without bound.  (max.depth=NA)
 #' @param mtry the number of features to test at each node.  (mtry=round(ncol(X)^.5))
 #' @param normalizeData a logical value that determines if input data is normalized to values ranging from 0 to 1 prior to processing.  (normalizeData=TRUE)
+#' @param Progress boolean for printing progress.
 #'
 #' @return urerfStructure
 #'
@@ -26,7 +27,7 @@
 
 Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
                   max.depth = NA, mtry = round(ncol(X)^0.5),
-                  normalizeData = TRUE) {
+                  normalizeData = TRUE, Progress = TRUE) {
 
   normalizeTheData <- function(X, normData) {
     if (normData) {
@@ -84,10 +85,10 @@ Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
 
   forest <- if (is.na(depth)) {
     GrowUnsupervisedForest(X, trees = numTrees, MinParent = K, options = c(ncol(X),
-      mtry, 1L, 1/ncol(X)))
+      mtry, 1L, 1/ncol(X)), Progress = Progress)
   } else {
     GrowUnsupervisedForest(X, trees = numTrees, MinParent = K, MaxDepth = depth,
-      options = c(ncol(X), mtry, 1L, 1/ncol(X)))
+      options = c(ncol(X), mtry, 1L, 1/ncol(X)), Progress = Progress)
   }
 
   sM <- createMatrixFromForest(forest)
