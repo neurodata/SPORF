@@ -8,7 +8,7 @@ Changes in 2.0.0:
   be noted in the NEWS file.
 
 * The option `rho` in the RerF function has been re-named to `sparsity`
-  to match with the algorithm explanation 
+  to match with the algorithm explanation.
 
 * The default parameters sent to the RandMat\* functions have been
   modified.  See parameter descriptions on ?RerF for more info.
