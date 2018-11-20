@@ -3,6 +3,26 @@ README
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+  - [Randomer Forest](#randomer-forest)
+      - [Repo Contents](#repo-contents)
+      - [Description](#description)
+      - [Tested on](#tested-on)
+      - [Hardware Requirements](#hardware-requirements)
+      - [Software Dependencies](#software-dependencies)
+      - [Installation](#installation)
+  - [Usage](#usage)
+      - [Load the library :](#load-the-library)
+      - [Create a forest:](#create-a-forest)
+      - [Making predictions and determining error
+        rate:](#making-predictions-and-determining-error-rate)
+      - [Compute similarities:](#compute-similarities)
+      - [Compute tree strengths and
+        correlations:](#compute-tree-strengths-and-correlations)
+      - [Train Structured RerF (S-RerF) for image
+        classification:](#train-structured-rerf-s-rerf-for-image-classification)
+      - [Unsupervised classification
+        (U-RerF)](#unsupervised-classification-u-rerf)
+
 # [Randomer Forest](https://arxiv.org/pdf/1506.03410v2.pdf "arxiv link to RerF paper")
 
 [![CRAN Status
@@ -10,49 +30,43 @@ Badge](https://www.r-pkg.org/badges/version/rerf)](https://cran.r-project.org/pa
 [![arXiv
 shield](https://img.shields.io/badge/arXiv-1506.03410-red.svg?style=flat)](https://arxiv.org/abs/1506.03410)
 
-  - [Repo contents](#repo-contents)
-  - [Description](#description)
-  - [Hardware Requirements](#hardware-requirements)
-  - [Software Dependencies](#software-dependencies)
-  - [Installation](#installation)
-  - [How to Use](#how-to-use)
-
 ## Repo Contents
 
-  - [**R**](https://github.com/neurodata/R-RerF/tree/master/R): `R`
+  - [**R**](https://github.com/neurodata/lumberjack/tree/master/R): `R`
     building blocks for user interface code. Internally called by user
     interface.
-  - [**man**](https://github.com/neurodata/R-RerF/tree/master/man):
+  - [**man**](https://github.com/neurodata/lumberjack/tree/master/man):
     Package documentation
-  - [**src**](https://github.com/neurodata/R-RerF/tree/master/src): C++
-    functions called from within
+  - [**src**](https://github.com/neurodata/lumberjack/tree/master/src):
+    C++ functions called from within
     R
-  - [**travisTest**](https://github.com/neurodata/R-RerF/tree/master/travisTest):
-    Travis CI tests
+  - [**tests**](https://github.com/neurodata/lumberjack/tree/master/tests):
+    testthat tests
 
 ## Description
 
-Randomer Forest (RerF) is a generalization of the Random Forest (RF)
-algorithm. RF partitions the input (feature) space via a series of
-recursive binary hyperplanes. Hyperplanes are constrained to be
-axis-aligned. In other words, each partition is a test of the form
-X<sub>i</sub> \> t, where t is a threshold and X<sub>i</sub> is one of p
-inputs (features) {X<sub>1</sub>, …, X<sub>p</sub>}. The best
-axis-aligned split is found by sampling a random subset of the p inputs
-and choosing the one that best partitions the observed data according to
-some specified split criterion. RerF relaxes the constraint that the
-splitting hyperplanes must be axis-aligned. That is, each partition in
-RerF is a test of the form w<sub>1</sub>X<sub>1</sub> + … +
-w<sub>p</sub>X<sub>p</sub> \> t. The orientations of hyperplanes are
-sampled randomly via a user-specified distribution on the coefficients
-w<sub>i</sub>, although an empirically validated default distribution is
-provided. Currently only classification is supported. Regression and
-unsupervised learning will be supported in the future.
+Lumberjack (aka Randomer Forest (RerF), or Random Projection Forests) is
+a generalization of the Random Forest (RF) algorithm. RF partitions the
+input (feature) space via a series of recursive binary hyperplanes.
+Hyperplanes are constrained to be axis-aligned. In other words, each
+partition is a test of the form X<sub>i</sub> \> t, where t is a
+threshold and X<sub>i</sub> is one of p inputs (features)
+{X<sub>1</sub>, …, X<sub>p</sub>}. The best axis-aligned split is found
+by sampling a random subset of the p inputs and choosing the one that
+best partitions the observed data according to some specified split
+criterion. RerF relaxes the constraint that the splitting hyperplanes
+must be axis-aligned. That is, each partition in RerF is a test of the
+form w<sub>1</sub>X<sub>1</sub> + … + w<sub>p</sub>X<sub>p</sub> \> t.
+The orientations of hyperplanes are sampled randomly via a
+user-specified distribution on the coefficients w<sub>i</sub>, although
+an empirically validated default distribution is provided. Currently
+only classification is supported. Regression and unsupervised learning
+will be supported in the future.
 
 ## Tested on
 
-  - Mac OSX: 10.11 (El Capitan), 10.12 (Sierra)
-  - Linux: Ubuntu 16.04, CentOS 6
+  - Mac OSX: 10.11 (El Capitan), 10.12 (Sierra), 10.13 (High Sierra)
+  - Linux: Ubuntu 16.04 and 17.10, CentOS 6
   - Windows: 10
 
 ## Hardware Requirements
@@ -96,10 +110,12 @@ install.packages("devtools")
 Next install `rerf` from github. From within R-
 
 ``` r
-devtools::install_github("neurodata/R-Rerf", local = FALSE)
+devtools::install_github("neurodata/lumberjack", local = FALSE)
 ```
 
-## How to Use
+-----
+
+# Usage
 
 Runtime for the following examples should be \< 1 sec on any machine.
 
@@ -109,7 +125,7 @@ Runtime for the following examples should be \< 1 sec on any machine.
 library(rerf)
 ```
 
-### Create a forest:
+## Create a forest:
 
 To create a forest the minimum data needed is an n by d input matrix (X)
 and an n length vector of corresponding class labels (Y). Rows
@@ -161,11 +177,11 @@ forest$trees[[1]]
 #> NULL
 ```
 
-“forest” is a trained forest which is needed for all other rerf
+`forest` is a trained forest which is needed for all other rerf
 functions. Additional parameters and more complex examples of training a
 forest can be found using the help function (`?RerF`)
 
-### Making predictions and determining error rate:
+## Making predictions and determining error rate:
 
 In the example below, trainIdx is used to subset the iris dataset in
 order to make a training set and a testing set.
@@ -240,7 +256,7 @@ oob.error
 #> [1] 0.04
 ```
 
-### Compute similarities:
+## Compute similarities:
 
 Computes pairwise similarities between observations. The similarity
 between two points is defined as the fraction of trees such that two
@@ -275,14 +291,14 @@ sim.matrix[1, ]
 #> [144] 0.000 0.000 0.000 0.000 0.000 0.000 0.000
 ```
 
-### Compute tree strengths and correlations:
+## Compute tree strengths and correlations:
 
 Computes estimates of tree strength and correlation according to the
 definitions in Breiman’s 2001 Random Forests paper.
 
 ``` r
 set.seed(24)
-nsamp <- 30 ## number of training samples per species 
+nsamp <- 30 ## number of training samples per species
 trainIdx <- vapply(list(1:50, 51:100, 101:150), sample, outer(1,1:nsamp), size = nsamp)
 X <- as.matrix(iris[,1:4])
 Y <- iris[[5L]]
@@ -325,7 +341,7 @@ d <- ceiling(sqrt(p)) # number of features to sample at each split
 # Here we specify that we want to run the standard random forest algorithm and we want to store the decrease in impurity at each split node. The latter option is required in order to compute Gini feature importance.
 
 forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], FUN = RandMatRF,
-               paramList = list(p = p, d = d), num.cores = 1L, 
+               paramList = list(p = p, d = d), num.cores = 1L,
                store.impurity = TRUE, seed = 1L)
 
 feature.imp <- FeatureImportance(forest, num.cores = 1L)
@@ -352,7 +368,7 @@ feature.imp
 #> [1] 2 1
 ```
 
-### Train Structured RerF (S-RerF) for image classification:
+## Train Structured RerF (S-RerF) for image classification:
 
 S-RerF samples and evaluates a set of random features at each split
 node, where each feature is defined as a random linear combination of
@@ -366,7 +382,7 @@ digits by changing `numsub` in the code chunk below.
 ``` r
 data(mnist)
 
-## Get a random subsample, 100 each of 3's and 5's 
+## Get a random subsample, 100 each of 3's and 5's
 set.seed(320)
 threes <- sample(which(mnist$Ytrain %in% 3), 100)
 fives  <- sample(which(mnist$Ytrain %in% 5), 100)
@@ -385,8 +401,8 @@ ih <- iw
 patch.min <- 1L
 patch.max <- 5L
 forest <- RerF(Xtrain, Ytrain, num.cores = 1L, FUN = RandMatImagePatch,
-               paramList = list(p = p, d = d, iw = iw, ih = ih, 
-                                pwMin = patch.min, pwMax = patch.max), 
+               paramList = list(p = p, d = d, iw = iw, ih = ih,
+                                pwMin = patch.min, pwMax = patch.max),
                seed = 1L)
 predictions <- Predict(Xtest, forest, num.cores = 1L)
 mnist.error.rate <- mean(predictions != Ytest)
@@ -397,6 +413,36 @@ mnist.error.rate <- mean(predictions != Ytest)
 ``` r
 mnist.error.rate
 #> [1] 0.0320715
+```
+
+## Unsupervised classification (U-RerF)
+
+Using the Iris dataset we will show how to use the unsupervised verison.
+
+``` r
+X <- as.matrix(iris[, 1:4])
+
+u1 <- Urerf(X, trees = 100)
+```
+
+### The dissimilarity matrix
+
+``` r
+m <- as.matrix(u1$sim)
+#plot(as.raster(m))
+```
+
+### Running h-clust on the resulting dissimiliarity matrix
+
+``` r
+disSim <- hclust(as.dist(1 - u1$similarityMatrix), method = 'mcquitty')
+clusters <- cutree(disSim, k = 3)
+table(clusters, truth = as.numeric(iris[[5]]))
+#>         truth
+#> clusters  1  2  3
+#>        1 50  0  0
+#>        2  0 50 22
+#>        3  0  0 28
 ```
 
 <!-- calcium-spike data are not properly documented at this time, waiting on @jasonkyuyim TBD by 20180813 -->

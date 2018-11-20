@@ -1,11 +1,12 @@
 #!/bin/bash
 
+Rscript -e "install.packages('Rcpp', repos = 'http://cran.us.r-project.org')"
+Rscript -e "Rcpp::compileAttributes()"
+
 # Rscript -e "install.packages('devtools', repos = 'http://cran.us.r-project.org')"
 # Rscript -e "install.packages('roxygen2', repos = 'http://cran.us.r-project.org')"
 Rscript -e "devtools::document('R')"
 
-Rscript -e "install.packages('Rcpp', repos = 'http://cran.us.r-project.org')"
-Rscript -e "Rcpp::compileAttributes()"
 R CMD build --resave-data .
 
 # Rscript -e "install.packages('dummies', repos = 'http://cran.us.r-project.org')"

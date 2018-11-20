@@ -29,10 +29,10 @@ Description: R-RerF (aka Randomer Forest (RerF) or Random Projection
 Depends: R (>= 3.3.0)
 License: Apache License 2.0 | file LICENSE
 URL: https://github.com/neurodata/R-RerF
+BugReports: https://github.com/neurodata/R-RerF/issues
 Imports: parallel, RcppZiggurat, utils, stats, dummies
 Suggests: roxygen2 (>= 5.0.0), testthat
 LinkingTo: Rcpp, RcppArmadillo
 SystemRequirements: GNU make
 ByteCompile: true
-Encoding: UTF-8
 RoxygenNote: 6.1.0
