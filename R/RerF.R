@@ -105,8 +105,8 @@ RerF <-
 
         if(is.null(paramList$d) || is.na(paramList$d)){
           paramList$d <- ifelse(is.null(cat.map),
-                                ncol(X),
-                                length(cat.map) + cat.map[[1L]][1L] - 1L)
+                                ceiling(sqrt(ncol(X))),
+                                ceiling(sqrt(length(cat.map) + cat.map[[1L]][1L] - 1L)))
         }
 
         if(is.null(paramList$sparsity) || is.na(paramList$sparsity)){
