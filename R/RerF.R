@@ -5,7 +5,8 @@
 #' @param X an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.
 #' @param Y an n length vector of class labels.  Class labels must be integer or numeric and be within the range 1 to the number of classes.
 #' @param FUN a function that creates the random projection matrix. If NULL and cat.map is NULL, then RandMat is used. If NULL and cat.map is not NULL, then RandMatCat is used, which adjusts the sampling of features when categorical features have been one-of-K encoded. If a custom function is to be used, then it must return a matrix in sparse representation, in which each nonzero is an array of the form (row.index, column.index, value). See RandMat or RandMatCat for details.
-#' @param paramList parameters in a named list to be used by FUN.
+#' @param paramList parameters in a named list to be used by FUN. If left unchanged,
+#' default values will be populated, see \code{\link[rerf]{defaults}} for details.
 #' @param min.parent the minimum splittable node size.  A node size < min.parent will be a leaf node. (min.parent = 6)
 #' @param trees the number of trees in the forest. (trees=500)
 #' @param max.depth the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=0, the tree will be allowed to grow without bound.  (max.depth=ceiling(log2(nrow(X))) )
@@ -96,35 +97,8 @@ RerF <-
 		# na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] },
 		# @param na.action action to take if NA values are found. By default it will omit rows with NA values. NOTE: na.action is performed in-place. See default function.
 
-    defaults <- function(paramList){
-        if(is.null(paramList$p) || is.na(paramList$p)){
-          paramList$p <- ifelse(is.null(cat.map),
-                                ncol(X),
-                                length(cat.map) + cat.map[[1L]][1L] - 1L)
-        }
 
-        if(is.null(paramList$d) || is.na(paramList$d)){
-          paramList$d <- ifelse(is.null(cat.map),
-                                ceiling(sqrt(ncol(X))),
-                                ceiling(sqrt(length(cat.map) + cat.map[[1L]][1L] - 1L)))
-        }
-
-        if(is.null(paramList$sparsity) || is.na(paramList$sparsity)){
-          paramList$sparsity = ifelse(is.null(cat.map),
-                                      ifelse(ncol(X) >= 10, 3 / ncol(X), 1 / ncol(X)),
-                                      ifelse(length(cat.map) + cat.map[[1L]][1L] - 1L >= 10,
-                                      3 / (length(cat.map) + cat.map[[1L]][1L] - 1L),
-                                      1 / (length(cat.map) + cat.map[[1L]][1L] - 1L)))
-        }
-
-        if(is.null(paramList$prob) || is.na(paramList$prob)){
-            paramList$prob <- 0.5
-        }
-        return(paramList)
-    }
-
-
-    paramList <- defaults(paramList)
+    paramList <- defaults(ncolX = ncol(X), paramList = paramList, cat.map = cat.map)
     FUN <- match.fun(FUN, descend = TRUE)
 
 		forest <- list(trees = NULL, labels = NULL, params = NULL)

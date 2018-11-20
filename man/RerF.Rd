@@ -19,7 +19,8 @@ RerF(X, Y, FUN = RandMatBinary, paramList = list(p = NA, d = NA,
 
 \item{FUN}{a function that creates the random projection matrix. If NULL and cat.map is NULL, then RandMat is used. If NULL and cat.map is not NULL, then RandMatCat is used, which adjusts the sampling of features when categorical features have been one-of-K encoded. If a custom function is to be used, then it must return a matrix in sparse representation, in which each nonzero is an array of the form (row.index, column.index, value). See RandMat or RandMatCat for details.}
 
-\item{paramList}{parameters in a named list to be used by FUN.}
+\item{paramList}{parameters in a named list to be used by FUN. If left unchanged,
+default values will be populated, see \code{\link[rerf]{defaults}} for details.}
 
 \item{min.parent}{the minimum splittable node size.  A node size < min.parent will be a leaf node. (min.parent = 6)}
 
