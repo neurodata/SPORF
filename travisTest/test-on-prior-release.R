@@ -134,6 +134,7 @@ library("rerf")
 results_baseline <- testDSs(trainSets, testSets, numTests, numTrees, cores, test_skips)
 
 detach("package:rerf", unload = TRUE)
+devtools::dev_mode(on = FALSE)
 print("Finished baseline.")
 
 
@@ -161,4 +162,4 @@ test_that("test different parameters and performance to make sure they are simil
     }
   })
 
-
+print("Test against prior release finished")
