@@ -11,13 +11,13 @@
 
 RunPredict <- function(X, tree) {
   n.all <- nrow(X)
-  
+
   tm <- 0L
   currentNode <- 0L
   curr_ind <- 0L
   num.classes <- ncol(tree$ClassProb)
   n <- nrow(X)
-  
+
   # do we need to rotate the data?
   if (!is.null(tree$rotmat)) {
     if (is.null(tree$rotdims)) {
@@ -26,9 +26,9 @@ RunPredict <- function(X, tree) {
       X[, tree$rotdims] <- X[, tree$rotdims] %*% tree$rotmat
     }
   }
-  
+
   predictions <- matrix(0, nrow = n, ncol = num.classes)
-  
+
   Xnode <- double(n)
   numNodes <- length(tree$treeMap)
   Assigned2Node <- vector("list", numNodes)
@@ -39,16 +39,15 @@ RunPredict <- function(X, tree) {
       if ((tm <- tree$treeMap[m]) > 0L) {
         indexHigh <- tree$matAindex[tm + 1L]
         indexLow <- tree$matAindex[tm] + 1L
-        s <- (indexHigh - indexLow + 1L)/2L
-        Xnode[1:nodeSize] <- X[Assigned2Node[[m]], tree$matAstore[indexLow:indexHigh][(1:s) * 
-          2L - 1L], drop = F] %*% tree$matAstore[indexLow:indexHigh][(1:s) * 
+        s <- (indexHigh - indexLow + 1L) / 2L
+        Xnode[1:nodeSize] <- X[Assigned2Node[[m]], tree$matAstore[indexLow:indexHigh][(1:s) *
+          2L - 1L], drop = F] %*% tree$matAstore[indexLow:indexHigh][(1:s) *
           2L]
         moveLeft <- Xnode[1L:nodeSize] <= tree$CutPoint[tm]
         Assigned2Node[[tm * 2L]] <- Assigned2Node[[m]][moveLeft]
         Assigned2Node[[tm * 2L + 1L]] <- Assigned2Node[[m]][!moveLeft]
       } else {
-        predictions[Assigned2Node[[m]], ] <- rep(tree$ClassProb[tm * -1L, 
-          ], each = length(Assigned2Node[[m]]))
+        predictions[Assigned2Node[[m]], ] <- rep(tree$ClassProb[tm * -1L, ], each = length(Assigned2Node[[m]]))
       }
     }
     Assigned2Node[m] <- list(NULL)

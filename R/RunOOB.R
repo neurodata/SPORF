@@ -11,13 +11,13 @@
 RunOOB <- function(X, tree) {
   n.all <- nrow(X)
   num.classes <- ncol(tree$ClassProb)
-  
+
   # Get OOB samples
   X <- X[tree$ind, , drop = FALSE]
-  
+
   # Predict OOB samples
   predictions <- RunPredict(X, tree)
-  
+
   # Create a matrix for all of samples
   out <- matrix(0, nrow = n.all, ncol = num.classes)
   out[tree$ind, ] <- predictions

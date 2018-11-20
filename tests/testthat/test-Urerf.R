@@ -5,7 +5,6 @@ set.seed(123456)
 
 
 test_that("bestCutForFeature", {
-
   combinedFeature <- rep(5, 20)
 
   expect_true(is.null(TwoMeansCut(combinedFeature)))
@@ -16,7 +15,7 @@ test_that("bestCutForFeature", {
 
   combinedFeature <- c(rep(a, 20), rep(b, 20))
 
-  expect_equal(TwoMeansCut(combinedFeature), c((a + b)/2, 0))
+  expect_equal(TwoMeansCut(combinedFeature), c((a + b) / 2, 0))
 
   combinedFeature <- c(runif(10), runif(20) + 2)
 
@@ -32,8 +31,7 @@ test_that("bestCutForFeature", {
 
   combinedFeature <- c(rep(a, 20), rep(b, 20))
 
-  expect_equal(TwoMeansCut(combinedFeature), c((a + b)/2, 0))
-
+  expect_equal(TwoMeansCut(combinedFeature), c((a + b) / 2, 0))
 })
 
 
@@ -41,7 +39,6 @@ test_that("bestCutForFeature", {
 
 
 test_that("matrix attributes are legal", {
-
   X <- NULL
 
   expect_error(checkInputMatrix(X), "the input is null.")
@@ -59,12 +56,10 @@ test_that("matrix attributes are legal", {
   X[20] <- NaN
 
   expect_error(checkInputMatrix(X), "some values are na or nan.")
-
 })
 
 
 test_that("output is the right size and type", {
-
   X <- as.matrix(iris[, 1:4])
 
   similarityMatrix <- Urerf(X, 100, 10)$similarityMatrix
@@ -73,5 +68,4 @@ test_that("output is the right size and type", {
   expect_equal(nrow(similarityMatrix), 150)
 
   expect_equal(ncol(similarityMatrix), 150)
-
 })

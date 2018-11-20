@@ -37,7 +37,7 @@
 #' ### Train RerF on numeric data ###
 #' library(rerf)
 #' forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L)
-#'
+#' 
 #' ### Train RerF on one-of-K encoded categorical data ###
 #' df1 <- as.data.frame(Titanic)
 #' nc <- ncol(df1)
@@ -60,152 +60,155 @@
 #'   col.idx <- col.idx + num.categories[j]
 #' }
 #' Y <- df2$Survived
-#'
+#' 
 #' # specifying the cat.map in RerF allows training to
 #' # be aware of which dummy variables correspond
 #' # to the same categorical feature
 #' forest <- RerF(X, Y, num.cores = 1L, cat.map = cat.map)
-#'
 #' \dontrun{
-#'  # takes longer than 5s to run.
-#'  # adding a continuous feature along with the categorical features
-#'  # must be prepended to the categorical features. 
-#'  set.seed(1234)
-#'  xp <- runif(nrow(X))
-#'  Xp <- cbind(xp, X)
-#'  cat.map1 <- lapply(cat.map, function(x) x + 1)
-#'  forestW <- RerF(Xp, Y, num.cores = 1L, cat.map = cat.map1)
+#' # takes longer than 5s to run.
+#' # adding a continuous feature along with the categorical features
+#' # must be prepended to the categorical features.
+#' set.seed(1234)
+#' xp <- runif(nrow(X))
+#' Xp <- cbind(xp, X)
+#' cat.map1 <- lapply(cat.map, function(x) x + 1)
+#' forestW <- RerF(Xp, Y, num.cores = 1L, cat.map = cat.map1)
 #' }
-#'
+#' 
 #' ### Train a random rotation ensemble of CART decision trees (see Blaser and Fryzlewicz 2016)
-#' forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L,
-#'                FUN = RandMatRF, paramList = list(p = 4, d = 2), rotate = TRUE)
-
+#' forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]],
+#'   num.cores = 1L,
+#'   FUN = RandMatRF, paramList = list(p = 4, d = 2), rotate = TRUE
+#' )
 RerF <-
-	function(X, Y, FUN = RandMatBinary,
-           paramList = list(p = NA, d = NA, sparsity = NA, prob = NA),
-           min.parent = 6L, trees = 500L,
-					 max.depth = ceiling(log2(nrow(X))), bagging = .2,
-					 replacement = TRUE, stratify = FALSE,
-					 rank.transform = FALSE, store.oob = FALSE,
-					 store.impurity = FALSE, progress = FALSE,
-					 rotate = FALSE, num.cores = 0L,
-					 seed = sample(0:100000000,1),
-					 cat.map = NULL, rfPack = FALSE){
+  function(X, Y, FUN = RandMatBinary,
+             paramList = list(p = NA, d = NA, sparsity = NA, prob = NA),
+             min.parent = 6L, trees = 500L,
+             max.depth = ceiling(log2(nrow(X))), bagging = .2,
+             replacement = TRUE, stratify = FALSE,
+             rank.transform = FALSE, store.oob = FALSE,
+             store.impurity = FALSE, progress = FALSE,
+             rotate = FALSE, num.cores = 0L,
+             seed = sample(0:100000000, 1),
+             cat.map = NULL, rfPack = FALSE) {
 
-		# The below 'na.action' was removed from the parameter list of RerF because the CRAN check did not accept it and because it will potentially change the X and Y input by the user.
-		# na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] },
-		# @param na.action action to take if NA values are found. By default it will omit rows with NA values. NOTE: na.action is performed in-place. See default function.
+    # The below 'na.action' was removed from the parameter list of RerF because the CRAN check did not accept it and because it will potentially change the X and Y input by the user.
+    # na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] },
+    # @param na.action action to take if NA values are found. By default it will omit rows with NA values. NOTE: na.action is performed in-place. See default function.
 
 
     paramList <- defaults(ncolX = ncol(X), paramList = paramList, cat.map = cat.map)
     FUN <- match.fun(FUN, descend = TRUE)
 
-		forest <- list(trees = NULL, labels = NULL, params = NULL)
+    forest <- list(trees = NULL, labels = NULL, params = NULL)
 
     # check if data matrix X has one-of-K encoded categorical features that
     # need to be handled specially using RandMatCat instead of RandMat
 
-    if(!is.null(cat.map)){
+    if (!is.null(cat.map)) {
       paramList$catMap <- cat.map
     }
 
-		#keep from making copies of X
-		if (!is.matrix(X)) {
-			X <- as.matrix(X)
-		}
-		if (rank.transform) {
-			X <- RankMatrix(X)
-		}
-
-		# adjust Y to go from 1 to num.class if needed
-		if (is.factor(Y)) {
-			forest$labels <- levels(Y)
-			Y <- as.integer(Y)
-		} else if (is.numeric(Y)) {
-			forest$labels <- sort(unique(Y))
-			Y <- as.integer(as.factor(Y))
-		} else {
-			stop("Incompatible data type. Y must be of type factor or numeric.")
-		}
-		num.class <- length(forest$labels)
-		classCt <- cumsum(tabulate(Y, num.class))
-		if(stratify){
-			Cindex <- vector("list",num.class)
-			for (m in 1L:num.class) {
-				Cindex[[m]] <- which(Y == m)
-			}
-		} else {
-			Cindex <- NULL
-		}
-
-		# address na values.
-		if (any(is.na(X)) ) {
-			if (exists("na.action")) {
-        stats::na.action(X,Y)
-      }
-			if (any(is.na(X))) {
-        warning("NA values exist in data matrix")
-      }
-		}
-
-		mcrun <- function(...) {
-      BuildTree(X              = X,
-                Y              = Y,
-                FUN            = FUN,
-                paramList      = paramList,
-                min.parent     = min.parent,
-                max.depth      = max.depth,
-                bagging        = bagging,
-                replacement    = replacement,
-                stratify       = stratify,
-                class.ind      = Cindex,
-                class.ct       = classCt,
-                store.oob      = store.oob,
-                store.impurity = store.impurity,
-                progress       = progress,
-                rotate         = rotate
-               )
+    # keep from making copies of X
+    if (!is.matrix(X)) {
+      X <- as.matrix(X)
+    }
+    if (rank.transform) {
+      X <- RankMatrix(X)
     }
 
-		forest$params <- list(min.parent = min.parent,
-													max.depth = max.depth,
-													bagging = bagging,
-													replacement = replacement,
-													stratify = stratify,
-													fun = FUN,
-													paramList = paramList,
-													rank.transform = rank.transform,
-													store.oob = store.oob,
-													store.impurity = store.impurity,
-													rotate = rotate,
-													seed = seed)
+    # adjust Y to go from 1 to num.class if needed
+    if (is.factor(Y)) {
+      forest$labels <- levels(Y)
+      Y <- as.integer(Y)
+    } else if (is.numeric(Y)) {
+      forest$labels <- sort(unique(Y))
+      Y <- as.integer(as.factor(Y))
+    } else {
+      stop("Incompatible data type. Y must be of type factor or numeric.")
+    }
+    num.class <- length(forest$labels)
+    classCt <- cumsum(tabulate(Y, num.class))
+    if (stratify) {
+      Cindex <- vector("list", num.class)
+      for (m in 1L:num.class) {
+        Cindex[[m]] <- which(Y == m)
+      }
+    } else {
+      Cindex <- NULL
+    }
 
-		if (num.cores!=1L){
-			RNGkind("L'Ecuyer-CMRG")
-			if(num.cores==0){
-				#Use all but 1 core if num.cores=0.
-				num.cores=parallel::detectCores()-1L
-			}
-			num.cores=min(num.cores,trees)
-			gc()
-			if(.Platform$OS.type=="windows"){
-				cl <- parallel::makePSOCKcluster(num.cores)
-				parallel::clusterSetRNGStream(cl, seed)
-				parallel::clusterEvalQ(cl, library("rerf"))
-				forest$trees <- parallel::parLapply(cl, 1:trees, mcrun)
-				parallel::stopCluster(cl)
-			} else {
-				set.seed(seed)
-				forest$trees <- parallel::mclapply(1:trees, mcrun, mc.cores = num.cores, mc.set.seed = TRUE)
-			}
-		} else {
-			#Use just one core.
-			set.seed(seed)
-			forest$trees <- lapply(1:trees, mcrun)
-		}
-		if(identical(FUN, rerf::RandMatRF) & rfPack) {
-			PackForest(X,Y,forest)
-		}
-		return(forest)
-	}
+    # address na values.
+    if (any(is.na(X))) {
+      if (exists("na.action")) {
+        stats::na.action(X, Y)
+      }
+      if (any(is.na(X))) {
+        warning("NA values exist in data matrix")
+      }
+    }
+
+    mcrun <- function(...) {
+      BuildTree(
+        X = X,
+        Y = Y,
+        FUN = FUN,
+        paramList = paramList,
+        min.parent = min.parent,
+        max.depth = max.depth,
+        bagging = bagging,
+        replacement = replacement,
+        stratify = stratify,
+        class.ind = Cindex,
+        class.ct = classCt,
+        store.oob = store.oob,
+        store.impurity = store.impurity,
+        progress = progress,
+        rotate = rotate
+      )
+    }
+
+    forest$params <- list(
+      min.parent = min.parent,
+      max.depth = max.depth,
+      bagging = bagging,
+      replacement = replacement,
+      stratify = stratify,
+      fun = FUN,
+      paramList = paramList,
+      rank.transform = rank.transform,
+      store.oob = store.oob,
+      store.impurity = store.impurity,
+      rotate = rotate,
+      seed = seed
+    )
+
+    if (num.cores != 1L) {
+      RNGkind("L'Ecuyer-CMRG")
+      if (num.cores == 0) {
+        # Use all but 1 core if num.cores=0.
+        num.cores = parallel::detectCores() - 1L
+      }
+      num.cores = min(num.cores, trees)
+      gc()
+      if (.Platform$OS.type == "windows") {
+        cl <- parallel::makePSOCKcluster(num.cores)
+        parallel::clusterSetRNGStream(cl, seed)
+        parallel::clusterEvalQ(cl, library("rerf"))
+        forest$trees <- parallel::parLapply(cl, 1:trees, mcrun)
+        parallel::stopCluster(cl)
+      } else {
+        set.seed(seed)
+        forest$trees <- parallel::mclapply(1:trees, mcrun, mc.cores = num.cores, mc.set.seed = TRUE)
+      }
+    } else {
+      # Use just one core.
+      set.seed(seed)
+      forest$trees <- lapply(1:trees, mcrun)
+    }
+    if (identical(FUN, rerf::RandMatRF) & rfPack) {
+      PackForest(X, Y, forest)
+    }
+    return(forest)
+  }
