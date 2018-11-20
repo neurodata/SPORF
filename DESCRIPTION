@@ -4,14 +4,14 @@ Title: Randomer Forest
 Version: 2.0.0
 Date: 2018-10-31
 Authors@R: c(
-        person("Jesse", "Patsolic", role = c("ctb", "cre"), email = "lumberjack@neurodata.io"),
+        person("Jesse", "Patsolic", role = c("ctb", "cre"), email = "software@neurodata.io"),
         person("Benjamin", "Falk", role = "ctb", email = "falk.ben@jhu.edu"),
         person("Jaewon", "Chung", role = "ctb", email = "j1c@jhu.edu"),
         person("James", "Browne", role = "aut", email = "jbrowne6@jhu.edu"),
         person("Tyler", "Tomita", role = "aut", email = "ttomita2@jhmi.edu"),
         person("Joshua", "Vogelstein", role = "ths", email = "jovo@jhu.edu")
     )
-Description: Lumberjack (aka Randomer Forest (RerF) or Random Projection
+Description: R-RerF (aka Randomer Forest (RerF) or Random Projection
   Forests) is an algorithm developed by Tomita (2016) <arXiv:1506.03410v2>
   which is similar to Random Forest - Random Combination (Forest-RC)
   developed by Breiman (2001) <doi:10.1023/A:1010933404324>.  Random
@@ -28,7 +28,7 @@ Description: Lumberjack (aka Randomer Forest (RerF) or Random Projection
   combinations of coordinates at every node in the tree.
 Depends: R (>= 3.3.0)
 License: Apache License 2.0 | file LICENSE
-URL: https://github.com/neurodata/lumberjack
+URL: https://github.com/neurodata/R-RerF
 Imports: parallel, RcppZiggurat, utils, stats, dummies
 Suggests: roxygen2 (>= 5.0.0), testthat
 LinkingTo: Rcpp, RcppArmadillo

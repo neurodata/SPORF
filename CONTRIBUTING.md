@@ -1,10 +1,10 @@
 # Contributing
 
-You are here to help on LumberJack?  First off, thank you!  Please read the following sections in order to know how to ask questions and how to work work on something.
+You are here to help on R-RerF?  First off, thank you!  Please read the following sections in order to know how to ask questions and how to work work on something.
 
 ## Get in touch
 
-* Report bugs, suggest features or view the source code [on GitHub](https://github.com/neurodata/lumberjack)
+* Report bugs, suggest features or view the source code [on GitHub](https://github.com/neurodata/R-RerF)
 
 ## Organization
 
@@ -24,7 +24,7 @@ You are here to help on LumberJack?  First off, thank you!  Please read the foll
 
 ### Testing
 
-We use the [testthat](https://github.com/r-lib/testthat) library for testing in R.  You can run your tests locally using `devtools::test()`.  Testthat tests are also run on [TravisCI](https://travis-ci.org/neurodata/lumberjack) automatically.
+We use the [testthat](https://github.com/r-lib/testthat) library for testing in R.  You can run your tests locally using `devtools::test()`.  Testthat tests are also run on [TravisCI](https://travis-ci.org/neurodata/R-RerF) automatically.
 
 * New features need tests
 * Tests should be fast, ideally each test should complete in under 5 seconds
