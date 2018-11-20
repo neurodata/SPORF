@@ -11,7 +11,7 @@ Changes in 2.0.0:
   to match with the algorithm explanation.
 
 * The default parameters sent to the RandMat\* functions have been
-  modified.  See parameter descriptions on ?RerF for more info.
+  modified.  See parameter descriptions in ?RerF for more info.
 
 * Predictions are made based on the average of posteriors rather than average of the predictions. 
 
