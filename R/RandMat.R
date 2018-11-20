@@ -600,6 +600,7 @@ defaults <- function(ncolX, paramList, cat.map){
         paramList$prob <- 0.5
     }
     return(paramList)
+}
 
 
 #' Create rotation matrix used to determine mtry features.
