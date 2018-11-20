@@ -6,7 +6,7 @@
 \usage{
 GrowUnsupervisedForest(X, MinParent = 1, trees = 100, MaxDepth = Inf,
   bagging = 0.2, replacement = TRUE, FUN = makeAB, options = list(p
-  = ncol(X), d = round(ncol(X)^0.5), sparsity = 1/ncol(X)),
+  = ncol(X), d = ceiling(ncol(X)^0.5), sparsity = 1/ncol(X)),
   Progress = TRUE)
 }
 \arguments{
@@ -16,7 +16,7 @@ GrowUnsupervisedForest(X, MinParent = 1, trees = 100, MaxDepth = Inf,
 
 \item{trees}{the number of trees to grow in a forest (trees=100).}
 
-\item{MaxDepth}{the maximum depth allowed in a forest (MaxDepth='inf').}
+\item{MaxDepth}{the maximum depth allowed in a forest (MaxDepth=Inf).}
 
 \item{bagging}{only used experimentally.  Determines the hold out size if replacement=FALSE (bagging=.2).}
 

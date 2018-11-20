@@ -91,7 +91,7 @@ checkInputMatrix <- function(X) {
 #' @param X an Nxd matrix or Data frame of numeric values.
 #' @param MinParent the minimum splittable node size (MinParent=1).
 #' @param trees the number of trees to grow in a forest (trees=100).
-#' @param MaxDepth the maximum depth allowed in a forest (MaxDepth='inf').
+#' @param MaxDepth the maximum depth allowed in a forest (MaxDepth=Inf).
 #' @param bagging only used experimentally.  Determines the hold out size if replacement=FALSE (bagging=.2).
 #' @param replacement method used to determine boot strap samples (replacement=TRUE).
 #' @param FUN the function to create the rotation matrix used to determine mtry features.
@@ -106,7 +106,7 @@ GrowUnsupervisedForest <-
   function(X, MinParent = 1, trees = 100,
            MaxDepth = Inf, bagging = 0.2,
            replacement = TRUE, FUN = makeAB,
-           options = list(p = ncol(X), d = round(ncol(X)^0.5), sparsity = 1/ncol(X)),
+           options = list(p = ncol(X), d = ceiling(ncol(X)^0.5), sparsity = 1/ncol(X)),
            Progress = TRUE) {
 
   FUN  <- match.fun(FUN, descend = TRUE)
