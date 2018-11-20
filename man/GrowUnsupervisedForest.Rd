@@ -4,10 +4,10 @@
 \alias{GrowUnsupervisedForest}
 \title{Creates Urerf Tree.}
 \usage{
-GrowUnsupervisedForest(X, MinParent = 1, trees = 100,
-  MaxDepth = "inf", bagging = 0.2, replacement = TRUE,
-  FUN = makeAB, options = c(ncol(X), round(ncol(X)^0.5), 1L,
-  1/ncol(X)), Progress = TRUE)
+GrowUnsupervisedForest(X, MinParent = 1, trees = 100, MaxDepth = Inf,
+  bagging = 0.2, replacement = TRUE, FUN = makeAB, options = list(p
+  = ncol(X), d = round(ncol(X)^0.5), sparsity = 1/ncol(X)),
+  Progress = TRUE)
 }
 \arguments{
 \item{X}{an Nxd matrix or Data frame of numeric values.}

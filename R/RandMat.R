@@ -530,3 +530,39 @@ RandMatCustom <- function(p, d, nnzSample, nnzProb) {
 }
 
 
+#' Create rotation matrix used to determine mtry features.
+#'
+#' This function is the default option to make the projection matrix for
+#' unsupervised random forest. The sparseM matrix is the projection
+#' matrix.  The creation of this matrix can be changed, but the nrow of
+#' sparseM should remain p.  The ncol of the sparseM matrix is currently
+#' set to mtry but this can actually be any integer > 1; can even be
+#' greater than p.
+#'
+#'
+#' @param p the number of dimensions.
+#' @param d the number of desired columns in the projection matrix.
+#' @param sparsity a real number in \eqn{(0,1)} that specifies the distribution of non-zero elements in the random matrix.
+#' @param ... used to handle superfluous arguments passed in using paramList.
+#'
+#' @return rotationMatrix the matrix used to determine which mtry features or combination of features will be used to split a node.
+#'
+#'
+
+
+makeAB <- function(p, d, sparsity, ...) {
+  nnzs <- round(p * d * sparsity)
+  sparseM <- matrix(0L, nrow = p, ncol = d)
+  featuresToTry <- sample(1:p, d, replace = FALSE)
+  # the commented line below creates linear combinations of features to try
+  # sparseM[sample(1L:(p*d),nnzs, replace=FALSE)]<-sample(c(1L,-1L),nnzs,replace=TRUE)
+  # the for loop below creates a standard random forest set of features to try
+  for (j in 1:d) {
+    sparseM[featuresToTry[j], j] <- 1
+  }
+  # The below returns a matrix after removing zero columns in sparseM.
+  ind <- which(sparseM != 0, arr.ind = TRUE)
+  return(cbind(ind, sparseM[ind]))
+}
+
+

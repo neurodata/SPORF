@@ -104,11 +104,12 @@ checkInputMatrix <- function(X) {
 
 GrowUnsupervisedForest <-
   function(X, MinParent = 1, trees = 100,
-           MaxDepth = "inf", bagging = 0.2,
+           MaxDepth = Inf, bagging = 0.2,
            replacement = TRUE, FUN = makeAB,
-           options = c(ncol(X), round(ncol(X)^0.5), 1L, 1/ncol(X)),
+           options = list(p = ncol(X), d = round(ncol(X)^0.5), sparsity = 1/ncol(X)),
            Progress = TRUE) {
 
+  FUN  <- match.fun(FUN, descend = TRUE)
   ############# Start Growing Forest #################
 
   forest <- vector("list", trees)
@@ -132,7 +133,7 @@ GrowUnsupervisedForest <-
   }
 
   # Calculate the Max Depth and the max number of possible nodes
-  if (MaxDepth == "inf") {
+  if (MaxDepth == Inf) {
     StopNode <- 2L * w  #worst case scenario is 2*(w/(minparent/2))-1
     MaxNumNodes <- 2L * w  # number of tree nodes for space reservation
   } else {
@@ -191,7 +192,7 @@ GrowUnsupervisedForest <-
       Assigned2Node[[CurrentNode]] <- NA  #remove saved indexes
       NdSize <- length(NodeRows[[1L]])  #determine node size
 
-      sparseM <- FUN(options)
+      sparseM <- do.call(FUN, options)
 
       if (NdSize < MinParent ||
           NDepth[CurrentNode] == MaxDepth ||
@@ -327,44 +328,5 @@ GrowUnsupervisedForest <-
     }
   }
   return(forest)
-}
-
-
-# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-# Default option to make projection matrix this is the randomer part of random
-# forest. The sparseM matrix is the projection matrix.  The creation of this
-# matrix can be changed, but the nrow of sparseM should remain p.  The ncol of
-# the sparseM matrix is currently set to mtry but this can actually be any
-# integer > 1; can even be greater than p.
-# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-#' Create rotation matrix used to determine mtry features.
-#'
-#' @param options a list of options used by the sparse matrix generator.  These can vary if a different matrix is required.
-#'
-#' @return rotationMatrix the matrix used to determine which mtry features or combination of features will be used to split a node.
-#'
-#'
-
-
-makeAB <- function(options) {
-  p <- options[[1L]]
-  d <- options[[2L]]
-  method <- options[[3L]]
-  if (method == 1L) {
-    rho <- options[[4L]]
-    nnzs <- round(p * d * rho)
-    sparseM <- matrix(0L, nrow = p, ncol = d)
-    featuresToTry <- sample(1:p, d, replace = FALSE)
-    # the commented line below creates linear combinations of features to try
-    # sparseM[sample(1L:(p*d),nnzs, replace=F)]<-sample(c(1L,-1L),nnzs,replace=TRUE)
-    # the for loop below creates a standard random forest set of features to try
-    for (j in 1:d) {
-      sparseM[featuresToTry[j], j] <- 1
-    }
-  }
-  # The below returns a matrix after removing zero columns in sparseM.
-  ind <- which(sparseM != 0, arr.ind = TRUE)
-  return(cbind(ind, sparseM[ind]))
 }
 

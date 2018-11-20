@@ -84,11 +84,11 @@ Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
   X <- normalizeTheData(X, normalizeData)
 
   forest <- if (is.na(depth)) {
-    GrowUnsupervisedForest(X, trees = numTrees, MinParent = K, options = c(ncol(X),
-      mtry, 1L, 1/ncol(X)), Progress = Progress)
+    GrowUnsupervisedForest(X, trees = numTrees, MinParent = K, options = list(p = ncol(X),
+      d = mtry, sparsity = 1/ncol(X)), Progress = Progress)
   } else {
     GrowUnsupervisedForest(X, trees = numTrees, MinParent = K, MaxDepth = depth,
-      options = c(ncol(X), mtry, 1L, 1/ncol(X)), Progress = Progress)
+      options = list(p = ncol(X), d = mtry, sparsity = 1/ncol(X)), Progress = Progress)
   }
 
   sM <- createMatrixFromForest(forest)
@@ -97,7 +97,6 @@ Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
 
   outlierMean <- mean(outliers)
   outlierSD <- sd(outliers)
-  print(" ")
 
   return(list(similarityMatrix = sM, forest = forest, colMin = normInfo$colMin,
     colMax = normInfo$colMax, outlierMean = outlierMean, outlierSD = outlierSD,
