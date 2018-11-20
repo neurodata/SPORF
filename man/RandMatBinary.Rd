@@ -4,7 +4,7 @@
 \alias{RandMatBinary}
 \title{Create a Random Matrix: Binary}
 \usage{
-RandMatBinary(p, d, sparsity, prob, catMap = NULL)
+RandMatBinary(p, d, sparsity, prob, catMap = NULL, ...)
 }
 \arguments{
 \item{p}{the number of dimensions.}
@@ -17,6 +17,8 @@ RandMatBinary(p, d, sparsity, prob, catMap = NULL)
 \eqn{{-1,1}} where \code{prob = 0} will only sample -1 and \code{prob = 1} will only sample 1.}
 
 \item{catMap}{a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature.}
+
+\item{...}{used to handle superfluous arguments passed in using paramList.}
 }
 \value{
 A random matrix to use in running \code{\link{RerF}}.

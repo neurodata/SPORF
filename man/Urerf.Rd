@@ -5,7 +5,7 @@
 \title{Unsupervised RerF forest Generator}
 \usage{
 Urerf(X, trees = 100, min.parent = round(nrow(X)^0.5),
-  max.depth = NA, mtry = round(ncol(X)^0.5), normalizeData = TRUE,
+  max.depth = NA, mtry = ceiling(ncol(X)^0.5), normalizeData = TRUE,
   Progress = TRUE)
 }
 \arguments{
@@ -17,7 +17,7 @@ Urerf(X, trees = 100, min.parent = round(nrow(X)^0.5),
 
 \item{max.depth}{the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=NA, the tree will be allowed to grow without bound.  (max.depth=NA)}
 
-\item{mtry}{the number of features to test at each node.  (mtry=round(ncol(X)^.5))}
+\item{mtry}{the number of features to test at each node.  (mtry=ceiling(ncol(X)^.5))}
 
 \item{normalizeData}{a logical value that determines if input data is normalized to values ranging from 0 to 1 prior to processing.  (normalizeData=TRUE)}
 

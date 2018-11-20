@@ -4,7 +4,7 @@
 \alias{RandMatPoisson}
 \title{Create a Random Matrix: Poisson}
 \usage{
-RandMatPoisson(p, d, lambda, catMap = NULL)
+RandMatPoisson(p, d, lambda, catMap = NULL, ...)
 }
 \arguments{
 \item{p}{the number of dimensions.}
@@ -14,6 +14,8 @@ RandMatPoisson(p, d, lambda, catMap = NULL)
 \item{lambda}{passed to the \code{\link[stats]{rpois}} function for generation of non-zero elements in the random matrix.}
 
 \item{catMap}{a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature.}
+
+\item{...}{used to handle superfluous arguments passed in using paramList.}
 }
 \value{
 A random matrix to use in running \code{\link{RerF}}.

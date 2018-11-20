@@ -4,7 +4,7 @@
 \alias{RandMatContinuous}
 \title{Create a Random Matrix: Continuous}
 \usage{
-RandMatContinuous(p, d, sparsity, catMap = NULL)
+RandMatContinuous(p, d, sparsity, catMap = NULL, ...)
 }
 \arguments{
 \item{p}{the number of dimensions.}
@@ -14,6 +14,8 @@ RandMatContinuous(p, d, sparsity, catMap = NULL)
 \item{sparsity}{a real number in \eqn{(0,1)} that specifies the distribution of non-zero elements in the random matrix.}
 
 \item{catMap}{a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature.}
+
+\item{...}{used to handle superfluous arguments passed in using paramList.}
 }
 \value{
 A random matrix to use in running \code{\link{RerF}}.

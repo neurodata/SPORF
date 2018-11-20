@@ -4,7 +4,7 @@
 \alias{RandMatRF}
 \title{Create a Random Matrix: Random Forest (RF)}
 \usage{
-RandMatRF(p, d, catMap = NULL)
+RandMatRF(p, d, catMap = NULL, ...)
 }
 \arguments{
 \item{p}{the number of dimensions.}
@@ -12,6 +12,8 @@ RandMatRF(p, d, catMap = NULL)
 \item{d}{the number of desired columns in the projection matrix.}
 
 \item{catMap}{a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature.}
+
+\item{...}{used to handle superfluous arguments passed in using paramList.}
 }
 \value{
 A random matrix to use in running \code{\link{RerF}}.

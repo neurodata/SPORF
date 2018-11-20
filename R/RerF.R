@@ -5,7 +5,8 @@
 #' @param X an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.
 #' @param Y an n length vector of class labels.  Class labels must be integer or numeric and be within the range 1 to the number of classes.
 #' @param FUN a function that creates the random projection matrix. If NULL and cat.map is NULL, then RandMat is used. If NULL and cat.map is not NULL, then RandMatCat is used, which adjusts the sampling of features when categorical features have been one-of-K encoded. If a custom function is to be used, then it must return a matrix in sparse representation, in which each nonzero is an array of the form (row.index, column.index, value). See RandMat or RandMatCat for details.
-#' @param paramList parameters in a named list to be used by FUN.
+#' @param paramList parameters in a named list to be used by FUN. If left unchanged,
+#' default values will be populated, see \code{\link[rerf]{defaults}} for details.
 #' @param min.parent the minimum splittable node size.  A node size < min.parent will be a leaf node. (min.parent = 6)
 #' @param trees the number of trees in the forest. (trees=500)
 #' @param max.depth the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=0, the tree will be allowed to grow without bound.  (max.depth=ceiling(log2(nrow(X))) )
@@ -30,8 +31,8 @@
 #' @importFrom stats na.action
 #'
 #' @export
-#' 
-#' 
+#'
+#'
 #' @examples
 #' ### Train RerF on numeric data ###
 #' library(rerf)
@@ -65,21 +66,24 @@
 #' # to the same categorical feature
 #' forest <- RerF(X, Y, num.cores = 1L, cat.map = cat.map)
 #'
+#' \dontrun{
+#'  # takes longer than 5s to run.
+#'  # adding a continuous feature along with the categorical features
+#'  # must be prepended to the categorical features. 
+#'  set.seed(1234)
+#'  xp <- runif(nrow(X))
+#'  Xp <- cbind(xp, X)
+#'  cat.map1 <- lapply(cat.map, function(x) x + 1)
+#'  forestW <- RerF(Xp, Y, num.cores = 1L, cat.map = cat.map1)
+#' }
+#'
 #' ### Train a random rotation ensemble of CART decision trees (see Blaser and Fryzlewicz 2016)
 #' forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L,
 #'                FUN = RandMatRF, paramList = list(p = 4, d = 2), rotate = TRUE)
-#'
 
 RerF <-
-	function(X, Y, FUN = RandMatBinary, 
-           paramList = list(p = ifelse(is.null(cat.map), 
-                                       ncol(X), 
-                                       length(cat.map)), 
-                            d = ceiling(sqrt(ncol(X))), 
-                            sparsity = ifelse(is.null(cat.map), 
-                                              1/ncol(X), 
-                                              1/length(cat.map)), 
-                            prob = 0.5),
+	function(X, Y, FUN = RandMatBinary,
+           paramList = list(p = NA, d = NA, sparsity = NA, prob = NA),
            min.parent = 6L, trees = 500L,
 					 max.depth = ceiling(log2(nrow(X))), bagging = .2,
 					 replacement = TRUE, stratify = FALSE,
@@ -93,6 +97,8 @@ RerF <-
 		# na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] },
 		# @param na.action action to take if NA values are found. By default it will omit rows with NA values. NOTE: na.action is performed in-place. See default function.
 
+
+    paramList <- defaults(ncolX = ncol(X), paramList = paramList, cat.map = cat.map)
     FUN <- match.fun(FUN, descend = TRUE)
 
 		forest <- list(trees = NULL, labels = NULL, params = NULL)

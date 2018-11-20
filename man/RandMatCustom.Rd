@@ -4,7 +4,7 @@
 \alias{RandMatCustom}
 \title{Create a Random Matrix: custom}
 \usage{
-RandMatCustom(p, d, nnzSample, nnzProb)
+RandMatCustom(p, d, nnzSample, nnzProb, ...)
 }
 \arguments{
 \item{p}{the number of dimensions.}
@@ -16,6 +16,8 @@ sample at each \code{d}.  Each entry should be less than \code{p}.}
 
 \item{nnzProb}{a vector specifying probabilities in one-to-one correspondance
 with \code{nnzSample}.}
+
+\item{...}{used to handle superfluous arguments passed in using paramList.}
 }
 \value{
 A random matrix to use in running \code{\link{RerF}}.
