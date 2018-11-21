@@ -34,7 +34,7 @@ FeatureImportance <- function(forest, num.cores = 0L) {
   if (num.cores != 1L) {
     if (num.cores == 0L) {
       # Use all but 1 core if num.cores=0.
-      num.cores = parallel::detectCores() - 1L
+      num.cores <- parallel::detectCores() - 1L
     }
     num.cores <- min(num.cores, num.trees)
     gc()

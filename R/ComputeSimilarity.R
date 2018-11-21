@@ -48,7 +48,7 @@ ComputeSimilarity <-
     if (num.cores != 1L) {
       # Use all but 1 core if num.cores=0.
       if (num.cores == 0L) {
-        num.cores = parallel::detectCores() - 1L
+        num.cores <- parallel::detectCores() - 1L
       }
       num.cores <- min(num.cores, f_size)
       gc()

@@ -218,8 +218,9 @@ GrowUnsupervisedForest <-
             sparseM[lrows, 3, drop = FALSE]
           # Sort the projection, Xnode, and rearrange Y accordingly
           results <- TwoMeansCut(Xnode[1:NdSize])
-          if (is.null(results))
+          if (is.null(results)) {
             next
+          }
 
           if (results[2] < min_error) {
             cut_val <- results[1]
@@ -282,8 +283,8 @@ GrowUnsupervisedForest <-
           # Determine children nodes and their attributes
           Children[CurrentNode, 1L] <- NextUnusedNode
           Children[CurrentNode, 2L] <- NextUnusedNode + 1L
-          NDepth[NextUnusedNode] = NDepth[CurrentNode] + 1L
-          NDepth[NextUnusedNode + 1L] = NDepth[CurrentNode] + 1L
+          NDepth[NextUnusedNode] <- NDepth[CurrentNode] + 1L
+          NDepth[NextUnusedNode + 1L] <- NDepth[CurrentNode] + 1L
           # Pop the current node off the node stack this allows for a breadth first
           # traversal
           Assigned2Leaf[[CurrentNode]] <- Assigned2Bag[[CurrentNode]]
@@ -291,7 +292,8 @@ GrowUnsupervisedForest <-
           NodeStack <- c(NextUnusedNode, NextUnusedNode + 1L, NodeStack)
           NextUnusedNode <- NextUnusedNode + 2L
           # Store the projection matrix for the best split
-          matA[[CurrentNode]] <- as.integer(base::t(sparseM[which(sparseM[
+          matA[[CurrentNode]] <- as.integer(base::t(sparseM[which(sparseM
+          [
             ,
             2
           ] == bestVar), c(1, 3)]))
