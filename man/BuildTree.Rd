@@ -49,6 +49,5 @@ Creates a single decision tree based on an input matrix and class vector.  This 
 
 x <- iris[, -5]
 y <- as.numeric(iris[, 5])
-#BuildTree(x, y, RandMatBinary, p = 4, d = 4, rho = 0.25, prob = 0.5)
-
+# BuildTree(x, y, RandMatBinary, p = 4, d = 4, rho = 0.25, prob = 0.5)
 }

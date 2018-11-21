@@ -31,5 +31,4 @@ nmix <- 5
 paramList <- list(p = p, d = d, nmix = nmix)
 set.seed(4)
 (a <- do.call(RandMatFRC, paramList))
-
 }

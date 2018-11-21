@@ -34,5 +34,4 @@ sparsity <- 0.25
 prob <- 0.5
 set.seed(4)
 (a <- RandMatBinary(p, d, sparsity, prob))
-
 }

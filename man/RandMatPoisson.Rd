@@ -32,5 +32,4 @@ lambda <- 0.5
 paramList <- list(p = p, d = d, lambda = lambda)
 set.seed(8)
 (a <- do.call(RandMatPoisson, paramList))
-
 }

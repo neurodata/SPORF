@@ -90,19 +90,20 @@ Y <- df2$Survived
 # be aware of which dummy variables correspond
 # to the same categorical feature
 forest <- RerF(X, Y, num.cores = 1L, cat.map = cat.map)
-
 \dontrun{
- # takes longer than 5s to run.
- # adding a continuous feature along with the categorical features
- # must be prepended to the categorical features. 
- set.seed(1234)
- xp <- runif(nrow(X))
- Xp <- cbind(xp, X)
- cat.map1 <- lapply(cat.map, function(x) x + 1)
- forestW <- RerF(Xp, Y, num.cores = 1L, cat.map = cat.map1)
+# takes longer than 5s to run.
+# adding a continuous feature along with the categorical features
+# must be prepended to the categorical features.
+set.seed(1234)
+xp <- runif(nrow(X))
+Xp <- cbind(xp, X)
+cat.map1 <- lapply(cat.map, function(x) x + 1)
+forestW <- RerF(Xp, Y, num.cores = 1L, cat.map = cat.map1)
 }
 
 ### Train a random rotation ensemble of CART decision trees (see Blaser and Fryzlewicz 2016)
-forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L,
-               FUN = RandMatRF, paramList = list(p = 4, d = 2), rotate = TRUE)
+forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]],
+  num.cores = 1L,
+  FUN = RandMatRF, paramList = list(p = 4, d = 2), rotate = TRUE
+)
 }

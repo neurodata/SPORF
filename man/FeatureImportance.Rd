@@ -21,5 +21,4 @@ Computes feature importance of every unique feature used to make a split in the 
 library(rerf)
 forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L, store.impurity = TRUE)
 feature.imp <- FeatureImportance(forest, num.cores = 1L)
-
 }
