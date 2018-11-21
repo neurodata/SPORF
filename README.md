@@ -32,21 +32,20 @@ shield](https://img.shields.io/badge/arXiv-1506.03410-red.svg?style=flat)](https
 
 ## Repo Contents
 
-  - [**R**](https://github.com/neurodata/lumberjack/tree/master/R): `R`
+  - [**R**](https://github.com/neurodata/R-RerF/tree/master/R): `R`
     building blocks for user interface code. Internally called by user
     interface.
-  - [**man**](https://github.com/neurodata/lumberjack/tree/master/man):
+  - [**man**](https://github.com/neurodata/R-RerF/tree/master/man):
     Package documentation
-  - [**src**](https://github.com/neurodata/lumberjack/tree/master/src):
-    C++ functions called from within
-    R
-  - [**tests**](https://github.com/neurodata/lumberjack/tree/master/tests):
+  - [**src**](https://github.com/neurodata/R-RerF/tree/master/src): C++
+    functions called from within R
+  - [**tests**](https://github.com/neurodata/R-RerF/tree/master/tests):
     testthat tests
 
 ## Description
 
-Lumberjack (aka Randomer Forest (RerF), or Random Projection Forests) is
-a generalization of the Random Forest (RF) algorithm. RF partitions the
+R-RerF (aka Randomer Forest (RerF), or Random Projection Forests) is a
+generalization of the Random Forest (RF) algorithm. RF partitions the
 input (feature) space via a series of recursive binary hyperplanes.
 Hyperplanes are constrained to be axis-aligned. In other words, each
 partition is a test of the form X<sub>i</sub> \> t, where t is a
@@ -85,7 +84,7 @@ Any machine with \>= 2 GB RAM
 
 ## Installation
 
-  - Installation normally takes ~5-10 minutes
+  - Installation normally takes \~5-10 minutes
   - Non-Windows users install the GNU Scientific Library (libgsl0-dev).
   - Windows users install Rtools
     (<https://cran.r-project.org/bin/windows/Rtools/>)
@@ -110,7 +109,7 @@ install.packages("devtools")
 Next install `rerf` from github. From within R-
 
 ``` r
-devtools::install_github("neurodata/lumberjack", local = FALSE)
+devtools::install_github("neurodata/R-RerF", local = FALSE)
 ```
 
 -----

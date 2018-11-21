@@ -1,5 +1,5 @@
 ---
-title: "lumberjack: Timed tests"
+title: "R-RerF: Timed tests"
 author: "Jesse Leigh Patsolic"
 output: 
   github_document:
@@ -20,7 +20,7 @@ output:
 
 
 To perform these tests, make sure you're in the correct directory with the
-correct version of `lumberjack` installed and run the below code chunk.
+correct version of `R-RerF` installed and run the below code chunk.
 
 ```{r render, eval=FALSE}
 require(rmarkdown)
@@ -44,7 +44,7 @@ various git-branches are performed below.
 ## sandbox the install location
 dev_mode(on = TRUE) 
 ## install from version 1.1.3 which is the CRAN version as of 20181005.
-install_github('neurodata/lumberjack', ref = 'v1.1.3', local = FALSE)
+install_github('neurodata/R-RerF', ref = 'v1.1.3', local = FALSE)
 require('rerf')
 ```
 
@@ -93,7 +93,7 @@ times$cran <- stopTime - startTime
 
 ```{r install-staging, echo = FALSE, include = FALSE}
 detach('package:rerf', unload = TRUE)
-install_github('neurodata/lumberjack', ref = '3ea880184ed3f593ed0720f4f0556c9f0b9f1375', local = FALSE)
+install_github('neurodata/R-RerF', ref = '3ea880184ed3f593ed0720f4f0556c9f0b9f1375', local = FALSE)
 require('rerf')
 ```
  
@@ -113,7 +113,7 @@ times$staging <- stopTime - startTime
 ```{r install-randmatsplit, echo = FALSE, include=FALSE}
 ## install from branch RandMat-split.
 detach('package:rerf', unload = TRUE)
-install_github('neurodata/lumberjack', ref = '981db221aa4e6cf269a2e208878151d204413eb9', local = FALSE)
+install_github('neurodata/R-RerF', ref = '981db221aa4e6cf269a2e208878151d204413eb9', local = FALSE)
 require('rerf')
 ```
 
@@ -154,18 +154,17 @@ rBinary <- structure(c(3, 2, 3, 2, 1, 2, 2, 3, 1, -1, -1, 1), .Dim = 4:3)
 dev_mode(on = TRUE) 
 
 ## install from version 1.1.3 which is the CRAN version as of 20181005.
-install_github('neurodata/lumberjack', ref = 'v1.1.3', local = FALSE, force = TRUE)
+install_github('neurodata/R-RerF', ref = 'v1.1.3', local = FALSE, force = TRUE)
 require('rerf')
 
 
 opt1 <- list(p = 5, d = 3, random.matrix = "binary", rho = 0.25, prob = 0.5)
-opt2 <- list(p = 5, d = 3, rho = 0.25, prob = 0.5)
 
 runs$cran <- microbenchmark(run1 = RandMat(opt1))
 
 ## install from branch RandMat-split
 detach('package:rerf', unload = TRUE)
-install_github('neurodata/lumberjack', ref = 'RandMat-split', local = FALSE, force = TRUE)
+install_github('neurodata/R-RerF', ref = 'RandMat-split', local = FALSE, force = TRUE)
 require('rerf')
 
 runs$randmat <- microbenchmark(run2 = RandMatBinary(p = 5, d = 3, sparsity = 0.25, prob = 0.5))
@@ -174,7 +173,7 @@ dev_mode(on = FALSE)
 ```
 
 
-```{r print-time2, results = 'as-is'}
+```{r print-time2, paged.print=FALSE, results = 'as-is'}
 runs
 ```
 
