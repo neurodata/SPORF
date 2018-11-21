@@ -18,7 +18,7 @@ Y.test <- Y[-trainIdx]
 test_that("Testing number of trees output is as requested.", {
   numTrees = c(1, 10, 50, 500)
   for (nn in numTrees) {
-    forest <- RerF(X, Y, trees = nn, seed = 1L, num.cores = 1L, store.oob = FALSE)
+    forest <- RerF(X, Y, trees = nn, seed = 1L, num.cores = 1L, store.oob = FALSE, max.depth = ceiling(log2(nrow(X))), min.parent = 6L)
     expect_equal(length(forest$trees), nn)
   }
 })
@@ -27,10 +27,15 @@ test_that("Testing number of trees output is as requested.", {
 # should be > 0, probability be > 0, or sum ~= 1
 test_that("Sum of the class probabilities should ~= 1.", {
   numTrees = 10
-  forest <- RerF(X, Y, trees = numTrees, seed = 1L, num.cores = 1L, store.oob = FALSE)
+  forest <- RerF(X, Y, trees = numTrees, seed = 1L, num.cores = 1L, store.oob = FALSE, max.depth = ceiling(log2(nrow(X))), min.parent = 6L)
   for (z in 1:length(forest$trees)) {
     for (q in 1:length(forest$trees[[z]]$ClassProb[, 1])) {
       expect_equal(sum(forest$trees[[z]]$ClassProb[q, ]), 1, tolerance = 1e-08)
     }
   }
+})
+
+test_that("max.depth can be set to Inf", {
+  max.depth = 0
+  forest <- RerF(X, Y, trees = numTrees, seed = 1L, num.cores = 1L, store.oob = FALSE, max.depth = max.depth, min.parent = 6L)
 })
