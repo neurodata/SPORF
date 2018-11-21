@@ -36,8 +36,3 @@ test_that("Sum of the class probabilities should ~= 1.", {
     expect_equal(rowSums(treeClassProb), rep(1, nrow(treeClassProb)))
   }
 })
-
-test_that("max.depth can be set to Inf", {
-  max.depth = 0
-  forest <- RerF(X, Y, trees = numTrees, seed = 1L, num.cores = 1L, store.oob = FALSE, max.depth = max.depth, min.parent = 6L)
-})
