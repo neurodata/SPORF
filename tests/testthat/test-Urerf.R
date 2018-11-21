@@ -62,7 +62,7 @@ test_that("matrix attributes are legal", {
 test_that("output is the right size and type", {
   X <- as.matrix(iris[, 1:4])
 
-  similarityMatrix <- Urerf(X, 100, 10)$similarityMatrix
+  similarityMatrix <- Urerf(X, 100, 10, Progress = FALSE)$similarityMatrix
 
 
   expect_equal(nrow(similarityMatrix), 150)

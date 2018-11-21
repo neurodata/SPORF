@@ -200,6 +200,9 @@ BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, repl
     # determine class proportions in the node
     ClassCounts <- tabulate(Y[Assigned2Node[[CurrentNode]]], nClasses)
     ClProb <- ClassCounts / NdSize
+    if (any(is.nan(ClProb))){
+      return (BuildTree(X, Y, FUN, paramList, min.parent, max.depth, bagging, replacement, stratify, class.ind, class.ct, store.oob, store.impurity, progress, rotate))
+    }
     # compute impurity for current node
     I <- sum(ClassCounts * (1 - ClProb))
     # check to see if node split should be attempted
