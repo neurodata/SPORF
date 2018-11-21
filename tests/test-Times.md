@@ -136,7 +136,7 @@ kable(data.frame(times), format = 'markdown')
 
 |cran          |staging       |randMatSplit  |
 |:-------------|:-------------|:-------------|
-|14.47087 secs |14.36808 secs |14.88537 secs |
+|14.94767 secs |15.02846 secs |15.04736 secs |
 
 
 
@@ -163,7 +163,6 @@ require('rerf')
 
 
 opt1 <- list(p = 5, d = 3, random.matrix = "binary", rho = 0.25, prob = 0.5)
-opt2 <- list(p = 5, d = 3, rho = 0.25, prob = 0.5)
 
 runs$cran <- microbenchmark(run1 = RandMat(opt1))
 
@@ -186,13 +185,13 @@ runs
 ```
 ## $cran
 ## Unit: microseconds
-##  expr   min      lq     mean  median      uq     max neval
-##  run1 44.69 45.7275 53.63176 46.1695 46.7775 727.857   100
+##  expr    min      lq     mean  median    uq     max neval
+##  run1 41.042 45.2365 55.00814 45.9505 47.14 787.393   100
 ## 
 ## $randmat
 ## Unit: microseconds
-##  expr    min      lq     mean  median      uq     max neval
-##  run2 43.647 45.0495 49.07236 45.5925 46.3815 356.213   100
+##  expr    min      lq     mean  median    uq     max neval
+##  run2 42.721 45.4845 55.54579 51.8275 55.55 416.578   100
 ```
 
 
