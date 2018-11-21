@@ -1,0 +1,217 @@
+\hypertarget{classcsvHandle}{}\section{csv\+Handle Class Reference}
+\label{classcsvHandle}\index{csv\+Handle@{csv\+Handle}}
+
+
+{\ttfamily \#include $<$fp\+Read\+C\+S\+V.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcsvHandle_add81ffc45990b6b8c1288a307581c1c8}{$\sim$csv\+Handle} ()
+\item 
+\hyperlink{classcsvHandle_a8e4a197ecf07b72406c6c5125606f598}{csv\+Handle} (const std\+::string \&forest\+C\+S\+V\+File\+Name)
+\item 
+void \hyperlink{classcsvHandle_a571c2b5fcec86782f43b18dab07c9c26}{print\+C\+S\+V\+Stats} ()
+\item 
+int \hyperlink{classcsvHandle_a605aeef90b440e8c7b090999da3739a8}{return\+Num\+Rows} ()
+\item 
+int \hyperlink{classcsvHandle_a7dc362efe916e5a9707f26ad20d3c870}{return\+Num\+Columns} ()
+\item 
+{\footnotesize template$<$class T $>$ }\\T \hyperlink{classcsvHandle_a28f8ee0fa06f1c78132b3551da272bde}{return\+Next\+Element} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ifstream \hyperlink{classcsvHandle_ab2900581db37409635ccfd878693fb48}{stream\+Handle}
+\item 
+int \hyperlink{classcsvHandle_a61b2327480d1685e7fd64d4cba139ac5}{number\+Of\+Rows}
+\item 
+int \hyperlink{classcsvHandle_aee792b10c2ad6e21c68cfe84d6b7ff46}{number\+Of\+Columns}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 9 of file fp\+Read\+C\+S\+V.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcsvHandle_add81ffc45990b6b8c1288a307581c1c8}\label{classcsvHandle_add81ffc45990b6b8c1288a307581c1c8}} 
+\index{csv\+Handle@{csv\+Handle}!````~csv\+Handle@{$\sim$csv\+Handle}}
+\index{````~csv\+Handle@{$\sim$csv\+Handle}!csv\+Handle@{csv\+Handle}}
+\subsubsection{\texorpdfstring{$\sim$csv\+Handle()}{~csvHandle()}}
+{\footnotesize\ttfamily csv\+Handle\+::$\sim$csv\+Handle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 17 of file fp\+Read\+C\+S\+V.\+h.
+
+
+\begin{DoxyCode}
+17                     \{
+18             \hyperlink{classcsvHandle_ab2900581db37409635ccfd878693fb48}{streamHandle}.close();
+19         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classcsvHandle_a8e4a197ecf07b72406c6c5125606f598}\label{classcsvHandle_a8e4a197ecf07b72406c6c5125606f598}} 
+\index{csv\+Handle@{csv\+Handle}!csv\+Handle@{csv\+Handle}}
+\index{csv\+Handle@{csv\+Handle}!csv\+Handle@{csv\+Handle}}
+\subsubsection{\texorpdfstring{csv\+Handle()}{csvHandle()}}
+{\footnotesize\ttfamily csv\+Handle\+::csv\+Handle (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{forest\+C\+S\+V\+File\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 21 of file fp\+Read\+C\+S\+V.\+h.
+
+
+\begin{DoxyCode}
+21                                                       : \hyperlink{classcsvHandle_a61b2327480d1685e7fd64d4cba139ac5}{numberOfRows}(0), 
+      \hyperlink{classcsvHandle_aee792b10c2ad6e21c68cfe84d6b7ff46}{numberOfColumns}(0)\{
+22 
+23             \hyperlink{classcsvHandle_ab2900581db37409635ccfd878693fb48}{streamHandle}.open(forestCSVFileName);
+24             \hyperlink{classcsvHandle_a61b2327480d1685e7fd64d4cba139ac5}{numberOfRows} = 0;
+25 
+26             \textcolor{keywordflow}{if}(!\hyperlink{classcsvHandle_ab2900581db37409635ccfd878693fb48}{streamHandle}.good())\{
+27                 \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Unable to open file."} );
+28                 \textcolor{keywordflow}{return};
+29             \}
+30 
+31             \textcolor{keywordflow}{while}(\hyperlink{classcsvHandle_ab2900581db37409635ccfd878693fb48}{streamHandle})\{
+32                 std::string row;
+33                 \textcolor{keywordflow}{if}(!getline(\hyperlink{classcsvHandle_ab2900581db37409635ccfd878693fb48}{streamHandle}, row))
+34                 \{
+35                     \textcolor{keywordflow}{break};
+36                 \}
+37                 ++\hyperlink{classcsvHandle_a61b2327480d1685e7fd64d4cba139ac5}{numberOfRows};
+38 
+39                 std::istringstream stringStream(row);
+40 
+41                 std::string value;
+42                 \textcolor{keywordtype}{int} tempNumberOfColumns = 0;
+43                 \textcolor{keywordflow}{while}(stringStream)
+44                 \{
+45                     \textcolor{keywordflow}{if}(!getline(stringStream,value,\textcolor{charliteral}{','}))\{
+46                         \textcolor{keywordflow}{break};
+47                     \}
+48                     ++tempNumberOfColumns;
+49                 \}
+50                 \textcolor{keywordflow}{if}(!\hyperlink{classcsvHandle_aee792b10c2ad6e21c68cfe84d6b7ff46}{numberOfColumns})\{
+51                     \hyperlink{classcsvHandle_aee792b10c2ad6e21c68cfe84d6b7ff46}{numberOfColumns} = tempNumberOfColumns; 
+52                 \}
+53                 \textcolor{keywordflow}{if}(\hyperlink{classcsvHandle_aee792b10c2ad6e21c68cfe84d6b7ff46}{numberOfColumns} != tempNumberOfColumns)\{
+54         \textcolor{comment}{//          std::cout << numberOfColumns << " " << tempNumberOfColumns << "\(\backslash\)n";}
+55                     \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"uneven row lengths in csv file."} );
+56                     \textcolor{keywordflow}{return};
+57                 \}
+58             \}
+59             \hyperlink{classcsvHandle_ab2900581db37409635ccfd878693fb48}{streamHandle}.clear(); \textcolor{comment}{// clear fail and eof bits}
+60             \hyperlink{classcsvHandle_ab2900581db37409635ccfd878693fb48}{streamHandle}.seekg(0, std::ios::beg); \textcolor{comment}{// return to beginning of stream}
+61         \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classcsvHandle_a571c2b5fcec86782f43b18dab07c9c26}\label{classcsvHandle_a571c2b5fcec86782f43b18dab07c9c26}} 
+\index{csv\+Handle@{csv\+Handle}!print\+C\+S\+V\+Stats@{print\+C\+S\+V\+Stats}}
+\index{print\+C\+S\+V\+Stats@{print\+C\+S\+V\+Stats}!csv\+Handle@{csv\+Handle}}
+\subsubsection{\texorpdfstring{print\+C\+S\+V\+Stats()}{printCSVStats()}}
+{\footnotesize\ttfamily void csv\+Handle\+::print\+C\+S\+V\+Stats (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 63 of file fp\+Read\+C\+S\+V.\+h.
+
+
+\begin{DoxyCode}
+63                             \{
+64             std::cout << \textcolor{stringliteral}{"there are "} << \hyperlink{classcsvHandle_a61b2327480d1685e7fd64d4cba139ac5}{numberOfRows} << \textcolor{stringliteral}{" rows.\(\backslash\)n"};
+65             std::cout << \textcolor{stringliteral}{"there are "} << \hyperlink{classcsvHandle_aee792b10c2ad6e21c68cfe84d6b7ff46}{numberOfColumns} << \textcolor{stringliteral}{" columns.\(\backslash\)n"};
+66         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classcsvHandle_a28f8ee0fa06f1c78132b3551da272bde}\label{classcsvHandle_a28f8ee0fa06f1c78132b3551da272bde}} 
+\index{csv\+Handle@{csv\+Handle}!return\+Next\+Element@{return\+Next\+Element}}
+\index{return\+Next\+Element@{return\+Next\+Element}!csv\+Handle@{csv\+Handle}}
+\subsubsection{\texorpdfstring{return\+Next\+Element()}{returnNextElement()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+T csv\+Handle\+::return\+Next\+Element (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 72 of file fp\+Read\+C\+S\+V.\+h.
+
+
+\begin{DoxyCode}
+72                                     \{
+73             T temp;
+74             \hyperlink{classcsvHandle_ab2900581db37409635ccfd878693fb48}{streamHandle} >> temp;
+75             \hyperlink{classcsvHandle_ab2900581db37409635ccfd878693fb48}{streamHandle}.ignore(1, \textcolor{charliteral}{','});
+76             \textcolor{keywordflow}{return} temp;
+77         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classcsvHandle_a7dc362efe916e5a9707f26ad20d3c870}\label{classcsvHandle_a7dc362efe916e5a9707f26ad20d3c870}} 
+\index{csv\+Handle@{csv\+Handle}!return\+Num\+Columns@{return\+Num\+Columns}}
+\index{return\+Num\+Columns@{return\+Num\+Columns}!csv\+Handle@{csv\+Handle}}
+\subsubsection{\texorpdfstring{return\+Num\+Columns()}{returnNumColumns()}}
+{\footnotesize\ttfamily int csv\+Handle\+::return\+Num\+Columns (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 69 of file fp\+Read\+C\+S\+V.\+h.
+
+
+\begin{DoxyCode}
+69 \{\textcolor{keywordflow}{return} \hyperlink{classcsvHandle_aee792b10c2ad6e21c68cfe84d6b7ff46}{numberOfColumns};\}
+\end{DoxyCode}
+\mbox{\Hypertarget{classcsvHandle_a605aeef90b440e8c7b090999da3739a8}\label{classcsvHandle_a605aeef90b440e8c7b090999da3739a8}} 
+\index{csv\+Handle@{csv\+Handle}!return\+Num\+Rows@{return\+Num\+Rows}}
+\index{return\+Num\+Rows@{return\+Num\+Rows}!csv\+Handle@{csv\+Handle}}
+\subsubsection{\texorpdfstring{return\+Num\+Rows()}{returnNumRows()}}
+{\footnotesize\ttfamily int csv\+Handle\+::return\+Num\+Rows (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 68 of file fp\+Read\+C\+S\+V.\+h.
+
+
+\begin{DoxyCode}
+68 \{\textcolor{keywordflow}{return} \hyperlink{classcsvHandle_a61b2327480d1685e7fd64d4cba139ac5}{numberOfRows};\}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classcsvHandle_aee792b10c2ad6e21c68cfe84d6b7ff46}\label{classcsvHandle_aee792b10c2ad6e21c68cfe84d6b7ff46}} 
+\index{csv\+Handle@{csv\+Handle}!number\+Of\+Columns@{number\+Of\+Columns}}
+\index{number\+Of\+Columns@{number\+Of\+Columns}!csv\+Handle@{csv\+Handle}}
+\subsubsection{\texorpdfstring{number\+Of\+Columns}{numberOfColumns}}
+{\footnotesize\ttfamily int csv\+Handle\+::number\+Of\+Columns\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 14 of file fp\+Read\+C\+S\+V.\+h.
+
+\mbox{\Hypertarget{classcsvHandle_a61b2327480d1685e7fd64d4cba139ac5}\label{classcsvHandle_a61b2327480d1685e7fd64d4cba139ac5}} 
+\index{csv\+Handle@{csv\+Handle}!number\+Of\+Rows@{number\+Of\+Rows}}
+\index{number\+Of\+Rows@{number\+Of\+Rows}!csv\+Handle@{csv\+Handle}}
+\subsubsection{\texorpdfstring{number\+Of\+Rows}{numberOfRows}}
+{\footnotesize\ttfamily int csv\+Handle\+::number\+Of\+Rows\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 13 of file fp\+Read\+C\+S\+V.\+h.
+
+\mbox{\Hypertarget{classcsvHandle_ab2900581db37409635ccfd878693fb48}\label{classcsvHandle_ab2900581db37409635ccfd878693fb48}} 
+\index{csv\+Handle@{csv\+Handle}!stream\+Handle@{stream\+Handle}}
+\index{stream\+Handle@{stream\+Handle}!csv\+Handle@{csv\+Handle}}
+\subsubsection{\texorpdfstring{stream\+Handle}{streamHandle}}
+{\footnotesize\ttfamily std\+::ifstream csv\+Handle\+::stream\+Handle\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 12 of file fp\+Read\+C\+S\+V.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/fp\+Singleton/\hyperlink{fpReadCSV_8h}{fp\+Read\+C\+S\+V.\+h}\end{DoxyCompactItemize}

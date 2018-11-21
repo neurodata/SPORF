@@ -1,0 +1,302 @@
+\hypertarget{classfp_1_1timeLogger}{}\section{fp\+:\+:time\+Logger Class Reference}
+\label{classfp_1_1timeLogger}\index{fp\+::time\+Logger@{fp\+::time\+Logger}}
+
+
+{\ttfamily \#include $<$time\+Logger.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classfp_1_1timeLogger_ab6ae96d6c08b46531417915f1b120060}{start\+Grow\+Timer} ()
+\item 
+void \hyperlink{classfp_1_1timeLogger_a4ce75092aa7c974da223425e921312a6}{stop\+Grow\+Timer} ()
+\item 
+void \hyperlink{classfp_1_1timeLogger_a706a97bf8610b4fd6196352b8e38b48b}{start\+Gini\+Timer} ()
+\item 
+void \hyperlink{classfp_1_1timeLogger_ad5a58f08214d4d48b4740685506c130f}{stop\+Gini\+Timer} ()
+\item 
+void \hyperlink{classfp_1_1timeLogger_a53d2260809f92b6884e6cbf4cdf89c2e}{start\+Sort\+Timer} ()
+\item 
+void \hyperlink{classfp_1_1timeLogger_a69923048ee4739b4da9581000775fd2a}{stop\+Sort\+Timer} ()
+\item 
+void \hyperlink{classfp_1_1timeLogger_a59d92a31ff5b1c845dddcc1836323769}{start\+Find\+Split\+Timer} ()
+\item 
+void \hyperlink{classfp_1_1timeLogger_a99c7751d29c3a180fca00564089b9de7}{stop\+Find\+Split\+Timer} ()
+\item 
+void \hyperlink{classfp_1_1timeLogger_a0fc73becc2212e5518d300c514855798}{print\+Grow\+Time} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+steady\+\_\+clock\+::time\+\_\+point \hyperlink{classfp_1_1timeLogger_a530aa42af210e19fbab96c998271dbc4}{start\+Grow}
+\item 
+steady\+\_\+clock\+::time\+\_\+point \hyperlink{classfp_1_1timeLogger_afed53c702d6f414558eb7ca49f37ff22}{start\+Sort}
+\item 
+steady\+\_\+clock\+::time\+\_\+point \hyperlink{classfp_1_1timeLogger_abe0bd7eeb79ad8c33747afb4f4a99e88}{start\+Gini}
+\item 
+steady\+\_\+clock\+::time\+\_\+point \hyperlink{classfp_1_1timeLogger_a1783656ae0d2e107cdfa87766ddc1a8c}{start\+Find\+Split}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static microseconds \hyperlink{classfp_1_1timeLogger_ae79b7283b8f150e851fc325c29618ba1}{total\+Grow\+Time} =std\+::chrono\+::duration\+\_\+values$<$microseconds$>$\+::zero()
+\item 
+static microseconds \hyperlink{classfp_1_1timeLogger_a3ac30f8dba0551c3cd3f57dc4806e56e}{total\+Sort\+Time} =std\+::chrono\+::duration\+\_\+values$<$microseconds$>$\+::zero()
+\item 
+static microseconds \hyperlink{classfp_1_1timeLogger_a1f1c446894052c4df2100b501069a927}{total\+Gini\+Time} =std\+::chrono\+::duration\+\_\+values$<$microseconds$>$\+::zero()
+\item 
+static microseconds \hyperlink{classfp_1_1timeLogger_a11998b4bff9e1f548f4468e25f79a6f2}{total\+Find\+Split\+Time} =std\+::chrono\+::duration\+\_\+values$<$microseconds$>$\+::zero()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 10 of file time\+Logger.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1timeLogger_a0fc73becc2212e5518d300c514855798}\label{classfp_1_1timeLogger_a0fc73becc2212e5518d300c514855798}} 
+\index{fp\+::time\+Logger@{fp\+::time\+Logger}!print\+Grow\+Time@{print\+Grow\+Time}}
+\index{print\+Grow\+Time@{print\+Grow\+Time}!fp\+::time\+Logger@{fp\+::time\+Logger}}
+\subsubsection{\texorpdfstring{print\+Grow\+Time()}{printGrowTime()}}
+{\footnotesize\ttfamily void fp\+::time\+Logger\+::print\+Grow\+Time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 59 of file time\+Logger.\+h.
+
+
+\begin{DoxyCode}
+59                                            \{
+60                     std::cout << std::fixed << \textcolor{stringliteral}{"it took "} << \hyperlink{classfp_1_1timeLogger_ae79b7283b8f150e851fc325c29618ba1}{totalGrowTime}.count() << \textcolor{stringliteral}{" us to
+       grow\(\backslash\)n"};
+61                     std::cout << std::fixed << \textcolor{stringliteral}{"it took "} << \hyperlink{classfp_1_1timeLogger_a3ac30f8dba0551c3cd3f57dc4806e56e}{totalSortTime}.count() << \textcolor{stringliteral}{" us to
+       sort\(\backslash\)n"};
+62                     std::cout << std::fixed << \textcolor{stringliteral}{"it took "} << \hyperlink{classfp_1_1timeLogger_a1f1c446894052c4df2100b501069a927}{totalGiniTime}.count() << \textcolor{stringliteral}{" us to
+       gini\(\backslash\)n"};
+63                     std::cout << std::fixed << \textcolor{stringliteral}{"it took "} << \hyperlink{classfp_1_1timeLogger_a11998b4bff9e1f548f4468e25f79a6f2}{totalFindSplitTime}.count() <
+      < \textcolor{stringliteral}{" us to find split\(\backslash\)n"};
+64                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1timeLogger_a59d92a31ff5b1c845dddcc1836323769}\label{classfp_1_1timeLogger_a59d92a31ff5b1c845dddcc1836323769}} 
+\index{fp\+::time\+Logger@{fp\+::time\+Logger}!start\+Find\+Split\+Timer@{start\+Find\+Split\+Timer}}
+\index{start\+Find\+Split\+Timer@{start\+Find\+Split\+Timer}!fp\+::time\+Logger@{fp\+::time\+Logger}}
+\subsubsection{\texorpdfstring{start\+Find\+Split\+Timer()}{startFindSplitTimer()}}
+{\footnotesize\ttfamily void fp\+::time\+Logger\+::start\+Find\+Split\+Timer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 51 of file time\+Logger.\+h.
+
+
+\begin{DoxyCode}
+51                                  \{
+52 \hyperlink{classfp_1_1timeLogger_a1783656ae0d2e107cdfa87766ddc1a8c}{startFindSplit} = steady\_clock::now();
+53                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1timeLogger_a706a97bf8610b4fd6196352b8e38b48b}\label{classfp_1_1timeLogger_a706a97bf8610b4fd6196352b8e38b48b}} 
+\index{fp\+::time\+Logger@{fp\+::time\+Logger}!start\+Gini\+Timer@{start\+Gini\+Timer}}
+\index{start\+Gini\+Timer@{start\+Gini\+Timer}!fp\+::time\+Logger@{fp\+::time\+Logger}}
+\subsubsection{\texorpdfstring{start\+Gini\+Timer()}{startGiniTimer()}}
+{\footnotesize\ttfamily void fp\+::time\+Logger\+::start\+Gini\+Timer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 35 of file time\+Logger.\+h.
+
+
+\begin{DoxyCode}
+35                             \{
+36 \hyperlink{classfp_1_1timeLogger_abe0bd7eeb79ad8c33747afb4f4a99e88}{startGini} = steady\_clock::now();
+37                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1timeLogger_ab6ae96d6c08b46531417915f1b120060}\label{classfp_1_1timeLogger_ab6ae96d6c08b46531417915f1b120060}} 
+\index{fp\+::time\+Logger@{fp\+::time\+Logger}!start\+Grow\+Timer@{start\+Grow\+Timer}}
+\index{start\+Grow\+Timer@{start\+Grow\+Timer}!fp\+::time\+Logger@{fp\+::time\+Logger}}
+\subsubsection{\texorpdfstring{start\+Grow\+Timer()}{startGrowTimer()}}
+{\footnotesize\ttfamily void fp\+::time\+Logger\+::start\+Grow\+Timer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 27 of file time\+Logger.\+h.
+
+
+\begin{DoxyCode}
+27                                             \{
+28 \hyperlink{classfp_1_1timeLogger_a530aa42af210e19fbab96c998271dbc4}{startGrow} = steady\_clock::now();
+29                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1timeLogger_a53d2260809f92b6884e6cbf4cdf89c2e}\label{classfp_1_1timeLogger_a53d2260809f92b6884e6cbf4cdf89c2e}} 
+\index{fp\+::time\+Logger@{fp\+::time\+Logger}!start\+Sort\+Timer@{start\+Sort\+Timer}}
+\index{start\+Sort\+Timer@{start\+Sort\+Timer}!fp\+::time\+Logger@{fp\+::time\+Logger}}
+\subsubsection{\texorpdfstring{start\+Sort\+Timer()}{startSortTimer()}}
+{\footnotesize\ttfamily void fp\+::time\+Logger\+::start\+Sort\+Timer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 43 of file time\+Logger.\+h.
+
+
+\begin{DoxyCode}
+43                             \{
+44 \hyperlink{classfp_1_1timeLogger_afed53c702d6f414558eb7ca49f37ff22}{startSort} = steady\_clock::now();
+45                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1timeLogger_a99c7751d29c3a180fca00564089b9de7}\label{classfp_1_1timeLogger_a99c7751d29c3a180fca00564089b9de7}} 
+\index{fp\+::time\+Logger@{fp\+::time\+Logger}!stop\+Find\+Split\+Timer@{stop\+Find\+Split\+Timer}}
+\index{stop\+Find\+Split\+Timer@{stop\+Find\+Split\+Timer}!fp\+::time\+Logger@{fp\+::time\+Logger}}
+\subsubsection{\texorpdfstring{stop\+Find\+Split\+Timer()}{stopFindSplitTimer()}}
+{\footnotesize\ttfamily void fp\+::time\+Logger\+::stop\+Find\+Split\+Timer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 55 of file time\+Logger.\+h.
+
+
+\begin{DoxyCode}
+55                                                 \{
+56 \hyperlink{classfp_1_1timeLogger_a11998b4bff9e1f548f4468e25f79a6f2}{totalFindSplitTime} = \hyperlink{classfp_1_1timeLogger_a11998b4bff9e1f548f4468e25f79a6f2}{totalFindSplitTime} +std::chrono::duration\_cast<
+      std::chrono::microseconds>(steady\_clock::now()-\hyperlink{classfp_1_1timeLogger_a1783656ae0d2e107cdfa87766ddc1a8c}{startFindSplit});
+57                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1timeLogger_ad5a58f08214d4d48b4740685506c130f}\label{classfp_1_1timeLogger_ad5a58f08214d4d48b4740685506c130f}} 
+\index{fp\+::time\+Logger@{fp\+::time\+Logger}!stop\+Gini\+Timer@{stop\+Gini\+Timer}}
+\index{stop\+Gini\+Timer@{stop\+Gini\+Timer}!fp\+::time\+Logger@{fp\+::time\+Logger}}
+\subsubsection{\texorpdfstring{stop\+Gini\+Timer()}{stopGiniTimer()}}
+{\footnotesize\ttfamily void fp\+::time\+Logger\+::stop\+Gini\+Timer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 39 of file time\+Logger.\+h.
+
+
+\begin{DoxyCode}
+39                                            \{
+40 \hyperlink{classfp_1_1timeLogger_a1f1c446894052c4df2100b501069a927}{totalGiniTime} = \hyperlink{classfp_1_1timeLogger_a1f1c446894052c4df2100b501069a927}{totalGiniTime} +std::chrono::duration\_cast<
+      std::chrono::microseconds>(steady\_clock::now()-\hyperlink{classfp_1_1timeLogger_abe0bd7eeb79ad8c33747afb4f4a99e88}{startGini});
+41                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1timeLogger_a4ce75092aa7c974da223425e921312a6}\label{classfp_1_1timeLogger_a4ce75092aa7c974da223425e921312a6}} 
+\index{fp\+::time\+Logger@{fp\+::time\+Logger}!stop\+Grow\+Timer@{stop\+Grow\+Timer}}
+\index{stop\+Grow\+Timer@{stop\+Grow\+Timer}!fp\+::time\+Logger@{fp\+::time\+Logger}}
+\subsubsection{\texorpdfstring{stop\+Grow\+Timer()}{stopGrowTimer()}}
+{\footnotesize\ttfamily void fp\+::time\+Logger\+::stop\+Grow\+Timer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 31 of file time\+Logger.\+h.
+
+
+\begin{DoxyCode}
+31                                            \{
+32 \hyperlink{classfp_1_1timeLogger_ae79b7283b8f150e851fc325c29618ba1}{totalGrowTime} = \hyperlink{classfp_1_1timeLogger_ae79b7283b8f150e851fc325c29618ba1}{totalGrowTime} +std::chrono::duration\_cast<
+      std::chrono::microseconds>(steady\_clock::now()-\hyperlink{classfp_1_1timeLogger_a530aa42af210e19fbab96c998271dbc4}{startGrow});
+33                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1timeLogger_a69923048ee4739b4da9581000775fd2a}\label{classfp_1_1timeLogger_a69923048ee4739b4da9581000775fd2a}} 
+\index{fp\+::time\+Logger@{fp\+::time\+Logger}!stop\+Sort\+Timer@{stop\+Sort\+Timer}}
+\index{stop\+Sort\+Timer@{stop\+Sort\+Timer}!fp\+::time\+Logger@{fp\+::time\+Logger}}
+\subsubsection{\texorpdfstring{stop\+Sort\+Timer()}{stopSortTimer()}}
+{\footnotesize\ttfamily void fp\+::time\+Logger\+::stop\+Sort\+Timer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 47 of file time\+Logger.\+h.
+
+
+\begin{DoxyCode}
+47                                            \{
+48 \hyperlink{classfp_1_1timeLogger_a3ac30f8dba0551c3cd3f57dc4806e56e}{totalSortTime} = \hyperlink{classfp_1_1timeLogger_a3ac30f8dba0551c3cd3f57dc4806e56e}{totalSortTime} +std::chrono::duration\_cast<
+      std::chrono::microseconds>(steady\_clock::now()-\hyperlink{classfp_1_1timeLogger_afed53c702d6f414558eb7ca49f37ff22}{startSort});
+49                 \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1timeLogger_a1783656ae0d2e107cdfa87766ddc1a8c}\label{classfp_1_1timeLogger_a1783656ae0d2e107cdfa87766ddc1a8c}} 
+\index{fp\+::time\+Logger@{fp\+::time\+Logger}!start\+Find\+Split@{start\+Find\+Split}}
+\index{start\+Find\+Split@{start\+Find\+Split}!fp\+::time\+Logger@{fp\+::time\+Logger}}
+\subsubsection{\texorpdfstring{start\+Find\+Split}{startFindSplit}}
+{\footnotesize\ttfamily steady\+\_\+clock\+::time\+\_\+point fp\+::time\+Logger\+::start\+Find\+Split}
+
+
+
+Definition at line 23 of file time\+Logger.\+h.
+
+\mbox{\Hypertarget{classfp_1_1timeLogger_abe0bd7eeb79ad8c33747afb4f4a99e88}\label{classfp_1_1timeLogger_abe0bd7eeb79ad8c33747afb4f4a99e88}} 
+\index{fp\+::time\+Logger@{fp\+::time\+Logger}!start\+Gini@{start\+Gini}}
+\index{start\+Gini@{start\+Gini}!fp\+::time\+Logger@{fp\+::time\+Logger}}
+\subsubsection{\texorpdfstring{start\+Gini}{startGini}}
+{\footnotesize\ttfamily steady\+\_\+clock\+::time\+\_\+point fp\+::time\+Logger\+::start\+Gini}
+
+
+
+Definition at line 20 of file time\+Logger.\+h.
+
+\mbox{\Hypertarget{classfp_1_1timeLogger_a530aa42af210e19fbab96c998271dbc4}\label{classfp_1_1timeLogger_a530aa42af210e19fbab96c998271dbc4}} 
+\index{fp\+::time\+Logger@{fp\+::time\+Logger}!start\+Grow@{start\+Grow}}
+\index{start\+Grow@{start\+Grow}!fp\+::time\+Logger@{fp\+::time\+Logger}}
+\subsubsection{\texorpdfstring{start\+Grow}{startGrow}}
+{\footnotesize\ttfamily steady\+\_\+clock\+::time\+\_\+point fp\+::time\+Logger\+::start\+Grow}
+
+
+
+Definition at line 14 of file time\+Logger.\+h.
+
+\mbox{\Hypertarget{classfp_1_1timeLogger_afed53c702d6f414558eb7ca49f37ff22}\label{classfp_1_1timeLogger_afed53c702d6f414558eb7ca49f37ff22}} 
+\index{fp\+::time\+Logger@{fp\+::time\+Logger}!start\+Sort@{start\+Sort}}
+\index{start\+Sort@{start\+Sort}!fp\+::time\+Logger@{fp\+::time\+Logger}}
+\subsubsection{\texorpdfstring{start\+Sort}{startSort}}
+{\footnotesize\ttfamily steady\+\_\+clock\+::time\+\_\+point fp\+::time\+Logger\+::start\+Sort}
+
+
+
+Definition at line 17 of file time\+Logger.\+h.
+
+\mbox{\Hypertarget{classfp_1_1timeLogger_a11998b4bff9e1f548f4468e25f79a6f2}\label{classfp_1_1timeLogger_a11998b4bff9e1f548f4468e25f79a6f2}} 
+\index{fp\+::time\+Logger@{fp\+::time\+Logger}!total\+Find\+Split\+Time@{total\+Find\+Split\+Time}}
+\index{total\+Find\+Split\+Time@{total\+Find\+Split\+Time}!fp\+::time\+Logger@{fp\+::time\+Logger}}
+\subsubsection{\texorpdfstring{total\+Find\+Split\+Time}{totalFindSplitTime}}
+{\footnotesize\ttfamily microseconds fp\+::time\+Logger\+::total\+Find\+Split\+Time =std\+::chrono\+::duration\+\_\+values$<$microseconds$>$\+::zero()\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line 24 of file time\+Logger.\+h.
+
+\mbox{\Hypertarget{classfp_1_1timeLogger_a1f1c446894052c4df2100b501069a927}\label{classfp_1_1timeLogger_a1f1c446894052c4df2100b501069a927}} 
+\index{fp\+::time\+Logger@{fp\+::time\+Logger}!total\+Gini\+Time@{total\+Gini\+Time}}
+\index{total\+Gini\+Time@{total\+Gini\+Time}!fp\+::time\+Logger@{fp\+::time\+Logger}}
+\subsubsection{\texorpdfstring{total\+Gini\+Time}{totalGiniTime}}
+{\footnotesize\ttfamily microseconds fp\+::time\+Logger\+::total\+Gini\+Time =std\+::chrono\+::duration\+\_\+values$<$microseconds$>$\+::zero()\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line 21 of file time\+Logger.\+h.
+
+\mbox{\Hypertarget{classfp_1_1timeLogger_ae79b7283b8f150e851fc325c29618ba1}\label{classfp_1_1timeLogger_ae79b7283b8f150e851fc325c29618ba1}} 
+\index{fp\+::time\+Logger@{fp\+::time\+Logger}!total\+Grow\+Time@{total\+Grow\+Time}}
+\index{total\+Grow\+Time@{total\+Grow\+Time}!fp\+::time\+Logger@{fp\+::time\+Logger}}
+\subsubsection{\texorpdfstring{total\+Grow\+Time}{totalGrowTime}}
+{\footnotesize\ttfamily microseconds fp\+::time\+Logger\+::total\+Grow\+Time =std\+::chrono\+::duration\+\_\+values$<$microseconds$>$\+::zero()\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line 15 of file time\+Logger.\+h.
+
+\mbox{\Hypertarget{classfp_1_1timeLogger_a3ac30f8dba0551c3cd3f57dc4806e56e}\label{classfp_1_1timeLogger_a3ac30f8dba0551c3cd3f57dc4806e56e}} 
+\index{fp\+::time\+Logger@{fp\+::time\+Logger}!total\+Sort\+Time@{total\+Sort\+Time}}
+\index{total\+Sort\+Time@{total\+Sort\+Time}!fp\+::time\+Logger@{fp\+::time\+Logger}}
+\subsubsection{\texorpdfstring{total\+Sort\+Time}{totalSortTime}}
+{\footnotesize\ttfamily microseconds fp\+::time\+Logger\+::total\+Sort\+Time =std\+::chrono\+::duration\+\_\+values$<$microseconds$>$\+::zero()\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line 18 of file time\+Logger.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/base\+Functions/\hyperlink{timeLogger_8h}{time\+Logger.\+h}\end{DoxyCompactItemize}

@@ -2,7 +2,7 @@
 #define fpForestFactory_h
 
 #include <string>
-#include <memory>
+//#include <memory>
 #include "fpForestBase.h"
 #include "../forestTypes/rfClassification/fpForestClassificationBase.h"
 

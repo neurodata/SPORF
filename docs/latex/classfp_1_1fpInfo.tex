@@ -1,0 +1,631 @@
+\hypertarget{classfp_1_1fpInfo}{}\section{fp\+:\+:fp\+Info Class Reference}
+\label{classfp_1_1fpInfo}\index{fp\+::fp\+Info@{fp\+::fp\+Info}}
+
+
+{\ttfamily \#include $<$fp\+Info.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classfp_1_1fpInfo_a2a0f7c8215dd138b690efe8a03484aef}{fp\+Info} ()
+\item 
+void \hyperlink{classfp_1_1fpInfo_ae4c749c466e983cb312cc08d38b2796e}{set\+Parameter} (const std\+::string \&parameter\+Name, const std\+::string \&parameter\+Value)
+\item 
+void \hyperlink{classfp_1_1fpInfo_a8ef4332ee98a1724ffd8614c4f80af91}{set\+Parameter} (const std\+::string \&parameter\+Name, const double parameter\+Value)
+\item 
+void \hyperlink{classfp_1_1fpInfo_aa2dd574c5a3764c250f1ccb1b11de1e0}{set\+Parameter} (const std\+::string \&parameter\+Name, const int parameter\+Value)
+\item 
+void \hyperlink{classfp_1_1fpInfo_a471bd46c828547d5b556f6f4e9fca70f}{print\+All\+Parameters} ()
+\item 
+void \hyperlink{classfp_1_1fpInfo_a1acfffe3b13e5cad548f92cd09ff7f46}{print\+Forest\+Type} ()
+\item 
+std\+::string \& \hyperlink{classfp_1_1fpInfo_a78c57a1955263d343c794f2156cd0a76}{return\+C\+S\+V\+File\+Name} ()
+\item 
+std\+::string \& \hyperlink{classfp_1_1fpInfo_a97280e7e3cadc5e653d8ef256eb2c82d}{return\+Forest\+Type} ()
+\item 
+int \hyperlink{classfp_1_1fpInfo_a52ef3c184d39133dae472bb51e1287e7}{return\+Column\+WithY} ()
+\item 
+int \hyperlink{classfp_1_1fpInfo_a641516fa21a5d6170f74426cf9e2b255}{return\+Num\+Classes} ()
+\item 
+int \hyperlink{classfp_1_1fpInfo_ad1af845e85cb6e807694c5106baca230}{return\+Min\+Parent} ()
+\item 
+int \hyperlink{classfp_1_1fpInfo_abf1e1bfc3e7daa178f3d68bed6311edb}{return\+Num\+Features} ()
+\item 
+int \hyperlink{classfp_1_1fpInfo_a5d70dfbd1f8dc26dbd8f066e210cf165}{return\+Num\+Observations} ()
+\item 
+void \hyperlink{classfp_1_1fpInfo_a3598d1ab13bf05b53858b1ca8c44fa68}{set\+Num\+Classes} (int numC)
+\item 
+void \hyperlink{classfp_1_1fpInfo_a69ef99f2ec9ef74dd3787bc33ffb05d0}{set\+Num\+Features} (int numF)
+\item 
+void \hyperlink{classfp_1_1fpInfo_ad17492e79df7bca55d98438fec2f004b}{set\+Num\+Observations} (int numO)
+\item 
+int \hyperlink{classfp_1_1fpInfo_a12d3d4b2216f37daf6555f07148c4f85}{return\+Num\+Trees} ()
+\item 
+bool \hyperlink{classfp_1_1fpInfo_a2a6ac3cfea5db5842baa1789468492ad}{load\+Data\+From\+C\+SV} ()
+\item 
+int \hyperlink{classfp_1_1fpInfo_a058477c4f05818c220efa469b7b630bb}{return\+Mtry} ()
+\item 
+bool \hyperlink{classfp_1_1fpInfo_a0a00d3d54cef667000249202a2d768bf}{use\+Default\+M\+T\+RY} ()
+\item 
+void \hyperlink{classfp_1_1fpInfo_a6b2a54fb9b3672e7b1bab3474a0ca33f}{set\+M\+T\+RY} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classfp_1_1fpInfo_a8dbd62dca5c972c29d29a69d90ca2632}{num\+Trees\+In\+Forest}
+\item 
+int \hyperlink{classfp_1_1fpInfo_a128fab7ba6da0fc76da00b48bb1bd7d5}{min\+Parent} = 1
+\item 
+int \hyperlink{classfp_1_1fpInfo_a1c98a9ced12230f21003f78d742625a3}{num\+Classes} = -\/1
+\item 
+int \hyperlink{classfp_1_1fpInfo_a1b35cd17d4ddb35e232246a6549d7a74}{num\+Observations} = -\/1
+\item 
+int \hyperlink{classfp_1_1fpInfo_a6ed8deabebae772fc213730cd29a2e61}{num\+Features} = -\/1
+\item 
+int \hyperlink{classfp_1_1fpInfo_a62cccc1eb5641ebec2a6cc86cf03eedf}{mtry} = -\/1
+\item 
+int \hyperlink{classfp_1_1fpInfo_ac29e135cd84cdef547b678e7ea37f92d}{column\+WithY} = -\/1
+\item 
+int \hyperlink{classfp_1_1fpInfo_a9404de3ad49dc78e3d5c8e3ef8b04fba}{number\+Of\+Nodes}
+\item 
+int \hyperlink{classfp_1_1fpInfo_a95c744fa049788dd61fa0fccdec4565d}{max\+Depth}
+\item 
+int \hyperlink{classfp_1_1fpInfo_a13afa17097728f059e8525ea382b71cd}{sum\+Leaf\+Node\+Depths}
+\item 
+double \hyperlink{classfp_1_1fpInfo_ab949cb97523283367e9b120fd78e3c3b}{fraction\+Of\+Features\+To\+Test} = -\/1.\+0
+\item 
+std\+::string \hyperlink{classfp_1_1fpInfo_a3001fbf80d86022e53578d6adf133b90}{forest\+Type}
+\item 
+std\+::string \hyperlink{classfp_1_1fpInfo_aac01e5ddb27bc333e172a0422066af1c}{C\+S\+V\+File\+Name}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 11 of file fp\+Info.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classfp_1_1fpInfo_a2a0f7c8215dd138b690efe8a03484aef}\label{classfp_1_1fpInfo_a2a0f7c8215dd138b690efe8a03484aef}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!fp\+Info@{fp\+Info}}
+\index{fp\+Info@{fp\+Info}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{fp\+Info()}{fpInfo()}}
+{\footnotesize\ttfamily fp\+::fp\+Info\+::fp\+Info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 7 of file fp\+Info.\+cpp.
+
+
+\begin{DoxyCode}
+7                   : \hyperlink{classfp_1_1fpInfo_a8dbd62dca5c972c29d29a69d90ca2632}{numTreesInForest}(100),
+8     \hyperlink{classfp_1_1fpInfo_a128fab7ba6da0fc76da00b48bb1bd7d5}{minParent}(1),  \hyperlink{classfp_1_1fpInfo_a1c98a9ced12230f21003f78d742625a3}{numClasses}(-1), \hyperlink{classfp_1_1fpInfo_a6ed8deabebae772fc213730cd29a2e61}{numFeatures}(-1),
+9     \hyperlink{classfp_1_1fpInfo_a62cccc1eb5641ebec2a6cc86cf03eedf}{mtry}(-1), 
+10     \hyperlink{classfp_1_1fpInfo_a9404de3ad49dc78e3d5c8e3ef8b04fba}{numberOfNodes}(0), \hyperlink{classfp_1_1fpInfo_a95c744fa049788dd61fa0fccdec4565d}{maxDepth}(0),\hyperlink{classfp_1_1fpInfo_a13afa17097728f059e8525ea382b71cd}{sumLeafNodeDepths}(0), 
+      \hyperlink{classfp_1_1fpInfo_ab949cb97523283367e9b120fd78e3c3b}{fractionOfFeaturesToTest}(-1.0)\{\}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1fpInfo_a2a6ac3cfea5db5842baa1789468492ad}\label{classfp_1_1fpInfo_a2a6ac3cfea5db5842baa1789468492ad}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!load\+Data\+From\+C\+SV@{load\+Data\+From\+C\+SV}}
+\index{load\+Data\+From\+C\+SV@{load\+Data\+From\+C\+SV}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{load\+Data\+From\+C\+S\+V()}{loadDataFromCSV()}}
+{\footnotesize\ttfamily bool fp\+::fp\+Info\+::load\+Data\+From\+C\+SV (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 89 of file fp\+Info.\+h.
+
+
+\begin{DoxyCode}
+89                                          \{
+90                 \textcolor{keywordflow}{if}(!\hyperlink{classfp_1_1fpInfo_aac01e5ddb27bc333e172a0422066af1c}{CSVFileName}.empty() || \hyperlink{classfp_1_1fpInfo_ac29e135cd84cdef547b678e7ea37f92d}{columnWithY} != -1)\{
+91                     \textcolor{keywordflow}{return} \textcolor{keyword}{true};
+92                 \}
+93                 \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+94             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpInfo_a471bd46c828547d5b556f6f4e9fca70f}\label{classfp_1_1fpInfo_a471bd46c828547d5b556f6f4e9fca70f}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!print\+All\+Parameters@{print\+All\+Parameters}}
+\index{print\+All\+Parameters@{print\+All\+Parameters}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{print\+All\+Parameters()}{printAllParameters()}}
+{\footnotesize\ttfamily void fp\+::fp\+Info\+::print\+All\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 61 of file fp\+Info.\+cpp.
+
+
+\begin{DoxyCode}
+61                                    \{
+62         std::cout << \textcolor{stringliteral}{"numTreesInForest -> "} << \hyperlink{classfp_1_1fpInfo_a8dbd62dca5c972c29d29a69d90ca2632}{numTreesInForest} << \textcolor{stringliteral}{"\(\backslash\)n"};
+63         std::cout << \textcolor{stringliteral}{"minParent -> "} << \hyperlink{classfp_1_1fpInfo_a128fab7ba6da0fc76da00b48bb1bd7d5}{minParent} << \textcolor{stringliteral}{"\(\backslash\)n"};
+64         std::cout << \textcolor{stringliteral}{"numClasses -> "} << \hyperlink{classfp_1_1fpInfo_a1c98a9ced12230f21003f78d742625a3}{numClasses} << \textcolor{stringliteral}{"\(\backslash\)n"};
+65         std::cout << \textcolor{stringliteral}{"numObservations -> "} << \hyperlink{classfp_1_1fpInfo_a1b35cd17d4ddb35e232246a6549d7a74}{numObservations} << \textcolor{stringliteral}{"\(\backslash\)n"};
+66         std::cout << \textcolor{stringliteral}{"numFeatures -> "} << \hyperlink{classfp_1_1fpInfo_a6ed8deabebae772fc213730cd29a2e61}{numFeatures} << \textcolor{stringliteral}{"\(\backslash\)n"};
+67         std::cout << \textcolor{stringliteral}{"mtry -> "} << \hyperlink{classfp_1_1fpInfo_a62cccc1eb5641ebec2a6cc86cf03eedf}{mtry} << \textcolor{stringliteral}{"\(\backslash\)n"};
+68         std::cout << \textcolor{stringliteral}{"fractionOfFeaturesToTest -> "} << \hyperlink{classfp_1_1fpInfo_ab949cb97523283367e9b120fd78e3c3b}{fractionOfFeaturesToTest} << \textcolor{stringliteral}{
+      "\(\backslash\)n"};
+69         std::cout << \textcolor{stringliteral}{"CSV file name -> "} <<  \hyperlink{classfp_1_1fpInfo_aac01e5ddb27bc333e172a0422066af1c}{CSVFileName} << \textcolor{stringliteral}{"\(\backslash\)n"};
+70         std::cout << \textcolor{stringliteral}{"columnWithY -> "} << \hyperlink{classfp_1_1fpInfo_ac29e135cd84cdef547b678e7ea37f92d}{columnWithY} << \textcolor{stringliteral}{"\(\backslash\)n"};
+71         std::cout << \textcolor{stringliteral}{"Type of Forest -> "} << \hyperlink{classfp_1_1fpInfo_a3001fbf80d86022e53578d6adf133b90}{forestType} << \textcolor{stringliteral}{"\(\backslash\)n"};
+72     \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpInfo_a1acfffe3b13e5cad548f92cd09ff7f46}\label{classfp_1_1fpInfo_a1acfffe3b13e5cad548f92cd09ff7f46}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!print\+Forest\+Type@{print\+Forest\+Type}}
+\index{print\+Forest\+Type@{print\+Forest\+Type}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{print\+Forest\+Type()}{printForestType()}}
+{\footnotesize\ttfamily void fp\+::fp\+Info\+::print\+Forest\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 75 of file fp\+Info.\+cpp.
+
+
+\begin{DoxyCode}
+75                                 \{
+76         std::cout << \hyperlink{classfp_1_1fpInfo_a3001fbf80d86022e53578d6adf133b90}{forestType};
+77     \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpInfo_a52ef3c184d39133dae472bb51e1287e7}\label{classfp_1_1fpInfo_a52ef3c184d39133dae472bb51e1287e7}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!return\+Column\+WithY@{return\+Column\+WithY}}
+\index{return\+Column\+WithY@{return\+Column\+WithY}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{return\+Column\+With\+Y()}{returnColumnWithY()}}
+{\footnotesize\ttfamily int fp\+::fp\+Info\+::return\+Column\+WithY (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 54 of file fp\+Info.\+h.
+
+
+\begin{DoxyCode}
+54                                           \{
+55                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpInfo_ac29e135cd84cdef547b678e7ea37f92d}{columnWithY};
+56             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpInfo_a78c57a1955263d343c794f2156cd0a76}\label{classfp_1_1fpInfo_a78c57a1955263d343c794f2156cd0a76}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!return\+C\+S\+V\+File\+Name@{return\+C\+S\+V\+File\+Name}}
+\index{return\+C\+S\+V\+File\+Name@{return\+C\+S\+V\+File\+Name}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{return\+C\+S\+V\+File\+Name()}{returnCSVFileName()}}
+{\footnotesize\ttfamily std\+::string\& fp\+::fp\+Info\+::return\+C\+S\+V\+File\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 46 of file fp\+Info.\+h.
+
+
+\begin{DoxyCode}
+46                                                  \{
+47                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpInfo_aac01e5ddb27bc333e172a0422066af1c}{CSVFileName};
+48             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpInfo_a97280e7e3cadc5e653d8ef256eb2c82d}\label{classfp_1_1fpInfo_a97280e7e3cadc5e653d8ef256eb2c82d}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!return\+Forest\+Type@{return\+Forest\+Type}}
+\index{return\+Forest\+Type@{return\+Forest\+Type}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{return\+Forest\+Type()}{returnForestType()}}
+{\footnotesize\ttfamily std\+::string\& fp\+::fp\+Info\+::return\+Forest\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 50 of file fp\+Info.\+h.
+
+
+\begin{DoxyCode}
+50                                                 \{
+51                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpInfo_a3001fbf80d86022e53578d6adf133b90}{forestType};
+52             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpInfo_ad1af845e85cb6e807694c5106baca230}\label{classfp_1_1fpInfo_ad1af845e85cb6e807694c5106baca230}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!return\+Min\+Parent@{return\+Min\+Parent}}
+\index{return\+Min\+Parent@{return\+Min\+Parent}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{return\+Min\+Parent()}{returnMinParent()}}
+{\footnotesize\ttfamily int fp\+::fp\+Info\+::return\+Min\+Parent (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 62 of file fp\+Info.\+h.
+
+
+\begin{DoxyCode}
+62                                         \{
+63                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpInfo_a128fab7ba6da0fc76da00b48bb1bd7d5}{minParent};
+64             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpInfo_a058477c4f05818c220efa469b7b630bb}\label{classfp_1_1fpInfo_a058477c4f05818c220efa469b7b630bb}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!return\+Mtry@{return\+Mtry}}
+\index{return\+Mtry@{return\+Mtry}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{return\+Mtry()}{returnMtry()}}
+{\footnotesize\ttfamily int fp\+::fp\+Info\+::return\+Mtry (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 96 of file fp\+Info.\+h.
+
+
+\begin{DoxyCode}
+96                                    \{
+97                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpInfo_a62cccc1eb5641ebec2a6cc86cf03eedf}{mtry};
+98             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpInfo_a641516fa21a5d6170f74426cf9e2b255}\label{classfp_1_1fpInfo_a641516fa21a5d6170f74426cf9e2b255}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!return\+Num\+Classes@{return\+Num\+Classes}}
+\index{return\+Num\+Classes@{return\+Num\+Classes}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{return\+Num\+Classes()}{returnNumClasses()}}
+{\footnotesize\ttfamily int fp\+::fp\+Info\+::return\+Num\+Classes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 58 of file fp\+Info.\+h.
+
+
+\begin{DoxyCode}
+58                                          \{
+59                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpInfo_a1c98a9ced12230f21003f78d742625a3}{numClasses};
+60             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpInfo_abf1e1bfc3e7daa178f3d68bed6311edb}\label{classfp_1_1fpInfo_abf1e1bfc3e7daa178f3d68bed6311edb}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!return\+Num\+Features@{return\+Num\+Features}}
+\index{return\+Num\+Features@{return\+Num\+Features}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{return\+Num\+Features()}{returnNumFeatures()}}
+{\footnotesize\ttfamily int fp\+::fp\+Info\+::return\+Num\+Features (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 66 of file fp\+Info.\+h.
+
+
+\begin{DoxyCode}
+66                                           \{
+67                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpInfo_a6ed8deabebae772fc213730cd29a2e61}{numFeatures};
+68             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpInfo_a5d70dfbd1f8dc26dbd8f066e210cf165}\label{classfp_1_1fpInfo_a5d70dfbd1f8dc26dbd8f066e210cf165}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!return\+Num\+Observations@{return\+Num\+Observations}}
+\index{return\+Num\+Observations@{return\+Num\+Observations}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{return\+Num\+Observations()}{returnNumObservations()}}
+{\footnotesize\ttfamily int fp\+::fp\+Info\+::return\+Num\+Observations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 69 of file fp\+Info.\+h.
+
+
+\begin{DoxyCode}
+69                                               \{
+70                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpInfo_a1b35cd17d4ddb35e232246a6549d7a74}{numObservations};
+71             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpInfo_a12d3d4b2216f37daf6555f07148c4f85}\label{classfp_1_1fpInfo_a12d3d4b2216f37daf6555f07148c4f85}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!return\+Num\+Trees@{return\+Num\+Trees}}
+\index{return\+Num\+Trees@{return\+Num\+Trees}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{return\+Num\+Trees()}{returnNumTrees()}}
+{\footnotesize\ttfamily int fp\+::fp\+Info\+::return\+Num\+Trees (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 85 of file fp\+Info.\+h.
+
+
+\begin{DoxyCode}
+85                                        \{
+86                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpInfo_a8dbd62dca5c972c29d29a69d90ca2632}{numTreesInForest};
+87             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpInfo_a6b2a54fb9b3672e7b1bab3474a0ca33f}\label{classfp_1_1fpInfo_a6b2a54fb9b3672e7b1bab3474a0ca33f}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!set\+M\+T\+RY@{set\+M\+T\+RY}}
+\index{set\+M\+T\+RY@{set\+M\+T\+RY}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{set\+M\+T\+R\+Y()}{setMTRY()}}
+{\footnotesize\ttfamily void fp\+::fp\+Info\+::set\+M\+T\+RY (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 103 of file fp\+Info.\+h.
+
+
+\begin{DoxyCode}
+103                                  \{
+104                 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpInfo_a62cccc1eb5641ebec2a6cc86cf03eedf}{mtry} == -1)\{
+105                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpInfo_a0a00d3d54cef667000249202a2d768bf}{useDefaultMTRY}())\{
+106                         \hyperlink{classfp_1_1fpInfo_a62cccc1eb5641ebec2a6cc86cf03eedf}{mtry} = sqrt(\hyperlink{classfp_1_1fpInfo_a6ed8deabebae772fc213730cd29a2e61}{numFeatures});
+107                     \}\textcolor{keywordflow}{else}\{
+108                         \hyperlink{classfp_1_1fpInfo_a62cccc1eb5641ebec2a6cc86cf03eedf}{mtry} = \hyperlink{classfp_1_1fpInfo_ab949cb97523283367e9b120fd78e3c3b}{fractionOfFeaturesToTest} * 
+      \hyperlink{classfp_1_1fpInfo_a6ed8deabebae772fc213730cd29a2e61}{numFeatures};
+109                     \}
+110                 \}
+111             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpInfo_a6b2a54fb9b3672e7b1bab3474a0ca33f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpInfo_a3598d1ab13bf05b53858b1ca8c44fa68}\label{classfp_1_1fpInfo_a3598d1ab13bf05b53858b1ca8c44fa68}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!set\+Num\+Classes@{set\+Num\+Classes}}
+\index{set\+Num\+Classes@{set\+Num\+Classes}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{set\+Num\+Classes()}{setNumClasses()}}
+{\footnotesize\ttfamily void fp\+::fp\+Info\+::set\+Num\+Classes (\begin{DoxyParamCaption}\item[{int}]{numC }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 73 of file fp\+Info.\+h.
+
+
+\begin{DoxyCode}
+73                                                \{
+74                 \hyperlink{classfp_1_1fpInfo_a1c98a9ced12230f21003f78d742625a3}{numClasses} = numC;
+75             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpInfo_a69ef99f2ec9ef74dd3787bc33ffb05d0}\label{classfp_1_1fpInfo_a69ef99f2ec9ef74dd3787bc33ffb05d0}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!set\+Num\+Features@{set\+Num\+Features}}
+\index{set\+Num\+Features@{set\+Num\+Features}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{set\+Num\+Features()}{setNumFeatures()}}
+{\footnotesize\ttfamily void fp\+::fp\+Info\+::set\+Num\+Features (\begin{DoxyParamCaption}\item[{int}]{numF }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 77 of file fp\+Info.\+h.
+
+
+\begin{DoxyCode}
+77                                                 \{
+78                 \hyperlink{classfp_1_1fpInfo_a6ed8deabebae772fc213730cd29a2e61}{numFeatures} = numF;
+79             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpInfo_ad17492e79df7bca55d98438fec2f004b}\label{classfp_1_1fpInfo_ad17492e79df7bca55d98438fec2f004b}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!set\+Num\+Observations@{set\+Num\+Observations}}
+\index{set\+Num\+Observations@{set\+Num\+Observations}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{set\+Num\+Observations()}{setNumObservations()}}
+{\footnotesize\ttfamily void fp\+::fp\+Info\+::set\+Num\+Observations (\begin{DoxyParamCaption}\item[{int}]{numO }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 81 of file fp\+Info.\+h.
+
+
+\begin{DoxyCode}
+81                                                     \{
+82                 \hyperlink{classfp_1_1fpInfo_a1b35cd17d4ddb35e232246a6549d7a74}{numObservations} = numO;
+83             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpInfo_ae4c749c466e983cb312cc08d38b2796e}\label{classfp_1_1fpInfo_ae4c749c466e983cb312cc08d38b2796e}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!set\+Parameter@{set\+Parameter}}
+\index{set\+Parameter@{set\+Parameter}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{set\+Parameter()}{setParameter()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily void fp\+::fp\+Info\+::set\+Parameter (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{parameter\+Name,  }\item[{const std\+::string \&}]{parameter\+Value }\end{DoxyParamCaption})}
+
+
+
+Definition at line 13 of file fp\+Info.\+cpp.
+
+
+\begin{DoxyCode}
+13                                                                                             \{
+14         \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"forestType"})\{
+15             \hyperlink{classfp_1_1fpInfo_a3001fbf80d86022e53578d6adf133b90}{forestType} = parameterValue;
+16         \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"CSVFileName"})\{
+17             \hyperlink{classfp_1_1fpInfo_aac01e5ddb27bc333e172a0422066af1c}{CSVFileName} = parameterValue;
+18         \}\textcolor{keywordflow}{else}\{
+19             \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Unknown parameter type.(string)"});
+20         \}
+21     \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpInfo_a8ef4332ee98a1724ffd8614c4f80af91}\label{classfp_1_1fpInfo_a8ef4332ee98a1724ffd8614c4f80af91}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!set\+Parameter@{set\+Parameter}}
+\index{set\+Parameter@{set\+Parameter}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{set\+Parameter()}{setParameter()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily void fp\+::fp\+Info\+::set\+Parameter (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{parameter\+Name,  }\item[{const double}]{parameter\+Value }\end{DoxyParamCaption})}
+
+
+
+Definition at line 24 of file fp\+Info.\+cpp.
+
+
+\begin{DoxyCode}
+24                                                                                         \{
+25         \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"numTreesInForest"})\{
+26             \hyperlink{classfp_1_1fpInfo_a8dbd62dca5c972c29d29a69d90ca2632}{numTreesInForest} = (int)parameterValue;
+27         \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"minParent"})\{
+28             \hyperlink{classfp_1_1fpInfo_a128fab7ba6da0fc76da00b48bb1bd7d5}{minParent} = (int)parameterValue;
+29         \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"numClasses"})\{
+30             \hyperlink{classfp_1_1fpInfo_a1c98a9ced12230f21003f78d742625a3}{numClasses} = (int)parameterValue;
+31         \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"mtry"})\{
+32             \hyperlink{classfp_1_1fpInfo_a62cccc1eb5641ebec2a6cc86cf03eedf}{mtry} = (int)parameterValue;
+33         \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"fractionOfFeaturesToTest"})\{
+34             \hyperlink{classfp_1_1fpInfo_ab949cb97523283367e9b120fd78e3c3b}{fractionOfFeaturesToTest} = parameterValue;
+35         \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"columnWithY"})\{
+36             \hyperlink{classfp_1_1fpInfo_ac29e135cd84cdef547b678e7ea37f92d}{columnWithY} = parameterValue;
+37         \}\textcolor{keywordflow}{else} \{
+38             \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Unknown parameter type.(double)"});
+39         \}
+40     \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpInfo_aa2dd574c5a3764c250f1ccb1b11de1e0}\label{classfp_1_1fpInfo_aa2dd574c5a3764c250f1ccb1b11de1e0}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!set\+Parameter@{set\+Parameter}}
+\index{set\+Parameter@{set\+Parameter}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{set\+Parameter()}{setParameter()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily void fp\+::fp\+Info\+::set\+Parameter (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{parameter\+Name,  }\item[{const int}]{parameter\+Value }\end{DoxyParamCaption})}
+
+
+
+Definition at line 43 of file fp\+Info.\+cpp.
+
+
+\begin{DoxyCode}
+43                                                                                      \{
+44         \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"numTreesInForest"})\{
+45             \hyperlink{classfp_1_1fpInfo_a8dbd62dca5c972c29d29a69d90ca2632}{numTreesInForest} = parameterValue;
+46         \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"minParent"})\{
+47             \hyperlink{classfp_1_1fpInfo_a128fab7ba6da0fc76da00b48bb1bd7d5}{minParent} = parameterValue;
+48         \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"numClasses"})\{
+49             \hyperlink{classfp_1_1fpInfo_a1c98a9ced12230f21003f78d742625a3}{numClasses} = parameterValue;
+50         \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"mtry"})\{
+51             \hyperlink{classfp_1_1fpInfo_a62cccc1eb5641ebec2a6cc86cf03eedf}{mtry} = parameterValue;
+52         \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"fractionOfFeaturesToTest"})\{
+53             \hyperlink{classfp_1_1fpInfo_ab949cb97523283367e9b120fd78e3c3b}{fractionOfFeaturesToTest} = (double)parameterValue;
+54         \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"columnWithY"})\{
+55             \hyperlink{classfp_1_1fpInfo_ac29e135cd84cdef547b678e7ea37f92d}{columnWithY} = parameterValue;
+56         \}\textcolor{keywordflow}{else} \{
+57             \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Unknown parameter type.(int)"});
+58         \}
+59     \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpInfo_a0a00d3d54cef667000249202a2d768bf}\label{classfp_1_1fpInfo_a0a00d3d54cef667000249202a2d768bf}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!use\+Default\+M\+T\+RY@{use\+Default\+M\+T\+RY}}
+\index{use\+Default\+M\+T\+RY@{use\+Default\+M\+T\+RY}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{use\+Default\+M\+T\+R\+Y()}{useDefaultMTRY()}}
+{\footnotesize\ttfamily bool fp\+::fp\+Info\+::use\+Default\+M\+T\+RY (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 99 of file fp\+Info.\+h.
+
+
+\begin{DoxyCode}
+99                                         \{
+100                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpInfo_ab949cb97523283367e9b120fd78e3c3b}{fractionOfFeaturesToTest} < 0;
+101             \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1fpInfo_ac29e135cd84cdef547b678e7ea37f92d}\label{classfp_1_1fpInfo_ac29e135cd84cdef547b678e7ea37f92d}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!column\+WithY@{column\+WithY}}
+\index{column\+WithY@{column\+WithY}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{column\+WithY}{columnWithY}}
+{\footnotesize\ttfamily int fp\+::fp\+Info\+::column\+WithY = -\/1\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 20 of file fp\+Info.\+h.
+
+\mbox{\Hypertarget{classfp_1_1fpInfo_aac01e5ddb27bc333e172a0422066af1c}\label{classfp_1_1fpInfo_aac01e5ddb27bc333e172a0422066af1c}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!C\+S\+V\+File\+Name@{C\+S\+V\+File\+Name}}
+\index{C\+S\+V\+File\+Name@{C\+S\+V\+File\+Name}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{C\+S\+V\+File\+Name}{CSVFileName}}
+{\footnotesize\ttfamily std\+::string fp\+::fp\+Info\+::\+C\+S\+V\+File\+Name\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 29 of file fp\+Info.\+h.
+
+\mbox{\Hypertarget{classfp_1_1fpInfo_a3001fbf80d86022e53578d6adf133b90}\label{classfp_1_1fpInfo_a3001fbf80d86022e53578d6adf133b90}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!forest\+Type@{forest\+Type}}
+\index{forest\+Type@{forest\+Type}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{forest\+Type}{forestType}}
+{\footnotesize\ttfamily std\+::string fp\+::fp\+Info\+::forest\+Type\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 28 of file fp\+Info.\+h.
+
+\mbox{\Hypertarget{classfp_1_1fpInfo_ab949cb97523283367e9b120fd78e3c3b}\label{classfp_1_1fpInfo_ab949cb97523283367e9b120fd78e3c3b}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!fraction\+Of\+Features\+To\+Test@{fraction\+Of\+Features\+To\+Test}}
+\index{fraction\+Of\+Features\+To\+Test@{fraction\+Of\+Features\+To\+Test}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{fraction\+Of\+Features\+To\+Test}{fractionOfFeaturesToTest}}
+{\footnotesize\ttfamily double fp\+::fp\+Info\+::fraction\+Of\+Features\+To\+Test = -\/1.\+0\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 26 of file fp\+Info.\+h.
+
+\mbox{\Hypertarget{classfp_1_1fpInfo_a95c744fa049788dd61fa0fccdec4565d}\label{classfp_1_1fpInfo_a95c744fa049788dd61fa0fccdec4565d}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!max\+Depth@{max\+Depth}}
+\index{max\+Depth@{max\+Depth}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{max\+Depth}{maxDepth}}
+{\footnotesize\ttfamily int fp\+::fp\+Info\+::max\+Depth\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 23 of file fp\+Info.\+h.
+
+\mbox{\Hypertarget{classfp_1_1fpInfo_a128fab7ba6da0fc76da00b48bb1bd7d5}\label{classfp_1_1fpInfo_a128fab7ba6da0fc76da00b48bb1bd7d5}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!min\+Parent@{min\+Parent}}
+\index{min\+Parent@{min\+Parent}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{min\+Parent}{minParent}}
+{\footnotesize\ttfamily int fp\+::fp\+Info\+::min\+Parent = 1\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 15 of file fp\+Info.\+h.
+
+\mbox{\Hypertarget{classfp_1_1fpInfo_a62cccc1eb5641ebec2a6cc86cf03eedf}\label{classfp_1_1fpInfo_a62cccc1eb5641ebec2a6cc86cf03eedf}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!mtry@{mtry}}
+\index{mtry@{mtry}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{mtry}{mtry}}
+{\footnotesize\ttfamily int fp\+::fp\+Info\+::mtry = -\/1\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 19 of file fp\+Info.\+h.
+
+\mbox{\Hypertarget{classfp_1_1fpInfo_a9404de3ad49dc78e3d5c8e3ef8b04fba}\label{classfp_1_1fpInfo_a9404de3ad49dc78e3d5c8e3ef8b04fba}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!number\+Of\+Nodes@{number\+Of\+Nodes}}
+\index{number\+Of\+Nodes@{number\+Of\+Nodes}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{number\+Of\+Nodes}{numberOfNodes}}
+{\footnotesize\ttfamily int fp\+::fp\+Info\+::number\+Of\+Nodes\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 22 of file fp\+Info.\+h.
+
+\mbox{\Hypertarget{classfp_1_1fpInfo_a1c98a9ced12230f21003f78d742625a3}\label{classfp_1_1fpInfo_a1c98a9ced12230f21003f78d742625a3}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!num\+Classes@{num\+Classes}}
+\index{num\+Classes@{num\+Classes}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{num\+Classes}{numClasses}}
+{\footnotesize\ttfamily int fp\+::fp\+Info\+::num\+Classes = -\/1\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 16 of file fp\+Info.\+h.
+
+\mbox{\Hypertarget{classfp_1_1fpInfo_a6ed8deabebae772fc213730cd29a2e61}\label{classfp_1_1fpInfo_a6ed8deabebae772fc213730cd29a2e61}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!num\+Features@{num\+Features}}
+\index{num\+Features@{num\+Features}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{num\+Features}{numFeatures}}
+{\footnotesize\ttfamily int fp\+::fp\+Info\+::num\+Features = -\/1\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 18 of file fp\+Info.\+h.
+
+\mbox{\Hypertarget{classfp_1_1fpInfo_a1b35cd17d4ddb35e232246a6549d7a74}\label{classfp_1_1fpInfo_a1b35cd17d4ddb35e232246a6549d7a74}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!num\+Observations@{num\+Observations}}
+\index{num\+Observations@{num\+Observations}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{num\+Observations}{numObservations}}
+{\footnotesize\ttfamily int fp\+::fp\+Info\+::num\+Observations = -\/1\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 17 of file fp\+Info.\+h.
+
+\mbox{\Hypertarget{classfp_1_1fpInfo_a8dbd62dca5c972c29d29a69d90ca2632}\label{classfp_1_1fpInfo_a8dbd62dca5c972c29d29a69d90ca2632}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!num\+Trees\+In\+Forest@{num\+Trees\+In\+Forest}}
+\index{num\+Trees\+In\+Forest@{num\+Trees\+In\+Forest}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{num\+Trees\+In\+Forest}{numTreesInForest}}
+{\footnotesize\ttfamily int fp\+::fp\+Info\+::num\+Trees\+In\+Forest\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 14 of file fp\+Info.\+h.
+
+\mbox{\Hypertarget{classfp_1_1fpInfo_a13afa17097728f059e8525ea382b71cd}\label{classfp_1_1fpInfo_a13afa17097728f059e8525ea382b71cd}} 
+\index{fp\+::fp\+Info@{fp\+::fp\+Info}!sum\+Leaf\+Node\+Depths@{sum\+Leaf\+Node\+Depths}}
+\index{sum\+Leaf\+Node\+Depths@{sum\+Leaf\+Node\+Depths}!fp\+::fp\+Info@{fp\+::fp\+Info}}
+\subsubsection{\texorpdfstring{sum\+Leaf\+Node\+Depths}{sumLeafNodeDepths}}
+{\footnotesize\ttfamily int fp\+::fp\+Info\+::sum\+Leaf\+Node\+Depths\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 24 of file fp\+Info.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/fp\+Singleton/\hyperlink{fpInfo_8h}{fp\+Info.\+h}\item 
+src/fp\+Singleton/\hyperlink{fpInfo_8cpp}{fp\+Info.\+cpp}\end{DoxyCompactItemize}

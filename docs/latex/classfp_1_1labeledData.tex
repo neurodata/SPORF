@@ -1,0 +1,174 @@
+\hypertarget{classfp_1_1labeledData}{}\section{fp\+:\+:labeled\+Data$<$ T $>$ Class Template Reference}
+\label{classfp_1_1labeledData}\index{fp\+::labeled\+Data$<$ T $>$@{fp\+::labeled\+Data$<$ T $>$}}
+
+
+{\ttfamily \#include $<$fp\+Split.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classfp_1_1labeledData_a18a9d8880e5789ae4674ce2c675d74b3}{operator$<$} (const \hyperlink{classfp_1_1labeledData}{labeled\+Data}$<$ T $>$ \&other\+Data) const
+\item 
+int \hyperlink{classfp_1_1labeledData_a8e58e52ea65c0406455e62a67c7bbd0e}{return\+Data\+Label} ()
+\item 
+T \hyperlink{classfp_1_1labeledData_a63eca05703f41a3f747c0cfe1b89731e}{return\+Data\+Element} ()
+\item 
+T \hyperlink{classfp_1_1labeledData_ae55f357a65fd80b3ebf50a2e9467c5ad}{mid\+Val} (const \hyperlink{classfp_1_1labeledData}{labeled\+Data}$<$ T $>$ \&other\+Data) const
+\item 
+bool \hyperlink{classfp_1_1labeledData_af0ac4ee41fe9b5d4d50fd58b2839027a}{check\+Inequality} (const \hyperlink{classfp_1_1labeledData}{labeled\+Data}$<$ T $>$ \&other\+Data)
+\item 
+void \hyperlink{classfp_1_1labeledData_aea8710b6f8eb99fe23d8ac05eab51980}{set\+Pair} (T d\+Element, int d\+Lab)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+T \hyperlink{classfp_1_1labeledData_a02564fc812e8a1f4d4ca6edab114d246}{data\+Element}
+\item 
+int \hyperlink{classfp_1_1labeledData_a833f4ca245e8c17b8d28c50dc3922eef}{data\+Label}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class fp\+::labeled\+Data$<$ T $>$}
+
+
+
+Definition at line 66 of file fp\+Split.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1labeledData_af0ac4ee41fe9b5d4d50fd58b2839027a}\label{classfp_1_1labeledData_af0ac4ee41fe9b5d4d50fd58b2839027a}} 
+\index{fp\+::labeled\+Data@{fp\+::labeled\+Data}!check\+Inequality@{check\+Inequality}}
+\index{check\+Inequality@{check\+Inequality}!fp\+::labeled\+Data@{fp\+::labeled\+Data}}
+\subsubsection{\texorpdfstring{check\+Inequality()}{checkInequality()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+bool \hyperlink{classfp_1_1labeledData}{fp\+::labeled\+Data}$<$ T $>$\+::check\+Inequality (\begin{DoxyParamCaption}\item[{const \hyperlink{classfp_1_1labeledData}{labeled\+Data}$<$ T $>$ \&}]{other\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 92 of file fp\+Split.\+h.
+
+
+\begin{DoxyCode}
+92                                                                             \{
+93                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1labeledData_a02564fc812e8a1f4d4ca6edab114d246}{dataElement} != otherData.dataElement;
+94                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1labeledData_ae55f357a65fd80b3ebf50a2e9467c5ad}\label{classfp_1_1labeledData_ae55f357a65fd80b3ebf50a2e9467c5ad}} 
+\index{fp\+::labeled\+Data@{fp\+::labeled\+Data}!mid\+Val@{mid\+Val}}
+\index{mid\+Val@{mid\+Val}!fp\+::labeled\+Data@{fp\+::labeled\+Data}}
+\subsubsection{\texorpdfstring{mid\+Val()}{midVal()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+T \hyperlink{classfp_1_1labeledData}{fp\+::labeled\+Data}$<$ T $>$\+::mid\+Val (\begin{DoxyParamCaption}\item[{const \hyperlink{classfp_1_1labeledData}{labeled\+Data}$<$ T $>$ \&}]{other\+Data }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 87 of file fp\+Split.\+h.
+
+
+\begin{DoxyCode}
+88                 \{
+89                     \textcolor{keywordflow}{return} (\hyperlink{classfp_1_1labeledData_a02564fc812e8a1f4d4ca6edab114d246}{dataElement} + otherData.dataElement)/2.0;
+90                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1labeledData_a18a9d8880e5789ae4674ce2c675d74b3}\label{classfp_1_1labeledData_a18a9d8880e5789ae4674ce2c675d74b3}} 
+\index{fp\+::labeled\+Data@{fp\+::labeled\+Data}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!fp\+::labeled\+Data@{fp\+::labeled\+Data}}
+\subsubsection{\texorpdfstring{operator$<$()}{operator<()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+bool \hyperlink{classfp_1_1labeledData}{fp\+::labeled\+Data}$<$ T $>$\+::operator$<$ (\begin{DoxyParamCaption}\item[{const \hyperlink{classfp_1_1labeledData}{labeled\+Data}$<$ T $>$ \&}]{other\+Data }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 74 of file fp\+Split.\+h.
+
+
+\begin{DoxyCode}
+75                 \{
+76                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1labeledData_a02564fc812e8a1f4d4ca6edab114d246}{dataElement} < otherData.dataElement;
+77                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1labeledData_a63eca05703f41a3f747c0cfe1b89731e}\label{classfp_1_1labeledData_a63eca05703f41a3f747c0cfe1b89731e}} 
+\index{fp\+::labeled\+Data@{fp\+::labeled\+Data}!return\+Data\+Element@{return\+Data\+Element}}
+\index{return\+Data\+Element@{return\+Data\+Element}!fp\+::labeled\+Data@{fp\+::labeled\+Data}}
+\subsubsection{\texorpdfstring{return\+Data\+Element()}{returnDataElement()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+T \hyperlink{classfp_1_1labeledData}{fp\+::labeled\+Data}$<$ T $>$\+::return\+Data\+Element (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 83 of file fp\+Split.\+h.
+
+
+\begin{DoxyCode}
+83                                             \{
+84                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1labeledData_a02564fc812e8a1f4d4ca6edab114d246}{dataElement};
+85                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1labeledData_a8e58e52ea65c0406455e62a67c7bbd0e}\label{classfp_1_1labeledData_a8e58e52ea65c0406455e62a67c7bbd0e}} 
+\index{fp\+::labeled\+Data@{fp\+::labeled\+Data}!return\+Data\+Label@{return\+Data\+Label}}
+\index{return\+Data\+Label@{return\+Data\+Label}!fp\+::labeled\+Data@{fp\+::labeled\+Data}}
+\subsubsection{\texorpdfstring{return\+Data\+Label()}{returnDataLabel()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+int \hyperlink{classfp_1_1labeledData}{fp\+::labeled\+Data}$<$ T $>$\+::return\+Data\+Label (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 79 of file fp\+Split.\+h.
+
+
+\begin{DoxyCode}
+79                                             \{
+80                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1labeledData_a833f4ca245e8c17b8d28c50dc3922eef}{dataLabel};
+81                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1labeledData_aea8710b6f8eb99fe23d8ac05eab51980}\label{classfp_1_1labeledData_aea8710b6f8eb99fe23d8ac05eab51980}} 
+\index{fp\+::labeled\+Data@{fp\+::labeled\+Data}!set\+Pair@{set\+Pair}}
+\index{set\+Pair@{set\+Pair}!fp\+::labeled\+Data@{fp\+::labeled\+Data}}
+\subsubsection{\texorpdfstring{set\+Pair()}{setPair()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classfp_1_1labeledData}{fp\+::labeled\+Data}$<$ T $>$\+::set\+Pair (\begin{DoxyParamCaption}\item[{T}]{d\+Element,  }\item[{int}]{d\+Lab }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 96 of file fp\+Split.\+h.
+
+
+\begin{DoxyCode}
+96                                                   \{
+97                     \hyperlink{classfp_1_1labeledData_a02564fc812e8a1f4d4ca6edab114d246}{dataElement} = dElement;
+98                     \hyperlink{classfp_1_1labeledData_a833f4ca245e8c17b8d28c50dc3922eef}{dataLabel} = dLab;
+99                 \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1labeledData_a02564fc812e8a1f4d4ca6edab114d246}\label{classfp_1_1labeledData_a02564fc812e8a1f4d4ca6edab114d246}} 
+\index{fp\+::labeled\+Data@{fp\+::labeled\+Data}!data\+Element@{data\+Element}}
+\index{data\+Element@{data\+Element}!fp\+::labeled\+Data@{fp\+::labeled\+Data}}
+\subsubsection{\texorpdfstring{data\+Element}{dataElement}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+T \hyperlink{classfp_1_1labeledData}{fp\+::labeled\+Data}$<$ T $>$\+::data\+Element\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 69 of file fp\+Split.\+h.
+
+\mbox{\Hypertarget{classfp_1_1labeledData_a833f4ca245e8c17b8d28c50dc3922eef}\label{classfp_1_1labeledData_a833f4ca245e8c17b8d28c50dc3922eef}} 
+\index{fp\+::labeled\+Data@{fp\+::labeled\+Data}!data\+Label@{data\+Label}}
+\index{data\+Label@{data\+Label}!fp\+::labeled\+Data@{fp\+::labeled\+Data}}
+\subsubsection{\texorpdfstring{data\+Label}{dataLabel}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+int \hyperlink{classfp_1_1labeledData}{fp\+::labeled\+Data}$<$ T $>$\+::data\+Label\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 70 of file fp\+Split.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/base\+Functions/\hyperlink{fpSplit_8h}{fp\+Split.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,571 @@
+\hypertarget{classfp_1_1stratifiedInNodeClassIndices}{}\section{fp\+:\+:stratified\+In\+Node\+Class\+Indices Class Reference}
+\label{classfp_1_1stratifiedInNodeClassIndices}\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+
+
+{\ttfamily \#include $<$stratified\+In\+Node\+Class\+Indices.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a41dd9148191e93d4cae66ddac33a4248}{stratified\+In\+Node\+Class\+Indices} ()
+\item 
+\hyperlink{classfp_1_1stratifiedInNodeClassIndices_acceb2fa1061c82ec37da7674784bc8b8}{stratified\+In\+Node\+Class\+Indices} (const int \&num\+Observations\+In\+Data\+Set)
+\item 
+void \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a64bc290a78f3800cef41d42ebe64ff1b}{create\+In\+And\+Out\+Sets} (const int \&num\+Obs)
+\item 
+double \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a044392c507fe54073f55f5ae6aceac5f}{return\+Impurity} ()
+\item 
+void \hyperlink{classfp_1_1stratifiedInNodeClassIndices_ad6fa9fff888ee939d4681dc065b71815}{print\+Indices} ()
+\item 
+int \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a596235ffec7250fabd2818d395b39c66}{return\+In\+Sample\+Size} ()
+\item 
+int \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a6630b77af340d2023d88bafa87b94cae}{return\+Out\+Sample\+Size} ()
+\item 
+int \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2d7e802fb97db0367bb8e8f31d393afd}{return\+In\+Sample} (const int num\+Sample)
+\item 
+int \hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa872890a8499e449129796cf6bb9af04}{return\+Out\+Sample} (const int num\+Sample)
+\item 
+bool \hyperlink{classfp_1_1stratifiedInNodeClassIndices_af740a8054cefe977f8f1288fc6b39109}{use\+Bin} ()
+\item 
+void \hyperlink{classfp_1_1stratifiedInNodeClassIndices_ae9907f8984615f91417fb7961e1b582d}{initialize\+Binned\+Samples} ()
+\item 
+int \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a9f77fe5e638170c4ad4ce99541561cfc}{return\+Binned\+Size} ()
+\item 
+int \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a775d9a820b6f48ab44cd1ac4ffde1578}{return\+Binned\+In\+Sample} (const int num\+Sample)
+\item 
+void \hyperlink{classfp_1_1stratifiedInNodeClassIndices_adc99a046031545bc59c2b43abcf75ed9}{add\+Index\+To\+Out\+Samples} (int index)
+\item 
+void \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a493b23961e38f5f534c236a22b4ff4b6}{add\+Index\+To\+In\+Samples} (int index)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::vector$<$ int $>$ $>$ \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a6bfa636c77b48163f5d245959ea753d0}{in\+Samples}
+\item 
+std\+::vector$<$ int $>$ \hyperlink{classfp_1_1stratifiedInNodeClassIndices_ab6be4d82677c462494a4b4ef90c79bde}{in\+Samps}
+\item 
+std\+::vector$<$ std\+::vector$<$ int $>$ $>$ \hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa569f727e65e0b4b0815e71c1ee819e8}{out\+Samples}
+\item 
+std\+::vector$<$ int $>$ \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a399e239f3f3175e44ca409be96de0d32}{bin\+Samples}
+\item 
+int \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2acb617e3212806ae7f994d925bd1468}{in\+Sample\+Size}
+\item 
+int \hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa947b545e6751902344e832fcc1c9641}{out\+Sample\+Size}
+\item 
+int \hyperlink{classfp_1_1stratifiedInNodeClassIndices_aeb008fe5e4d29845a675175590ef2de3}{bin\+Size} = 100
+\item 
+int \hyperlink{classfp_1_1stratifiedInNodeClassIndices_af6ca8b8a4539b8c35008cce88961fa00}{use\+Binning} = true
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 10 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_a41dd9148191e93d4cae66ddac33a4248}\label{classfp_1_1stratifiedInNodeClassIndices_a41dd9148191e93d4cae66ddac33a4248}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!stratified\+In\+Node\+Class\+Indices@{stratified\+In\+Node\+Class\+Indices}}
+\index{stratified\+In\+Node\+Class\+Indices@{stratified\+In\+Node\+Class\+Indices}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{stratified\+In\+Node\+Class\+Indices()}{stratifiedInNodeClassIndices()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily fp\+::stratified\+In\+Node\+Class\+Indices\+::stratified\+In\+Node\+Class\+Indices (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 25 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+25                                           \{
+26                 \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a6bfa636c77b48163f5d245959ea753d0}{inSamples}.resize(\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      returnNumClasses());
+27                 \hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa569f727e65e0b4b0815e71c1ee819e8}{outSamples}.resize(\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      returnNumClasses());
+28 
+29                 \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2acb617e3212806ae7f994d925bd1468}{inSampleSize} =0;
+30                 \hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa947b545e6751902344e832fcc1c9641}{outSampleSize} =0;
+31             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1stratifiedInNodeClassIndices_a41dd9148191e93d4cae66ddac33a4248_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_acceb2fa1061c82ec37da7674784bc8b8}\label{classfp_1_1stratifiedInNodeClassIndices_acceb2fa1061c82ec37da7674784bc8b8}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!stratified\+In\+Node\+Class\+Indices@{stratified\+In\+Node\+Class\+Indices}}
+\index{stratified\+In\+Node\+Class\+Indices@{stratified\+In\+Node\+Class\+Indices}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{stratified\+In\+Node\+Class\+Indices()}{stratifiedInNodeClassIndices()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily fp\+::stratified\+In\+Node\+Class\+Indices\+::stratified\+In\+Node\+Class\+Indices (\begin{DoxyParamCaption}\item[{const int \&}]{num\+Observations\+In\+Data\+Set }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 33 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+33                                                                              \{
+34 
+35                 \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a6bfa636c77b48163f5d245959ea753d0}{inSamples}.resize(\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      returnNumClasses());
+36                 \hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa569f727e65e0b4b0815e71c1ee819e8}{outSamples}.resize(\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      returnNumClasses());
+37 
+38                 \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a64bc290a78f3800cef41d42ebe64ff1b}{createInAndOutSets}(numObservationsInDataSet);
+39 
+40                 \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2acb617e3212806ae7f994d925bd1468}{inSampleSize} =0;
+41                 \hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa947b545e6751902344e832fcc1c9641}{outSampleSize} =0;
+42 
+43                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0; i < \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a6bfa636c77b48163f5d245959ea753d0}{inSamples}.size(); ++i)\{
+44                     \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2acb617e3212806ae7f994d925bd1468}{inSampleSize} += \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a6bfa636c77b48163f5d245959ea753d0}{inSamples}[i].size();
+45                 \}
+46                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0; i < \hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa569f727e65e0b4b0815e71c1ee819e8}{outSamples}.size(); ++i)\{
+47                     \hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa947b545e6751902344e832fcc1c9641}{outSampleSize} += \hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa569f727e65e0b4b0815e71c1ee819e8}{outSamples}[i].size();
+48                 \}
+49 
+50             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1stratifiedInNodeClassIndices_acceb2fa1061c82ec37da7674784bc8b8_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_a493b23961e38f5f534c236a22b4ff4b6}\label{classfp_1_1stratifiedInNodeClassIndices_a493b23961e38f5f534c236a22b4ff4b6}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!add\+Index\+To\+In\+Samples@{add\+Index\+To\+In\+Samples}}
+\index{add\+Index\+To\+In\+Samples@{add\+Index\+To\+In\+Samples}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{add\+Index\+To\+In\+Samples()}{addIndexToInSamples()}}
+{\footnotesize\ttfamily void fp\+::stratified\+In\+Node\+Class\+Indices\+::add\+Index\+To\+In\+Samples (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 204 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+204                                                       \{
+205                 ++\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2acb617e3212806ae7f994d925bd1468}{inSampleSize};
+206                 \textcolor{comment}{/*if(fpSingleton::getSingleton().returnLabel(index)<0 ||
+       fpSingleton::getSingleton().returnLabel(index) >= int(inSamples.size()))\{}
+207 \textcolor{comment}{                    std::cout << "asldkjf\(\backslash\)n";}
+208 \textcolor{comment}{                    exit(1);}
+209 \textcolor{comment}{                    \}*/}
+210                 \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a6bfa636c77b48163f5d245959ea753d0}{inSamples}[\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_aa2f644b1521948fb994f4087ddfaea14}{returnLabel}(index)].push\_back(index);
+211                 \hyperlink{classfp_1_1stratifiedInNodeClassIndices_ab6be4d82677c462494a4b4ef90c79bde}{inSamps}.push\_back(index);
+212             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1stratifiedInNodeClassIndices_a493b23961e38f5f534c236a22b4ff4b6_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_adc99a046031545bc59c2b43abcf75ed9}\label{classfp_1_1stratifiedInNodeClassIndices_adc99a046031545bc59c2b43abcf75ed9}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!add\+Index\+To\+Out\+Samples@{add\+Index\+To\+Out\+Samples}}
+\index{add\+Index\+To\+Out\+Samples@{add\+Index\+To\+Out\+Samples}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{add\+Index\+To\+Out\+Samples()}{addIndexToOutSamples()}}
+{\footnotesize\ttfamily void fp\+::stratified\+In\+Node\+Class\+Indices\+::add\+Index\+To\+Out\+Samples (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 199 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+199                                                        \{
+200                 ++\hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa947b545e6751902344e832fcc1c9641}{outSampleSize};
+201                 \hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa569f727e65e0b4b0815e71c1ee819e8}{outSamples}[\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_aa2f644b1521948fb994f4087ddfaea14}{returnLabel}(index)].push\_back(index);
+202             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1stratifiedInNodeClassIndices_adc99a046031545bc59c2b43abcf75ed9_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_a64bc290a78f3800cef41d42ebe64ff1b}\label{classfp_1_1stratifiedInNodeClassIndices_a64bc290a78f3800cef41d42ebe64ff1b}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!create\+In\+And\+Out\+Sets@{create\+In\+And\+Out\+Sets}}
+\index{create\+In\+And\+Out\+Sets@{create\+In\+And\+Out\+Sets}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{create\+In\+And\+Out\+Sets()}{createInAndOutSets()}}
+{\footnotesize\ttfamily void fp\+::stratified\+In\+Node\+Class\+Indices\+::create\+In\+And\+Out\+Sets (\begin{DoxyParamCaption}\item[{const int \&}]{num\+Obs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 53 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+53                                                              \{
+54                 std::vector<int> potentialSamples;
+55                 potentialSamples.resize(numObs);
+56 
+57                 std::random\_device rd; \textcolor{comment}{// obtain a random number from hardware}
+58                 std::mt19937 eng(rd()); \textcolor{comment}{// seed the generator}
+59 
+60                 std::uniform\_int\_distribution<> distr(0, numObs-1);
+61 
+62                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i < numObs; ++i)\{
+63                     potentialSamples[i] = i;
+64                 \}
+65 
+66                 \textcolor{keywordtype}{int} numUnusedObs = numObs;
+67                 \textcolor{keywordtype}{int} randomObsID;
+68                 \textcolor{keywordtype}{int} tempMoveObs;
+69                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} n=0; n<numObs; n++)\{
+70                     randomObsID = distr(eng);
+71                     \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a6bfa636c77b48163f5d245959ea753d0}{inSamples}[\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_aa2f644b1521948fb994f4087ddfaea14}{returnLabel}(potentialSamples[randomObsID])].push\_back(potentialSamples[randomObsID]);
+72                     \hyperlink{classfp_1_1stratifiedInNodeClassIndices_ab6be4d82677c462494a4b4ef90c79bde}{inSamps}.push\_back(potentialSamples[randomObsID]);
+73                     \textcolor{keywordflow}{if}(randomObsID < numUnusedObs)\{
+74                         --numUnusedObs;
+75                         tempMoveObs = potentialSamples[numUnusedObs];
+76                         potentialSamples[numUnusedObs] = potentialSamples[randomObsID];
+77                         potentialSamples[randomObsID] = tempMoveObs;
+78                     \}
+79                 \}
+80 
+81                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} n=0; n<numUnusedObs; ++n)\{
+82                     \hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa569f727e65e0b4b0815e71c1ee819e8}{outSamples}[\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_aa2f644b1521948fb994f4087ddfaea14}{returnLabel}(potentialSamples[randomObsID])].push\_back(potentialSamples[n]);
+83                 \}
+84             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1stratifiedInNodeClassIndices_a64bc290a78f3800cef41d42ebe64ff1b_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_ae9907f8984615f91417fb7961e1b582d}\label{classfp_1_1stratifiedInNodeClassIndices_ae9907f8984615f91417fb7961e1b582d}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!initialize\+Binned\+Samples@{initialize\+Binned\+Samples}}
+\index{initialize\+Binned\+Samples@{initialize\+Binned\+Samples}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{initialize\+Binned\+Samples()}{initializeBinnedSamples()}}
+{\footnotesize\ttfamily void fp\+::stratified\+In\+Node\+Class\+Indices\+::initialize\+Binned\+Samples (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 173 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+173                                                  \{
+174                 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1stratifiedInNodeClassIndices_af740a8054cefe977f8f1288fc6b39109}{useBin}())\{
+175                     \textcolor{keywordtype}{int} numInClass;
+176                     std::random\_device random\_device;
+177                     std::mt19937 engine\{random\_device()\};
+178                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0; i < \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a6bfa636c77b48163f5d245959ea753d0}{inSamples}.size(); ++i)\{
+179                         numInClass = int((\hyperlink{classfp_1_1stratifiedInNodeClassIndices_aeb008fe5e4d29845a675175590ef2de3}{binSize}*\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a6bfa636c77b48163f5d245959ea753d0}{inSamples}[i].size())/
+      \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2acb617e3212806ae7f994d925bd1468}{inSampleSize});
+180                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} n = 0; n < numInClass; ++n)\{
+181                             std::uniform\_int\_distribution<int> dist(0, \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a6bfa636c77b48163f5d245959ea753d0}{inSamples}[i].size() - 1);
+182                             \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a399e239f3f3175e44ca409be96de0d32}{binSamples}.push\_back(\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a6bfa636c77b48163f5d245959ea753d0}{inSamples}[i][dist(engine)]);
+183                         \}
+184                     \}
+185                 \}
+186             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1stratifiedInNodeClassIndices_ae9907f8984615f91417fb7961e1b582d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_ad6fa9fff888ee939d4681dc065b71815}\label{classfp_1_1stratifiedInNodeClassIndices_ad6fa9fff888ee939d4681dc065b71815}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!print\+Indices@{print\+Indices}}
+\index{print\+Indices@{print\+Indices}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{print\+Indices()}{printIndices()}}
+{\footnotesize\ttfamily void fp\+::stratified\+In\+Node\+Class\+Indices\+::print\+Indices (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 106 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+106                                \{
+107                 std::cout << \textcolor{stringliteral}{"samples in bag\(\backslash\)n"};
+108                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} n = 0; n < \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a6bfa636c77b48163f5d245959ea753d0}{inSamples}.size(); ++n)\{
+109                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} & i : \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a6bfa636c77b48163f5d245959ea753d0}{inSamples}[n])\{
+110                         std::cout << i << \textcolor{stringliteral}{"\(\backslash\)n"};
+111                     \}
+112                 \}
+113 
+114                 std::cout << \textcolor{stringliteral}{"samples OOB\(\backslash\)n"};
+115                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} n = 0; n < \hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa569f727e65e0b4b0815e71c1ee819e8}{outSamples}.size(); ++n)\{
+116                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} & i : \hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa569f727e65e0b4b0815e71c1ee819e8}{outSamples}[n])\{
+117                         std::cout << i << \textcolor{stringliteral}{"\(\backslash\)n"};
+118                     \}
+119                 \}
+120             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_a775d9a820b6f48ab44cd1ac4ffde1578}\label{classfp_1_1stratifiedInNodeClassIndices_a775d9a820b6f48ab44cd1ac4ffde1578}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!return\+Binned\+In\+Sample@{return\+Binned\+In\+Sample}}
+\index{return\+Binned\+In\+Sample@{return\+Binned\+In\+Sample}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{return\+Binned\+In\+Sample()}{returnBinnedInSample()}}
+{\footnotesize\ttfamily int fp\+::stratified\+In\+Node\+Class\+Indices\+::return\+Binned\+In\+Sample (\begin{DoxyParamCaption}\item[{const int}]{num\+Sample }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 194 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+194                                                                 \{
+195                 \textcolor{keywordflow}{return}  \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a399e239f3f3175e44ca409be96de0d32}{binSamples}[numSample];
+196             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_a9f77fe5e638170c4ad4ce99541561cfc}\label{classfp_1_1stratifiedInNodeClassIndices_a9f77fe5e638170c4ad4ce99541561cfc}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!return\+Binned\+Size@{return\+Binned\+Size}}
+\index{return\+Binned\+Size@{return\+Binned\+Size}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{return\+Binned\+Size()}{returnBinnedSize()}}
+{\footnotesize\ttfamily int fp\+::stratified\+In\+Node\+Class\+Indices\+::return\+Binned\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 189 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+189                                          \{
+190                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a399e239f3f3175e44ca409be96de0d32}{binSamples}.size();
+191             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_a044392c507fe54073f55f5ae6aceac5f}\label{classfp_1_1stratifiedInNodeClassIndices_a044392c507fe54073f55f5ae6aceac5f}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!return\+Impurity@{return\+Impurity}}
+\index{return\+Impurity@{return\+Impurity}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{return\+Impurity()}{returnImpurity()}}
+{\footnotesize\ttfamily double fp\+::stratified\+In\+Node\+Class\+Indices\+::return\+Impurity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 87 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+87                                           \{
+88                 \textcolor{keywordflow}{if}(\textcolor{keyword}{false})\{
+89                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} sumClassTotalsSquared = 0;
+90                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} i : \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a6bfa636c77b48163f5d245959ea753d0}{inSamples})\{
+91                         sumClassTotalsSquared+=i.size()*i.size();
+92                     \}
+93                     \textcolor{keywordflow}{return} 1-double(sumClassTotalsSquared)/(\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2acb617e3212806ae7f994d925bd1468}{inSampleSize}*
+      \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2acb617e3212806ae7f994d925bd1468}{inSampleSize});
+94                 \}\textcolor{keywordflow}{else}\{
+95                     \textcolor{keywordtype}{double} impSum = 0;
+96                     \textcolor{keywordtype}{double} classPercent;
+97                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} i : inSamples)\{
+98                         classPercent = double(i.size())/\textcolor{keywordtype}{double}(\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2acb617e3212806ae7f994d925bd1468}{inSampleSize});
+99 
+100                         impSum += double(i.size())*(1.0-classPercent);
+101                     \}
+102                     \textcolor{keywordflow}{return} impSum;
+103                 \}
+104             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_a2d7e802fb97db0367bb8e8f31d393afd}\label{classfp_1_1stratifiedInNodeClassIndices_a2d7e802fb97db0367bb8e8f31d393afd}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!return\+In\+Sample@{return\+In\+Sample}}
+\index{return\+In\+Sample@{return\+In\+Sample}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{return\+In\+Sample()}{returnInSample()}}
+{\footnotesize\ttfamily int fp\+::stratified\+In\+Node\+Class\+Indices\+::return\+In\+Sample (\begin{DoxyParamCaption}\item[{const int}]{num\+Sample }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 133 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+133                                                           \{
+134                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1stratifiedInNodeClassIndices_ab6be4d82677c462494a4b4ef90c79bde}{inSamps}[numSample];
+135                 \textcolor{comment}{//The commented out below reduces memory size but is slow.}
+136                 \textcolor{comment}{/*}
+137 \textcolor{comment}{                int totalViewed = 0;}
+138 \textcolor{comment}{                for(unsigned int i = 0; i < inSamples.size(); ++i)\{}
+139 \textcolor{comment}{                    if(numSample < (totalViewed+int(inSamples[i].size())))\{}
+140 \textcolor{comment}{                        if((numSample-totalViewed)<0 || (numSample-totalViewed)>=int(inSamples[i].size()))\{}
+141 \textcolor{comment}{                            std::cout << numSample-totalViewed << " , " << inSamples[i].size() << "\(\backslash\)n";}
+142 \textcolor{comment}{                            exit(1);}
+143 \textcolor{comment}{                        \}}
+144 \textcolor{comment}{                        int retNum = inSamples[i][numSample-totalViewed];}
+145 \textcolor{comment}{                        return retNum ;}
+146 \textcolor{comment}{                    \}}
+147 \textcolor{comment}{                    totalViewed += inSamples[i].size();}
+148 \textcolor{comment}{                \}}
+149 \textcolor{comment}{                std::cout << "it happened now\(\backslash\)n";}
+150 \textcolor{comment}{                exit(1);}
+151 \textcolor{comment}{                return -1;}
+152 \textcolor{comment}{                */}
+153             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_a596235ffec7250fabd2818d395b39c66}\label{classfp_1_1stratifiedInNodeClassIndices_a596235ffec7250fabd2818d395b39c66}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!return\+In\+Sample\+Size@{return\+In\+Sample\+Size}}
+\index{return\+In\+Sample\+Size@{return\+In\+Sample\+Size}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{return\+In\+Sample\+Size()}{returnInSampleSize()}}
+{\footnotesize\ttfamily int fp\+::stratified\+In\+Node\+Class\+Indices\+::return\+In\+Sample\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 123 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+123                                            \{
+124                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2acb617e3212806ae7f994d925bd1468}{inSampleSize};
+125             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_aa872890a8499e449129796cf6bb9af04}\label{classfp_1_1stratifiedInNodeClassIndices_aa872890a8499e449129796cf6bb9af04}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!return\+Out\+Sample@{return\+Out\+Sample}}
+\index{return\+Out\+Sample@{return\+Out\+Sample}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{return\+Out\+Sample()}{returnOutSample()}}
+{\footnotesize\ttfamily int fp\+::stratified\+In\+Node\+Class\+Indices\+::return\+Out\+Sample (\begin{DoxyParamCaption}\item[{const int}]{num\+Sample }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 156 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+156                                                            \{
+157                 \textcolor{keywordtype}{int} totalViewed = 0;
+158                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0; i < \hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa569f727e65e0b4b0815e71c1ee819e8}{outSamples}.size(); ++i)\{
+159                     \textcolor{keywordflow}{if}(numSample < totalViewed+\textcolor{keywordtype}{int}(\hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa569f727e65e0b4b0815e71c1ee819e8}{outSamples}[i].size()))\{
+160                         \textcolor{keywordflow}{return} \hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa569f727e65e0b4b0815e71c1ee819e8}{outSamples}[i][numSample-totalViewed];
+161                     \}
+162                     totalViewed += \hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa569f727e65e0b4b0815e71c1ee819e8}{outSamples}[i].size();
+163                 \}
+164                 \textcolor{keywordflow}{return} -1;
+165             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_a6630b77af340d2023d88bafa87b94cae}\label{classfp_1_1stratifiedInNodeClassIndices_a6630b77af340d2023d88bafa87b94cae}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!return\+Out\+Sample\+Size@{return\+Out\+Sample\+Size}}
+\index{return\+Out\+Sample\+Size@{return\+Out\+Sample\+Size}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{return\+Out\+Sample\+Size()}{returnOutSampleSize()}}
+{\footnotesize\ttfamily int fp\+::stratified\+In\+Node\+Class\+Indices\+::return\+Out\+Sample\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 128 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+128                                             \{
+129                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1stratifiedInNodeClassIndices_aa947b545e6751902344e832fcc1c9641}{outSampleSize};
+130             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_af740a8054cefe977f8f1288fc6b39109}\label{classfp_1_1stratifiedInNodeClassIndices_af740a8054cefe977f8f1288fc6b39109}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!use\+Bin@{use\+Bin}}
+\index{use\+Bin@{use\+Bin}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{use\+Bin()}{useBin()}}
+{\footnotesize\ttfamily bool fp\+::stratified\+In\+Node\+Class\+Indices\+::use\+Bin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 168 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+168                                 \{
+169                 \textcolor{keywordflow}{return} (\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2acb617e3212806ae7f994d925bd1468}{inSampleSize} > 5*\hyperlink{classfp_1_1stratifiedInNodeClassIndices_aeb008fe5e4d29845a675175590ef2de3}{binSize}) && 
+      \hyperlink{classfp_1_1stratifiedInNodeClassIndices_af6ca8b8a4539b8c35008cce88961fa00}{useBinning};
+170             \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_a399e239f3f3175e44ca409be96de0d32}\label{classfp_1_1stratifiedInNodeClassIndices_a399e239f3f3175e44ca409be96de0d32}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!bin\+Samples@{bin\+Samples}}
+\index{bin\+Samples@{bin\+Samples}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{bin\+Samples}{binSamples}}
+{\footnotesize\ttfamily std\+::vector$<$int$>$ fp\+::stratified\+In\+Node\+Class\+Indices\+::bin\+Samples\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 16 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_aeb008fe5e4d29845a675175590ef2de3}\label{classfp_1_1stratifiedInNodeClassIndices_aeb008fe5e4d29845a675175590ef2de3}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!bin\+Size@{bin\+Size}}
+\index{bin\+Size@{bin\+Size}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{bin\+Size}{binSize}}
+{\footnotesize\ttfamily int fp\+::stratified\+In\+Node\+Class\+Indices\+::bin\+Size = 100\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 20 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_a6bfa636c77b48163f5d245959ea753d0}\label{classfp_1_1stratifiedInNodeClassIndices_a6bfa636c77b48163f5d245959ea753d0}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!in\+Samples@{in\+Samples}}
+\index{in\+Samples@{in\+Samples}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{in\+Samples}{inSamples}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$int$>$ $>$ fp\+::stratified\+In\+Node\+Class\+Indices\+::in\+Samples\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 13 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_a2acb617e3212806ae7f994d925bd1468}\label{classfp_1_1stratifiedInNodeClassIndices_a2acb617e3212806ae7f994d925bd1468}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!in\+Sample\+Size@{in\+Sample\+Size}}
+\index{in\+Sample\+Size@{in\+Sample\+Size}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{in\+Sample\+Size}{inSampleSize}}
+{\footnotesize\ttfamily int fp\+::stratified\+In\+Node\+Class\+Indices\+::in\+Sample\+Size\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 17 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_ab6be4d82677c462494a4b4ef90c79bde}\label{classfp_1_1stratifiedInNodeClassIndices_ab6be4d82677c462494a4b4ef90c79bde}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!in\+Samps@{in\+Samps}}
+\index{in\+Samps@{in\+Samps}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{in\+Samps}{inSamps}}
+{\footnotesize\ttfamily std\+::vector$<$int$>$ fp\+::stratified\+In\+Node\+Class\+Indices\+::in\+Samps\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 14 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_aa569f727e65e0b4b0815e71c1ee819e8}\label{classfp_1_1stratifiedInNodeClassIndices_aa569f727e65e0b4b0815e71c1ee819e8}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!out\+Samples@{out\+Samples}}
+\index{out\+Samples@{out\+Samples}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{out\+Samples}{outSamples}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$int$>$ $>$ fp\+::stratified\+In\+Node\+Class\+Indices\+::out\+Samples\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 15 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_aa947b545e6751902344e832fcc1c9641}\label{classfp_1_1stratifiedInNodeClassIndices_aa947b545e6751902344e832fcc1c9641}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!out\+Sample\+Size@{out\+Sample\+Size}}
+\index{out\+Sample\+Size@{out\+Sample\+Size}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{out\+Sample\+Size}{outSampleSize}}
+{\footnotesize\ttfamily int fp\+::stratified\+In\+Node\+Class\+Indices\+::out\+Sample\+Size\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 18 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+\mbox{\Hypertarget{classfp_1_1stratifiedInNodeClassIndices_af6ca8b8a4539b8c35008cce88961fa00}\label{classfp_1_1stratifiedInNodeClassIndices_af6ca8b8a4539b8c35008cce88961fa00}} 
+\index{fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}!use\+Binning@{use\+Binning}}
+\index{use\+Binning@{use\+Binning}!fp\+::stratified\+In\+Node\+Class\+Indices@{fp\+::stratified\+In\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{use\+Binning}{useBinning}}
+{\footnotesize\ttfamily int fp\+::stratified\+In\+Node\+Class\+Indices\+::use\+Binning = true\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 21 of file stratified\+In\+Node\+Class\+Indices.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/base\+Functions/\hyperlink{stratifiedInNodeClassIndices_8h}{stratified\+In\+Node\+Class\+Indices.\+h}\end{DoxyCompactItemize}

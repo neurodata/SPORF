@@ -1,7 +1,6 @@
 #ifndef fpForest_h
 #define fpForest_h
 
-#include "fpUtils.h"
 #include "../fpSingleton/fpSingleton.h"
 #include <string>
 #include <memory>

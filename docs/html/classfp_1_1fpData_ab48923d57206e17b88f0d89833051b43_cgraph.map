@@ -1,0 +1,11 @@
+<map id="fp::fpData::setDataRelatedParameters" name="fp::fpData::setDataRelatedParameters">
+<area shape="rect" id="node2" href="$classfp_1_1fpInfo.html#a69ef99f2ec9ef74dd3787bc33ffb05d0" title="fp::fpInfo::setNumFeatures" alt="" coords="256,5,435,32"/>
+<area shape="rect" id="node3" href="$classfp_1_1fpData.html#a95088e33b280e5c82b3543033d8852e1" title="fp::fpData::returnNumFeatures" alt="" coords="245,56,445,83"/>
+<area shape="rect" id="node5" href="$classfp_1_1fpInfo.html#ad17492e79df7bca55d98438fec2f004b" title="fp::fpInfo::setNumObservations" alt="" coords="243,107,448,133"/>
+<area shape="rect" id="node6" href="$classfp_1_1fpData.html#a9056a8c0e7e48fe9aa591269064ecc43" title="fp::fpData::returnNumObservations" alt="" coords="232,157,459,184"/>
+<area shape="rect" id="node8" href="$classfp_1_1fpInfo.html#a3598d1ab13bf05b53858b1ca8c44fa68" title="fp::fpInfo::setNumClasses" alt="" coords="257,208,433,235"/>
+<area shape="rect" id="node9" href="$classfp_1_1fpData.html#a7abfc93af30b7262d59b6d304796a09d" title="fp::fpData::returnNumClasses" alt="" coords="247,259,444,285"/>
+<area shape="rect" id="node4" href="$classinputData.html#a8fbb9ac952f73f65295eeb9bf8c3b01a" title="inputData::returnNumFeatures" alt="" coords="519,56,718,83"/>
+<area shape="rect" id="node7" href="$classinputData.html#af2ac0a8c7e0bfcdf1de1ea521eadc7af" title="inputData::returnNumObservations" alt="" coords="507,157,731,184"/>
+<area shape="rect" id="node10" href="$classinputData.html#aa87e9181995fe0f15fae83617dba2808" title="inputData::returnNumClasses" alt="" coords="521,259,716,285"/>
+</map>

@@ -1,0 +1,829 @@
+\hypertarget{classfp_1_1fpSingleton}{}\section{fp\+:\+:fp\+Singleton Class Reference}
+\label{classfp_1_1fpSingleton}\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+
+
+{\ttfamily \#include $<$fp\+Singleton.\+h$>$}
+
+
+
+Collaboration diagram for fp\+:\+:fp\+Singleton\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classfp_1_1fpSingleton_a90f275b256694ea7b16577d547a33044}{set\+Parameter} (const std\+::string \&parameter\+Name, const std\+::string \&parameter\+Value)
+\item 
+void \hyperlink{classfp_1_1fpSingleton_a19dd80e98acb4dd3e82be5e744840d1f}{set\+Parameter} (const std\+::string \&parameter\+Name, const double parameter\+Value)
+\item 
+void \hyperlink{classfp_1_1fpSingleton_a3465c3ff9376fae2933d9267c32761ca}{set\+Parameter} (const std\+::string \&parameter\+Name, const int parameter\+Value)
+\item 
+void \hyperlink{classfp_1_1fpSingleton_a0d769b6652e4c74c2734cdc811eeab5a}{print\+All\+Parameters} ()
+\item 
+void \hyperlink{classfp_1_1fpSingleton_ad9696336521f72c7c6a021608799871e}{print\+Forest\+Type} ()
+\item 
+void \hyperlink{classfp_1_1fpSingleton_a86042ae6be6f59dfb90232678350011a}{load\+Data} ()
+\item 
+void \hyperlink{classfp_1_1fpSingleton_aea7c3b65ded387322d7d5ce48ab96215}{load\+Test\+Data} ()
+\item 
+void \hyperlink{classfp_1_1fpSingleton_a204b85f9d08ca711ca6620b5e020cc1c}{delete\+Data} ()
+\item 
+void \hyperlink{classfp_1_1fpSingleton_aa4ac02c580b06ba16ed0160ec694438d}{delete\+Test\+Data} ()
+\item 
+void \hyperlink{classfp_1_1fpSingleton_a5a35867349f6d172f77af7026fdaecbe}{set\+Num\+Features} (int numF)
+\item 
+void \hyperlink{classfp_1_1fpSingleton_acf821a8fda9d3296cde7dc33b9c1ddb5}{set\+Num\+Observations} (int numO)
+\item 
+void \hyperlink{classfp_1_1fpSingleton_a499e7cef6b463cc24590d05a0d0e6e1c}{set\+Num\+Classes} (int numC)
+\item 
+int \hyperlink{classfp_1_1fpSingleton_a5602580110329a6b25602b1789e4e2c2}{return\+Num\+Classes} ()
+\item 
+int \hyperlink{classfp_1_1fpSingleton_a45ae68ceb91880ddbc0e049a47c371eb}{return\+Mtry} ()
+\item 
+std\+::string \& \hyperlink{classfp_1_1fpSingleton_af7582b20b48b7eb8c0a6b89fbdf170ab}{return\+Forest\+Type} ()
+\item 
+int \hyperlink{classfp_1_1fpSingleton_a97cbcad5ae9daa8c747fd4db84928c20}{return\+Num\+Features} ()
+\item 
+int \hyperlink{classfp_1_1fpSingleton_ae12f22ad096ff0d419fce47df710bf78}{return\+Num\+Observations} ()
+\item 
+int \hyperlink{classfp_1_1fpSingleton_aa2f644b1521948fb994f4087ddfaea14}{return\+Label} (int observation\+Number)
+\item 
+int \hyperlink{classfp_1_1fpSingleton_ac0d2a2fd5ed471c8d507dfd544c12e6d}{return\+Test\+Label} (int observation\+Number)
+\item 
+double \hyperlink{classfp_1_1fpSingleton_aacc2eb894a219e2fe234743b51fa1a76}{return\+Feature\+Val} (const int feature\+Number, const int observation\+Number)
+\item 
+void \hyperlink{classfp_1_1fpSingleton_ab789c4e4bfb3248711a5857015008f8d}{prefetch\+Feature\+Val} (const int feature\+Number, const int observation\+Number)
+\item 
+double \hyperlink{classfp_1_1fpSingleton_ad74b421d65b17ba924244bff31fc9db6}{return\+Test\+Feature\+Val} (const int feature\+Number, const int observation\+Number)
+\item 
+int \hyperlink{classfp_1_1fpSingleton_a8be36616345b6b77ce4c60b99cc2b91c}{return\+Num\+Trees} ()
+\item 
+int \hyperlink{classfp_1_1fpSingleton_a2d06406b6462099e0adb393218090420}{return\+Min\+Parent} ()
+\item 
+void \hyperlink{classfp_1_1fpSingleton_a3edf17209500e72c76ef816e32666eb2}{set\+Data\+Dependent\+Parameters} ()
+\item 
+bool \hyperlink{classfp_1_1fpSingleton_a12178de58f19494062efe5255d937171}{load\+Data\+From\+C\+SV} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classfp_1_1fpSingleton}{fp\+Singleton} \& \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{get\+Singleton} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classfp_1_1fpSingleton_a049e41d4468d9b9f1e08788592c5f4cd}{fp\+Singleton} ()
+\item 
+\hyperlink{classfp_1_1fpSingleton_a5ea4d9f5a5811e9d9a64581dea9f561a}{$\sim$fp\+Singleton} ()
+\item 
+\hyperlink{classfp_1_1fpSingleton_afa7b24ca92c18b7e0f444592c9d8ba30}{fp\+Singleton} (const \hyperlink{classfp_1_1fpSingleton}{fp\+Singleton} \&old)
+\item 
+const \hyperlink{classfp_1_1fpSingleton}{fp\+Singleton} \& \hyperlink{classfp_1_1fpSingleton_a342b8b19aa98af5b2f56210cf0b164b0}{operator=} (const \hyperlink{classfp_1_1fpSingleton}{fp\+Singleton} \&old)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classfp_1_1fpInfo}{fp\+Info} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fp\+Forest\+Info}
+\item 
+\hyperlink{classfp_1_1fpData}{fp\+Data} \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classfp_1_1fpSingleton}{fp\+Singleton} $\ast$ \hyperlink{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}{info\+Setting} = nullptr
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 11 of file fp\+Singleton.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a049e41d4468d9b9f1e08788592c5f4cd}\label{classfp_1_1fpSingleton_a049e41d4468d9b9f1e08788592c5f4cd}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!fp\+Singleton@{fp\+Singleton}}
+\index{fp\+Singleton@{fp\+Singleton}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{fp\+Singleton()}{fpSingleton()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily fp\+::fp\+Singleton\+::fp\+Singleton (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Definition at line 130 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+130 \{\}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_a049e41d4468d9b9f1e08788592c5f4cd_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a5ea4d9f5a5811e9d9a64581dea9f561a}\label{classfp_1_1fpSingleton_a5ea4d9f5a5811e9d9a64581dea9f561a}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!````~fp\+Singleton@{$\sim$fp\+Singleton}}
+\index{````~fp\+Singleton@{$\sim$fp\+Singleton}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{$\sim$fp\+Singleton()}{~fpSingleton()}}
+{\footnotesize\ttfamily fp\+::fp\+Singleton\+::$\sim$fp\+Singleton (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classfp_1_1fpSingleton_afa7b24ca92c18b7e0f444592c9d8ba30}\label{classfp_1_1fpSingleton_afa7b24ca92c18b7e0f444592c9d8ba30}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!fp\+Singleton@{fp\+Singleton}}
+\index{fp\+Singleton@{fp\+Singleton}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{fp\+Singleton()}{fpSingleton()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily fp\+::fp\+Singleton\+::fp\+Singleton (\begin{DoxyParamCaption}\item[{const \hyperlink{classfp_1_1fpSingleton}{fp\+Singleton} \&}]{old }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Definition at line 132 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+132                                                \{
+133                 \textcolor{keywordflow}{if}(\textcolor{keyword}{this} != &old)\{
+134                     \hyperlink{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}{infoSetting}= old.\hyperlink{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}{infoSetting};
+135                 \}
+136             \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a204b85f9d08ca711ca6620b5e020cc1c}\label{classfp_1_1fpSingleton_a204b85f9d08ca711ca6620b5e020cc1c}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!delete\+Data@{delete\+Data}}
+\index{delete\+Data@{delete\+Data}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{delete\+Data()}{deleteData()}}
+{\footnotesize\ttfamily void fp\+::fp\+Singleton\+::delete\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 52 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+52                                     \{
+53                 \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a44df119acad6c339966d67f2c634a369}{fpDeleteData}();
+54             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_a204b85f9d08ca711ca6620b5e020cc1c_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_aa4ac02c580b06ba16ed0160ec694438d}\label{classfp_1_1fpSingleton_aa4ac02c580b06ba16ed0160ec694438d}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!delete\+Test\+Data@{delete\+Test\+Data}}
+\index{delete\+Test\+Data@{delete\+Test\+Data}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{delete\+Test\+Data()}{deleteTestData()}}
+{\footnotesize\ttfamily void fp\+::fp\+Singleton\+::delete\+Test\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 56 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+56                                         \{
+57                 \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a996eedfc5ffe559ce1f6061af1efc1db}{fpDeleteTestData}();
+58             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_aa4ac02c580b06ba16ed0160ec694438d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}\label{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!get\+Singleton@{get\+Singleton}}
+\index{get\+Singleton@{get\+Singleton}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{get\+Singleton()}{getSingleton()}}
+{\footnotesize\ttfamily static \hyperlink{classfp_1_1fpSingleton}{fp\+Singleton}\& fp\+::fp\+Singleton\+::get\+Singleton (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Definition at line 19 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+19                                               \{
+20                 \textcolor{keyword}{static} \hyperlink{classfp_1_1fpSingleton_a049e41d4468d9b9f1e08788592c5f4cd}{fpSingleton}* \hyperlink{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}{infoSetting}(\textcolor{keyword}{new} 
+      \hyperlink{classfp_1_1fpSingleton_a049e41d4468d9b9f1e08788592c5f4cd}{fpSingleton});
+21                 \textcolor{keywordflow}{return} *\hyperlink{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}{infoSetting};
+22             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a86042ae6be6f59dfb90232678350011a}\label{classfp_1_1fpSingleton_a86042ae6be6f59dfb90232678350011a}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!load\+Data@{load\+Data}}
+\index{load\+Data@{load\+Data}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{load\+Data()}{loadData()}}
+{\footnotesize\ttfamily void fp\+::fp\+Singleton\+::load\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 44 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+44                                   \{
+45                 \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a91c727b1475eca340ca14c241b25c959}{fpLoadData}(\hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo});
+46             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_a86042ae6be6f59dfb90232678350011a_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a12178de58f19494062efe5255d937171}\label{classfp_1_1fpSingleton_a12178de58f19494062efe5255d937171}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!load\+Data\+From\+C\+SV@{load\+Data\+From\+C\+SV}}
+\index{load\+Data\+From\+C\+SV@{load\+Data\+From\+C\+SV}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{load\+Data\+From\+C\+S\+V()}{loadDataFromCSV()}}
+{\footnotesize\ttfamily bool fp\+::fp\+Singleton\+::load\+Data\+From\+C\+SV (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 125 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+125                                          \{
+126                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a2b4d9be328aaa7acf9a2561150da0402}{loadDataFromCSV}(\hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo});
+127             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_a12178de58f19494062efe5255d937171_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_aea7c3b65ded387322d7d5ce48ab96215}\label{classfp_1_1fpSingleton_aea7c3b65ded387322d7d5ce48ab96215}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!load\+Test\+Data@{load\+Test\+Data}}
+\index{load\+Test\+Data@{load\+Test\+Data}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{load\+Test\+Data()}{loadTestData()}}
+{\footnotesize\ttfamily void fp\+::fp\+Singleton\+::load\+Test\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 48 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+48                                       \{
+49                 \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a4b527bc84762c4708992b7fdce3d0602}{fpLoadTestData}(\hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo});
+50             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_aea7c3b65ded387322d7d5ce48ab96215_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a342b8b19aa98af5b2f56210cf0b164b0}\label{classfp_1_1fpSingleton_a342b8b19aa98af5b2f56210cf0b164b0}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!operator=@{operator=}}
+\index{operator=@{operator=}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily const \hyperlink{classfp_1_1fpSingleton}{fp\+Singleton}\& fp\+::fp\+Singleton\+::operator= (\begin{DoxyParamCaption}\item[{const \hyperlink{classfp_1_1fpSingleton}{fp\+Singleton} \&}]{old }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Definition at line 137 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+137                                                                 \{
+138                 \textcolor{keywordflow}{if}(\textcolor{keyword}{this} !=&old)\{
+139                     \hyperlink{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}{infoSetting}=old.\hyperlink{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}{infoSetting};
+140                 \}
+141                 \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+142             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_ab789c4e4bfb3248711a5857015008f8d}\label{classfp_1_1fpSingleton_ab789c4e4bfb3248711a5857015008f8d}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!prefetch\+Feature\+Val@{prefetch\+Feature\+Val}}
+\index{prefetch\+Feature\+Val@{prefetch\+Feature\+Val}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{prefetch\+Feature\+Val()}{prefetchFeatureVal()}}
+{\footnotesize\ttfamily void fp\+::fp\+Singleton\+::prefetch\+Feature\+Val (\begin{DoxyParamCaption}\item[{const int}]{feature\+Number,  }\item[{const int}]{observation\+Number }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 105 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+105                                                                                     \{
+106                 \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a3f9645ca93e9b64a788b3042e9e41fcc}{prefetchFeatureVal}(featureNumber, observationNumber);
+107             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_ab789c4e4bfb3248711a5857015008f8d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a0d769b6652e4c74c2734cdc811eeab5a}\label{classfp_1_1fpSingleton_a0d769b6652e4c74c2734cdc811eeab5a}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!print\+All\+Parameters@{print\+All\+Parameters}}
+\index{print\+All\+Parameters@{print\+All\+Parameters}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{print\+All\+Parameters()}{printAllParameters()}}
+{\footnotesize\ttfamily void fp\+::fp\+Singleton\+::print\+All\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 36 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+36                                             \{
+37                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a471bd46c828547d5b556f6f4e9fca70f}{printAllParameters}();
+38             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_a0d769b6652e4c74c2734cdc811eeab5a_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_ad9696336521f72c7c6a021608799871e}\label{classfp_1_1fpSingleton_ad9696336521f72c7c6a021608799871e}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!print\+Forest\+Type@{print\+Forest\+Type}}
+\index{print\+Forest\+Type@{print\+Forest\+Type}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{print\+Forest\+Type()}{printForestType()}}
+{\footnotesize\ttfamily void fp\+::fp\+Singleton\+::print\+Forest\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 40 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+40                                          \{
+41                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a1acfffe3b13e5cad548f92cd09ff7f46}{printForestType}();
+42             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_ad9696336521f72c7c6a021608799871e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_aacc2eb894a219e2fe234743b51fa1a76}\label{classfp_1_1fpSingleton_aacc2eb894a219e2fe234743b51fa1a76}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!return\+Feature\+Val@{return\+Feature\+Val}}
+\index{return\+Feature\+Val@{return\+Feature\+Val}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{return\+Feature\+Val()}{returnFeatureVal()}}
+{\footnotesize\ttfamily double fp\+::fp\+Singleton\+::return\+Feature\+Val (\begin{DoxyParamCaption}\item[{const int}]{feature\+Number,  }\item[{const int}]{observation\+Number }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 101 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+101                                                                                                 \{
+102                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a6b359086ec1e5c534095600e2ed5575f}{returnFeatureVal}(featureNumber, observationNumber);
+103             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_aacc2eb894a219e2fe234743b51fa1a76_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_af7582b20b48b7eb8c0a6b89fbdf170ab}\label{classfp_1_1fpSingleton_af7582b20b48b7eb8c0a6b89fbdf170ab}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!return\+Forest\+Type@{return\+Forest\+Type}}
+\index{return\+Forest\+Type@{return\+Forest\+Type}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{return\+Forest\+Type()}{returnForestType()}}
+{\footnotesize\ttfamily std\+::string\& fp\+::fp\+Singleton\+::return\+Forest\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 81 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+81                                                 \{
+82                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a97280e7e3cadc5e653d8ef256eb2c82d}{returnForestType}();
+83             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_af7582b20b48b7eb8c0a6b89fbdf170ab_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_aa2f644b1521948fb994f4087ddfaea14}\label{classfp_1_1fpSingleton_aa2f644b1521948fb994f4087ddfaea14}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!return\+Label@{return\+Label}}
+\index{return\+Label@{return\+Label}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{return\+Label()}{returnLabel()}}
+{\footnotesize\ttfamily int fp\+::fp\+Singleton\+::return\+Label (\begin{DoxyParamCaption}\item[{int}]{observation\+Number }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 93 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+93                                                          \{
+94                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_aac722f51424cb7f6ab7d89525f82cc72}{returnLabel}(observationNumber);
+95             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_aa2f644b1521948fb994f4087ddfaea14_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a2d06406b6462099e0adb393218090420}\label{classfp_1_1fpSingleton_a2d06406b6462099e0adb393218090420}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!return\+Min\+Parent@{return\+Min\+Parent}}
+\index{return\+Min\+Parent@{return\+Min\+Parent}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{return\+Min\+Parent()}{returnMinParent()}}
+{\footnotesize\ttfamily int fp\+::fp\+Singleton\+::return\+Min\+Parent (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 117 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+117                                         \{
+118                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_ad1af845e85cb6e807694c5106baca230}{returnMinParent}();
+119             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_a2d06406b6462099e0adb393218090420_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a45ae68ceb91880ddbc0e049a47c371eb}\label{classfp_1_1fpSingleton_a45ae68ceb91880ddbc0e049a47c371eb}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!return\+Mtry@{return\+Mtry}}
+\index{return\+Mtry@{return\+Mtry}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{return\+Mtry()}{returnMtry()}}
+{\footnotesize\ttfamily int fp\+::fp\+Singleton\+::return\+Mtry (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 77 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+77                                    \{
+78                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a058477c4f05818c220efa469b7b630bb}{returnMtry}();
+79             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_a45ae68ceb91880ddbc0e049a47c371eb_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a5602580110329a6b25602b1789e4e2c2}\label{classfp_1_1fpSingleton_a5602580110329a6b25602b1789e4e2c2}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!return\+Num\+Classes@{return\+Num\+Classes}}
+\index{return\+Num\+Classes@{return\+Num\+Classes}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{return\+Num\+Classes()}{returnNumClasses()}}
+{\footnotesize\ttfamily int fp\+::fp\+Singleton\+::return\+Num\+Classes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 73 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+73                                          \{
+74                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a641516fa21a5d6170f74426cf9e2b255}{returnNumClasses}();
+75             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_a5602580110329a6b25602b1789e4e2c2_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a97cbcad5ae9daa8c747fd4db84928c20}\label{classfp_1_1fpSingleton_a97cbcad5ae9daa8c747fd4db84928c20}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!return\+Num\+Features@{return\+Num\+Features}}
+\index{return\+Num\+Features@{return\+Num\+Features}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{return\+Num\+Features()}{returnNumFeatures()}}
+{\footnotesize\ttfamily int fp\+::fp\+Singleton\+::return\+Num\+Features (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 85 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+85                                           \{
+86                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_abf1e1bfc3e7daa178f3d68bed6311edb}{returnNumFeatures}();
+87             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_a97cbcad5ae9daa8c747fd4db84928c20_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_ae12f22ad096ff0d419fce47df710bf78}\label{classfp_1_1fpSingleton_ae12f22ad096ff0d419fce47df710bf78}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!return\+Num\+Observations@{return\+Num\+Observations}}
+\index{return\+Num\+Observations@{return\+Num\+Observations}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{return\+Num\+Observations()}{returnNumObservations()}}
+{\footnotesize\ttfamily int fp\+::fp\+Singleton\+::return\+Num\+Observations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 89 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+89                                               \{
+90                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a5d70dfbd1f8dc26dbd8f066e210cf165}{returnNumObservations}();
+91             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_ae12f22ad096ff0d419fce47df710bf78_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a8be36616345b6b77ce4c60b99cc2b91c}\label{classfp_1_1fpSingleton_a8be36616345b6b77ce4c60b99cc2b91c}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!return\+Num\+Trees@{return\+Num\+Trees}}
+\index{return\+Num\+Trees@{return\+Num\+Trees}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{return\+Num\+Trees()}{returnNumTrees()}}
+{\footnotesize\ttfamily int fp\+::fp\+Singleton\+::return\+Num\+Trees (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 113 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+113                                        \{
+114                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a12d3d4b2216f37daf6555f07148c4f85}{returnNumTrees}();
+115             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_a8be36616345b6b77ce4c60b99cc2b91c_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_ad74b421d65b17ba924244bff31fc9db6}\label{classfp_1_1fpSingleton_ad74b421d65b17ba924244bff31fc9db6}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!return\+Test\+Feature\+Val@{return\+Test\+Feature\+Val}}
+\index{return\+Test\+Feature\+Val@{return\+Test\+Feature\+Val}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{return\+Test\+Feature\+Val()}{returnTestFeatureVal()}}
+{\footnotesize\ttfamily double fp\+::fp\+Singleton\+::return\+Test\+Feature\+Val (\begin{DoxyParamCaption}\item[{const int}]{feature\+Number,  }\item[{const int}]{observation\+Number }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 109 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+109                                                                                                     \{
+110                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a42f76961f1649e329d654e9e1bb13fc6}{returnTestFeatureVal}(featureNumber, observationNumber);
+111             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_ad74b421d65b17ba924244bff31fc9db6_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_ac0d2a2fd5ed471c8d507dfd544c12e6d}\label{classfp_1_1fpSingleton_ac0d2a2fd5ed471c8d507dfd544c12e6d}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!return\+Test\+Label@{return\+Test\+Label}}
+\index{return\+Test\+Label@{return\+Test\+Label}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{return\+Test\+Label()}{returnTestLabel()}}
+{\footnotesize\ttfamily int fp\+::fp\+Singleton\+::return\+Test\+Label (\begin{DoxyParamCaption}\item[{int}]{observation\+Number }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 97 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+97                                                              \{
+98                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a50b6343c52560d1992de50e8cd6b1206}{returnTestLabel}(observationNumber);
+99             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_ac0d2a2fd5ed471c8d507dfd544c12e6d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a3edf17209500e72c76ef816e32666eb2}\label{classfp_1_1fpSingleton_a3edf17209500e72c76ef816e32666eb2}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!set\+Data\+Dependent\+Parameters@{set\+Data\+Dependent\+Parameters}}
+\index{set\+Data\+Dependent\+Parameters@{set\+Data\+Dependent\+Parameters}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{set\+Data\+Dependent\+Parameters()}{setDataDependentParameters()}}
+{\footnotesize\ttfamily void fp\+::fp\+Singleton\+::set\+Data\+Dependent\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 121 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+121                                                     \{
+122                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a6b2a54fb9b3672e7b1bab3474a0ca33f}{setMTRY}();
+123             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_a3edf17209500e72c76ef816e32666eb2_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a499e7cef6b463cc24590d05a0d0e6e1c}\label{classfp_1_1fpSingleton_a499e7cef6b463cc24590d05a0d0e6e1c}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!set\+Num\+Classes@{set\+Num\+Classes}}
+\index{set\+Num\+Classes@{set\+Num\+Classes}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{set\+Num\+Classes()}{setNumClasses()}}
+{\footnotesize\ttfamily void fp\+::fp\+Singleton\+::set\+Num\+Classes (\begin{DoxyParamCaption}\item[{int}]{numC }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 69 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+69                                                \{
+70                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a3598d1ab13bf05b53858b1ca8c44fa68}{setNumClasses}(numC);
+71             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_a499e7cef6b463cc24590d05a0d0e6e1c_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a5a35867349f6d172f77af7026fdaecbe}\label{classfp_1_1fpSingleton_a5a35867349f6d172f77af7026fdaecbe}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!set\+Num\+Features@{set\+Num\+Features}}
+\index{set\+Num\+Features@{set\+Num\+Features}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{set\+Num\+Features()}{setNumFeatures()}}
+{\footnotesize\ttfamily void fp\+::fp\+Singleton\+::set\+Num\+Features (\begin{DoxyParamCaption}\item[{int}]{numF }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 61 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+61                                                 \{
+62                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a69ef99f2ec9ef74dd3787bc33ffb05d0}{setNumFeatures}(numF);
+63             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_a5a35867349f6d172f77af7026fdaecbe_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_acf821a8fda9d3296cde7dc33b9c1ddb5}\label{classfp_1_1fpSingleton_acf821a8fda9d3296cde7dc33b9c1ddb5}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!set\+Num\+Observations@{set\+Num\+Observations}}
+\index{set\+Num\+Observations@{set\+Num\+Observations}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{set\+Num\+Observations()}{setNumObservations()}}
+{\footnotesize\ttfamily void fp\+::fp\+Singleton\+::set\+Num\+Observations (\begin{DoxyParamCaption}\item[{int}]{numO }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 65 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+65                                                     \{
+66                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_ad17492e79df7bca55d98438fec2f004b}{setNumObservations}(numO);
+67             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_acf821a8fda9d3296cde7dc33b9c1ddb5_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a90f275b256694ea7b16577d547a33044}\label{classfp_1_1fpSingleton_a90f275b256694ea7b16577d547a33044}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!set\+Parameter@{set\+Parameter}}
+\index{set\+Parameter@{set\+Parameter}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{set\+Parameter()}{setParameter()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily void fp\+::fp\+Singleton\+::set\+Parameter (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{parameter\+Name,  }\item[{const std\+::string \&}]{parameter\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 24 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+24                                                                                                      \{
+25                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_ae4c749c466e983cb312cc08d38b2796e}{setParameter}(parameterName, parameterValue);
+26             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_a90f275b256694ea7b16577d547a33044_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a19dd80e98acb4dd3e82be5e744840d1f}\label{classfp_1_1fpSingleton_a19dd80e98acb4dd3e82be5e744840d1f}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!set\+Parameter@{set\+Parameter}}
+\index{set\+Parameter@{set\+Parameter}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{set\+Parameter()}{setParameter()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily void fp\+::fp\+Singleton\+::set\+Parameter (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{parameter\+Name,  }\item[{const double}]{parameter\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 28 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+28                                                                                                  \{
+29                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_ae4c749c466e983cb312cc08d38b2796e}{setParameter}(parameterName, parameterValue);
+30             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_a19dd80e98acb4dd3e82be5e744840d1f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a3465c3ff9376fae2933d9267c32761ca}\label{classfp_1_1fpSingleton_a3465c3ff9376fae2933d9267c32761ca}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!set\+Parameter@{set\+Parameter}}
+\index{set\+Parameter@{set\+Parameter}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{set\+Parameter()}{setParameter()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily void fp\+::fp\+Singleton\+::set\+Parameter (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{parameter\+Name,  }\item[{const int}]{parameter\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 32 of file fp\+Singleton.\+h.
+
+
+\begin{DoxyCode}
+32                                                                                               \{
+33                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_ae4c749c466e983cb312cc08d38b2796e}{setParameter}(parameterName, parameterValue);
+34             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_a3465c3ff9376fae2933d9267c32761ca_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}\label{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!data@{data}}
+\index{data@{data}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{data}{data}}
+{\footnotesize\ttfamily \hyperlink{classfp_1_1fpData}{fp\+Data} fp\+::fp\+Singleton\+::data\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 16 of file fp\+Singleton.\+h.
+
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}\label{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!fp\+Forest\+Info@{fp\+Forest\+Info}}
+\index{fp\+Forest\+Info@{fp\+Forest\+Info}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{fp\+Forest\+Info}{fpForestInfo}}
+{\footnotesize\ttfamily \hyperlink{classfp_1_1fpInfo}{fp\+Info} fp\+::fp\+Singleton\+::fp\+Forest\+Info\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 15 of file fp\+Singleton.\+h.
+
+\mbox{\Hypertarget{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}\label{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}} 
+\index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!info\+Setting@{info\+Setting}}
+\index{info\+Setting@{info\+Setting}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
+\subsubsection{\texorpdfstring{info\+Setting}{infoSetting}}
+{\footnotesize\ttfamily \hyperlink{classfp_1_1fpSingleton}{fp\+Singleton} $\ast$ fp\+::fp\+Singleton\+::info\+Setting = nullptr\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Definition at line 14 of file fp\+Singleton.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/fp\+Singleton/\hyperlink{fpSingleton_8h}{fp\+Singleton.\+h}\end{DoxyCompactItemize}

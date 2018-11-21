@@ -1,0 +1,80 @@
+\hypertarget{fp_8cpp}{}\section{src/fp.cpp File Reference}
+\label{fp_8cpp}\index{src/fp.\+cpp@{src/fp.\+cpp}}
+{\ttfamily \#include \char`\"{}base\+Functions/fp\+Utils.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}fp\+Singleton/fp\+Singleton.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$exception$>$}\newline
+Include dependency graph for fp.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{fp_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{fp_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{fp_8cpp_a0ddf1224851353fc92bfbff6f499fa97}\label{fp_8cpp_a0ddf1224851353fc92bfbff6f499fa97}} 
+\index{fp.\+cpp@{fp.\+cpp}!main@{main}}
+\index{main@{main}!fp.\+cpp@{fp.\+cpp}}
+\subsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Definition at line 6 of file fp.\+cpp.
+
+
+\begin{DoxyCode}
+6                                  \{
+7 \textcolor{comment}{/*}
+8 \textcolor{comment}{    fp::timeLogger logTime;}
+9 \textcolor{comment}{                    logTime.startFindSplitTimer();}
+10 \textcolor{comment}{fp::inNodeClassIndices test(100000000);}
+11 \textcolor{comment}{                    logTime.stopFindSplitTimer();}
+12 \textcolor{comment}{}
+13 \textcolor{comment}{logTime.startSortTimer();}
+14 \textcolor{comment}{fp::stratifiedInNodeClassIndices testw(100000000);}
+15 \textcolor{comment}{logTime.stopSortTimer();}
+16 \textcolor{comment}{}
+17 \textcolor{comment}{logTime.printGrowTime();}
+18 \textcolor{comment}{*/}  
+19     \textcolor{keywordflow}{try}\{
+20         \hyperlink{classfp_1_1fpForest}{fp::fpForest} forest;
+21         forest.\hyperlink{classfp_1_1fpForest_ad13bbbd33291ef5f523691eccc23aece}{setParameter}(\textcolor{stringliteral}{"forestType"}, \textcolor{stringliteral}{"rfBase"});
+22         forest.\hyperlink{classfp_1_1fpForest_ad13bbbd33291ef5f523691eccc23aece}{setParameter}(\textcolor{stringliteral}{"numTreesInForest"}, 10);
+23         forest.\hyperlink{classfp_1_1fpForest_ad13bbbd33291ef5f523691eccc23aece}{setParameter}(\textcolor{stringliteral}{"minParent"}, 1);
+24 \textcolor{comment}{//      forest.setParameter("numClasses", 5);}
+25 \textcolor{comment}{//      forest.setParameter("mtry", 100);}
+26 \textcolor{comment}{//      forest.setParameter("CSVFileName", "test/res/testCSV.csv");}
+27 \textcolor{comment}{//forest.setParameter("CSVFileName", "res/iris.csv");}
+28 \textcolor{comment}{//forest.setParameter("columnWithY", 4);}
+29 \textcolor{comment}{//      forest.setParameter("CSVFileName", "res/higgsData.csv");}
+30         forest.\hyperlink{classfp_1_1fpForest_ad13bbbd33291ef5f523691eccc23aece}{setParameter}(\textcolor{stringliteral}{"CSVFileName"}, \textcolor{stringliteral}{"res/mnist.csv"});
+31         forest.\hyperlink{classfp_1_1fpForest_ad13bbbd33291ef5f523691eccc23aece}{setParameter}(\textcolor{stringliteral}{"columnWithY"}, 0);
+32 
+33         forest.\hyperlink{classfp_1_1fpForest_ac617e33890e96ee5e96e286a45d245fe}{growForest}();
+34 
+35         forest.\hyperlink{classfp_1_1fpForest_ae096def0ca26f0771b27341d7b218066}{printParameters}();
+36         forest.\hyperlink{classfp_1_1fpForest_a4a7ffa92224570d6a97eff8bd5e9b0fa}{printForestType}();
+37 
+38         std::cout << \textcolor{stringliteral}{"error: "} << forest.\hyperlink{classfp_1_1fpForest_a2ecaa11b48f37781f5fb4607ed6a490f}{testAccuracy}() << \textcolor{stringliteral}{"\(\backslash\)n"};
+39 
+40     \}\textcolor{keywordflow}{catch}(std::exception& e)\{
+41         std::cout << \textcolor{stringliteral}{"standard error: "} << e.what() << std::endl;
+42     \}
+43 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{fp_8cpp_a0ddf1224851353fc92bfbff6f499fa97_cgraph}
+\end{center}
+\end{figure}

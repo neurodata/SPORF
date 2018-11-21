@@ -1,0 +1,95 @@
+\hypertarget{classnodeContents}{}\section{node\+Contents$<$ T $>$ Class Template Reference}
+\label{classnodeContents}\index{node\+Contents$<$ T $>$@{node\+Contents$<$ T $>$}}
+
+
+{\ttfamily \#include $<$fp\+Node\+Contents.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classnodeContents_ac480b2186fc39c2258a696d906d89aea}{node\+Creator} (std\+::vector$<$ T $>$\+::iterator first\+In\+Set, std\+::vector$<$ T $>$\+::iterator last\+In\+Set)
+\item 
+int \hyperlink{classnodeContents_a161b1ff6370efdb429ef3e5afe7623c2}{num\+Elements\+In\+Node} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ T $>$\+::iterator \hyperlink{classnodeContents_ae9259755596d9e4542ad73605112569f}{first\+Element}
+\item 
+std\+::vector$<$ T $>$\+::iterator \hyperlink{classnodeContents_addfed5d7004d0d126856cd5907e11ff3}{last\+Element}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class T$>$\newline
+class node\+Contents$<$ T $>$}
+
+
+
+Definition at line 9 of file fp\+Node\+Contents.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classnodeContents_ac480b2186fc39c2258a696d906d89aea}\label{classnodeContents_ac480b2186fc39c2258a696d906d89aea}} 
+\index{node\+Contents@{node\+Contents}!node\+Creator@{node\+Creator}}
+\index{node\+Creator@{node\+Creator}!node\+Contents@{node\+Contents}}
+\subsubsection{\texorpdfstring{node\+Creator()}{nodeCreator()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\hyperlink{classnodeContents}{node\+Contents}$<$ T $>$\+::\hyperlink{classnodeCreator}{node\+Creator} (\begin{DoxyParamCaption}\item[{std\+::vector$<$ T $>$\+::iterator}]{first\+In\+Set,  }\item[{std\+::vector$<$ T $>$\+::iterator}]{last\+In\+Set }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 16 of file fp\+Node\+Contents.\+h.
+
+
+\begin{DoxyCode}
+16 : \hyperlink{classnodeContents_ae9259755596d9e4542ad73605112569f}{firstElement}(firstInSet), \hyperlink{classnodeContents_addfed5d7004d0d126856cd5907e11ff3}{lastElement}(lastInSet)\{\}
+\end{DoxyCode}
+\mbox{\Hypertarget{classnodeContents_a161b1ff6370efdb429ef3e5afe7623c2}\label{classnodeContents_a161b1ff6370efdb429ef3e5afe7623c2}} 
+\index{node\+Contents@{node\+Contents}!num\+Elements\+In\+Node@{num\+Elements\+In\+Node}}
+\index{num\+Elements\+In\+Node@{num\+Elements\+In\+Node}!node\+Contents@{node\+Contents}}
+\subsubsection{\texorpdfstring{num\+Elements\+In\+Node()}{numElementsInNode()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+int \hyperlink{classnodeContents}{node\+Contents}$<$ T $>$\+::num\+Elements\+In\+Node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 18 of file fp\+Node\+Contents.\+h.
+
+
+\begin{DoxyCode}
+18                                       \{
+19 \textcolor{keywordflow}{return} std::distance(\hyperlink{classnodeContents_ae9259755596d9e4542ad73605112569f}{firstElement}, \hyperlink{classnodeContents_addfed5d7004d0d126856cd5907e11ff3}{lastElement});
+20         \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classnodeContents_ae9259755596d9e4542ad73605112569f}\label{classnodeContents_ae9259755596d9e4542ad73605112569f}} 
+\index{node\+Contents@{node\+Contents}!first\+Element@{first\+Element}}
+\index{first\+Element@{first\+Element}!node\+Contents@{node\+Contents}}
+\subsubsection{\texorpdfstring{first\+Element}{firstElement}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+std\+::vector$<$T$>$\+::iterator \hyperlink{classnodeContents}{node\+Contents}$<$ T $>$\+::first\+Element\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 12 of file fp\+Node\+Contents.\+h.
+
+\mbox{\Hypertarget{classnodeContents_addfed5d7004d0d126856cd5907e11ff3}\label{classnodeContents_addfed5d7004d0d126856cd5907e11ff3}} 
+\index{node\+Contents@{node\+Contents}!last\+Element@{last\+Element}}
+\index{last\+Element@{last\+Element}!node\+Contents@{node\+Contents}}
+\subsubsection{\texorpdfstring{last\+Element}{lastElement}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+std\+::vector$<$T$>$\+::iterator \hyperlink{classnodeContents}{node\+Contents}$<$ T $>$\+::last\+Element\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 13 of file fp\+Node\+Contents.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/hold\+Delete/\hyperlink{fpNodeContents_8h}{fp\+Node\+Contents.\+h}\end{DoxyCompactItemize}

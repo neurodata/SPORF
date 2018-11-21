@@ -1,7 +1,8 @@
 #ifndef fpForestClassification_h
 #define fpForestClassification_h
 //#include "../baseFunctions/fpForestBase.h"
-#include "../../baseFunctions/fpUtils.h"
+//#include "../../baseFunctions/fpUtils.h"
+#include "../../baseFunctions/fpForestBase.h"
 #include <vector>
 #include <stdio.h>
 #include <ctime>

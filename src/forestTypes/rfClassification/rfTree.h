@@ -1,7 +1,7 @@
 #ifndef rfTree_h
 #define rfTree_h
 #include "rfNode.h"
-#include "../../baseFunctions/fpUtils.h"
+//#include "../../baseFunctions/fpUtils.h"
 #include <vector>
 #include <random>
 #include "../../treeConstructor/unprocessedNode.h"
@@ -163,11 +163,11 @@ namespace fp{
 
 
 				inline void processANode(){
-					timeLogger logTime;
-					logTime.startSortTimer();
+				//	timeLogger logTime;
+				//	logTime.startSortTimer();
 					nodeQueue.back().setupNode();
-					logTime.stopSortTimer();
-					logTime.startGiniTimer();
+				//	logTime.stopSortTimer();
+				//	logTime.startGiniTimer();
 					if(shouldProcessNode()){
 						findTheBestSplit();
 						if(noGoodSplitFound()){
@@ -178,7 +178,7 @@ namespace fp{
 					}else{
 						makeWholeNodeALeaf();
 					}
-					logTime.stopGiniTimer();
+				//	logTime.stopGiniTimer();
 				}
 
 

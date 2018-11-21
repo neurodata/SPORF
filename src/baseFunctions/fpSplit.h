@@ -244,7 +244,7 @@ namespace fp{
 				splitInfo<T> giniSplit(const std::vector<T>& featureVals, int featureNum){
 					double tempImpurity;
 					int numLabels = labels.size();
-					timeLogger logTime;
+				//	timeLogger logTime;
 
 					// initialize return value
 					splitInfo<T> currSplitInfo;
@@ -278,9 +278,9 @@ namespace fp{
 exit(1); //should never happen.  Why?
 								currSplitInfo.setImpurity(-1);
 					}
-					logTime.startFindSplitTimer();
+					//logTime.startFindSplitTimer();
 					setupForNextRun();
-					logTime.stopFindSplitTimer();
+					//logTime.stopFindSplitTimer();
 
 					return currSplitInfo;
 				}

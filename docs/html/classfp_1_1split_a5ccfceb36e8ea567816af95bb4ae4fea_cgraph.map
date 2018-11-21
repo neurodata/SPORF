@@ -1,0 +1,5 @@
+<map id="fp::split::setupForNextRun" name="fp::split::setupForNextRun">
+<area shape="rect" id="node2" href="$classfp_1_1classTotals.html#aa05c13b36638adc361d638559c43a447" title="fp::classTotals::increment\lClass" alt="" coords="232,5,405,47"/>
+<area shape="rect" id="node3" href="$classfp_1_1classTotals.html#af388dc1e664488603f7834da2f097a06" title="fp::classTotals::decrement\lClass" alt="" coords="230,71,407,112"/>
+<area shape="rect" id="node4" href="$classfp_1_1classTotals.html#ab0ad9daa63bc410ae15f344b86386f87" title="fp::classTotals::resetClass\lTotals" alt="" coords="229,136,408,177"/>
+</map>
