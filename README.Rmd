@@ -128,7 +128,7 @@ To create a forest the minimum data needed is an n by d input matrix (X) and an 
 ```{r create-a-forest}
 X <- as.matrix(iris[,1:4])
 Y <- iris[[5L]]
-forest <- RerF(X, Y, seed = 1L, num.cores = 1L)
+forest <- RerF(X, Y, seed = 1L, num.cores = 1L, max.depth = ceiling(log2(nrow(X))))
 ```
 
 **Expected output**
@@ -147,7 +147,7 @@ In the example below, trainIdx is used to subset the iris dataset in order to ma
 trainIdx <- c(1:40, 51:90, 101:140)
 X <- as.matrix(iris[,1:4])
 Y <- iris[[5L]]
-forest <- RerF(X[trainIdx, ], Y[trainIdx], num.cores = 1L, rank.transform = TRUE, seed = 1)
+forest <- RerF(X[trainIdx, ], Y[trainIdx], num.cores = 1L, rank.transform = TRUE, seed = 1, max.depth = ceiling(log2(nrow(X))))
 # Using a set of samples with unknown classification
 predictions <- Predict(X[-trainIdx, ], forest, num.cores = 1L, Xtrain = X[trainIdx, ])
 error.rate <- mean(predictions != Y[-trainIdx])
@@ -165,7 +165,7 @@ If a testing set is not available the error rate of a forest can be determined b
 ```{r oob}
 X <- as.matrix(iris[,1:4])
 Y <- iris[[5L]]
-forest <- RerF(X, Y, store.oob=TRUE, num.cores = 1L, seed = 1L)
+forest <- RerF(X, Y, store.oob=TRUE, num.cores = 1L, seed = 1L, max.depth = ceiling(log2(nrow(X))))
 predictions <- OOBPredict(X, forest, num.cores = 1L)
 oob.error <- mean(predictions != Y)
 ```
@@ -185,7 +185,7 @@ Computes pairwise similarities between observations. The similarity between two 
 ```{r compute-similarities}
 X <- as.matrix(iris[,1:4])
 Y <- iris[[5L]]
-forest <- RerF(X, Y, num.cores = 1L, seed = 1L)
+forest <- RerF(X, Y, num.cores = 1L, seed = 1L, max.depth = ceiling(log2(nrow(X))))
 sim.matrix <- ComputeSimilarity(X, forest, num.cores = 1L)
 ```
 
@@ -204,7 +204,7 @@ nsamp <- 30 ## number of training samples per species
 trainIdx <- vapply(list(1:50, 51:100, 101:150), sample, outer(1,1:nsamp), size = nsamp)
 X <- as.matrix(iris[,1:4])
 Y <- iris[[5L]]
-forest <- RerF(X[trainIdx, ], Y[trainIdx], num.cores = 1L, seed = 1L)
+forest <- RerF(X[trainIdx, ], Y[trainIdx], num.cores = 1L, seed = 1L, max.depth = ceiling(log2(nrow(X))))
 predictions <- Predict(X[-trainIdx, ], forest, num.cores = 1L, aggregate.output = FALSE)
 scor <- StrCorr(predictions, Y[-trainIdx])
 ```
@@ -228,7 +228,7 @@ d <- ceiling(sqrt(p)) # number of features to sample at each split
 
 forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], FUN = RandMatRF,
                paramList = list(p = p, d = d), num.cores = 1L,
-               store.impurity = TRUE, seed = 1L)
+               store.impurity = TRUE, seed = 1L, max.depth = ceiling(log2(nrow(X))))
 
 feature.imp <- FeatureImportance(forest, num.cores = 1L)
 ```
@@ -271,7 +271,7 @@ patch.max <- 5L
 forest <- RerF(Xtrain, Ytrain, num.cores = 1L, FUN = RandMatImagePatch,
                paramList = list(p = p, d = d, iw = iw, ih = ih,
                                 pwMin = patch.min, pwMax = patch.max),
-               seed = 1L)
+               seed = 1L, max.depth = ceiling(log2(nrow(Xtrain))))
 predictions <- Predict(Xtest, forest, num.cores = 1L)
 mnist.error.rate <- mean(predictions != Ytest)
 ```

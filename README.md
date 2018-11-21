@@ -133,7 +133,7 @@ correspond to samples and columns correspond to features.
 ``` r
 X <- as.matrix(iris[,1:4])
 Y <- iris[[5L]]
-forest <- RerF(X, Y, seed = 1L, num.cores = 1L)
+forest <- RerF(X, Y, seed = 1L, num.cores = 1L, max.depth = ceiling(log2(nrow(X))))
 ```
 
 **Expected output**
@@ -189,7 +189,7 @@ order to make a training set and a testing set.
 trainIdx <- c(1:40, 51:90, 101:140)
 X <- as.matrix(iris[,1:4])
 Y <- iris[[5L]]
-forest <- RerF(X[trainIdx, ], Y[trainIdx], num.cores = 1L, rank.transform = TRUE, seed = 1)
+forest <- RerF(X[trainIdx, ], Y[trainIdx], num.cores = 1L, rank.transform = TRUE, seed = 1, max.depth = ceiling(log2(nrow(X))))
 # Using a set of samples with unknown classification
 predictions <- Predict(X[-trainIdx, ], forest, num.cores = 1L, Xtrain = X[trainIdx, ])
 error.rate <- mean(predictions != Y[-trainIdx])
@@ -216,7 +216,7 @@ determined based on the samples held out-of-bag while training
 ``` r
 X <- as.matrix(iris[,1:4])
 Y <- iris[[5L]]
-forest <- RerF(X, Y, store.oob=TRUE, num.cores = 1L, seed = 1L)
+forest <- RerF(X, Y, store.oob=TRUE, num.cores = 1L, seed = 1L, max.depth = ceiling(log2(nrow(X))))
 predictions <- OOBPredict(X, forest, num.cores = 1L)
 oob.error <- mean(predictions != Y)
 ```
@@ -266,7 +266,7 @@ an n by n symmetric similarity matrix.
 ``` r
 X <- as.matrix(iris[,1:4])
 Y <- iris[[5L]]
-forest <- RerF(X, Y, num.cores = 1L, seed = 1L)
+forest <- RerF(X, Y, num.cores = 1L, seed = 1L, max.depth = ceiling(log2(nrow(X))))
 sim.matrix <- ComputeSimilarity(X, forest, num.cores = 1L)
 ```
 
@@ -301,7 +301,7 @@ nsamp <- 30 ## number of training samples per species
 trainIdx <- vapply(list(1:50, 51:100, 101:150), sample, outer(1,1:nsamp), size = nsamp)
 X <- as.matrix(iris[,1:4])
 Y <- iris[[5L]]
-forest <- RerF(X[trainIdx, ], Y[trainIdx], num.cores = 1L, seed = 1L)
+forest <- RerF(X[trainIdx, ], Y[trainIdx], num.cores = 1L, seed = 1L, max.depth = ceiling(log2(nrow(X))))
 predictions <- Predict(X[-trainIdx, ], forest, num.cores = 1L, aggregate.output = FALSE)
 scor <- StrCorr(predictions, Y[-trainIdx])
 ```
@@ -311,10 +311,10 @@ scor <- StrCorr(predictions, Y[-trainIdx])
 ``` r
 scor
 #> $s
-#> [1] 0.845
+#> [1] 0.8426
 #> 
 #> $rho
-#> [1] 0.4186858
+#> [1] 0.3130792
 ```
 
 ### Compute feature (projection) importance (DEV version only):
@@ -341,7 +341,7 @@ d <- ceiling(sqrt(p)) # number of features to sample at each split
 
 forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], FUN = RandMatRF,
                paramList = list(p = p, d = d), num.cores = 1L,
-               store.impurity = TRUE, seed = 1L)
+               store.impurity = TRUE, seed = 1L, max.depth = ceiling(log2(nrow(X))))
 
 feature.imp <- FeatureImportance(forest, num.cores = 1L)
 ```
@@ -402,7 +402,7 @@ patch.max <- 5L
 forest <- RerF(Xtrain, Ytrain, num.cores = 1L, FUN = RandMatImagePatch,
                paramList = list(p = p, d = d, iw = iw, ih = ih,
                                 pwMin = patch.min, pwMax = patch.max),
-               seed = 1L)
+               seed = 1L, max.depth = ceiling(log2(nrow(Xtrain))))
 predictions <- Predict(Xtest, forest, num.cores = 1L)
 mnist.error.rate <- mean(predictions != Ytest)
 ```
