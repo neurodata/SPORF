@@ -33,8 +33,7 @@ test_that("Sum of the class probabilities should ~= 1.", {
   )
   # forest <- RerF(X, Y, trees = numTrees, seed = 1L, num.cores = 1L, store.oob = FALSE)
   for (z in 1:length(forest$trees)) {
-    for (q in 1:length(forest$trees[[z]]$ClassProb[, 1])) {
-      expect_equal(sum(forest$trees[[z]]$ClassProb[q, ]), 1, tolerance = 1e-08)
-    }
+    treeClassProb <- forest$trees[[z]]$ClassProb
+    expect_equal(rowSums(treeClassProb), rep(1, nrow(treeClassProb)))
   }
 })
