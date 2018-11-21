@@ -27,11 +27,13 @@ test_that("Testing number of trees output is as requested.", {
 # should be > 0, probability be > 0, or sum ~= 1
 test_that("Sum of the class probabilities should ~= 1.", {
   numTrees = 10
-  forest <- RerF(X, Y, trees = numTrees, seed = 1L, num.cores = 1L, store.oob = FALSE, max.depth = ceiling(log2(nrow(X))), min.parent = 6L)
+  forest <- RerF(X, Y,
+                 seed = 1L, num.cores = 1L, store.oob = TRUE, min.parent = 1,
+                 max.depth = 0
+  )
   for (z in 1:length(forest$trees)) {
-    for (q in 1:length(forest$trees[[z]]$ClassProb[, 1])) {
-      expect_equal(sum(forest$trees[[z]]$ClassProb[q, ]), 1, tolerance = 1e-08)
-    }
+    treeClassProb <- forest$trees[[z]]$ClassProb
+    expect_equal(rowSums(treeClassProb), rep(1, nrow(treeClassProb)))
   }
 })
 
