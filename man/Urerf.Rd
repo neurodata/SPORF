@@ -34,8 +34,6 @@ Creates a decision forest based on an input matrix.
 library(rerf)
 urerfStructure <- Urerf(as.matrix(iris[, 1:4]))
 
-dissimilarityMatrix <-  hclust(as.dist(1-urerfStructure$similarityMatrix), method='mcquitty')
-clusters <- cutree(dissimilarityMatrix, k=3)
-
-
+dissimilarityMatrix <- hclust(as.dist(1 - urerfStructure$similarityMatrix), method = 'mcquitty')
+clusters <- cutree(dissimilarityMatrix, k = 3)
 }

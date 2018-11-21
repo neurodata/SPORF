@@ -5,8 +5,8 @@ context("Iterate over multiple datasets/releases and multiple runs to test runti
 
 
 trees <- 10
-numT <- 5  # number of tests
-numC <- 3  # number of cores to use
+numT <- 5 # number of tests
+numC <- 3 # number of cores to use
 
 # Last test is usually skipped (MNIST data -- long)
 numTests <- c(rep(numT, 4), 10)
@@ -14,15 +14,19 @@ cores <- c(rep(numC, 4), 25)
 numTrees <- c(rep(trees, 4), 100)
 
 path <- "travisTest/"
-trainSets <- c("Orthant_train.csv", "Sparse_parity_train.csv", "Trunk_train.csv",
-  "calcium-spike_train.csv", "mnist_train.csv")
-testSets <- c("Orthant_test.csv", "Sparse_parity_test.csv", "Trunk_test.csv", "calcium-spike_test.csv",
-  "mnist_test.csv")
+trainSets <- c(
+  "Orthant_train.csv", "Sparse_parity_train.csv", "Trunk_train.csv",
+  "calcium-spike_train.csv", "mnist_train.csv"
+)
+testSets <- c(
+  "Orthant_test.csv", "Sparse_parity_test.csv", "Trunk_test.csv", "calcium-spike_test.csv",
+  "mnist_test.csv"
+)
 trainSets <- sapply(trainSets, function(x) paste(path, x, sep = ""))
 testSets <- sapply(testSets, function(x) paste(path, x, sep = ""))
 
 
-test_skips <- c(FALSE, FALSE, FALSE, FALSE, TRUE)  # skip MNIST data
+test_skips <- c(FALSE, FALSE, FALSE, FALSE, TRUE) # skip MNIST data
 
 
 #' Gets memory used
@@ -69,22 +73,24 @@ testDS <- function(trainSet, testSet, numTests, numTrees, cores) {
     # garbage collection, last two columns gives memory used since last call to gc
     initMem <- getMemUsed(TRUE)
 
-    ptm <- proc.time()  # start timing
+    ptm <- proc.time() # start timing
 
     # create forest
-    forest <- RerF(X, Y, trees = numTrees, min.parent = 1L, max.depth = 0, stratify = TRUE, 
-      store.oob = TRUE, num.cores = cores, seed = sample(1:10000, 1))
+    forest <- RerF(X, Y,
+      trees = numTrees, min.parent = 1L, max.depth = 0, stratify = TRUE,
+      store.oob = TRUE, num.cores = cores, seed = sample(1:10000, 1)
+    )
 
-    ptmtrain[i] <- (proc.time() - ptm)[3]  # time taken
+    ptmtrain[i] <- (proc.time() - ptm)[3] # time taken
 
-    memSize[i] <- getMemUsed() - initMem  # memory used
+    memSize[i] <- getMemUsed() - initMem # memory used
 
     temp_size <- 0
     for (z in 1:length(forest$trees)) {
       temp_size <- temp_size + length(forest$trees[[z]]$treeMap)
     }
 
-    NodeSize[i] <- temp_size/length(forest$trees)
+    NodeSize[i] <- temp_size / length(forest$trees)
 
     # time to do the OOB prediction
     ptm <- proc.time()
@@ -98,8 +104,10 @@ testDS <- function(trainSet, testSet, numTests, numTrees, cores) {
     ptmtest[i] <- (proc.time() - ptm)[3]
   }
 
-  ret_vals = list(ptmtrain = ptmtrain, ptmtest = ptmtest, ptmOOB = ptmOOB, error = error,
-    OOBerror = OOBerror, NodeSize = NodeSize, memSize = memSize)
+  ret_vals = list(
+    ptmtrain = ptmtrain, ptmtest = ptmtest, ptmOOB = ptmOOB, error = error,
+    OOBerror = OOBerror, NodeSize = NodeSize, memSize = memSize
+  )
   return(ret_vals)
 }
 
@@ -107,7 +115,7 @@ testDS <- function(trainSet, testSet, numTests, numTrees, cores) {
 testDSs <- function(trainSets, testSets, numTests, numTrees, cores, test_skips) {
   results <- list()
   for (i in which(!test_skips)) {
-    gc()  # run gc to keep timing pure?
+    gc() # run gc to keep timing pure?
     ret_vals <- testDS(trainSets[i], testSets[i], numTests[i], numTrees[i], cores[i])
     results[[i]] <- ret_vals
   }
@@ -127,7 +135,7 @@ print("Finished candidate.")
 # dev mode will let us load in a different version
 devtools::dev_mode(on = TRUE)
 # Checking out latest version on CRAN
-install.packages("rerf", repos='http://cran.us.r-project.org')
+install.packages("rerf", repos = 'http://cran.us.r-project.org')
 library("rerf")
 
 # this is the results from the stable version
@@ -152,14 +160,13 @@ dist_same <- function(A, B) {
   return(TRUE)
 }
 
-test_that("test different parameters and performance to make sure they are similar",
-  {
-    for (i in which(!test_skips)) {
-      for (param in 1:length(results_candidate[[1]])) {
-        print(names(results_candidate[[i]])[param])
-        expect_true(dist_same(results_candidate[[i]][[param]], results_baseline[[i]][[param]]))
-      }
+test_that("test different parameters and performance to make sure they are similar", {
+  for (i in which(!test_skips)) {
+    for (param in 1:length(results_candidate[[1]])) {
+      print(names(results_candidate[[i]])[param])
+      expect_true(dist_same(results_candidate[[i]][[param]], results_baseline[[i]][[param]]))
     }
-  })
+  }
+})
 
 print("Test against prior release finished")

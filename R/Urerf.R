@@ -19,16 +19,12 @@
 #' ### Train RerF on numeric data ###
 #' library(rerf)
 #' urerfStructure <- Urerf(as.matrix(iris[, 1:4]))
-#'
-#' dissimilarityMatrix <-  hclust(as.dist(1-urerfStructure$similarityMatrix), method='mcquitty')
-#' clusters <- cutree(dissimilarityMatrix, k=3)
-#'
-#'
-
+#' 
+#' dissimilarityMatrix <- hclust(as.dist(1 - urerfStructure$similarityMatrix), method = 'mcquitty')
+#' clusters <- cutree(dissimilarityMatrix, k = 3)
 Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
                   max.depth = NA, mtry = ceiling(ncol(X)^0.5),
                   normalizeData = TRUE, Progress = TRUE) {
-
   normalizeTheData <- function(X, normData) {
     if (normData) {
       X <- sweep(X, 2, apply(X, 2, min), "-")
@@ -66,7 +62,7 @@ Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
         }
       }
     }
-    simMatrix <- simMatrix/numTrees
+    simMatrix <- simMatrix / numTrees
     if (any(diag(simMatrix) != 1)) {
       print("diag not zero")
       diag(simMatrix) <- 1
@@ -84,11 +80,15 @@ Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
   X <- normalizeTheData(X, normalizeData)
 
   forest <- if (is.na(depth)) {
-    GrowUnsupervisedForest(X, trees = numTrees, MinParent = K, options = list(p = ncol(X),
-      d = mtry, sparsity = 1/ncol(X)), Progress = Progress)
+    GrowUnsupervisedForest(X, trees = numTrees, MinParent = K, options = list(
+      p = ncol(X),
+      d = mtry, sparsity = 1 / ncol(X)
+    ), Progress = Progress)
   } else {
-    GrowUnsupervisedForest(X, trees = numTrees, MinParent = K, MaxDepth = depth,
-      options = list(p = ncol(X), d = mtry, sparsity = 1/ncol(X)), Progress = Progress)
+    GrowUnsupervisedForest(X,
+      trees = numTrees, MinParent = K, MaxDepth = depth,
+      options = list(p = ncol(X), d = mtry, sparsity = 1 / ncol(X)), Progress = Progress
+    )
   }
 
   sM <- createMatrixFromForest(forest)
@@ -98,7 +98,9 @@ Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
   outlierMean <- mean(outliers)
   outlierSD <- sd(outliers)
 
-  return(list(similarityMatrix = sM, forest = forest, colMin = normInfo$colMin,
+  return(list(
+    similarityMatrix = sM, forest = forest, colMin = normInfo$colMin,
     colMax = normInfo$colMax, outlierMean = outlierMean, outlierSD = outlierSD,
-    trainSize = nrow(X)))
+    trainSize = nrow(X)
+  ))
 }

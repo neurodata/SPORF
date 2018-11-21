@@ -12,19 +12,20 @@
 #'
 #' @examples
 #' library(rerf)
-#' X <- as.matrix(iris[,1:4])
+#' X <- as.matrix(iris[, 1:4])
 #' Y <- iris[[5L]]
-#' forest <- RerF(X, Y, store.oob=TRUE, num.cores = 1L)
+#' forest <- RerF(X, Y, store.oob = TRUE, num.cores = 1L)
 #' predictions <- OOBPredict(X, forest, num.cores = 1L)
 #' oob.error <- mean(predictions != Y)
-#'
 #' @export
 #' @importFrom parallel detectCores makeCluster parLapply stopCluster
 #' @importFrom utils object.size
 
 OOBPredict <- function(X, forest, num.cores = 0L, Xtrain = NULL, output.scores = FALSE) {
-  predictions <- Predict(X = X, forest = forest, OOB = TRUE, num.cores = num.cores, 
-    Xtrain = Xtrain, output.scores = output.scores)
+  predictions <- Predict(
+    X = X, forest = forest, OOB = TRUE, num.cores = num.cores,
+    Xtrain = Xtrain, output.scores = output.scores
+  )
 
   mes1 <- c("NA's generated in the OOB predictions because %d/%d observations were never out-of-bag.")
   mes2 <- "\nA fix for this is to re-train the forest using more trees."
@@ -41,6 +42,3 @@ OOBPredict <- function(X, forest, num.cores = 0L, Xtrain = NULL, output.scores =
 
   return(predictions)
 }
-
-
-

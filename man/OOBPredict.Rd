@@ -26,10 +26,9 @@ Computes out-of-bag class predictions for a forest trained with store.oob=TRUE.
 }
 \examples{
 library(rerf)
-X <- as.matrix(iris[,1:4])
+X <- as.matrix(iris[, 1:4])
 Y <- iris[[5L]]
-forest <- RerF(X, Y, store.oob=TRUE, num.cores = 1L)
+forest <- RerF(X, Y, store.oob = TRUE, num.cores = 1L)
 predictions <- OOBPredict(X, forest, num.cores = 1L)
 oob.error <- mean(predictions != Y)
-
 }
