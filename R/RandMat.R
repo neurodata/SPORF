@@ -582,7 +582,7 @@ defaults <- function(ncolX, paramList, cat.map) {
   }
 
   if (is.null(paramList$sparsity) || is.na(paramList$sparsity)) {
-    paramList$sparsity = ifelse(is.null(cat.map),
+    paramList$sparsity <- ifelse(is.null(cat.map),
       ifelse(ncolX >= 10, 3 / ncolX, 1 / ncolX),
       ifelse(length(cat.map) + cat.map[[1L]][1L] - 1L >= 10,
         3 / (length(cat.map) + cat.map[[1L]][1L] - 1L),

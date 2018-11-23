@@ -20,7 +20,7 @@
 #' library(rerf)
 #' urerfStructure <- Urerf(as.matrix(iris[, 1:4]))
 #' 
-#' dissimilarityMatrix <- hclust(as.dist(1 - urerfStructure$similarityMatrix), method = 'mcquitty')
+#' dissimilarityMatrix <- hclust(as.dist(1 - urerfStructure$similarityMatrix), method = "mcquitty")
 #' clusters <- cutree(dissimilarityMatrix, k = 3)
 Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
                   max.depth = NA, mtry = ceiling(ncol(X)^0.5),

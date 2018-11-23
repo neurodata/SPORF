@@ -188,9 +188,9 @@ RerF <-
       RNGkind("L'Ecuyer-CMRG")
       if (num.cores == 0) {
         # Use all but 1 core if num.cores=0.
-        num.cores = parallel::detectCores() - 1L
+        num.cores <- parallel::detectCores() - 1L
       }
-      num.cores = min(num.cores, trees)
+      num.cores <- min(num.cores, trees)
       gc()
       if (.Platform$OS.type == "windows") {
         cl <- parallel::makePSOCKcluster(num.cores)
