@@ -1,24 +1,24 @@
-#ifndef rfTree_h
-#define rfTree_h
-#include "rfNode.h"
+#ifndef rerfTree_h
+#define rerfTree_h
+#include "rerfNode.h"
 #include <vector>
 #include <random>
-#include "../../treeConstructor/unprocessedNode.h"
+#include "unprocessedRerFNode.h"
 
 namespace fp{
 
 	template <typename T>
-		class rfTree
+		class rerfTree
 		{
 			protected:
 				float OOBAccuracy;
 				float correctOOB;
 				float totalOOB;
-				std::vector< rfNode<T> > tree;
-				std::vector< unprocessedNode<T> > nodeQueue;
+				std::vector< rerfNode<T> > tree;
+				std::vector< unprocessedRerFNode<T> > nodeQueue;
 
 			public:
-				rfTree() : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0){}
+				rerfTree() : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0){}
 
 				void loadFirstNode(){
 					nodeQueue.emplace_back(fpSingleton::getSingleton().returnNumObservations());
@@ -151,8 +151,7 @@ namespace fp{
 
 
 				inline bool noGoodSplitFound(){
-					//return nodeQueue.back().returnBestImpurity() < 0;
-					return nodeQueue.back().returnBestFeature() == -1;
+					return nodeQueue.back().returnBestFeature().empty();
 				}
 
 
@@ -194,8 +193,8 @@ namespace fp{
 					int featureNum = 0;
 					T featureVal;
 					while(tree[currNode].isInternalNode()){
-						featureNum = tree[currNode].returnFeatureNumber();
-						featureVal =fpSingleton::getSingleton().returnTestFeatureVal(featureNum,observationNum);
+						featureNum = tree[currNode].returnFeatureNumber()[0];
+						featureVal = fpSingleton::getSingleton().returnTestFeatureVal(featureNum,observationNum);
 						currNode = tree[currNode].nextNode(featureVal);
 					}
 					return tree[currNode].returnClass();

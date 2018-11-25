@@ -1,5 +1,5 @@
-#ifndef fpForestClassification_h
-#define fpForestClassification_h
+#ifndef fpRerF_h
+#define fpRerf_h
 
 #include "../../baseFunctions/fpForestBase.h"
 #include "../../baseFunctions/displayProgress.h"
@@ -8,25 +8,25 @@
 #include <ctime>
 #include <chrono>
 #include <cstdlib>
-#include "rfTree.h"
+#include "rerfTree.h"
 
 namespace fp {
 
 	template <typename T>
-		class fpForestClassificationBase : public fpForestBase
+		class fpRerFBase : public fpForestBase
 	{
 		protected:
-			std::vector<rfTree<T> > trees;
+			std::vector<rerfTree<T> > trees;
 
 		public:
-			fpDisplayProgress printProgress;
 
-			fpForestClassificationBase(){
+			fpRerFBase(){
 				std::srand(unsigned(std::time(0)));
 			}
 
+			fpDisplayProgress printProgress;
 			void printForestType(){
-				std::cout << "This is a basic classification forest.\n";
+				std::cout << "This is a rerf forest.\n";
 			}
 
 			void changeForestSize(){

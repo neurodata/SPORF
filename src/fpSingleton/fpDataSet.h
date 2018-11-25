@@ -4,6 +4,9 @@
 #include "fpReadCSV.h"
 #include <string>
 
+
+namespace fp {
+
 template <typename T>
 class inputYData
 {
@@ -55,8 +58,8 @@ class inputYDataClassification : public inputYData<T>
 		void checkClassRepresentation(){
 			for(int i=0; i<maxClass; i++){
 				if(classesUsed[i]==0){
-				throw std::runtime_error("Not all classes represented in input." );
-					}
+					throw std::runtime_error("Not all classes represented in input." );
+				}
 			}
 		}
 };
@@ -76,12 +79,12 @@ class inputXData
 			}
 		}
 
-		inline T returnElement(const int &feature,const int &observation){
+		inline T returnElement(const int &feature, const int &observation){
 			return XData[feature][observation];
 		}
 
-inline void prefetchElement(const int &feature,const int &observation){
-							__builtin_prefetch(&XData[feature][observation], 0, 2);
+		inline void prefetchElement(const int &feature, const int &observation){
+			__builtin_prefetch(&XData[feature][observation], 0, 2);
 		}
 
 		inline void setXElement( const int &feature, const int &observation, const T &value){
@@ -108,8 +111,6 @@ class inputData
 	public:
 		inputData(const std::string& forestCSVFileName, const int &columnWithY)
 		{
-
-			//			csvHandle<T> csvH(forestCSVFileName);
 			csvHandle csvH(forestCSVFileName);
 			if(columnWithY >= csvH.returnNumColumns()){
 				throw std::runtime_error("column with class labels does not exist." );
@@ -141,7 +142,7 @@ class inputData
 			return X.returnElement(featureNum, observationNum);
 		}
 
-inline void prefetchFeatureValue(const int &featureNum, const int &observationNum){
+		inline void prefetchFeatureValue(const int &featureNum, const int &observationNum){
 			X.prefetchElement(featureNum, observationNum);
 		}
 
@@ -153,11 +154,11 @@ inline void prefetchFeatureValue(const int &featureNum, const int &observationNu
 			return Y.returnNumObservations();
 		}
 
-inline int returnNumClasses(){
+		inline int returnNumClasses(){
 			return Y.numClasses();
 		}
 
-inline void checkY(){
+		inline void checkY(){
 			return Y.checkClassRepresentation();
 		}
 
@@ -202,8 +203,8 @@ class testXData
 			return XData[observation][feature];
 		}
 
-inline void prefetchElement(const int &feature,const int &observation){
-							__builtin_prefetch(XData[observation][feature], 0, 3);
+		inline void prefetchElement(const int &feature,const int &observation){
+			__builtin_prefetch(XData[observation][feature], 0, 3);
 		}
 
 		inline void setXElement( const int &feature, const int &observation, const T &value){
@@ -270,7 +271,7 @@ class testData
 			return Y.returnNumObservations();
 		}
 
-inline int returnNumClasses(){
+		inline int returnNumClasses(){
 			return Y.numClasses();
 		}
 
@@ -296,9 +297,11 @@ inline int returnNumClasses(){
 		}
 };
 
+} //namespace fp
+#endif //fpDataSet_h
 
 
-
+/*
 
 
 template <typename T>	
@@ -400,5 +403,5 @@ class rankedInput
 			return rankedInputData[featureNum][ObservationNum].returnFeatureValue(); 
 		}
 };
+*/
 
-#endif //fpDataSet_h

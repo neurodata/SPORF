@@ -18,7 +18,7 @@ namespace fp{
 			int outSampleSize;
 
 			int binSize = 100;
-			int useBinning = true;
+			int useBinning = false;
 
 			//TODO: the following functions would benefit from Vitter's Sequential Random Sampling
 		public:

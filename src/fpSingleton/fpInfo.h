@@ -8,6 +8,11 @@
 
 namespace fp {
 
+	/**
+	 * fpInfo holds all parameters for the forests.  These parameters should be
+	 * set before calling fpForest to run forest creation.
+	 */
+
 	class fpInfo{
 
 		protected:
@@ -27,8 +32,6 @@ namespace fp {
 
 			std::string forestType;
 			std::string CSVFileName;
-
-			// The forest
 
 
 		public:
@@ -51,38 +54,38 @@ namespace fp {
 				return forestType;
 			}
 
-			inline int returnColumnWithY(){
+			inline int returnColumnWithY() const{
 				return columnWithY;
 			}
 
-			inline int returnNumClasses(){
+			inline int returnNumClasses() const{
 				return numClasses;
 			}
 
-			inline int returnMinParent(){
+			inline int returnMinParent() const{
 				return minParent;
 			}
 
-			inline int returnNumFeatures(){
+			inline int returnNumFeatures() const{
 				return numFeatures;
 			}
-			inline int returnNumObservations(){
+			inline int returnNumObservations() const{
 				return numObservations;
 			}
 
-			inline void setNumClasses(int numC){
+			inline void setNumClasses(const int& numC){
 				numClasses = numC;
 			}
 
-			inline void setNumFeatures(int numF){
+			inline void setNumFeatures(const int& numF){
 				numFeatures = numF;
 			}
 
-			inline void setNumObservations(int numO){
+			inline void setNumObservations(const int& numO){
 				numObservations = numO;
 			}
 
-			inline int returnNumTrees(){
+			inline int returnNumTrees() const{
 				return numTreesInForest;
 			}
 

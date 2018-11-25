@@ -4,9 +4,13 @@
 #include "fpData.h"
 #include "fpInfo.h"
 #include <string>
-//#include <memory>
 
 namespace fp {
+
+	/**
+	 * fpSingleton combines the data (fpData) and the forest parameters (fpInfo).
+	 * As a singleton, fpSingleton is available to all functions.
+	 */
 
 	class fpSingleton{
 
@@ -86,7 +90,7 @@ namespace fp {
 				return fpForestInfo.returnNumFeatures();
 			}
 
-			inline int returnNumObservations(){
+			inline int returnNumObservations() const{
 				return fpForestInfo.returnNumObservations();
 			}
 
@@ -102,7 +106,7 @@ namespace fp {
 				return data.returnFeatureVal(featureNumber, observationNumber);
 			}
 
-inline void prefetchFeatureVal(const int featureNumber, const int observationNumber){
+			inline void prefetchFeatureVal(const int featureNumber, const int observationNumber){
 				data.prefetchFeatureVal(featureNumber, observationNumber);
 			}
 
@@ -141,13 +145,8 @@ inline void prefetchFeatureVal(const int featureNumber, const int observationNum
 				return *this;
 			}
 
-			//void initializeSingleton(){
-			//	fpSingleton * fpSingleton::infoSetting = nullptr;
-			//}
-
 	}; // class fpSingleton
 	fpSingleton * fpSingleton::infoSetting = nullptr;
-	//initializeSingleton()
 
 } //namespace fp
 #endif //fpSingleton.h

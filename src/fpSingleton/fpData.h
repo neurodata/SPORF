@@ -4,40 +4,46 @@
 #include "fpDataSet.h"
 #include "fpInfo.h"
 #include <string>
-//#include <memory>
 
 namespace fp {
+
+	/**
+	 * fpData holds both the training and test data.  This data gets loaded
+	 * from fpDataset.
+	 *
+	 * TODO: This is not a good way to do this.  There is nothing different
+	 * from training data and test data.  This is wrong.  test data should 
+	 * be stored by observation whereas training data is stored by feature.
+	 */
 
 	class fpData{
 
 		protected:
-			// data input
-			//	std::string forestCSVFileName;
-			//	int columnWithY;
 			inputData<double, int>* inData;
 			testData<double, int>* inTestData;
-			//			fpSingleton* forestInfo;
 
 		public:
 
 			fpData(){
-				//forestInfo = fpSingleton::getSingleton();
 			}
 
 			~fpData(){
-if(inData != NULL){
+				if(inData != NULL){
 					delete inData;
 					inData = NULL;
 				}
-if(inTestData != NULL){
+				if(inTestData != NULL){
 					delete inTestData;
 					inTestData = NULL;
 				}
 			}
 
+
 			inline bool loadDataFromCSV(fpInfo& settings){
 				return settings.loadDataFromCSV();
 			}
+
+
 			void fpLoadData(fpInfo& settings){
 				if(loadDataFromCSV(settings)){
 					inData = new inputData<double,int>(settings.returnCSVFileName(), settings.returnColumnWithY());
@@ -57,9 +63,11 @@ if(inTestData != NULL){
 				}
 			}
 
+
 			inline int returnNumClasses(){
 				return inData->returnNumClasses();
 			}
+
 
 			inline int returnNumFeatures(){
 				return inData->returnNumFeatures();
@@ -77,7 +85,7 @@ if(inTestData != NULL){
 				return inData->returnFeatureValue(featureNumber, observationNumber);
 			}
 
-inline void prefetchFeatureVal(const int featureNumber, const int observationNumber){
+			inline void prefetchFeatureVal(const int featureNumber, const int observationNumber){
 				inData->prefetchFeatureValue(featureNumber, observationNumber);
 			}
 
@@ -89,11 +97,12 @@ inline void prefetchFeatureVal(const int featureNumber, const int observationNum
 				settings.setNumClasses(this->returnNumClasses());
 			}
 
-inline int returnNumTestObservations(){
+
+			inline int returnNumTestObservations(){
 				return inTestData->returnNumObservations();
 			}
-			
-inline void setTestDataRelatedParameters(fpInfo& settings){
+
+			inline void setTestDataRelatedParameters(fpInfo& settings){
 				settings.setNumObservations(this->returnNumTestObservations());
 			}
 
@@ -107,8 +116,7 @@ inline void setTestDataRelatedParameters(fpInfo& settings){
 			}
 
 
-
-void fpDeleteTestData(){
+			void fpDeleteTestData(){
 				if(inTestData != NULL){
 					delete inTestData;
 					inTestData = NULL;
@@ -117,7 +125,6 @@ void fpDeleteTestData(){
 				}
 			}
 
-			
 
 			inline int returnTestLabel(int observationNumber){
 				return inTestData->returnClassOfObservation(observationNumber);

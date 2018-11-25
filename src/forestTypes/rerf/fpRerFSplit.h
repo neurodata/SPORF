@@ -1,7 +1,7 @@
-#ifndef fpSplit_h
-#define fpSplit_h
+#ifndef fpRerFSplit_h
+#define fpRerFSplit_h
 
-#include "timeLogger.h"
+#include "../../baseFunctions/timeLogger.h"
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -10,17 +10,17 @@
 namespace fp{
 
 	template<typename T>
-		class splitInfo
+		class splitRerFInfo
 		{
 			protected:
 				double impurity;
 				double leftImpurity;
 				double rightImpurity;
-				int featureNum;
+				std::vector<int> featureNum;
 				T splitValue;
 
 			public:
-				splitInfo(): impurity(std::numeric_limits<double>::max()), leftImpurity(-1), rightImpurity(-1), featureNum(-1), splitValue(0){}
+				splitRerFInfo(): impurity(std::numeric_limits<double>::max()), leftImpurity(-1), rightImpurity(-1), splitValue(0){}
 
 				inline void setSplitValue(T sVal){
 					splitValue = sVal;
@@ -38,32 +38,32 @@ namespace fp{
 				}
 
 				inline void setLeftImpurity(float gVal){
-				leftImpurity = gVal;
+					leftImpurity = gVal;
 				}
 				inline double returnLeftImpurity(){
 					return leftImpurity;
 				}
 
 				inline void setRightImpurity(double gVal){
-				rightImpurity = gVal;
+					rightImpurity = gVal;
 				}
 
 				inline double returnRightImpurity(){
 					return rightImpurity;
-}
+				}
 
-				inline void setFeatureNum(int fNum){
+				inline void addFeatureNums(std::vector<int> fNum){
 					featureNum = fNum;
 				}
 
-				inline int returnFeatureNum(){
+				inline std::vector<int>& returnFeatureNum(){
 					return featureNum;
 				}
 		};
 
 
 	template<typename T>
-		class labeledData
+		class labeledRerFData
 		{
 			protected:
 				T dataElement;
@@ -71,7 +71,7 @@ namespace fp{
 
 			public:
 
-				inline bool operator < (const labeledData<T>& otherData) const
+				inline bool operator < (const labeledRerFData<T>& otherData) const
 				{
 					return dataElement < otherData.dataElement;
 				}
@@ -84,12 +84,12 @@ namespace fp{
 					return dataElement;
 				}
 
-				inline T midVal (const labeledData<T>& otherData) const
+				inline T midVal (const labeledRerFData<T>& otherData) const
 				{
 					return (dataElement + otherData.dataElement)/2.0;
 				}
 
-				inline bool checkInequality(const labeledData<T>& otherData){
+				inline bool checkInequality(const labeledRerFData<T>& otherData){
 					return dataElement != otherData.dataElement;
 				}
 
@@ -100,7 +100,7 @@ namespace fp{
 		};
 
 
-	class classTotals{
+	class classRerFTotals{
 		protected:
 			int maxClass;
 			int totalNumObj;
@@ -108,7 +108,7 @@ namespace fp{
 			std::vector<float> classVec;
 
 		public:
-			classTotals() : maxClass(-1), totalNumObj(0), impurity(-1){}
+			classRerFTotals() : maxClass(-1), totalNumObj(0), impurity(-1){}
 
 			inline int returnLargestClass(){
 				int largestClass=-1; 
@@ -190,20 +190,20 @@ namespace fp{
 
 
 	template<typename T>
-		class split{
+		class splitRerF{
 			protected:
 				double overallImpurity;
-				classTotals leftClasses;
-				classTotals rightClasses;
+				classRerFTotals leftClasses;
+				classRerFTotals rightClasses;
 
 				std::vector<int> labels;
-				std::vector< labeledData<T> > combinedDataLabels;
+				std::vector< labeledRerFData<T> > combinedDataLabels;
 
 				inline void setCombinedVecSize(){
 					combinedDataLabels.resize(labels.size());
 				}
 
-				inline void zipDataLabels(const std::vector<T>& featureVals){
+				inline void zipDataLabels(std::vector<T> featureVals){
 					for(unsigned int i=0; i<labels.size(); ++i){
 						combinedDataLabels[i].setPair(featureVals[i],labels[i]);
 					}
@@ -228,7 +228,7 @@ namespace fp{
 				}
 
 			public:
-				split(const std::vector<int>& labelVector): labels(labelVector){
+				splitRerF(const std::vector<int>& labelVector): labels(labelVector){
 					rightClasses.findNumClasses(labels);
 					leftClasses.setClassVecSize(rightClasses.returnClassVecSize());
 					this->setCombinedVecSize();
@@ -240,14 +240,14 @@ namespace fp{
 				}
 
 
-				splitInfo<T> giniSplit(const std::vector<T>& featureVals, int featureNum){
+				splitRerFInfo<T> giniSplit(const std::vector<T>& featureVals, const std::vector<int>& featureNums){
 					double tempImpurity;
 					int numLabels = labels.size();
-				//	timeLogger logTime;
+					//	timeLogger logTime;
 
 					// initialize return value
-					splitInfo<T> currSplitInfo;
-					currSplitInfo.setFeatureNum(featureNum);
+					splitRerFInfo<T> currSplitInfo;
+					currSplitInfo.addFeatureNums(featureNums);
 
 					// zip data and labels
 					zipDataLabels(featureVals);
@@ -262,7 +262,7 @@ namespace fp{
 
 						if(checkInequalityWithNext(i)){
 							tempImpurity = leftClasses.calcAndReturnImpurity() + rightClasses.calcAndReturnImpurity();
-							
+
 							if(tempImpurity < currSplitInfo.returnImpurity() && tempImpurity != overallImpurity){
 								currSplitInfo.setImpurity(tempImpurity);
 								currSplitInfo.setSplitValue(midVal(i));
@@ -274,8 +274,8 @@ namespace fp{
 
 					if(currSplitInfo.returnImpurity() == overallImpurity){
 						std::cout << "it happened\n";
-exit(1); //should never happen.  Why?
-								currSplitInfo.setImpurity(-1);
+						exit(1); //should never happen.  Why?
+						currSplitInfo.setImpurity(-1);
 					}
 					//logTime.startFindSplitTimer();
 					setupForNextRun();
@@ -286,4 +286,4 @@ exit(1); //should never happen.  Why?
 		};
 
 }//namespace fp
-#endif //fpSplit_h
+#endif //fpRerFSplit_h

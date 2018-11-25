@@ -1,5 +1,4 @@
-#include "baseFunctions/fpUtils.h"
-#include "fpSingleton/fpSingleton.h"
+#include "packedForest.h"
 #include <iostream>
 #include <exception>
 
@@ -18,7 +17,8 @@ logTime.printGrowTime();
 */	
 	try{
 		fp::fpForest forest;
-		forest.setParameter("forestType", "rfBase");
+		forest.setParameter("forestType", "rerf");
+		//forest.setParameter("forestType", "rfBase");
 		forest.setParameter("numTreesInForest", 10);
 		forest.setParameter("minParent", 1);
 //		forest.setParameter("numClasses", 5);

@@ -72,11 +72,11 @@ namespace fp {
 				loadData();
 				initializeForestType();
 				setDataDependentParameters();
-				timeLogger x;
-				x.startGrowTimer();
+				//timeLogger x;
+				//x.startGrowTimer();
 				forest->growForest();
-				x.stopGrowTimer();
-				x.printGrowTime();
+				//x.stopGrowTimer();
+				//x.printGrowTime();
 				deleteData();
 			}
 
