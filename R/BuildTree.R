@@ -21,7 +21,7 @@
 #' @return Tree
 #'
 #' @examples
-#' 
+#'
 #' x <- iris[, -5]
 #' y <- as.numeric(iris[, 5])
 #' # BuildTree(x, y, RandMatBinary, p = 4, d = 4, rho = 0.25, prob = 0.5)
@@ -200,12 +200,9 @@ BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, repl
     # determine class proportions in the node
     ClassCounts <- tabulate(Y[Assigned2Node[[CurrentNode]]], nClasses)
     ClProb <- ClassCounts / NdSize
-    if (any(is.nan(ClProb))) {
-      return(BuildTree(X, Y, FUN, paramList, min.parent, max.depth, bagging, replacement, stratify, class.ind, class.ct, store.oob, store.impurity, progress, rotate))
-    }
     # compute impurity for current node
     I <- sum(ClassCounts * (1 - ClProb))
-    # check to see if node split should be attempted
+    # check to see if we should continue with a node split or just make a leaf node
     if (NdSize < min.parent ||
       I <= 0 ||
       NDepth[CurrentNode] == max.depth) {
@@ -301,6 +298,18 @@ BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, repl
     MoveLeft <- Xnode[1L:NdSize] <= ret$BestSplit
 
     # Move samples left or right based on split
+    if (sum(MoveLeft) == 0 || sum(!MoveLeft) == 0){
+      treeMap[CurrentNode] <- currLN <- currLN - 1L
+      ClassProb[currLN * -1, ] <- ClProb
+      NodeStack <- NodeStack[-1L] # pop node off stack
+      Assigned2Node[[CurrentNode]] <- NA # remove saved indexes
+      CurrentNode <- NodeStack[1L] # point to top of stack
+      if (is.na(CurrentNode)) {
+        break
+      }
+      next
+    }
+
     Assigned2Node[[NextUnusedNode]] <- Assigned2Node[[CurrentNode]][MoveLeft]
     Assigned2Node[[NextUnusedNode + 1L]] <- Assigned2Node[[CurrentNode]][!MoveLeft]
 
