@@ -116,7 +116,7 @@ class fp\+::rf\+Tree$<$ T $>$}
 
 
 
-Definition at line 12 of file rf\+Tree.\+h.
+Definition at line 11 of file rf\+Tree.\+h.
 
 
 
@@ -130,11 +130,11 @@ Definition at line 12 of file rf\+Tree.\+h.
 
 
 
-Definition at line 22 of file rf\+Tree.\+h.
+Definition at line 21 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-22 : \hyperlink{classfp_1_1rfTree_a673f85d4df6f292a1819351c092a07e1}{OOBAccuracy}(-1.0),\hyperlink{classfp_1_1rfTree_a83832650bcea8d63cdcd480d9ddc6e6e}{correctOOB}(0),\hyperlink{classfp_1_1rfTree_aa200dc228adc20c12e514364d2b674df}{totalOOB}(0)\{\}
+21 : \hyperlink{classfp_1_1rfTree_a673f85d4df6f292a1819351c092a07e1}{OOBAccuracy}(-1.0),\hyperlink{classfp_1_1rfTree_a83832650bcea8d63cdcd480d9ddc6e6e}{correctOOB}(0),\hyperlink{classfp_1_1rfTree_aa200dc228adc20c12e514364d2b674df}{totalOOB}(0)\{\}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1rfTree_aace007592f5b94dd9c045207354ea7a6}\label{classfp_1_1rfTree_aace007592f5b94dd9c045207354ea7a6}} 
 \index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!rf\+Tree@{rf\+Tree}}
@@ -163,15 +163,15 @@ void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::check\+O\+OB (\be
 
 
 
-Definition at line 99 of file rf\+Tree.\+h.
+Definition at line 93 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-99                                       \{
-100                     \hyperlink{classfp_1_1rfTree_aa200dc228adc20c12e514364d2b674df}{totalOOB} += \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnOutSampleSize();
-101                     \hyperlink{classfp_1_1rfTree_a83832650bcea8d63cdcd480d9ddc6e6e}{correctOOB} += \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnOutSampleError(
-      \hyperlink{classtree}{tree}.back().returnClass());
-102                 \}
+93                                       \{
+94                     \hyperlink{classfp_1_1rfTree_aa200dc228adc20c12e514364d2b674df}{totalOOB} += \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnOutSampleSize();
+95                     \hyperlink{classfp_1_1rfTree_a83832650bcea8d63cdcd480d9ddc6e6e}{correctOOB} += \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnOutSampleError(
+      \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().returnClass());
+96                 \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1rfTree_a45e47b318c90a1359840ab6161f20ab1}\label{classfp_1_1rfTree_a45e47b318c90a1359840ab6161f20ab1}} 
 \index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!check\+O\+OB@{check\+O\+OB}}
@@ -189,7 +189,7 @@ Definition at line 99 of file small\+Sample\+Tree.\+h.
 99                                       \{
 100                     \hyperlink{classfp_1_1rfTree_aa200dc228adc20c12e514364d2b674df}{totalOOB} += \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnOutSampleSize();
 101                     \hyperlink{classfp_1_1rfTree_a83832650bcea8d63cdcd480d9ddc6e6e}{correctOOB} += \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnOutSampleError(
-      \hyperlink{classtree}{tree}.back().returnClass());
+      \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().returnClass());
 102                 \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1rfTree_ad226037e7f93c0fa2a1a960e19a87bed}\label{classfp_1_1rfTree_ad226037e7f93c0fa2a1a960e19a87bed}} 
@@ -201,32 +201,32 @@ void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::create\+Children 
 
 
 
-Definition at line 134 of file small\+Sample\+Tree.\+h.
+Definition at line 128 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-134                                             \{
-135                     \textcolor{keywordtype}{bool} isLeftNode = \textcolor{keyword}{true};
-136 
-137                         \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().moveDataLeftOrRight();
-138 
-139                     stratifiedInNodeClassIndices* leftIndices = \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnLeftIndices
+128                                             \{
+129                     \textcolor{keywordtype}{bool} isLeftNode = \textcolor{keyword}{true};
+130 
+131                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().moveDataLeftOrRight();
+132 
+133                     stratifiedInNodeClassIndices* leftIndices = \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnLeftIndices
       ();
-140                     stratifiedInNodeClassIndices* rightIndices = \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().
+134                     stratifiedInNodeClassIndices* rightIndices = \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().
       returnRightIndices();
-141 
-142                     \textcolor{keywordtype}{int} childDepth = \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnDepth()+1;
-143 
-144                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.pop\_back();
-145 
-146                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.emplace\_back(\hyperlink{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}{returnLastNodeID}(),childDepth, 
+135 
+136                     \textcolor{keywordtype}{int} childDepth = \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnDepth()+1;
+137 
+138                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.pop\_back();
+139 
+140                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.emplace\_back(\hyperlink{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}{returnLastNodeID}(),childDepth, 
       isLeftNode);
-147                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().loadIndices(leftIndices);
-148 
-149                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.emplace\_back(\hyperlink{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}{returnLastNodeID}(),childDepth, !
+141                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().loadIndices(leftIndices);
+142 
+143                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.emplace\_back(\hyperlink{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}{returnLastNodeID}(),childDepth, !
       isLeftNode);
-150                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().loadIndices(rightIndices);
-151                 \}
+144                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().loadIndices(rightIndices);
+145                 \}
 \end{DoxyCode}
 Here is the call graph for this function\+:
 \nopagebreak
@@ -245,7 +245,7 @@ void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::create\+Children 
 
 
 
-Definition at line 134 of file rf\+Tree.\+h.
+Definition at line 134 of file small\+Sample\+Tree.\+h.
 
 
 \begin{DoxyCode}
@@ -289,17 +289,17 @@ void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::create\+Node\+In\
 
 
 
-Definition at line 119 of file small\+Sample\+Tree.\+h.
+Definition at line 113 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-119                                               \{
-120                     \hyperlink{classtree}{tree}.emplace\_back();
-121                     \hyperlink{classfp_1_1rfTree_aceaedc5d54bb429c1a3539f164a93d45}{linkParentToChild}();
-122                     \hyperlink{classtree}{tree}.back().setCutValue(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnBestCutValue());
-123                     \hyperlink{classtree}{tree}.back().setFeatureValue(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnBestFeature());
-124                     \hyperlink{classtree}{tree}.back().setDepth(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnDepth());
-125                 \}
+113                                               \{
+114                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.emplace\_back();
+115                     \hyperlink{classfp_1_1rfTree_aceaedc5d54bb429c1a3539f164a93d45}{linkParentToChild}();
+116                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setCutValue(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnBestCutValue());
+117                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setFeatureValue(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnBestFeature());
+118                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setDepth(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnDepth());
+119                 \}
 \end{DoxyCode}
 Here is the call graph for this function\+:
 \nopagebreak
@@ -318,16 +318,16 @@ void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::create\+Node\+In\
 
 
 
-Definition at line 119 of file rf\+Tree.\+h.
+Definition at line 119 of file small\+Sample\+Tree.\+h.
 
 
 \begin{DoxyCode}
 119                                               \{
-120                     \hyperlink{classtree}{tree}.emplace\_back();
+120                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.emplace\_back();
 121                     \hyperlink{classfp_1_1rfTree_aceaedc5d54bb429c1a3539f164a93d45}{linkParentToChild}();
-122                     \hyperlink{classtree}{tree}.back().setCutValue(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnBestCutValue());
-123                     \hyperlink{classtree}{tree}.back().setFeatureValue(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnBestFeature());
-124                     \hyperlink{classtree}{tree}.back().setDepth(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnDepth());
+122                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setCutValue(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnBestCutValue());
+123                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setFeatureValue(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnBestFeature());
+124                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setDepth(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnDepth());
 125                 \}
 \end{DoxyCode}
 Here is the call graph for this function\+:
@@ -347,13 +347,13 @@ void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::find\+The\+Best\+
 
 
 
-Definition at line 154 of file rf\+Tree.\+h.
+Definition at line 148 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-154                                               \{
-155                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().findBestSplit();
-156                 \}
+148                                               \{
+149                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().findBestSplit();
+150                 \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1rfTree_a51da8e4a46582b26643a4ae392230e77}\label{classfp_1_1rfTree_a51da8e4a46582b26643a4ae392230e77}} 
 \index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!find\+The\+Best\+Split@{find\+The\+Best\+Split}}
@@ -381,14 +381,14 @@ void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::grow\+Tree (\begi
 
 
 
-Definition at line 192 of file rf\+Tree.\+h.
+Definition at line 186 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-192                                \{
-193                     \hyperlink{classfp_1_1rfTree_a8757adc28b68d0a99f95b8bc5d6a38db}{loadFirstNode}();
-194                     \hyperlink{classfp_1_1rfTree_a7997df3477bc9f73163384c8cd0bcec9}{processNodes}();
-195                 \}
+186                                \{
+187                     \hyperlink{classfp_1_1rfTree_a8757adc28b68d0a99f95b8bc5d6a38db}{loadFirstNode}();
+188                     \hyperlink{classfp_1_1rfTree_a7997df3477bc9f73163384c8cd0bcec9}{processNodes}();
+189                 \}
 \end{DoxyCode}
 Here is the call graph for this function\+:
 \nopagebreak
@@ -433,19 +433,19 @@ void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::link\+Parent\+To\
 
 
 
-Definition at line 51 of file rf\+Tree.\+h.
+Definition at line 45 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-51                                                \{
-52                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnIsLeftNode())\{
-53                         \hyperlink{classtree}{tree}[\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnParentID()].setLeftValue(
+45                                                \{
+46                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnIsLeftNode())\{
+47                         \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnParentID()].setLeftValue(
       \hyperlink{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}{returnLastNodeID}());
-54                     \}\textcolor{keywordflow}{else}\{
-55                         \hyperlink{classtree}{tree}[\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnParentID()].setRightValue(
+48                     \}\textcolor{keywordflow}{else}\{
+49                         \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnParentID()].setRightValue(
       \hyperlink{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}{returnLastNodeID}());
-56                     \}
-57                 \}
+50                     \}
+51                 \}
 \end{DoxyCode}
 Here is the call graph for this function\+:
 \nopagebreak
@@ -470,10 +470,10 @@ Definition at line 51 of file small\+Sample\+Tree.\+h.
 \begin{DoxyCode}
 51                                                \{
 52                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnIsLeftNode())\{
-53                         \hyperlink{classtree}{tree}[\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnParentID()].setLeftValue(
+53                         \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnParentID()].setLeftValue(
       \hyperlink{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}{returnLastNodeID}());
 54                     \}\textcolor{keywordflow}{else}\{
-55                         \hyperlink{classtree}{tree}[\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnParentID()].setRightValue(
+55                         \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnParentID()].setRightValue(
       \hyperlink{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}{returnLastNodeID}());
 56                     \}
 57                 \}
@@ -495,14 +495,14 @@ void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::load\+First\+Node
 
 
 
-Definition at line 24 of file rf\+Tree.\+h.
+Definition at line 23 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-24                                     \{
-25                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.emplace\_back(\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+23                                     \{
+24                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.emplace\_back(\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
       returnNumObservations());
-26                 \}
+25                 \}
 \end{DoxyCode}
 Here is the call graph for this function\+:
 \nopagebreak
@@ -547,14 +547,14 @@ void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::make\+Node\+Inter
 
 
 
-Definition at line 128 of file small\+Sample\+Tree.\+h.
+Definition at line 122 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-128                                               \{
-129                     \hyperlink{classfp_1_1rfTree_aaf9d8cdfbb1d10da53a375ea8204e393}{createNodeInTree}();
-130                     \hyperlink{classfp_1_1rfTree_ad226037e7f93c0fa2a1a960e19a87bed}{createChildren}();
-131                 \}
+122                                               \{
+123                     \hyperlink{classfp_1_1rfTree_aaf9d8cdfbb1d10da53a375ea8204e393}{createNodeInTree}();
+124                     \hyperlink{classfp_1_1rfTree_ad226037e7f93c0fa2a1a960e19a87bed}{createChildren}();
+125                 \}
 \end{DoxyCode}
 Here is the call graph for this function\+:
 \nopagebreak
@@ -573,7 +573,7 @@ void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::make\+Node\+Inter
 
 
 
-Definition at line 128 of file rf\+Tree.\+h.
+Definition at line 128 of file small\+Sample\+Tree.\+h.
 
 
 \begin{DoxyCode}
@@ -599,17 +599,17 @@ void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::make\+Whole\+Node
 
 
 
-Definition at line 105 of file small\+Sample\+Tree.\+h.
+Definition at line 99 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-105                                                 \{
-106                     \hyperlink{classtree}{tree}.emplace\_back();
-107                     \hyperlink{classfp_1_1rfTree_aceaedc5d54bb429c1a3539f164a93d45}{linkParentToChild}();
-108                     \hyperlink{classfp_1_1rfTree_a3583e1f1659ba9a9013a4891709bacb9}{setAsLeaf}();
-109                     \hyperlink{classfp_1_1rfTree_a45e47b318c90a1359840ab6161f20ab1}{checkOOB}();
-110                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.pop\_back();
-111                 \}
+99                                                 \{
+100                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.emplace\_back();
+101                     \hyperlink{classfp_1_1rfTree_aceaedc5d54bb429c1a3539f164a93d45}{linkParentToChild}();
+102                     \hyperlink{classfp_1_1rfTree_a3583e1f1659ba9a9013a4891709bacb9}{setAsLeaf}();
+103                     \hyperlink{classfp_1_1rfTree_a45e47b318c90a1359840ab6161f20ab1}{checkOOB}();
+104                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.pop\_back();
+105                 \}
 \end{DoxyCode}
 Here is the call graph for this function\+:
 \nopagebreak
@@ -628,12 +628,12 @@ void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::make\+Whole\+Node
 
 
 
-Definition at line 105 of file rf\+Tree.\+h.
+Definition at line 105 of file small\+Sample\+Tree.\+h.
 
 
 \begin{DoxyCode}
 105                                                 \{
-106                     \hyperlink{classtree}{tree}.emplace\_back();
+106                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.emplace\_back();
 107                     \hyperlink{classfp_1_1rfTree_aceaedc5d54bb429c1a3539f164a93d45}{linkParentToChild}();
 108                     \hyperlink{classfp_1_1rfTree_a3583e1f1659ba9a9013a4891709bacb9}{setAsLeaf}();
 109                     \hyperlink{classfp_1_1rfTree_a45e47b318c90a1359840ab6161f20ab1}{checkOOB}();
@@ -657,14 +657,14 @@ bool \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::no\+Good\+Split\+
 
 
 
-Definition at line 159 of file rf\+Tree.\+h.
+Definition at line 153 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-159                                               \{
-160                     \textcolor{comment}{//return nodeQueue.back().returnBestImpurity() < 0;}
-161                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnBestFeature() == -1;
-162                 \}
+153                                               \{
+154                     \textcolor{comment}{//return nodeQueue.back().returnBestImpurity() < 0;}
+155                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnBestFeature() == -1;
+156                 \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1rfTree_a618bdc2d22267b4bb4f5e1881b1788f6}\label{classfp_1_1rfTree_a618bdc2d22267b4bb4f5e1881b1788f6}} 
 \index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!no\+Good\+Split\+Found@{no\+Good\+Split\+Found}}
@@ -693,22 +693,22 @@ int \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::predict\+Observati
 
 
 
-Definition at line 198 of file rf\+Tree.\+h.
+Definition at line 192 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-198                                                           \{
-199                     \textcolor{keywordtype}{int} currNode = 0;
-200                     \textcolor{keywordtype}{int} featureNum = 0;
-201                     T featureVal;
-202                     \textcolor{keywordflow}{while}(\hyperlink{classtree}{tree}[currNode].isInternalNode())\{
-203                         featureNum = \hyperlink{classtree}{tree}[currNode].returnFeatureNumber();
-204                         featureVal =\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+192                                                           \{
+193                     \textcolor{keywordtype}{int} currNode = 0;
+194                     \textcolor{keywordtype}{int} featureNum = 0;
+195                     T featureVal;
+196                     \textcolor{keywordflow}{while}(\hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[currNode].isInternalNode())\{
+197                         featureNum = \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[currNode].returnFeatureNumber();
+198                         featureVal =\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
       \hyperlink{classfp_1_1fpSingleton_ad74b421d65b17ba924244bff31fc9db6}{returnTestFeatureVal}(featureNum,observationNum);
-205                         currNode = \hyperlink{classtree}{tree}[currNode].nextNode(featureVal);
-206                     \}
-207                     \textcolor{keywordflow}{return} \hyperlink{classtree}{tree}[currNode].returnClass();
-208                 \}
+199                         currNode = \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[currNode].nextNode(featureVal);
+200                     \}
+201                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[currNode].returnClass();
+202                 \}
 \end{DoxyCode}
 Here is the call graph for this function\+:
 \nopagebreak
@@ -735,13 +735,13 @@ Definition at line 198 of file small\+Sample\+Tree.\+h.
 199                     \textcolor{keywordtype}{int} currNode = 0;
 200                     \textcolor{keywordtype}{int} featureNum = 0;
 201                     T featureVal;
-202                     \textcolor{keywordflow}{while}(\hyperlink{classtree}{tree}[currNode].isInternalNode())\{
-203                         featureNum = \hyperlink{classtree}{tree}[currNode].returnFeatureNumber();
+202                     \textcolor{keywordflow}{while}(\hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[currNode].isInternalNode())\{
+203                         featureNum = \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[currNode].returnFeatureNumber();
 204                         featureVal =\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
       \hyperlink{classfp_1_1fpSingleton_ad74b421d65b17ba924244bff31fc9db6}{returnTestFeatureVal}(featureNum,observationNum);
-205                         currNode = \hyperlink{classtree}{tree}[currNode].nextNode(featureVal);
+205                         currNode = \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[currNode].nextNode(featureVal);
 206                     \}
-207                     \textcolor{keywordflow}{return} \hyperlink{classtree}{tree}[currNode].returnClass();
+207                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[currNode].returnClass();
 208                 \}
 \end{DoxyCode}
 Here is the call graph for this function\+:
@@ -761,15 +761,15 @@ void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::print\+Tree (\beg
 
 
 
-Definition at line 113 of file small\+Sample\+Tree.\+h.
+Definition at line 107 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-113                                 \{
-114                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nd : \hyperlink{classtree}{tree})\{
-115                         nd.printNode();
-116                     \}
-117                 \}
+107                                 \{
+108                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nd : \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree})\{
+109                         nd.printNode();
+110                     \}
+111                 \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1rfTree_a89d982d5df6e068079d2fff5f6c15f58}\label{classfp_1_1rfTree_a89d982d5df6e068079d2fff5f6c15f58}} 
 \index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!print\+Tree@{print\+Tree}}
@@ -780,12 +780,12 @@ void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::print\+Tree (\beg
 
 
 
-Definition at line 113 of file rf\+Tree.\+h.
+Definition at line 113 of file small\+Sample\+Tree.\+h.
 
 
 \begin{DoxyCode}
 113                                 \{
-114                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nd : \hyperlink{classtree}{tree})\{
+114                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nd : \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree})\{
 115                         nd.printNode();
 116                     \}
 117                 \}
@@ -799,28 +799,28 @@ void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::process\+A\+Node 
 
 
 
-Definition at line 165 of file rf\+Tree.\+h.
+Definition at line 159 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-165                                           \{
-166                 \textcolor{comment}{//  timeLogger logTime;}
-167                 \textcolor{comment}{//  logTime.startSortTimer();}
-168                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().setupNode();
-169                 \textcolor{comment}{//  logTime.stopSortTimer();}
-170                 \textcolor{comment}{//  logTime.startGiniTimer();}
-171                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_a36abf82d31ca57670b09da16525dce0d}{shouldProcessNode}())\{
-172                         \hyperlink{classfp_1_1rfTree_a51da8e4a46582b26643a4ae392230e77}{findTheBestSplit}();
-173                         \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_a618bdc2d22267b4bb4f5e1881b1788f6}{noGoodSplitFound}())\{
-174                             \hyperlink{classfp_1_1rfTree_a2b2a47186c0784415609f1c9b005e702}{makeWholeNodeALeaf}();
-175                         \}\textcolor{keywordflow}{else}\{
-176                             \hyperlink{classfp_1_1rfTree_aaf7bbdde5f7313c3e84853bbf5fdf792}{makeNodeInternal}();
-177                         \}
-178                     \}\textcolor{keywordflow}{else}\{
-179                         \hyperlink{classfp_1_1rfTree_a2b2a47186c0784415609f1c9b005e702}{makeWholeNodeALeaf}();
-180                     \}
-181                 \textcolor{comment}{//  logTime.stopGiniTimer();}
-182                 \}
+159                                           \{
+160                     \textcolor{comment}{//  timeLogger logTime;}
+161                     \textcolor{comment}{//  logTime.startSortTimer();}
+162                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().setupNode();
+163                     \textcolor{comment}{//  logTime.stopSortTimer();}
+164                     \textcolor{comment}{//  logTime.startGiniTimer();}
+165                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_a36abf82d31ca57670b09da16525dce0d}{shouldProcessNode}())\{
+166                         \hyperlink{classfp_1_1rfTree_a51da8e4a46582b26643a4ae392230e77}{findTheBestSplit}();
+167                         \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_a618bdc2d22267b4bb4f5e1881b1788f6}{noGoodSplitFound}())\{
+168                             \hyperlink{classfp_1_1rfTree_a2b2a47186c0784415609f1c9b005e702}{makeWholeNodeALeaf}();
+169                         \}\textcolor{keywordflow}{else}\{
+170                             \hyperlink{classfp_1_1rfTree_aaf7bbdde5f7313c3e84853bbf5fdf792}{makeNodeInternal}();
+171                         \}
+172                     \}\textcolor{keywordflow}{else}\{
+173                         \hyperlink{classfp_1_1rfTree_a2b2a47186c0784415609f1c9b005e702}{makeWholeNodeALeaf}();
+174                     \}
+175                     \textcolor{comment}{//  logTime.stopGiniTimer();}
+176                 \}
 \end{DoxyCode}
 Here is the call graph for this function\+:
 \nopagebreak
@@ -879,15 +879,15 @@ void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::process\+Nodes (\
 
 
 
-Definition at line 185 of file small\+Sample\+Tree.\+h.
+Definition at line 179 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-185                                    \{
-186                     \textcolor{keywordflow}{while}(!\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.empty())\{
-187                         \hyperlink{classfp_1_1rfTree_ab7760333f6857ab7ce2ee29a7bc16e65}{processANode}();
-188                     \}
-189                 \}
+179                                    \{
+180                     \textcolor{keywordflow}{while}(!\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.empty())\{
+181                         \hyperlink{classfp_1_1rfTree_ab7760333f6857ab7ce2ee29a7bc16e65}{processANode}();
+182                     \}
+183                 \}
 \end{DoxyCode}
 Here is the call graph for this function\+:
 \nopagebreak
@@ -906,7 +906,7 @@ void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::process\+Nodes (\
 
 
 
-Definition at line 185 of file rf\+Tree.\+h.
+Definition at line 185 of file small\+Sample\+Tree.\+h.
 
 
 \begin{DoxyCode}
@@ -933,13 +933,13 @@ int \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::return\+Last\+Node
 
 
 
-Definition at line 47 of file small\+Sample\+Tree.\+h.
+Definition at line 41 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-47                                              \{
-48                     \textcolor{keywordflow}{return} \hyperlink{classtree}{tree}.size()-1;
-49                 \}
+41                                              \{
+42                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.size()-1;
+43                 \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}\label{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}} 
 \index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!return\+Last\+Node\+ID@{return\+Last\+Node\+ID}}
@@ -950,12 +950,12 @@ int \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::return\+Last\+Node
 
 
 
-Definition at line 47 of file rf\+Tree.\+h.
+Definition at line 47 of file small\+Sample\+Tree.\+h.
 
 
 \begin{DoxyCode}
 47                                              \{
-48                     \textcolor{keywordflow}{return} \hyperlink{classtree}{tree}.size()-1;
+48                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.size()-1;
 49                 \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1rfTree_a7e0126c03547b4e6ed25b1c452255bbe}\label{classfp_1_1rfTree_a7e0126c03547b4e6ed25b1c452255bbe}} 
@@ -967,19 +967,19 @@ int \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::return\+Leaf\+Dept
 
 
 
-Definition at line 82 of file rf\+Tree.\+h.
+Definition at line 76 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-82                                                \{
-83                     \textcolor{keywordtype}{int} leafDepthSums=0;
-84                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nodes : \hyperlink{classtree}{tree})\{
-85                         \textcolor{keywordflow}{if}(!nodes.isInternalNode())\{
-86                             leafDepthSums += nodes.returnDepth();
-87                         \}
-88                     \}
-89                     \textcolor{keywordflow}{return} leafDepthSums;
-90                 \}
+76                                                \{
+77                     \textcolor{keywordtype}{int} leafDepthSums=0;
+78                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nodes : \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree})\{
+79                         \textcolor{keywordflow}{if}(!nodes.isInternalNode())\{
+80                             leafDepthSums += nodes.returnDepth();
+81                         \}
+82                     \}
+83                     \textcolor{keywordflow}{return} leafDepthSums;
+84                 \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1rfTree_a7e0126c03547b4e6ed25b1c452255bbe}\label{classfp_1_1rfTree_a7e0126c03547b4e6ed25b1c452255bbe}} 
 \index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!return\+Leaf\+Depth\+Sum@{return\+Leaf\+Depth\+Sum}}
@@ -996,7 +996,7 @@ Definition at line 82 of file small\+Sample\+Tree.\+h.
 \begin{DoxyCode}
 82                                                \{
 83                     \textcolor{keywordtype}{int} leafDepthSums=0;
-84                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nodes : \hyperlink{classtree}{tree})\{
+84                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nodes : \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree})\{
 85                         \textcolor{keywordflow}{if}(!nodes.isInternalNode())\{
 86                             leafDepthSums += nodes.returnDepth();
 87                         \}
@@ -1013,19 +1013,19 @@ int \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::return\+Max\+Depth
 
 
 
-Definition at line 60 of file rf\+Tree.\+h.
+Definition at line 54 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-60                                            \{
-61                     \textcolor{keywordtype}{int} maxDepth=0;
-62                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nodes : \hyperlink{classtree}{tree})\{
-63                         \textcolor{keywordflow}{if}(maxDepth < nodes.returnDepth())\{
-64                             maxDepth = nodes.returnDepth();
-65                         \}
-66                     \}
-67                     \textcolor{keywordflow}{return} maxDepth;
-68                 \}
+54                                            \{
+55                     \textcolor{keywordtype}{int} maxDepth=0;
+56                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nodes : \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree})\{
+57                         \textcolor{keywordflow}{if}(maxDepth < nodes.returnDepth())\{
+58                             maxDepth = nodes.returnDepth();
+59                         \}
+60                     \}
+61                     \textcolor{keywordflow}{return} maxDepth;
+62                 \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1rfTree_ab439134c1e24059fe74f84ac8eff78dd}\label{classfp_1_1rfTree_ab439134c1e24059fe74f84ac8eff78dd}} 
 \index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!return\+Max\+Depth@{return\+Max\+Depth}}
@@ -1042,7 +1042,7 @@ Definition at line 60 of file small\+Sample\+Tree.\+h.
 \begin{DoxyCode}
 60                                            \{
 61                     \textcolor{keywordtype}{int} maxDepth=0;
-62                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nodes : \hyperlink{classtree}{tree})\{
+62                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nodes : \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree})\{
 63                         \textcolor{keywordflow}{if}(maxDepth < nodes.returnDepth())\{
 64                             maxDepth = nodes.returnDepth();
 65                         \}
@@ -1059,19 +1059,19 @@ int \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::return\+Num\+Leaf\
 
 
 
-Definition at line 71 of file rf\+Tree.\+h.
+Definition at line 65 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-71                                                \{
-72                     \textcolor{keywordtype}{int} numLeafNodes=0;
-73                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nodes : \hyperlink{classtree}{tree})\{
-74                         \textcolor{keywordflow}{if}(!nodes.isInternalNode())\{
-75                             ++numLeafNodes;
-76                         \}
-77                     \}
-78                     \textcolor{keywordflow}{return} numLeafNodes;
-79                 \}
+65                                                \{
+66                     \textcolor{keywordtype}{int} numLeafNodes=0;
+67                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nodes : \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree})\{
+68                         \textcolor{keywordflow}{if}(!nodes.isInternalNode())\{
+69                             ++numLeafNodes;
+70                         \}
+71                     \}
+72                     \textcolor{keywordflow}{return} numLeafNodes;
+73                 \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1rfTree_a6474edd1b84d70be1712326f9a845139}\label{classfp_1_1rfTree_a6474edd1b84d70be1712326f9a845139}} 
 \index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!return\+Num\+Leaf\+Nodes@{return\+Num\+Leaf\+Nodes}}
@@ -1088,7 +1088,7 @@ Definition at line 71 of file small\+Sample\+Tree.\+h.
 \begin{DoxyCode}
 71                                                \{
 72                     \textcolor{keywordtype}{int} numLeafNodes=0;
-73                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nodes : \hyperlink{classtree}{tree})\{
+73                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nodes : \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree})\{
 74                         \textcolor{keywordflow}{if}(!nodes.isInternalNode())\{
 75                             ++numLeafNodes;
 76                         \}
@@ -1105,13 +1105,13 @@ float \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::return\+O\+OB (\
 
 
 
-Definition at line 43 of file rf\+Tree.\+h.
+Definition at line 37 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-43                                         \{
-44                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1rfTree_a83832650bcea8d63cdcd480d9ddc6e6e}{correctOOB}/\hyperlink{classfp_1_1rfTree_aa200dc228adc20c12e514364d2b674df}{totalOOB};
-45                 \}
+37                                         \{
+38                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1rfTree_a83832650bcea8d63cdcd480d9ddc6e6e}{correctOOB}/\hyperlink{classfp_1_1rfTree_aa200dc228adc20c12e514364d2b674df}{totalOOB};
+39                 \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1rfTree_aee6bf6e8e695392880f1cc9ac0102ba6}\label{classfp_1_1rfTree_aee6bf6e8e695392880f1cc9ac0102ba6}} 
 \index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!return\+O\+OB@{return\+O\+OB}}
@@ -1139,14 +1139,14 @@ void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::set\+As\+Leaf (\b
 
 
 
-Definition at line 93 of file rf\+Tree.\+h.
+Definition at line 87 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-93                                        \{
-94                     \hyperlink{classtree}{tree}.back().setClass(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnMaxClass());
-95                     \hyperlink{classtree}{tree}.back().setDepth(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnDepth());
-96                 \}
+87                                        \{
+88                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setClass(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnMaxClass());
+89                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setDepth(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnDepth());
+90                 \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1rfTree_a3583e1f1659ba9a9013a4891709bacb9}\label{classfp_1_1rfTree_a3583e1f1659ba9a9013a4891709bacb9}} 
 \index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!set\+As\+Leaf@{set\+As\+Leaf}}
@@ -1162,8 +1162,8 @@ Definition at line 93 of file small\+Sample\+Tree.\+h.
 
 \begin{DoxyCode}
 93                                        \{
-94                     \hyperlink{classtree}{tree}.back().setClass(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnMaxClass());
-95                     \hyperlink{classtree}{tree}.back().setDepth(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnDepth());
+94                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setClass(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnMaxClass());
+95                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setDepth(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnDepth());
 96                 \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1rfTree_a36abf82d31ca57670b09da16525dce0d}\label{classfp_1_1rfTree_a36abf82d31ca57670b09da16525dce0d}} 
@@ -1175,26 +1175,20 @@ bool \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::should\+Process\+
 
 
 
-Definition at line 28 of file small\+Sample\+Tree.\+h.
+Definition at line 27 of file rf\+Tree.\+h.
 
 
 \begin{DoxyCode}
-28                                                \{
-29                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnNodeImpurity()==0)\{
-30                         \textcolor{keywordflow}{return} \textcolor{keyword}{false};
-31                     \}
-32                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnInSampleSize() <= 
+27                                                \{
+28                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnNodeImpurity()==0)\{
+29                         \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+30                     \}
+31                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnInSampleSize() <= 
       \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().\hyperlink{classfp_1_1fpSingleton_a2d06406b6462099e0adb393218090420}{returnMinParent}())\{
-33                         \textcolor{keywordflow}{return} \textcolor{keyword}{false};
-34                     \}
-35                     \textcolor{comment}{/*}
-36 \textcolor{comment}{                         if(nodeQueue.back().returnDepth() >
-       fpSingleton::getSingleton().returnMinParent())\{}
-37 \textcolor{comment}{                         return false;}
-38 \textcolor{comment}{                         \}}
-39 \textcolor{comment}{                         */}
-40                     \textcolor{keywordflow}{return} \textcolor{keyword}{true};
-41                 \}
+32                         \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+33                     \}
+34                     \textcolor{keywordflow}{return} \textcolor{keyword}{true};
+35                 \}
 \end{DoxyCode}
 Here is the call graph for this function\+:
 \nopagebreak
@@ -1213,7 +1207,7 @@ bool \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::should\+Process\+
 
 
 
-Definition at line 28 of file rf\+Tree.\+h.
+Definition at line 28 of file small\+Sample\+Tree.\+h.
 
 
 \begin{DoxyCode}
@@ -1254,7 +1248,7 @@ float \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::correct\+O\+OB\h
 
 
 
-Definition at line 16 of file rf\+Tree.\+h.
+Definition at line 15 of file rf\+Tree.\+h.
 
 \mbox{\Hypertarget{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}\label{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}} 
 \index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!node\+Queue@{node\+Queue}}
@@ -1265,7 +1259,7 @@ std\+::vector$<$ \hyperlink{classfp_1_1unprocessedNode}{unprocessed\+Node}$<$ T 
 
 
 
-Definition at line 19 of file rf\+Tree.\+h.
+Definition at line 18 of file rf\+Tree.\+h.
 
 \mbox{\Hypertarget{classfp_1_1rfTree_a673f85d4df6f292a1819351c092a07e1}\label{classfp_1_1rfTree_a673f85d4df6f292a1819351c092a07e1}} 
 \index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!O\+O\+B\+Accuracy@{O\+O\+B\+Accuracy}}
@@ -1276,7 +1270,7 @@ float \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::O\+O\+B\+Accurac
 
 
 
-Definition at line 15 of file rf\+Tree.\+h.
+Definition at line 14 of file rf\+Tree.\+h.
 
 \mbox{\Hypertarget{classfp_1_1rfTree_aa200dc228adc20c12e514364d2b674df}\label{classfp_1_1rfTree_aa200dc228adc20c12e514364d2b674df}} 
 \index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!total\+O\+OB@{total\+O\+OB}}
@@ -1287,18 +1281,18 @@ float \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::total\+O\+OB\hsp
 
 
 
-Definition at line 17 of file rf\+Tree.\+h.
+Definition at line 16 of file rf\+Tree.\+h.
 
 \mbox{\Hypertarget{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}\label{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}} 
 \index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!tree@{tree}}
 \index{tree@{tree}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
 \subsubsection{\texorpdfstring{tree}{tree}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
-std\+::vector$<$ \hyperlink{classrfNode}{rf\+Node}$<$ T $>$ $>$ \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::\hyperlink{classtree}{tree}\hspace{0.3cm}{\ttfamily [protected]}}
+std\+::vector$<$ \hyperlink{classrfNode}{rf\+Node}$<$ T $>$ $>$ \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::tree\hspace{0.3cm}{\ttfamily [protected]}}
 
 
 
-Definition at line 18 of file rf\+Tree.\+h.
+Definition at line 17 of file rf\+Tree.\+h.
 
 
 

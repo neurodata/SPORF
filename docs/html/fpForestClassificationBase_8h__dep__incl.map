@@ -1,7 +1,5 @@
 <map id="src/forestTypes/rfClassification/fpForestClassificationBase.h" name="src/forestTypes/rfClassification/fpForestClassificationBase.h">
-<area shape="rect" id="node2" href="$fpForestFactory_8h.html" title="src/baseFunctions/fpForest\lFactory.h" alt="" coords="7,95,189,136"/>
-<area shape="rect" id="node3" href="$fpUtils_8h.html" title="src/baseFunctions/fpUtils.h" alt="" coords="5,184,188,211"/>
-<area shape="rect" id="node4" href="$rfTree_8h.html" title="src/forestTypes/rfClassification\l/rfTree.h" alt="" coords="124,259,328,300"/>
-<area shape="rect" id="node6" href="$fp_8cpp.html" title="src/fp.cpp" alt="" coords="19,266,99,293"/>
-<area shape="rect" id="node5" href="$smallSampleBase_8h.html" title="src/forestTypes/smallSample\l/smallSampleBase.h" alt="" coords="130,348,322,389"/>
+<area shape="rect" id="node2" href="$fpForestFactory_8h.html" title="src/baseFunctions/fpForest\lFactory.h" alt="" coords="17,95,198,136"/>
+<area shape="rect" id="node3" href="$packedForest_8h.html" title="src/packedForest.h" alt="" coords="40,184,175,211"/>
+<area shape="rect" id="node4" href="$fp_8cpp.html" title="src/fp.cpp" alt="" coords="67,259,147,285"/>
 </map>

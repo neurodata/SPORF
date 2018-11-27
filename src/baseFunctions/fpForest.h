@@ -2,6 +2,7 @@
 #define fpForest_h
 
 #include "../fpSingleton/fpSingleton.h"
+#include "fpGrowingTreeHelpers/fpSplit.h"
 #include <string>
 #include <memory>
 

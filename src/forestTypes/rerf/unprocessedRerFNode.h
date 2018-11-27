@@ -21,18 +21,28 @@ namespace fp{
 				stratifiedInNodeClassIndices* leftIndices;
 				stratifiedInNodeClassIndices* rightIndices;
 
-				std::vector<int> featuresToTry;
+				//std::vector<int> featuresToTry;
+				std::vector< std::vector<int> > featuresToTry;
 				std::vector<T> featureHolder;
 				std::vector<int> labelHolder;
+
+				//std::random_device rd;
+				//The next three should be static
+				//std::mt19937 rng(rd());   
+				//std::uniform_int_distribution<int> randomMtry(0,fpSingleton::getSingleton().returnMtry()-1);
+				//std::uniform_int_distribution<int> randomFeature(0,fpSingleton::getSingleton().returnNumFeatures()-1);
+				//Example: auto random_integer = uni(rng);
 
 			public:
 				unprocessedRerFNode(int numObsForRoot):  parentID(0), depth(0), isLeftNode(true){
 					obsIndices = new stratifiedInNodeClassIndices(numObsForRoot);
+					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
 					leftIndices=NULL;
 					rightIndices=NULL;
 				}
 
 				unprocessedRerFNode(int parentID, int dep, bool isLeft):parentID(parentID),depth(dep),isLeftNode(isLeft){
+					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
 					leftIndices=NULL;
 					rightIndices=NULL;
 				}
@@ -67,7 +77,7 @@ namespace fp{
 					return depth;
 				}
 
-				inline std::vector<int>& returnBestFeature(){
+				inline std::vector<int> returnBestFeature(){
 					return bestSplitInfo.returnFeatureNum();
 				}
 
@@ -111,12 +121,28 @@ namespace fp{
 
 
 				inline void pickMTRY(){
-					for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i) featuresToTry.push_back(i);
-					std::random_shuffle ( featuresToTry.begin(), featuresToTry.end() );
-					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
-				}
+					//for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i) featuresToTry.push_back(i);
+					//std::random_shuffle ( featuresToTry.begin(), featuresToTry.end() );
+					//featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
+					int rndMtry;
+					int rndFeature;
+					/*
+for (int i=0; i < fpSingleton::getSingleton().returnMtry(); ++i){
+						//rndMtry = std::rand() % fpSingleton::getSingleton().returnMtry();
+						rndFeature = std::rand() % fpSingleton::getSingleton().returnNumFeatures();
+						featuresToTry[i].push_back(rndFeature);
+						//featuresToTry[randomMtry(rng)].push_back(randomFeature(rng));
+					}
+					*/
+					for (int i=0; i < fpSingleton::getSingleton().returnMtry(); ++i){
+						rndMtry = std::rand() % fpSingleton::getSingleton().returnMtry();
+						rndFeature = std::rand() % fpSingleton::getSingleton().returnNumFeatures();
+						featuresToTry[rndMtry].push_back(rndFeature);
+						//featuresToTry[randomMtry(rng)].push_back(randomFeature(rng));
+					}
+									}
 
-				inline int returnMTRYVectorSize(){
+				inline int returnMTRYVectorSizeDelete(){
 					return featuresToTry.size();
 				}
 
@@ -136,20 +162,41 @@ namespace fp{
 				inline void loadFeatureHolder(){
 					if(obsIndices->useBin()){
 						for(int q=0; q<obsIndices->returnBinnedSize(); q++){
-							fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back(),obsIndices->returnBinnedInSample(q));
+							fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[0],obsIndices->returnBinnedInSample(q));
 						}
 
 						for(int i =0; i < obsIndices->returnBinnedSize(); ++i){
-							featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back(),obsIndices->returnBinnedInSample(i));
+							featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[0],obsIndices->returnBinnedInSample(i));
+						}
+						if(featuresToTry.back().size()>1){
+							for(unsigned int j =1; j < featuresToTry.back().size(); ++j){
+								for(int q=0; q<obsIndices->returnBinnedSize(); q++){
+									fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[j],obsIndices->returnBinnedInSample(q));
+								}
+								for(int i =0; i < obsIndices->returnBinnedSize(); ++i){
+									featureHolder[i] += fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[j],obsIndices->returnBinnedInSample(i));
+								}
+							}
 						}
 					}else{
 
 						for(int q=0; q<obsIndices->returnInSampleSize(); q++){
-							fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back(),obsIndices->returnInSample(q));
+							fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[0],obsIndices->returnInSample(q));
 						}
 
 						for(int i =0; i < obsIndices->returnInSampleSize(); ++i){
-							featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back(),obsIndices->returnInSample(i));
+							featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[0],obsIndices->returnInSample(i));
+						}
+						if(featuresToTry.back().size()>1){
+							for(unsigned int j =1; j < featuresToTry.back().size(); ++j){
+								for(int q=0; q<obsIndices->returnInSampleSize(); q++){
+									fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[j],obsIndices->returnInSample(q));
+								}
+
+								for(int i =0; i < obsIndices->returnInSampleSize(); ++i){
+									featureHolder[i] += fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[j],obsIndices->returnInSample(i));
+								}
+							}
 						}
 					}
 				}
@@ -188,7 +235,9 @@ namespace fp{
 					}
 					double featureVal = fpSingleton::getSingleton().returnFeatureVal(featureNum[0],inIndex);
 					if(featureNum.size() > 1){
-						//TODO
+						for(unsigned int j = 1; j < featureNum.size(); ++j){
+featureVal += fpSingleton::getSingleton().returnFeatureVal(featureNum[j],inIndex);
+						}
 					}
 
 					double splitVal = bestSplitInfo.returnSplitValue();
@@ -242,12 +291,15 @@ namespace fp{
 					std::vector<int> tempVec;
 					tempVec.push_back(0);
 					while(!featuresToTry.empty()){
-						//logTime.startGiniTimer();
-						loadFeatureHolder();
-						//logTime.stopGiniTimer();
-						tempVec[0] = featuresToTry.back();
-						setBestSplit(findSplit.giniSplit(featureHolder ,tempVec));
-
+						//not all featuresToTry will be populated.  This checks first.
+						if(!featuresToTry.back().empty()){
+							//logTime.startGiniTimer();
+							loadFeatureHolder();
+							//logTime.stopGiniTimer();
+							//tempVec = featuresToTry.back();
+							setBestSplit(findSplit.giniSplit(featureHolder ,featuresToTry.back()));
+							//setBestSplit(findSplit.giniSplit(featureHolder ,tempVec));
+						}
 						featuresToTry.pop_back();
 					}
 				}

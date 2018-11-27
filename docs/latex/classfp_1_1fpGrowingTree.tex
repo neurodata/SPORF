@@ -1,0 +1,112 @@
+\hypertarget{classfp_1_1fpGrowingTree}{}\section{fp\+:\+:fp\+Growing\+Tree$<$ T $>$ Class Template Reference}
+\label{classfp_1_1fpGrowingTree}\index{fp\+::fp\+Growing\+Tree$<$ T $>$@{fp\+::fp\+Growing\+Tree$<$ T $>$}}
+
+
+{\ttfamily \#include $<$fp\+Growing\+Tree.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classfp_1_1fpGrowingTree_a7704cdb870c23913b5247de052f2c635}{fp\+Growing\+Tree} ()
+\item 
+\hyperlink{classfp_1_1fpGrowingTree_a5762c272db68e2e28c767053f752418f}{initialize\+Root\+Of\+Tree} (int growing\+Tree\+Number)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \hyperlink{classfp_1_1growingTreeElement}{growing\+Tree\+Element}$<$ T $>$ $>$ \hyperlink{classfp_1_1fpGrowingTree_ad729a18d4cd23d38a5bcab4bdd1ed58b}{node\+Index\+Holder}
+\item 
+std\+::vector$<$ int $>$ \hyperlink{classfp_1_1fpGrowingTree_afdd5b18a4e4f282e3c5aba30caf918c0}{O\+O\+B\+Holder}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class fp\+::fp\+Growing\+Tree$<$ T $>$}
+
+
+
+Definition at line 11 of file fp\+Growing\+Tree.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classfp_1_1fpGrowingTree_a7704cdb870c23913b5247de052f2c635}\label{classfp_1_1fpGrowingTree_a7704cdb870c23913b5247de052f2c635}} 
+\index{fp\+::fp\+Growing\+Tree@{fp\+::fp\+Growing\+Tree}!fp\+Growing\+Tree@{fp\+Growing\+Tree}}
+\index{fp\+Growing\+Tree@{fp\+Growing\+Tree}!fp\+::fp\+Growing\+Tree@{fp\+::fp\+Growing\+Tree}}
+\subsubsection{\texorpdfstring{fp\+Growing\+Tree()}{fpGrowingTree()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classfp_1_1fpGrowingTree}{fp\+::fp\+Growing\+Tree}$<$ T $>$\+::\hyperlink{classfp_1_1fpGrowingTree}{fp\+Growing\+Tree} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 18 of file fp\+Growing\+Tree.\+h.
+
+
+\begin{DoxyCode}
+18                                \{
+19             \hyperlink{classfp_1_1fpGrowingTree_ad729a18d4cd23d38a5bcab4bdd1ed58b}{nodeIndexHolder}.resize(\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      returnNumObservations());    
+20             \hyperlink{classfp_1_1fpGrowingTree_afdd5b18a4e4f282e3c5aba30caf918c0}{OOBHolder}.resize(\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      returnNumObservations()/2);  
+21                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpGrowingTree_a7704cdb870c23913b5247de052f2c635_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1fpGrowingTree_a5762c272db68e2e28c767053f752418f}\label{classfp_1_1fpGrowingTree_a5762c272db68e2e28c767053f752418f}} 
+\index{fp\+::fp\+Growing\+Tree@{fp\+::fp\+Growing\+Tree}!initialize\+Root\+Of\+Tree@{initialize\+Root\+Of\+Tree}}
+\index{initialize\+Root\+Of\+Tree@{initialize\+Root\+Of\+Tree}!fp\+::fp\+Growing\+Tree@{fp\+::fp\+Growing\+Tree}}
+\subsubsection{\texorpdfstring{initialize\+Root\+Of\+Tree()}{initializeRootOfTree()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classfp_1_1fpGrowingTree}{fp\+::fp\+Growing\+Tree}$<$ T $>$\+::initialize\+Root\+Of\+Tree (\begin{DoxyParamCaption}\item[{int}]{growing\+Tree\+Number }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 23 of file fp\+Growing\+Tree.\+h.
+
+
+\begin{DoxyCode}
+23                                                                   \{
+24 
+25 
+26                 \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1fpGrowingTree_ad729a18d4cd23d38a5bcab4bdd1ed58b}\label{classfp_1_1fpGrowingTree_ad729a18d4cd23d38a5bcab4bdd1ed58b}} 
+\index{fp\+::fp\+Growing\+Tree@{fp\+::fp\+Growing\+Tree}!node\+Index\+Holder@{node\+Index\+Holder}}
+\index{node\+Index\+Holder@{node\+Index\+Holder}!fp\+::fp\+Growing\+Tree@{fp\+::fp\+Growing\+Tree}}
+\subsubsection{\texorpdfstring{node\+Index\+Holder}{nodeIndexHolder}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::vector$<$\hyperlink{classfp_1_1growingTreeElement}{growing\+Tree\+Element}$<$T$>$ $>$ \hyperlink{classfp_1_1fpGrowingTree}{fp\+::fp\+Growing\+Tree}$<$ T $>$\+::node\+Index\+Holder\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 14 of file fp\+Growing\+Tree.\+h.
+
+\mbox{\Hypertarget{classfp_1_1fpGrowingTree_afdd5b18a4e4f282e3c5aba30caf918c0}\label{classfp_1_1fpGrowingTree_afdd5b18a4e4f282e3c5aba30caf918c0}} 
+\index{fp\+::fp\+Growing\+Tree@{fp\+::fp\+Growing\+Tree}!O\+O\+B\+Holder@{O\+O\+B\+Holder}}
+\index{O\+O\+B\+Holder@{O\+O\+B\+Holder}!fp\+::fp\+Growing\+Tree@{fp\+::fp\+Growing\+Tree}}
+\subsubsection{\texorpdfstring{O\+O\+B\+Holder}{OOBHolder}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::vector$<$int$>$ \hyperlink{classfp_1_1fpGrowingTree}{fp\+::fp\+Growing\+Tree}$<$ T $>$\+::O\+O\+B\+Holder\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 15 of file fp\+Growing\+Tree.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/base\+Functions/fp\+Growing\+Tree\+Helpers/\hyperlink{fpGrowingTree_8h}{fp\+Growing\+Tree.\+h}\end{DoxyCompactItemize}

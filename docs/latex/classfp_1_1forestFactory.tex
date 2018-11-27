@@ -14,7 +14,7 @@ static std\+::unique\+\_\+ptr$<$ \hyperlink{classfp_1_1fpForestBase}{fp\+Forest\
 \subsection{Detailed Description}
 
 
-Definition at line 11 of file fp\+Forest\+Factory.\+h.
+Definition at line 12 of file fp\+Forest\+Factory.\+h.
 
 
 
@@ -27,22 +27,22 @@ Definition at line 11 of file fp\+Forest\+Factory.\+h.
 
 
 
-Definition at line 14 of file fp\+Forest\+Factory.\+h.
+Definition at line 15 of file fp\+Forest\+Factory.\+h.
 
 
 \begin{DoxyCode}
-14                                                                                             \{
-15             \textcolor{comment}{//  std::uniqe\_ptr<fpForestBase> pToForest;}
-16                 \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"rfBase"})\{
-17                     \textcolor{keywordflow}{return} std::unique\_ptr<fpForestBase>\{\textcolor{keyword}{new} fpForestClassificationBase<float>\};
-18                 \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"smallSample"})\{
-19                     \textcolor{keywordflow}{return} std::unique\_ptr<fpForestBase>\{\textcolor{keyword}{new} fpForestClassificationBase<float>\};
-20                 \}\textcolor{keywordflow}{else}\{
-21                     \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Unimplemented forest type chosen."} );
-22                     \textcolor{keywordflow}{return} NULL;
-23                 \}
-24         \textcolor{comment}{//      return pToForest;}
-25             \}
+15                                                                                             \{
+16             \textcolor{comment}{//  std::uniqe\_ptr<fpForestBase> pToForest;}
+17                 \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"rfBase"})\{
+18                     \textcolor{keywordflow}{return} std::unique\_ptr<fpForestBase>\{\textcolor{keyword}{new} fpForestClassificationBase<float>\};
+19                 \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"rerf"})\{
+20                     \textcolor{keywordflow}{return} std::unique\_ptr<fpForestBase>\{\textcolor{keyword}{new} fpRerFBase<float>\};
+21                 \}\textcolor{keywordflow}{else}\{
+22                     \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Unimplemented forest type chosen."} );
+23                     \textcolor{keywordflow}{return} NULL;
+24                 \}
+25         \textcolor{comment}{//      return pToForest;}
+26             \}
 \end{DoxyCode}
 
 

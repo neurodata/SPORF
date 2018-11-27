@@ -56,7 +56,7 @@ namespace fp{
 					featureNum = fNum;
 				}
 
-				inline std::vector<int>& returnFeatureNum(){
+				inline std::vector<int> returnFeatureNum(){
 					return featureNum;
 				}
 		};

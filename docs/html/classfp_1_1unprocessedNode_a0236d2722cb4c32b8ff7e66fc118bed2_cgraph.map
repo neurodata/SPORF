@@ -1,17 +1,9 @@
 <map id="fp::unprocessedNode::moveDataLeftOrRight" name="fp::unprocessedNode::moveDataLeftOrRight">
-<area shape="rect" id="node2" href="$classfp_1_1stratifiedInNodeClassIndices.html#a596235ffec7250fabd2818d395b39c66" title="fp::stratifiedInNodeClass\lIndices::returnInSampleSize" alt="" coords="223,5,410,47"/>
-<area shape="rect" id="node3" href="$classfp_1_1unprocessedNode.html#ad4ffdb4f4b91d6d21f8954f3c80a3617" title="fp::unprocessedNode\l::goLeft" alt="" coords="243,201,390,243"/>
-<area shape="rect" id="node10" href="$classfp_1_1stratifiedInNodeClassIndices.html#a2d7e802fb97db0367bb8e8f31d393afd" title="fp::stratifiedInNodeClass\lIndices::returnInSample" alt="" coords="233,267,400,308"/>
-<area shape="rect" id="node11" href="$classfp_1_1stratifiedInNodeClassIndices.html#a493b23961e38f5f534c236a22b4ff4b6" title="fp::stratifiedInNodeClass\lIndices::addIndexToInSamples" alt="" coords="215,71,418,112"/>
-<area shape="rect" id="node15" href="$classfp_1_1stratifiedInNodeClassIndices.html#a6630b77af340d2023d88bafa87b94cae" title="fp::stratifiedInNodeClass\lIndices::returnOutSampleSize" alt="" coords="219,332,415,373"/>
-<area shape="rect" id="node16" href="$classfp_1_1stratifiedInNodeClassIndices.html#adc99a046031545bc59c2b43abcf75ed9" title="fp::stratifiedInNodeClass\lIndices::addIndexToOutSamples" alt="" coords="211,136,423,177"/>
-<area shape="rect" id="node4" href="$classfp_1_1splitInfo.html#a6b0cdcf767630429747281fd31691967" title="fp::splitInfo::returnFeatureNum" alt="" coords="476,190,676,217"/>
-<area shape="rect" id="node5" href="$classfp_1_1fpSingleton.html#a8bdae77b68521003e3fc630edec2e240" title="fp::fpSingleton::getSingleton" alt="" coords="483,139,669,166"/>
-<area shape="rect" id="node6" href="$classfp_1_1fpSingleton.html#aacc2eb894a219e2fe234743b51fa1a76" title="fp::fpSingleton::returnFeatureVal" alt="" coords="471,241,681,267"/>
-<area shape="rect" id="node9" href="$classfp_1_1splitInfo.html#a7737702d3a91cca2ca82576ab4ff7b03" title="fp::splitInfo::returnSplit\lValue" alt="" coords="499,292,653,333"/>
-<area shape="rect" id="node7" href="$classfp_1_1fpData.html#a6b359086ec1e5c534095600e2ed5575f" title="fp::fpData::returnFeatureVal" alt="" coords="729,241,913,267"/>
-<area shape="rect" id="node8" href="$classinputData.html#a8914408ce5de02c3786dc7ff61f6cfab" title="inputData::returnFeature\lValue" alt="" coords="963,233,1126,275"/>
-<area shape="rect" id="node12" href="$classfp_1_1fpSingleton.html#aa2f644b1521948fb994f4087ddfaea14" title="fp::fpSingleton::returnLabel" alt="" coords="487,82,665,109"/>
-<area shape="rect" id="node13" href="$classfp_1_1fpData.html#aac722f51424cb7f6ab7d89525f82cc72" title="fp::fpData::returnLabel" alt="" coords="745,82,897,109"/>
-<area shape="rect" id="node14" href="$classinputData.html#ab6ba59207888898f9c008578dd59cf46" title="inputData::returnClassOf\lObservation" alt="" coords="961,75,1128,116"/>
+<area shape="rect" id="node2" href="$classfp_1_1unprocessedNode.html#ad4ffdb4f4b91d6d21f8954f3c80a3617" title="fp::unprocessedNode\l::goLeft" alt="" coords="211,74,357,115"/>
+<area shape="rect" id="node3" href="$classfp_1_1splitInfo.html#a6b0cdcf767630429747281fd31691967" title="fp::splitInfo::returnFeatureNum" alt="" coords="411,5,611,32"/>
+<area shape="rect" id="node4" href="$classfp_1_1fpSingleton.html#a8bdae77b68521003e3fc630edec2e240" title="fp::fpSingleton::getSingleton" alt="" coords="417,56,604,83"/>
+<area shape="rect" id="node5" href="$classfp_1_1fpSingleton.html#aacc2eb894a219e2fe234743b51fa1a76" title="fp::fpSingleton::returnFeatureVal" alt="" coords="405,107,616,133"/>
+<area shape="rect" id="node8" href="$classfp_1_1splitInfo.html#a7737702d3a91cca2ca82576ab4ff7b03" title="fp::splitInfo::returnSplit\lValue" alt="" coords="433,158,588,199"/>
+<area shape="rect" id="node6" href="$classfp_1_1fpData.html#a6b359086ec1e5c534095600e2ed5575f" title="fp::fpData::returnFeatureVal" alt="" coords="664,107,848,133"/>
+<area shape="rect" id="node7" href="$classfp_1_1inputData.html#af52ac3512ee8f6e973799e024ddbf629" title="fp::inputData::returnFeature\lValue" alt="" coords="896,99,1079,141"/>
 </map>

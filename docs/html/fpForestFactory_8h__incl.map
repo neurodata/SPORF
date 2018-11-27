@@ -1,18 +1,15 @@
 <map id="src/baseFunctions/fpForestFactory.h" name="src/baseFunctions/fpForestFactory.h">
-<area shape="rect" id="node3" href="$fpForestBase_8h.html" title="fpForestBase.h" alt="" coords="922,348,1033,375"/>
-<area shape="rect" id="node4" href="$fpForestClassificationBase_8h.html" title="../forestTypes/rfClassification\l/fpForestClassificationBase.h" alt="" coords="995,95,1189,136"/>
-<area shape="rect" id="node10" href="$rfTree_8h.html" title="rfTree.h" alt="" coords="1191,184,1257,211"/>
-<area shape="rect" id="node11" href="$rfNode_8h.html" title="rfNode.h" alt="" coords="1348,266,1420,293"/>
-<area shape="rect" id="node12" href="$fpUtils_8h.html" title="../../baseFunctions\l/fpUtils.h" alt="" coords="480,259,611,300"/>
-<area shape="rect" id="node30" href="$unprocessedNode_8h.html" title="../../treeConstructor\l/unprocessedNode.h" alt="" coords="1169,259,1311,300"/>
-<area shape="rect" id="node13" href="$inNodeClassIndices_8h.html" title="inNodeClassIndices.h" alt="" coords="470,348,621,375"/>
-<area shape="rect" id="node17" href="$timeLogger_8h.html" title="timeLogger.h" alt="" coords="1053,423,1150,449"/>
-<area shape="rect" id="node18" href="$fpSingleton_8h.html" title="../fpSingleton/fpSingleton.h" alt="" coords="216,423,395,449"/>
-<area shape="rect" id="node28" href="$stratifiedInNodeClassIndices_8h.html" title="stratifiedInNodeClassIndices.h" alt="" coords="645,348,846,375"/>
-<area shape="rect" id="node29" href="$fpForest_8h.html" title="fpForest.h" alt="" coords="181,348,262,375"/>
-<area shape="rect" id="node19" href="$fpData_8h.html" title="fpData.h" alt="" coords="351,497,423,524"/>
-<area shape="rect" id="node25" href="$fpInfo_8h.html" title="fpInfo.h" alt="" coords="279,572,345,599"/>
-<area shape="rect" id="node20" href="$fpDataSet_8h.html" title="fpDataSet.h" alt="" coords="455,572,547,599"/>
-<area shape="rect" id="node21" href="$fpReadCSV_8h.html" title="fpReadCSV.h" alt="" coords="478,647,581,673"/>
-<area shape="rect" id="node31" href="$fpSplit_8h.html" title="../baseFunctions/fpSplit.h" alt="" coords="1159,348,1329,375"/>
+<area shape="rect" id="node3" href="$fpForestBase_8h.html" title="fpForestBase.h" alt="" coords="5,191,116,218"/>
+<area shape="rect" id="node4" href="$fpRerFBase_8h.html" title="../forestTypes/rerf\l/fpRerFBase.h" alt="" coords="217,95,344,136"/>
+<area shape="rect" id="node20" href="$fpForestClassificationBase_8h.html" title="../forestTypes/rfClassification\l/fpForestClassificationBase.h" alt="" coords="447,95,642,136"/>
+<area shape="rect" id="node5" href="$displayProgress_8h.html" title="../../baseFunctions\l/displayProgress.h" alt="" coords="479,184,610,225"/>
+<area shape="rect" id="node11" href="$rerfTree_8h.html" title="rerfTree.h" alt="" coords="685,191,764,218"/>
+<area shape="rect" id="node12" href="$rerfNode_8h.html" title="rerfNode.h" alt="" coords="682,281,765,307"/>
+<area shape="rect" id="node14" href="$forestTypes_2rerf_2unprocessedRerFNode_8h.html" title="unprocessedRerFNode.h" alt="" coords="987,281,1153,307"/>
+<area shape="rect" id="node15" href="$fpRerFSplit_8h.html" title="fpRerFSplit.h" alt="" coords="1381,363,1479,389"/>
+<area shape="rect" id="node16" href="$timeLogger_8h.html" title="../../baseFunctions\l/timeLogger.h" alt="" coords="1327,437,1458,479"/>
+<area shape="rect" id="node21" href="$rfTree_8h.html" title="rfTree.h" alt="" coords="1158,191,1225,218"/>
+<area shape="rect" id="node22" href="$rfNode_8h.html" title="rfNode.h" alt="" coords="890,281,962,307"/>
+<area shape="rect" id="node23" href="$unprocessedNode_8h.html" title="../../treeConstructor\l/unprocessedNode.h" alt="" coords="1280,273,1423,315"/>
+<area shape="rect" id="node24" href="$fpSplit_8h.html" title="../baseFunctions/fpSplit.h" alt="" coords="1503,363,1674,389"/>
 </map>

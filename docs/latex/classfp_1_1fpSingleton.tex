@@ -6,7 +6,8 @@
 
 
 
-Collaboration diagram for fp\+:\+:fp\+Singleton\+:\nopagebreak
+Collaboration diagram for fp\+:\+:fp\+Singleton\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -48,7 +49,7 @@ std\+::string \& \hyperlink{classfp_1_1fpSingleton_af7582b20b48b7eb8c0a6b89fbdf1
 \item 
 int \hyperlink{classfp_1_1fpSingleton_a97cbcad5ae9daa8c747fd4db84928c20}{return\+Num\+Features} ()
 \item 
-int \hyperlink{classfp_1_1fpSingleton_ae12f22ad096ff0d419fce47df710bf78}{return\+Num\+Observations} ()
+int \hyperlink{classfp_1_1fpSingleton_ae0a2963feb07b809b8740218f1048b67}{return\+Num\+Observations} () const
 \item 
 int \hyperlink{classfp_1_1fpSingleton_aa2f644b1521948fb994f4087ddfaea14}{return\+Label} (int observation\+Number)
 \item 
@@ -99,9 +100,9 @@ static \hyperlink{classfp_1_1fpSingleton}{fp\+Singleton} $\ast$ \hyperlink{class
 
 
 \subsection{Detailed Description}
+\hyperlink{classfp_1_1fpSingleton}{fp\+Singleton} combines the data (\hyperlink{classfp_1_1fpData}{fp\+Data}) and the forest parameters (\hyperlink{classfp_1_1fpInfo}{fp\+Info}). As a singleton, \hyperlink{classfp_1_1fpSingleton}{fp\+Singleton} is available to all functions. 
 
-
-Definition at line 11 of file fp\+Singleton.\+h.
+Definition at line 15 of file fp\+Singleton.\+h.
 
 
 
@@ -114,11 +115,11 @@ Definition at line 11 of file fp\+Singleton.\+h.
 
 
 
-Definition at line 130 of file fp\+Singleton.\+h.
+Definition at line 134 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-130 \{\}
+134 \{\}
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -141,15 +142,15 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 132 of file fp\+Singleton.\+h.
+Definition at line 136 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-132                                                \{
-133                 \textcolor{keywordflow}{if}(\textcolor{keyword}{this} != &old)\{
-134                     \hyperlink{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}{infoSetting}= old.\hyperlink{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}{infoSetting};
-135                 \}
-136             \}
+136                                                \{
+137                 \textcolor{keywordflow}{if}(\textcolor{keyword}{this} != &old)\{
+138                     \hyperlink{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}{infoSetting}= old.\hyperlink{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}{infoSetting};
+139                 \}
+140             \}
 \end{DoxyCode}
 
 
@@ -162,13 +163,13 @@ Definition at line 132 of file fp\+Singleton.\+h.
 
 
 
-Definition at line 52 of file fp\+Singleton.\+h.
+Definition at line 56 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-52                                     \{
-53                 \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a44df119acad6c339966d67f2c634a369}{fpDeleteData}();
-54             \}
+56                                     \{
+57                 \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a44df119acad6c339966d67f2c634a369}{fpDeleteData}();
+58             \}
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -185,13 +186,13 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 56 of file fp\+Singleton.\+h.
+Definition at line 60 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-56                                         \{
-57                 \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a996eedfc5ffe559ce1f6061af1efc1db}{fpDeleteTestData}();
-58             \}
+60                                         \{
+61                 \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a996eedfc5ffe559ce1f6061af1efc1db}{fpDeleteTestData}();
+62             \}
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -208,15 +209,15 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 19 of file fp\+Singleton.\+h.
+Definition at line 23 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-19                                               \{
-20                 \textcolor{keyword}{static} \hyperlink{classfp_1_1fpSingleton_a049e41d4468d9b9f1e08788592c5f4cd}{fpSingleton}* \hyperlink{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}{infoSetting}(\textcolor{keyword}{new} 
+23                                               \{
+24                 \textcolor{keyword}{static} \hyperlink{classfp_1_1fpSingleton_a049e41d4468d9b9f1e08788592c5f4cd}{fpSingleton}* \hyperlink{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}{infoSetting}(\textcolor{keyword}{new} 
       \hyperlink{classfp_1_1fpSingleton_a049e41d4468d9b9f1e08788592c5f4cd}{fpSingleton});
-21                 \textcolor{keywordflow}{return} *\hyperlink{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}{infoSetting};
-22             \}
+25                 \textcolor{keywordflow}{return} *\hyperlink{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}{infoSetting};
+26             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1fpSingleton_a86042ae6be6f59dfb90232678350011a}\label{classfp_1_1fpSingleton_a86042ae6be6f59dfb90232678350011a}} 
 \index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!load\+Data@{load\+Data}}
@@ -226,15 +227,16 @@ Definition at line 19 of file fp\+Singleton.\+h.
 
 
 
-Definition at line 44 of file fp\+Singleton.\+h.
+Definition at line 48 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-44                                   \{
-45                 \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a91c727b1475eca340ca14c241b25c959}{fpLoadData}(\hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo});
-46             \}
+48                                   \{
+49                 \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a91c727b1475eca340ca14c241b25c959}{fpLoadData}(\hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo});
+50             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -249,13 +251,13 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 125 of file fp\+Singleton.\+h.
+Definition at line 129 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-125                                          \{
-126                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a2b4d9be328aaa7acf9a2561150da0402}{loadDataFromCSV}(\hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo});
-127             \}
+129                                          \{
+130                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a2b4d9be328aaa7acf9a2561150da0402}{loadDataFromCSV}(\hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo});
+131             \}
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -272,15 +274,16 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 48 of file fp\+Singleton.\+h.
+Definition at line 52 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-48                                       \{
-49                 \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a4b527bc84762c4708992b7fdce3d0602}{fpLoadTestData}(\hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo});
-50             \}
+52                                       \{
+53                 \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a4b527bc84762c4708992b7fdce3d0602}{fpLoadTestData}(\hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo});
+54             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -295,16 +298,16 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 137 of file fp\+Singleton.\+h.
+Definition at line 141 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-137                                                                 \{
-138                 \textcolor{keywordflow}{if}(\textcolor{keyword}{this} !=&old)\{
-139                     \hyperlink{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}{infoSetting}=old.\hyperlink{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}{infoSetting};
-140                 \}
-141                 \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
-142             \}
+141                                                                 \{
+142                 \textcolor{keywordflow}{if}(\textcolor{keyword}{this} !=&old)\{
+143                     \hyperlink{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}{infoSetting}=old.\hyperlink{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}{infoSetting};
+144                 \}
+145                 \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+146             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1fpSingleton_ab789c4e4bfb3248711a5857015008f8d}\label{classfp_1_1fpSingleton_ab789c4e4bfb3248711a5857015008f8d}} 
 \index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!prefetch\+Feature\+Val@{prefetch\+Feature\+Val}}
@@ -314,15 +317,16 @@ Definition at line 137 of file fp\+Singleton.\+h.
 
 
 
-Definition at line 105 of file fp\+Singleton.\+h.
+Definition at line 109 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-105                                                                                     \{
-106                 \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a3f9645ca93e9b64a788b3042e9e41fcc}{prefetchFeatureVal}(featureNumber, observationNumber);
-107             \}
+109                                                                                                 \{
+110                 \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a3f9645ca93e9b64a788b3042e9e41fcc}{prefetchFeatureVal}(featureNumber, observationNumber);
+111             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -337,13 +341,13 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 36 of file fp\+Singleton.\+h.
+Definition at line 40 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-36                                             \{
-37                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a471bd46c828547d5b556f6f4e9fca70f}{printAllParameters}();
-38             \}
+40                                             \{
+41                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a471bd46c828547d5b556f6f4e9fca70f}{printAllParameters}();
+42             \}
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -360,13 +364,13 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 40 of file fp\+Singleton.\+h.
+Definition at line 44 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-40                                          \{
-41                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a1acfffe3b13e5cad548f92cd09ff7f46}{printForestType}();
-42             \}
+44                                          \{
+45                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a1acfffe3b13e5cad548f92cd09ff7f46}{printForestType}();
+46             \}
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -383,15 +387,16 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 101 of file fp\+Singleton.\+h.
+Definition at line 105 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-101                                                                                                 \{
-102                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a6b359086ec1e5c534095600e2ed5575f}{returnFeatureVal}(featureNumber, observationNumber);
-103             \}
+105                                                                                                 \{
+106                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a6b359086ec1e5c534095600e2ed5575f}{returnFeatureVal}(featureNumber, observationNumber);
+107             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -406,13 +411,13 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 81 of file fp\+Singleton.\+h.
+Definition at line 85 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-81                                                 \{
-82                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a97280e7e3cadc5e653d8ef256eb2c82d}{returnForestType}();
-83             \}
+85                                                 \{
+86                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a97280e7e3cadc5e653d8ef256eb2c82d}{returnForestType}();
+87             \}
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -429,15 +434,16 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 93 of file fp\+Singleton.\+h.
+Definition at line 97 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-93                                                          \{
-94                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_aac722f51424cb7f6ab7d89525f82cc72}{returnLabel}(observationNumber);
-95             \}
+97                                                          \{
+98                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_aac722f51424cb7f6ab7d89525f82cc72}{returnLabel}(observationNumber);
+99             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -452,15 +458,16 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 117 of file fp\+Singleton.\+h.
+Definition at line 121 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-117                                         \{
-118                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_ad1af845e85cb6e807694c5106baca230}{returnMinParent}();
-119             \}
+121                                         \{
+122                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a64d8c3c57e3684a8dd829ed12ddcec0f}{returnMinParent}();
+123             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -475,13 +482,13 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 77 of file fp\+Singleton.\+h.
+Definition at line 81 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-77                                    \{
-78                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a058477c4f05818c220efa469b7b630bb}{returnMtry}();
-79             \}
+81                                    \{
+82                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a058477c4f05818c220efa469b7b630bb}{returnMtry}();
+83             \}
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -498,15 +505,16 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 73 of file fp\+Singleton.\+h.
+Definition at line 77 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-73                                          \{
-74                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a641516fa21a5d6170f74426cf9e2b255}{returnNumClasses}();
-75             \}
+77                                          \{
+78                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_ae93937d429b68d88f40fd4f40b3339da}{returnNumClasses}();
+79             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -521,42 +529,44 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 85 of file fp\+Singleton.\+h.
+Definition at line 89 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-85                                           \{
-86                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_abf1e1bfc3e7daa178f3d68bed6311edb}{returnNumFeatures}();
-87             \}
+89                                           \{
+90                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a30ec8a4f116421a193d33fe2052aaa9a}{returnNumFeatures}();
+91             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classfp_1_1fpSingleton_a97cbcad5ae9daa8c747fd4db84928c20_cgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{classfp_1_1fpSingleton_ae12f22ad096ff0d419fce47df710bf78}\label{classfp_1_1fpSingleton_ae12f22ad096ff0d419fce47df710bf78}} 
+\mbox{\Hypertarget{classfp_1_1fpSingleton_ae0a2963feb07b809b8740218f1048b67}\label{classfp_1_1fpSingleton_ae0a2963feb07b809b8740218f1048b67}} 
 \index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!return\+Num\+Observations@{return\+Num\+Observations}}
 \index{return\+Num\+Observations@{return\+Num\+Observations}!fp\+::fp\+Singleton@{fp\+::fp\+Singleton}}
 \subsubsection{\texorpdfstring{return\+Num\+Observations()}{returnNumObservations()}}
-{\footnotesize\ttfamily int fp\+::fp\+Singleton\+::return\+Num\+Observations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily int fp\+::fp\+Singleton\+::return\+Num\+Observations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
-Definition at line 89 of file fp\+Singleton.\+h.
+Definition at line 93 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-89                                               \{
-90                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a5d70dfbd1f8dc26dbd8f066e210cf165}{returnNumObservations}();
-91             \}
+93                                                     \{
+94                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a8e340d343bc946ffd6be09a001e3e5dd}{returnNumObservations}();
+95             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{classfp_1_1fpSingleton_ae12f22ad096ff0d419fce47df710bf78_cgraph}
+\includegraphics[width=350pt]{classfp_1_1fpSingleton_ae0a2963feb07b809b8740218f1048b67_cgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{classfp_1_1fpSingleton_a8be36616345b6b77ce4c60b99cc2b91c}\label{classfp_1_1fpSingleton_a8be36616345b6b77ce4c60b99cc2b91c}} 
@@ -567,15 +577,16 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 113 of file fp\+Singleton.\+h.
+Definition at line 117 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-113                                        \{
-114                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a12d3d4b2216f37daf6555f07148c4f85}{returnNumTrees}();
-115             \}
+117                                        \{
+118                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a7711d632e8718a60070594e9c731599a}{returnNumTrees}();
+119             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -590,15 +601,16 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 109 of file fp\+Singleton.\+h.
+Definition at line 113 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-109                                                                                                     \{
-110                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a42f76961f1649e329d654e9e1bb13fc6}{returnTestFeatureVal}(featureNumber, observationNumber);
-111             \}
+113                                                                                                     \{
+114                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a42f76961f1649e329d654e9e1bb13fc6}{returnTestFeatureVal}(featureNumber, observationNumber);
+115             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -613,15 +625,16 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 97 of file fp\+Singleton.\+h.
+Definition at line 101 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-97                                                              \{
-98                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a50b6343c52560d1992de50e8cd6b1206}{returnTestLabel}(observationNumber);
-99             \}
+101                                                              \{
+102                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpSingleton_a2fa16ac6a0f66641749032eeee61b8e9}{data}.\hyperlink{classfp_1_1fpData_a50b6343c52560d1992de50e8cd6b1206}{returnTestLabel}(observationNumber);
+103             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -636,13 +649,13 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 121 of file fp\+Singleton.\+h.
+Definition at line 125 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-121                                                     \{
-122                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a6b2a54fb9b3672e7b1bab3474a0ca33f}{setMTRY}();
-123             \}
+125                                                     \{
+126                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a6b2a54fb9b3672e7b1bab3474a0ca33f}{setMTRY}();
+127             \}
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -659,15 +672,16 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 69 of file fp\+Singleton.\+h.
+Definition at line 73 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-69                                                \{
-70                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a3598d1ab13bf05b53858b1ca8c44fa68}{setNumClasses}(numC);
-71             \}
+73                                                \{
+74                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a577f80c50c60a7e48bb6ca444843cdba}{setNumClasses}(numC);
+75             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -682,15 +696,16 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 61 of file fp\+Singleton.\+h.
+Definition at line 65 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-61                                                 \{
-62                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a69ef99f2ec9ef74dd3787bc33ffb05d0}{setNumFeatures}(numF);
-63             \}
+65                                                 \{
+66                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_ab8b97144a2a9ebd565d81de4b63f490c}{setNumFeatures}(numF);
+67             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -705,15 +720,16 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 65 of file fp\+Singleton.\+h.
+Definition at line 69 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-65                                                     \{
-66                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_ad17492e79df7bca55d98438fec2f004b}{setNumObservations}(numO);
-67             \}
+69                                                     \{
+70                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_a97b1a91a4b64e8de811adae7313f73af}{setNumObservations}(numO);
+71             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -728,13 +744,13 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 24 of file fp\+Singleton.\+h.
+Definition at line 28 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-24                                                                                                      \{
-25                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_ae4c749c466e983cb312cc08d38b2796e}{setParameter}(parameterName, parameterValue);
-26             \}
+28                                                                                                      \{
+29                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_ae4c749c466e983cb312cc08d38b2796e}{setParameter}(parameterName, parameterValue);
+30             \}
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -751,13 +767,13 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 28 of file fp\+Singleton.\+h.
+Definition at line 32 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-28                                                                                                  \{
-29                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_ae4c749c466e983cb312cc08d38b2796e}{setParameter}(parameterName, parameterValue);
-30             \}
+32                                                                                                  \{
+33                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_ae4c749c466e983cb312cc08d38b2796e}{setParameter}(parameterName, parameterValue);
+34             \}
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -774,13 +790,13 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 32 of file fp\+Singleton.\+h.
+Definition at line 36 of file fp\+Singleton.\+h.
 
 
 \begin{DoxyCode}
-32                                                                                               \{
-33                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_ae4c749c466e983cb312cc08d38b2796e}{setParameter}(parameterName, parameterValue);
-34             \}
+36                                                                                               \{
+37                 \hyperlink{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}{fpForestInfo}.\hyperlink{classfp_1_1fpInfo_ae4c749c466e983cb312cc08d38b2796e}{setParameter}(parameterName, parameterValue);
+38             \}
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -800,7 +816,7 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 16 of file fp\+Singleton.\+h.
+Definition at line 20 of file fp\+Singleton.\+h.
 
 \mbox{\Hypertarget{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}\label{classfp_1_1fpSingleton_a85965009befa72a749ae498fa5b6ccfa}} 
 \index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!fp\+Forest\+Info@{fp\+Forest\+Info}}
@@ -810,7 +826,7 @@ Definition at line 16 of file fp\+Singleton.\+h.
 
 
 
-Definition at line 15 of file fp\+Singleton.\+h.
+Definition at line 19 of file fp\+Singleton.\+h.
 
 \mbox{\Hypertarget{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}\label{classfp_1_1fpSingleton_a0e2c02e7e7f730f59e5c1f10005d581c}} 
 \index{fp\+::fp\+Singleton@{fp\+::fp\+Singleton}!info\+Setting@{info\+Setting}}
@@ -820,7 +836,7 @@ Definition at line 15 of file fp\+Singleton.\+h.
 
 
 
-Definition at line 14 of file fp\+Singleton.\+h.
+Definition at line 18 of file fp\+Singleton.\+h.
 
 
 

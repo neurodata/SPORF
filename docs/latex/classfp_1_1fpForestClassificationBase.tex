@@ -15,11 +15,12 @@ Inheritance diagram for fp\+:\+:fp\+Forest\+Classification\+Base$<$ T $>$\+:\nop
 \end{figure}
 
 
-Collaboration diagram for fp\+:\+:fp\+Forest\+Classification\+Base$<$ T $>$\+:\nopagebreak
+Collaboration diagram for fp\+:\+:fp\+Forest\+Classification\+Base$<$ T $>$\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=206pt]{classfp_1_1fpForestClassificationBase__coll__graph}
+\includegraphics[width=298pt]{classfp_1_1fpForestClassificationBase__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
@@ -44,6 +45,11 @@ void \hyperlink{classfp_1_1fpForestClassificationBase_a706225fdbef8c71fb022f4c34
 int \hyperlink{classfp_1_1fpForestClassificationBase_ad0c690fff971fab681467fbcd8762b5f}{predict\+Class} (int observation\+Number)
 \item 
 float \hyperlink{classfp_1_1fpForestClassificationBase_a3f1ad5a5cfb3633713d0a81bd1c356e8}{test\+Forest} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classfp_1_1fpDisplayProgress}{fp\+Display\+Progress} \hyperlink{classfp_1_1fpForestClassificationBase_a21148775a113092d6929e0d28e351a2c}{print\+Progress}
 \end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
@@ -72,13 +78,13 @@ Definition at line 16 of file fp\+Forest\+Classification\+Base.\+h.
 
 
 
-Definition at line 22 of file fp\+Forest\+Classification\+Base.\+h.
+Definition at line 24 of file fp\+Forest\+Classification\+Base.\+h.
 
 
 \begin{DoxyCode}
-22                                         \{
-23                 std::srand(\textcolor{keywordtype}{unsigned}(std::time(0)));
-24             \}
+24                                         \{
+25                 std::srand(\textcolor{keywordtype}{unsigned}(std::time(0)));
+26             \}
 \end{DoxyCode}
 
 
@@ -92,13 +98,13 @@ void \hyperlink{classfp_1_1fpForestClassificationBase}{fp\+::fp\+Forest\+Classif
 
 
 
-Definition at line 30 of file fp\+Forest\+Classification\+Base.\+h.
+Definition at line 32 of file fp\+Forest\+Classification\+Base.\+h.
 
 
 \begin{DoxyCode}
-30                                    \{
-31                 \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}.resize(\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().returnNumTrees());
-32             \}
+32                                    \{
+33                 \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}.resize(\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().returnNumTrees());
+34             \}
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -116,13 +122,14 @@ void \hyperlink{classfp_1_1fpForestClassificationBase}{fp\+::fp\+Forest\+Classif
 
 
 
-Definition at line 55 of file fp\+Forest\+Classification\+Base.\+h.
+Definition at line 45 of file fp\+Forest\+Classification\+Base.\+h.
 
 
 \begin{DoxyCode}
-55                                          \{
-56                 ;
-57             \}
+45                                          \{
+46                 \textcolor{comment}{//TODO: check parameters to make sure they make sense for this forest type.}
+47                 ;
+48             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1fpForestClassificationBase_a706225fdbef8c71fb022f4c3446b388d}\label{classfp_1_1fpForestClassificationBase_a706225fdbef8c71fb022f4c3446b388d}} 
 \index{fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}!grow\+Forest@{grow\+Forest}}
@@ -137,19 +144,19 @@ Implements \hyperlink{classfp_1_1fpForestBase_a05b1d924a559536083ee7a8cf3ea542d}
 
 
 
-Definition at line 82 of file fp\+Forest\+Classification\+Base.\+h.
+Definition at line 73 of file fp\+Forest\+Classification\+Base.\+h.
 
 
 \begin{DoxyCode}
-82                              \{
-83                 \textcolor{comment}{//  checkParameters();}
-84                 \hyperlink{classfp_1_1fpForestClassificationBase_a696b361df0a1c9aa36687333e2d8111b}{changeForestSize}();
-85                 \hyperlink{classfp_1_1fpForestClassificationBase_aea9db2571269f0f627226aa75ec4a694}{growTrees}();
-86                 \hyperlink{classfp_1_1fpForestClassificationBase_a48567d379434daeccb1540c84674d286}{treeStats}();
-87                 \textcolor{comment}{//  printTree0();}
-88             \}
+73                              \{
+74                 \textcolor{comment}{//  checkParameters();}
+75                 \hyperlink{classfp_1_1fpForestClassificationBase_a696b361df0a1c9aa36687333e2d8111b}{changeForestSize}();
+76                 \hyperlink{classfp_1_1fpForestClassificationBase_aea9db2571269f0f627226aa75ec4a694}{growTrees}();
+77                 \hyperlink{classfp_1_1fpForestClassificationBase_a48567d379434daeccb1540c84674d286}{treeStats}();
+78             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -165,31 +172,27 @@ void \hyperlink{classfp_1_1fpForestClassificationBase}{fp\+::fp\+Forest\+Classif
 
 
 
-Definition at line 34 of file fp\+Forest\+Classification\+Base.\+h.
+Definition at line 36 of file fp\+Forest\+Classification\+Base.\+h.
 
 
 \begin{DoxyCode}
-34                             \{
-35                 \textcolor{keyword}{auto} startTime = std::chrono::system\_clock::now();
-36                 \textcolor{keyword}{auto} stopTime = std::chrono::system\_clock::now();
-37                 \textcolor{comment}{//  std::chrono::duration<double, std::chrono::seconds> diffSeconds;}
-38                 std::chrono::seconds diffSeconds;
-39                 std::chrono::seconds updateTime(10);
-40 
-41                 std::cout << \textcolor{stringliteral}{"starting tree 1"} << std::flush;
-42 
-43                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0; i < \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}.size(); ++i)\{
-44                     stopTime = std::chrono::high\_resolution\_clock::now();
-45                     diffSeconds =   std::chrono::duration\_cast<std::chrono::seconds>(stopTime - startTime);
-46                     \textcolor{keywordflow}{if}(diffSeconds > updateTime)\{
-47                         std::cout << \textcolor{stringliteral}{"..."} << i << std::flush;
-48                         startTime = std::chrono::high\_resolution\_clock::now();
-49                     \}
-50                     \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}[i].growTree();
-51                 \}
-52                 std::cout << \textcolor{stringliteral}{"\(\backslash\)n"}<< std::flush;
-53             \}
+36                             \{
+37 
+38                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0; i < \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}.size(); ++i)\{
+39                     \hyperlink{classfp_1_1fpForestClassificationBase_a21148775a113092d6929e0d28e351a2c}{printProgress}.\hyperlink{classfp_1_1fpDisplayProgress_adf5b2e390618d63eccb6de3b00eb857b}{displayProgress}(i);
+40                     \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}[i].growTree();
+41                 \}
+42                 std::cout << \textcolor{stringliteral}{"\(\backslash\)n"}<< std::flush;
+43             \}
 \end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForestClassificationBase_aea9db2571269f0f627226aa75ec4a694_cgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{classfp_1_1fpForestClassificationBase_ad0c690fff971fab681467fbcd8762b5f}\label{classfp_1_1fpForestClassificationBase_ad0c690fff971fab681467fbcd8762b5f}} 
 \index{fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}!predict\+Class@{predict\+Class}}
 \index{predict\+Class@{predict\+Class}!fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}}
@@ -199,30 +202,30 @@ int \hyperlink{classfp_1_1fpForestClassificationBase}{fp\+::fp\+Forest\+Classifi
 
 
 
-Definition at line 90 of file fp\+Forest\+Classification\+Base.\+h.
+Definition at line 80 of file fp\+Forest\+Classification\+Base.\+h.
 
 
 \begin{DoxyCode}
-90                                                    \{
-91 
-92                 std::vector<int> classTally(\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+80                                                    \{
+81                 std::vector<int> classTally(\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
       returnNumClasses(),0);
-93                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+82                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
       \hyperlink{classfp_1_1fpSingleton_a8be36616345b6b77ce4c60b99cc2b91c}{returnNumTrees}(); ++i)\{
-94                     ++classTally[\hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}[i].predictObservation(observationNumber)];
-95                 \}
-96 
-97                 \textcolor{keywordtype}{int} bestClass = 0;
-98                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j = 1; j < \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+83                     ++classTally[\hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}[i].predictObservation(observationNumber)];
+84                 \}
+85 
+86                 \textcolor{keywordtype}{int} bestClass = 0;
+87                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j = 1; j < \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
       \hyperlink{classfp_1_1fpSingleton_a5602580110329a6b25602b1789e4e2c2}{returnNumClasses}(); ++j)\{
-99                     \textcolor{keywordflow}{if}(classTally[bestClass] < classTally[j])\{
-100                         bestClass = j;
-101                     \}
-102                 \}
-103                 \textcolor{keywordflow}{return} bestClass;
-104             \}
+88                     \textcolor{keywordflow}{if}(classTally[bestClass] < classTally[j])\{
+89                         bestClass = j;
+90                     \}
+91                 \}
+92                 \textcolor{keywordflow}{return} bestClass;
+93             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -242,13 +245,13 @@ Implements \hyperlink{classfp_1_1fpForestBase_a5e200f603cca94bb5d9f357489f07e97}
 
 
 
-Definition at line 26 of file fp\+Forest\+Classification\+Base.\+h.
+Definition at line 28 of file fp\+Forest\+Classification\+Base.\+h.
 
 
 \begin{DoxyCode}
-26                                   \{
-27                 std::cout << \textcolor{stringliteral}{"This is a basic classification forest.\(\backslash\)n"};
-28             \}
+28                                   \{
+29                 std::cout << \textcolor{stringliteral}{"This is a basic classification forest.\(\backslash\)n"};
+30             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1fpForestClassificationBase_a1989f90fbd27ac90232b7a1071c96a00}\label{classfp_1_1fpForestClassificationBase_a1989f90fbd27ac90232b7a1071c96a00}} 
 \index{fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}!print\+Tree0@{print\+Tree0}}
@@ -259,13 +262,13 @@ void \hyperlink{classfp_1_1fpForestClassificationBase}{fp\+::fp\+Forest\+Classif
 
 
 
-Definition at line 78 of file fp\+Forest\+Classification\+Base.\+h.
+Definition at line 69 of file fp\+Forest\+Classification\+Base.\+h.
 
 
 \begin{DoxyCode}
-78                              \{
-79                 \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}[0].printTree();
-80             \}
+69                              \{
+70                 \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}[0].printTree();
+71             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1fpForestClassificationBase_a3f1ad5a5cfb3633713d0a81bd1c356e8}\label{classfp_1_1fpForestClassificationBase_a3f1ad5a5cfb3633713d0a81bd1c356e8}} 
 \index{fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}!test\+Forest@{test\+Forest}}
@@ -280,30 +283,31 @@ Implements \hyperlink{classfp_1_1fpForestBase_af7becba028a198f650841b718d16ed16}
 
 
 
-Definition at line 106 of file fp\+Forest\+Classification\+Base.\+h.
+Definition at line 96 of file fp\+Forest\+Classification\+Base.\+h.
 
 
 \begin{DoxyCode}
-106                               \{
-107                 \textcolor{keywordtype}{float} numTried = 0;
-108                 \textcolor{keywordtype}{float} numWrong = 0;
-109 
-110                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i <\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
-      \hyperlink{classfp_1_1fpSingleton_ae12f22ad096ff0d419fce47df710bf78}{returnNumObservations}();i++)\{
-111                     ++numTried;
-112                     \textcolor{keywordtype}{int} predClass = \hyperlink{classfp_1_1fpForestClassificationBase_ad0c690fff971fab681467fbcd8762b5f}{predictClass}(i);
-113 
-114                     \textcolor{keywordflow}{if}(predClass != \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().returnTestLabel(i)
+96                               \{
+97                 \textcolor{keywordtype}{float} numTried = 0;
+98                 \textcolor{keywordtype}{float} numWrong = 0;
+99 
+100                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i <\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_ae0a2963feb07b809b8740218f1048b67}{returnNumObservations}();i++)\{
+101                     ++numTried;
+102                     \textcolor{keywordtype}{int} predClass = \hyperlink{classfp_1_1fpForestClassificationBase_ad0c690fff971fab681467fbcd8762b5f}{predictClass}(i);
+103 
+104                     \textcolor{keywordflow}{if}(predClass != \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().returnTestLabel(i)
       )\{
-115                         ++numWrong;
-116                     \}
-117                 \}
-118                 std::cout << \textcolor{stringliteral}{"\(\backslash\)nnumWrong= "} << numWrong << \textcolor{stringliteral}{"\(\backslash\)n"};
-119 
-120                 \textcolor{keywordflow}{return} numWrong/numTried;
-121             \}
+105                         ++numWrong;
+106                     \}
+107                 \}
+108                 std::cout << \textcolor{stringliteral}{"\(\backslash\)nnumWrong= "} << numWrong << \textcolor{stringliteral}{"\(\backslash\)n"};
+109 
+110                 \textcolor{keywordflow}{return} numWrong/numTried;
+111             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -319,31 +323,32 @@ void \hyperlink{classfp_1_1fpForestClassificationBase}{fp\+::fp\+Forest\+Classif
 
 
 
-Definition at line 59 of file fp\+Forest\+Classification\+Base.\+h.
+Definition at line 50 of file fp\+Forest\+Classification\+Base.\+h.
 
 
 \begin{DoxyCode}
-59                             \{
-60                 \textcolor{keywordtype}{int} maxDepth=0;
-61                 \textcolor{keywordtype}{int} totalLeafNodes=0;
-62                 \textcolor{keywordtype}{int} totalLeafDepth=0;
-63 
-64                 \textcolor{keywordtype}{int} tempMaxDepth;
-65                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+50                             \{
+51                 \textcolor{keywordtype}{int} maxDepth=0;
+52                 \textcolor{keywordtype}{int} totalLeafNodes=0;
+53                 \textcolor{keywordtype}{int} totalLeafDepth=0;
+54 
+55                 \textcolor{keywordtype}{int} tempMaxDepth;
+56                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
       \hyperlink{classfp_1_1fpSingleton_a8be36616345b6b77ce4c60b99cc2b91c}{returnNumTrees}(); ++i)\{
-66                     tempMaxDepth = \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}[i].returnMaxDepth();
-67                     maxDepth = ((maxDepth < tempMaxDepth) ? tempMaxDepth : maxDepth);
-68 
-69                     totalLeafNodes += \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}[i].returnNumLeafNodes();
-70                     totalLeafDepth += \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}[i].returnLeafDepthSum();
-71                 \}
-72 
-73                 std::cout << \textcolor{stringliteral}{"max depth: "} << maxDepth << \textcolor{stringliteral}{"\(\backslash\)n"};
-74                 std::cout << \textcolor{stringliteral}{"avg depth: "} << float(totalLeafDepth)/float(totalLeafNodes) << \textcolor{stringliteral}{"\(\backslash\)n"};
-75                 std::cout << \textcolor{stringliteral}{"num leaf nodes: "} << totalLeafNodes << \textcolor{stringliteral}{"\(\backslash\)n"};
-76             \}
+57                     tempMaxDepth = \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}[i].returnMaxDepth();
+58                     maxDepth = ((maxDepth < tempMaxDepth) ? tempMaxDepth : maxDepth);
+59 
+60                     totalLeafNodes += \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}[i].returnNumLeafNodes();
+61                     totalLeafDepth += \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}[i].returnLeafDepthSum();
+62                 \}
+63 
+64                 std::cout << \textcolor{stringliteral}{"max depth: "} << maxDepth << \textcolor{stringliteral}{"\(\backslash\)n"};
+65                 std::cout << \textcolor{stringliteral}{"avg depth: "} << float(totalLeafDepth)/float(totalLeafNodes) << \textcolor{stringliteral}{"\(\backslash\)n"};
+66                 std::cout << \textcolor{stringliteral}{"num leaf nodes: "} << totalLeafNodes << \textcolor{stringliteral}{"\(\backslash\)n"};
+67             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -353,6 +358,17 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 \subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1fpForestClassificationBase_a21148775a113092d6929e0d28e351a2c}\label{classfp_1_1fpForestClassificationBase_a21148775a113092d6929e0d28e351a2c}} 
+\index{fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}!print\+Progress@{print\+Progress}}
+\index{print\+Progress@{print\+Progress}!fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}}
+\subsubsection{\texorpdfstring{print\+Progress}{printProgress}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classfp_1_1fpDisplayProgress}{fp\+Display\+Progress} \hyperlink{classfp_1_1fpForestClassificationBase}{fp\+::fp\+Forest\+Classification\+Base}$<$ T $>$\+::print\+Progress}
+
+
+
+Definition at line 22 of file fp\+Forest\+Classification\+Base.\+h.
+
 \mbox{\Hypertarget{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}\label{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}} 
 \index{fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}!trees@{trees}}
 \index{trees@{trees}!fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}}

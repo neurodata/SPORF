@@ -1,9 +1,10 @@
 #ifndef fpGrowingTree_h
 #define fpGrowingTree_h
-#include "rfNode.h"
+
 #include <vector>
+#include <iostream>
 #include <random>
-#include "growingTreeElement.h"
+//#include "growingTreeElement.h"
 
 namespace fp{
 
@@ -11,13 +12,21 @@ namespace fp{
 		class fpGrowingTree
 		{
 			protected:
-std::vector <growingTreeElement<T> >  nodeIndexHolder; 
-std::vector <int> OOBHolder;
+				static std::vector <int> potentialSamples(fpSingleton::getSingleton().returnNumObservations());
+//				std::vector <growingTreeElement<T> >  nodeIndexHolder; 
+				std::vector <int> OOBHolder;
 
 			public:
 				fpGrowingTree(){
-			nodeIndexHolder.resize(fpSingleton::getSingleton().returnNumObservations());	
-			OOBHolder.resize(fpSingleton::getSingleton().returnNumObservations()/2);	
+					std::vector<int> potentialSamples;
+
+
+					nodeIndexHolder.resize(fpSingleton::getSingleton().returnNumObservations());	
+					//TODO make the next line optional.  Only if user wants OOB.
+					if(true){
+						OOBHolder.resize(fpSingleton::getSingleton().returnNumObservations()/2);	
+					}
+
 				}
 
 				inline initializeRootOfTree(int growingTreeNumber){
@@ -25,6 +34,10 @@ std::vector <int> OOBHolder;
 
 				}
 		};
+
+//	for(int i=0; i < fpSingleton::getSingleton().returnNumObservations(); ++i){
+//		potentialSamples[i] = i;
+//	}
 
 }
 #endif //fpGrowingTree_h

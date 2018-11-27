@@ -77,12 +77,12 @@ Collaboration diagram for fp::fpData:</div>
 <div class="dyncontent">
 <div class="center"><img src="classfp_1_1fpData__coll__graph.png" border="0" usemap="#fp_1_1fpData_coll__map" alt="Collaboration graph"/></div>
 <map name="fp_1_1fpData_coll__map" id="fp_1_1fpData_coll__map">
-<area shape="rect" id="node2" href="classtestData.html" title="testData\&lt; double, int \&gt;" alt="" coords="270,193,426,219"/>
-<area shape="rect" id="node3" href="classinputYDataClassification.html" title="inputYDataClassification\l\&lt; int \&gt;" alt="" coords="179,81,346,123"/>
-<area shape="rect" id="node6" href="classinputData.html" title="inputData\&lt; double,\l int \&gt;" alt="" coords="114,185,246,227"/>
-<area shape="rect" id="node4" href="classinputYData.html" title="inputYData\&lt; int \&gt;" alt="" coords="200,5,325,32"/>
-<area shape="rect" id="node5" href="classtestXData.html" title="testXData\&lt; double \&gt;" alt="" coords="370,89,513,115"/>
-<area shape="rect" id="node7" href="classinputXData.html" title="inputXData\&lt; double \&gt;" alt="" coords="5,89,155,115"/>
+<area shape="rect" id="node2" href="classfp_1_1testData.html" title="fp::testData\&lt; double,\l int \&gt;" alt="" coords="448,99,593,141"/>
+<area shape="rect" id="node3" href="classfp_1_1inputYDataClassification.html" title="fp::inputYDataClassification\l\&lt; int \&gt;" alt="" coords="199,66,384,107"/>
+<area shape="rect" id="node6" href="classfp_1_1inputData.html" title="fp::inputData\&lt; double,\l int \&gt;" alt="" coords="445,34,596,75"/>
+<area shape="rect" id="node4" href="classfp_1_1inputYData.html" title="fp::inputYData\&lt; int \&gt;" alt="" coords="5,73,149,100"/>
+<area shape="rect" id="node5" href="classfp_1_1testXData.html" title="fp::testXData\&lt; double \&gt;" alt="" coords="210,141,373,168"/>
+<area shape="rect" id="node7" href="classfp_1_1inputXData.html" title="fp::inputXData\&lt; double \&gt;" alt="" coords="207,5,375,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -127,14 +127,16 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a49d7c3f58bcf88843c25b1b0c9714ebe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classinputData.html">inputData</a>&lt; double, int &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a></td></tr>
+<tr class="memitem:a49d7c3f58bcf88843c25b1b0c9714ebe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classfp_1_1inputData.html">inputData</a>&lt; double, int &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a></td></tr>
 <tr class="separator:a49d7c3f58bcf88843c25b1b0c9714ebe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4f4dd3a8d15633b7f983932fa60bbad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtestData.html">testData</a>&lt; double, int &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a></td></tr>
+<tr class="memitem:ad4f4dd3a8d15633b7f983932fa60bbad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classfp_1_1testData.html">testData</a>&lt; double, int &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a></td></tr>
 <tr class="separator:ad4f4dd3a8d15633b7f983932fa60bbad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00011">11</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<div class="textblock"><p><a class="el" href="classfp_1_1fpData.html">fpData</a> holds both the training and test data. This data gets loaded from fpDataset.</p>
+<p>TODO: This is not a good way to do this. There is nothing different from training data and test data. This is wrong. test data should be stored by observation whereas training data is stored by feature. </p>
+
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00019">19</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a0e111a379a969d2ff0b3e8c5911cf78a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0e111a379a969d2ff0b3e8c5911cf78a">&#9670;&nbsp;</a></span>fpData()</h2>
@@ -159,8 +161,8 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00023">23</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                    {</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                <span class="comment">//forestInfo = fpSingleton::getSingleton();</span></div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00027">27</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                    {</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a62998c12f30ea88e6b3ea30b17d1a3e0"></a>
@@ -186,9 +188,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00027">27</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                     {</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keywordflow">if</span>(<a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a> != NULL){</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                    <span class="keyword">delete</span> <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a>;</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                    <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a> = NULL;</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                }</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordflow">if</span>(<a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a> != NULL){</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                    <span class="keyword">delete</span> <a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a>;</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                    <a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a> = NULL;</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                }</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_ad4f4dd3a8d15633b7f983932fa60bbad"><div class="ttname"><a href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">fp::fpData::inTestData</a></div><div class="ttdeci">testData&lt; double, int &gt; * inTestData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00018">fpData.h:18</a></div></div>
-<div class="ttc" id="classfp_1_1fpData_html_a49d7c3f58bcf88843c25b1b0c9714ebe"><div class="ttname"><a href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">fp::fpData::inData</a></div><div class="ttdeci">inputData&lt; double, int &gt; * inData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00017">fpData.h:17</a></div></div>
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00030">30</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                     {</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                <span class="keywordflow">if</span>(<a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a> != NULL){</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                    <span class="keyword">delete</span> <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a>;</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                    <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a> = NULL;</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                }</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                <span class="keywordflow">if</span>(<a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a> != NULL){</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                    <span class="keyword">delete</span> <a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a>;</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                    <a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a> = NULL;</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                }</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_ad4f4dd3a8d15633b7f983932fa60bbad"><div class="ttname"><a href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">fp::fpData::inTestData</a></div><div class="ttdeci">testData&lt; double, int &gt; * inTestData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00023">fpData.h:23</a></div></div>
+<div class="ttc" id="classfp_1_1fpData_html_a49d7c3f58bcf88843c25b1b0c9714ebe"><div class="ttname"><a href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">fp::fpData::inData</a></div><div class="ttdeci">inputData&lt; double, int &gt; * inData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00022">fpData.h:22</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -216,8 +218,8 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00051">51</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                               {</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <span class="keywordflow">if</span>(<a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a> != NULL){</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                    <span class="keyword">delete</span> <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a>;</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                    <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a> = NULL;</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                }<span class="keywordflow">else</span> {</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                    <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Unable to delete data.  Data does not exist.&quot;</span> );</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                }</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_a49d7c3f58bcf88843c25b1b0c9714ebe"><div class="ttname"><a href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">fp::fpData::inData</a></div><div class="ttdeci">inputData&lt; double, int &gt; * inData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00017">fpData.h:17</a></div></div>
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00057">57</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                               {</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <span class="keywordflow">if</span>(<a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a> != NULL){</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                    <span class="keyword">delete</span> <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a>;</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                    <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a> = NULL;</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                }<span class="keywordflow">else</span> {</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                    <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Unable to delete data.  Data does not exist.&quot;</span> );</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                }</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_a49d7c3f58bcf88843c25b1b0c9714ebe"><div class="ttname"><a href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">fp::fpData::inData</a></div><div class="ttdeci">inputData&lt; double, int &gt; * inData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00022">fpData.h:22</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -244,8 +246,8 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00111">111</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                       {</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                <span class="keywordflow">if</span>(<a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a> != NULL){</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                    <span class="keyword">delete</span> <a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a>;</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                    <a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a> = NULL;</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                }<span class="keywordflow">else</span> {</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                    <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Unable to delete test data.  Test data does not exist.&quot;</span> );</div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                }</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_ad4f4dd3a8d15633b7f983932fa60bbad"><div class="ttname"><a href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">fp::fpData::inTestData</a></div><div class="ttdeci">testData&lt; double, int &gt; * inTestData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00018">fpData.h:18</a></div></div>
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00119">119</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                                   {</div><div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                <span class="keywordflow">if</span>(<a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a> != NULL){</div><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                    <span class="keyword">delete</span> <a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a>;</div><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                    <a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a> = NULL;</div><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                }<span class="keywordflow">else</span> {</div><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                    <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Unable to delete test data.  Test data does not exist.&quot;</span> );</div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                }</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_ad4f4dd3a8d15633b7f983932fa60bbad"><div class="ttname"><a href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">fp::fpData::inTestData</a></div><div class="ttdeci">testData&lt; double, int &gt; * inTestData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00023">fpData.h:23</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -273,11 +275,10 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00041">41</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                                             {</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <span class="keywordflow">if</span>(<a class="code" href="classfp_1_1fpData.html#a2b4d9be328aaa7acf9a2561150da0402">loadDataFromCSV</a>(settings)){</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                    <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a> = <span class="keyword">new</span> <a class="code" href="classinputData.html">inputData&lt;double,int&gt;</a>(settings.returnCSVFileName(), settings.returnColumnWithY());</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                }<span class="keywordflow">else</span> {</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                    <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Unable to read data.&quot;</span> );</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                }</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                <a class="code" href="classfp_1_1fpData.html#ab48923d57206e17b88f0d89833051b43">setDataRelatedParameters</a>(settings);</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            }</div><div class="ttc" id="classinputData_html"><div class="ttname"><a href="classinputData.html">inputData&lt; double, int &gt;</a></div></div>
-<div class="ttc" id="classfp_1_1fpData_html_a2b4d9be328aaa7acf9a2561150da0402"><div class="ttname"><a href="classfp_1_1fpData.html#a2b4d9be328aaa7acf9a2561150da0402">fp::fpData::loadDataFromCSV</a></div><div class="ttdeci">bool loadDataFromCSV(fpInfo &amp;settings)</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00038">fpData.h:38</a></div></div>
-<div class="ttc" id="classfp_1_1fpData_html_a49d7c3f58bcf88843c25b1b0c9714ebe"><div class="ttname"><a href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">fp::fpData::inData</a></div><div class="ttdeci">inputData&lt; double, int &gt; * inData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00017">fpData.h:17</a></div></div>
-<div class="ttc" id="classfp_1_1fpData_html_ab48923d57206e17b88f0d89833051b43"><div class="ttname"><a href="classfp_1_1fpData.html#ab48923d57206e17b88f0d89833051b43">fp::fpData::setDataRelatedParameters</a></div><div class="ttdeci">void setDataRelatedParameters(fpInfo &amp;settings)</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00086">fpData.h:86</a></div></div>
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00047">47</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                                             {</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                <span class="keywordflow">if</span>(<a class="code" href="classfp_1_1fpData.html#a2b4d9be328aaa7acf9a2561150da0402">loadDataFromCSV</a>(settings)){</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                    <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a> = <span class="keyword">new</span> inputData&lt;double,int&gt;(settings.returnCSVFileName(), settings.returnColumnWithY());</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                }<span class="keywordflow">else</span> {</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                    <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Unable to read data.&quot;</span> );</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                }</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <a class="code" href="classfp_1_1fpData.html#ab48923d57206e17b88f0d89833051b43">setDataRelatedParameters</a>(settings);</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_a2b4d9be328aaa7acf9a2561150da0402"><div class="ttname"><a href="classfp_1_1fpData.html#a2b4d9be328aaa7acf9a2561150da0402">fp::fpData::loadDataFromCSV</a></div><div class="ttdeci">bool loadDataFromCSV(fpInfo &amp;settings)</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00042">fpData.h:42</a></div></div>
+<div class="ttc" id="classfp_1_1fpData_html_a49d7c3f58bcf88843c25b1b0c9714ebe"><div class="ttname"><a href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">fp::fpData::inData</a></div><div class="ttdeci">inputData&lt; double, int &gt; * inData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00022">fpData.h:22</a></div></div>
+<div class="ttc" id="classfp_1_1fpData_html_ab48923d57206e17b88f0d89833051b43"><div class="ttname"><a href="classfp_1_1fpData.html#ab48923d57206e17b88f0d89833051b43">fp::fpData::setDataRelatedParameters</a></div><div class="ttdeci">void setDataRelatedParameters(fpInfo &amp;settings)</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00094">fpData.h:94</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -285,18 +286,18 @@ Here is the call graph for this function:</div>
 <map name="classfp_1_1fpData_a91c727b1475eca340ca14c241b25c959_cgraph" id="classfp_1_1fpData_a91c727b1475eca340ca14c241b25c959_cgraph">
 <area shape="rect" id="node2" href="classfp_1_1fpData.html#a2b4d9be328aaa7acf9a2561150da0402" title="fp::fpData::loadDataFromCSV" alt="" coords="208,5,407,32"/>
 <area shape="rect" id="node4" href="classfp_1_1fpInfo.html#a78c57a1955263d343c794f2156cd0a76" title="fp::fpInfo::returnCSVFileName" alt="" coords="208,56,407,83"/>
-<area shape="rect" id="node5" href="classfp_1_1fpInfo.html#a52ef3c184d39133dae472bb51e1287e7" title="fp::fpInfo::returnColumn\lWithY" alt="" coords="227,107,387,149"/>
+<area shape="rect" id="node5" href="classfp_1_1fpInfo.html#a288c05e4f29935aec7f32dc3c947e9d4" title="fp::fpInfo::returnColumn\lWithY" alt="" coords="227,107,387,149"/>
 <area shape="rect" id="node6" href="classfp_1_1fpData.html#ab48923d57206e17b88f0d89833051b43" title="fp::fpData::setDataRelated\lParameters" alt="" coords="218,173,397,214"/>
 <area shape="rect" id="node3" href="classfp_1_1fpInfo.html#a2a6ac3cfea5db5842baa1789468492ad" title="fp::fpInfo::loadDataFromCSV" alt="" coords="472,5,664,32"/>
-<area shape="rect" id="node7" href="classfp_1_1fpInfo.html#a69ef99f2ec9ef74dd3787bc33ffb05d0" title="fp::fpInfo::setNumFeatures" alt="" coords="479,67,657,93"/>
+<area shape="rect" id="node7" href="classfp_1_1fpInfo.html#ab8b97144a2a9ebd565d81de4b63f490c" title="fp::fpInfo::setNumFeatures" alt="" coords="479,67,657,93"/>
 <area shape="rect" id="node8" href="classfp_1_1fpData.html#a95088e33b280e5c82b3543033d8852e1" title="fp::fpData::returnNumFeatures" alt="" coords="468,117,668,144"/>
-<area shape="rect" id="node10" href="classfp_1_1fpInfo.html#ad17492e79df7bca55d98438fec2f004b" title="fp::fpInfo::setNumObservations" alt="" coords="465,168,671,195"/>
+<area shape="rect" id="node10" href="classfp_1_1fpInfo.html#a97b1a91a4b64e8de811adae7313f73af" title="fp::fpInfo::setNumObservations" alt="" coords="465,168,671,195"/>
 <area shape="rect" id="node11" href="classfp_1_1fpData.html#a9056a8c0e7e48fe9aa591269064ecc43" title="fp::fpData::returnNumObservations" alt="" coords="455,219,681,245"/>
-<area shape="rect" id="node13" href="classfp_1_1fpInfo.html#a3598d1ab13bf05b53858b1ca8c44fa68" title="fp::fpInfo::setNumClasses" alt="" coords="480,269,656,296"/>
+<area shape="rect" id="node13" href="classfp_1_1fpInfo.html#a577f80c50c60a7e48bb6ca444843cdba" title="fp::fpInfo::setNumClasses" alt="" coords="480,269,656,296"/>
 <area shape="rect" id="node14" href="classfp_1_1fpData.html#a7abfc93af30b7262d59b6d304796a09d" title="fp::fpData::returnNumClasses" alt="" coords="469,320,667,347"/>
-<area shape="rect" id="node9" href="classinputData.html#a8fbb9ac952f73f65295eeb9bf8c3b01a" title="inputData::returnNumFeatures" alt="" coords="742,117,941,144"/>
-<area shape="rect" id="node12" href="classinputData.html#af2ac0a8c7e0bfcdf1de1ea521eadc7af" title="inputData::returnNumObservations" alt="" coords="729,219,953,245"/>
-<area shape="rect" id="node15" href="classinputData.html#aa87e9181995fe0f15fae83617dba2808" title="inputData::returnNumClasses" alt="" coords="744,320,939,347"/>
+<area shape="rect" id="node9" href="classfp_1_1inputData.html#ae9362286ea7706a8b0d91ba96e9ad478" title="fp::inputData::returnNum\lFeatures" alt="" coords="729,110,896,151"/>
+<area shape="rect" id="node12" href="classfp_1_1inputData.html#af7dc02941195e025d1d89c882096027d" title="fp::inputData::returnNum\lObservations" alt="" coords="729,211,896,253"/>
+<area shape="rect" id="node15" href="classfp_1_1inputData.html#a1e775e3744cb3bacb1a6776054aabe4f" title="fp::inputData::returnNum\lClasses" alt="" coords="729,313,896,354"/>
 </map>
 </div>
 
@@ -326,11 +327,10 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00100">100</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                                                 {</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                <span class="keywordflow">if</span>(<a class="code" href="classfp_1_1fpData.html#a2b4d9be328aaa7acf9a2561150da0402">loadDataFromCSV</a>(settings)){</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                    <a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a> = <span class="keyword">new</span> <a class="code" href="classtestData.html">testData&lt;double,int&gt;</a>(settings.returnCSVFileName(), settings.returnColumnWithY());</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                }<span class="keywordflow">else</span> {</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                    <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Unable to read test data.&quot;</span> );</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                }</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                <a class="code" href="classfp_1_1fpData.html#ab60d2098334e253a0bf3115f029c1996">setTestDataRelatedParameters</a>(settings);</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_ad4f4dd3a8d15633b7f983932fa60bbad"><div class="ttname"><a href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">fp::fpData::inTestData</a></div><div class="ttdeci">testData&lt; double, int &gt; * inTestData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00018">fpData.h:18</a></div></div>
-<div class="ttc" id="classfp_1_1fpData_html_a2b4d9be328aaa7acf9a2561150da0402"><div class="ttname"><a href="classfp_1_1fpData.html#a2b4d9be328aaa7acf9a2561150da0402">fp::fpData::loadDataFromCSV</a></div><div class="ttdeci">bool loadDataFromCSV(fpInfo &amp;settings)</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00038">fpData.h:38</a></div></div>
-<div class="ttc" id="classtestData_html"><div class="ttname"><a href="classtestData.html">testData&lt; double, int &gt;</a></div></div>
-<div class="ttc" id="classfp_1_1fpData_html_ab60d2098334e253a0bf3115f029c1996"><div class="ttname"><a href="classfp_1_1fpData.html#ab60d2098334e253a0bf3115f029c1996">fp::fpData::setTestDataRelatedParameters</a></div><div class="ttdeci">void setTestDataRelatedParameters(fpInfo &amp;settings)</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00096">fpData.h:96</a></div></div>
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00109">109</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                                                 {</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                <span class="keywordflow">if</span>(<a class="code" href="classfp_1_1fpData.html#a2b4d9be328aaa7acf9a2561150da0402">loadDataFromCSV</a>(settings)){</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                    <a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a> = <span class="keyword">new</span> testData&lt;double,int&gt;(settings.returnCSVFileName(), settings.returnColumnWithY());</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                }<span class="keywordflow">else</span> {</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                    <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Unable to read test data.&quot;</span> );</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                }</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                <a class="code" href="classfp_1_1fpData.html#ab60d2098334e253a0bf3115f029c1996">setTestDataRelatedParameters</a>(settings);</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_ad4f4dd3a8d15633b7f983932fa60bbad"><div class="ttname"><a href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">fp::fpData::inTestData</a></div><div class="ttdeci">testData&lt; double, int &gt; * inTestData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00023">fpData.h:23</a></div></div>
+<div class="ttc" id="classfp_1_1fpData_html_a2b4d9be328aaa7acf9a2561150da0402"><div class="ttname"><a href="classfp_1_1fpData.html#a2b4d9be328aaa7acf9a2561150da0402">fp::fpData::loadDataFromCSV</a></div><div class="ttdeci">bool loadDataFromCSV(fpInfo &amp;settings)</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00042">fpData.h:42</a></div></div>
+<div class="ttc" id="classfp_1_1fpData_html_ab60d2098334e253a0bf3115f029c1996"><div class="ttname"><a href="classfp_1_1fpData.html#ab60d2098334e253a0bf3115f029c1996">fp::fpData::setTestDataRelatedParameters</a></div><div class="ttdeci">void setTestDataRelatedParameters(fpInfo &amp;settings)</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00105">fpData.h:105</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -338,12 +338,12 @@ Here is the call graph for this function:</div>
 <map name="classfp_1_1fpData_a4b527bc84762c4708992b7fdce3d0602_cgraph" id="classfp_1_1fpData_a4b527bc84762c4708992b7fdce3d0602_cgraph">
 <area shape="rect" id="node2" href="classfp_1_1fpData.html#a2b4d9be328aaa7acf9a2561150da0402" title="fp::fpData::loadDataFromCSV" alt="" coords="238,5,437,32"/>
 <area shape="rect" id="node4" href="classfp_1_1fpInfo.html#a78c57a1955263d343c794f2156cd0a76" title="fp::fpInfo::returnCSVFileName" alt="" coords="238,56,437,83"/>
-<area shape="rect" id="node5" href="classfp_1_1fpInfo.html#a52ef3c184d39133dae472bb51e1287e7" title="fp::fpInfo::returnColumn\lWithY" alt="" coords="257,107,417,149"/>
+<area shape="rect" id="node5" href="classfp_1_1fpInfo.html#a288c05e4f29935aec7f32dc3c947e9d4" title="fp::fpInfo::returnColumn\lWithY" alt="" coords="257,107,417,149"/>
 <area shape="rect" id="node6" href="classfp_1_1fpData.html#ab60d2098334e253a0bf3115f029c1996" title="fp::fpData::setTestDataRelated\lParameters" alt="" coords="235,173,440,214"/>
 <area shape="rect" id="node3" href="classfp_1_1fpInfo.html#a2a6ac3cfea5db5842baa1789468492ad" title="fp::fpInfo::loadDataFromCSV" alt="" coords="495,5,687,32"/>
-<area shape="rect" id="node7" href="classfp_1_1fpInfo.html#ad17492e79df7bca55d98438fec2f004b" title="fp::fpInfo::setNumObservations" alt="" coords="488,151,693,177"/>
+<area shape="rect" id="node7" href="classfp_1_1fpInfo.html#a97b1a91a4b64e8de811adae7313f73af" title="fp::fpInfo::setNumObservations" alt="" coords="488,151,693,177"/>
 <area shape="rect" id="node8" href="classfp_1_1fpData.html#a9a115d29fafb6e5b941f4e0c860e65e7" title="fp::fpData::returnNumTest\lObservations" alt="" coords="503,202,678,243"/>
-<area shape="rect" id="node9" href="classtestData.html#a7b7ea4d5b03144b691e909730d70ce62" title="testData::returnNumObservations" alt="" coords="741,209,960,236"/>
+<area shape="rect" id="node9" href="classfp_1_1testData.html#af9dd7a4aa116d99a11838a02f2154c08" title="fp::testData::returnNumObservations" alt="" coords="741,209,979,236"/>
 </map>
 </div>
 
@@ -373,8 +373,8 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00038">38</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                                                         {</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                <span class="keywordflow">return</span> settings.loadDataFromCSV();</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            }</div></div><!-- fragment --><div class="dynheader">
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00042">42</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                                                         {</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keywordflow">return</span> settings.loadDataFromCSV();</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            }</div></div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classfp_1_1fpData_a2b4d9be328aaa7acf9a2561150da0402_cgraph.png" border="0" usemap="#classfp_1_1fpData_a2b4d9be328aaa7acf9a2561150da0402_cgraph" alt=""/></div>
@@ -419,15 +419,15 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00080">80</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                                                                                    {</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a>-&gt;<a class="code" href="classinputData.html#af1637032057ee7aa01a19bd8d7583a95">prefetchFeatureValue</a>(featureNumber, observationNumber);</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            }</div><div class="ttc" id="classinputData_html_af1637032057ee7aa01a19bd8d7583a95"><div class="ttname"><a href="classinputData.html#af1637032057ee7aa01a19bd8d7583a95">inputData::prefetchFeatureValue</a></div><div class="ttdeci">void prefetchFeatureValue(const int &amp;featureNum, const int &amp;observationNum)</div><div class="ttdef"><b>Definition:</b> <a href="fpDataSet_8h_source.html#l00144">fpDataSet.h:144</a></div></div>
-<div class="ttc" id="classfp_1_1fpData_html_a49d7c3f58bcf88843c25b1b0c9714ebe"><div class="ttname"><a href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">fp::fpData::inData</a></div><div class="ttdeci">inputData&lt; double, int &gt; * inData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00017">fpData.h:17</a></div></div>
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00088">88</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                                                                                                {</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a>-&gt;<a class="code" href="classfp_1_1inputData.html#a348baff7c24d263bb24185dbaa19d455">prefetchFeatureValue</a>(featureNumber, observationNumber);</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            }</div><div class="ttc" id="classfp_1_1inputData_html_a348baff7c24d263bb24185dbaa19d455"><div class="ttname"><a href="classfp_1_1inputData.html#a348baff7c24d263bb24185dbaa19d455">fp::inputData::prefetchFeatureValue</a></div><div class="ttdeci">void prefetchFeatureValue(const int &amp;featureNum, const int &amp;observationNum)</div><div class="ttdef"><b>Definition:</b> <a href="fpDataSet_8h_source.html#l00145">fpDataSet.h:145</a></div></div>
+<div class="ttc" id="classfp_1_1fpData_html_a49d7c3f58bcf88843c25b1b0c9714ebe"><div class="ttname"><a href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">fp::fpData::inData</a></div><div class="ttdeci">inputData&lt; double, int &gt; * inData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00022">fpData.h:22</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classfp_1_1fpData_a3f9645ca93e9b64a788b3042e9e41fcc_cgraph.png" border="0" usemap="#classfp_1_1fpData_a3f9645ca93e9b64a788b3042e9e41fcc_cgraph" alt=""/></div>
 <map name="classfp_1_1fpData_a3f9645ca93e9b64a788b3042e9e41fcc_cgraph" id="classfp_1_1fpData_a3f9645ca93e9b64a788b3042e9e41fcc_cgraph">
-<area shape="rect" id="node2" href="classinputData.html#af1637032057ee7aa01a19bd8d7583a95" title="inputData::prefetchFeature\lValue" alt="" coords="252,5,429,47"/>
+<area shape="rect" id="node2" href="classfp_1_1inputData.html#a348baff7c24d263bb24185dbaa19d455" title="fp::inputData::prefetchFeature\lValue" alt="" coords="252,5,448,47"/>
 </map>
 </div>
 
@@ -467,15 +467,15 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00076">76</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                                                                                                {</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a>-&gt;<a class="code" href="classinputData.html#a8914408ce5de02c3786dc7ff61f6cfab">returnFeatureValue</a>(featureNumber, observationNumber);</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_a49d7c3f58bcf88843c25b1b0c9714ebe"><div class="ttname"><a href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">fp::fpData::inData</a></div><div class="ttdeci">inputData&lt; double, int &gt; * inData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00017">fpData.h:17</a></div></div>
-<div class="ttc" id="classinputData_html_a8914408ce5de02c3786dc7ff61f6cfab"><div class="ttname"><a href="classinputData.html#a8914408ce5de02c3786dc7ff61f6cfab">inputData::returnFeatureValue</a></div><div class="ttdeci">T returnFeatureValue(const int &amp;featureNum, const int &amp;observationNum)</div><div class="ttdef"><b>Definition:</b> <a href="fpDataSet_8h_source.html#l00140">fpDataSet.h:140</a></div></div>
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00084">84</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                                                                                                {</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a>-&gt;<a class="code" href="classfp_1_1inputData.html#af52ac3512ee8f6e973799e024ddbf629">returnFeatureValue</a>(featureNumber, observationNumber);</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            }</div><div class="ttc" id="classfp_1_1inputData_html_af52ac3512ee8f6e973799e024ddbf629"><div class="ttname"><a href="classfp_1_1inputData.html#af52ac3512ee8f6e973799e024ddbf629">fp::inputData::returnFeatureValue</a></div><div class="ttdeci">T returnFeatureValue(const int &amp;featureNum, const int &amp;observationNum)</div><div class="ttdef"><b>Definition:</b> <a href="fpDataSet_8h_source.html#l00141">fpDataSet.h:141</a></div></div>
+<div class="ttc" id="classfp_1_1fpData_html_a49d7c3f58bcf88843c25b1b0c9714ebe"><div class="ttname"><a href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">fp::fpData::inData</a></div><div class="ttdeci">inputData&lt; double, int &gt; * inData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00022">fpData.h:22</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classfp_1_1fpData_a6b359086ec1e5c534095600e2ed5575f_cgraph.png" border="0" usemap="#classfp_1_1fpData_a6b359086ec1e5c534095600e2ed5575f_cgraph" alt=""/></div>
 <map name="classfp_1_1fpData_a6b359086ec1e5c534095600e2ed5575f_cgraph" id="classfp_1_1fpData_a6b359086ec1e5c534095600e2ed5575f_cgraph">
-<area shape="rect" id="node2" href="classinputData.html#a8914408ce5de02c3786dc7ff61f6cfab" title="inputData::returnFeature\lValue" alt="" coords="237,5,400,47"/>
+<area shape="rect" id="node2" href="classfp_1_1inputData.html#af52ac3512ee8f6e973799e024ddbf629" title="fp::inputData::returnFeature\lValue" alt="" coords="237,5,420,47"/>
 </map>
 </div>
 
@@ -505,15 +505,15 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00072">72</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                                                         {</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a>-&gt;<a class="code" href="classinputData.html#ab6ba59207888898f9c008578dd59cf46">returnClassOfObservation</a>(observationNumber);</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            }</div><div class="ttc" id="classinputData_html_ab6ba59207888898f9c008578dd59cf46"><div class="ttname"><a href="classinputData.html#ab6ba59207888898f9c008578dd59cf46">inputData::returnClassOfObservation</a></div><div class="ttdeci">Q returnClassOfObservation(const int &amp;observationNum)</div><div class="ttdef"><b>Definition:</b> <a href="fpDataSet_8h_source.html#l00136">fpDataSet.h:136</a></div></div>
-<div class="ttc" id="classfp_1_1fpData_html_a49d7c3f58bcf88843c25b1b0c9714ebe"><div class="ttname"><a href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">fp::fpData::inData</a></div><div class="ttdeci">inputData&lt; double, int &gt; * inData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00017">fpData.h:17</a></div></div>
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00080">80</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                                                         {</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a>-&gt;<a class="code" href="classfp_1_1inputData.html#a0a767252e950159110d3f2a0c74064ec">returnClassOfObservation</a>(observationNumber);</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_a49d7c3f58bcf88843c25b1b0c9714ebe"><div class="ttname"><a href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">fp::fpData::inData</a></div><div class="ttdeci">inputData&lt; double, int &gt; * inData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00022">fpData.h:22</a></div></div>
+<div class="ttc" id="classfp_1_1inputData_html_a0a767252e950159110d3f2a0c74064ec"><div class="ttname"><a href="classfp_1_1inputData.html#a0a767252e950159110d3f2a0c74064ec">fp::inputData::returnClassOfObservation</a></div><div class="ttdeci">Q returnClassOfObservation(const int &amp;observationNum)</div><div class="ttdef"><b>Definition:</b> <a href="fpDataSet_8h_source.html#l00137">fpDataSet.h:137</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classfp_1_1fpData_aac722f51424cb7f6ab7d89525f82cc72_cgraph.png" border="0" usemap="#classfp_1_1fpData_aac722f51424cb7f6ab7d89525f82cc72_cgraph" alt=""/></div>
 <map name="classfp_1_1fpData_aac722f51424cb7f6ab7d89525f82cc72_cgraph" id="classfp_1_1fpData_aac722f51424cb7f6ab7d89525f82cc72_cgraph">
-<area shape="rect" id="node2" href="classinputData.html#ab6ba59207888898f9c008578dd59cf46" title="inputData::returnClassOf\lObservation" alt="" coords="205,5,372,47"/>
+<area shape="rect" id="node2" href="classfp_1_1inputData.html#a0a767252e950159110d3f2a0c74064ec" title="fp::inputData::returnClass\lOfObservation" alt="" coords="205,5,377,47"/>
 </map>
 </div>
 
@@ -542,15 +542,15 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00060">60</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                                         {</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a>-&gt;<a class="code" href="classinputData.html#aa87e9181995fe0f15fae83617dba2808">returnNumClasses</a>();</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            }</div><div class="ttc" id="classinputData_html_aa87e9181995fe0f15fae83617dba2808"><div class="ttname"><a href="classinputData.html#aa87e9181995fe0f15fae83617dba2808">inputData::returnNumClasses</a></div><div class="ttdeci">int returnNumClasses()</div><div class="ttdef"><b>Definition:</b> <a href="fpDataSet_8h_source.html#l00156">fpDataSet.h:156</a></div></div>
-<div class="ttc" id="classfp_1_1fpData_html_a49d7c3f58bcf88843c25b1b0c9714ebe"><div class="ttname"><a href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">fp::fpData::inData</a></div><div class="ttdeci">inputData&lt; double, int &gt; * inData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00017">fpData.h:17</a></div></div>
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00067">67</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                                         {</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a>-&gt;<a class="code" href="classfp_1_1inputData.html#a1e775e3744cb3bacb1a6776054aabe4f">returnNumClasses</a>();</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_a49d7c3f58bcf88843c25b1b0c9714ebe"><div class="ttname"><a href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">fp::fpData::inData</a></div><div class="ttdeci">inputData&lt; double, int &gt; * inData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00022">fpData.h:22</a></div></div>
+<div class="ttc" id="classfp_1_1inputData_html_a1e775e3744cb3bacb1a6776054aabe4f"><div class="ttname"><a href="classfp_1_1inputData.html#a1e775e3744cb3bacb1a6776054aabe4f">fp::inputData::returnNumClasses</a></div><div class="ttdeci">int returnNumClasses()</div><div class="ttdef"><b>Definition:</b> <a href="fpDataSet_8h_source.html#l00157">fpDataSet.h:157</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classfp_1_1fpData_a7abfc93af30b7262d59b6d304796a09d_cgraph.png" border="0" usemap="#classfp_1_1fpData_a7abfc93af30b7262d59b6d304796a09d_cgraph" alt=""/></div>
 <map name="classfp_1_1fpData_a7abfc93af30b7262d59b6d304796a09d_cgraph" id="classfp_1_1fpData_a7abfc93af30b7262d59b6d304796a09d_cgraph">
-<area shape="rect" id="node2" href="classinputData.html#aa87e9181995fe0f15fae83617dba2808" title="inputData::returnNumClasses" alt="" coords="251,5,445,32"/>
+<area shape="rect" id="node2" href="classfp_1_1inputData.html#a1e775e3744cb3bacb1a6776054aabe4f" title="fp::inputData::returnNum\lClasses" alt="" coords="251,5,417,47"/>
 </map>
 </div>
 
@@ -579,15 +579,15 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00064">64</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                                          {</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a>-&gt;<a class="code" href="classinputData.html#a8fbb9ac952f73f65295eeb9bf8c3b01a">returnNumFeatures</a>();</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            }</div><div class="ttc" id="classinputData_html_a8fbb9ac952f73f65295eeb9bf8c3b01a"><div class="ttname"><a href="classinputData.html#a8fbb9ac952f73f65295eeb9bf8c3b01a">inputData::returnNumFeatures</a></div><div class="ttdeci">int returnNumFeatures()</div><div class="ttdef"><b>Definition:</b> <a href="fpDataSet_8h_source.html#l00148">fpDataSet.h:148</a></div></div>
-<div class="ttc" id="classfp_1_1fpData_html_a49d7c3f58bcf88843c25b1b0c9714ebe"><div class="ttname"><a href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">fp::fpData::inData</a></div><div class="ttdeci">inputData&lt; double, int &gt; * inData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00017">fpData.h:17</a></div></div>
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00072">72</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                                          {</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a>-&gt;<a class="code" href="classfp_1_1inputData.html#ae9362286ea7706a8b0d91ba96e9ad478">returnNumFeatures</a>();</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            }</div><div class="ttc" id="classfp_1_1inputData_html_ae9362286ea7706a8b0d91ba96e9ad478"><div class="ttname"><a href="classfp_1_1inputData.html#ae9362286ea7706a8b0d91ba96e9ad478">fp::inputData::returnNumFeatures</a></div><div class="ttdeci">int returnNumFeatures()</div><div class="ttdef"><b>Definition:</b> <a href="fpDataSet_8h_source.html#l00149">fpDataSet.h:149</a></div></div>
+<div class="ttc" id="classfp_1_1fpData_html_a49d7c3f58bcf88843c25b1b0c9714ebe"><div class="ttname"><a href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">fp::fpData::inData</a></div><div class="ttdeci">inputData&lt; double, int &gt; * inData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00022">fpData.h:22</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classfp_1_1fpData_a95088e33b280e5c82b3543033d8852e1_cgraph.png" border="0" usemap="#classfp_1_1fpData_a95088e33b280e5c82b3543033d8852e1_cgraph" alt=""/></div>
 <map name="classfp_1_1fpData_a95088e33b280e5c82b3543033d8852e1_cgraph" id="classfp_1_1fpData_a95088e33b280e5c82b3543033d8852e1_cgraph">
-<area shape="rect" id="node2" href="classinputData.html#a8fbb9ac952f73f65295eeb9bf8c3b01a" title="inputData::returnNumFeatures" alt="" coords="253,5,452,32"/>
+<area shape="rect" id="node2" href="classfp_1_1inputData.html#ae9362286ea7706a8b0d91ba96e9ad478" title="fp::inputData::returnNum\lFeatures" alt="" coords="253,5,420,47"/>
 </map>
 </div>
 
@@ -616,15 +616,15 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00068">68</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                                              {</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a>-&gt;<a class="code" href="classinputData.html#af2ac0a8c7e0bfcdf1de1ea521eadc7af">returnNumObservations</a>();</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            }</div><div class="ttc" id="classinputData_html_af2ac0a8c7e0bfcdf1de1ea521eadc7af"><div class="ttname"><a href="classinputData.html#af2ac0a8c7e0bfcdf1de1ea521eadc7af">inputData::returnNumObservations</a></div><div class="ttdeci">int returnNumObservations()</div><div class="ttdef"><b>Definition:</b> <a href="fpDataSet_8h_source.html#l00152">fpDataSet.h:152</a></div></div>
-<div class="ttc" id="classfp_1_1fpData_html_a49d7c3f58bcf88843c25b1b0c9714ebe"><div class="ttname"><a href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">fp::fpData::inData</a></div><div class="ttdeci">inputData&lt; double, int &gt; * inData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00017">fpData.h:17</a></div></div>
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00076">76</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                                              {</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">inData</a>-&gt;<a class="code" href="classfp_1_1inputData.html#af7dc02941195e025d1d89c882096027d">returnNumObservations</a>();</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            }</div><div class="ttc" id="classfp_1_1inputData_html_af7dc02941195e025d1d89c882096027d"><div class="ttname"><a href="classfp_1_1inputData.html#af7dc02941195e025d1d89c882096027d">fp::inputData::returnNumObservations</a></div><div class="ttdeci">int returnNumObservations()</div><div class="ttdef"><b>Definition:</b> <a href="fpDataSet_8h_source.html#l00153">fpDataSet.h:153</a></div></div>
+<div class="ttc" id="classfp_1_1fpData_html_a49d7c3f58bcf88843c25b1b0c9714ebe"><div class="ttname"><a href="classfp_1_1fpData.html#a49d7c3f58bcf88843c25b1b0c9714ebe">fp::fpData::inData</a></div><div class="ttdeci">inputData&lt; double, int &gt; * inData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00022">fpData.h:22</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classfp_1_1fpData_a9056a8c0e7e48fe9aa591269064ecc43_cgraph.png" border="0" usemap="#classfp_1_1fpData_a9056a8c0e7e48fe9aa591269064ecc43_cgraph" alt=""/></div>
 <map name="classfp_1_1fpData_a9056a8c0e7e48fe9aa591269064ecc43_cgraph" id="classfp_1_1fpData_a9056a8c0e7e48fe9aa591269064ecc43_cgraph">
-<area shape="rect" id="node2" href="classinputData.html#af2ac0a8c7e0bfcdf1de1ea521eadc7af" title="inputData::returnNumObservations" alt="" coords="280,5,504,32"/>
+<area shape="rect" id="node2" href="classfp_1_1inputData.html#af7dc02941195e025d1d89c882096027d" title="fp::inputData::returnNum\lObservations" alt="" coords="280,5,447,47"/>
 </map>
 </div>
 
@@ -653,15 +653,15 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00092">92</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                                      {</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a>-&gt;<a class="code" href="classtestData.html#a7b7ea4d5b03144b691e909730d70ce62">returnNumObservations</a>();</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_ad4f4dd3a8d15633b7f983932fa60bbad"><div class="ttname"><a href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">fp::fpData::inTestData</a></div><div class="ttdeci">testData&lt; double, int &gt; * inTestData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00018">fpData.h:18</a></div></div>
-<div class="ttc" id="classtestData_html_a7b7ea4d5b03144b691e909730d70ce62"><div class="ttname"><a href="classtestData.html#a7b7ea4d5b03144b691e909730d70ce62">testData::returnNumObservations</a></div><div class="ttdeci">int returnNumObservations()</div><div class="ttdef"><b>Definition:</b> <a href="fpDataSet_8h_source.html#l00269">fpDataSet.h:269</a></div></div>
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00101">101</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                                                  {</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a>-&gt;<a class="code" href="classfp_1_1testData.html#af9dd7a4aa116d99a11838a02f2154c08">returnNumObservations</a>();</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_ad4f4dd3a8d15633b7f983932fa60bbad"><div class="ttname"><a href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">fp::fpData::inTestData</a></div><div class="ttdeci">testData&lt; double, int &gt; * inTestData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00023">fpData.h:23</a></div></div>
+<div class="ttc" id="classfp_1_1testData_html_af9dd7a4aa116d99a11838a02f2154c08"><div class="ttname"><a href="classfp_1_1testData.html#af9dd7a4aa116d99a11838a02f2154c08">fp::testData::returnNumObservations</a></div><div class="ttdeci">int returnNumObservations()</div><div class="ttdef"><b>Definition:</b> <a href="fpDataSet_8h_source.html#l00270">fpDataSet.h:270</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classfp_1_1fpData_a9a115d29fafb6e5b941f4e0c860e65e7_cgraph.png" border="0" usemap="#classfp_1_1fpData_a9a115d29fafb6e5b941f4e0c860e65e7_cgraph" alt=""/></div>
 <map name="classfp_1_1fpData_a9a115d29fafb6e5b941f4e0c860e65e7_cgraph" id="classfp_1_1fpData_a9a115d29fafb6e5b941f4e0c860e65e7_cgraph">
-<area shape="rect" id="node2" href="classtestData.html#a7b7ea4d5b03144b691e909730d70ce62" title="testData::returnNumObservations" alt="" coords="228,13,447,39"/>
+<area shape="rect" id="node2" href="classfp_1_1testData.html#af9dd7a4aa116d99a11838a02f2154c08" title="fp::testData::returnNumObservations" alt="" coords="228,13,465,39"/>
 </map>
 </div>
 
@@ -701,15 +701,15 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00125">125</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                                                                                                    {</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a>-&gt;<a class="code" href="classtestData.html#aec2686210c4776df10cc0658133ed4ad">returnFeatureValue</a>(featureNumber, observationNumber);</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_ad4f4dd3a8d15633b7f983932fa60bbad"><div class="ttname"><a href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">fp::fpData::inTestData</a></div><div class="ttdeci">testData&lt; double, int &gt; * inTestData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00018">fpData.h:18</a></div></div>
-<div class="ttc" id="classtestData_html_aec2686210c4776df10cc0658133ed4ad"><div class="ttname"><a href="classtestData.html#aec2686210c4776df10cc0658133ed4ad">testData::returnFeatureValue</a></div><div class="ttdeci">T returnFeatureValue(const int &amp;featureNum, const int &amp;observationNum)</div><div class="ttdef"><b>Definition:</b> <a href="fpDataSet_8h_source.html#l00261">fpDataSet.h:261</a></div></div>
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00132">132</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                                                                                                    {</div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a>-&gt;<a class="code" href="classfp_1_1testData.html#a0c49c5fc2f1bf3fc39c7d55413cddabf">returnFeatureValue</a>(featureNumber, observationNumber);</div><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            }</div><div class="ttc" id="classfp_1_1testData_html_a0c49c5fc2f1bf3fc39c7d55413cddabf"><div class="ttname"><a href="classfp_1_1testData.html#a0c49c5fc2f1bf3fc39c7d55413cddabf">fp::testData::returnFeatureValue</a></div><div class="ttdeci">T returnFeatureValue(const int &amp;featureNum, const int &amp;observationNum)</div><div class="ttdef"><b>Definition:</b> <a href="fpDataSet_8h_source.html#l00262">fpDataSet.h:262</a></div></div>
+<div class="ttc" id="classfp_1_1fpData_html_ad4f4dd3a8d15633b7f983932fa60bbad"><div class="ttname"><a href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">fp::fpData::inTestData</a></div><div class="ttdeci">testData&lt; double, int &gt; * inTestData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00023">fpData.h:23</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classfp_1_1fpData_a42f76961f1649e329d654e9e1bb13fc6_cgraph.png" border="0" usemap="#classfp_1_1fpData_a42f76961f1649e329d654e9e1bb13fc6_cgraph" alt=""/></div>
 <map name="classfp_1_1fpData_a42f76961f1649e329d654e9e1bb13fc6_cgraph" id="classfp_1_1fpData_a42f76961f1649e329d654e9e1bb13fc6_cgraph">
-<area shape="rect" id="node2" href="classtestData.html#aec2686210c4776df10cc0658133ed4ad" title="testData::returnFeatureValue" alt="" coords="264,5,455,32"/>
+<area shape="rect" id="node2" href="classfp_1_1testData.html#a0c49c5fc2f1bf3fc39c7d55413cddabf" title="fp::testData::returnFeature\lValue" alt="" coords="264,5,440,47"/>
 </map>
 </div>
 
@@ -739,15 +739,15 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00122">122</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                                                             {</div><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a>-&gt;<a class="code" href="classtestData.html#a32ce8f625023ea9a9c0a7aff224c75cc">returnClassOfObservation</a>(observationNumber);</div><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_ad4f4dd3a8d15633b7f983932fa60bbad"><div class="ttname"><a href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">fp::fpData::inTestData</a></div><div class="ttdeci">testData&lt; double, int &gt; * inTestData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00018">fpData.h:18</a></div></div>
-<div class="ttc" id="classtestData_html_a32ce8f625023ea9a9c0a7aff224c75cc"><div class="ttname"><a href="classtestData.html#a32ce8f625023ea9a9c0a7aff224c75cc">testData::returnClassOfObservation</a></div><div class="ttdeci">Q returnClassOfObservation(const int &amp;observationNum)</div><div class="ttdef"><b>Definition:</b> <a href="fpDataSet_8h_source.html#l00257">fpDataSet.h:257</a></div></div>
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00129">129</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                                                             {</div><div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">inTestData</a>-&gt;<a class="code" href="classfp_1_1testData.html#a3a964b20b07dd4b49e958fdde93ebc59">returnClassOfObservation</a>(observationNumber);</div><div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_ad4f4dd3a8d15633b7f983932fa60bbad"><div class="ttname"><a href="classfp_1_1fpData.html#ad4f4dd3a8d15633b7f983932fa60bbad">fp::fpData::inTestData</a></div><div class="ttdeci">testData&lt; double, int &gt; * inTestData</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00023">fpData.h:23</a></div></div>
+<div class="ttc" id="classfp_1_1testData_html_a3a964b20b07dd4b49e958fdde93ebc59"><div class="ttname"><a href="classfp_1_1testData.html#a3a964b20b07dd4b49e958fdde93ebc59">fp::testData::returnClassOfObservation</a></div><div class="ttdeci">Q returnClassOfObservation(const int &amp;observationNum)</div><div class="ttdef"><b>Definition:</b> <a href="fpDataSet_8h_source.html#l00258">fpDataSet.h:258</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classfp_1_1fpData_a50b6343c52560d1992de50e8cd6b1206_cgraph.png" border="0" usemap="#classfp_1_1fpData_a50b6343c52560d1992de50e8cd6b1206_cgraph" alt=""/></div>
 <map name="classfp_1_1fpData_a50b6343c52560d1992de50e8cd6b1206_cgraph" id="classfp_1_1fpData_a50b6343c52560d1992de50e8cd6b1206_cgraph">
-<area shape="rect" id="node2" href="classtestData.html#a32ce8f625023ea9a9c0a7aff224c75cc" title="testData::returnClassOfObservation" alt="" coords="232,5,463,32"/>
+<area shape="rect" id="node2" href="classfp_1_1testData.html#a3a964b20b07dd4b49e958fdde93ebc59" title="fp::testData::returnClass\lOfObservation" alt="" coords="232,5,399,47"/>
 </map>
 </div>
 
@@ -777,24 +777,24 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00086">86</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                                                                  {</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                settings.setNumFeatures(this-&gt;<a class="code" href="classfp_1_1fpData.html#a95088e33b280e5c82b3543033d8852e1">returnNumFeatures</a>());</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                settings.setNumObservations(this-&gt;<a class="code" href="classfp_1_1fpData.html#a9056a8c0e7e48fe9aa591269064ecc43">returnNumObservations</a>());</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                settings.setNumClasses(this-&gt;<a class="code" href="classfp_1_1fpData.html#a7abfc93af30b7262d59b6d304796a09d">returnNumClasses</a>());</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_a7abfc93af30b7262d59b6d304796a09d"><div class="ttname"><a href="classfp_1_1fpData.html#a7abfc93af30b7262d59b6d304796a09d">fp::fpData::returnNumClasses</a></div><div class="ttdeci">int returnNumClasses()</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00060">fpData.h:60</a></div></div>
-<div class="ttc" id="classfp_1_1fpData_html_a95088e33b280e5c82b3543033d8852e1"><div class="ttname"><a href="classfp_1_1fpData.html#a95088e33b280e5c82b3543033d8852e1">fp::fpData::returnNumFeatures</a></div><div class="ttdeci">int returnNumFeatures()</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00064">fpData.h:64</a></div></div>
-<div class="ttc" id="classfp_1_1fpData_html_a9056a8c0e7e48fe9aa591269064ecc43"><div class="ttname"><a href="classfp_1_1fpData.html#a9056a8c0e7e48fe9aa591269064ecc43">fp::fpData::returnNumObservations</a></div><div class="ttdeci">int returnNumObservations()</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00068">fpData.h:68</a></div></div>
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00094">94</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                                                                  {</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                settings.setNumFeatures(this-&gt;<a class="code" href="classfp_1_1fpData.html#a95088e33b280e5c82b3543033d8852e1">returnNumFeatures</a>());</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                settings.setNumObservations(this-&gt;<a class="code" href="classfp_1_1fpData.html#a9056a8c0e7e48fe9aa591269064ecc43">returnNumObservations</a>());</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                settings.setNumClasses(this-&gt;<a class="code" href="classfp_1_1fpData.html#a7abfc93af30b7262d59b6d304796a09d">returnNumClasses</a>());</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_a7abfc93af30b7262d59b6d304796a09d"><div class="ttname"><a href="classfp_1_1fpData.html#a7abfc93af30b7262d59b6d304796a09d">fp::fpData::returnNumClasses</a></div><div class="ttdeci">int returnNumClasses()</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00067">fpData.h:67</a></div></div>
+<div class="ttc" id="classfp_1_1fpData_html_a95088e33b280e5c82b3543033d8852e1"><div class="ttname"><a href="classfp_1_1fpData.html#a95088e33b280e5c82b3543033d8852e1">fp::fpData::returnNumFeatures</a></div><div class="ttdeci">int returnNumFeatures()</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00072">fpData.h:72</a></div></div>
+<div class="ttc" id="classfp_1_1fpData_html_a9056a8c0e7e48fe9aa591269064ecc43"><div class="ttname"><a href="classfp_1_1fpData.html#a9056a8c0e7e48fe9aa591269064ecc43">fp::fpData::returnNumObservations</a></div><div class="ttdeci">int returnNumObservations()</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00076">fpData.h:76</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classfp_1_1fpData_ab48923d57206e17b88f0d89833051b43_cgraph.png" border="0" usemap="#classfp_1_1fpData_ab48923d57206e17b88f0d89833051b43_cgraph" alt=""/></div>
 <map name="classfp_1_1fpData_ab48923d57206e17b88f0d89833051b43_cgraph" id="classfp_1_1fpData_ab48923d57206e17b88f0d89833051b43_cgraph">
-<area shape="rect" id="node2" href="classfp_1_1fpInfo.html#a69ef99f2ec9ef74dd3787bc33ffb05d0" title="fp::fpInfo::setNumFeatures" alt="" coords="256,5,435,32"/>
+<area shape="rect" id="node2" href="classfp_1_1fpInfo.html#ab8b97144a2a9ebd565d81de4b63f490c" title="fp::fpInfo::setNumFeatures" alt="" coords="256,5,435,32"/>
 <area shape="rect" id="node3" href="classfp_1_1fpData.html#a95088e33b280e5c82b3543033d8852e1" title="fp::fpData::returnNumFeatures" alt="" coords="245,56,445,83"/>
-<area shape="rect" id="node5" href="classfp_1_1fpInfo.html#ad17492e79df7bca55d98438fec2f004b" title="fp::fpInfo::setNumObservations" alt="" coords="243,107,448,133"/>
+<area shape="rect" id="node5" href="classfp_1_1fpInfo.html#a97b1a91a4b64e8de811adae7313f73af" title="fp::fpInfo::setNumObservations" alt="" coords="243,107,448,133"/>
 <area shape="rect" id="node6" href="classfp_1_1fpData.html#a9056a8c0e7e48fe9aa591269064ecc43" title="fp::fpData::returnNumObservations" alt="" coords="232,157,459,184"/>
-<area shape="rect" id="node8" href="classfp_1_1fpInfo.html#a3598d1ab13bf05b53858b1ca8c44fa68" title="fp::fpInfo::setNumClasses" alt="" coords="257,208,433,235"/>
+<area shape="rect" id="node8" href="classfp_1_1fpInfo.html#a577f80c50c60a7e48bb6ca444843cdba" title="fp::fpInfo::setNumClasses" alt="" coords="257,208,433,235"/>
 <area shape="rect" id="node9" href="classfp_1_1fpData.html#a7abfc93af30b7262d59b6d304796a09d" title="fp::fpData::returnNumClasses" alt="" coords="247,259,444,285"/>
-<area shape="rect" id="node4" href="classinputData.html#a8fbb9ac952f73f65295eeb9bf8c3b01a" title="inputData::returnNumFeatures" alt="" coords="519,56,718,83"/>
-<area shape="rect" id="node7" href="classinputData.html#af2ac0a8c7e0bfcdf1de1ea521eadc7af" title="inputData::returnNumObservations" alt="" coords="507,157,731,184"/>
-<area shape="rect" id="node10" href="classinputData.html#aa87e9181995fe0f15fae83617dba2808" title="inputData::returnNumClasses" alt="" coords="521,259,716,285"/>
+<area shape="rect" id="node4" href="classfp_1_1inputData.html#ae9362286ea7706a8b0d91ba96e9ad478" title="fp::inputData::returnNum\lFeatures" alt="" coords="507,49,673,90"/>
+<area shape="rect" id="node7" href="classfp_1_1inputData.html#af7dc02941195e025d1d89c882096027d" title="fp::inputData::returnNum\lObservations" alt="" coords="507,150,673,191"/>
+<area shape="rect" id="node10" href="classfp_1_1inputData.html#a1e775e3744cb3bacb1a6776054aabe4f" title="fp::inputData::returnNum\lClasses" alt="" coords="507,251,673,293"/>
 </map>
 </div>
 
@@ -824,16 +824,16 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00096">96</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                                                          {</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                settings.setNumObservations(this-&gt;<a class="code" href="classfp_1_1fpData.html#a9a115d29fafb6e5b941f4e0c860e65e7">returnNumTestObservations</a>());</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_a9a115d29fafb6e5b941f4e0c860e65e7"><div class="ttname"><a href="classfp_1_1fpData.html#a9a115d29fafb6e5b941f4e0c860e65e7">fp::fpData::returnNumTestObservations</a></div><div class="ttdeci">int returnNumTestObservations()</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00092">fpData.h:92</a></div></div>
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00105">105</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                                                                      {</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                settings.setNumObservations(this-&gt;<a class="code" href="classfp_1_1fpData.html#a9a115d29fafb6e5b941f4e0c860e65e7">returnNumTestObservations</a>());</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            }</div><div class="ttc" id="classfp_1_1fpData_html_a9a115d29fafb6e5b941f4e0c860e65e7"><div class="ttname"><a href="classfp_1_1fpData.html#a9a115d29fafb6e5b941f4e0c860e65e7">fp::fpData::returnNumTestObservations</a></div><div class="ttdeci">int returnNumTestObservations()</div><div class="ttdef"><b>Definition:</b> <a href="fpData_8h_source.html#l00101">fpData.h:101</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classfp_1_1fpData_ab60d2098334e253a0bf3115f029c1996_cgraph.png" border="0" usemap="#classfp_1_1fpData_ab60d2098334e253a0bf3115f029c1996_cgraph" alt=""/></div>
 <map name="classfp_1_1fpData_ab60d2098334e253a0bf3115f029c1996_cgraph" id="classfp_1_1fpData_ab60d2098334e253a0bf3115f029c1996_cgraph">
-<area shape="rect" id="node2" href="classfp_1_1fpInfo.html#ad17492e79df7bca55d98438fec2f004b" title="fp::fpInfo::setNumObservations" alt="" coords="259,5,464,32"/>
+<area shape="rect" id="node2" href="classfp_1_1fpInfo.html#a97b1a91a4b64e8de811adae7313f73af" title="fp::fpInfo::setNumObservations" alt="" coords="259,5,464,32"/>
 <area shape="rect" id="node3" href="classfp_1_1fpData.html#a9a115d29fafb6e5b941f4e0c860e65e7" title="fp::fpData::returnNumTest\lObservations" alt="" coords="274,57,449,98"/>
-<area shape="rect" id="node4" href="classtestData.html#a7b7ea4d5b03144b691e909730d70ce62" title="testData::returnNumObservations" alt="" coords="512,64,731,91"/>
+<area shape="rect" id="node4" href="classfp_1_1testData.html#af9dd7a4aa116d99a11838a02f2154c08" title="fp::testData::returnNumObservations" alt="" coords="512,64,749,91"/>
 </map>
 </div>
 
@@ -850,7 +850,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classinputData.html">inputData</a>&lt;double, int&gt;* fp::fpData::inData</td>
+          <td class="memname"><a class="el" href="classfp_1_1inputData.html">inputData</a>&lt;double, int&gt;* fp::fpData::inData</td>
         </tr>
       </table>
   </td>
@@ -860,7 +860,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00017">17</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00022">22</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
 
 </div>
 </div>
@@ -874,7 +874,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtestData.html">testData</a>&lt;double, int&gt;* fp::fpData::inTestData</td>
+          <td class="memname"><a class="el" href="classfp_1_1testData.html">testData</a>&lt;double, int&gt;* fp::fpData::inTestData</td>
         </tr>
       </table>
   </td>
@@ -884,7 +884,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00018">18</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fpData_8h_source.html#l00023">23</a> of file <a class="el" href="fpData_8h_source.html">fpData.h</a>.</p>
 
 </div>
 </div>

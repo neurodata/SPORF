@@ -1,0 +1,113 @@
+\hypertarget{classfp_1_1fpDisplayProgressStaticStore}{}\section{fp\+:\+:fp\+Display\+Progress\+Static\+Store Class Reference}
+\label{classfp_1_1fpDisplayProgressStaticStore}\index{fp\+::fp\+Display\+Progress\+Static\+Store@{fp\+::fp\+Display\+Progress\+Static\+Store}}
+
+
+{\ttfamily \#include $<$display\+Progress.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classfp_1_1fpDisplayProgressStaticStore_a31330f7f864dff5ba94f5c59439b016f}{fp\+Display\+Progress\+Static\+Store} ()
+\item 
+void \hyperlink{classfp_1_1fpDisplayProgressStaticStore_a9b2ab53929032183e681157515cf5313}{print} (int i)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::chrono\+::time\+\_\+point$<$ system\+\_\+clock $>$ \hyperlink{classfp_1_1fpDisplayProgressStaticStore_aa602428554cc8543ec40617ffacd531d}{start\+Time}
+\item 
+std\+::chrono\+::time\+\_\+point$<$ system\+\_\+clock $>$ \hyperlink{classfp_1_1fpDisplayProgressStaticStore_a7af621498c605e7955b9f1bb2abdb5a4}{stop\+Time}
+\item 
+std\+::chrono\+::seconds \hyperlink{classfp_1_1fpDisplayProgressStaticStore_a9765e1784e83522a0b842d342e479816}{diff\+Seconds}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 10 of file display\+Progress.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classfp_1_1fpDisplayProgressStaticStore_a31330f7f864dff5ba94f5c59439b016f}\label{classfp_1_1fpDisplayProgressStaticStore_a31330f7f864dff5ba94f5c59439b016f}} 
+\index{fp\+::fp\+Display\+Progress\+Static\+Store@{fp\+::fp\+Display\+Progress\+Static\+Store}!fp\+Display\+Progress\+Static\+Store@{fp\+Display\+Progress\+Static\+Store}}
+\index{fp\+Display\+Progress\+Static\+Store@{fp\+Display\+Progress\+Static\+Store}!fp\+::fp\+Display\+Progress\+Static\+Store@{fp\+::fp\+Display\+Progress\+Static\+Store}}
+\subsubsection{\texorpdfstring{fp\+Display\+Progress\+Static\+Store()}{fpDisplayProgressStaticStore()}}
+{\footnotesize\ttfamily fp\+::fp\+Display\+Progress\+Static\+Store\+::fp\+Display\+Progress\+Static\+Store (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 18 of file display\+Progress.\+h.
+
+
+\begin{DoxyCode}
+18                                           \{
+19                 \hyperlink{classfp_1_1fpDisplayProgressStaticStore_aa602428554cc8543ec40617ffacd531d}{startTime} = std::chrono::system\_clock::now();
+20                 std::cout << \textcolor{stringliteral}{"starting tree 1"} << std::flush;
+21             \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1fpDisplayProgressStaticStore_a9b2ab53929032183e681157515cf5313}\label{classfp_1_1fpDisplayProgressStaticStore_a9b2ab53929032183e681157515cf5313}} 
+\index{fp\+::fp\+Display\+Progress\+Static\+Store@{fp\+::fp\+Display\+Progress\+Static\+Store}!print@{print}}
+\index{print@{print}!fp\+::fp\+Display\+Progress\+Static\+Store@{fp\+::fp\+Display\+Progress\+Static\+Store}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void fp\+::fp\+Display\+Progress\+Static\+Store\+::print (\begin{DoxyParamCaption}\item[{int}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 23 of file display\+Progress.\+h.
+
+
+\begin{DoxyCode}
+23                                     \{
+24             std::chrono::seconds updateTime(10);
+25                 \hyperlink{classfp_1_1fpDisplayProgressStaticStore_a7af621498c605e7955b9f1bb2abdb5a4}{stopTime} = std::chrono::high\_resolution\_clock::now();
+26                 \hyperlink{classfp_1_1fpDisplayProgressStaticStore_a9765e1784e83522a0b842d342e479816}{diffSeconds} =    std::chrono::duration\_cast<std::chrono::seconds>(
+      \hyperlink{classfp_1_1fpDisplayProgressStaticStore_a7af621498c605e7955b9f1bb2abdb5a4}{stopTime} - \hyperlink{classfp_1_1fpDisplayProgressStaticStore_aa602428554cc8543ec40617ffacd531d}{startTime});
+27                 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpDisplayProgressStaticStore_a9765e1784e83522a0b842d342e479816}{diffSeconds} > updateTime)\{
+28                     std::cout << \textcolor{stringliteral}{"..."} << i << std::flush;
+29                     \hyperlink{classfp_1_1fpDisplayProgressStaticStore_aa602428554cc8543ec40617ffacd531d}{startTime} = std::chrono::high\_resolution\_clock::now();
+30                 \}
+31             \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1fpDisplayProgressStaticStore_a9765e1784e83522a0b842d342e479816}\label{classfp_1_1fpDisplayProgressStaticStore_a9765e1784e83522a0b842d342e479816}} 
+\index{fp\+::fp\+Display\+Progress\+Static\+Store@{fp\+::fp\+Display\+Progress\+Static\+Store}!diff\+Seconds@{diff\+Seconds}}
+\index{diff\+Seconds@{diff\+Seconds}!fp\+::fp\+Display\+Progress\+Static\+Store@{fp\+::fp\+Display\+Progress\+Static\+Store}}
+\subsubsection{\texorpdfstring{diff\+Seconds}{diffSeconds}}
+{\footnotesize\ttfamily std\+::chrono\+::seconds fp\+::fp\+Display\+Progress\+Static\+Store\+::diff\+Seconds\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 15 of file display\+Progress.\+h.
+
+\mbox{\Hypertarget{classfp_1_1fpDisplayProgressStaticStore_aa602428554cc8543ec40617ffacd531d}\label{classfp_1_1fpDisplayProgressStaticStore_aa602428554cc8543ec40617ffacd531d}} 
+\index{fp\+::fp\+Display\+Progress\+Static\+Store@{fp\+::fp\+Display\+Progress\+Static\+Store}!start\+Time@{start\+Time}}
+\index{start\+Time@{start\+Time}!fp\+::fp\+Display\+Progress\+Static\+Store@{fp\+::fp\+Display\+Progress\+Static\+Store}}
+\subsubsection{\texorpdfstring{start\+Time}{startTime}}
+{\footnotesize\ttfamily std\+::chrono\+::time\+\_\+point$<$system\+\_\+clock$>$ fp\+::fp\+Display\+Progress\+Static\+Store\+::start\+Time\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 13 of file display\+Progress.\+h.
+
+\mbox{\Hypertarget{classfp_1_1fpDisplayProgressStaticStore_a7af621498c605e7955b9f1bb2abdb5a4}\label{classfp_1_1fpDisplayProgressStaticStore_a7af621498c605e7955b9f1bb2abdb5a4}} 
+\index{fp\+::fp\+Display\+Progress\+Static\+Store@{fp\+::fp\+Display\+Progress\+Static\+Store}!stop\+Time@{stop\+Time}}
+\index{stop\+Time@{stop\+Time}!fp\+::fp\+Display\+Progress\+Static\+Store@{fp\+::fp\+Display\+Progress\+Static\+Store}}
+\subsubsection{\texorpdfstring{stop\+Time}{stopTime}}
+{\footnotesize\ttfamily std\+::chrono\+::time\+\_\+point$<$system\+\_\+clock$>$ fp\+::fp\+Display\+Progress\+Static\+Store\+::stop\+Time\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 14 of file display\+Progress.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/base\+Functions/\hyperlink{displayProgress_8h}{display\+Progress.\+h}\end{DoxyCompactItemize}

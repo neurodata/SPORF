@@ -75,29 +75,29 @@ Definition at line 111 of file fp\+Split.\+h.
 
 
 
-Definition at line 154 of file fp\+Split.\+h.
+Definition at line 153 of file fp\+Split.\+h.
 
 
 \begin{DoxyCode}
-154                                                  \{
-155                 \textcolor{keywordflow}{if}(\textcolor{keyword}{false})\{ \textcolor{comment}{//use gini impurity}
-156                     \textcolor{keywordtype}{int} sumClassTotalsSquared = 0;
-157                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} i : \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec})\{
-158                         sumClassTotalsSquared+=i*i;
-159                     \}
-160                     \textcolor{keywordflow}{return} 1.0-double(sumClassTotalsSquared)/double(\hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj}*
+153                                                  \{
+154                 \textcolor{keywordflow}{if}(\textcolor{keyword}{false})\{ \textcolor{comment}{//use gini impurity}
+155                     \textcolor{keywordtype}{int} sumClassTotalsSquared = 0;
+156                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} i : \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec})\{
+157                         sumClassTotalsSquared+=i*i;
+158                     \}
+159                     \textcolor{keywordflow}{return} 1.0-double(sumClassTotalsSquared)/double(\hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj}*
       \hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj});
-161                 \}\textcolor{keywordflow}{else}\{ \textcolor{comment}{//use what is this?}
-162                     \textcolor{keywordtype}{double} impSum = 0;
-163                     \textcolor{keywordtype}{double} classPercent;
-164                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} i : \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec})\{
-165                         classPercent = double(i)/double(\hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj});
-166 
-167                         impSum += double(i)*(1.0-classPercent);
-168                     \}
-169                     \textcolor{keywordflow}{return} impSum;
-170                 \}
-171             \}
+160                 \}\textcolor{keywordflow}{else}\{ \textcolor{comment}{//use what is this?}
+161                     \textcolor{keywordtype}{double} impSum = 0;
+162                     \textcolor{keywordtype}{double} classPercent;
+163                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} i : \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec})\{
+164                         classPercent = double(i)/double(\hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj});
+165 
+166                         impSum += double(i)*(1.0-classPercent);
+167                     \}
+168                     \textcolor{keywordflow}{return} impSum;
+169                 \}
+170             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1classTotals_af388dc1e664488603f7834da2f097a06}\label{classfp_1_1classTotals_af388dc1e664488603f7834da2f097a06}} 
 \index{fp\+::class\+Totals@{fp\+::class\+Totals}!decrement\+Class@{decrement\+Class}}
@@ -107,14 +107,14 @@ Definition at line 154 of file fp\+Split.\+h.
 
 
 
-Definition at line 174 of file fp\+Split.\+h.
+Definition at line 173 of file fp\+Split.\+h.
 
 
 \begin{DoxyCode}
-174                                                     \{
-175                 --\hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}[classNum];
-176                 --\hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj};
-177             \}
+173                                                     \{
+174                 --\hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}[classNum];
+175                 --\hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj};
+176             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1classTotals_a4d042d3a31d3f03d577bd4ad02bb5e6a}\label{classfp_1_1classTotals_a4d042d3a31d3f03d577bd4ad02bb5e6a}} 
 \index{fp\+::class\+Totals@{fp\+::class\+Totals}!find\+Num\+Classes@{find\+Num\+Classes}}
@@ -124,20 +124,20 @@ Definition at line 174 of file fp\+Split.\+h.
 
 
 
-Definition at line 126 of file fp\+Split.\+h.
+Definition at line 125 of file fp\+Split.\+h.
 
 
 \begin{DoxyCode}
-126                                                      \{
-127                 \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} i : labs)\{
-128                     \textcolor{keywordflow}{if}(i>\hyperlink{classfp_1_1classTotals_a83aa8e17bf3b31db3ae19b9ab554624b}{maxClass})\{
-129                         \hyperlink{classfp_1_1classTotals_a83aa8e17bf3b31db3ae19b9ab554624b}{maxClass} = i;
-130                         \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.resize(i+1);
-131                     \}
-132                     ++\hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}[i];
-133                     ++\hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj};
-134                 \}
-135             \}
+125                                                      \{
+126                 \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} i : labs)\{
+127                     \textcolor{keywordflow}{if}(i>\hyperlink{classfp_1_1classTotals_a83aa8e17bf3b31db3ae19b9ab554624b}{maxClass})\{
+128                         \hyperlink{classfp_1_1classTotals_a83aa8e17bf3b31db3ae19b9ab554624b}{maxClass} = i;
+129                         \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.resize(i+1);
+130                     \}
+131                     ++\hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}[i];
+132                     ++\hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj};
+133                 \}
+134             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1classTotals_aa05c13b36638adc361d638559c43a447}\label{classfp_1_1classTotals_aa05c13b36638adc361d638559c43a447}} 
 \index{fp\+::class\+Totals@{fp\+::class\+Totals}!increment\+Class@{increment\+Class}}
@@ -147,14 +147,14 @@ Definition at line 126 of file fp\+Split.\+h.
 
 
 
-Definition at line 180 of file fp\+Split.\+h.
+Definition at line 179 of file fp\+Split.\+h.
 
 
 \begin{DoxyCode}
-180                                                     \{
-181                 ++\hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}[classNum];
-182                 ++\hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj};
-183             \}
+179                                                     \{
+180                 ++\hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}[classNum];
+181                 ++\hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj};
+182             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1classTotals_ab0ad9daa63bc410ae15f344b86386f87}\label{classfp_1_1classTotals_ab0ad9daa63bc410ae15f344b86386f87}} 
 \index{fp\+::class\+Totals@{fp\+::class\+Totals}!reset\+Class\+Totals@{reset\+Class\+Totals}}
@@ -164,14 +164,14 @@ Definition at line 180 of file fp\+Split.\+h.
 
 
 
-Definition at line 186 of file fp\+Split.\+h.
+Definition at line 185 of file fp\+Split.\+h.
 
 
 \begin{DoxyCode}
-186                                           \{
-187                 std::fill(\hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.begin(), \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.end(), 0);
-188                 \hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj}=0;
-189             \}
+185                                           \{
+186                 std::fill(\hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.begin(), \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.end(), 0);
+187                 \hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj}=0;
+188             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1classTotals_a088c363e5ae669d52e4836bc900d6a73}\label{classfp_1_1classTotals_a088c363e5ae669d52e4836bc900d6a73}} 
 \index{fp\+::class\+Totals@{fp\+::class\+Totals}!return\+Class\+Vec\+Size@{return\+Class\+Vec\+Size}}
@@ -181,13 +181,13 @@ Definition at line 186 of file fp\+Split.\+h.
 
 
 
-Definition at line 150 of file fp\+Split.\+h.
+Definition at line 149 of file fp\+Split.\+h.
 
 
 \begin{DoxyCode}
-150                                            \{
-151                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.size();
-152             \}
+149                                            \{
+150                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.size();
+151             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1classTotals_a82993575e2ad13f057f01050a52ef4ce}\label{classfp_1_1classTotals_a82993575e2ad13f057f01050a52ef4ce}} 
 \index{fp\+::class\+Totals@{fp\+::class\+Totals}!return\+Impurity@{return\+Impurity}}
@@ -197,13 +197,13 @@ Definition at line 150 of file fp\+Split.\+h.
 
 
 
-Definition at line 141 of file fp\+Split.\+h.
+Definition at line 140 of file fp\+Split.\+h.
 
 
 \begin{DoxyCode}
-141                                    \{
-142                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1classTotals_acd239321a9b15e93e6de272c70b301b3}{impurity};
-143             \}
+140                                    \{
+141                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1classTotals_acd239321a9b15e93e6de272c70b301b3}{impurity};
+142             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1classTotals_ace51088c43d444d4bcdbe423909c5b91}\label{classfp_1_1classTotals_ace51088c43d444d4bcdbe423909c5b91}} 
 \index{fp\+::class\+Totals@{fp\+::class\+Totals}!return\+Largest\+Class@{return\+Largest\+Class}}
@@ -213,21 +213,21 @@ Definition at line 141 of file fp\+Split.\+h.
 
 
 
-Definition at line 114 of file fp\+Split.\+h.
+Definition at line 113 of file fp\+Split.\+h.
 
 
 \begin{DoxyCode}
-114                                            \{
-115                 \textcolor{keywordtype}{int} largestClass=-1; 
-116                 \textcolor{keywordtype}{int} numInClass=-1;
-117                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i <= \hyperlink{classfp_1_1classTotals_a83aa8e17bf3b31db3ae19b9ab554624b}{maxClass}; ++i)\{
-118                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}[i] > numInClass)\{
-119                         numInClass = \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}[i];
-120                         largestClass = i;
-121                     \}
-122                 \}
-123                 \textcolor{keywordflow}{return} largestClass;
-124             \}
+113                                            \{
+114                 \textcolor{keywordtype}{int} largestClass=-1; 
+115                 \textcolor{keywordtype}{int} numInClass=-1;
+116                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i <= \hyperlink{classfp_1_1classTotals_a83aa8e17bf3b31db3ae19b9ab554624b}{maxClass}; ++i)\{
+117                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}[i] > numInClass)\{
+118                         numInClass = \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}[i];
+119                         largestClass = i;
+120                     \}
+121                 \}
+122                 \textcolor{keywordflow}{return} largestClass;
+123             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1classTotals_ad4bc21663842003780efaf9fd2b75360}\label{classfp_1_1classTotals_ad4bc21663842003780efaf9fd2b75360}} 
 \index{fp\+::class\+Totals@{fp\+::class\+Totals}!return\+Num\+Items@{return\+Num\+Items}}
@@ -237,13 +237,13 @@ Definition at line 114 of file fp\+Split.\+h.
 
 
 
-Definition at line 137 of file fp\+Split.\+h.
+Definition at line 136 of file fp\+Split.\+h.
 
 
 \begin{DoxyCode}
-137                                 \{
-138                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj};
-139             \}
+136                                 \{
+137                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj};
+138             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1classTotals_a026ec5ce8d0ad54702891c0d6ba51fc8}\label{classfp_1_1classTotals_a026ec5ce8d0ad54702891c0d6ba51fc8}} 
 \index{fp\+::class\+Totals@{fp\+::class\+Totals}!set\+Class\+Vec\+Size@{set\+Class\+Vec\+Size}}
@@ -253,14 +253,14 @@ Definition at line 137 of file fp\+Split.\+h.
 
 
 
-Definition at line 145 of file fp\+Split.\+h.
+Definition at line 144 of file fp\+Split.\+h.
 
 
 \begin{DoxyCode}
-145                                                     \{
-146                 \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.resize(newSize);
-147                 std::fill(\hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.begin(), \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.end(), 0.0);
-148             \}
+144                                                     \{
+145                 \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.resize(newSize);
+146                 std::fill(\hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.begin(), \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.end(), 0.0);
+147             \}
 \end{DoxyCode}
 
 

@@ -188,13 +188,22 @@ namespace fp{
 				}
 
 
-				int predictObservation(int observationNum){
+				inline int predictObservation(int observationNum){
 					int currNode = 0;
+					//std::vector<int> featureNum;
 					int featureNum = 0;
 					T featureVal;
 					while(tree[currNode].isInternalNode()){
 						featureNum = tree[currNode].returnFeatureNumber()[0];
 						featureVal = fpSingleton::getSingleton().returnTestFeatureVal(featureNum,observationNum);
+						//featureVal = fpSingleton::getSingleton().returnTestFeatureVal(featureNum[0],observationNum);
+						if(tree[currNode].returnFeatureNumber().size()>1){
+							for(unsigned int j =1; j < tree[currNode].returnFeatureNumber().size(); ++j){
+						featureNum = tree[currNode].returnFeatureNumber()[j];
+								featureVal += fpSingleton::getSingleton().returnTestFeatureVal(featureNum,observationNum);
+							}
+						}
+						
 						currNode = tree[currNode].nextNode(featureVal);
 					}
 					return tree[currNode].returnClass();

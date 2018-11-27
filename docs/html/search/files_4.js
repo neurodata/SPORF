@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['smallsamplebase_2eh',['smallSampleBase.h',['../smallSampleBase_8h.html',1,'']]],
-  ['smallsamplenode_2eh',['smallSampleNode.h',['../smallSampleNode_8h.html',1,'']]],
-  ['smallsampletree_2eh',['smallSampleTree.h',['../smallSampleTree_8h.html',1,'']]],
-  ['stratifiedinnodeclassindices_2eh',['stratifiedInNodeClassIndices.h',['../stratifiedInNodeClassIndices_8h.html',1,'']]]
+  ['rerfnode_2eh',['rerfNode.h',['../rerfNode_8h.html',1,'']]],
+  ['rerftree_2eh',['rerfTree.h',['../rerfTree_8h.html',1,'']]],
+  ['rfnode_2eh',['rfNode.h',['../rfNode_8h.html',1,'']]],
+  ['rftree_2eh',['rfTree.h',['../rfTree_8h.html',1,'']]]
 ];

@@ -16,7 +16,7 @@ Collaboration diagram for fp\+:\+:split$<$ T $>$\+:\nopagebreak
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classfp_1_1split_aa4634b2460fcbe77440805d0526e72b6}{split} (std\+::vector$<$ int $>$ \&label\+Vector)
+\hyperlink{classfp_1_1split_aa47c5cf1e4d7c99506b659df7ab75e14}{split} (const std\+::vector$<$ int $>$ \&label\+Vector)
 \item 
 double \hyperlink{classfp_1_1split_a8501016c02cb2c36b3d40ee120da872e}{return\+Impurity} ()
 \item 
@@ -27,7 +27,7 @@ double \hyperlink{classfp_1_1split_a8501016c02cb2c36b3d40ee120da872e}{return\+Im
 \item 
 void \hyperlink{classfp_1_1split_a9c1560ae01a536ed0245d667ee7d5fb6}{set\+Combined\+Vec\+Size} ()
 \item 
-void \hyperlink{classfp_1_1split_a7b34c093da10d549e3750c641dfa991d}{zip\+Data\+Labels} (std\+::vector$<$ T $>$ feature\+Vals)
+void \hyperlink{classfp_1_1split_a8fc67880c45fe8a9f7ab8d0cc860597f}{zip\+Data\+Labels} (const std\+::vector$<$ T $>$ \&feature\+Vals)
 \item 
 T \hyperlink{classfp_1_1split_a0a8bc35b7ff78cb96332cdbda12b5fe5}{mid\+Val} (int left\+Index)
 \item 
@@ -56,38 +56,39 @@ class fp\+::split$<$ T $>$}
 
 
 
-Definition at line 194 of file fp\+Split.\+h.
+Definition at line 193 of file fp\+Split.\+h.
 
 
 
 \subsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classfp_1_1split_aa4634b2460fcbe77440805d0526e72b6}\label{classfp_1_1split_aa4634b2460fcbe77440805d0526e72b6}} 
+\mbox{\Hypertarget{classfp_1_1split_aa47c5cf1e4d7c99506b659df7ab75e14}\label{classfp_1_1split_aa47c5cf1e4d7c99506b659df7ab75e14}} 
 \index{fp\+::split@{fp\+::split}!split@{split}}
 \index{split@{split}!fp\+::split@{fp\+::split}}
 \subsubsection{\texorpdfstring{split()}{split()}}
 {\footnotesize\ttfamily template$<$typename T$>$ \\
-\hyperlink{classfp_1_1split}{fp\+::split}$<$ T $>$\+::\hyperlink{classfp_1_1split}{split} (\begin{DoxyParamCaption}\item[{std\+::vector$<$ int $>$ \&}]{label\+Vector }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+\hyperlink{classfp_1_1split}{fp\+::split}$<$ T $>$\+::\hyperlink{classfp_1_1split}{split} (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ int $>$ \&}]{label\+Vector }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
-Definition at line 232 of file fp\+Split.\+h.
+Definition at line 231 of file fp\+Split.\+h.
 
 
 \begin{DoxyCode}
-232                                                   : \hyperlink{classfp_1_1split_a9658b163c2cd30e9900e21c3b1c3f2f9}{labels}(labelVector)\{
-233                     \hyperlink{classfp_1_1split_af5366297f7de9b8ff0911186300bab7e}{rightClasses}.\hyperlink{classfp_1_1classTotals_a4d042d3a31d3f03d577bd4ad02bb5e6a}{findNumClasses}(\hyperlink{classfp_1_1split_a9658b163c2cd30e9900e21c3b1c3f2f9}{labels});
-234                     \hyperlink{classfp_1_1split_a3be6dcf32281715e6376e9f5f8da18f0}{leftClasses}.\hyperlink{classfp_1_1classTotals_a026ec5ce8d0ad54702891c0d6ba51fc8}{setClassVecSize}(
+231                                                         : \hyperlink{classfp_1_1split_a9658b163c2cd30e9900e21c3b1c3f2f9}{labels}(labelVector)\{
+232                     \hyperlink{classfp_1_1split_af5366297f7de9b8ff0911186300bab7e}{rightClasses}.\hyperlink{classfp_1_1classTotals_a4d042d3a31d3f03d577bd4ad02bb5e6a}{findNumClasses}(\hyperlink{classfp_1_1split_a9658b163c2cd30e9900e21c3b1c3f2f9}{labels});
+233                     \hyperlink{classfp_1_1split_a3be6dcf32281715e6376e9f5f8da18f0}{leftClasses}.\hyperlink{classfp_1_1classTotals_a026ec5ce8d0ad54702891c0d6ba51fc8}{setClassVecSize}(
       \hyperlink{classfp_1_1split_af5366297f7de9b8ff0911186300bab7e}{rightClasses}.\hyperlink{classfp_1_1classTotals_a088c363e5ae669d52e4836bc900d6a73}{returnClassVecSize}());
-235                     this->\hyperlink{classfp_1_1split_a9c1560ae01a536ed0245d667ee7d5fb6}{setCombinedVecSize}();
-236                     \hyperlink{classfp_1_1split_a1eba74d8afed2852da3eb004afe76bb7}{overallImpurity} = \hyperlink{classfp_1_1split_af5366297f7de9b8ff0911186300bab7e}{rightClasses}.
+234                     this->\hyperlink{classfp_1_1split_a9c1560ae01a536ed0245d667ee7d5fb6}{setCombinedVecSize}();
+235                     \hyperlink{classfp_1_1split_a1eba74d8afed2852da3eb004afe76bb7}{overallImpurity} = \hyperlink{classfp_1_1split_af5366297f7de9b8ff0911186300bab7e}{rightClasses}.
       \hyperlink{classfp_1_1classTotals_a94eaf5d719442de6f7014b0630932bb8}{calcAndReturnImpurity}();
-237                 \}
+236                 \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=326pt]{classfp_1_1split_aa4634b2460fcbe77440805d0526e72b6_cgraph}
+\includegraphics[width=326pt]{classfp_1_1split_aa47c5cf1e4d7c99506b659df7ab75e14_cgraph}
 \end{center}
 \end{figure}
 
@@ -102,14 +103,14 @@ bool \hyperlink{classfp_1_1split}{fp\+::split}$<$ T $>$\+::check\+Inequality\+Wi
 
 
 
-Definition at line 217 of file fp\+Split.\+h.
+Definition at line 216 of file fp\+Split.\+h.
 
 
 \begin{DoxyCode}
-217                                                                   \{
-218                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1split_ac8f54cf4a42335814e10e351c49e3c32}{combinedDataLabels}[leftIndex].checkInequality(
+216                                                                   \{
+217                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1split_ac8f54cf4a42335814e10e351c49e3c32}{combinedDataLabels}[leftIndex].checkInequality(
       \hyperlink{classfp_1_1split_ac8f54cf4a42335814e10e351c49e3c32}{combinedDataLabels}[leftIndex+1]);
-219                 \}
+218                 \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1split_a6a98f17c8b3fc3b8047e4559f8b618b7}\label{classfp_1_1split_a6a98f17c8b3fc3b8047e4559f8b618b7}} 
 \index{fp\+::split@{fp\+::split}!gini\+Split@{gini\+Split}}
@@ -120,61 +121,61 @@ Definition at line 217 of file fp\+Split.\+h.
 
 
 
-Definition at line 244 of file fp\+Split.\+h.
+Definition at line 243 of file fp\+Split.\+h.
 
 
 \begin{DoxyCode}
-244                                                                                        \{
-245                     \textcolor{keywordtype}{double} tempImpurity;
-246                     \textcolor{keywordtype}{int} numLabels = \hyperlink{classfp_1_1split_a9658b163c2cd30e9900e21c3b1c3f2f9}{labels}.size();
-247                 \textcolor{comment}{//  timeLogger logTime;}
-248 
-249                     \textcolor{comment}{// initialize return value}
-250                     splitInfo<T> currSplitInfo;
-251                     currSplitInfo.setFeatureNum(featureNum);
-252 
-253                     \textcolor{comment}{// zip data and labels}
-254                     \hyperlink{classfp_1_1split_a7b34c093da10d549e3750c641dfa991d}{zipDataLabels}(featureVals);
-255 
-256                     \textcolor{comment}{// sort feature Vals}
-257                     std::sort(\hyperlink{classfp_1_1split_ac8f54cf4a42335814e10e351c49e3c32}{combinedDataLabels}.begin(), 
+243                                                                                        \{
+244                     \textcolor{keywordtype}{double} tempImpurity;
+245                     \textcolor{keywordtype}{int} numLabels = \hyperlink{classfp_1_1split_a9658b163c2cd30e9900e21c3b1c3f2f9}{labels}.size();
+246                 \textcolor{comment}{//  timeLogger logTime;}
+247 
+248                     \textcolor{comment}{// initialize return value}
+249                     splitInfo<T> currSplitInfo;
+250                     currSplitInfo.setFeatureNum(featureNum);
+251 
+252                     \textcolor{comment}{// zip data and labels}
+253                     \hyperlink{classfp_1_1split_a8fc67880c45fe8a9f7ab8d0cc860597f}{zipDataLabels}(featureVals);
+254 
+255                     \textcolor{comment}{// sort feature Vals}
+256                     std::sort(\hyperlink{classfp_1_1split_ac8f54cf4a42335814e10e351c49e3c32}{combinedDataLabels}.begin(), 
       \hyperlink{classfp_1_1split_ac8f54cf4a42335814e10e351c49e3c32}{combinedDataLabels}.end());
-258 
-259                     \textcolor{comment}{// find split}
-260                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i<numLabels-1; ++i)\{
-261                         \hyperlink{classfp_1_1split_a3be6dcf32281715e6376e9f5f8da18f0}{leftClasses}.\hyperlink{classfp_1_1classTotals_aa05c13b36638adc361d638559c43a447}{incrementClass}(
+257 
+258                     \textcolor{comment}{// find split}
+259                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i<numLabels-1; ++i)\{
+260                         \hyperlink{classfp_1_1split_a3be6dcf32281715e6376e9f5f8da18f0}{leftClasses}.\hyperlink{classfp_1_1classTotals_aa05c13b36638adc361d638559c43a447}{incrementClass}(
       \hyperlink{classfp_1_1split_ac8f54cf4a42335814e10e351c49e3c32}{combinedDataLabels}[i].returnDataLabel());
-262                         \hyperlink{classfp_1_1split_af5366297f7de9b8ff0911186300bab7e}{rightClasses}.\hyperlink{classfp_1_1classTotals_af388dc1e664488603f7834da2f097a06}{decrementClass}(
+261                         \hyperlink{classfp_1_1split_af5366297f7de9b8ff0911186300bab7e}{rightClasses}.\hyperlink{classfp_1_1classTotals_af388dc1e664488603f7834da2f097a06}{decrementClass}(
       \hyperlink{classfp_1_1split_ac8f54cf4a42335814e10e351c49e3c32}{combinedDataLabels}[i].returnDataLabel());
-263 
-264                         \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1split_ac75c6034210f3c53ff3435e2d12377e1}{checkInequalityWithNext}(i))\{
-265                             tempImpurity = \hyperlink{classfp_1_1split_a3be6dcf32281715e6376e9f5f8da18f0}{leftClasses}.
+262 
+263                         \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1split_ac75c6034210f3c53ff3435e2d12377e1}{checkInequalityWithNext}(i))\{
+264                             tempImpurity = \hyperlink{classfp_1_1split_a3be6dcf32281715e6376e9f5f8da18f0}{leftClasses}.
       \hyperlink{classfp_1_1classTotals_a94eaf5d719442de6f7014b0630932bb8}{calcAndReturnImpurity}() + \hyperlink{classfp_1_1split_af5366297f7de9b8ff0911186300bab7e}{rightClasses}.
       \hyperlink{classfp_1_1classTotals_a94eaf5d719442de6f7014b0630932bb8}{calcAndReturnImpurity}();
-266                             
-267                             \textcolor{keywordflow}{if}(tempImpurity < currSplitInfo.returnImpurity() && tempImpurity != 
+265                             
+266                             \textcolor{keywordflow}{if}(tempImpurity < currSplitInfo.returnImpurity() && tempImpurity != 
       \hyperlink{classfp_1_1split_a1eba74d8afed2852da3eb004afe76bb7}{overallImpurity})\{
-268                                 currSplitInfo.setImpurity(tempImpurity);
-269                                 currSplitInfo.setSplitValue(\hyperlink{classfp_1_1split_a0a8bc35b7ff78cb96332cdbda12b5fe5}{midVal}(i));
-270                                 currSplitInfo.setLeftImpurity(\hyperlink{classfp_1_1split_a3be6dcf32281715e6376e9f5f8da18f0}{leftClasses}.
+267                                 currSplitInfo.setImpurity(tempImpurity);
+268                                 currSplitInfo.setSplitValue(\hyperlink{classfp_1_1split_a0a8bc35b7ff78cb96332cdbda12b5fe5}{midVal}(i));
+269                                 currSplitInfo.setLeftImpurity(\hyperlink{classfp_1_1split_a3be6dcf32281715e6376e9f5f8da18f0}{leftClasses}.
       \hyperlink{classfp_1_1classTotals_a82993575e2ad13f057f01050a52ef4ce}{returnImpurity}());
-271                                 currSplitInfo.setRightImpurity(\hyperlink{classfp_1_1split_af5366297f7de9b8ff0911186300bab7e}{rightClasses}.
+270                                 currSplitInfo.setRightImpurity(\hyperlink{classfp_1_1split_af5366297f7de9b8ff0911186300bab7e}{rightClasses}.
       \hyperlink{classfp_1_1classTotals_a82993575e2ad13f057f01050a52ef4ce}{returnImpurity}());
-272                             \}
-273                         \}
-274                     \}
-275 
-276                     \textcolor{keywordflow}{if}(currSplitInfo.returnImpurity() == \hyperlink{classfp_1_1split_a1eba74d8afed2852da3eb004afe76bb7}{overallImpurity})\{
-277                         std::cout << \textcolor{stringliteral}{"it happened\(\backslash\)n"};
-278 exit(1); \textcolor{comment}{//should never happen.  Why?}
-279                                 currSplitInfo.setImpurity(-1);
-280                     \}
-281                     \textcolor{comment}{//logTime.startFindSplitTimer();}
-282                     \hyperlink{classfp_1_1split_a5ccfceb36e8ea567816af95bb4ae4fea}{setupForNextRun}();
-283                     \textcolor{comment}{//logTime.stopFindSplitTimer();}
-284 
-285                     \textcolor{keywordflow}{return} currSplitInfo;
-286                 \}
+271                             \}
+272                         \}
+273                     \}
+274 
+275                     \textcolor{keywordflow}{if}(currSplitInfo.returnImpurity() == \hyperlink{classfp_1_1split_a1eba74d8afed2852da3eb004afe76bb7}{overallImpurity})\{
+276                         std::cout << \textcolor{stringliteral}{"it happened\(\backslash\)n"};
+277 exit(1); \textcolor{comment}{//should never happen.  Why?}
+278                                 currSplitInfo.setImpurity(-1);
+279                     \}
+280                     \textcolor{comment}{//logTime.startFindSplitTimer();}
+281                     \hyperlink{classfp_1_1split_a5ccfceb36e8ea567816af95bb4ae4fea}{setupForNextRun}();
+282                     \textcolor{comment}{//logTime.stopFindSplitTimer();}
+283 
+284                     \textcolor{keywordflow}{return} currSplitInfo;
+285                 \}
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -192,14 +193,14 @@ T \hyperlink{classfp_1_1split}{fp\+::split}$<$ T $>$\+::mid\+Val (\begin{DoxyPar
 
 
 
-Definition at line 213 of file fp\+Split.\+h.
+Definition at line 212 of file fp\+Split.\+h.
 
 
 \begin{DoxyCode}
-213                                               \{
-214                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1split_ac8f54cf4a42335814e10e351c49e3c32}{combinedDataLabels}[leftIndex].midVal(
+212                                               \{
+213                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1split_ac8f54cf4a42335814e10e351c49e3c32}{combinedDataLabels}[leftIndex].midVal(
       \hyperlink{classfp_1_1split_ac8f54cf4a42335814e10e351c49e3c32}{combinedDataLabels}[leftIndex+1]);
-215                 \}
+214                 \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1split_a8501016c02cb2c36b3d40ee120da872e}\label{classfp_1_1split_a8501016c02cb2c36b3d40ee120da872e}} 
 \index{fp\+::split@{fp\+::split}!return\+Impurity@{return\+Impurity}}
@@ -210,13 +211,13 @@ double \hyperlink{classfp_1_1split}{fp\+::split}$<$ T $>$\+::return\+Impurity (\
 
 
 
-Definition at line 239 of file fp\+Split.\+h.
+Definition at line 238 of file fp\+Split.\+h.
 
 
 \begin{DoxyCode}
-239                                               \{
-240                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1split_a1eba74d8afed2852da3eb004afe76bb7}{overallImpurity};
-241                 \}
+238                                               \{
+239                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1split_a1eba74d8afed2852da3eb004afe76bb7}{overallImpurity};
+240                 \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1split_a9c1560ae01a536ed0245d667ee7d5fb6}\label{classfp_1_1split_a9c1560ae01a536ed0245d667ee7d5fb6}} 
 \index{fp\+::split@{fp\+::split}!set\+Combined\+Vec\+Size@{set\+Combined\+Vec\+Size}}
@@ -227,13 +228,13 @@ void \hyperlink{classfp_1_1split}{fp\+::split}$<$ T $>$\+::set\+Combined\+Vec\+S
 
 
 
-Definition at line 203 of file fp\+Split.\+h.
+Definition at line 202 of file fp\+Split.\+h.
 
 
 \begin{DoxyCode}
-203                                                 \{
-204                     \hyperlink{classfp_1_1split_ac8f54cf4a42335814e10e351c49e3c32}{combinedDataLabels}.resize(\hyperlink{classfp_1_1split_a9658b163c2cd30e9900e21c3b1c3f2f9}{labels}.size());
-205                 \}
+202                                                 \{
+203                     \hyperlink{classfp_1_1split_ac8f54cf4a42335814e10e351c49e3c32}{combinedDataLabels}.resize(\hyperlink{classfp_1_1split_a9658b163c2cd30e9900e21c3b1c3f2f9}{labels}.size());
+204                 \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1split_a5ccfceb36e8ea567816af95bb4ae4fea}\label{classfp_1_1split_a5ccfceb36e8ea567816af95bb4ae4fea}} 
 \index{fp\+::split@{fp\+::split}!setup\+For\+Next\+Run@{setup\+For\+Next\+Run}}
@@ -244,21 +245,21 @@ void \hyperlink{classfp_1_1split}{fp\+::split}$<$ T $>$\+::setup\+For\+Next\+Run
 
 
 
-Definition at line 221 of file fp\+Split.\+h.
+Definition at line 220 of file fp\+Split.\+h.
 
 
 \begin{DoxyCode}
-221                                              \{
-222                     \textcolor{comment}{//setup for next possible run}
-223                     \hyperlink{classfp_1_1split_a3be6dcf32281715e6376e9f5f8da18f0}{leftClasses}.\hyperlink{classfp_1_1classTotals_aa05c13b36638adc361d638559c43a447}{incrementClass}(
+220                                              \{
+221                     \textcolor{comment}{//setup for next possible run}
+222                     \hyperlink{classfp_1_1split_a3be6dcf32281715e6376e9f5f8da18f0}{leftClasses}.\hyperlink{classfp_1_1classTotals_aa05c13b36638adc361d638559c43a447}{incrementClass}(
       \hyperlink{classfp_1_1split_ac8f54cf4a42335814e10e351c49e3c32}{combinedDataLabels}.back().returnDataLabel());
-224                     \hyperlink{classfp_1_1split_af5366297f7de9b8ff0911186300bab7e}{rightClasses}.\hyperlink{classfp_1_1classTotals_af388dc1e664488603f7834da2f097a06}{decrementClass}(
+223                     \hyperlink{classfp_1_1split_af5366297f7de9b8ff0911186300bab7e}{rightClasses}.\hyperlink{classfp_1_1classTotals_af388dc1e664488603f7834da2f097a06}{decrementClass}(
       \hyperlink{classfp_1_1split_ac8f54cf4a42335814e10e351c49e3c32}{combinedDataLabels}.back().returnDataLabel());
-225                     \textcolor{comment}{//TODO ensure rightClasses is zero at this point.}
-226 
-227                     \hyperlink{classfp_1_1split_af5366297f7de9b8ff0911186300bab7e}{rightClasses} = \hyperlink{classfp_1_1split_a3be6dcf32281715e6376e9f5f8da18f0}{leftClasses};
-228                     \hyperlink{classfp_1_1split_a3be6dcf32281715e6376e9f5f8da18f0}{leftClasses}.\hyperlink{classfp_1_1classTotals_ab0ad9daa63bc410ae15f344b86386f87}{resetClassTotals}();
-229                 \}
+224                     \textcolor{comment}{//TODO ensure rightClasses is zero at this point.}
+225 
+226                     \hyperlink{classfp_1_1split_af5366297f7de9b8ff0911186300bab7e}{rightClasses} = \hyperlink{classfp_1_1split_a3be6dcf32281715e6376e9f5f8da18f0}{leftClasses};
+227                     \hyperlink{classfp_1_1split_a3be6dcf32281715e6376e9f5f8da18f0}{leftClasses}.\hyperlink{classfp_1_1classTotals_ab0ad9daa63bc410ae15f344b86386f87}{resetClassTotals}();
+228                 \}
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -267,25 +268,25 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{classfp_1_1split_a5ccfceb36e8ea567816af95bb4ae4fea_cgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{classfp_1_1split_a7b34c093da10d549e3750c641dfa991d}\label{classfp_1_1split_a7b34c093da10d549e3750c641dfa991d}} 
+\mbox{\Hypertarget{classfp_1_1split_a8fc67880c45fe8a9f7ab8d0cc860597f}\label{classfp_1_1split_a8fc67880c45fe8a9f7ab8d0cc860597f}} 
 \index{fp\+::split@{fp\+::split}!zip\+Data\+Labels@{zip\+Data\+Labels}}
 \index{zip\+Data\+Labels@{zip\+Data\+Labels}!fp\+::split@{fp\+::split}}
 \subsubsection{\texorpdfstring{zip\+Data\+Labels()}{zipDataLabels()}}
 {\footnotesize\ttfamily template$<$typename T$>$ \\
-void \hyperlink{classfp_1_1split}{fp\+::split}$<$ T $>$\+::zip\+Data\+Labels (\begin{DoxyParamCaption}\item[{std\+::vector$<$ T $>$}]{feature\+Vals }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+void \hyperlink{classfp_1_1split}{fp\+::split}$<$ T $>$\+::zip\+Data\+Labels (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ T $>$ \&}]{feature\+Vals }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
 
 
 
-Definition at line 207 of file fp\+Split.\+h.
+Definition at line 206 of file fp\+Split.\+h.
 
 
 \begin{DoxyCode}
-207                                                                    \{
-208                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<\hyperlink{classfp_1_1split_a9658b163c2cd30e9900e21c3b1c3f2f9}{labels}.size(); ++i)\{
-209                         \hyperlink{classfp_1_1split_ac8f54cf4a42335814e10e351c49e3c32}{combinedDataLabels}[i].setPair(featureVals[i],
+206                                                                           \{
+207                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<\hyperlink{classfp_1_1split_a9658b163c2cd30e9900e21c3b1c3f2f9}{labels}.size(); ++i)\{
+208                         \hyperlink{classfp_1_1split_ac8f54cf4a42335814e10e351c49e3c32}{combinedDataLabels}[i].setPair(featureVals[i],
       \hyperlink{classfp_1_1split_a9658b163c2cd30e9900e21c3b1c3f2f9}{labels}[i]);
-210                     \}
-211                 \}
+209                     \}
+210                 \}
 \end{DoxyCode}
 
 
@@ -299,7 +300,7 @@ std\+::vector$<$ \hyperlink{classfp_1_1labeledData}{labeled\+Data}$<$T$>$ $>$ \h
 
 
 
-Definition at line 201 of file fp\+Split.\+h.
+Definition at line 200 of file fp\+Split.\+h.
 
 \mbox{\Hypertarget{classfp_1_1split_a9658b163c2cd30e9900e21c3b1c3f2f9}\label{classfp_1_1split_a9658b163c2cd30e9900e21c3b1c3f2f9}} 
 \index{fp\+::split@{fp\+::split}!labels@{labels}}
@@ -310,7 +311,7 @@ std\+::vector$<$int$>$ \hyperlink{classfp_1_1split}{fp\+::split}$<$ T $>$\+::lab
 
 
 
-Definition at line 200 of file fp\+Split.\+h.
+Definition at line 199 of file fp\+Split.\+h.
 
 \mbox{\Hypertarget{classfp_1_1split_a3be6dcf32281715e6376e9f5f8da18f0}\label{classfp_1_1split_a3be6dcf32281715e6376e9f5f8da18f0}} 
 \index{fp\+::split@{fp\+::split}!left\+Classes@{left\+Classes}}
@@ -321,7 +322,7 @@ Definition at line 200 of file fp\+Split.\+h.
 
 
 
-Definition at line 197 of file fp\+Split.\+h.
+Definition at line 196 of file fp\+Split.\+h.
 
 \mbox{\Hypertarget{classfp_1_1split_a1eba74d8afed2852da3eb004afe76bb7}\label{classfp_1_1split_a1eba74d8afed2852da3eb004afe76bb7}} 
 \index{fp\+::split@{fp\+::split}!overall\+Impurity@{overall\+Impurity}}
@@ -332,7 +333,7 @@ double \hyperlink{classfp_1_1split}{fp\+::split}$<$ T $>$\+::overall\+Impurity\h
 
 
 
-Definition at line 196 of file fp\+Split.\+h.
+Definition at line 195 of file fp\+Split.\+h.
 
 \mbox{\Hypertarget{classfp_1_1split_af5366297f7de9b8ff0911186300bab7e}\label{classfp_1_1split_af5366297f7de9b8ff0911186300bab7e}} 
 \index{fp\+::split@{fp\+::split}!right\+Classes@{right\+Classes}}
@@ -343,7 +344,7 @@ Definition at line 196 of file fp\+Split.\+h.
 
 
 
-Definition at line 198 of file fp\+Split.\+h.
+Definition at line 197 of file fp\+Split.\+h.
 
 
 

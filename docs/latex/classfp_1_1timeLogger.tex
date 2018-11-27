@@ -69,16 +69,16 @@ Definition at line 59 of file time\+Logger.\+h.
 
 
 \begin{DoxyCode}
-59                                            \{
-60                     std::cout << std::fixed << \textcolor{stringliteral}{"it took "} << \hyperlink{classfp_1_1timeLogger_ae79b7283b8f150e851fc325c29618ba1}{totalGrowTime}.count() << \textcolor{stringliteral}{" us to
-       grow\(\backslash\)n"};
-61                     std::cout << std::fixed << \textcolor{stringliteral}{"it took "} << \hyperlink{classfp_1_1timeLogger_a3ac30f8dba0551c3cd3f57dc4806e56e}{totalSortTime}.count() << \textcolor{stringliteral}{" us to
-       sort\(\backslash\)n"};
-62                     std::cout << std::fixed << \textcolor{stringliteral}{"it took "} << \hyperlink{classfp_1_1timeLogger_a1f1c446894052c4df2100b501069a927}{totalGiniTime}.count() << \textcolor{stringliteral}{" us to
-       gini\(\backslash\)n"};
-63                     std::cout << std::fixed << \textcolor{stringliteral}{"it took "} << \hyperlink{classfp_1_1timeLogger_a11998b4bff9e1f548f4468e25f79a6f2}{totalFindSplitTime}.count() <
-      < \textcolor{stringliteral}{" us to find split\(\backslash\)n"};
-64                 \}
+59                                        \{
+60                 std::cout << std::fixed << \textcolor{stringliteral}{"it took "} << \hyperlink{classfp_1_1timeLogger_ae79b7283b8f150e851fc325c29618ba1}{totalGrowTime}.count() << \textcolor{stringliteral}{" us to grow
+      \(\backslash\)n"};
+61                 std::cout << std::fixed << \textcolor{stringliteral}{"it took "} << \hyperlink{classfp_1_1timeLogger_a3ac30f8dba0551c3cd3f57dc4806e56e}{totalSortTime}.count() << \textcolor{stringliteral}{" us to sort
+      \(\backslash\)n"};
+62                 std::cout << std::fixed << \textcolor{stringliteral}{"it took "} << \hyperlink{classfp_1_1timeLogger_a1f1c446894052c4df2100b501069a927}{totalGiniTime}.count() << \textcolor{stringliteral}{" us to gini
+      \(\backslash\)n"};
+63                 std::cout << std::fixed << \textcolor{stringliteral}{"it took "} << \hyperlink{classfp_1_1timeLogger_a11998b4bff9e1f548f4468e25f79a6f2}{totalFindSplitTime}.count() << \textcolor{stringliteral}{"
+       us to find split\(\backslash\)n"};
+64             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1timeLogger_a59d92a31ff5b1c845dddcc1836323769}\label{classfp_1_1timeLogger_a59d92a31ff5b1c845dddcc1836323769}} 
 \index{fp\+::time\+Logger@{fp\+::time\+Logger}!start\+Find\+Split\+Timer@{start\+Find\+Split\+Timer}}
@@ -92,9 +92,9 @@ Definition at line 51 of file time\+Logger.\+h.
 
 
 \begin{DoxyCode}
-51                                  \{
-52 \hyperlink{classfp_1_1timeLogger_a1783656ae0d2e107cdfa87766ddc1a8c}{startFindSplit} = steady\_clock::now();
-53                 \}
+51                                              \{
+52                 \hyperlink{classfp_1_1timeLogger_a1783656ae0d2e107cdfa87766ddc1a8c}{startFindSplit} = steady\_clock::now();
+53             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1timeLogger_a706a97bf8610b4fd6196352b8e38b48b}\label{classfp_1_1timeLogger_a706a97bf8610b4fd6196352b8e38b48b}} 
 \index{fp\+::time\+Logger@{fp\+::time\+Logger}!start\+Gini\+Timer@{start\+Gini\+Timer}}
@@ -108,9 +108,9 @@ Definition at line 35 of file time\+Logger.\+h.
 
 
 \begin{DoxyCode}
-35                             \{
-36 \hyperlink{classfp_1_1timeLogger_abe0bd7eeb79ad8c33747afb4f4a99e88}{startGini} = steady\_clock::now();
-37                 \}
+35                                         \{
+36                 \hyperlink{classfp_1_1timeLogger_abe0bd7eeb79ad8c33747afb4f4a99e88}{startGini} = steady\_clock::now();
+37             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1timeLogger_ab6ae96d6c08b46531417915f1b120060}\label{classfp_1_1timeLogger_ab6ae96d6c08b46531417915f1b120060}} 
 \index{fp\+::time\+Logger@{fp\+::time\+Logger}!start\+Grow\+Timer@{start\+Grow\+Timer}}
@@ -124,9 +124,9 @@ Definition at line 27 of file time\+Logger.\+h.
 
 
 \begin{DoxyCode}
-27                                             \{
-28 \hyperlink{classfp_1_1timeLogger_a530aa42af210e19fbab96c998271dbc4}{startGrow} = steady\_clock::now();
-29                 \}
+27                                         \{
+28                 \hyperlink{classfp_1_1timeLogger_a530aa42af210e19fbab96c998271dbc4}{startGrow} = steady\_clock::now();
+29             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1timeLogger_a53d2260809f92b6884e6cbf4cdf89c2e}\label{classfp_1_1timeLogger_a53d2260809f92b6884e6cbf4cdf89c2e}} 
 \index{fp\+::time\+Logger@{fp\+::time\+Logger}!start\+Sort\+Timer@{start\+Sort\+Timer}}
@@ -140,9 +140,9 @@ Definition at line 43 of file time\+Logger.\+h.
 
 
 \begin{DoxyCode}
-43                             \{
-44 \hyperlink{classfp_1_1timeLogger_afed53c702d6f414558eb7ca49f37ff22}{startSort} = steady\_clock::now();
-45                 \}
+43                                         \{
+44                 \hyperlink{classfp_1_1timeLogger_afed53c702d6f414558eb7ca49f37ff22}{startSort} = steady\_clock::now();
+45             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1timeLogger_a99c7751d29c3a180fca00564089b9de7}\label{classfp_1_1timeLogger_a99c7751d29c3a180fca00564089b9de7}} 
 \index{fp\+::time\+Logger@{fp\+::time\+Logger}!stop\+Find\+Split\+Timer@{stop\+Find\+Split\+Timer}}
@@ -156,10 +156,10 @@ Definition at line 55 of file time\+Logger.\+h.
 
 
 \begin{DoxyCode}
-55                                                 \{
-56 \hyperlink{classfp_1_1timeLogger_a11998b4bff9e1f548f4468e25f79a6f2}{totalFindSplitTime} = \hyperlink{classfp_1_1timeLogger_a11998b4bff9e1f548f4468e25f79a6f2}{totalFindSplitTime} +std::chrono::duration\_cast<
-      std::chrono::microseconds>(steady\_clock::now()-\hyperlink{classfp_1_1timeLogger_a1783656ae0d2e107cdfa87766ddc1a8c}{startFindSplit});
-57                 \}
+55                                             \{
+56                 \hyperlink{classfp_1_1timeLogger_a11998b4bff9e1f548f4468e25f79a6f2}{totalFindSplitTime} = \hyperlink{classfp_1_1timeLogger_a11998b4bff9e1f548f4468e25f79a6f2}{totalFindSplitTime} +
+      std::chrono::duration\_cast<std::chrono::microseconds>(steady\_clock::now()-\hyperlink{classfp_1_1timeLogger_a1783656ae0d2e107cdfa87766ddc1a8c}{startFindSplit});
+57             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1timeLogger_ad5a58f08214d4d48b4740685506c130f}\label{classfp_1_1timeLogger_ad5a58f08214d4d48b4740685506c130f}} 
 \index{fp\+::time\+Logger@{fp\+::time\+Logger}!stop\+Gini\+Timer@{stop\+Gini\+Timer}}
@@ -173,10 +173,10 @@ Definition at line 39 of file time\+Logger.\+h.
 
 
 \begin{DoxyCode}
-39                                            \{
-40 \hyperlink{classfp_1_1timeLogger_a1f1c446894052c4df2100b501069a927}{totalGiniTime} = \hyperlink{classfp_1_1timeLogger_a1f1c446894052c4df2100b501069a927}{totalGiniTime} +std::chrono::duration\_cast<
+39                                        \{
+40                 \hyperlink{classfp_1_1timeLogger_a1f1c446894052c4df2100b501069a927}{totalGiniTime} = \hyperlink{classfp_1_1timeLogger_a1f1c446894052c4df2100b501069a927}{totalGiniTime} +std::chrono::duration\_cast<
       std::chrono::microseconds>(steady\_clock::now()-\hyperlink{classfp_1_1timeLogger_abe0bd7eeb79ad8c33747afb4f4a99e88}{startGini});
-41                 \}
+41             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1timeLogger_a4ce75092aa7c974da223425e921312a6}\label{classfp_1_1timeLogger_a4ce75092aa7c974da223425e921312a6}} 
 \index{fp\+::time\+Logger@{fp\+::time\+Logger}!stop\+Grow\+Timer@{stop\+Grow\+Timer}}
@@ -190,10 +190,10 @@ Definition at line 31 of file time\+Logger.\+h.
 
 
 \begin{DoxyCode}
-31                                            \{
-32 \hyperlink{classfp_1_1timeLogger_ae79b7283b8f150e851fc325c29618ba1}{totalGrowTime} = \hyperlink{classfp_1_1timeLogger_ae79b7283b8f150e851fc325c29618ba1}{totalGrowTime} +std::chrono::duration\_cast<
+31                                        \{
+32                 \hyperlink{classfp_1_1timeLogger_ae79b7283b8f150e851fc325c29618ba1}{totalGrowTime} = \hyperlink{classfp_1_1timeLogger_ae79b7283b8f150e851fc325c29618ba1}{totalGrowTime} +std::chrono::duration\_cast<
       std::chrono::microseconds>(steady\_clock::now()-\hyperlink{classfp_1_1timeLogger_a530aa42af210e19fbab96c998271dbc4}{startGrow});
-33                 \}
+33             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1timeLogger_a69923048ee4739b4da9581000775fd2a}\label{classfp_1_1timeLogger_a69923048ee4739b4da9581000775fd2a}} 
 \index{fp\+::time\+Logger@{fp\+::time\+Logger}!stop\+Sort\+Timer@{stop\+Sort\+Timer}}
@@ -207,10 +207,10 @@ Definition at line 47 of file time\+Logger.\+h.
 
 
 \begin{DoxyCode}
-47                                            \{
-48 \hyperlink{classfp_1_1timeLogger_a3ac30f8dba0551c3cd3f57dc4806e56e}{totalSortTime} = \hyperlink{classfp_1_1timeLogger_a3ac30f8dba0551c3cd3f57dc4806e56e}{totalSortTime} +std::chrono::duration\_cast<
+47                                        \{
+48                 \hyperlink{classfp_1_1timeLogger_a3ac30f8dba0551c3cd3f57dc4806e56e}{totalSortTime} = \hyperlink{classfp_1_1timeLogger_a3ac30f8dba0551c3cd3f57dc4806e56e}{totalSortTime} +std::chrono::duration\_cast<
       std::chrono::microseconds>(steady\_clock::now()-\hyperlink{classfp_1_1timeLogger_afed53c702d6f414558eb7ca49f37ff22}{startSort});
-49                 \}
+49             \}
 \end{DoxyCode}
 
 

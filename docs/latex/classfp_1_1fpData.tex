@@ -6,7 +6,8 @@
 
 
 
-Collaboration diagram for fp\+:\+:fp\+Data\+:\nopagebreak
+Collaboration diagram for fp\+:\+:fp\+Data\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -55,16 +56,18 @@ double \hyperlink{classfp_1_1fpData_a42f76961f1649e329d654e9e1bb13fc6}{return\+T
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classinputData}{input\+Data}$<$ double, int $>$ $\ast$ \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{in\+Data}
+\hyperlink{classfp_1_1inputData}{input\+Data}$<$ double, int $>$ $\ast$ \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{in\+Data}
 \item 
-\hyperlink{classtestData}{test\+Data}$<$ double, int $>$ $\ast$ \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{in\+Test\+Data}
+\hyperlink{classfp_1_1testData}{test\+Data}$<$ double, int $>$ $\ast$ \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{in\+Test\+Data}
 \end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
+\hyperlink{classfp_1_1fpData}{fp\+Data} holds both the training and test data. This data gets loaded from fp\+Dataset.
 
+T\+O\+DO\+: This is not a good way to do this. There is nothing different from training data and test data. This is wrong. test data should be stored by observation whereas training data is stored by feature. 
 
-Definition at line 11 of file fp\+Data.\+h.
+Definition at line 19 of file fp\+Data.\+h.
 
 
 
@@ -77,13 +80,12 @@ Definition at line 11 of file fp\+Data.\+h.
 
 
 
-Definition at line 23 of file fp\+Data.\+h.
+Definition at line 27 of file fp\+Data.\+h.
 
 
 \begin{DoxyCode}
-23                     \{
-24                 \textcolor{comment}{//forestInfo = fpSingleton::getSingleton();}
-25             \}
+27                     \{
+28             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1fpData_a62998c12f30ea88e6b3ea30b17d1a3e0}\label{classfp_1_1fpData_a62998c12f30ea88e6b3ea30b17d1a3e0}} 
 \index{fp\+::fp\+Data@{fp\+::fp\+Data}!````~fp\+Data@{$\sim$fp\+Data}}
@@ -93,20 +95,20 @@ Definition at line 23 of file fp\+Data.\+h.
 
 
 
-Definition at line 27 of file fp\+Data.\+h.
+Definition at line 30 of file fp\+Data.\+h.
 
 
 \begin{DoxyCode}
-27                      \{
-28 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData} != NULL)\{
-29                     \textcolor{keyword}{delete} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData};
-30                     \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData} = NULL;
-31                 \}
-32 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData} != NULL)\{
-33                     \textcolor{keyword}{delete} \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData};
-34                     \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData} = NULL;
-35                 \}
-36             \}
+30                      \{
+31                 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData} != NULL)\{
+32                     \textcolor{keyword}{delete} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData};
+33                     \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData} = NULL;
+34                 \}
+35                 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData} != NULL)\{
+36                     \textcolor{keyword}{delete} \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData};
+37                     \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData} = NULL;
+38                 \}
+39             \}
 \end{DoxyCode}
 
 
@@ -119,18 +121,18 @@ Definition at line 27 of file fp\+Data.\+h.
 
 
 
-Definition at line 51 of file fp\+Data.\+h.
+Definition at line 57 of file fp\+Data.\+h.
 
 
 \begin{DoxyCode}
-51                                \{
-52                 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData} != NULL)\{
-53                     \textcolor{keyword}{delete} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData};
-54                     \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData} = NULL;
-55                 \}\textcolor{keywordflow}{else} \{
-56                     \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Unable to delete data.  Data does not exist."} );
-57                 \}
-58             \}
+57                                \{
+58                 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData} != NULL)\{
+59                     \textcolor{keyword}{delete} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData};
+60                     \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData} = NULL;
+61                 \}\textcolor{keywordflow}{else} \{
+62                     \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Unable to delete data.  Data does not exist."} );
+63                 \}
+64             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1fpData_a996eedfc5ffe559ce1f6061af1efc1db}\label{classfp_1_1fpData_a996eedfc5ffe559ce1f6061af1efc1db}} 
 \index{fp\+::fp\+Data@{fp\+::fp\+Data}!fp\+Delete\+Test\+Data@{fp\+Delete\+Test\+Data}}
@@ -140,18 +142,18 @@ Definition at line 51 of file fp\+Data.\+h.
 
 
 
-Definition at line 111 of file fp\+Data.\+h.
+Definition at line 119 of file fp\+Data.\+h.
 
 
 \begin{DoxyCode}
-111                        \{
-112                 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData} != NULL)\{
-113                     \textcolor{keyword}{delete} \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData};
-114                     \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData} = NULL;
-115                 \}\textcolor{keywordflow}{else} \{
-116                     \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Unable to delete test data.  Test data does not exist."} );
-117                 \}
-118             \}
+119                                    \{
+120                 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData} != NULL)\{
+121                     \textcolor{keyword}{delete} \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData};
+122                     \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData} = NULL;
+123                 \}\textcolor{keywordflow}{else} \{
+124                     \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Unable to delete test data.  Test data does not exist."} );
+125                 \}
+126             \}
 \end{DoxyCode}
 \mbox{\Hypertarget{classfp_1_1fpData_a91c727b1475eca340ca14c241b25c959}\label{classfp_1_1fpData_a91c727b1475eca340ca14c241b25c959}} 
 \index{fp\+::fp\+Data@{fp\+::fp\+Data}!fp\+Load\+Data@{fp\+Load\+Data}}
@@ -161,21 +163,22 @@ Definition at line 111 of file fp\+Data.\+h.
 
 
 
-Definition at line 41 of file fp\+Data.\+h.
+Definition at line 47 of file fp\+Data.\+h.
 
 
 \begin{DoxyCode}
-41                                              \{
-42                 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpData_a2b4d9be328aaa7acf9a2561150da0402}{loadDataFromCSV}(settings))\{
-43                     \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData} = \textcolor{keyword}{new} \hyperlink{classinputData}{inputData<double,int>}(settings.
-      returnCSVFileName(), settings.returnColumnWithY());
-44                 \}\textcolor{keywordflow}{else} \{
-45                     \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Unable to read data."} );
-46                 \}
-47                 \hyperlink{classfp_1_1fpData_ab48923d57206e17b88f0d89833051b43}{setDataRelatedParameters}(settings);
-48             \}
+47                                              \{
+48                 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpData_a2b4d9be328aaa7acf9a2561150da0402}{loadDataFromCSV}(settings))\{
+49                     \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData} = \textcolor{keyword}{new} inputData<double,int>(settings.returnCSVFileName(), settings.
+      returnColumnWithY());
+50                 \}\textcolor{keywordflow}{else} \{
+51                     \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Unable to read data."} );
+52                 \}
+53                 \hyperlink{classfp_1_1fpData_ab48923d57206e17b88f0d89833051b43}{setDataRelatedParameters}(settings);
+54             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -190,21 +193,22 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 100 of file fp\+Data.\+h.
+Definition at line 109 of file fp\+Data.\+h.
 
 
 \begin{DoxyCode}
-100                                                  \{
-101                 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpData_a2b4d9be328aaa7acf9a2561150da0402}{loadDataFromCSV}(settings))\{
-102                     \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData} = \textcolor{keyword}{new} \hyperlink{classtestData}{testData<double,int>}(settings.
-      returnCSVFileName(), settings.returnColumnWithY());
-103                 \}\textcolor{keywordflow}{else} \{
-104                     \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Unable to read test data."} );
-105                 \}
-106                 \hyperlink{classfp_1_1fpData_ab60d2098334e253a0bf3115f029c1996}{setTestDataRelatedParameters}(settings);
-107             \}
+109                                                  \{
+110                 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpData_a2b4d9be328aaa7acf9a2561150da0402}{loadDataFromCSV}(settings))\{
+111                     \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData} = \textcolor{keyword}{new} testData<double,int>(settings.returnCSVFileName(), settings.
+      returnColumnWithY());
+112                 \}\textcolor{keywordflow}{else} \{
+113                     \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Unable to read test data."} );
+114                 \}
+115                 \hyperlink{classfp_1_1fpData_ab60d2098334e253a0bf3115f029c1996}{setTestDataRelatedParameters}(settings);
+116             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -219,13 +223,13 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 38 of file fp\+Data.\+h.
+Definition at line 42 of file fp\+Data.\+h.
 
 
 \begin{DoxyCode}
-38                                                          \{
-39                 \textcolor{keywordflow}{return} settings.loadDataFromCSV();
-40             \}
+42                                                          \{
+43                 \textcolor{keywordflow}{return} settings.loadDataFromCSV();
+44             \}
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -242,15 +246,16 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 80 of file fp\+Data.\+h.
+Definition at line 88 of file fp\+Data.\+h.
 
 
 \begin{DoxyCode}
-80                                                                                     \{
-81                 \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData}->\hyperlink{classinputData_af1637032057ee7aa01a19bd8d7583a95}{prefetchFeatureValue}(featureNumber, observationNumber);
-82             \}
+88                                                                                                 \{
+89                 \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData}->\hyperlink{classfp_1_1inputData_a348baff7c24d263bb24185dbaa19d455}{prefetchFeatureValue}(featureNumber, observationNumber);
+90             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -265,16 +270,17 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 76 of file fp\+Data.\+h.
+Definition at line 84 of file fp\+Data.\+h.
 
 
 \begin{DoxyCode}
-76                                                                                                 \{
-77                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData}->\hyperlink{classinputData_a8914408ce5de02c3786dc7ff61f6cfab}{returnFeatureValue}(featureNumber, observationNumber)
+84                                                                                                 \{
+85                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData}->\hyperlink{classfp_1_1inputData_af52ac3512ee8f6e973799e024ddbf629}{returnFeatureValue}(featureNumber, observationNumber)
       ;
-78             \}
+86             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -289,15 +295,16 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 72 of file fp\+Data.\+h.
+Definition at line 80 of file fp\+Data.\+h.
 
 
 \begin{DoxyCode}
-72                                                          \{
-73                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData}->\hyperlink{classinputData_ab6ba59207888898f9c008578dd59cf46}{returnClassOfObservation}(observationNumber);
-74             \}
+80                                                          \{
+81                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData}->\hyperlink{classfp_1_1inputData_a0a767252e950159110d3f2a0c74064ec}{returnClassOfObservation}(observationNumber);
+82             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -312,15 +319,16 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 60 of file fp\+Data.\+h.
+Definition at line 67 of file fp\+Data.\+h.
 
 
 \begin{DoxyCode}
-60                                          \{
-61                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData}->\hyperlink{classinputData_aa87e9181995fe0f15fae83617dba2808}{returnNumClasses}();
-62             \}
+67                                          \{
+68                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData}->\hyperlink{classfp_1_1inputData_a1e775e3744cb3bacb1a6776054aabe4f}{returnNumClasses}();
+69             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -335,15 +343,16 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 64 of file fp\+Data.\+h.
+Definition at line 72 of file fp\+Data.\+h.
 
 
 \begin{DoxyCode}
-64                                           \{
-65                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData}->\hyperlink{classinputData_a8fbb9ac952f73f65295eeb9bf8c3b01a}{returnNumFeatures}();
-66             \}
+72                                           \{
+73                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData}->\hyperlink{classfp_1_1inputData_ae9362286ea7706a8b0d91ba96e9ad478}{returnNumFeatures}();
+74             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -358,15 +367,16 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 68 of file fp\+Data.\+h.
+Definition at line 76 of file fp\+Data.\+h.
 
 
 \begin{DoxyCode}
-68                                               \{
-69                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData}->\hyperlink{classinputData_af2ac0a8c7e0bfcdf1de1ea521eadc7af}{returnNumObservations}();
-70             \}
+76                                               \{
+77                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData}->\hyperlink{classfp_1_1inputData_af7dc02941195e025d1d89c882096027d}{returnNumObservations}();
+78             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -381,15 +391,16 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 92 of file fp\+Data.\+h.
+Definition at line 101 of file fp\+Data.\+h.
 
 
 \begin{DoxyCode}
-92                                       \{
-93                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData}->\hyperlink{classtestData_a7b7ea4d5b03144b691e909730d70ce62}{returnNumObservations}();
-94             \}
+101                                                   \{
+102                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData}->\hyperlink{classfp_1_1testData_af9dd7a4aa116d99a11838a02f2154c08}{returnNumObservations}();
+103             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -404,16 +415,17 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 125 of file fp\+Data.\+h.
+Definition at line 132 of file fp\+Data.\+h.
 
 
 \begin{DoxyCode}
-125                                                                                                     \{
-126                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData}->\hyperlink{classtestData_aec2686210c4776df10cc0658133ed4ad}{returnFeatureValue}(featureNumber, 
+132                                                                                                     \{
+133                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData}->\hyperlink{classfp_1_1testData_a0c49c5fc2f1bf3fc39c7d55413cddabf}{returnFeatureValue}(featureNumber, 
       observationNumber);
-127             \}
+134             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -428,16 +440,17 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 122 of file fp\+Data.\+h.
+Definition at line 129 of file fp\+Data.\+h.
 
 
 \begin{DoxyCode}
-122                                                              \{
-123                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData}->\hyperlink{classtestData_a32ce8f625023ea9a9c0a7aff224c75cc}{returnClassOfObservation}(
+129                                                              \{
+130                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData}->\hyperlink{classfp_1_1testData_a3a964b20b07dd4b49e958fdde93ebc59}{returnClassOfObservation}(
       observationNumber);
-124             \}
+131             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -452,17 +465,18 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 86 of file fp\+Data.\+h.
+Definition at line 94 of file fp\+Data.\+h.
 
 
 \begin{DoxyCode}
-86                                                                   \{
-87                 settings.setNumFeatures(this->\hyperlink{classfp_1_1fpData_a95088e33b280e5c82b3543033d8852e1}{returnNumFeatures}());
-88                 settings.setNumObservations(this->\hyperlink{classfp_1_1fpData_a9056a8c0e7e48fe9aa591269064ecc43}{returnNumObservations}());
-89                 settings.setNumClasses(this->\hyperlink{classfp_1_1fpData_a7abfc93af30b7262d59b6d304796a09d}{returnNumClasses}());
-90             \}
+94                                                                   \{
+95                 settings.setNumFeatures(this->\hyperlink{classfp_1_1fpData_a95088e33b280e5c82b3543033d8852e1}{returnNumFeatures}());
+96                 settings.setNumObservations(this->\hyperlink{classfp_1_1fpData_a9056a8c0e7e48fe9aa591269064ecc43}{returnNumObservations}());
+97                 settings.setNumClasses(this->\hyperlink{classfp_1_1fpData_a7abfc93af30b7262d59b6d304796a09d}{returnNumClasses}());
+98             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -477,15 +491,16 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 96 of file fp\+Data.\+h.
+Definition at line 105 of file fp\+Data.\+h.
 
 
 \begin{DoxyCode}
-96                                                           \{
-97                 settings.setNumObservations(this->\hyperlink{classfp_1_1fpData_a9a115d29fafb6e5b941f4e0c860e65e7}{returnNumTestObservations}());
-98             \}
+105                                                                       \{
+106                 settings.setNumObservations(this->\hyperlink{classfp_1_1fpData_a9a115d29fafb6e5b941f4e0c860e65e7}{returnNumTestObservations}());
+107             \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -499,21 +514,21 @@ Here is the call graph for this function\+:\nopagebreak
 \index{fp\+::fp\+Data@{fp\+::fp\+Data}!in\+Data@{in\+Data}}
 \index{in\+Data@{in\+Data}!fp\+::fp\+Data@{fp\+::fp\+Data}}
 \subsubsection{\texorpdfstring{in\+Data}{inData}}
-{\footnotesize\ttfamily \hyperlink{classinputData}{input\+Data}$<$double, int$>$$\ast$ fp\+::fp\+Data\+::in\+Data\hspace{0.3cm}{\ttfamily [protected]}}
+{\footnotesize\ttfamily \hyperlink{classfp_1_1inputData}{input\+Data}$<$double, int$>$$\ast$ fp\+::fp\+Data\+::in\+Data\hspace{0.3cm}{\ttfamily [protected]}}
 
 
 
-Definition at line 17 of file fp\+Data.\+h.
+Definition at line 22 of file fp\+Data.\+h.
 
 \mbox{\Hypertarget{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}\label{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}} 
 \index{fp\+::fp\+Data@{fp\+::fp\+Data}!in\+Test\+Data@{in\+Test\+Data}}
 \index{in\+Test\+Data@{in\+Test\+Data}!fp\+::fp\+Data@{fp\+::fp\+Data}}
 \subsubsection{\texorpdfstring{in\+Test\+Data}{inTestData}}
-{\footnotesize\ttfamily \hyperlink{classtestData}{test\+Data}$<$double, int$>$$\ast$ fp\+::fp\+Data\+::in\+Test\+Data\hspace{0.3cm}{\ttfamily [protected]}}
+{\footnotesize\ttfamily \hyperlink{classfp_1_1testData}{test\+Data}$<$double, int$>$$\ast$ fp\+::fp\+Data\+::in\+Test\+Data\hspace{0.3cm}{\ttfamily [protected]}}
 
 
 
-Definition at line 18 of file fp\+Data.\+h.
+Definition at line 23 of file fp\+Data.\+h.
 
 
 

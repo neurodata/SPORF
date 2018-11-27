@@ -1,7 +1,6 @@
 \hypertarget{fp_8cpp}{}\section{src/fp.cpp File Reference}
 \label{fp_8cpp}\index{src/fp.\+cpp@{src/fp.\+cpp}}
-{\ttfamily \#include \char`\"{}base\+Functions/fp\+Utils.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}fp\+Singleton/fp\+Singleton.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}packed\+Forest.\+h\char`\"{}}\newline
 {\ttfamily \#include $<$iostream$>$}\newline
 {\ttfamily \#include $<$exception$>$}\newline
 Include dependency graph for fp.\+cpp\+:
@@ -28,26 +27,27 @@ int \hyperlink{fp_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char 
 
 
 
-Definition at line 6 of file fp.\+cpp.
+Definition at line 5 of file fp.\+cpp.
 
 
 \begin{DoxyCode}
-6                                  \{
-7 \textcolor{comment}{/*}
-8 \textcolor{comment}{    fp::timeLogger logTime;}
-9 \textcolor{comment}{                    logTime.startFindSplitTimer();}
-10 \textcolor{comment}{fp::inNodeClassIndices test(100000000);}
-11 \textcolor{comment}{                    logTime.stopFindSplitTimer();}
-12 \textcolor{comment}{}
-13 \textcolor{comment}{logTime.startSortTimer();}
-14 \textcolor{comment}{fp::stratifiedInNodeClassIndices testw(100000000);}
-15 \textcolor{comment}{logTime.stopSortTimer();}
-16 \textcolor{comment}{}
-17 \textcolor{comment}{logTime.printGrowTime();}
-18 \textcolor{comment}{*/}  
-19     \textcolor{keywordflow}{try}\{
-20         \hyperlink{classfp_1_1fpForest}{fp::fpForest} forest;
-21         forest.\hyperlink{classfp_1_1fpForest_ad13bbbd33291ef5f523691eccc23aece}{setParameter}(\textcolor{stringliteral}{"forestType"}, \textcolor{stringliteral}{"rfBase"});
+5                                  \{
+6 \textcolor{comment}{/*}
+7 \textcolor{comment}{    fp::timeLogger logTime;}
+8 \textcolor{comment}{                    logTime.startFindSplitTimer();}
+9 \textcolor{comment}{fp::inNodeClassIndices test(100000000);}
+10 \textcolor{comment}{                    logTime.stopFindSplitTimer();}
+11 \textcolor{comment}{}
+12 \textcolor{comment}{logTime.startSortTimer();}
+13 \textcolor{comment}{fp::stratifiedInNodeClassIndices testw(100000000);}
+14 \textcolor{comment}{logTime.stopSortTimer();}
+15 \textcolor{comment}{}
+16 \textcolor{comment}{logTime.printGrowTime();}
+17 \textcolor{comment}{*/}  
+18     \textcolor{keywordflow}{try}\{
+19         \hyperlink{classfp_1_1fpForest}{fp::fpForest} forest;
+20         forest.\hyperlink{classfp_1_1fpForest_ad13bbbd33291ef5f523691eccc23aece}{setParameter}(\textcolor{stringliteral}{"forestType"}, \textcolor{stringliteral}{"rerf"});
+21         \textcolor{comment}{//forest.setParameter("forestType", "rfBase");}
 22         forest.\hyperlink{classfp_1_1fpForest_ad13bbbd33291ef5f523691eccc23aece}{setParameter}(\textcolor{stringliteral}{"numTreesInForest"}, 10);
 23         forest.\hyperlink{classfp_1_1fpForest_ad13bbbd33291ef5f523691eccc23aece}{setParameter}(\textcolor{stringliteral}{"minParent"}, 1);
 24 \textcolor{comment}{//      forest.setParameter("numClasses", 5);}
@@ -71,7 +71,8 @@ Definition at line 6 of file fp.\+cpp.
 42     \}
 43 \}
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
