@@ -299,7 +299,7 @@ BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, repl
     MoveLeft <- Xnode[1L:NdSize] <= ret$BestSplit
 
     # Move samples left or right based on split
-    if (sum(MoveLeft) == 0 || sum(!MoveLeft) == 0){
+    if (sum(MoveLeft) == 0 || sum(!MoveLeft) == 0) {
       treeMap[CurrentNode] <- currLN <- currLN - 1L
       ClassProb[currLN * -1, ] <- ClProb
       NodeStack <- NodeStack[-1L] # pop node off stack

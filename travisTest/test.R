@@ -140,13 +140,13 @@ testDS <- function(trainSet, testSet, numTests, numTrees, cores, p1) {
   detach("package:rerf", unload = TRUE)
 
 
-  NodeSizeRatio = median(NodeSize_candidate) / median(NodeSize_baseline)
-  memSizeRatio = median(memSize_baseline) / median(memSize_candidate)
-  OOBerrorRatio = median(OOBerror_baseline) / median(OOBerror_candidate)
-  errorRatio = median(error_baseline) / median(error_candidate)
-  ptmtrainRatio = median(ptmtrain_baseline) / median(ptmtrain_candidate)
-  ptmtestRatio = median(ptmtest_baseline) / median(ptmtest_candidate)
-  ptmOOBRatio = median(ptmOOB_baseline) / median(ptmOOB_candidate)
+  NodeSizeRatio <- median(NodeSize_candidate) / median(NodeSize_baseline)
+  memSizeRatio <- median(memSize_baseline) / median(memSize_candidate)
+  OOBerrorRatio <- median(OOBerror_baseline) / median(OOBerror_candidate)
+  errorRatio <- median(error_baseline) / median(error_candidate)
+  ptmtrainRatio <- median(ptmtrain_baseline) / median(ptmtrain_candidate)
+  ptmtestRatio <- median(ptmtest_baseline) / median(ptmtest_candidate)
+  ptmOOBRatio <- median(ptmOOB_baseline) / median(ptmOOB_candidate)
 
   print("")
   print(paste(trainSet, "pmod= ", p1))
