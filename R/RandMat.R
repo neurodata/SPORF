@@ -14,7 +14,7 @@
 #' @export
 #'
 #' @examples
-#' 
+#'
 #' p <- 8
 #' d <- 3
 #' sparsity <- 0.25
@@ -66,7 +66,7 @@ RandMatBinary <- function(p, d, sparsity, prob, catMap = NULL, ...) {
 #' @export
 #'
 #' @examples
-#' 
+#'
 #' p <- 8
 #' d <- 3
 #' sparsity <- 0.25
@@ -108,7 +108,7 @@ RandMatContinuous <- function(p, d, sparsity, catMap = NULL, ...) {
 #' @export
 #'
 #' @examples
-#' 
+#'
 #' p <- 8
 #' d <- 3
 #' paramList <- list(p = p, d = d)
@@ -153,7 +153,7 @@ RandMatRF <- function(p, d, catMap = NULL, ...) {
 #' @export
 #'
 #' @examples
-#' 
+#'
 #' p <- 8
 #' d <- 8
 #' lambda <- 0.5
@@ -221,7 +221,7 @@ RandMatPoisson <- function(p, d, lambda, catMap = NULL, ...) {
 #' @export
 #'
 #' @examples
-#' 
+#'
 #' p <- 8
 #' d <- 8
 #' nmix <- 5
@@ -279,7 +279,7 @@ RandMatFRC <- function(p, d, nmix, catMap = NULL, ...) {
 #' @export
 #'
 #' @examples
-#' 
+#'
 #' p <- 8
 #' d <- 8
 #' nmix <- 5
@@ -333,7 +333,7 @@ RandMatFRCN <- function(p, d, nmix, catMap = NULL, ...) {
 #' @export
 #'
 #' @examples
-#' 
+#'
 #' p <- 8
 #' d <- 8
 #' pwMin <- 3
@@ -393,7 +393,7 @@ RandMatTSpatch <- function(p, d, pwMin, pwMax, ...) {
 #' @export
 #'
 #' @examples
-#' 
+#'
 #' p <- 28^2
 #' d <- 8
 #' ih <- iw <- 28
@@ -448,7 +448,7 @@ RandMatImagePatch <- function(p, d, ih, iw, pwMin, pwMax, ...) {
 #' @export
 #'
 #' @examples
-#' 
+#'
 #' p <- 28^2
 #' d <- 8
 #' ih <- iw <- 28
@@ -502,7 +502,7 @@ RandMatImageControl <- function(p, d, ih, iw, pwMin, pwMax, ...) {
 #' @export
 #'
 #' @examples
-#' 
+#'
 #' p <- 28
 #' d <- 8
 #' nnzSample <- 1:8

@@ -37,7 +37,7 @@
 #' ### Train RerF on numeric data ###
 #' library(rerf)
 #' forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L)
-#' 
+#'
 #' ### Train RerF on one-of-K encoded categorical data ###
 #' df1 <- as.data.frame(Titanic)
 #' nc <- ncol(df1)
@@ -60,7 +60,7 @@
 #'   col.idx <- col.idx + num.categories[j]
 #' }
 #' Y <- df2$Survived
-#' 
+#'
 #' # specifying the cat.map in RerF allows training to
 #' # be aware of which dummy variables correspond
 #' # to the same categorical feature
@@ -75,7 +75,7 @@
 #' cat.map1 <- lapply(cat.map, function(x) x + 1)
 #' forestW <- RerF(Xp, Y, num.cores = 1L, cat.map = cat.map1)
 #' }
-#' 
+#'
 #' ### Train a random rotation ensemble of CART decision trees (see Blaser and Fryzlewicz 2016)
 #' forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]],
 #'   num.cores = 1L,

@@ -104,7 +104,7 @@ testDS <- function(trainSet, testSet, numTests, numTrees, cores) {
     ptmtest[i] <- (proc.time() - ptm)[3]
   }
 
-  ret_vals = list(
+  ret_vals <- list(
     ptmtrain = ptmtrain, ptmtest = ptmtest, ptmOOB = ptmOOB, error = error,
     OOBerror = OOBerror, NodeSize = NodeSize, memSize = memSize
   )
@@ -135,7 +135,7 @@ print("Finished candidate.")
 # dev mode will let us load in a different version
 devtools::dev_mode(on = TRUE)
 # Checking out latest version on CRAN
-install.packages("rerf", repos = 'http://cran.us.r-project.org')
+install.packages("rerf", repos = "http://cran.us.r-project.org")
 library("rerf")
 
 # this is the results from the stable version
