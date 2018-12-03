@@ -6,6 +6,11 @@ Changes in 2.0.0:
 * The default parameters sent to the RandMat\* functions now properly
   account for categorical columns.
 
+* The defualts have changed for the following parameters:
+  * `min.parent = 1`
+  * `max.depth  = 0`
+  * `stratify   = TRUE`
+
 * Predictions are made based on the average of posteriors rather than average of the predictions. 
 
 * The included RandMat\* functions have been re-structured for ease of use with their
