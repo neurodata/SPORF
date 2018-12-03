@@ -18,7 +18,7 @@ Y.test <- Y[-trainIdx]
 test_that("Testing number of trees output is as requested.", {
   numTrees <- c(1, 10, 50, 500)
   for (nn in numTrees) {
-    forest <- RerF(X, Y, trees = nn, seed = 1L, num.cores = 1L, store.oob = FALSE)
+    forest <- RerF(X, Y, trees = nn, seed = 1L, num.cores = 1L, store.oob = FALSE, max.depth = ceiling(log2(nrow(X))), min.parent = 6L)
     expect_equal(length(forest$trees), nn)
   }
 })
@@ -31,7 +31,6 @@ test_that("Sum of the class probabilities should ~= 1.", {
     seed = 1L, num.cores = 1L, store.oob = TRUE, min.parent = 1,
     max.depth = 0
   )
-  # forest <- RerF(X, Y, trees = numTrees, seed = 1L, num.cores = 1L, store.oob = FALSE)
   for (z in 1:length(forest$trees)) {
     treeClassProb <- forest$trees[[z]]$ClassProb
     expect_equal(rowSums(treeClassProb), rep(1, nrow(treeClassProb)))

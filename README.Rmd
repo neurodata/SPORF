@@ -287,9 +287,10 @@ mnist.error.rate
 Using the Iris dataset we will show how to use the unsupervised verison.
 
 ```{r u-rerf, results = 'hide'}
+set.seed(54321)
 X <- as.matrix(iris[, 1:4])
 
-u1 <- Urerf(X, trees = 100)
+u1 <- Urerf(X, trees = 100, Progress = FALSE)
 ```
 
 ### The dissimilarity matrix

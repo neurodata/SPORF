@@ -84,7 +84,7 @@ Any machine with \>= 2 GB RAM
 
 ## Installation
 
-  - Installation normally takes \~5-10 minutes
+  - Installation normally takes ~5-10 minutes
   - Non-Windows users install the GNU Scientific Library (libgsl0-dev).
   - Windows users install Rtools
     (<https://cran.r-project.org/bin/windows/Rtools/>)
@@ -141,27 +141,25 @@ forest <- RerF(X, Y, seed = 1L, num.cores = 1L)
 ``` r
 forest$trees[[1]]
 #> $treeMap
-#>  [1]  1  2 -8 -1  3  4  5 -2 -3 -4  6 -5  7 -6 -7
+#>  [1]  1  2 -6  3  5 -1  4 -2 -3 -4 -5
 #> 
 #> $CutPoint
-#> [1] -0.70 -7.05  1.90  1.70  1.35  0.75  1.75
+#> [1] -0.80 -6.15  1.85  1.55  0.85
 #> 
 #> $ClassProb
 #>      [,1] [,2] [,3]
-#> [1,]    0    0    1
+#> [1,]    0    1    0
 #> [2,]    0    1    0
 #> [3,]    0    0    1
 #> [4,]    0    0    1
 #> [5,]    0    1    0
-#> [6,]    0    1    0
-#> [7,]    0    0    1
-#> [8,]    1    0    0
+#> [6,]    1    0    0
 #> 
 #> $matAstore
-#>  [1]  4 -1  1 -1  2 -1  3  1  4  1  1  1  3 -1  2  1  4 -1  4  1
+#>  [1]  4 -1  1 -1  2 -1  3  1  4  1  1  1  3 -1
 #> 
 #> $matAindex
-#> [1]  0  2  4  8 10 14 18 20
+#> [1]  0  2  4  8 10 14
 #> 
 #> $ind
 #> NULL
@@ -237,7 +235,7 @@ predictions
 #>  [55] versicolor versicolor versicolor versicolor versicolor versicolor
 #>  [61] versicolor versicolor versicolor versicolor versicolor versicolor
 #>  [67] versicolor versicolor versicolor versicolor virginica  versicolor
-#>  [73] versicolor versicolor versicolor versicolor versicolor virginica 
+#>  [73] virginica  versicolor versicolor versicolor versicolor virginica 
 #>  [79] versicolor versicolor versicolor versicolor versicolor virginica 
 #>  [85] versicolor versicolor versicolor versicolor versicolor versicolor
 #>  [91] versicolor versicolor versicolor versicolor versicolor versicolor
@@ -252,7 +250,7 @@ predictions
 #> [145] virginica  virginica  virginica  virginica  virginica  virginica 
 #> Levels: setosa versicolor virginica
 oob.error
-#> [1] 0.04
+#> [1] 0.04666667
 ```
 
 ## Compute similarities:
@@ -274,18 +272,18 @@ sim.matrix <- ComputeSimilarity(X, forest, num.cores = 1L)
 
 ``` r
 sim.matrix[1, ]
-#>   [1] 1.000 0.948 0.950 0.944 0.998 0.952 0.980 0.994 0.920 0.954 0.974
-#>  [12] 0.984 0.946 0.930 0.834 0.798 0.964 1.000 0.844 0.996 0.992 0.994
-#>  [23] 0.984 0.966 0.974 0.950 0.992 0.998 0.996 0.950 0.948 0.994 0.956
-#>  [34] 0.882 0.954 0.960 0.924 0.994 0.930 0.996 0.996 0.862 0.942 0.986
-#>  [45] 0.974 0.940 0.994 0.950 0.984 0.966 0.000 0.000 0.000 0.000 0.000
-#>  [56] 0.000 0.000 0.004 0.000 0.002 0.004 0.000 0.000 0.000 0.000 0.000
-#>  [67] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
-#>  [78] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.008 0.000 0.000 0.000
-#>  [89] 0.000 0.000 0.000 0.000 0.000 0.008 0.000 0.000 0.000 0.000 0.016
-#> [100] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.002 0.000 0.000 0.000
-#> [111] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
-#> [122] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+#>   [1] 1.000 0.948 0.940 0.932 0.998 0.958 0.966 0.994 0.916 0.958 0.980
+#>  [12] 0.980 0.948 0.920 0.828 0.800 0.968 1.000 0.828 0.998 0.996 0.992
+#>  [23] 0.970 0.966 0.978 0.958 0.984 1.000 0.996 0.940 0.946 0.996 0.964
+#>  [34] 0.876 0.956 0.968 0.910 0.994 0.924 0.996 0.994 0.870 0.936 0.972
+#>  [45] 0.968 0.930 0.996 0.938 0.984 0.972 0.000 0.000 0.000 0.000 0.000
+#>  [56] 0.000 0.000 0.008 0.000 0.000 0.002 0.000 0.000 0.000 0.000 0.000
+#>  [67] 0.000 0.002 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+#>  [78] 0.000 0.000 0.002 0.000 0.000 0.000 0.000 0.004 0.000 0.000 0.000
+#>  [89] 0.000 0.000 0.000 0.000 0.000 0.002 0.000 0.000 0.000 0.000 0.032
+#> [100] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.002
+#> [111] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.004 0.000 0.000 0.000
+#> [122] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.004
 #> [133] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
 #> [144] 0.000 0.000 0.000 0.000 0.000 0.000 0.000
 ```
@@ -311,10 +309,10 @@ scor <- StrCorr(predictions, Y[-trainIdx])
 ``` r
 scor
 #> $s
-#> [1] 0.845
+#> [1] 0.8484
 #> 
 #> $rho
-#> [1] 0.4186858
+#> [1] 0.3299739
 ```
 
 ### Compute feature (projection) importance (DEV version only):
@@ -351,7 +349,7 @@ feature.imp <- FeatureImportance(forest, num.cores = 1L)
 ``` r
 feature.imp
 #> $imp
-#> [1] 23063.018 20233.396  4440.492  1004.520
+#> [1] 23549.727 20799.581  4617.132  1026.042
 #> 
 #> $proj
 #> $proj[[1]]
@@ -411,7 +409,7 @@ mnist.error.rate <- mean(predictions != Ytest)
 
 ``` r
 mnist.error.rate
-#> [1] 0.0320715
+#> [1] 0.03732913
 ```
 
 ## Unsupervised classification (U-RerF)
@@ -419,9 +417,10 @@ mnist.error.rate
 Using the Iris dataset we will show how to use the unsupervised verison.
 
 ``` r
+set.seed(54321)
 X <- as.matrix(iris[, 1:4])
 
-u1 <- Urerf(X, trees = 100)
+u1 <- Urerf(X, trees = 100, Progress = FALSE)
 ```
 
 ### The dissimilarity matrix
@@ -440,8 +439,8 @@ table(clusters, truth = as.numeric(iris[[5]]))
 #>         truth
 #> clusters  1  2  3
 #>        1 50  0  0
-#>        2  0 50 22
-#>        3  0  0 28
+#>        2  0 12 50
+#>        3  0 38  0
 ```
 
 <!-- calcium-spike data are not properly documented at this time, waiting on @jasonkyuyim TBD by 20180813 -->
