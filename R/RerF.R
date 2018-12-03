@@ -7,7 +7,7 @@
 #' @param FUN a function that creates the random projection matrix. If NULL and cat.map is NULL, then RandMat is used. If NULL and cat.map is not NULL, then RandMatCat is used, which adjusts the sampling of features when categorical features have been one-of-K encoded. If a custom function is to be used, then it must return a matrix in sparse representation, in which each nonzero is an array of the form (row.index, column.index, value). See RandMat or RandMatCat for details.
 #' @param paramList parameters in a named list to be used by FUN. If left unchanged,
 #' default values will be populated, see \code{\link[rerf]{defaults}} for details.
-#' @param min.parent the minimum splittable node size.  A node size < min.parent will be a leaf node. (min.parent = 6)
+#' @param min.parent the minimum splittable node size.  A node size < min.parent will be a leaf node. (min.parent = 1)
 #' @param trees the number of trees in the forest. (trees=500)
 #' @param max.depth the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=0, the tree will be allowed to grow without bound.  (max.depth=0)
 #' @param bagging a non-zero value means a random sample of X will be used during tree creation.  If replacement = FALSE the bagging value determines the percentage of samples to leave out-of-bag.  If replacement = TRUE the non-zero bagging value is ignored. (bagging=.2)
@@ -84,9 +84,9 @@
 RerF <-
   function(X, Y, FUN = RandMatBinary,
              paramList = list(p = NA, d = NA, sparsity = NA, prob = NA),
-             min.parent = 6L, trees = 500L,
+             min.parent = 1L, trees = 500L,
              max.depth = 0, bagging = .2,
-             replacement = TRUE, stratify = FALSE,
+             replacement = TRUE, stratify = TRUE,
              rank.transform = FALSE, store.oob = FALSE,
              store.impurity = FALSE, progress = FALSE,
              rotate = FALSE, num.cores = 0L,

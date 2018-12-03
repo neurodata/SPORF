@@ -5,12 +5,12 @@
 \title{RerF forest Generator}
 \usage{
 RerF(X, Y, FUN = RandMatBinary, paramList = list(p = NA, d = NA,
-  sparsity = NA, prob = NA), min.parent = 6L, trees = 500L,
-  max.depth = ceiling(log2(nrow(X))), bagging = 0.2,
-  replacement = TRUE, stratify = FALSE, rank.transform = FALSE,
-  store.oob = FALSE, store.impurity = FALSE, progress = FALSE,
-  rotate = FALSE, num.cores = 0L, seed = sample(0:1e+08, 1),
-  cat.map = NULL, rfPack = FALSE)
+  sparsity = NA, prob = NA), min.parent = 1L, trees = 500L,
+  max.depth = 0, bagging = 0.2, replacement = TRUE,
+  stratify = TRUE, rank.transform = FALSE, store.oob = FALSE,
+  store.impurity = FALSE, progress = FALSE, rotate = FALSE,
+  num.cores = 0L, seed = sample(0:1e+08, 1), cat.map = NULL,
+  rfPack = FALSE)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}
@@ -22,11 +22,11 @@ RerF(X, Y, FUN = RandMatBinary, paramList = list(p = NA, d = NA,
 \item{paramList}{parameters in a named list to be used by FUN. If left unchanged,
 default values will be populated, see \code{\link[rerf]{defaults}} for details.}
 
-\item{min.parent}{the minimum splittable node size.  A node size < min.parent will be a leaf node. (min.parent = 6)}
+\item{min.parent}{the minimum splittable node size.  A node size < min.parent will be a leaf node. (min.parent = 1)}
 
 \item{trees}{the number of trees in the forest. (trees=500)}
 
-\item{max.depth}{the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=0, the tree will be allowed to grow without bound.  (max.depth=ceiling(log2(nrow(X))) )}
+\item{max.depth}{the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=0, the tree will be allowed to grow without bound.  (max.depth=0)}
 
 \item{bagging}{a non-zero value means a random sample of X will be used during tree creation.  If replacement = FALSE the bagging value determines the percentage of samples to leave out-of-bag.  If replacement = TRUE the non-zero bagging value is ignored. (bagging=.2)}
 
