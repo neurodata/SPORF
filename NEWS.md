@@ -1,4 +1,4 @@
-Changes in 2.0.0:
+Changes in 2.0.2:
 
 * The option `rho` in the RerF function has been re-named to `sparsity`
   to match with the algorithm explanation.

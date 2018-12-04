@@ -32,15 +32,11 @@ shield](https://img.shields.io/badge/arXiv-1506.03410-red.svg?style=flat)](https
 
 ## Repo Contents
 
-  - [**R**](https://github.com/neurodata/R-RerF/tree/master/R): `R`
-    building blocks for user interface code. Internally called by user
-    interface.
-  - [**man**](https://github.com/neurodata/R-RerF/tree/master/man):
-    Package documentation
-  - [**src**](https://github.com/neurodata/R-RerF/tree/master/src): C++
-    functions called from within R
-  - [**tests**](https://github.com/neurodata/R-RerF/tree/master/tests):
-    testthat tests
+  - [**R**](R): `R` building blocks for user interface code. Internally
+    called by user interface.
+  - [**man**](man): Package documentation
+  - [**src**](src): C++ functions called from within R
+  - [**tests**](tests): testthat tests
 
 ## Description
 

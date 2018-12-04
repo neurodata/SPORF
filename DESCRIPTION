@@ -1,7 +1,7 @@
 Package: rerf
 Type: Package
 Title: Randomer Forest
-Version: 2.0.1
+Version: 2.0.2
 Date: 2018-12-03
 Authors@R: c(
         person("Jesse", "Patsolic", role = c("ctb", "cre"), email = "software@neurodata.io"),
