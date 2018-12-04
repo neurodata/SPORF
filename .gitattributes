@@ -1,0 +1,7 @@
+*.csv linguist-vendored=true
+*.html linguist-documentation=true
+*.md linguist-documentation=true
+*.Rmd linguist-documentation=true
+man/* linguist-generated=true
+docs/* linguist-documentation=true
+
