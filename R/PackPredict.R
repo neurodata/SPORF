@@ -11,27 +11,25 @@
 #' @examples
 #' library(rerf)
 #' trainIdx <- c(1:40, 51:90, 101:140)
-#' X <- as.matrix(iris[,1:4])
-#' Y <- as.numeric(iris[,5])
+#' X <- as.matrix(iris[, 1:4])
+#' Y <- as.numeric(iris[, 5])
 #'
-#' forest <- RerF(X,Y, mat.options = list(p = ncol(X), 
-#' d =ceiling(sqrt(ncol(X))), random.matrix = "rf", rho = 1/ncol(X)), 
-#' rfPack=TRUE, num.cores=2)
+#' paramList <- list(p = ncol(X), d = ceiling(sqrt(ncol(X))))
+#'
+#' forest <- RerF(X, Y, FUN = RandMatRF, paramList = paramList, rfPack = TRUE, num.cores = 1)
 #'
 #' predictions <- PackPredict(X)
-#'
 #' @export
 #'
 
 PackPredict <-
-	function(X, num.cores=1){
+  function(X, num.cores = 1) {
+    if (file.exists("forest.out")) {
+      preds <- predictRF(X, num.cores)
+    } else {
+      print("the file 'forest.out' does not exist")
+      return(NA)
+    }
 
-		if(file.exists("forest.out")){
-			preds <- predictRF(X, num.cores)
-		}else{
-			print("the file 'forest.out' does not exist")
-			return(NA)
-		}
-
-		return(preds)
-	}
+    return(preds)
+  }

@@ -26,10 +26,10 @@ Consider the usual Random Forest/RerF algorithm where samples are bagged in orde
 Variables swept over:
 
 * mtrys - $p^{(1/4, 1/2, 3/4, 1)}$
-* replace - T or F
-* in_bag_samples = 0.632 when replace = F
+* replace - TRUE or FALSE
+* in_bag_samples = 0.632 when replace = FALSE
 
-```{r randomForest, echo=T, eval=FALSE}
+```{r randomForest, echo=TRUE, eval=FALSE}
 # evaluate classifiers on benchmark datasets
 
 rm(list = ls())
@@ -84,7 +84,7 @@ params[[dataSet]] <- vector(mode = "list", length = nCl)
 names(params[[dataSet]]) <- classifiers
 
 # Data wrangling
-X <- as.matrix(read.table(paste0(dataPath, "data/", dataSet, ".csv"), header = F, sep = ",", quote = "", row.names = NULL))
+X <- as.matrix(read.table(paste0(dataPath, "data/", dataSet, ".csv"), header = FALSE, sep = ",", quote = "", row.names = NULL))
 
 p <- ncol(X) - 1L
 n <- nrow(X)
@@ -107,9 +107,9 @@ cat("\n")
 for (m in classifiers) {
   # Parameter tuning
   if (m == "rf-bag") {
-    replace <- T
+    replace <- TRUE
   } else if (m == "rf-subsample") {
-    replace <- F
+    replace <- FALSE
   }
   
   # Control for different number of feature selection
@@ -161,10 +161,10 @@ Variables swept over:
 
 * mtrys - $p^{(1/4, 1/2, 3/4, 1, 2)}$
 * sparsity - 1/p, 2/p, 3/p, 4/p, 5/p
-* replacement - T or F
-* in_bag_samples = 0.632 when replacement = F
+* replacement - TRUE or FALSE
+* in_bag_samples = 0.632 when replacement = FALSE
 
-```{r rerf, echo=T, eval=FALSE}
+```{r rerf, echo=TRUE, eval=FALSE}
 # evaluate classifiers on benchmark datasets
 
 rm(list=ls())
@@ -208,7 +208,7 @@ params <- list()
 dataSet <- "abalone"
 fold <- GetFolds(paste0(dataPath, "cv_partitions/", dataSet, "_partitions.txt"))
 nFolds <- length(fold)
-X <- as.matrix(read.table(paste0(dataPath, "data/", dataSet, ".csv"), header = F, sep = ",", quote = "", row.names = NULL))
+X <- as.matrix(read.table(paste0(dataPath, "data/", dataSet, ".csv"), header = FALSE, sep = ",", quote = "", row.names = NULL))
 catMap <- NULL
 p <- ncol(X) - 1L
 p.ohe <- p
@@ -225,7 +225,7 @@ nTrees <- 500L
 min.parent <- 6L
 max.depth <- ceiling(log2(nrow(X) * 0.8))
 bagging <- 1 / exp(1)
-replacement <- T
+replacement <- TRUE
 supervised <- 0
 num.cores <- 24L
 seed <- 20180629L
@@ -272,7 +272,7 @@ for (m in classifiers) {
     prob <- 0.5
     
     if (m == "rerf-subsample") {
-      replacement <- F
+      replacement <- FALSE
     }
   }
   
@@ -347,21 +347,21 @@ plotResults <- function(df, classifiers, y.min = -1, y.max = 1) {
   # Compute One sided Wilcox Rank Test
   alt <- 'less'
   
-  wilcox.all <- wilcox.test(error.cls.1, error.cls.2, paired = T, alternative = alt, exact = F)
+  wilcox.all <- wilcox.test(error.cls.1, error.cls.2, paired = TRUE, alternative = alt, exact = FALSE)
   wilcox.categorical <- wilcox.test(error.cls.1[categories == 'categorical'], 
                                     error.cls.2[categories == 'categorical'],
-                                    paired = T,
+                                    paired = TRUE,
                                     alternative = alt, 
-                                    exact = F)
+                                    exact = FALSE)
   wilcox.numeric <- wilcox.test(error.cls.1[categories == 'numeric'],
                                 error.cls.2[categories == 'numeric'], 
-                                paired = T,
+                                paired = TRUE,
                                 alternative = alt, 
-                                exact = F)
+                                exact = FALSE)
   
-  pvalue.all <- format(round(wilcox.all$p.value, 2), scientific = T)
-  pvalue.categorical <- format(round(wilcox.categorical$p.value, 2), scientific = T)
-  pvalue.numeric <- format(round(wilcox.numeric$p.value, 2), scientific = T)
+  pvalue.all <- format(round(wilcox.all$p.value, 2), scientific = TRUE)
+  pvalue.categorical <- format(round(wilcox.categorical$p.value, 2), scientific = TRUE)
+  pvalue.numeric <- format(round(wilcox.numeric$p.value, 2), scientific = TRUE)
   
   mean.error <- sqrt((error.cls.1 + error.cls.2) / 2)
   difference.error <- sqrt(abs(error.cls.1 - error.cls.2)) * sign(error.cls.1 - error.cls.2)
@@ -382,8 +382,8 @@ plotResults <- function(df, classifiers, y.min = -1, y.max = 1) {
     geom_hline(yintercept = 0) +
     xlim(0, 1) +
     ylim(y.min, y.max) +
-    annotate("text", label = 'bold("Subsampling Better")', x = 1, y = y.max, parse = T, hjust = 'inward', vjust = 'inward') +
-    annotate("text", label = 'bold("Subsampling Worse")', x = 1, y = y.min, parse = T, hjust = 'inward', vjust = 'inward') + 
+    annotate("text", label = 'bold("Subsampling Better")', x = 1, y = y.max, parse = TRUE, hjust = 'inward', vjust = 'inward') +
+    annotate("text", label = 'bold("Subsampling Worse")', x = 1, y = y.min, parse = TRUE, hjust = 'inward', vjust = 'inward') + 
     annotate("text", label = paste0("p=", pvalue.all), 
              x = 0, y = y.min * .6, vjust = 'inward', hjust = 'inward', color = "black") +
     annotate("text", label = paste0("p=", pvalue.categorical), 

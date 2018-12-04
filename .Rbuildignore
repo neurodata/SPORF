@@ -1,4 +1,13 @@
+^README.html$
+^README.Rmd$
 ^travisTest$
 ^docs$
+^\.git$
 ^\.travis\.yml$
-^.*\\.gz$
+^.*\.gz$
+^.*\.out$
+^.*\.o$
+^.*\.so$
+^.*\.Rproj$
+^\.Rproj\.user$
+^CONTRIBUTING.md$

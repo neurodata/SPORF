@@ -1,23 +1,26 @@
 language: r
-cache: packages
+dist: trusty
+
 r:
-    - release
+  - release
 
 sudo: false
 
-branches:
-    only:
-        - master
-
 addons:
-      apt:
-          packages:
-              - libgsl0-dev
-                        
-before_install:
-    - #
+  apt:
+    packages:
+      - libgsl0-dev
+
+r_packages:
+  - devtools
+  - testthat
+  - Rcpp
 
 script:
-    - cd travisTest
-    - printf "starting run\n"
-    - Rscript test.R
+  - printf "Starting install and test with devtools.\n\n"
+  - Rscript -e "Rcpp::compileAttributes()"
+  - Rscript -e "devtools::install(local=FALSE);devtools::test()"
+  - Rscript travisTest/test-on-prior-release.R
+  - printf "Starting BUILD and CHECK --as-cran\n\n"
+  - R CMD build --resave-data .
+  - R CMD check --as-cran --no-manual rerf*tar.gz

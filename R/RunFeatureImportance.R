@@ -8,9 +8,8 @@
 #' @return feature.imp
 
 RunFeatureImportance <- function(tree, unique.projections) {
-  
   num.proj <- length(unique.projections)
-  
+
   feature.imp <- double(num.proj)
   for (nd in tree$treeMap[tree$treeMap > 0L]) {
     index.low <- tree$matAindex[nd] + 1L
