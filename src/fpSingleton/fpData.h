@@ -5,6 +5,9 @@
 #include "fpInfo.h"
 #include <string>
 
+using DATA_TYPE_X = double;
+using DATA_TYPE_Y = double;
+
 namespace fp {
 
 	/**
@@ -19,8 +22,8 @@ namespace fp {
 	class fpData{
 
 		protected:
-			inputData<double, int>* inData;
-			testData<double, int>* inTestData;
+			inputData<DATA_TYPE_X, DATA_TYPE_Y>* inData;
+			      testData<DATA_TYPE_X, DATA_TYPE_Y>* inTestData;
 
 		public:
 
@@ -46,7 +49,7 @@ namespace fp {
 
 			void fpLoadData(fpInfo& settings){
 				if(loadDataFromCSV(settings)){
-					inData = new inputData<double,int>(settings.returnCSVFileName(), settings.returnColumnWithY());
+					inData = new inputData<DATA_TYPE_X, DATA_TYPE_Y>(settings.returnCSVFileName(), settings.returnColumnWithY());
 				}else {
 					throw std::runtime_error("Unable to read data." );
 				}
@@ -108,7 +111,7 @@ namespace fp {
 
 			void fpLoadTestData(fpInfo& settings){
 				if(loadDataFromCSV(settings)){
-					inTestData = new testData<double,int>(settings.returnCSVFileName(), settings.returnColumnWithY());
+					inTestData = new testData<DATA_TYPE_X, DATA_TYPE_Y>(settings.returnCSVFileName(), settings.returnColumnWithY());
 				}else {
 					throw std::runtime_error("Unable to read test data." );
 				}

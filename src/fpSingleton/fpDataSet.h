@@ -19,7 +19,7 @@ class inputYData
 		}
 
 		inline void setYElement(const int &elementNumber, const T &value){
-			YData[elementNumber] = value;
+			YData[elementNumber] = (int)value;
 		}
 
 		inline T returnYElement(const int &elementNumber){
@@ -43,7 +43,7 @@ class inputYDataClassification : public inputYData<T>
 	public:
 		inputYDataClassification(): maxClass(-1){}
 		inline void setYElement(const int &elementNumber, const T &value){
-			inputYData<T>::YData[elementNumber] = value;
+			inputYData<T>::YData[elementNumber] = (int)value;
 			if(value > maxClass){
 				maxClass = value;
 				classesUsed.resize(maxClass+1,0);

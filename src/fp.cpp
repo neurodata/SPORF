@@ -27,7 +27,8 @@ logTime.printGrowTime();
 //forest.setParameter("CSVFileName", "res/iris.csv");
 //forest.setParameter("columnWithY", 4);
 //		forest.setParameter("CSVFileName", "res/higgsData.csv");
-		forest.setParameter("CSVFileName", "res/mnist.csv");
+		forest.setParameter("CSVFileName", "res/higgs2.csv");
+		//forest.setParameter("CSVFileName", "res/mnist.csv");
 		forest.setParameter("columnWithY", 0);
 
 		forest.growForest();
