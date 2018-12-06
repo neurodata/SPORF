@@ -1,3 +1,44 @@
+#' Find minimizing BIC Cut for Vector
+#'
+#' @param X a one dimensional vector
+#' 
+#' @return list containing minimizing cut point and corresponding BIC score.
+#'
+
+BICCut <- function(X){
+  X_data = data.frame(X)
+  num_elements = (length(unique(X)))
+  if (num_elements <= 1 )
+    return (NULL)
+
+  BIC <- mclustBIC(X_data, G=2, warn=TRUE, verbose=FALSE )
+  mod1 <- Mclust(data.frame(X), G=2, x=BIC, verbose=FALSE)
+
+  if (!is.null(mod1) && !is.na(mod1)){
+    #Group the elements according to the cluster they belong to.
+    #Then sort the elements in each cluster.
+    X_data["classi"] <- mod1["classification"]
+    X_1 = data.frame(dplyr::filter(X_data, classi==1))
+    X_1_sorted <- X_1[order(X_1$X),]
+    X_2 = data.frame(dplyr::filter(X_data, classi==2))
+    X_2_sorted <- X_2[order(X_2$X),]
+    if(nrow(X_1) == 0)
+      return (NULL)
+    if(nrow(X_2) == 0)
+      return (NULL)
+
+    #Determine the cutpoint
+    cutpt1 = tail(X_1_sorted["X"], n=1)["X"]
+    cutpt2 = tail(X_2_sorted["X"], n=1)["X"]
+    BIC_score = BIC[1][1]
+    cutpt = min(cutpt1, cutpt2)
+
+    return(c(cutpt, BIC_score))
+  }
+  return (NULL)
+}
+
+
 #' Find minimizing Two Means Cut for Vector
 #'
 #' @param X a one dimensional vector
@@ -5,7 +46,6 @@
 #' @return list containing minimizing cut point and corresponding sum of left and right variances.
 #'
 #'
-
 
 TwoMeansCut <- function(X) {
   minVal <- min(X)
@@ -97,6 +137,7 @@ checkInputMatrix <- function(X) {
 #' @param FUN the function to create the rotation matrix used to determine mtry features.
 #' @param options options provided to FUN.
 #' @param Progress logical that determines whether to show tree creation status (Progress=TRUE).
+#' @param splitCrit split based on twomeans(splitCrit="twomeans") or BIC test(splitCrit="BIC")
 #'
 #' @return tree
 #'
@@ -107,7 +148,8 @@ GrowUnsupervisedForest <-
              MaxDepth = Inf, bagging = 0.2,
              replacement = TRUE, FUN = makeAB,
              options = list(p = ncol(X), d = ceiling(ncol(X)^0.5), sparsity = 1 / ncol(X)),
-             Progress = TRUE) {
+             Progress = TRUE,
+             splitCrit = "twomeans") {
     FUN <- match.fun(FUN, descend = TRUE)
     ############# Start Growing Forest #################
 
@@ -217,7 +259,10 @@ GrowUnsupervisedForest <-
           Xnode[1:NdSize] <- X[NodeRows[[1L]], sparseM[lrows, 1], drop = FALSE] %*%
             sparseM[lrows, 3, drop = FALSE]
           # Sort the projection, Xnode, and rearrange Y accordingly
-          results <- TwoMeansCut(Xnode[1:NdSize])
+          if (splitCrit == "twomeans")
+            results <- TwoMeansCut(Xnode[1:NdSize])
+          else
+            results <- BICCut(Xnode[1:NdSize])
           if (is.null(results)) {
             next
           }
