@@ -9,20 +9,19 @@
 
 namespace fp{
 
+	template <typename T>
 	class forestFactory
 	{
 		public:
-			static std::unique_ptr<fpForestBase> setForestType(const std::string& parameterName){
-			//	std::uniqe_ptr<fpForestBase> pToForest;
+			static std::unique_ptr<fpForestBase<T> > setForestType(const std::string& parameterName){
 				if(parameterName == "rfBase"){
-					return std::unique_ptr<fpForestBase>{new fpForestClassificationBase<float>};
+					return std::unique_ptr<fpForestBase<T> >{new fpForestClassificationBase<T>};
 				}else if(parameterName == "rerf"){
-					return std::unique_ptr<fpForestBase>{new fpRerFBase<float>};
+					return std::unique_ptr<fpForestBase<T> >{new fpRerFBase<T>};
 				}else{
 					throw std::runtime_error("Unimplemented forest type chosen." );
 					return NULL;
 				}
-		//		return pToForest;
 			}
 	};
 }//namespace fp

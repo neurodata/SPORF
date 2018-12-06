@@ -126,9 +126,6 @@ namespace fp {
 				fpForestInfo.setMTRY();
 			}
 
-			inline bool loadDataFromCSV(){
-				return data.loadDataFromCSV(fpForestInfo);
-			}
 
 		private: //These are singleton specific methods
 			fpSingleton(){}

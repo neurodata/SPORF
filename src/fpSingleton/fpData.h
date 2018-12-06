@@ -1,9 +1,11 @@
 #ifndef fpData_h
 #define fpData_h
 
-#include "fpDataSet.h"
+#include "dataset/fpDataSet.h"
+#include "dataset/inputMatrixData.h"
 #include "fpInfo.h"
 #include <string>
+#include <vector>
 
 using DATA_TYPE_X = double;
 using DATA_TYPE_Y = double;
@@ -23,7 +25,7 @@ namespace fp {
 
 		protected:
 			inputData<DATA_TYPE_X, DATA_TYPE_Y>* inData;
-			      testData<DATA_TYPE_X, DATA_TYPE_Y>* inTestData;
+			testData<DATA_TYPE_X, DATA_TYPE_Y>* inTestData;
 
 		public:
 
@@ -42,15 +44,13 @@ namespace fp {
 			}
 
 
-			inline bool loadDataFromCSV(fpInfo& settings){
-				return settings.loadDataFromCSV();
-			}
-
-
 			void fpLoadData(fpInfo& settings){
-				if(loadDataFromCSV(settings)){
-					inData = new inputData<DATA_TYPE_X, DATA_TYPE_Y>(settings.returnCSVFileName(), settings.returnColumnWithY());
-				}else {
+				if(settings.loadDataFromCSV()){
+					inData = new inputCSVData<DATA_TYPE_X, DATA_TYPE_Y>(settings.returnCSVFileName(), settings.returnColumnWithY());
+				}else if(false){
+					inData = new inputMatrixData<DATA_TYPE_X, DATA_TYPE_Y>();//TODO add parameters
+					//inData = new inputMatrixData<DATA_TYPE_X, DATA_TYPE_Y>(std::vector<std::vector<DATA_TYPE_X> > X, std::vector<DATA_TYPE_Y> Y);
+				}else{
 					throw std::runtime_error("Unable to read data." );
 				}
 				setDataRelatedParameters(settings);
@@ -110,7 +110,7 @@ namespace fp {
 			}
 
 			void fpLoadTestData(fpInfo& settings){
-				if(loadDataFromCSV(settings)){
+				if(settings.loadDataFromCSV()){
 					inTestData = new testData<DATA_TYPE_X, DATA_TYPE_Y>(settings.returnCSVFileName(), settings.returnColumnWithY());
 				}else {
 					throw std::runtime_error("Unable to read test data." );

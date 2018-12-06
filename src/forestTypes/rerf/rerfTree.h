@@ -199,16 +199,31 @@ namespace fp{
 						//featureVal = fpSingleton::getSingleton().returnTestFeatureVal(featureNum[0],observationNum);
 						if(tree[currNode].returnFeatureNumber().size()>1){
 							for(unsigned int j =1; j < tree[currNode].returnFeatureNumber().size(); ++j){
-						featureNum = tree[currNode].returnFeatureNumber()[j];
+								featureNum = tree[currNode].returnFeatureNumber()[j];
 								featureVal += fpSingleton::getSingleton().returnTestFeatureVal(featureNum,observationNum);
 							}
 						}
-						
+
 						currNode = tree[currNode].nextNode(featureVal);
 					}
 					return tree[currNode].returnClass();
 				}
-		};
+
+
+				inline int predictObservation(std::vector<T>& observation){
+					int currNode = 0;
+					int featureNum = 0;
+					T featureVal = 0;
+					while(tree[currNode].isInternalNode()){
+						for(unsigned int j = 0; j < tree[currNode].returnFeatureNumber().size(); ++j){
+							featureNum = tree[currNode].returnFeatureNumber()[j];
+							featureVal += observation[featureNum];
+						}
+					currNode = tree[currNode].nextNode(featureVal);
+				}
+				return tree[currNode].returnClass();
+		}
+};
 
 }
 #endif //rfTree_h

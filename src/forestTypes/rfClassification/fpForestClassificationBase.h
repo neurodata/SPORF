@@ -13,7 +13,7 @@
 namespace fp {
 
 	template <typename T>
-		class fpForestClassificationBase : public fpForestBase
+		class fpForestClassificationBase : public fpForestBase<T>
 	{
 		protected:
 			std::vector<rfTree<T> > trees;
@@ -77,10 +77,26 @@ namespace fp {
 				treeStats();
 			}
 
-			int predictClass(int observationNumber){
+			inline int predictClass(int observationNumber){
 				std::vector<int> classTally(fpSingleton::getSingleton().returnNumClasses(),0);
 				for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
 					++classTally[trees[i].predictObservation(observationNumber)];
+				}
+
+				int bestClass = 0;
+				for(int j = 1; j < fpSingleton::getSingleton().returnNumClasses(); ++j){
+					if(classTally[bestClass] < classTally[j]){
+						bestClass = j;
+					}
+				}
+				return bestClass;
+			}
+
+
+			inline int predictClass(std::vector<T>& observation){
+				std::vector<int> classTally(fpSingleton::getSingleton().returnNumClasses(),0);
+				for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
+					++classTally[trees[i].predictObservation(observation)];
 				}
 
 				int bestClass = 0;

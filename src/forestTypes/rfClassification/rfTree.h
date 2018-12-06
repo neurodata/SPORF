@@ -189,7 +189,7 @@ namespace fp{
 				}
 
 
-				int predictObservation(int observationNum){
+			inline int predictObservation(int observationNum){
 					int currNode = 0;
 					int featureNum = 0;
 					T featureVal;
@@ -197,6 +197,16 @@ namespace fp{
 						featureNum = tree[currNode].returnFeatureNumber();
 						featureVal =fpSingleton::getSingleton().returnTestFeatureVal(featureNum,observationNum);
 						currNode = tree[currNode].nextNode(featureVal);
+					}
+					return tree[currNode].returnClass();
+				}
+
+inline int predictObservation(std::vector<T>& observation){
+					int currNode = 0;
+					int featureNum = 0;
+					while(tree[currNode].isInternalNode()){
+						featureNum = tree[currNode].returnFeatureNumber();
+						currNode = tree[currNode].nextNode(observation[featureNum]);
 					}
 					return tree[currNode].returnClass();
 				}

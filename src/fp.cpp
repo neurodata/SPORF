@@ -16,10 +16,10 @@ logTime.stopSortTimer();
 logTime.printGrowTime();
 */	
 	try{
-		fp::fpForest forest;
+		fp::fpForest<double> forest;
 		forest.setParameter("forestType", "rerf");
 		//forest.setParameter("forestType", "rfBase");
-		forest.setParameter("numTreesInForest", 10);
+		forest.setParameter("numTreesInForest", 100);
 		forest.setParameter("minParent", 1);
 //		forest.setParameter("numClasses", 5);
 //		forest.setParameter("mtry", 100);
