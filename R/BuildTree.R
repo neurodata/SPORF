@@ -330,14 +330,16 @@ BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, repl
       matAsize <- matAsize * 2L
       matAstore[matAsize] <- 0L
     }
-    if (!identical(FUN, rerf::RandMatFRC) &&
-      !identical(FUN, rerf::RandMatFRCN) &&
-      !identical(FUN, rerf::RandMatContinuous) &&
-      !identical(FUN, rerf::RandMatCustom)) {
-      matAstore[(matAindex[currIN] + 1L):(matAindex[currIN] + currMatAlength)] <- as.integer(t(sparseM[lrows, c(1L, 3L)]))
-    } else {
+    ###NOTE: This causes custom functions to break   #DEBUG
+    ### so JLP is removing it for now                #DEBUG
+    #if (!identical(FUN, rerf::RandMatFRC) &&        #DEBUG
+    #  !identical(FUN, rerf::RandMatFRCN) &&         #DEBUG
+    #  !identical(FUN, rerf::RandMatContinuous) &&   #DEBUG
+    #  !identical(FUN, rerf::RandMatCustom)) {       #DEBUG
+    #  matAstore[(matAindex[currIN] + 1L):(matAindex[currIN] + currMatAlength)] <- as.integer(t(sparseM[lrows, c(1L, 3L)]))
+    #} else { #DEBUG
       matAstore[(matAindex[currIN] + 1L):(matAindex[currIN] + currMatAlength)] <- t(sparseM[lrows, c(1L, 3L)])
-    }
+    #} #DEBUG
     matAindex[currIN + 1] <- matAindex[currIN] + currMatAlength
     CutPoint[currIN] <- ret$BestSplit # store best cutpoint for this node
     if (store.impurity) {
