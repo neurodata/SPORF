@@ -611,6 +611,7 @@ defaults <- function(ncolX, paramList, cat.map) {
 #' @param p the number of dimensions.
 #' @param d the number of desired columns in the projection matrix.
 #' @param sparsity a real number in \eqn{(0,1)} that specifies the distribution of non-zero elements in the random matrix.
+#' @param randomer Boolean to decide whether to split on a linear combination of features(randomer=TRUE) 
 #' @param ... used to handle superfluous arguments passed in using paramList.
 #'
 #' @return rotationMatrix the matrix used to determine which mtry features or combination of features will be used to split a node.
@@ -618,15 +619,15 @@ defaults <- function(ncolX, paramList, cat.map) {
 #'
 
 
-makeAB <- function(p, d, sparsity, ...) {
+makeAB <- function(p, d, sparsity, randomer = TRUE, ...) {
   nnzs <- round(p * d * sparsity)
   sparseM <- matrix(0L, nrow = p, ncol = d)
   featuresToTry <- sample(1:p, d, replace = FALSE)
-  # the commented line below creates linear combinations of features to try
-  # sparseM[sample(1L:(p*d),nnzs, replace=FALSE)]<-sample(c(1L,-1L),nnzs,replace=TRUE)
-  # the for loop below creates a standard random forest set of features to try
-  for (j in 1:d) {
-    sparseM[featuresToTry[j], j] <- 1
+  if (randomer==TRUE)
+        sparseM[sample(1L:(p*d), nnzs, replace=F)]<-sample(c(1L,-1L),nnzs,replace=TRUE)
+  else{
+        for(j in 1:d)
+            sparseM[featuresToTry[j],j] <- 1
   }
   # The below returns a matrix after removing zero columns in sparseM.
   ind <- which(sparseM != 0, arr.ind = TRUE)

@@ -10,6 +10,7 @@
 #' @param normalizeData a logical value that determines if input data is normalized to values ranging from 0 to 1 prior to processing.  (normalizeData=TRUE)
 #' @param Progress boolean for printing progress.
 #' @param splitCrit split based on twomeans(splitCrit="twomeans") or BIC test(splitCrit="BIC")#
+#' @param randomer boolean to split on linear combination of features. (randomer=TRUE)
 #'
 #' @return urerfStructure
 #'
@@ -23,10 +24,10 @@
 #'
 #' dissimilarityMatrix <- hclust(as.dist(1 - urerfStructure$similarityMatrix), method = "mcquitty")
 #' clusters <- cutree(dissimilarityMatrix, k = 3)
-library(mclust)
 Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
                   max.depth = NA, mtry = ceiling(ncol(X)^0.5),
-                  normalizeData = TRUE, Progress = TRUE, splitCrit = "twomeans") {
+                  normalizeData = TRUE, Progress = TRUE,
+                  splitCrit = "twomeans", randomer=TRUE) {
   normalizeTheData <- function(X, normData) {
     if (normData) {
       X <- sweep(X, 2, apply(X, 2, min), "-")
@@ -85,12 +86,12 @@ Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
     GrowUnsupervisedForest(X, trees = numTrees, MinParent = K, options = list(
       p = ncol(X),
       d = mtry, sparsity = 1 / ncol(X)
-    ), Progress = Progress, splitCrit = splitCrit)
+    ), Progress = Progress, splitCrit = splitCrit, randomer = randomer)
   } else {
     GrowUnsupervisedForest(X,
       trees = numTrees, MinParent = K, MaxDepth = depth,
       options = list(p = ncol(X), d = mtry, sparsity = 1 / ncol(X)),
-      Progress = Progress, splitCrit = splitCrit
+      Progress = Progress, splitCrit = splitCrit, randomer = randomer
     )
   }
 

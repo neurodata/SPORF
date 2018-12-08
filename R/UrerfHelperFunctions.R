@@ -134,6 +134,7 @@ checkInputMatrix <- function(X) {
 #' @param MaxDepth the maximum depth allowed in a forest (MaxDepth=Inf).
 #' @param bagging only used experimentally.  Determines the hold out size if replacement=FALSE (bagging=.2).
 #' @param replacement method used to determine boot strap samples (replacement=TRUE).
+#' @param randomer boolean to decide whether to split on a linear combination of features (randomer=TRUE).
 #' @param FUN the function to create the rotation matrix used to determine mtry features.
 #' @param options options provided to FUN.
 #' @param Progress logical that determines whether to show tree creation status (Progress=TRUE).
@@ -147,10 +148,12 @@ GrowUnsupervisedForest <-
   function(X, MinParent = 1, trees = 100,
              MaxDepth = Inf, bagging = 0.2,
              replacement = TRUE, FUN = makeAB,
+             randomer=TRUE,
              options = list(p = ncol(X), d = ceiling(ncol(X)^0.5), sparsity = 1 / ncol(X)),
              Progress = TRUE,
              splitCrit = "twomeans") {
-    FUN <- match.fun(FUN, descend = TRUE)
+    FUN <- match.fun(FUN, descend=TRUE)
+    options <- c(options, randomer)
     ############# Start Growing Forest #################
 
     forest <- vector("list", trees)
