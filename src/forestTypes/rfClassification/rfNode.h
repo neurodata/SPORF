@@ -20,8 +20,14 @@ class alignas(32) rfNode : public fpBaseNode<T>
 		inline int returnFeatureNumber(){
 			return feature;
 		}
-inline int nextNode(T featureValue){
+
+    inline int nextNode(T featureValue){
 			return (featureValue < fpBaseNode<T>::cutValue) ? fpBaseNode<T>::left : fpBaseNode<T>::right;
 		}
+
+    inline int nextNode(std::vector<T>& observation){
+			return (observation[feature] < fpBaseNode<T>::cutValue) ? fpBaseNode<T>::left : fpBaseNode<T>::right;
+		}
+
 };
 #endif //padNode_h

@@ -1,7 +1,7 @@
-#ifndef splitInfo_h
-#define splitInfo_h
+#ifndef baseSplitInfo_h
+#define baseSplitInfo_h
 
-#include "../timeLogger.h"
+#include "../baseFunctions/timeLogger.h"
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -9,18 +9,18 @@
 
 namespace fp{
 
-	template<typename T>
-		class splitInfo
+	template<typename T, typename F>
+		class baseSplitInfo
 		{
 			protected:
 				double impurity;
 				double leftImpurity;
 				double rightImpurity;
-				int featureNum;
+				F featureNum;
 				T splitValue;
 
 			public:
-				splitInfo(): impurity(std::numeric_limits<double>::max()), leftImpurity(-1), rightImpurity(-1), featureNum(-1), splitValue(0){}
+				baseSplitInfo(): impurity(std::numeric_limits<double>::max()), leftImpurity(-1), rightImpurity(-1),  splitValue(0){}
 
 				inline void setSplitValue(T sVal){
 					splitValue = sVal;
@@ -52,6 +52,7 @@ namespace fp{
 					return rightImpurity;
 				}
 
+				/*
 				inline void setFeatureNum(int fNum){
 					featureNum = fNum;
 				}
@@ -59,7 +60,8 @@ namespace fp{
 				inline int returnFeatureNum(){
 					return featureNum;
 				}
+				*/
 		};
 
 }//namespace fp
-#endif //splitInfo_h
+#endif //baseSplitInfo_h

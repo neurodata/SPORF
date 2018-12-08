@@ -190,20 +190,12 @@ namespace fp{
 
 				inline int predictObservation(int observationNum){
 					int currNode = 0;
-					//std::vector<int> featureNum;
-					int featureNum = 0;
-					T featureVal;
+					T featureVal = 0;
 					while(tree[currNode].isInternalNode()){
-						featureNum = tree[currNode].returnFeatureNumber()[0];
-						featureVal = fpSingleton::getSingleton().returnTestFeatureVal(featureNum,observationNum);
-						//featureVal = fpSingleton::getSingleton().returnTestFeatureVal(featureNum[0],observationNum);
-						if(tree[currNode].returnFeatureNumber().size()>1){
-							for(unsigned int j =1; j < tree[currNode].returnFeatureNumber().size(); ++j){
-								featureNum = tree[currNode].returnFeatureNumber()[j];
-								featureVal += fpSingleton::getSingleton().returnTestFeatureVal(featureNum,observationNum);
-							}
+						featureVal = 0;
+					for(auto featureNumber : tree[currNode].returnFeatureNumber()){
+							featureVal += fpSingleton::getSingleton().returnTestFeatureVal(featureNumber,observationNum);
 						}
-
 						currNode = tree[currNode].nextNode(featureVal);
 					}
 					return tree[currNode].returnClass();
@@ -212,18 +204,12 @@ namespace fp{
 
 				inline int predictObservation(std::vector<T>& observation){
 					int currNode = 0;
-					int featureNum = 0;
-					T featureVal = 0;
 					while(tree[currNode].isInternalNode()){
-						for(unsigned int j = 0; j < tree[currNode].returnFeatureNumber().size(); ++j){
-							featureNum = tree[currNode].returnFeatureNumber()[j];
-							featureVal += observation[featureNum];
-						}
-					currNode = tree[currNode].nextNode(featureVal);
+						currNode = tree[currNode].nextNode(observation);
+					}
+					return tree[currNode].returnClass();
 				}
-				return tree[currNode].returnClass();
-		}
-};
+		};
 
-}
+}//fp
 #endif //rfTree_h

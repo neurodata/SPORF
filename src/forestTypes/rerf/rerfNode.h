@@ -26,12 +26,11 @@ class rerfNode : public fpBaseNode<T>
 			return feature;
 		}
 
-    inline int nextNode(std::vector<T>& observation){
-			//TODO
-T featureVal = 0;
-			for(unsigned int j = 0; j < feature.size(); ++j){
-							featureVal += observation[feature[j]];
-						}
+		inline int nextNode(std::vector<T>& observation){
+			T featureVal = 0;
+			for(auto featureNumber : feature){
+				featureVal += observation[featureNumber];
+			}
 			return (featureVal < fpBaseNode<T>::cutValue) ? fpBaseNode<T>::left : fpBaseNode<T>::right;
 		}
 

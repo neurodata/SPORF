@@ -1,6 +1,6 @@
 #ifndef rfunprocessedNode_h
 #define rfunprocessedNode_h
-#include "../baseFunctions/fpSplit.h"
+#include "fpSplit.h"
 #include <vector>
 #include <random>
 

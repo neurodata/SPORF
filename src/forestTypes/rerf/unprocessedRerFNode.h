@@ -1,6 +1,7 @@
 #ifndef rfunprocessedRerFNode_h
 #define rfunprocessedRerFNode_h
 #include "fpRerFSplit.h"
+#include "../classTotals.h"
 #include <vector>
 #include <random>
 
@@ -309,7 +310,7 @@ featureVal += fpSingleton::getSingleton().returnFeatureVal(featureNum[j],inIndex
 					if(nodeImpurity==0){
 						return labelHolder[0];
 					} else {
-						classRerFTotals findMaxClass;
+						classTotals findMaxClass;
 						findMaxClass.findNumClasses(labelHolder);
 						return findMaxClass.returnLargestClass();
 					}

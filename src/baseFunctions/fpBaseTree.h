@@ -1,14 +1,13 @@
-#ifndef rfTree_h
-#define rfTree_h
-#include "rfNode.h"
+#ifndef fpBaseTree_h
+#define fpBaseTree_h
 #include <vector>
 #include <random>
-#include "unprocessedNode.h"
+#include "../../treeConstructor/unprocessedNode.h"
 
 namespace fp{
 
 	template <typename T>
-		class rfTree
+		class fpBaseTree
 		{
 			protected:
 				float OOBAccuracy;
@@ -18,7 +17,7 @@ namespace fp{
 				std::vector< unprocessedNode<T> > nodeQueue;
 
 			public:
-				rfTree() : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0){}
+				fpBaseTree() : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0){}
 
 				void loadFirstNode(){
 					nodeQueue.emplace_back(fpSingleton::getSingleton().returnNumObservations());
@@ -212,5 +211,5 @@ namespace fp{
 				}
 		};
 
-}//fp
-#endif //rfTree_h
+} //fp
+#endif //fpBaseTree_h
