@@ -3,7 +3,7 @@
 
 #include <string>
 //#include <memory>
-#include "fpForestBase.h"
+#include "fpBaseForest.h"
 #include "../forestTypes/rerf/fpRerFBase.h"
 #include "../forestTypes/rfClassification/fpForestClassificationBase.h"
 

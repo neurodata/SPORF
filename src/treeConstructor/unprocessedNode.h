@@ -38,8 +38,8 @@ namespace fp{
 				}
 
 				~unprocessedNode(){
-			//	delete leftIndices;
-			//	delete rightIndices;
+					//	delete leftIndices;
+					//	delete rightIndices;
 				}
 
 
@@ -135,19 +135,19 @@ namespace fp{
 
 				inline void loadFeatureHolder(){
 					if(obsIndices->useBin()){
-for(int q=0; q<obsIndices->returnBinnedSize(); q++){
-						fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back(),obsIndices->returnBinnedInSample(q));
+						for(int q=0; q<obsIndices->returnBinnedSize(); q++){
+							fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back(),obsIndices->returnBinnedInSample(q));
 						}
 
 						for(int i =0; i < obsIndices->returnBinnedSize(); ++i){
 							featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back(),obsIndices->returnBinnedInSample(i));
 						}
 					}else{
-						
+
 						for(int q=0; q<obsIndices->returnInSampleSize(); q++){
-						fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back(),obsIndices->returnInSample(q));
+							fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back(),obsIndices->returnInSample(q));
 						}
-						
+
 						for(int i =0; i < obsIndices->returnInSampleSize(); ++i){
 							featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back(),obsIndices->returnInSample(i));
 						}
@@ -178,24 +178,16 @@ for(int q=0; q<obsIndices->returnBinnedSize(); q++){
 					obsIndices = indices;
 				}
 
-/*
+				
 				inline bool goLeft(const int& index){
-					if(fpSingleton::getSingleton().returnFeatureVal(bestSplitInfo.returnFeatureNum(),index) < bestSplitInfo.returnSplitValue()){
-						return true;
-					}else{
-						return false;
+					int inIndex = index;
+					int featureNum = bestSplitInfo.returnFeatureNum();
+					if(featureNum == -1){
+						std::cout << "found it\n";
+						exit(1);
 					}
-				}
-				*/
-inline bool goLeft(const int& index){
-	int inIndex = index;
-	int featureNum = bestSplitInfo.returnFeatureNum();
-	if(featureNum == -1){
-		std::cout << "found it\n";
-		exit(1);
-	}
-	double featureVal = fpSingleton::getSingleton().returnFeatureVal(featureNum,inIndex);
-		double splitVal = bestSplitInfo.returnSplitValue();
+					double featureVal = fpSingleton::getSingleton().returnFeatureVal(featureNum,inIndex);
+					double splitVal = bestSplitInfo.returnSplitValue();
 					if(featureVal < splitVal ){
 						return true;
 					}else{
@@ -203,13 +195,14 @@ inline bool goLeft(const int& index){
 					}
 				}
 
+
 				inline void moveDataLeftOrRight(){
-				if(leftIndices !=NULL){
-					delete leftIndices;
-				}
-				if(rightIndices !=NULL){
-					delete rightIndices;
-				}
+					if(leftIndices !=NULL){
+						delete leftIndices;
+					}
+					if(rightIndices !=NULL){
+						delete rightIndices;
+					}
 
 					leftIndices = new stratifiedInNodeClassIndices();
 					rightIndices = new stratifiedInNodeClassIndices();
@@ -243,11 +236,11 @@ inline bool goLeft(const int& index){
 					//timeLogger logTime;
 					split<T> findSplit(labelHolder); //This is done twice
 					while(!featuresToTry.empty()){
-					//logTime.startGiniTimer();
+						//logTime.startGiniTimer();
 						loadFeatureHolder();
-					//logTime.stopGiniTimer();
+						//logTime.stopGiniTimer();
 						setBestSplit(findSplit.giniSplit(featureHolder ,featuresToTry.back()));
-	
+
 						featuresToTry.pop_back();
 					}
 				}

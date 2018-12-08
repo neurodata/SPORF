@@ -122,6 +122,15 @@ namespace fp {
 				return fpForestInfo.returnMinParent();
 			}
 
+			inline int returnBinSize(){
+				return fpForestInfo.returnBinSize();
+			}
+
+			inline bool returnUseBinning(){
+				return fpForestInfo.returnUseBinning();
+			}
+
+
 			inline void setDataDependentParameters(){
 				fpForestInfo.setMTRY();
 			}

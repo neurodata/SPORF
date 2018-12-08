@@ -18,8 +18,8 @@ logTime.printGrowTime();
 	try{
 		fp::fpForest<double> forest;
 		forest.setParameter("forestType", "rerf");
-		//forest.setParameter("forestType", "rfBase");
-		forest.setParameter("numTreesInForest", 100);
+//		forest.setParameter("forestType", "rfBase");
+		forest.setParameter("numTreesInForest", 10);
 		forest.setParameter("minParent", 1);
 //		forest.setParameter("numClasses", 5);
 //		forest.setParameter("mtry", 100);
@@ -28,8 +28,12 @@ logTime.printGrowTime();
 //forest.setParameter("columnWithY", 4);
 //		forest.setParameter("CSVFileName", "res/higgsData.csv");
 		forest.setParameter("CSVFileName", "res/higgs2.csv");
-		//forest.setParameter("CSVFileName", "res/mnist.csv");
+//		forest.setParameter("CSVFileName", "res/mnist.csv");
 		forest.setParameter("columnWithY", 0);
+
+
+
+		forest.setParameter("useBinning", 100);
 
 		forest.growForest();
 

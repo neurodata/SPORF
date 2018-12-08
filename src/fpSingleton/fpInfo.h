@@ -30,6 +30,8 @@ namespace fp {
 
 			double fractionOfFeaturesToTest = -1.0;
 
+			int binSize = -1;
+
 			std::string forestType;
 			std::string CSVFileName;
 
@@ -43,8 +45,18 @@ namespace fp {
 
 			void setParameter(const std::string& parameterName, const int parameterValue);
 
+			void setParameter(const std::string& parameterName);
+
 			void printAllParameters();
 			void printForestType();
+
+			inline bool returnUseBinning(){
+				return binSize;
+			}
+
+			inline int returnBinSize(){
+				return binSize;
+			}
 
 			inline std::string& returnCSVFileName(){
 				return CSVFileName;

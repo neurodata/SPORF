@@ -1,6 +1,13 @@
 #ifndef fpForestBase_h
 #define fpForestBase_h
 
+#include "displayProgress.h"
+#include <vector>
+#include <stdio.h>
+#include <ctime>
+#include <chrono>
+#include <cstdlib>
+
 namespace fp{
 
 	template <typename T>
@@ -8,6 +15,11 @@ namespace fp{
 		{
 
 			public:
+
+				fpForestBase(){
+				std::srand(unsigned(std::time(0)));
+				}
+
 				virtual void printForestType() = 0;
 				virtual void growForest() = 0;
 				virtual float testForest() = 0;

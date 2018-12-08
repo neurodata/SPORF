@@ -1,8 +1,7 @@
 #ifndef fpForestClassification_h
 #define fpForestClassification_h
 
-#include "../../baseFunctions/fpForestBase.h"
-#include "../../baseFunctions/displayProgress.h"
+#include "../../baseFunctions/fpBaseForest.h"
 #include <vector>
 #include <stdio.h>
 #include <ctime>
@@ -21,9 +20,12 @@ namespace fp {
 		public:
 			fpDisplayProgress printProgress;
 
+			using fpForestBase<T>::fpForestBase;
+
+				/*
 			fpForestClassificationBase(){
 				std::srand(unsigned(std::time(0)));
-			}
+			}*/
 
 			void printForestType(){
 				std::cout << "This is a basic classification forest.\n";

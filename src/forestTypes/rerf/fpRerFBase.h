@@ -1,8 +1,7 @@
 #ifndef fpRerF_h
 #define fpRerf_h
 
-#include "../../baseFunctions/fpForestBase.h"
-#include "../../baseFunctions/displayProgress.h"
+#include "../../baseFunctions/fpBaseForest.h"
 #include <vector>
 #include <stdio.h>
 #include <ctime>
@@ -20,9 +19,7 @@ namespace fp {
 
 		public:
 
-			fpRerFBase(){
-				std::srand(unsigned(std::time(0)));
-			}
+			using fpForestBase<T>::fpForestBase;
 
 			fpDisplayProgress printProgress;
 			void printForestType(){

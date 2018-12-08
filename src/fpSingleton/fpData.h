@@ -48,7 +48,8 @@ namespace fp {
 				if(settings.loadDataFromCSV()){
 					inData = new inputCSVData<DATA_TYPE_X, DATA_TYPE_Y>(settings.returnCSVFileName(), settings.returnColumnWithY());
 				}else if(false){
-					inData = new inputMatrixData<DATA_TYPE_X, DATA_TYPE_Y>();//TODO add parameters
+					inData = new inputCSVData<DATA_TYPE_X, DATA_TYPE_Y>(settings.returnCSVFileName(), settings.returnColumnWithY());
+					//inData = new inputMatrixData<DATA_TYPE_X, DATA_TYPE_Y>();//TODO add parameters
 					//inData = new inputMatrixData<DATA_TYPE_X, DATA_TYPE_Y>(std::vector<std::vector<DATA_TYPE_X> > X, std::vector<DATA_TYPE_Y> Y);
 				}else{
 					throw std::runtime_error("Unable to read data." );

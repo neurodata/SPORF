@@ -1,5 +1,6 @@
 #ifndef stratifiedInNodeClassIndices_h
 #define stratifiedInNodeClassIndices_h
+
 #include <iostream>
 #include <random>
 #include <vector>
@@ -16,9 +17,6 @@ namespace fp{
 			std::vector<int> binSamples;
 			int inSampleSize;
 			int outSampleSize;
-
-			int binSize = 100;
-			int useBinning = false;
 
 			//TODO: the following functions would benefit from Vitter's Sequential Random Sampling
 		public:
@@ -134,22 +132,22 @@ namespace fp{
 				return inSamps[numSample];
 				//The commented out below reduces memory size but is slow.
 				/*
-				int totalViewed = 0;
-				for(unsigned int i = 0; i < inSamples.size(); ++i){
-					if(numSample < (totalViewed+int(inSamples[i].size()))){
-						if((numSample-totalViewed)<0 || (numSample-totalViewed)>=int(inSamples[i].size())){
-							std::cout << numSample-totalViewed << " , " << inSamples[i].size() << "\n";
-							exit(1);
-						}
-						int retNum = inSamples[i][numSample-totalViewed];
-						return retNum ;
-					}
-					totalViewed += inSamples[i].size();
-				}
-				std::cout << "it happened now\n";
-				exit(1);
-				return -1;
-				*/
+					 int totalViewed = 0;
+					 for(unsigned int i = 0; i < inSamples.size(); ++i){
+					 if(numSample < (totalViewed+int(inSamples[i].size()))){
+					 if((numSample-totalViewed)<0 || (numSample-totalViewed)>=int(inSamples[i].size())){
+					 std::cout << numSample-totalViewed << " , " << inSamples[i].size() << "\n";
+					 exit(1);
+					 }
+					 int retNum = inSamples[i][numSample-totalViewed];
+					 return retNum ;
+					 }
+					 totalViewed += inSamples[i].size();
+					 }
+					 std::cout << "it happened now\n";
+					 exit(1);
+					 return -1;
+					 */
 			}
 
 
@@ -165,10 +163,13 @@ namespace fp{
 			}
 
 
-			inline bool useBin(){
-				return (inSampleSize > 5*binSize) && useBinning;
+			inline int returnBinSize(){
+				return fpSingleton::getSingleton().returnBinSize();
 			}
 
+			inline bool useBin(){
+				return fpSingleton::getSingleton().returnUseBinning() && (inSampleSize > 5*returnBinSize());
+			}
 
 			inline void initializeBinnedSamples(){
 				if(useBin()){
@@ -176,7 +177,7 @@ namespace fp{
 					std::random_device random_device;
 					std::mt19937 engine{random_device()};
 					for(unsigned int i = 0; i < inSamples.size(); ++i){
-						numInClass = int((binSize*inSamples[i].size())/inSampleSize);
+						numInClass = int((returnBinSize()*inSamples[i].size())/inSampleSize);
 						for(int n = 0; n < numInClass; ++n){
 							std::uniform_int_distribution<int> dist(0, inSamples[i].size() - 1);
 							binSamples.push_back(inSamples[i][dist(engine)]);
