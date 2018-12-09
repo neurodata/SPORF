@@ -1,7 +1,8 @@
 #ifndef rfunprocessedRerFNode_h
 #define rfunprocessedRerFNode_h
-#include "fpRerFSplit.h"
+#include "splitRerF.h"
 #include "../classTotals.h"
+#include "../stratifiedInNodeClassIndices.h"
 #include <vector>
 #include <random>
 
@@ -122,29 +123,13 @@ namespace fp{
 
 
 				inline void pickMTRY(){
-					//for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i) featuresToTry.push_back(i);
-					//std::random_shuffle ( featuresToTry.begin(), featuresToTry.end() );
-					//featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
 					int rndMtry;
 					int rndFeature;
-					/*
-for (int i=0; i < fpSingleton::getSingleton().returnMtry(); ++i){
-						//rndMtry = std::rand() % fpSingleton::getSingleton().returnMtry();
-						rndFeature = std::rand() % fpSingleton::getSingleton().returnNumFeatures();
-						featuresToTry[i].push_back(rndFeature);
-						//featuresToTry[randomMtry(rng)].push_back(randomFeature(rng));
-					}
-					*/
 					for (int i=0; i < fpSingleton::getSingleton().returnMtry(); ++i){
 						rndMtry = std::rand() % fpSingleton::getSingleton().returnMtry();
 						rndFeature = std::rand() % fpSingleton::getSingleton().returnNumFeatures();
 						featuresToTry[rndMtry].push_back(rndFeature);
-						//featuresToTry[randomMtry(rng)].push_back(randomFeature(rng));
 					}
-									}
-
-				inline int returnMTRYVectorSizeDelete(){
-					return featuresToTry.size();
 				}
 
 				inline void loadLabelHolder(){
@@ -237,7 +222,7 @@ for (int i=0; i < fpSingleton::getSingleton().returnMtry(); ++i){
 					double featureVal = fpSingleton::getSingleton().returnFeatureVal(featureNum[0],inIndex);
 					if(featureNum.size() > 1){
 						for(unsigned int j = 1; j < featureNum.size(); ++j){
-featureVal += fpSingleton::getSingleton().returnFeatureVal(featureNum[j],inIndex);
+							featureVal += fpSingleton::getSingleton().returnFeatureVal(featureNum[j],inIndex);
 						}
 					}
 

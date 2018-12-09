@@ -1,8 +1,7 @@
-#ifndef fpSplit_h
-#define fpSplit_h
+#ifndef splitRerF_h
+#define splitRerF_h
 
-#include "../../baseFunctions/timeLogger.h"
-#include "splitInfo.h"
+#include "splitRerFInfo.h"
 #include "../labeledData.h"
 #include "../classTotals.h"
 #include <iostream>
@@ -13,7 +12,7 @@
 namespace fp{
 
 	template<typename T>
-		class fpSplit {
+		class splitRerF{
 			protected:
 				double overallImpurity;
 				classTotals leftClasses;
@@ -26,7 +25,7 @@ namespace fp{
 					combinedDataLabels.resize(labels.size());
 				}
 
-				inline void zipDataLabels(const std::vector<T>& featureVals){
+				inline void zipDataLabels(std::vector<T> featureVals){
 					for(unsigned int i=0; i<labels.size(); ++i){
 						combinedDataLabels[i].setPair(featureVals[i],labels[i]);
 					}
@@ -51,7 +50,7 @@ namespace fp{
 				}
 
 			public:
-				fpSplit(const std::vector<int>& labelVector): labels(labelVector){
+				splitRerF(const std::vector<int>& labelVector): labels(labelVector){
 					rightClasses.findNumClasses(labels);
 					leftClasses.setClassVecSize(rightClasses.returnClassVecSize());
 					this->setCombinedVecSize();
@@ -63,14 +62,14 @@ namespace fp{
 				}
 
 
-				splitInfo<T> giniSplit(const std::vector<T>& featureVals, int featureNum){
+				splitRerFInfo<T> giniSplit(const std::vector<T>& featureVals, const std::vector<int>& featureNums){
 					double tempImpurity;
 					int numLabels = labels.size();
-				//	timeLogger logTime;
+					//	timeLogger logTime;
 
 					// initialize return value
-					splitInfo<T> currSplitInfo;
-					currSplitInfo.setFeatureNum(featureNum);
+					splitRerFInfo<T> currSplitInfo;
+					currSplitInfo.addFeatureNums(featureNums);
 
 					// zip data and labels
 					zipDataLabels(featureVals);
@@ -85,7 +84,7 @@ namespace fp{
 
 						if(checkInequalityWithNext(i)){
 							tempImpurity = leftClasses.calcAndReturnImpurity() + rightClasses.calcAndReturnImpurity();
-							
+
 							if(tempImpurity < currSplitInfo.returnImpurity() && tempImpurity != overallImpurity){
 								currSplitInfo.setImpurity(tempImpurity);
 								currSplitInfo.setSplitValue(midVal(i));
@@ -97,8 +96,8 @@ namespace fp{
 
 					if(currSplitInfo.returnImpurity() == overallImpurity){
 						std::cout << "it happened\n";
-exit(1); //should never happen.  Why?
-								currSplitInfo.setImpurity(-1);
+						exit(1); //should never happen.  Why?
+						currSplitInfo.setImpurity(-1);
 					}
 					//logTime.startFindSplitTimer();
 					setupForNextRun();
@@ -109,4 +108,4 @@ exit(1); //should never happen.  Why?
 		};
 
 }//namespace fp
-#endif //fpSplit_h
+#endif //splitRerF_h

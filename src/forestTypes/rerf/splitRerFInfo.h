@@ -11,19 +11,20 @@ namespace fp{
 
 	template<typename T>
 		class splitRerFInfo :public baseSplitInfo<T, std::vector<int> >
-		{
-			protected:
+	{
+		protected:
 
-						public:
+		public:
 			using baseSplitInfo<T,std::vector<int> >::baseSplitInfo;
-							inline void addFeatureNums(std::vector<int> fNum){
-					baseSplitInfo<T,std::vector<int> >::featureNum = fNum;
-				}
 
-				inline std::vector<int> returnFeatureNum(){
-					return baseSplitInfo<T,std::vector<int> >::featureNum;
-				}
-		};
+			inline void addFeatureNums(std::vector<int> fNum){
+				baseSplitInfo<T,std::vector<int> >::featureNum = fNum;
+			}
+
+			inline std::vector<int> returnFeatureNum(){
+				return baseSplitInfo<T,std::vector<int> >::featureNum;
+			}
+	};
 
 
 }//namespace fp

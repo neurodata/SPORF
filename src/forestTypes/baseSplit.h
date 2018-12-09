@@ -1,9 +1,9 @@
-#ifndef fpRerFSplit_h
-#define fpRerFSplit_h
+#ifndef baseSplit_h
+#define baseSplit_h
 
 #include "splitRerFInfo.h"
-#include "../labeledData.h"
-#include "../classTotals.h"
+#include "labeledData.h"
+#include "classTotals.h"
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -12,7 +12,7 @@
 namespace fp{
 
 	template<typename T>
-		class splitRerF{
+		class baseSplit{
 			protected:
 				double overallImpurity;
 				classTotals leftClasses;
@@ -108,4 +108,4 @@ namespace fp{
 		};
 
 }//namespace fp
-#endif //fpRerFSplit_h
+#endif //baseSplit_h

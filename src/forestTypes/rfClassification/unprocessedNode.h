@@ -1,6 +1,7 @@
 #ifndef rfunprocessedNode_h
 #define rfunprocessedNode_h
 #include "fpSplit.h"
+#include "../stratifiedInNodeClassIndices.h"
 #include <vector>
 #include <random>
 
@@ -116,9 +117,6 @@ namespace fp{
 					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
 				}
 
-				inline int returnMTRYVectorSize(){
-					return featuresToTry.size();
-				}
 
 				inline void loadLabelHolder(){
 					if(obsIndices->useBin()){
@@ -234,7 +232,7 @@ namespace fp{
 
 				inline void findBestSplit(){
 					//timeLogger logTime;
-					split<T> findSplit(labelHolder); //This is done twice
+					fpSplit<T> findSplit(labelHolder); //This is done twice
 					while(!featuresToTry.empty()){
 						//logTime.startGiniTimer();
 						loadFeatureHolder();

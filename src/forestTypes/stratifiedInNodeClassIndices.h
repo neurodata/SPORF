@@ -29,20 +29,19 @@ namespace fp{
 			}
 
 			stratifiedInNodeClassIndices(const int &numObservationsInDataSet){
-
 				inSamples.resize(fpSingleton::getSingleton().returnNumClasses());
 				outSamples.resize(fpSingleton::getSingleton().returnNumClasses());
 
 				createInAndOutSets(numObservationsInDataSet);
 
-				inSampleSize =0;
+				inSampleSize = 0;
 				outSampleSize =0;
-
-				for(unsigned int i = 0; i < inSamples.size(); ++i){
-					inSampleSize += inSamples[i].size();
+				for(auto inSamps : inSamples){
+					inSampleSize += inSamps.size();
 				}
-				for(unsigned int i = 0; i < outSamples.size(); ++i){
-					outSampleSize += outSamples[i].size();
+
+				for(auto outSamps : outSamples){
+					outSampleSize += outSamples.size();
 				}
 
 			}
@@ -204,10 +203,7 @@ namespace fp{
 
 			inline void addIndexToInSamples(int index){
 				++inSampleSize;
-				/*if(fpSingleton::getSingleton().returnLabel(index)<0 || fpSingleton::getSingleton().returnLabel(index) >= int(inSamples.size())){
-					std::cout << "asldkjf\n";
-					exit(1);
-					}*/
+				
 				inSamples[fpSingleton::getSingleton().returnLabel(index)].push_back(index);
 				inSamps.push_back(index);
 			}

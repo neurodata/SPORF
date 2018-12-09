@@ -3,7 +3,7 @@
 
 #include "baseFunctions/timeLogger.h"
 #include "fpSingleton/fpSingleton.h"
-#include "baseFunctions/stratifiedInNodeClassIndices.h"
+//#include "baseFunctions/stratifiedInNodeClassIndices.h"
 #include "baseFunctions/fpForestFactory.h"
 #include "baseFunctions/fpBaseForest.h"
 #include "baseFunctions/fpForest.h"
