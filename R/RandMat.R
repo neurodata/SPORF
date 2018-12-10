@@ -632,3 +632,200 @@ makeAB <- function(p, d, sparsity, ...) {
   ind <- which(sparseM != 0, arr.ind = TRUE)
   return(cbind(ind, sparseM[ind]))
 }
+
+
+
+#' The 2-d Gabor weight function
+#'
+#' 
+#' @param x x coordinate 
+#' @param y y coordinate 
+#' @param alpha scaling factor of the Gaussian envelope
+#' @param betax \eqn{\beta_x} decay factor in the x direction
+#' @param betay \eqn{\beta_y} decay factor in the y direction
+#' @param f frequency of the cosine factor
+#' @param phi phase offset in the cosine factor
+#' @param x0 mean in the x direction
+#' @param y0 mean in the y direction
+#' @param tau the angle of rotation for x and y
+#'
+#' @return a weight in the form of a scaler.
+#'
+#' @export
+#' 
+#' @references @unpublished{Goodfellow-et-al-2016-Book,
+#'   title={Deep Learning},
+#'   author={Ian Goodfellow, Yoshua Bengio, and Aaron Courville},
+#'   note={Book in preparation for MIT Press},
+#'   url={http://www.deeplearningbook.org},
+#'   year={2016}
+#' }
+#'
+#' @examples
+#'
+#' p <- 28^2
+#' d <- 8
+#' ih <- iw <- 28
+#' pwMin <- 3
+#' pwMax <- 6
+#' paramList <- list(p = p, d = d, ih = ih, iw = iw, pwMin = pwMin, pwMax = pwMax)
+#' set.seed(8)
+#' (a <- do.call(RandMatImagePatch, paramList))
+
+Gw <- function(x, y, alpha, betax, betay, f, phi, x0, y0, tau, betaxy = 0) {
+
+  xp <-  (x - x0) * cos(tau) + (y - y0) * sin(tau)
+  yp <- -(x - x0) * sin(tau) + (y - y0) * cos(tau)
+
+  alpha * exp(- betax * xp^2 - betay * yp^2 + (betaxy * xp * yp)) * 
+    cos(f * xp + phi)
+}
+
+
+#' Sample the hyper-parameters for the Gabor weight function
+#'
+#' 
+#' @param n the number of samples
+#' @param galpha the shape parameter for alpha
+#' @param gbeta the shape parmeter for alpha
+#' @param igalpha the shape parameter for betax and betay
+#' @param igbeta the rate parameter for betax and betay
+#'
+#' @return a list of parameters for the Gabor Weight function.
+#'
+#' @export
+#' 
+#' @references @unpublished{Goodfellow-et-al-2016-Book,
+#'   title={Deep Learning},
+#'   author={Ian Goodfellow, Yoshua Bengio, and Aaron Courville},
+#'   note={Book in preparation for MIT Press},
+#'   url={http://www.deeplearningbook.org},
+#'   year={2016}
+#' }
+#'
+#' @examples
+#'
+#' params <- gabSamp()
+#' ##  must specify grid
+#' x <- seq(-4,4, length = 9)
+#' xy <- expand.grid(x,x)
+#' params$x <- xy[, 1]
+#' params$y <- xy[, 2]
+#' gw <- do.call(Gw, params)
+#' 
+#' 
+
+gabSamp <- function(n = 1, galpha = 3, gbeta = 1, igalpha = 1, igbeta = 0.5, iw) { 
+  out <- list()
+
+  out$alpha <- 1 # rgamma(n, shape = galpha, rate = gbeta)
+  out$betax <- rinvgamma(n, shape = igalpha, scale = igbeta)
+  out$betay <- rinvgamma(n, shape = igalpha, scale = igbeta)
+  out$f <-  runif(n, min = floor(iw / 2), max = 8 * iw)
+  out$phi <- runif(n, min = 0, max = 2 * pi)
+  out$x0 <- runif(n, min = -2.5, max = 2.5)#rnorm(n, mean = 0, sd = 0.75)
+  out$y0 <- runif(n, min = -2.5, max = 2.5)#rnorm(n, mean = 0, sd = 0.75)
+  out$tau <- runif(n, min = 0, max = 2 * pi)
+
+
+  #if(w == 1){
+  #  # Letter B
+  #  S <- riwish(v = 2, S = diag(2))
+  #  sigx2 <- S[1]
+  #  sigy2 <- S[4]
+  #  rho <- S[2] / (sqrt(sigx2) * sqrt(sigy2))
+  #  out$betax <- 1 / (2 * sigx2  * (1 - rho^2))
+  #  out$betay <- 1 / (2 * sigy2  * (1 - rho^2))
+  #  out$betaxy <- rho / (sqrt(sigx2) * sqrt(sigy2) * (1 - rho^2))
+  #}
+
+  #if(w == 2){
+  #  # Letter C
+  #  S <- riwish(v = 2, S = diag(2))
+  #  sigx2 <- S[1]
+  #  sigy2 <- S[4]
+  #  rho <- S[2] / (sqrt(sigx2) * sqrt(sigy2))
+  #  out$betax <- 1 / (2 * sigx2  * (1 - rho^2))
+  #  out$betay <- 1 / (2 * sigy2  * (1 - rho^2))
+  #  out$betaxy <- 0
+  #}
+
+  #if(w == 3){
+  #  # letter D
+  #  S <- riwish(v = 2, S = diag(2))
+  #  sigx2 <- S[1]
+  #  sigy2 <- S[4]
+  #  out$betax <- 1 / (2 * sigx2)
+  #  out$betay <- 1 / (2 * sigy2)
+  #  out$betaxy <- 0
+  #}
+
+  return(out)
+}
+
+
+
+#' Create a Random Matrix: For an Image with Gabor weighting
+#' 
+#' The pathces are specified to be square, because the Gabor filter
+#' takes care of the "squishing".
+#' Also the minimum patch size should be 3x3.
+#'
+#' @param p the number of dimensions.
+#' @param d the number of desired columns in the projection matrix.
+#' @param ih the height (px) of the image.
+#' @param iw the width (px) of the image.
+#' @param pwMin the minimum patch size to sample.
+#' @param pwMax the maximum patch size to sample.
+#' @param ... used to handle superfluous arguments passed in using paramList.
+#'
+#' @return A random matrix to use in running \code{\link{RerF}}.
+#'
+#' @export
+#'
+#' @examples
+#'
+#' ih <- iw <- 28
+#' p <- 28^2
+#' d <- 28
+#' paramList <- list(p = p, d = d, ih = ih, iw = iw)
+#' set.seed(8)
+#' (a <- do.call(RandMatImageGabor, paramList))
+#' for(i in 1:d){
+#'   plot(raster::raster(matrix(a[a[, 2] == i,][, 3L] , 28, 28)))
+#'   Sys.sleep(0.6)
+#' }
+#' 
+
+RandMatGabor <- function(p, d, ih, iw, tol = .Machine$double.eps, ...) {
+
+  ## Sample Gabor Filter
+  gx <-  seq(-2.5, 2.5, length = iw) 
+  gy <-  seq(2.5, -2.5, length = ih)
+  gridXY <- expand.grid(gx, gy)
+  gaborBank <- list()
+  for(i in 1:d){
+    params <- gabSamp(w = whG) ## 3 = letter c
+    params$x <- gridXY[, 1]
+    params$y <- gridXY[, 2]
+    gaborBank[[i]] <- do.call(Gw, params)
+    #if(DEBUG){
+    #  plot(raster::raster(matrix(gaborBank[[i]], 28, 28)))
+    #  Sys.sleep(1)
+    #}
+  }
+
+#plot(raster::raster(matrix(X, 28, 28))) 
+#plot(raster::raster(matrix(G1, 28, 28))) 
+#plot(raster::raster(matrix(X * G1, 28, 28))) 
+
+  nz.rows <- rep(1:p, d)
+  nz.cols <- rep(1:d, each = p)
+
+  w <- Reduce('c', gaborBank)
+  w[w <= tol & w >= -tol] <- 0 ## NOTE: This is not efficient
+
+  ## remove w within delta ball of zero to save space
+  random.matrix <- 
+    as.matrix(cbind(nz.rows = nz.rows, nz.cols = nz.cols, w = w))[w != 0, ]
+}
