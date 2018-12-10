@@ -5,6 +5,7 @@
 //#include "fpGrowingTreeHelpers/fpSplit.h"
 #include <string>
 #include <memory>
+#include <omp.h>
 
 namespace fp {
 
@@ -69,11 +70,15 @@ namespace fp {
 					fpSingleton::getSingleton().printForestType();
 				}
 
+inline void setNumberOfThreads(){
+				omp_set_num_threads(fpSingleton::getSingleton().returnNumThreads());
+				}
 
 				void growForest(){
 					loadData();
 					initializeForestType();
 					setDataDependentParameters();
+setNumberOfThreads();
 					//timeLogger x;
 					//x.startGrowTimer();
 					forest->growForest();

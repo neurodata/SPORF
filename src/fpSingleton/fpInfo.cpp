@@ -5,9 +5,9 @@
 namespace fp {
 
 	fpInfo::fpInfo(): numTreesInForest(100),
-	minParent(1),	numClasses(-1), numFeatures(-1),
-	mtry(-1), 
-	numberOfNodes(0), maxDepth(0),sumLeafNodeDepths(0), fractionOfFeaturesToTest(-1.0), binSize(0){}
+	minParent(1),	numClasses(-1), numObservations(-1), numFeatures(-1),
+	mtry(-1), columnWithY(-1), 
+	numberOfNodes(0), maxDepth(0),sumLeafNodeDepths(0), fractionOfFeaturesToTest(-1.0), binSize(0), numCores(1){}
 
 
 	void fpInfo::setParameter(const std::string& parameterName, const std::string& parameterValue){
@@ -35,7 +35,9 @@ namespace fp {
 		}else if(parameterName == "columnWithY"){
 			columnWithY = (int)parameterValue;
 		}else if(parameterName == "useBinning"){
-		binSize = (int)parameterValue;
+			binSize = (int)parameterValue;
+		}else if(parameterName == "numCores"){
+			numCores = (int)parameterValue;
 		}else {
 			throw std::runtime_error("Unknown parameter type.(double)");
 		}
@@ -56,7 +58,9 @@ namespace fp {
 		}else if(parameterName == "columnWithY"){
 			columnWithY = parameterValue;
 		}else if(parameterName == "useBinning"){
-		binSize = parameterValue;
+			binSize = parameterValue;
+		}else if(parameterName == "numCores"){
+			numCores = parameterValue;
 		}else {
 			throw std::runtime_error("Unknown parameter type.(int)");
 		}
@@ -74,6 +78,7 @@ namespace fp {
 		std::cout << "columnWithY -> " << columnWithY << "\n";
 		std::cout << "Type of Forest -> " << forestType << "\n";
 		std::cout << "binSize -> " << binSize << "\n";
+		std::cout << "numCores -> " << numCores << "\n";
 	}
 
 

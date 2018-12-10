@@ -7,6 +7,7 @@
 #include <ctime>
 #include <chrono>
 #include <cstdlib>
+#include <omp.h>
 #include "rfTree.h"
 
 namespace fp {
@@ -22,11 +23,6 @@ namespace fp {
 
 			using fpForestBase<T>::fpForestBase;
 
-				/*
-			fpForestClassificationBase(){
-				std::srand(unsigned(std::time(0)));
-			}*/
-
 			void printForestType(){
 				std::cout << "This is a basic classification forest.\n";
 			}
@@ -37,6 +33,7 @@ namespace fp {
 
 			void growTrees(){
 
+#pragma omp parallel for
 				for(unsigned int i = 0; i < trees.size(); ++i){
 					printProgress.displayProgress(i);
 					trees[i].growTree();

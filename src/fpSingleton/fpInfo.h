@@ -17,20 +17,21 @@ namespace fp {
 
 		protected:
 			int numTreesInForest;
-			int minParent = 1;
-			int numClasses = -1;
-			int numObservations = -1;
-			int numFeatures = -1;
-			int mtry = -1;
-			int columnWithY = -1;
+			int minParent;
+			int numClasses;
+			int numObservations;
+			int numFeatures;
+			int mtry;
+			int columnWithY;
 
 			int numberOfNodes;
 			int maxDepth;
 			int sumLeafNodeDepths;
 
-			double fractionOfFeaturesToTest = -1.0;
+			double fractionOfFeaturesToTest;
 
-			int binSize = -1;
+			int binSize;
+			int numCores;
 
 			std::string forestType;
 			std::string CSVFileName;
@@ -99,6 +100,10 @@ namespace fp {
 
 			inline int returnNumTrees() const{
 				return numTreesInForest;
+			}
+
+inline int returnNumThreads() const{
+				return numCores;
 			}
 
 			inline bool loadDataFromCSV(){

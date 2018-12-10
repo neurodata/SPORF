@@ -118,6 +118,10 @@ namespace fp {
 				return fpForestInfo.returnNumTrees();
 			}
 
+inline int returnNumThreads(){
+				return fpForestInfo.returnNumThreads();
+			}
+
 			inline int returnMinParent(){
 				return fpForestInfo.returnMinParent();
 			}

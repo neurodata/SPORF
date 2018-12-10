@@ -7,6 +7,7 @@
 #include <ctime>
 #include <chrono>
 #include <cstdlib>
+#include <omp.h>
 #include "rerfTree.h"
 
 namespace fp {
@@ -32,6 +33,7 @@ namespace fp {
 
 			void growTrees(){
 
+#pragma omp parallel for
 				for(unsigned int i = 0; i < trees.size(); ++i){
 					printProgress.displayProgress(i);
 					trees[i].growTree();
