@@ -1,0 +1,439 @@
+\hypertarget{classfp_1_1fpForest}{}\section{fp\+:\+:fp\+Forest Class Reference}
+\label{classfp_1_1fpForest}\index{fp\+::fp\+Forest@{fp\+::fp\+Forest}}
+
+
+{\ttfamily \#include $<$fp\+Forest.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classfp_1_1fpForest_a24525268a1b59f78f687db1e0f609a59}{fp\+Forest} ()
+\item 
+void \hyperlink{classfp_1_1fpForest_ad13bbbd33291ef5f523691eccc23aece}{set\+Parameter} (const std\+::string \&parameter\+Name, const std\+::string \&parameter\+Value)
+\item 
+void \hyperlink{classfp_1_1fpForest_afc7a14e083aaae0dbd90ef0a30c48c21}{set\+Parameter} (const std\+::string \&parameter\+Name, const double parameter\+Value)
+\item 
+void \hyperlink{classfp_1_1fpForest_a8a083cc4cd4110dee2b6627d53529965}{set\+Parameter} (const std\+::string \&parameter\+Name, const int parameter\+Value)
+\item 
+void \hyperlink{classfp_1_1fpForest_ae096def0ca26f0771b27341d7b218066}{print\+Parameters} ()
+\item 
+void \hyperlink{classfp_1_1fpForest_a4a7ffa92224570d6a97eff8bd5e9b0fa}{print\+Forest\+Type} ()
+\item 
+void \hyperlink{classfp_1_1fpForest_ac617e33890e96ee5e96e286a45d245fe}{grow\+Forest} ()
+\item 
+float \hyperlink{classfp_1_1fpForest_a2ecaa11b48f37781f5fb4607ed6a490f}{test\+Accuracy} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classfp_1_1fpForest_a01631065f4909f10cea4b690084a345a}{load\+Data} ()
+\item 
+void \hyperlink{classfp_1_1fpForest_abdcf008b65b6af7be5428d838b33be32}{load\+Test\+Data} ()
+\item 
+void \hyperlink{classfp_1_1fpForest_a598d32c816dfe5f9793973dcdff2f76e}{delete\+Data} ()
+\item 
+void \hyperlink{classfp_1_1fpForest_a3eb78e4e61b289853cc45021f2cf3de0}{delete\+Test\+Data} ()
+\item 
+void \hyperlink{classfp_1_1fpForest_ab25fdbad494f8bd358ccb3a1fdbcb51d}{set\+Function\+Pointers} ()
+\item 
+void \hyperlink{classfp_1_1fpForest_a776ae408ea6c9af459e6ebba7e363d57}{initialize\+Forest\+Type} ()
+\item 
+void \hyperlink{classfp_1_1fpForest_a846818c46a4423f668f19d3493864192}{set\+Data\+Dependent\+Parameters} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::unique\+\_\+ptr$<$ \hyperlink{classfp_1_1fpForestBase}{fp\+Forest\+Base} $>$ \hyperlink{classfp_1_1fpForest_a4ce6af867d36c8d62c860db8982235c4}{forest}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 10 of file fp\+Forest.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classfp_1_1fpForest_a24525268a1b59f78f687db1e0f609a59}\label{classfp_1_1fpForest_a24525268a1b59f78f687db1e0f609a59}} 
+\index{fp\+::fp\+Forest@{fp\+::fp\+Forest}!fp\+Forest@{fp\+Forest}}
+\index{fp\+Forest@{fp\+Forest}!fp\+::fp\+Forest@{fp\+::fp\+Forest}}
+\subsubsection{\texorpdfstring{fp\+Forest()}{fpForest()}}
+{\footnotesize\ttfamily fp\+::fp\+Forest\+::fp\+Forest (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 47 of file fp\+Forest.\+h.
+
+
+\begin{DoxyCode}
+47 \{\}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1fpForest_a598d32c816dfe5f9793973dcdff2f76e}\label{classfp_1_1fpForest_a598d32c816dfe5f9793973dcdff2f76e}} 
+\index{fp\+::fp\+Forest@{fp\+::fp\+Forest}!delete\+Data@{delete\+Data}}
+\index{delete\+Data@{delete\+Data}!fp\+::fp\+Forest@{fp\+::fp\+Forest}}
+\subsubsection{\texorpdfstring{delete\+Data()}{deleteData()}}
+{\footnotesize\ttfamily void fp\+::fp\+Forest\+::delete\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Definition at line 23 of file fp\+Forest.\+h.
+
+
+\begin{DoxyCode}
+23                              \{
+24                 \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().\hyperlink{classfp_1_1fpSingleton_a204b85f9d08ca711ca6620b5e020cc1c}{deleteData}();
+25             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForest_a598d32c816dfe5f9793973dcdff2f76e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpForest_a3eb78e4e61b289853cc45021f2cf3de0}\label{classfp_1_1fpForest_a3eb78e4e61b289853cc45021f2cf3de0}} 
+\index{fp\+::fp\+Forest@{fp\+::fp\+Forest}!delete\+Test\+Data@{delete\+Test\+Data}}
+\index{delete\+Test\+Data@{delete\+Test\+Data}!fp\+::fp\+Forest@{fp\+::fp\+Forest}}
+\subsubsection{\texorpdfstring{delete\+Test\+Data()}{deleteTestData()}}
+{\footnotesize\ttfamily void fp\+::fp\+Forest\+::delete\+Test\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Definition at line 27 of file fp\+Forest.\+h.
+
+
+\begin{DoxyCode}
+27                                  \{
+28                 \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_aa4ac02c580b06ba16ed0160ec694438d}{deleteTestData}();
+29             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForest_a3eb78e4e61b289853cc45021f2cf3de0_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpForest_ac617e33890e96ee5e96e286a45d245fe}\label{classfp_1_1fpForest_ac617e33890e96ee5e96e286a45d245fe}} 
+\index{fp\+::fp\+Forest@{fp\+::fp\+Forest}!grow\+Forest@{grow\+Forest}}
+\index{grow\+Forest@{grow\+Forest}!fp\+::fp\+Forest@{fp\+::fp\+Forest}}
+\subsubsection{\texorpdfstring{grow\+Forest()}{growForest()}}
+{\footnotesize\ttfamily void fp\+::fp\+Forest\+::grow\+Forest (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 71 of file fp\+Forest.\+h.
+
+
+\begin{DoxyCode}
+71                              \{
+72                 \hyperlink{classfp_1_1fpForest_a01631065f4909f10cea4b690084a345a}{loadData}();
+73                 \hyperlink{classfp_1_1fpForest_a776ae408ea6c9af459e6ebba7e363d57}{initializeForestType}();
+74                 \hyperlink{classfp_1_1fpForest_a846818c46a4423f668f19d3493864192}{setDataDependentParameters}();
+75                 \textcolor{comment}{//timeLogger x;}
+76                 \textcolor{comment}{//x.startGrowTimer();}
+77                 \hyperlink{classfp_1_1fpForest_a4ce6af867d36c8d62c860db8982235c4}{forest}->growForest();
+78                 \textcolor{comment}{//x.stopGrowTimer();}
+79                 \textcolor{comment}{//x.printGrowTime();}
+80                 \hyperlink{classfp_1_1fpForest_a598d32c816dfe5f9793973dcdff2f76e}{deleteData}();
+81             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForest_ac617e33890e96ee5e96e286a45d245fe_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpForest_a776ae408ea6c9af459e6ebba7e363d57}\label{classfp_1_1fpForest_a776ae408ea6c9af459e6ebba7e363d57}} 
+\index{fp\+::fp\+Forest@{fp\+::fp\+Forest}!initialize\+Forest\+Type@{initialize\+Forest\+Type}}
+\index{initialize\+Forest\+Type@{initialize\+Forest\+Type}!fp\+::fp\+Forest@{fp\+::fp\+Forest}}
+\subsubsection{\texorpdfstring{initialize\+Forest\+Type()}{initializeForestType()}}
+{\footnotesize\ttfamily void fp\+::fp\+Forest\+::initialize\+Forest\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Definition at line 36 of file fp\+Forest.\+h.
+
+
+\begin{DoxyCode}
+36                                               \{
+37                 \hyperlink{classfp_1_1fpForest_a4ce6af867d36c8d62c860db8982235c4}{forest} = \hyperlink{classfp_1_1forestFactory_a856050d77f96dd155d41b95684552c20}{forestFactory::setForestType}(
+      \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().returnForestType());
+38             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForest_a776ae408ea6c9af459e6ebba7e363d57_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpForest_a01631065f4909f10cea4b690084a345a}\label{classfp_1_1fpForest_a01631065f4909f10cea4b690084a345a}} 
+\index{fp\+::fp\+Forest@{fp\+::fp\+Forest}!load\+Data@{load\+Data}}
+\index{load\+Data@{load\+Data}!fp\+::fp\+Forest@{fp\+::fp\+Forest}}
+\subsubsection{\texorpdfstring{load\+Data()}{loadData()}}
+{\footnotesize\ttfamily void fp\+::fp\+Forest\+::load\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Definition at line 15 of file fp\+Forest.\+h.
+
+
+\begin{DoxyCode}
+15                            \{
+16                 \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().\hyperlink{classfp_1_1fpSingleton_a86042ae6be6f59dfb90232678350011a}{loadData}();
+17             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForest_a01631065f4909f10cea4b690084a345a_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpForest_abdcf008b65b6af7be5428d838b33be32}\label{classfp_1_1fpForest_abdcf008b65b6af7be5428d838b33be32}} 
+\index{fp\+::fp\+Forest@{fp\+::fp\+Forest}!load\+Test\+Data@{load\+Test\+Data}}
+\index{load\+Test\+Data@{load\+Test\+Data}!fp\+::fp\+Forest@{fp\+::fp\+Forest}}
+\subsubsection{\texorpdfstring{load\+Test\+Data()}{loadTestData()}}
+{\footnotesize\ttfamily void fp\+::fp\+Forest\+::load\+Test\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Definition at line 19 of file fp\+Forest.\+h.
+
+
+\begin{DoxyCode}
+19                                \{
+20                 \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_aea7c3b65ded387322d7d5ce48ab96215}{loadTestData}();
+21             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForest_abdcf008b65b6af7be5428d838b33be32_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpForest_a4a7ffa92224570d6a97eff8bd5e9b0fa}\label{classfp_1_1fpForest_a4a7ffa92224570d6a97eff8bd5e9b0fa}} 
+\index{fp\+::fp\+Forest@{fp\+::fp\+Forest}!print\+Forest\+Type@{print\+Forest\+Type}}
+\index{print\+Forest\+Type@{print\+Forest\+Type}!fp\+::fp\+Forest@{fp\+::fp\+Forest}}
+\subsubsection{\texorpdfstring{print\+Forest\+Type()}{printForestType()}}
+{\footnotesize\ttfamily void fp\+::fp\+Forest\+::print\+Forest\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 66 of file fp\+Forest.\+h.
+
+
+\begin{DoxyCode}
+66                                          \{
+67                 \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_ad9696336521f72c7c6a021608799871e}{printForestType}();
+68             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForest_a4a7ffa92224570d6a97eff8bd5e9b0fa_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpForest_ae096def0ca26f0771b27341d7b218066}\label{classfp_1_1fpForest_ae096def0ca26f0771b27341d7b218066}} 
+\index{fp\+::fp\+Forest@{fp\+::fp\+Forest}!print\+Parameters@{print\+Parameters}}
+\index{print\+Parameters@{print\+Parameters}!fp\+::fp\+Forest@{fp\+::fp\+Forest}}
+\subsubsection{\texorpdfstring{print\+Parameters()}{printParameters()}}
+{\footnotesize\ttfamily void fp\+::fp\+Forest\+::print\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 62 of file fp\+Forest.\+h.
+
+
+\begin{DoxyCode}
+62                                          \{
+63                 \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_a0d769b6652e4c74c2734cdc811eeab5a}{printAllParameters}();
+64             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForest_ae096def0ca26f0771b27341d7b218066_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpForest_a846818c46a4423f668f19d3493864192}\label{classfp_1_1fpForest_a846818c46a4423f668f19d3493864192}} 
+\index{fp\+::fp\+Forest@{fp\+::fp\+Forest}!set\+Data\+Dependent\+Parameters@{set\+Data\+Dependent\+Parameters}}
+\index{set\+Data\+Dependent\+Parameters@{set\+Data\+Dependent\+Parameters}!fp\+::fp\+Forest@{fp\+::fp\+Forest}}
+\subsubsection{\texorpdfstring{set\+Data\+Dependent\+Parameters()}{setDataDependentParameters()}}
+{\footnotesize\ttfamily void fp\+::fp\+Forest\+::set\+Data\+Dependent\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Definition at line 40 of file fp\+Forest.\+h.
+
+
+\begin{DoxyCode}
+40                                                     \{
+41                 \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_a3edf17209500e72c76ef816e32666eb2}{setDataDependentParameters}();
+42             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForest_a846818c46a4423f668f19d3493864192_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpForest_ab25fdbad494f8bd358ccb3a1fdbcb51d}\label{classfp_1_1fpForest_ab25fdbad494f8bd358ccb3a1fdbcb51d}} 
+\index{fp\+::fp\+Forest@{fp\+::fp\+Forest}!set\+Function\+Pointers@{set\+Function\+Pointers}}
+\index{set\+Function\+Pointers@{set\+Function\+Pointers}!fp\+::fp\+Forest@{fp\+::fp\+Forest}}
+\subsubsection{\texorpdfstring{set\+Function\+Pointers()}{setFunctionPointers()}}
+{\footnotesize\ttfamily void fp\+::fp\+Forest\+::set\+Function\+Pointers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Definition at line 32 of file fp\+Forest.\+h.
+
+
+\begin{DoxyCode}
+32                                              \{
+33                 ;\textcolor{comment}{//fpSingleton::getSingleton().setFunctionPointers();}
+34             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpForest_ad13bbbd33291ef5f523691eccc23aece}\label{classfp_1_1fpForest_ad13bbbd33291ef5f523691eccc23aece}} 
+\index{fp\+::fp\+Forest@{fp\+::fp\+Forest}!set\+Parameter@{set\+Parameter}}
+\index{set\+Parameter@{set\+Parameter}!fp\+::fp\+Forest@{fp\+::fp\+Forest}}
+\subsubsection{\texorpdfstring{set\+Parameter()}{setParameter()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily void fp\+::fp\+Forest\+::set\+Parameter (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{parameter\+Name,  }\item[{const std\+::string \&}]{parameter\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 49 of file fp\+Forest.\+h.
+
+
+\begin{DoxyCode}
+49                                                                                                      \{
+50                 \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_a90f275b256694ea7b16577d547a33044}{setParameter}(parameterName, parameterValue);    
+51             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForest_ad13bbbd33291ef5f523691eccc23aece_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpForest_afc7a14e083aaae0dbd90ef0a30c48c21}\label{classfp_1_1fpForest_afc7a14e083aaae0dbd90ef0a30c48c21}} 
+\index{fp\+::fp\+Forest@{fp\+::fp\+Forest}!set\+Parameter@{set\+Parameter}}
+\index{set\+Parameter@{set\+Parameter}!fp\+::fp\+Forest@{fp\+::fp\+Forest}}
+\subsubsection{\texorpdfstring{set\+Parameter()}{setParameter()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily void fp\+::fp\+Forest\+::set\+Parameter (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{parameter\+Name,  }\item[{const double}]{parameter\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 54 of file fp\+Forest.\+h.
+
+
+\begin{DoxyCode}
+54                                                                                                  \{
+55                 \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_a90f275b256694ea7b16577d547a33044}{setParameter}(parameterName, parameterValue);    
+56             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForest_afc7a14e083aaae0dbd90ef0a30c48c21_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpForest_a8a083cc4cd4110dee2b6627d53529965}\label{classfp_1_1fpForest_a8a083cc4cd4110dee2b6627d53529965}} 
+\index{fp\+::fp\+Forest@{fp\+::fp\+Forest}!set\+Parameter@{set\+Parameter}}
+\index{set\+Parameter@{set\+Parameter}!fp\+::fp\+Forest@{fp\+::fp\+Forest}}
+\subsubsection{\texorpdfstring{set\+Parameter()}{setParameter()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily void fp\+::fp\+Forest\+::set\+Parameter (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{parameter\+Name,  }\item[{const int}]{parameter\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 58 of file fp\+Forest.\+h.
+
+
+\begin{DoxyCode}
+58                                                                                               \{
+59                 \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_a90f275b256694ea7b16577d547a33044}{setParameter}(parameterName, parameterValue);    
+60             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForest_a8a083cc4cd4110dee2b6627d53529965_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpForest_a2ecaa11b48f37781f5fb4607ed6a490f}\label{classfp_1_1fpForest_a2ecaa11b48f37781f5fb4607ed6a490f}} 
+\index{fp\+::fp\+Forest@{fp\+::fp\+Forest}!test\+Accuracy@{test\+Accuracy}}
+\index{test\+Accuracy@{test\+Accuracy}!fp\+::fp\+Forest@{fp\+::fp\+Forest}}
+\subsubsection{\texorpdfstring{test\+Accuracy()}{testAccuracy()}}
+{\footnotesize\ttfamily float fp\+::fp\+Forest\+::test\+Accuracy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 84 of file fp\+Forest.\+h.
+
+
+\begin{DoxyCode}
+84                                 \{
+85                 \textcolor{keywordtype}{float} testError;
+86                 \hyperlink{classfp_1_1fpForest_abdcf008b65b6af7be5428d838b33be32}{loadTestData}();
+87                 testError = \hyperlink{classfp_1_1fpForest_a4ce6af867d36c8d62c860db8982235c4}{forest}->testForest();
+88                 \hyperlink{classfp_1_1fpForest_a3eb78e4e61b289853cc45021f2cf3de0}{deleteTestData}();
+89                 \textcolor{keywordflow}{return} testError;
+90             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForest_a2ecaa11b48f37781f5fb4607ed6a490f_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1fpForest_a4ce6af867d36c8d62c860db8982235c4}\label{classfp_1_1fpForest_a4ce6af867d36c8d62c860db8982235c4}} 
+\index{fp\+::fp\+Forest@{fp\+::fp\+Forest}!forest@{forest}}
+\index{forest@{forest}!fp\+::fp\+Forest@{fp\+::fp\+Forest}}
+\subsubsection{\texorpdfstring{forest}{forest}}
+{\footnotesize\ttfamily std\+::unique\+\_\+ptr$<$\hyperlink{classfp_1_1fpForestBase}{fp\+Forest\+Base}$>$ fp\+::fp\+Forest\+::forest\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 13 of file fp\+Forest.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/base\+Functions/\hyperlink{fpForest_8h}{fp\+Forest.\+h}\end{DoxyCompactItemize}

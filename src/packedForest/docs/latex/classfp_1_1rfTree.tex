@@ -1,0 +1,1302 @@
+\hypertarget{classfp_1_1rfTree}{}\section{fp\+:\+:rf\+Tree$<$ T $>$ Class Template Reference}
+\label{classfp_1_1rfTree}\index{fp\+::rf\+Tree$<$ T $>$@{fp\+::rf\+Tree$<$ T $>$}}
+
+
+{\ttfamily \#include $<$rf\+Tree.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classfp_1_1rfTree_aace007592f5b94dd9c045207354ea7a6}{rf\+Tree} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_a8757adc28b68d0a99f95b8bc5d6a38db}{load\+First\+Node} ()
+\item 
+bool \hyperlink{classfp_1_1rfTree_a36abf82d31ca57670b09da16525dce0d}{should\+Process\+Node} ()
+\item 
+float \hyperlink{classfp_1_1rfTree_aee6bf6e8e695392880f1cc9ac0102ba6}{return\+O\+OB} ()
+\item 
+int \hyperlink{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}{return\+Last\+Node\+ID} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_aceaedc5d54bb429c1a3539f164a93d45}{link\+Parent\+To\+Child} ()
+\item 
+int \hyperlink{classfp_1_1rfTree_ab439134c1e24059fe74f84ac8eff78dd}{return\+Max\+Depth} ()
+\item 
+int \hyperlink{classfp_1_1rfTree_a6474edd1b84d70be1712326f9a845139}{return\+Num\+Leaf\+Nodes} ()
+\item 
+int \hyperlink{classfp_1_1rfTree_a7e0126c03547b4e6ed25b1c452255bbe}{return\+Leaf\+Depth\+Sum} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_a3583e1f1659ba9a9013a4891709bacb9}{set\+As\+Leaf} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_a45e47b318c90a1359840ab6161f20ab1}{check\+O\+OB} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_a2b2a47186c0784415609f1c9b005e702}{make\+Whole\+Node\+A\+Leaf} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_a89d982d5df6e068079d2fff5f6c15f58}{print\+Tree} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_aaf9d8cdfbb1d10da53a375ea8204e393}{create\+Node\+In\+Tree} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_aaf7bbdde5f7313c3e84853bbf5fdf792}{make\+Node\+Internal} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_ad226037e7f93c0fa2a1a960e19a87bed}{create\+Children} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_a51da8e4a46582b26643a4ae392230e77}{find\+The\+Best\+Split} ()
+\item 
+bool \hyperlink{classfp_1_1rfTree_a618bdc2d22267b4bb4f5e1881b1788f6}{no\+Good\+Split\+Found} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_ab7760333f6857ab7ce2ee29a7bc16e65}{process\+A\+Node} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_a7997df3477bc9f73163384c8cd0bcec9}{process\+Nodes} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_a196d6006e7e2ee0575fa40d7d4621712}{grow\+Tree} ()
+\item 
+int \hyperlink{classfp_1_1rfTree_aad66c44e2062c163b1560f9bf1bd759f}{predict\+Observation} (int observation\+Num)
+\item 
+\hyperlink{classfp_1_1rfTree_aace007592f5b94dd9c045207354ea7a6}{rf\+Tree} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_a8757adc28b68d0a99f95b8bc5d6a38db}{load\+First\+Node} ()
+\item 
+bool \hyperlink{classfp_1_1rfTree_a36abf82d31ca57670b09da16525dce0d}{should\+Process\+Node} ()
+\item 
+float \hyperlink{classfp_1_1rfTree_aee6bf6e8e695392880f1cc9ac0102ba6}{return\+O\+OB} ()
+\item 
+int \hyperlink{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}{return\+Last\+Node\+ID} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_aceaedc5d54bb429c1a3539f164a93d45}{link\+Parent\+To\+Child} ()
+\item 
+int \hyperlink{classfp_1_1rfTree_ab439134c1e24059fe74f84ac8eff78dd}{return\+Max\+Depth} ()
+\item 
+int \hyperlink{classfp_1_1rfTree_a6474edd1b84d70be1712326f9a845139}{return\+Num\+Leaf\+Nodes} ()
+\item 
+int \hyperlink{classfp_1_1rfTree_a7e0126c03547b4e6ed25b1c452255bbe}{return\+Leaf\+Depth\+Sum} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_a3583e1f1659ba9a9013a4891709bacb9}{set\+As\+Leaf} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_a45e47b318c90a1359840ab6161f20ab1}{check\+O\+OB} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_a2b2a47186c0784415609f1c9b005e702}{make\+Whole\+Node\+A\+Leaf} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_a89d982d5df6e068079d2fff5f6c15f58}{print\+Tree} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_aaf9d8cdfbb1d10da53a375ea8204e393}{create\+Node\+In\+Tree} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_aaf7bbdde5f7313c3e84853bbf5fdf792}{make\+Node\+Internal} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_ad226037e7f93c0fa2a1a960e19a87bed}{create\+Children} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_a51da8e4a46582b26643a4ae392230e77}{find\+The\+Best\+Split} ()
+\item 
+bool \hyperlink{classfp_1_1rfTree_a618bdc2d22267b4bb4f5e1881b1788f6}{no\+Good\+Split\+Found} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_ab7760333f6857ab7ce2ee29a7bc16e65}{process\+A\+Node} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_a7997df3477bc9f73163384c8cd0bcec9}{process\+Nodes} ()
+\item 
+void \hyperlink{classfp_1_1rfTree_a196d6006e7e2ee0575fa40d7d4621712}{grow\+Tree} ()
+\item 
+int \hyperlink{classfp_1_1rfTree_aad66c44e2062c163b1560f9bf1bd759f}{predict\+Observation} (int observation\+Num)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{classfp_1_1rfTree_a673f85d4df6f292a1819351c092a07e1}{O\+O\+B\+Accuracy}
+\item 
+float \hyperlink{classfp_1_1rfTree_a83832650bcea8d63cdcd480d9ddc6e6e}{correct\+O\+OB}
+\item 
+float \hyperlink{classfp_1_1rfTree_aa200dc228adc20c12e514364d2b674df}{total\+O\+OB}
+\item 
+std\+::vector$<$ \hyperlink{classrfNode}{rf\+Node}$<$ T $>$ $>$ \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}
+\item 
+std\+::vector$<$ \hyperlink{classfp_1_1unprocessedNode}{unprocessed\+Node}$<$ T $>$ $>$ \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{node\+Queue}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class fp\+::rf\+Tree$<$ T $>$}
+
+
+
+Definition at line 11 of file rf\+Tree.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classfp_1_1rfTree_aace007592f5b94dd9c045207354ea7a6}\label{classfp_1_1rfTree_aace007592f5b94dd9c045207354ea7a6}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!rf\+Tree@{rf\+Tree}}
+\index{rf\+Tree@{rf\+Tree}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{rf\+Tree()}{rfTree()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::\hyperlink{classfp_1_1rfTree}{rf\+Tree} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 21 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+21 : \hyperlink{classfp_1_1rfTree_a673f85d4df6f292a1819351c092a07e1}{OOBAccuracy}(-1.0),\hyperlink{classfp_1_1rfTree_a83832650bcea8d63cdcd480d9ddc6e6e}{correctOOB}(0),\hyperlink{classfp_1_1rfTree_aa200dc228adc20c12e514364d2b674df}{totalOOB}(0)\{\}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_aace007592f5b94dd9c045207354ea7a6}\label{classfp_1_1rfTree_aace007592f5b94dd9c045207354ea7a6}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!rf\+Tree@{rf\+Tree}}
+\index{rf\+Tree@{rf\+Tree}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{rf\+Tree()}{rfTree()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::\hyperlink{classfp_1_1rfTree}{rf\+Tree} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 22 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+22 : \hyperlink{classfp_1_1rfTree_a673f85d4df6f292a1819351c092a07e1}{OOBAccuracy}(-1.0),\hyperlink{classfp_1_1rfTree_a83832650bcea8d63cdcd480d9ddc6e6e}{correctOOB}(0),\hyperlink{classfp_1_1rfTree_aa200dc228adc20c12e514364d2b674df}{totalOOB}(0)\{\}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1rfTree_a45e47b318c90a1359840ab6161f20ab1}\label{classfp_1_1rfTree_a45e47b318c90a1359840ab6161f20ab1}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!check\+O\+OB@{check\+O\+OB}}
+\index{check\+O\+OB@{check\+O\+OB}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{check\+O\+O\+B()}{checkOOB()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::check\+O\+OB (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 93 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+93                                       \{
+94                     \hyperlink{classfp_1_1rfTree_aa200dc228adc20c12e514364d2b674df}{totalOOB} += \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnOutSampleSize();
+95                     \hyperlink{classfp_1_1rfTree_a83832650bcea8d63cdcd480d9ddc6e6e}{correctOOB} += \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnOutSampleError(
+      \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().returnClass());
+96                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_a45e47b318c90a1359840ab6161f20ab1}\label{classfp_1_1rfTree_a45e47b318c90a1359840ab6161f20ab1}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!check\+O\+OB@{check\+O\+OB}}
+\index{check\+O\+OB@{check\+O\+OB}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{check\+O\+O\+B()}{checkOOB()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::check\+O\+OB (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 99 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+99                                       \{
+100                     \hyperlink{classfp_1_1rfTree_aa200dc228adc20c12e514364d2b674df}{totalOOB} += \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnOutSampleSize();
+101                     \hyperlink{classfp_1_1rfTree_a83832650bcea8d63cdcd480d9ddc6e6e}{correctOOB} += \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnOutSampleError(
+      \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().returnClass());
+102                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_ad226037e7f93c0fa2a1a960e19a87bed}\label{classfp_1_1rfTree_ad226037e7f93c0fa2a1a960e19a87bed}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!create\+Children@{create\+Children}}
+\index{create\+Children@{create\+Children}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{create\+Children()}{createChildren()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::create\+Children (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 128 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+128                                             \{
+129                     \textcolor{keywordtype}{bool} isLeftNode = \textcolor{keyword}{true};
+130 
+131                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().moveDataLeftOrRight();
+132 
+133                     stratifiedInNodeClassIndices* leftIndices = \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnLeftIndices
+      ();
+134                     stratifiedInNodeClassIndices* rightIndices = \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().
+      returnRightIndices();
+135 
+136                     \textcolor{keywordtype}{int} childDepth = \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnDepth()+1;
+137 
+138                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.pop\_back();
+139 
+140                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.emplace\_back(\hyperlink{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}{returnLastNodeID}(),childDepth, 
+      isLeftNode);
+141                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().loadIndices(leftIndices);
+142 
+143                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.emplace\_back(\hyperlink{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}{returnLastNodeID}(),childDepth, !
+      isLeftNode);
+144                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().loadIndices(rightIndices);
+145                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_ad226037e7f93c0fa2a1a960e19a87bed_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_ad226037e7f93c0fa2a1a960e19a87bed}\label{classfp_1_1rfTree_ad226037e7f93c0fa2a1a960e19a87bed}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!create\+Children@{create\+Children}}
+\index{create\+Children@{create\+Children}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{create\+Children()}{createChildren()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::create\+Children (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 134 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+134                                             \{
+135                     \textcolor{keywordtype}{bool} isLeftNode = \textcolor{keyword}{true};
+136 
+137                         \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().moveDataLeftOrRight();
+138 
+139                     stratifiedInNodeClassIndices* leftIndices = \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnLeftIndices
+      ();
+140                     stratifiedInNodeClassIndices* rightIndices = \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().
+      returnRightIndices();
+141 
+142                     \textcolor{keywordtype}{int} childDepth = \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnDepth()+1;
+143 
+144                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.pop\_back();
+145 
+146                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.emplace\_back(\hyperlink{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}{returnLastNodeID}(),childDepth, 
+      isLeftNode);
+147                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().loadIndices(leftIndices);
+148 
+149                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.emplace\_back(\hyperlink{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}{returnLastNodeID}(),childDepth, !
+      isLeftNode);
+150                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().loadIndices(rightIndices);
+151                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_ad226037e7f93c0fa2a1a960e19a87bed_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_aaf9d8cdfbb1d10da53a375ea8204e393}\label{classfp_1_1rfTree_aaf9d8cdfbb1d10da53a375ea8204e393}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!create\+Node\+In\+Tree@{create\+Node\+In\+Tree}}
+\index{create\+Node\+In\+Tree@{create\+Node\+In\+Tree}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{create\+Node\+In\+Tree()}{createNodeInTree()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::create\+Node\+In\+Tree (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 113 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+113                                               \{
+114                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.emplace\_back();
+115                     \hyperlink{classfp_1_1rfTree_aceaedc5d54bb429c1a3539f164a93d45}{linkParentToChild}();
+116                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setCutValue(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnBestCutValue());
+117                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setFeatureValue(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnBestFeature());
+118                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setDepth(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnDepth());
+119                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_aaf9d8cdfbb1d10da53a375ea8204e393_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_aaf9d8cdfbb1d10da53a375ea8204e393}\label{classfp_1_1rfTree_aaf9d8cdfbb1d10da53a375ea8204e393}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!create\+Node\+In\+Tree@{create\+Node\+In\+Tree}}
+\index{create\+Node\+In\+Tree@{create\+Node\+In\+Tree}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{create\+Node\+In\+Tree()}{createNodeInTree()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::create\+Node\+In\+Tree (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 119 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+119                                               \{
+120                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.emplace\_back();
+121                     \hyperlink{classfp_1_1rfTree_aceaedc5d54bb429c1a3539f164a93d45}{linkParentToChild}();
+122                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setCutValue(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnBestCutValue());
+123                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setFeatureValue(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnBestFeature());
+124                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setDepth(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnDepth());
+125                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_aaf9d8cdfbb1d10da53a375ea8204e393_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_a51da8e4a46582b26643a4ae392230e77}\label{classfp_1_1rfTree_a51da8e4a46582b26643a4ae392230e77}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!find\+The\+Best\+Split@{find\+The\+Best\+Split}}
+\index{find\+The\+Best\+Split@{find\+The\+Best\+Split}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{find\+The\+Best\+Split()}{findTheBestSplit()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::find\+The\+Best\+Split (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 148 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+148                                               \{
+149                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().findBestSplit();
+150                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_a51da8e4a46582b26643a4ae392230e77}\label{classfp_1_1rfTree_a51da8e4a46582b26643a4ae392230e77}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!find\+The\+Best\+Split@{find\+The\+Best\+Split}}
+\index{find\+The\+Best\+Split@{find\+The\+Best\+Split}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{find\+The\+Best\+Split()}{findTheBestSplit()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::find\+The\+Best\+Split (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 154 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+154                                               \{
+155                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().findBestSplit();
+156                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_a196d6006e7e2ee0575fa40d7d4621712}\label{classfp_1_1rfTree_a196d6006e7e2ee0575fa40d7d4621712}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!grow\+Tree@{grow\+Tree}}
+\index{grow\+Tree@{grow\+Tree}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{grow\+Tree()}{growTree()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::grow\+Tree (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 186 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+186                                \{
+187                     \hyperlink{classfp_1_1rfTree_a8757adc28b68d0a99f95b8bc5d6a38db}{loadFirstNode}();
+188                     \hyperlink{classfp_1_1rfTree_a7997df3477bc9f73163384c8cd0bcec9}{processNodes}();
+189                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_a196d6006e7e2ee0575fa40d7d4621712_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_a196d6006e7e2ee0575fa40d7d4621712}\label{classfp_1_1rfTree_a196d6006e7e2ee0575fa40d7d4621712}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!grow\+Tree@{grow\+Tree}}
+\index{grow\+Tree@{grow\+Tree}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{grow\+Tree()}{growTree()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::grow\+Tree (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 192 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+192                                \{
+193                     \hyperlink{classfp_1_1rfTree_a8757adc28b68d0a99f95b8bc5d6a38db}{loadFirstNode}();
+194                     \hyperlink{classfp_1_1rfTree_a7997df3477bc9f73163384c8cd0bcec9}{processNodes}();
+195                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_a196d6006e7e2ee0575fa40d7d4621712_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_aceaedc5d54bb429c1a3539f164a93d45}\label{classfp_1_1rfTree_aceaedc5d54bb429c1a3539f164a93d45}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!link\+Parent\+To\+Child@{link\+Parent\+To\+Child}}
+\index{link\+Parent\+To\+Child@{link\+Parent\+To\+Child}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{link\+Parent\+To\+Child()}{linkParentToChild()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::link\+Parent\+To\+Child (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 45 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+45                                                \{
+46                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnIsLeftNode())\{
+47                         \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnParentID()].setLeftValue(
+      \hyperlink{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}{returnLastNodeID}());
+48                     \}\textcolor{keywordflow}{else}\{
+49                         \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnParentID()].setRightValue(
+      \hyperlink{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}{returnLastNodeID}());
+50                     \}
+51                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_aceaedc5d54bb429c1a3539f164a93d45_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_aceaedc5d54bb429c1a3539f164a93d45}\label{classfp_1_1rfTree_aceaedc5d54bb429c1a3539f164a93d45}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!link\+Parent\+To\+Child@{link\+Parent\+To\+Child}}
+\index{link\+Parent\+To\+Child@{link\+Parent\+To\+Child}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{link\+Parent\+To\+Child()}{linkParentToChild()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::link\+Parent\+To\+Child (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 51 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+51                                                \{
+52                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnIsLeftNode())\{
+53                         \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnParentID()].setLeftValue(
+      \hyperlink{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}{returnLastNodeID}());
+54                     \}\textcolor{keywordflow}{else}\{
+55                         \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnParentID()].setRightValue(
+      \hyperlink{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}{returnLastNodeID}());
+56                     \}
+57                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_aceaedc5d54bb429c1a3539f164a93d45_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_a8757adc28b68d0a99f95b8bc5d6a38db}\label{classfp_1_1rfTree_a8757adc28b68d0a99f95b8bc5d6a38db}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!load\+First\+Node@{load\+First\+Node}}
+\index{load\+First\+Node@{load\+First\+Node}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{load\+First\+Node()}{loadFirstNode()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::load\+First\+Node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 23 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+23                                     \{
+24                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.emplace\_back(\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      returnNumObservations());
+25                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_a8757adc28b68d0a99f95b8bc5d6a38db_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_a8757adc28b68d0a99f95b8bc5d6a38db}\label{classfp_1_1rfTree_a8757adc28b68d0a99f95b8bc5d6a38db}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!load\+First\+Node@{load\+First\+Node}}
+\index{load\+First\+Node@{load\+First\+Node}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{load\+First\+Node()}{loadFirstNode()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::load\+First\+Node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 24 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+24                                     \{
+25                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.emplace\_back(\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      returnNumObservations());
+26                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_a8757adc28b68d0a99f95b8bc5d6a38db_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_aaf7bbdde5f7313c3e84853bbf5fdf792}\label{classfp_1_1rfTree_aaf7bbdde5f7313c3e84853bbf5fdf792}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!make\+Node\+Internal@{make\+Node\+Internal}}
+\index{make\+Node\+Internal@{make\+Node\+Internal}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{make\+Node\+Internal()}{makeNodeInternal()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::make\+Node\+Internal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 122 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+122                                               \{
+123                     \hyperlink{classfp_1_1rfTree_aaf9d8cdfbb1d10da53a375ea8204e393}{createNodeInTree}();
+124                     \hyperlink{classfp_1_1rfTree_ad226037e7f93c0fa2a1a960e19a87bed}{createChildren}();
+125                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_aaf7bbdde5f7313c3e84853bbf5fdf792_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_aaf7bbdde5f7313c3e84853bbf5fdf792}\label{classfp_1_1rfTree_aaf7bbdde5f7313c3e84853bbf5fdf792}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!make\+Node\+Internal@{make\+Node\+Internal}}
+\index{make\+Node\+Internal@{make\+Node\+Internal}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{make\+Node\+Internal()}{makeNodeInternal()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::make\+Node\+Internal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 128 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+128                                               \{
+129                     \hyperlink{classfp_1_1rfTree_aaf9d8cdfbb1d10da53a375ea8204e393}{createNodeInTree}();
+130                     \hyperlink{classfp_1_1rfTree_ad226037e7f93c0fa2a1a960e19a87bed}{createChildren}();
+131                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_aaf7bbdde5f7313c3e84853bbf5fdf792_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_a2b2a47186c0784415609f1c9b005e702}\label{classfp_1_1rfTree_a2b2a47186c0784415609f1c9b005e702}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!make\+Whole\+Node\+A\+Leaf@{make\+Whole\+Node\+A\+Leaf}}
+\index{make\+Whole\+Node\+A\+Leaf@{make\+Whole\+Node\+A\+Leaf}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{make\+Whole\+Node\+A\+Leaf()}{makeWholeNodeALeaf()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::make\+Whole\+Node\+A\+Leaf (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 99 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+99                                                 \{
+100                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.emplace\_back();
+101                     \hyperlink{classfp_1_1rfTree_aceaedc5d54bb429c1a3539f164a93d45}{linkParentToChild}();
+102                     \hyperlink{classfp_1_1rfTree_a3583e1f1659ba9a9013a4891709bacb9}{setAsLeaf}();
+103                     \hyperlink{classfp_1_1rfTree_a45e47b318c90a1359840ab6161f20ab1}{checkOOB}();
+104                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.pop\_back();
+105                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_a2b2a47186c0784415609f1c9b005e702_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_a2b2a47186c0784415609f1c9b005e702}\label{classfp_1_1rfTree_a2b2a47186c0784415609f1c9b005e702}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!make\+Whole\+Node\+A\+Leaf@{make\+Whole\+Node\+A\+Leaf}}
+\index{make\+Whole\+Node\+A\+Leaf@{make\+Whole\+Node\+A\+Leaf}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{make\+Whole\+Node\+A\+Leaf()}{makeWholeNodeALeaf()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::make\+Whole\+Node\+A\+Leaf (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 105 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+105                                                 \{
+106                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.emplace\_back();
+107                     \hyperlink{classfp_1_1rfTree_aceaedc5d54bb429c1a3539f164a93d45}{linkParentToChild}();
+108                     \hyperlink{classfp_1_1rfTree_a3583e1f1659ba9a9013a4891709bacb9}{setAsLeaf}();
+109                     \hyperlink{classfp_1_1rfTree_a45e47b318c90a1359840ab6161f20ab1}{checkOOB}();
+110                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.pop\_back();
+111                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_a2b2a47186c0784415609f1c9b005e702_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_a618bdc2d22267b4bb4f5e1881b1788f6}\label{classfp_1_1rfTree_a618bdc2d22267b4bb4f5e1881b1788f6}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!no\+Good\+Split\+Found@{no\+Good\+Split\+Found}}
+\index{no\+Good\+Split\+Found@{no\+Good\+Split\+Found}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{no\+Good\+Split\+Found()}{noGoodSplitFound()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::no\+Good\+Split\+Found (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 153 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+153                                               \{
+154                     \textcolor{comment}{//return nodeQueue.back().returnBestImpurity() < 0;}
+155                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnBestFeature() == -1;
+156                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_a618bdc2d22267b4bb4f5e1881b1788f6}\label{classfp_1_1rfTree_a618bdc2d22267b4bb4f5e1881b1788f6}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!no\+Good\+Split\+Found@{no\+Good\+Split\+Found}}
+\index{no\+Good\+Split\+Found@{no\+Good\+Split\+Found}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{no\+Good\+Split\+Found()}{noGoodSplitFound()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::no\+Good\+Split\+Found (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 159 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+159                                               \{
+160                     \textcolor{comment}{//return nodeQueue.back().returnBestImpurity() < 0;}
+161                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnBestFeature() == -1;
+162                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_aad66c44e2062c163b1560f9bf1bd759f}\label{classfp_1_1rfTree_aad66c44e2062c163b1560f9bf1bd759f}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!predict\+Observation@{predict\+Observation}}
+\index{predict\+Observation@{predict\+Observation}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{predict\+Observation()}{predictObservation()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::predict\+Observation (\begin{DoxyParamCaption}\item[{int}]{observation\+Num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 192 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+192                                                           \{
+193                     \textcolor{keywordtype}{int} currNode = 0;
+194                     \textcolor{keywordtype}{int} featureNum = 0;
+195                     T featureVal;
+196                     \textcolor{keywordflow}{while}(\hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[currNode].isInternalNode())\{
+197                         featureNum = \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[currNode].returnFeatureNumber();
+198                         featureVal =\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_ad74b421d65b17ba924244bff31fc9db6}{returnTestFeatureVal}(featureNum,observationNum);
+199                         currNode = \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[currNode].nextNode(featureVal);
+200                     \}
+201                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[currNode].returnClass();
+202                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_aad66c44e2062c163b1560f9bf1bd759f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_aad66c44e2062c163b1560f9bf1bd759f}\label{classfp_1_1rfTree_aad66c44e2062c163b1560f9bf1bd759f}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!predict\+Observation@{predict\+Observation}}
+\index{predict\+Observation@{predict\+Observation}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{predict\+Observation()}{predictObservation()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::predict\+Observation (\begin{DoxyParamCaption}\item[{int}]{observation\+Num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 198 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+198                                                           \{
+199                     \textcolor{keywordtype}{int} currNode = 0;
+200                     \textcolor{keywordtype}{int} featureNum = 0;
+201                     T featureVal;
+202                     \textcolor{keywordflow}{while}(\hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[currNode].isInternalNode())\{
+203                         featureNum = \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[currNode].returnFeatureNumber();
+204                         featureVal =\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_ad74b421d65b17ba924244bff31fc9db6}{returnTestFeatureVal}(featureNum,observationNum);
+205                         currNode = \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[currNode].nextNode(featureVal);
+206                     \}
+207                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}[currNode].returnClass();
+208                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_aad66c44e2062c163b1560f9bf1bd759f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_a89d982d5df6e068079d2fff5f6c15f58}\label{classfp_1_1rfTree_a89d982d5df6e068079d2fff5f6c15f58}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!print\+Tree@{print\+Tree}}
+\index{print\+Tree@{print\+Tree}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{print\+Tree()}{printTree()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::print\+Tree (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 107 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+107                                 \{
+108                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nd : \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree})\{
+109                         nd.printNode();
+110                     \}
+111                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_a89d982d5df6e068079d2fff5f6c15f58}\label{classfp_1_1rfTree_a89d982d5df6e068079d2fff5f6c15f58}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!print\+Tree@{print\+Tree}}
+\index{print\+Tree@{print\+Tree}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{print\+Tree()}{printTree()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::print\+Tree (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 113 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+113                                 \{
+114                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nd : \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree})\{
+115                         nd.printNode();
+116                     \}
+117                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_ab7760333f6857ab7ce2ee29a7bc16e65}\label{classfp_1_1rfTree_ab7760333f6857ab7ce2ee29a7bc16e65}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!process\+A\+Node@{process\+A\+Node}}
+\index{process\+A\+Node@{process\+A\+Node}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{process\+A\+Node()}{processANode()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::process\+A\+Node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 159 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+159                                           \{
+160                     \textcolor{comment}{//  timeLogger logTime;}
+161                     \textcolor{comment}{//  logTime.startSortTimer();}
+162                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().setupNode();
+163                     \textcolor{comment}{//  logTime.stopSortTimer();}
+164                     \textcolor{comment}{//  logTime.startGiniTimer();}
+165                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_a36abf82d31ca57670b09da16525dce0d}{shouldProcessNode}())\{
+166                         \hyperlink{classfp_1_1rfTree_a51da8e4a46582b26643a4ae392230e77}{findTheBestSplit}();
+167                         \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_a618bdc2d22267b4bb4f5e1881b1788f6}{noGoodSplitFound}())\{
+168                             \hyperlink{classfp_1_1rfTree_a2b2a47186c0784415609f1c9b005e702}{makeWholeNodeALeaf}();
+169                         \}\textcolor{keywordflow}{else}\{
+170                             \hyperlink{classfp_1_1rfTree_aaf7bbdde5f7313c3e84853bbf5fdf792}{makeNodeInternal}();
+171                         \}
+172                     \}\textcolor{keywordflow}{else}\{
+173                         \hyperlink{classfp_1_1rfTree_a2b2a47186c0784415609f1c9b005e702}{makeWholeNodeALeaf}();
+174                     \}
+175                     \textcolor{comment}{//  logTime.stopGiniTimer();}
+176                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_ab7760333f6857ab7ce2ee29a7bc16e65_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_ab7760333f6857ab7ce2ee29a7bc16e65}\label{classfp_1_1rfTree_ab7760333f6857ab7ce2ee29a7bc16e65}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!process\+A\+Node@{process\+A\+Node}}
+\index{process\+A\+Node@{process\+A\+Node}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{process\+A\+Node()}{processANode()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::process\+A\+Node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 165 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+165                                           \{
+166                     timeLogger logTime;
+167                     logTime.startSortTimer();
+168                     \hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().setupNode();
+169                     logTime.stopSortTimer();
+170                     logTime.startGiniTimer();
+171                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_a36abf82d31ca57670b09da16525dce0d}{shouldProcessNode}())\{
+172                         \hyperlink{classfp_1_1rfTree_a51da8e4a46582b26643a4ae392230e77}{findTheBestSplit}();
+173                         \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_a618bdc2d22267b4bb4f5e1881b1788f6}{noGoodSplitFound}())\{
+174                             \hyperlink{classfp_1_1rfTree_a2b2a47186c0784415609f1c9b005e702}{makeWholeNodeALeaf}();
+175                         \}\textcolor{keywordflow}{else}\{
+176                             \hyperlink{classfp_1_1rfTree_aaf7bbdde5f7313c3e84853bbf5fdf792}{makeNodeInternal}();
+177                         \}
+178                     \}\textcolor{keywordflow}{else}\{
+179                         \hyperlink{classfp_1_1rfTree_a2b2a47186c0784415609f1c9b005e702}{makeWholeNodeALeaf}();
+180                     \}
+181                     logTime.stopGiniTimer();
+182                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_ab7760333f6857ab7ce2ee29a7bc16e65_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_a7997df3477bc9f73163384c8cd0bcec9}\label{classfp_1_1rfTree_a7997df3477bc9f73163384c8cd0bcec9}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!process\+Nodes@{process\+Nodes}}
+\index{process\+Nodes@{process\+Nodes}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{process\+Nodes()}{processNodes()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::process\+Nodes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 179 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+179                                    \{
+180                     \textcolor{keywordflow}{while}(!\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.empty())\{
+181                         \hyperlink{classfp_1_1rfTree_ab7760333f6857ab7ce2ee29a7bc16e65}{processANode}();
+182                     \}
+183                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_a7997df3477bc9f73163384c8cd0bcec9_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_a7997df3477bc9f73163384c8cd0bcec9}\label{classfp_1_1rfTree_a7997df3477bc9f73163384c8cd0bcec9}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!process\+Nodes@{process\+Nodes}}
+\index{process\+Nodes@{process\+Nodes}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{process\+Nodes()}{processNodes()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::process\+Nodes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 185 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+185                                    \{
+186                     \textcolor{keywordflow}{while}(!\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.empty())\{
+187                         \hyperlink{classfp_1_1rfTree_ab7760333f6857ab7ce2ee29a7bc16e65}{processANode}();
+188                     \}
+189                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_a7997df3477bc9f73163384c8cd0bcec9_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}\label{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!return\+Last\+Node\+ID@{return\+Last\+Node\+ID}}
+\index{return\+Last\+Node\+ID@{return\+Last\+Node\+ID}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{return\+Last\+Node\+I\+D()}{returnLastNodeID()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::return\+Last\+Node\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 41 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+41                                              \{
+42                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.size()-1;
+43                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}\label{classfp_1_1rfTree_a1b8c04f3f3ce362d9627c2ca66d10efd}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!return\+Last\+Node\+ID@{return\+Last\+Node\+ID}}
+\index{return\+Last\+Node\+ID@{return\+Last\+Node\+ID}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{return\+Last\+Node\+I\+D()}{returnLastNodeID()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::return\+Last\+Node\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 47 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+47                                              \{
+48                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.size()-1;
+49                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_a7e0126c03547b4e6ed25b1c452255bbe}\label{classfp_1_1rfTree_a7e0126c03547b4e6ed25b1c452255bbe}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!return\+Leaf\+Depth\+Sum@{return\+Leaf\+Depth\+Sum}}
+\index{return\+Leaf\+Depth\+Sum@{return\+Leaf\+Depth\+Sum}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{return\+Leaf\+Depth\+Sum()}{returnLeafDepthSum()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::return\+Leaf\+Depth\+Sum (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 76 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+76                                                \{
+77                     \textcolor{keywordtype}{int} leafDepthSums=0;
+78                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nodes : \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree})\{
+79                         \textcolor{keywordflow}{if}(!nodes.isInternalNode())\{
+80                             leafDepthSums += nodes.returnDepth();
+81                         \}
+82                     \}
+83                     \textcolor{keywordflow}{return} leafDepthSums;
+84                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_a7e0126c03547b4e6ed25b1c452255bbe}\label{classfp_1_1rfTree_a7e0126c03547b4e6ed25b1c452255bbe}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!return\+Leaf\+Depth\+Sum@{return\+Leaf\+Depth\+Sum}}
+\index{return\+Leaf\+Depth\+Sum@{return\+Leaf\+Depth\+Sum}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{return\+Leaf\+Depth\+Sum()}{returnLeafDepthSum()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::return\+Leaf\+Depth\+Sum (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 82 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+82                                                \{
+83                     \textcolor{keywordtype}{int} leafDepthSums=0;
+84                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nodes : \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree})\{
+85                         \textcolor{keywordflow}{if}(!nodes.isInternalNode())\{
+86                             leafDepthSums += nodes.returnDepth();
+87                         \}
+88                     \}
+89                     \textcolor{keywordflow}{return} leafDepthSums;
+90                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_ab439134c1e24059fe74f84ac8eff78dd}\label{classfp_1_1rfTree_ab439134c1e24059fe74f84ac8eff78dd}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!return\+Max\+Depth@{return\+Max\+Depth}}
+\index{return\+Max\+Depth@{return\+Max\+Depth}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{return\+Max\+Depth()}{returnMaxDepth()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::return\+Max\+Depth (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 54 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+54                                            \{
+55                     \textcolor{keywordtype}{int} maxDepth=0;
+56                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nodes : \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree})\{
+57                         \textcolor{keywordflow}{if}(maxDepth < nodes.returnDepth())\{
+58                             maxDepth = nodes.returnDepth();
+59                         \}
+60                     \}
+61                     \textcolor{keywordflow}{return} maxDepth;
+62                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_ab439134c1e24059fe74f84ac8eff78dd}\label{classfp_1_1rfTree_ab439134c1e24059fe74f84ac8eff78dd}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!return\+Max\+Depth@{return\+Max\+Depth}}
+\index{return\+Max\+Depth@{return\+Max\+Depth}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{return\+Max\+Depth()}{returnMaxDepth()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::return\+Max\+Depth (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 60 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+60                                            \{
+61                     \textcolor{keywordtype}{int} maxDepth=0;
+62                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nodes : \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree})\{
+63                         \textcolor{keywordflow}{if}(maxDepth < nodes.returnDepth())\{
+64                             maxDepth = nodes.returnDepth();
+65                         \}
+66                     \}
+67                     \textcolor{keywordflow}{return} maxDepth;
+68                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_a6474edd1b84d70be1712326f9a845139}\label{classfp_1_1rfTree_a6474edd1b84d70be1712326f9a845139}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!return\+Num\+Leaf\+Nodes@{return\+Num\+Leaf\+Nodes}}
+\index{return\+Num\+Leaf\+Nodes@{return\+Num\+Leaf\+Nodes}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{return\+Num\+Leaf\+Nodes()}{returnNumLeafNodes()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::return\+Num\+Leaf\+Nodes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 65 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+65                                                \{
+66                     \textcolor{keywordtype}{int} numLeafNodes=0;
+67                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nodes : \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree})\{
+68                         \textcolor{keywordflow}{if}(!nodes.isInternalNode())\{
+69                             ++numLeafNodes;
+70                         \}
+71                     \}
+72                     \textcolor{keywordflow}{return} numLeafNodes;
+73                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_a6474edd1b84d70be1712326f9a845139}\label{classfp_1_1rfTree_a6474edd1b84d70be1712326f9a845139}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!return\+Num\+Leaf\+Nodes@{return\+Num\+Leaf\+Nodes}}
+\index{return\+Num\+Leaf\+Nodes@{return\+Num\+Leaf\+Nodes}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{return\+Num\+Leaf\+Nodes()}{returnNumLeafNodes()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::return\+Num\+Leaf\+Nodes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 71 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+71                                                \{
+72                     \textcolor{keywordtype}{int} numLeafNodes=0;
+73                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} nodes : \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree})\{
+74                         \textcolor{keywordflow}{if}(!nodes.isInternalNode())\{
+75                             ++numLeafNodes;
+76                         \}
+77                     \}
+78                     \textcolor{keywordflow}{return} numLeafNodes;
+79                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_aee6bf6e8e695392880f1cc9ac0102ba6}\label{classfp_1_1rfTree_aee6bf6e8e695392880f1cc9ac0102ba6}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!return\+O\+OB@{return\+O\+OB}}
+\index{return\+O\+OB@{return\+O\+OB}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{return\+O\+O\+B()}{returnOOB()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+float \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::return\+O\+OB (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 37 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+37                                         \{
+38                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1rfTree_a83832650bcea8d63cdcd480d9ddc6e6e}{correctOOB}/\hyperlink{classfp_1_1rfTree_aa200dc228adc20c12e514364d2b674df}{totalOOB};
+39                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_aee6bf6e8e695392880f1cc9ac0102ba6}\label{classfp_1_1rfTree_aee6bf6e8e695392880f1cc9ac0102ba6}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!return\+O\+OB@{return\+O\+OB}}
+\index{return\+O\+OB@{return\+O\+OB}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{return\+O\+O\+B()}{returnOOB()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+float \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::return\+O\+OB (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 43 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+43                                         \{
+44                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1rfTree_a83832650bcea8d63cdcd480d9ddc6e6e}{correctOOB}/\hyperlink{classfp_1_1rfTree_aa200dc228adc20c12e514364d2b674df}{totalOOB};
+45                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_a3583e1f1659ba9a9013a4891709bacb9}\label{classfp_1_1rfTree_a3583e1f1659ba9a9013a4891709bacb9}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!set\+As\+Leaf@{set\+As\+Leaf}}
+\index{set\+As\+Leaf@{set\+As\+Leaf}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{set\+As\+Leaf()}{setAsLeaf()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::set\+As\+Leaf (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 87 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+87                                        \{
+88                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setClass(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnMaxClass());
+89                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setDepth(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnDepth());
+90                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_a3583e1f1659ba9a9013a4891709bacb9}\label{classfp_1_1rfTree_a3583e1f1659ba9a9013a4891709bacb9}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!set\+As\+Leaf@{set\+As\+Leaf}}
+\index{set\+As\+Leaf@{set\+As\+Leaf}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{set\+As\+Leaf()}{setAsLeaf()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::set\+As\+Leaf (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 93 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+93                                        \{
+94                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setClass(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnMaxClass());
+95                     \hyperlink{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}{tree}.back().setDepth(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnDepth());
+96                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1rfTree_a36abf82d31ca57670b09da16525dce0d}\label{classfp_1_1rfTree_a36abf82d31ca57670b09da16525dce0d}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!should\+Process\+Node@{should\+Process\+Node}}
+\index{should\+Process\+Node@{should\+Process\+Node}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{should\+Process\+Node()}{shouldProcessNode()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::should\+Process\+Node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 27 of file rf\+Tree.\+h.
+
+
+\begin{DoxyCode}
+27                                                \{
+28                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnNodeImpurity()==0)\{
+29                         \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+30                     \}
+31                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnInSampleSize() <= 
+      \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().\hyperlink{classfp_1_1fpSingleton_a2d06406b6462099e0adb393218090420}{returnMinParent}())\{
+32                         \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+33                     \}
+34                     \textcolor{keywordflow}{return} \textcolor{keyword}{true};
+35                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_a36abf82d31ca57670b09da16525dce0d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1rfTree_a36abf82d31ca57670b09da16525dce0d}\label{classfp_1_1rfTree_a36abf82d31ca57670b09da16525dce0d}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!should\+Process\+Node@{should\+Process\+Node}}
+\index{should\+Process\+Node@{should\+Process\+Node}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{should\+Process\+Node()}{shouldProcessNode()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::should\+Process\+Node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 28 of file small\+Sample\+Tree.\+h.
+
+
+\begin{DoxyCode}
+28                                                \{
+29                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnNodeImpurity()==0)\{
+30                         \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+31                     \}
+32                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}{nodeQueue}.back().returnInSampleSize() <= 
+      \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().\hyperlink{classfp_1_1fpSingleton_a2d06406b6462099e0adb393218090420}{returnMinParent}())\{
+33                         \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+34                     \}
+35                     \textcolor{comment}{/*}
+36 \textcolor{comment}{                         if(nodeQueue.back().returnDepth() >
+       fpSingleton::getSingleton().returnMinParent())\{}
+37 \textcolor{comment}{                         return false;}
+38 \textcolor{comment}{                         \}}
+39 \textcolor{comment}{                         */}
+40                     \textcolor{keywordflow}{return} \textcolor{keyword}{true};
+41                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1rfTree_a36abf82d31ca57670b09da16525dce0d_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1rfTree_a83832650bcea8d63cdcd480d9ddc6e6e}\label{classfp_1_1rfTree_a83832650bcea8d63cdcd480d9ddc6e6e}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!correct\+O\+OB@{correct\+O\+OB}}
+\index{correct\+O\+OB@{correct\+O\+OB}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{correct\+O\+OB}{correctOOB}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+float \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::correct\+O\+OB\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 15 of file rf\+Tree.\+h.
+
+\mbox{\Hypertarget{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}\label{classfp_1_1rfTree_af72d0a2f930fd480dfb4858885c2df23}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!node\+Queue@{node\+Queue}}
+\index{node\+Queue@{node\+Queue}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{node\+Queue}{nodeQueue}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::vector$<$ \hyperlink{classfp_1_1unprocessedNode}{unprocessed\+Node}$<$ T $>$ $>$ \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::node\+Queue\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 18 of file rf\+Tree.\+h.
+
+\mbox{\Hypertarget{classfp_1_1rfTree_a673f85d4df6f292a1819351c092a07e1}\label{classfp_1_1rfTree_a673f85d4df6f292a1819351c092a07e1}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!O\+O\+B\+Accuracy@{O\+O\+B\+Accuracy}}
+\index{O\+O\+B\+Accuracy@{O\+O\+B\+Accuracy}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{O\+O\+B\+Accuracy}{OOBAccuracy}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+float \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::O\+O\+B\+Accuracy\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 14 of file rf\+Tree.\+h.
+
+\mbox{\Hypertarget{classfp_1_1rfTree_aa200dc228adc20c12e514364d2b674df}\label{classfp_1_1rfTree_aa200dc228adc20c12e514364d2b674df}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!total\+O\+OB@{total\+O\+OB}}
+\index{total\+O\+OB@{total\+O\+OB}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{total\+O\+OB}{totalOOB}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+float \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::total\+O\+OB\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 16 of file rf\+Tree.\+h.
+
+\mbox{\Hypertarget{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}\label{classfp_1_1rfTree_a1d5c209715f4044a85878c17e2b3ee53}} 
+\index{fp\+::rf\+Tree@{fp\+::rf\+Tree}!tree@{tree}}
+\index{tree@{tree}!fp\+::rf\+Tree@{fp\+::rf\+Tree}}
+\subsubsection{\texorpdfstring{tree}{tree}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::vector$<$ \hyperlink{classrfNode}{rf\+Node}$<$ T $>$ $>$ \hyperlink{classfp_1_1rfTree}{fp\+::rf\+Tree}$<$ T $>$\+::tree\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 17 of file rf\+Tree.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/forest\+Types/rf\+Classification/\hyperlink{rfTree_8h}{rf\+Tree.\+h}\item 
+src/forest\+Types/small\+Sample/\hyperlink{smallSampleTree_8h}{small\+Sample\+Tree.\+h}\end{DoxyCompactItemize}

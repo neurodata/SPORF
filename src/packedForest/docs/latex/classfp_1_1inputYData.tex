@@ -1,0 +1,132 @@
+\hypertarget{classfp_1_1inputYData}{}\section{fp\+:\+:input\+Y\+Data$<$ T $>$ Class Template Reference}
+\label{classfp_1_1inputYData}\index{fp\+::input\+Y\+Data$<$ T $>$@{fp\+::input\+Y\+Data$<$ T $>$}}
+
+
+{\ttfamily \#include $<$fp\+Data\+Set.\+h$>$}
+
+
+
+Inheritance diagram for fp\+:\+:input\+Y\+Data$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=243pt]{classfp_1_1inputYData__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classfp_1_1inputYData_a9bb60b2b0070ae39ad53088f1bcf9e87}{initialize\+Y\+Data} (const int \&num\+Obs)
+\item 
+void \hyperlink{classfp_1_1inputYData_a5830f9e71d181554f498feaa297885ee}{set\+Y\+Element} (const int \&element\+Number, const T \&value)
+\item 
+T \hyperlink{classfp_1_1inputYData_a974ab138d49f7e5b3fded09f02486710}{return\+Y\+Element} (const int \&element\+Number)
+\item 
+int \hyperlink{classfp_1_1inputYData_a6f6c2742745fd59daafef4e51d76400a}{return\+Num\+Observations} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ T $>$ \hyperlink{classfp_1_1inputYData_af9a5f5190739918b5b5b209ef3b18de3}{Y\+Data}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class fp\+::input\+Y\+Data$<$ T $>$}
+
+
+
+Definition at line 11 of file fp\+Data\+Set.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1inputYData_a9bb60b2b0070ae39ad53088f1bcf9e87}\label{classfp_1_1inputYData_a9bb60b2b0070ae39ad53088f1bcf9e87}} 
+\index{fp\+::input\+Y\+Data@{fp\+::input\+Y\+Data}!initialize\+Y\+Data@{initialize\+Y\+Data}}
+\index{initialize\+Y\+Data@{initialize\+Y\+Data}!fp\+::input\+Y\+Data@{fp\+::input\+Y\+Data}}
+\subsubsection{\texorpdfstring{initialize\+Y\+Data()}{initializeYData()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classfp_1_1inputYData}{fp\+::input\+Y\+Data}$<$ T $>$\+::initialize\+Y\+Data (\begin{DoxyParamCaption}\item[{const int \&}]{num\+Obs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 17 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+17                                                \{
+18             \hyperlink{classfp_1_1inputYData_af9a5f5190739918b5b5b209ef3b18de3}{YData}.resize(numObs);
+19         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1inputYData_a6f6c2742745fd59daafef4e51d76400a}\label{classfp_1_1inputYData_a6f6c2742745fd59daafef4e51d76400a}} 
+\index{fp\+::input\+Y\+Data@{fp\+::input\+Y\+Data}!return\+Num\+Observations@{return\+Num\+Observations}}
+\index{return\+Num\+Observations@{return\+Num\+Observations}!fp\+::input\+Y\+Data@{fp\+::input\+Y\+Data}}
+\subsubsection{\texorpdfstring{return\+Num\+Observations()}{returnNumObservations()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+int \hyperlink{classfp_1_1inputYData}{fp\+::input\+Y\+Data}$<$ T $>$\+::return\+Num\+Observations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 29 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+29                                           \{
+30             \textcolor{keywordflow}{return} \hyperlink{classfp_1_1inputYData_af9a5f5190739918b5b5b209ef3b18de3}{YData}.size();
+31         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1inputYData_a974ab138d49f7e5b3fded09f02486710}\label{classfp_1_1inputYData_a974ab138d49f7e5b3fded09f02486710}} 
+\index{fp\+::input\+Y\+Data@{fp\+::input\+Y\+Data}!return\+Y\+Element@{return\+Y\+Element}}
+\index{return\+Y\+Element@{return\+Y\+Element}!fp\+::input\+Y\+Data@{fp\+::input\+Y\+Data}}
+\subsubsection{\texorpdfstring{return\+Y\+Element()}{returnYElement()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+T \hyperlink{classfp_1_1inputYData}{fp\+::input\+Y\+Data}$<$ T $>$\+::return\+Y\+Element (\begin{DoxyParamCaption}\item[{const int \&}]{element\+Number }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 25 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+25                                                          \{
+26             \textcolor{keywordflow}{return} \hyperlink{classfp_1_1inputYData_af9a5f5190739918b5b5b209ef3b18de3}{YData}[elementNumber];
+27         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1inputYData_a5830f9e71d181554f498feaa297885ee}\label{classfp_1_1inputYData_a5830f9e71d181554f498feaa297885ee}} 
+\index{fp\+::input\+Y\+Data@{fp\+::input\+Y\+Data}!set\+Y\+Element@{set\+Y\+Element}}
+\index{set\+Y\+Element@{set\+Y\+Element}!fp\+::input\+Y\+Data@{fp\+::input\+Y\+Data}}
+\subsubsection{\texorpdfstring{set\+Y\+Element()}{setYElement()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classfp_1_1inputYData}{fp\+::input\+Y\+Data}$<$ T $>$\+::set\+Y\+Element (\begin{DoxyParamCaption}\item[{const int \&}]{element\+Number,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 21 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+21                                                                          \{
+22             \hyperlink{classfp_1_1inputYData_af9a5f5190739918b5b5b209ef3b18de3}{YData}[elementNumber] = value;
+23         \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1inputYData_af9a5f5190739918b5b5b209ef3b18de3}\label{classfp_1_1inputYData_af9a5f5190739918b5b5b209ef3b18de3}} 
+\index{fp\+::input\+Y\+Data@{fp\+::input\+Y\+Data}!Y\+Data@{Y\+Data}}
+\index{Y\+Data@{Y\+Data}!fp\+::input\+Y\+Data@{fp\+::input\+Y\+Data}}
+\subsubsection{\texorpdfstring{Y\+Data}{YData}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+std\+::vector$<$ T $>$ \hyperlink{classfp_1_1inputYData}{fp\+::input\+Y\+Data}$<$ T $>$\+::Y\+Data\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 14 of file fp\+Data\+Set.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/fp\+Singleton/\hyperlink{fpDataSet_8h}{fp\+Data\+Set.\+h}\end{DoxyCompactItemize}

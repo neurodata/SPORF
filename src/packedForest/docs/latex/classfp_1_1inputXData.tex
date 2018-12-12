@@ -1,0 +1,163 @@
+\hypertarget{classfp_1_1inputXData}{}\section{fp\+:\+:input\+X\+Data$<$ T $>$ Class Template Reference}
+\label{classfp_1_1inputXData}\index{fp\+::input\+X\+Data$<$ T $>$@{fp\+::input\+X\+Data$<$ T $>$}}
+
+
+{\ttfamily \#include $<$fp\+Data\+Set.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classfp_1_1inputXData_a2f49e8681655a35252b8c666a4ae826a}{initialize\+X\+Data} (const int \&num\+Features, const int \&num\+Observations)
+\item 
+T \hyperlink{classfp_1_1inputXData_a61344d139f038c857587e224620e48fe}{return\+Element} (const int \&feature, const int \&observation)
+\item 
+void \hyperlink{classfp_1_1inputXData_a2be81a23267dce73e72f8f9458427862}{prefetch\+Element} (const int \&feature, const int \&observation)
+\item 
+void \hyperlink{classfp_1_1inputXData_a91f24b99ba2cc2c9b518b17783e349a8}{set\+X\+Element} (const int \&feature, const int \&observation, const T \&value)
+\item 
+int \hyperlink{classfp_1_1inputXData_a8049555a9f1c77fbeba9f8ed63dca39f}{return\+Num\+Features} ()
+\item 
+int \hyperlink{classfp_1_1inputXData_a6608b9fdb8eddab4b391e7c3cc2b0f21}{return\+Num\+Observations} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::vector$<$ T $>$ $>$ \hyperlink{classfp_1_1inputXData_ad08f8c44df38fb88799cda53cc50eaa5}{X\+Data}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class fp\+::input\+X\+Data$<$ T $>$}
+
+
+
+Definition at line 69 of file fp\+Data\+Set.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1inputXData_a2f49e8681655a35252b8c666a4ae826a}\label{classfp_1_1inputXData_a2f49e8681655a35252b8c666a4ae826a}} 
+\index{fp\+::input\+X\+Data@{fp\+::input\+X\+Data}!initialize\+X\+Data@{initialize\+X\+Data}}
+\index{initialize\+X\+Data@{initialize\+X\+Data}!fp\+::input\+X\+Data@{fp\+::input\+X\+Data}}
+\subsubsection{\texorpdfstring{initialize\+X\+Data()}{initializeXData()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classfp_1_1inputXData}{fp\+::input\+X\+Data}$<$ T $>$\+::initialize\+X\+Data (\begin{DoxyParamCaption}\item[{const int \&}]{num\+Features,  }\item[{const int \&}]{num\+Observations }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 75 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+75                                                                                  \{
+76             \hyperlink{classfp_1_1inputXData_ad08f8c44df38fb88799cda53cc50eaa5}{XData}.resize(numFeatures);
+77             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0; i<numFeatures; i++)\{
+78                 \hyperlink{classfp_1_1inputXData_ad08f8c44df38fb88799cda53cc50eaa5}{XData}[i].resize(numObservations);
+79             \}
+80         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1inputXData_a2be81a23267dce73e72f8f9458427862}\label{classfp_1_1inputXData_a2be81a23267dce73e72f8f9458427862}} 
+\index{fp\+::input\+X\+Data@{fp\+::input\+X\+Data}!prefetch\+Element@{prefetch\+Element}}
+\index{prefetch\+Element@{prefetch\+Element}!fp\+::input\+X\+Data@{fp\+::input\+X\+Data}}
+\subsubsection{\texorpdfstring{prefetch\+Element()}{prefetchElement()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classfp_1_1inputXData}{fp\+::input\+X\+Data}$<$ T $>$\+::prefetch\+Element (\begin{DoxyParamCaption}\item[{const int \&}]{feature,  }\item[{const int \&}]{observation }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 86 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+86                                                                                \{
+87             \_\_builtin\_prefetch(&\hyperlink{classfp_1_1inputXData_ad08f8c44df38fb88799cda53cc50eaa5}{XData}[feature][observation], 0, 2);
+88         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1inputXData_a61344d139f038c857587e224620e48fe}\label{classfp_1_1inputXData_a61344d139f038c857587e224620e48fe}} 
+\index{fp\+::input\+X\+Data@{fp\+::input\+X\+Data}!return\+Element@{return\+Element}}
+\index{return\+Element@{return\+Element}!fp\+::input\+X\+Data@{fp\+::input\+X\+Data}}
+\subsubsection{\texorpdfstring{return\+Element()}{returnElement()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+T \hyperlink{classfp_1_1inputXData}{fp\+::input\+X\+Data}$<$ T $>$\+::return\+Element (\begin{DoxyParamCaption}\item[{const int \&}]{feature,  }\item[{const int \&}]{observation }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 82 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+82                                                                           \{
+83             \textcolor{keywordflow}{return} \hyperlink{classfp_1_1inputXData_ad08f8c44df38fb88799cda53cc50eaa5}{XData}[feature][observation];
+84         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1inputXData_a8049555a9f1c77fbeba9f8ed63dca39f}\label{classfp_1_1inputXData_a8049555a9f1c77fbeba9f8ed63dca39f}} 
+\index{fp\+::input\+X\+Data@{fp\+::input\+X\+Data}!return\+Num\+Features@{return\+Num\+Features}}
+\index{return\+Num\+Features@{return\+Num\+Features}!fp\+::input\+X\+Data@{fp\+::input\+X\+Data}}
+\subsubsection{\texorpdfstring{return\+Num\+Features()}{returnNumFeatures()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+int \hyperlink{classfp_1_1inputXData}{fp\+::input\+X\+Data}$<$ T $>$\+::return\+Num\+Features (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 94 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+94                                       \{
+95             \textcolor{keywordflow}{return} \hyperlink{classfp_1_1inputXData_ad08f8c44df38fb88799cda53cc50eaa5}{XData}.size();
+96         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1inputXData_a6608b9fdb8eddab4b391e7c3cc2b0f21}\label{classfp_1_1inputXData_a6608b9fdb8eddab4b391e7c3cc2b0f21}} 
+\index{fp\+::input\+X\+Data@{fp\+::input\+X\+Data}!return\+Num\+Observations@{return\+Num\+Observations}}
+\index{return\+Num\+Observations@{return\+Num\+Observations}!fp\+::input\+X\+Data@{fp\+::input\+X\+Data}}
+\subsubsection{\texorpdfstring{return\+Num\+Observations()}{returnNumObservations()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+int \hyperlink{classfp_1_1inputXData}{fp\+::input\+X\+Data}$<$ T $>$\+::return\+Num\+Observations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 98 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+98                                           \{
+99             \textcolor{keywordflow}{return} \hyperlink{classfp_1_1inputXData_ad08f8c44df38fb88799cda53cc50eaa5}{XData}[0].size();
+100         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1inputXData_a91f24b99ba2cc2c9b518b17783e349a8}\label{classfp_1_1inputXData_a91f24b99ba2cc2c9b518b17783e349a8}} 
+\index{fp\+::input\+X\+Data@{fp\+::input\+X\+Data}!set\+X\+Element@{set\+X\+Element}}
+\index{set\+X\+Element@{set\+X\+Element}!fp\+::input\+X\+Data@{fp\+::input\+X\+Data}}
+\subsubsection{\texorpdfstring{set\+X\+Element()}{setXElement()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classfp_1_1inputXData}{fp\+::input\+X\+Data}$<$ T $>$\+::set\+X\+Element (\begin{DoxyParamCaption}\item[{const int \&}]{feature,  }\item[{const int \&}]{observation,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 90 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+90                                                                                             \{
+91             \hyperlink{classfp_1_1inputXData_ad08f8c44df38fb88799cda53cc50eaa5}{XData}[feature][observation] = value;
+92         \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1inputXData_ad08f8c44df38fb88799cda53cc50eaa5}\label{classfp_1_1inputXData_ad08f8c44df38fb88799cda53cc50eaa5}} 
+\index{fp\+::input\+X\+Data@{fp\+::input\+X\+Data}!X\+Data@{X\+Data}}
+\index{X\+Data@{X\+Data}!fp\+::input\+X\+Data@{fp\+::input\+X\+Data}}
+\subsubsection{\texorpdfstring{X\+Data}{XData}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+std\+::vector$<$ std\+::vector$<$T$>$ $>$ \hyperlink{classfp_1_1inputXData}{fp\+::input\+X\+Data}$<$ T $>$\+::X\+Data\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 72 of file fp\+Data\+Set.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/fp\+Singleton/\hyperlink{fpDataSet_8h}{fp\+Data\+Set.\+h}\end{DoxyCompactItemize}

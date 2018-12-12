@@ -1,0 +1,309 @@
+\hypertarget{classfp_1_1splitRerFInfo}{}\section{fp\+:\+:split\+Rer\+F\+Info$<$ T $>$ Class Template Reference}
+\label{classfp_1_1splitRerFInfo}\index{fp\+::split\+Rer\+F\+Info$<$ T $>$@{fp\+::split\+Rer\+F\+Info$<$ T $>$}}
+
+
+{\ttfamily \#include $<$fp\+Rer\+F\+Split.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classfp_1_1splitRerFInfo_a2071cff382e045b856f29d9fed7f2e8e}{split\+Rer\+F\+Info} ()
+\item 
+void \hyperlink{classfp_1_1splitRerFInfo_a461777b91ece075a5a2123c348f4b4c4}{set\+Split\+Value} (T s\+Val)
+\item 
+T \hyperlink{classfp_1_1splitRerFInfo_a99b2dfae4d0e606be9511bd6c61b53dc}{return\+Split\+Value} ()
+\item 
+void \hyperlink{classfp_1_1splitRerFInfo_ac1ad89a7c7cbc2bd8f7ffb3aa523b1eb}{set\+Impurity} (double g\+Val)
+\item 
+double \hyperlink{classfp_1_1splitRerFInfo_a79dc984d11d69e61abc7f546e9effd90}{return\+Impurity} ()
+\item 
+void \hyperlink{classfp_1_1splitRerFInfo_af7409ccd3d123780aa9e6b3fe24df589}{set\+Left\+Impurity} (float g\+Val)
+\item 
+double \hyperlink{classfp_1_1splitRerFInfo_a744a6c0b2f76ce9b74f35a59642b9837}{return\+Left\+Impurity} ()
+\item 
+void \hyperlink{classfp_1_1splitRerFInfo_a31171db1e7a89e0448668c03cd4adf7c}{set\+Right\+Impurity} (double g\+Val)
+\item 
+double \hyperlink{classfp_1_1splitRerFInfo_a436810df96a0cdec2c8aab72609a1210}{return\+Right\+Impurity} ()
+\item 
+void \hyperlink{classfp_1_1splitRerFInfo_a2494bbdac133a9e3276a2d7ed7ac909e}{add\+Feature\+Nums} (std\+::vector$<$ int $>$ f\+Num)
+\item 
+std\+::vector$<$ int $>$ \hyperlink{classfp_1_1splitRerFInfo_a469fc628f56cab1f2fa6f28476ddec55}{return\+Feature\+Num} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{classfp_1_1splitRerFInfo_a37516896816870be54ff20a713dc4bd3}{impurity}
+\item 
+double \hyperlink{classfp_1_1splitRerFInfo_a22a358c2d6a8105bf1af86ed2823d1d1}{left\+Impurity}
+\item 
+double \hyperlink{classfp_1_1splitRerFInfo_ae9c05e45d6da53a663393e4ff2a01c41}{right\+Impurity}
+\item 
+std\+::vector$<$ int $>$ \hyperlink{classfp_1_1splitRerFInfo_aad977b73aea39d978ae0f04c3d8bf6ef}{feature\+Num}
+\item 
+T \hyperlink{classfp_1_1splitRerFInfo_a9bdbbaacd0da790fa938a0f5176890bc}{split\+Value}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class fp\+::split\+Rer\+F\+Info$<$ T $>$}
+
+
+
+Definition at line 13 of file fp\+Rer\+F\+Split.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classfp_1_1splitRerFInfo_a2071cff382e045b856f29d9fed7f2e8e}\label{classfp_1_1splitRerFInfo_a2071cff382e045b856f29d9fed7f2e8e}} 
+\index{fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}!split\+Rer\+F\+Info@{split\+Rer\+F\+Info}}
+\index{split\+Rer\+F\+Info@{split\+Rer\+F\+Info}!fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}}
+\subsubsection{\texorpdfstring{split\+Rer\+F\+Info()}{splitRerFInfo()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+\hyperlink{classfp_1_1splitRerFInfo}{fp\+::split\+Rer\+F\+Info}$<$ T $>$\+::\hyperlink{classfp_1_1splitRerFInfo}{split\+Rer\+F\+Info} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 23 of file fp\+Rer\+F\+Split.\+h.
+
+
+\begin{DoxyCode}
+23 : \hyperlink{classfp_1_1splitRerFInfo_a37516896816870be54ff20a713dc4bd3}{impurity}(std::numeric\_limits<double>::max()), \hyperlink{classfp_1_1splitRerFInfo_a22a358c2d6a8105bf1af86ed2823d1d1}{leftImpurity}(-1), 
+      \hyperlink{classfp_1_1splitRerFInfo_ae9c05e45d6da53a663393e4ff2a01c41}{rightImpurity}(-1), \hyperlink{classfp_1_1splitRerFInfo_a9bdbbaacd0da790fa938a0f5176890bc}{splitValue}(0)\{\}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1splitRerFInfo_a2494bbdac133a9e3276a2d7ed7ac909e}\label{classfp_1_1splitRerFInfo_a2494bbdac133a9e3276a2d7ed7ac909e}} 
+\index{fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}!add\+Feature\+Nums@{add\+Feature\+Nums}}
+\index{add\+Feature\+Nums@{add\+Feature\+Nums}!fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}}
+\subsubsection{\texorpdfstring{add\+Feature\+Nums()}{addFeatureNums()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classfp_1_1splitRerFInfo}{fp\+::split\+Rer\+F\+Info}$<$ T $>$\+::add\+Feature\+Nums (\begin{DoxyParamCaption}\item[{std\+::vector$<$ int $>$}]{f\+Num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 55 of file fp\+Rer\+F\+Split.\+h.
+
+
+\begin{DoxyCode}
+55                                                                \{
+56                     \hyperlink{classfp_1_1splitRerFInfo_aad977b73aea39d978ae0f04c3d8bf6ef}{featureNum} = fNum;
+57                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1splitRerFInfo_a469fc628f56cab1f2fa6f28476ddec55}\label{classfp_1_1splitRerFInfo_a469fc628f56cab1f2fa6f28476ddec55}} 
+\index{fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}!return\+Feature\+Num@{return\+Feature\+Num}}
+\index{return\+Feature\+Num@{return\+Feature\+Num}!fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}}
+\subsubsection{\texorpdfstring{return\+Feature\+Num()}{returnFeatureNum()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+std\+::vector$<$int$>$ \hyperlink{classfp_1_1splitRerFInfo}{fp\+::split\+Rer\+F\+Info}$<$ T $>$\+::return\+Feature\+Num (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 59 of file fp\+Rer\+F\+Split.\+h.
+
+
+\begin{DoxyCode}
+59                                                         \{
+60                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1splitRerFInfo_aad977b73aea39d978ae0f04c3d8bf6ef}{featureNum};
+61                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1splitRerFInfo_a79dc984d11d69e61abc7f546e9effd90}\label{classfp_1_1splitRerFInfo_a79dc984d11d69e61abc7f546e9effd90}} 
+\index{fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}!return\+Impurity@{return\+Impurity}}
+\index{return\+Impurity@{return\+Impurity}!fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}}
+\subsubsection{\texorpdfstring{return\+Impurity()}{returnImpurity()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+double \hyperlink{classfp_1_1splitRerFInfo}{fp\+::split\+Rer\+F\+Info}$<$ T $>$\+::return\+Impurity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 36 of file fp\+Rer\+F\+Split.\+h.
+
+
+\begin{DoxyCode}
+36                                               \{
+37                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1splitRerFInfo_a37516896816870be54ff20a713dc4bd3}{impurity};
+38                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1splitRerFInfo_a744a6c0b2f76ce9b74f35a59642b9837}\label{classfp_1_1splitRerFInfo_a744a6c0b2f76ce9b74f35a59642b9837}} 
+\index{fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}!return\+Left\+Impurity@{return\+Left\+Impurity}}
+\index{return\+Left\+Impurity@{return\+Left\+Impurity}!fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}}
+\subsubsection{\texorpdfstring{return\+Left\+Impurity()}{returnLeftImpurity()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+double \hyperlink{classfp_1_1splitRerFInfo}{fp\+::split\+Rer\+F\+Info}$<$ T $>$\+::return\+Left\+Impurity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 43 of file fp\+Rer\+F\+Split.\+h.
+
+
+\begin{DoxyCode}
+43                                                   \{
+44                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1splitRerFInfo_a22a358c2d6a8105bf1af86ed2823d1d1}{leftImpurity};
+45                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1splitRerFInfo_a436810df96a0cdec2c8aab72609a1210}\label{classfp_1_1splitRerFInfo_a436810df96a0cdec2c8aab72609a1210}} 
+\index{fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}!return\+Right\+Impurity@{return\+Right\+Impurity}}
+\index{return\+Right\+Impurity@{return\+Right\+Impurity}!fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}}
+\subsubsection{\texorpdfstring{return\+Right\+Impurity()}{returnRightImpurity()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+double \hyperlink{classfp_1_1splitRerFInfo}{fp\+::split\+Rer\+F\+Info}$<$ T $>$\+::return\+Right\+Impurity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 51 of file fp\+Rer\+F\+Split.\+h.
+
+
+\begin{DoxyCode}
+51                                                    \{
+52                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1splitRerFInfo_ae9c05e45d6da53a663393e4ff2a01c41}{rightImpurity};
+53                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1splitRerFInfo_a99b2dfae4d0e606be9511bd6c61b53dc}\label{classfp_1_1splitRerFInfo_a99b2dfae4d0e606be9511bd6c61b53dc}} 
+\index{fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}!return\+Split\+Value@{return\+Split\+Value}}
+\index{return\+Split\+Value@{return\+Split\+Value}!fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}}
+\subsubsection{\texorpdfstring{return\+Split\+Value()}{returnSplitValue()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+T \hyperlink{classfp_1_1splitRerFInfo}{fp\+::split\+Rer\+F\+Info}$<$ T $>$\+::return\+Split\+Value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 29 of file fp\+Rer\+F\+Split.\+h.
+
+
+\begin{DoxyCode}
+29                                            \{
+30                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1splitRerFInfo_a9bdbbaacd0da790fa938a0f5176890bc}{splitValue};
+31                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1splitRerFInfo_ac1ad89a7c7cbc2bd8f7ffb3aa523b1eb}\label{classfp_1_1splitRerFInfo_ac1ad89a7c7cbc2bd8f7ffb3aa523b1eb}} 
+\index{fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}!set\+Impurity@{set\+Impurity}}
+\index{set\+Impurity@{set\+Impurity}!fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}}
+\subsubsection{\texorpdfstring{set\+Impurity()}{setImpurity()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classfp_1_1splitRerFInfo}{fp\+::split\+Rer\+F\+Info}$<$ T $>$\+::set\+Impurity (\begin{DoxyParamCaption}\item[{double}]{g\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 33 of file fp\+Rer\+F\+Split.\+h.
+
+
+\begin{DoxyCode}
+33                                                     \{
+34                     \hyperlink{classfp_1_1splitRerFInfo_a37516896816870be54ff20a713dc4bd3}{impurity} = gVal;
+35                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1splitRerFInfo_af7409ccd3d123780aa9e6b3fe24df589}\label{classfp_1_1splitRerFInfo_af7409ccd3d123780aa9e6b3fe24df589}} 
+\index{fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}!set\+Left\+Impurity@{set\+Left\+Impurity}}
+\index{set\+Left\+Impurity@{set\+Left\+Impurity}!fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}}
+\subsubsection{\texorpdfstring{set\+Left\+Impurity()}{setLeftImpurity()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classfp_1_1splitRerFInfo}{fp\+::split\+Rer\+F\+Info}$<$ T $>$\+::set\+Left\+Impurity (\begin{DoxyParamCaption}\item[{float}]{g\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 40 of file fp\+Rer\+F\+Split.\+h.
+
+
+\begin{DoxyCode}
+40                                                        \{
+41                     \hyperlink{classfp_1_1splitRerFInfo_a22a358c2d6a8105bf1af86ed2823d1d1}{leftImpurity} = gVal;
+42                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1splitRerFInfo_a31171db1e7a89e0448668c03cd4adf7c}\label{classfp_1_1splitRerFInfo_a31171db1e7a89e0448668c03cd4adf7c}} 
+\index{fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}!set\+Right\+Impurity@{set\+Right\+Impurity}}
+\index{set\+Right\+Impurity@{set\+Right\+Impurity}!fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}}
+\subsubsection{\texorpdfstring{set\+Right\+Impurity()}{setRightImpurity()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classfp_1_1splitRerFInfo}{fp\+::split\+Rer\+F\+Info}$<$ T $>$\+::set\+Right\+Impurity (\begin{DoxyParamCaption}\item[{double}]{g\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 47 of file fp\+Rer\+F\+Split.\+h.
+
+
+\begin{DoxyCode}
+47                                                          \{
+48                     \hyperlink{classfp_1_1splitRerFInfo_ae9c05e45d6da53a663393e4ff2a01c41}{rightImpurity} = gVal;
+49                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1splitRerFInfo_a461777b91ece075a5a2123c348f4b4c4}\label{classfp_1_1splitRerFInfo_a461777b91ece075a5a2123c348f4b4c4}} 
+\index{fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}!set\+Split\+Value@{set\+Split\+Value}}
+\index{set\+Split\+Value@{set\+Split\+Value}!fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}}
+\subsubsection{\texorpdfstring{set\+Split\+Value()}{setSplitValue()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classfp_1_1splitRerFInfo}{fp\+::split\+Rer\+F\+Info}$<$ T $>$\+::set\+Split\+Value (\begin{DoxyParamCaption}\item[{T}]{s\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 25 of file fp\+Rer\+F\+Split.\+h.
+
+
+\begin{DoxyCode}
+25                                                  \{
+26                     \hyperlink{classfp_1_1splitRerFInfo_a9bdbbaacd0da790fa938a0f5176890bc}{splitValue} = sVal;
+27                 \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1splitRerFInfo_aad977b73aea39d978ae0f04c3d8bf6ef}\label{classfp_1_1splitRerFInfo_aad977b73aea39d978ae0f04c3d8bf6ef}} 
+\index{fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}!feature\+Num@{feature\+Num}}
+\index{feature\+Num@{feature\+Num}!fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}}
+\subsubsection{\texorpdfstring{feature\+Num}{featureNum}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+std\+::vector$<$int$>$ \hyperlink{classfp_1_1splitRerFInfo}{fp\+::split\+Rer\+F\+Info}$<$ T $>$\+::feature\+Num\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 19 of file fp\+Rer\+F\+Split.\+h.
+
+\mbox{\Hypertarget{classfp_1_1splitRerFInfo_a37516896816870be54ff20a713dc4bd3}\label{classfp_1_1splitRerFInfo_a37516896816870be54ff20a713dc4bd3}} 
+\index{fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}!impurity@{impurity}}
+\index{impurity@{impurity}!fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}}
+\subsubsection{\texorpdfstring{impurity}{impurity}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+double \hyperlink{classfp_1_1splitRerFInfo}{fp\+::split\+Rer\+F\+Info}$<$ T $>$\+::impurity\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 16 of file fp\+Rer\+F\+Split.\+h.
+
+\mbox{\Hypertarget{classfp_1_1splitRerFInfo_a22a358c2d6a8105bf1af86ed2823d1d1}\label{classfp_1_1splitRerFInfo_a22a358c2d6a8105bf1af86ed2823d1d1}} 
+\index{fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}!left\+Impurity@{left\+Impurity}}
+\index{left\+Impurity@{left\+Impurity}!fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}}
+\subsubsection{\texorpdfstring{left\+Impurity}{leftImpurity}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+double \hyperlink{classfp_1_1splitRerFInfo}{fp\+::split\+Rer\+F\+Info}$<$ T $>$\+::left\+Impurity\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 17 of file fp\+Rer\+F\+Split.\+h.
+
+\mbox{\Hypertarget{classfp_1_1splitRerFInfo_ae9c05e45d6da53a663393e4ff2a01c41}\label{classfp_1_1splitRerFInfo_ae9c05e45d6da53a663393e4ff2a01c41}} 
+\index{fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}!right\+Impurity@{right\+Impurity}}
+\index{right\+Impurity@{right\+Impurity}!fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}}
+\subsubsection{\texorpdfstring{right\+Impurity}{rightImpurity}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+double \hyperlink{classfp_1_1splitRerFInfo}{fp\+::split\+Rer\+F\+Info}$<$ T $>$\+::right\+Impurity\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 18 of file fp\+Rer\+F\+Split.\+h.
+
+\mbox{\Hypertarget{classfp_1_1splitRerFInfo_a9bdbbaacd0da790fa938a0f5176890bc}\label{classfp_1_1splitRerFInfo_a9bdbbaacd0da790fa938a0f5176890bc}} 
+\index{fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}!split\+Value@{split\+Value}}
+\index{split\+Value@{split\+Value}!fp\+::split\+Rer\+F\+Info@{fp\+::split\+Rer\+F\+Info}}
+\subsubsection{\texorpdfstring{split\+Value}{splitValue}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+T \hyperlink{classfp_1_1splitRerFInfo}{fp\+::split\+Rer\+F\+Info}$<$ T $>$\+::split\+Value\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 20 of file fp\+Rer\+F\+Split.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/forest\+Types/rerf/\hyperlink{fpRerFSplit_8h}{fp\+Rer\+F\+Split.\+h}\end{DoxyCompactItemize}

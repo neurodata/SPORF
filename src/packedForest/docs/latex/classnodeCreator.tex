@@ -1,0 +1,235 @@
+\hypertarget{classnodeCreator}{}\section{node\+Creator$<$ T $>$ Class Template Reference}
+\label{classnodeCreator}\index{node\+Creator$<$ T $>$@{node\+Creator$<$ T $>$}}
+
+
+{\ttfamily \#include $<$fp\+Create\+Node.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classnodeCreator_a460dc030e2aee80345e9c5f1b4fbba7d}{node\+Creator} (const int \&num\+Obs)
+\item 
+void \hyperlink{classnodeCreator_a08702cdfc2ad2fdd010b0fdf3437d3e4}{print\+O\+OB} ()
+\item 
+int \hyperlink{classnodeCreator_a78a2ed85f6f25f7f8f1f6f65f3bf3e78}{return\+In\+Sample\+Size} ()
+\item 
+int \hyperlink{classnodeCreator_a50d306716d731c8d0754d8628c311f11}{return\+Out\+Sample\+Size} ()
+\item 
+int \hyperlink{classnodeCreator_a93a55fecae013dfac2bf46d4e0be14f5}{return\+In\+Sample} (const int \&num\+Sample)
+\item 
+int \hyperlink{classnodeCreator_affd4ae08a5562f4a5c7bb0068ecf8e8d}{return\+Out\+Sample} (const int \&num\+Sample)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ T $>$\+::iterator \hyperlink{classnodeCreator_a4ed8c038ff57c273b8b33a670d21214c}{in\+Bagfirst\+Element}
+\item 
+std\+::vector$<$ T $>$\+::iterator \hyperlink{classnodeCreator_aaa5de4d5498d0c35696736240efb410f}{in\+Bag\+Last\+Element}
+\item 
+std\+::vector$<$ T $>$\+::iterator \hyperlink{classnodeCreator_ac5903268052b2d871be3d426054eca05}{out\+Bagfirst\+Element}
+\item 
+std\+::vector$<$ T $>$\+::iterator \hyperlink{classnodeCreator_a53cb975b730f4a7403186b5c4230da19}{out\+Bag\+Last\+Element}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class T$>$\newline
+class node\+Creator$<$ T $>$}
+
+
+
+Definition at line 9 of file fp\+Create\+Node.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classnodeCreator_a460dc030e2aee80345e9c5f1b4fbba7d}\label{classnodeCreator_a460dc030e2aee80345e9c5f1b4fbba7d}} 
+\index{node\+Creator@{node\+Creator}!node\+Creator@{node\+Creator}}
+\index{node\+Creator@{node\+Creator}!node\+Creator@{node\+Creator}}
+\subsubsection{\texorpdfstring{node\+Creator()}{nodeCreator()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\hyperlink{classnodeCreator}{node\+Creator}$<$ T $>$\+::\hyperlink{classnodeCreator}{node\+Creator} (\begin{DoxyParamCaption}\item[{const int \&}]{num\+Obs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 18 of file fp\+Create\+Node.\+h.
+
+
+\begin{DoxyCode}
+18                                       \{
+19             numObservations = numObs;
+20             numOOB = 0;
+21             inSamples.resize(numObservations);
+22             \textcolor{comment}{//      outSamples.resize(numObservations*.4);}
+23 
+24             std::random\_device rd; \textcolor{comment}{// obtain a random number from hardware}
+25             std::mt19937 eng(rd()); \textcolor{comment}{// seed the generator}
+26             std::uniform\_int\_distribution<> distr(0, numObservations-1);
+27 
+28             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} n=0; n<numObservations; n++)\{
+29                 inSamples[n] = distr(eng);
+30             \}
+31             std::sort(inSamples.begin(), inSamples.end());
+32 
+33             \textcolor{keywordtype}{int} checkNum = 0;
+34             \textcolor{keywordtype}{int} n = 0;
+35             \textcolor{keywordflow}{while}(checkNum < numObservations)\{
+36                 \textcolor{keywordflow}{if}(checkNum < inSamples[n])\{
+37                     outSamples.push\_back(checkNum);
+38                     ++checkNum;
+39                 \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(inSamples[n] < checkNum)\{
+40                     ++n;
+41                 \}\textcolor{keywordflow}{else}\{
+42                     ++n;
+43                     ++checkNum;
+44                 \}
+45             \}
+46         \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classnodeCreator_a08702cdfc2ad2fdd010b0fdf3437d3e4}\label{classnodeCreator_a08702cdfc2ad2fdd010b0fdf3437d3e4}} 
+\index{node\+Creator@{node\+Creator}!print\+O\+OB@{print\+O\+OB}}
+\index{print\+O\+OB@{print\+O\+OB}!node\+Creator@{node\+Creator}}
+\subsubsection{\texorpdfstring{print\+O\+O\+B()}{printOOB()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+void \hyperlink{classnodeCreator}{node\+Creator}$<$ T $>$\+::print\+O\+OB (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 48 of file fp\+Create\+Node.\+h.
+
+
+\begin{DoxyCode}
+48                        \{
+49             std::cout << \textcolor{stringliteral}{"samples in bag\(\backslash\)n"};
+50             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} n=0; n < numObservations; n++)\{
+51                 std::cout << inSamples[n] << \textcolor{stringliteral}{"\(\backslash\)n"};
+52             \}
+53             std::cout << \textcolor{stringliteral}{"samples OOB\(\backslash\)n"};
+54             \textcolor{keywordflow}{for} (std::vector<int>::iterator it = outSamples.begin() ; it != outSamples.end(); ++it)\{
+55                 std::cout << *it << \textcolor{stringliteral}{"\(\backslash\)n"};
+56             \}
+57         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classnodeCreator_a93a55fecae013dfac2bf46d4e0be14f5}\label{classnodeCreator_a93a55fecae013dfac2bf46d4e0be14f5}} 
+\index{node\+Creator@{node\+Creator}!return\+In\+Sample@{return\+In\+Sample}}
+\index{return\+In\+Sample@{return\+In\+Sample}!node\+Creator@{node\+Creator}}
+\subsubsection{\texorpdfstring{return\+In\+Sample()}{returnInSample()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+int \hyperlink{classnodeCreator}{node\+Creator}$<$ T $>$\+::return\+In\+Sample (\begin{DoxyParamCaption}\item[{const int \&}]{num\+Sample }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 67 of file fp\+Create\+Node.\+h.
+
+
+\begin{DoxyCode}
+67                                                        \{
+68             \textcolor{keywordflow}{return} inSamples[numSample];
+69         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classnodeCreator_a78a2ed85f6f25f7f8f1f6f65f3bf3e78}\label{classnodeCreator_a78a2ed85f6f25f7f8f1f6f65f3bf3e78}} 
+\index{node\+Creator@{node\+Creator}!return\+In\+Sample\+Size@{return\+In\+Sample\+Size}}
+\index{return\+In\+Sample\+Size@{return\+In\+Sample\+Size}!node\+Creator@{node\+Creator}}
+\subsubsection{\texorpdfstring{return\+In\+Sample\+Size()}{returnInSampleSize()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+int \hyperlink{classnodeCreator}{node\+Creator}$<$ T $>$\+::return\+In\+Sample\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 59 of file fp\+Create\+Node.\+h.
+
+
+\begin{DoxyCode}
+59                                 \{
+60             \textcolor{keywordflow}{return} inSamples.size();
+61         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classnodeCreator_affd4ae08a5562f4a5c7bb0068ecf8e8d}\label{classnodeCreator_affd4ae08a5562f4a5c7bb0068ecf8e8d}} 
+\index{node\+Creator@{node\+Creator}!return\+Out\+Sample@{return\+Out\+Sample}}
+\index{return\+Out\+Sample@{return\+Out\+Sample}!node\+Creator@{node\+Creator}}
+\subsubsection{\texorpdfstring{return\+Out\+Sample()}{returnOutSample()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+int \hyperlink{classnodeCreator}{node\+Creator}$<$ T $>$\+::return\+Out\+Sample (\begin{DoxyParamCaption}\item[{const int \&}]{num\+Sample }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 71 of file fp\+Create\+Node.\+h.
+
+
+\begin{DoxyCode}
+71                                                         \{
+72             \textcolor{keywordflow}{return} outSamples[numSample];
+73         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classnodeCreator_a50d306716d731c8d0754d8628c311f11}\label{classnodeCreator_a50d306716d731c8d0754d8628c311f11}} 
+\index{node\+Creator@{node\+Creator}!return\+Out\+Sample\+Size@{return\+Out\+Sample\+Size}}
+\index{return\+Out\+Sample\+Size@{return\+Out\+Sample\+Size}!node\+Creator@{node\+Creator}}
+\subsubsection{\texorpdfstring{return\+Out\+Sample\+Size()}{returnOutSampleSize()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+int \hyperlink{classnodeCreator}{node\+Creator}$<$ T $>$\+::return\+Out\+Sample\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 63 of file fp\+Create\+Node.\+h.
+
+
+\begin{DoxyCode}
+63                                  \{
+64             \textcolor{keywordflow}{return} outSamples.size();
+65         \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classnodeCreator_a4ed8c038ff57c273b8b33a670d21214c}\label{classnodeCreator_a4ed8c038ff57c273b8b33a670d21214c}} 
+\index{node\+Creator@{node\+Creator}!in\+Bagfirst\+Element@{in\+Bagfirst\+Element}}
+\index{in\+Bagfirst\+Element@{in\+Bagfirst\+Element}!node\+Creator@{node\+Creator}}
+\subsubsection{\texorpdfstring{in\+Bagfirst\+Element}{inBagfirstElement}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+std\+::vector$<$T$>$\+::iterator \hyperlink{classnodeCreator}{node\+Creator}$<$ T $>$\+::in\+Bagfirst\+Element\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 12 of file fp\+Create\+Node.\+h.
+
+\mbox{\Hypertarget{classnodeCreator_aaa5de4d5498d0c35696736240efb410f}\label{classnodeCreator_aaa5de4d5498d0c35696736240efb410f}} 
+\index{node\+Creator@{node\+Creator}!in\+Bag\+Last\+Element@{in\+Bag\+Last\+Element}}
+\index{in\+Bag\+Last\+Element@{in\+Bag\+Last\+Element}!node\+Creator@{node\+Creator}}
+\subsubsection{\texorpdfstring{in\+Bag\+Last\+Element}{inBagLastElement}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+std\+::vector$<$T$>$\+::iterator \hyperlink{classnodeCreator}{node\+Creator}$<$ T $>$\+::in\+Bag\+Last\+Element\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 13 of file fp\+Create\+Node.\+h.
+
+\mbox{\Hypertarget{classnodeCreator_ac5903268052b2d871be3d426054eca05}\label{classnodeCreator_ac5903268052b2d871be3d426054eca05}} 
+\index{node\+Creator@{node\+Creator}!out\+Bagfirst\+Element@{out\+Bagfirst\+Element}}
+\index{out\+Bagfirst\+Element@{out\+Bagfirst\+Element}!node\+Creator@{node\+Creator}}
+\subsubsection{\texorpdfstring{out\+Bagfirst\+Element}{outBagfirstElement}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+std\+::vector$<$T$>$\+::iterator \hyperlink{classnodeCreator}{node\+Creator}$<$ T $>$\+::out\+Bagfirst\+Element\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 14 of file fp\+Create\+Node.\+h.
+
+\mbox{\Hypertarget{classnodeCreator_a53cb975b730f4a7403186b5c4230da19}\label{classnodeCreator_a53cb975b730f4a7403186b5c4230da19}} 
+\index{node\+Creator@{node\+Creator}!out\+Bag\+Last\+Element@{out\+Bag\+Last\+Element}}
+\index{out\+Bag\+Last\+Element@{out\+Bag\+Last\+Element}!node\+Creator@{node\+Creator}}
+\subsubsection{\texorpdfstring{out\+Bag\+Last\+Element}{outBagLastElement}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+std\+::vector$<$T$>$\+::iterator \hyperlink{classnodeCreator}{node\+Creator}$<$ T $>$\+::out\+Bag\+Last\+Element\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 15 of file fp\+Create\+Node.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/hold\+Delete/\hyperlink{fpCreateNode_8h}{fp\+Create\+Node.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,273 @@
+\hypertarget{classtestData}{}\section{test\+Data$<$ T, Q $>$ Class Template Reference}
+\label{classtestData}\index{test\+Data$<$ T, Q $>$@{test\+Data$<$ T, Q $>$}}
+
+
+{\ttfamily \#include $<$fp\+Data\+Set.\+h$>$}
+
+
+
+Collaboration diagram for test\+Data$<$ T, Q $>$\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=230pt]{classtestData__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classtestData_ad327e412899d5f05b97d4f84ea21efb3}{test\+Data} (const std\+::string \&forest\+C\+S\+V\+File\+Name, const int \&column\+WithY)
+\item 
+Q \hyperlink{classtestData_a32ce8f625023ea9a9c0a7aff224c75cc}{return\+Class\+Of\+Observation} (const int \&observation\+Num)
+\item 
+T \hyperlink{classtestData_aec2686210c4776df10cc0658133ed4ad}{return\+Feature\+Value} (const int \&feature\+Num, const int \&observation\+Num)
+\item 
+int \hyperlink{classtestData_a5ccc979935f93a18f7a35977a7715dbe}{return\+Num\+Features} ()
+\item 
+int \hyperlink{classtestData_a7b7ea4d5b03144b691e909730d70ce62}{return\+Num\+Observations} ()
+\item 
+int \hyperlink{classtestData_a002c37538a2877f8c493b9a27e710be7}{return\+Num\+Classes} ()
+\item 
+void \hyperlink{classtestData_a4c7ffb7eba48e534923d2701437af5e3}{print\+Data\+Stats} ()
+\item 
+void \hyperlink{classtestData_a56a646213b9d3edfeb8d97461c387437}{print\+X\+Values} ()
+\item 
+void \hyperlink{classtestData_a7141bf93c921a9f7ca4d47f890458123}{print\+Y\+Values} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classtestXData}{test\+X\+Data}$<$ T $>$ \hyperlink{classtestData_aaed20c168b252c39fb9dc56757315eee}{X}
+\item 
+\hyperlink{classinputYDataClassification}{input\+Y\+Data\+Classification}$<$ Q $>$ \hyperlink{classtestData_a97961fe071062be1146fcbcb1aaf7a00}{Y}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T, typename Q$>$\newline
+class test\+Data$<$ T, Q $>$}
+
+
+
+Definition at line 224 of file fp\+Data\+Set.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classtestData_ad327e412899d5f05b97d4f84ea21efb3}\label{classtestData_ad327e412899d5f05b97d4f84ea21efb3}} 
+\index{test\+Data@{test\+Data}!test\+Data@{test\+Data}}
+\index{test\+Data@{test\+Data}!test\+Data@{test\+Data}}
+\subsubsection{\texorpdfstring{test\+Data()}{testData()}}
+{\footnotesize\ttfamily template$<$typename T, typename Q$>$ \\
+\hyperlink{classtestData}{test\+Data}$<$ T, Q $>$\+::\hyperlink{classtestData}{test\+Data} (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{forest\+C\+S\+V\+File\+Name,  }\item[{const int \&}]{column\+WithY }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 231 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+232         \{
+233 
+234             \textcolor{comment}{//          csvHandle<T> csvH(forestCSVFileName);}
+235             \hyperlink{classcsvHandle}{csvHandle} csvH(forestCSVFileName);
+236             \textcolor{keywordflow}{if}(columnWithY >= csvH.returnNumColumns())\{
+237                 \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"column with class labels does not exist."} );
+238                 \textcolor{keywordflow}{return};
+239             \}
+240 
+241             \hyperlink{classtestData_aaed20c168b252c39fb9dc56757315eee}{X}.initializeTestXData(csvH.returnNumColumns()-1, csvH.returnNumRows());
+242             \hyperlink{classtestData_a97961fe071062be1146fcbcb1aaf7a00}{Y}.\hyperlink{classinputYData_abe1f8827e0bc89cec0c218ed5cfeea72}{initializeYData}(csvH.returnNumRows());
+243 
+244             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i<csvH.returnNumRows(); i++)\{
+245                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j=0; j<csvH.returnNumColumns(); j++)\{
+246                     \textcolor{keywordflow}{if}(j < columnWithY)\{
+247                         \hyperlink{classtestData_aaed20c168b252c39fb9dc56757315eee}{X}.setXElement(j,i, csvH.returnNextElement<T>());
+248                     \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(j == columnWithY)\{
+249                         \hyperlink{classtestData_a97961fe071062be1146fcbcb1aaf7a00}{Y}.\hyperlink{classinputYDataClassification_ae6f3f163739a75bb379dd80d7c9649a2}{setYElement}(i, csvH.returnNextElement<Q>());
+250                     \}\textcolor{keywordflow}{else}\{
+251                         \hyperlink{classtestData_aaed20c168b252c39fb9dc56757315eee}{X}.setXElement(j-1,i, csvH.returnNextElement<T>());
+252                     \}
+253                 \}
+254             \}
+255         \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classtestData_a4c7ffb7eba48e534923d2701437af5e3}\label{classtestData_a4c7ffb7eba48e534923d2701437af5e3}} 
+\index{test\+Data@{test\+Data}!print\+Data\+Stats@{print\+Data\+Stats}}
+\index{print\+Data\+Stats@{print\+Data\+Stats}!test\+Data@{test\+Data}}
+\subsubsection{\texorpdfstring{print\+Data\+Stats()}{printDataStats()}}
+{\footnotesize\ttfamily template$<$typename T, typename Q$>$ \\
+void \hyperlink{classtestData}{test\+Data}$<$ T, Q $>$\+::print\+Data\+Stats (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 277 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+277                              \{
+278             std::cout << \textcolor{stringliteral}{"there are "} << this.\hyperlink{classtestData_a5ccc979935f93a18f7a35977a7715dbe}{returnNumFeatures}() << \textcolor{stringliteral}{" features.\(\backslash\)n"};
+279             std::cout << \textcolor{stringliteral}{"there are "} << this.\hyperlink{classtestData_a7b7ea4d5b03144b691e909730d70ce62}{returnNumObservations}() << \textcolor{stringliteral}{"
+       observations.\(\backslash\)n"};
+280         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classtestData_a56a646213b9d3edfeb8d97461c387437}\label{classtestData_a56a646213b9d3edfeb8d97461c387437}} 
+\index{test\+Data@{test\+Data}!print\+X\+Values@{print\+X\+Values}}
+\index{print\+X\+Values@{print\+X\+Values}!test\+Data@{test\+Data}}
+\subsubsection{\texorpdfstring{print\+X\+Values()}{printXValues()}}
+{\footnotesize\ttfamily template$<$typename T, typename Q$>$ \\
+void \hyperlink{classtestData}{test\+Data}$<$ T, Q $>$\+::print\+X\+Values (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 282 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+282                            \{
+283             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < this->\hyperlink{classtestData_a5ccc979935f93a18f7a35977a7715dbe}{returnNumFeatures}(); i++)\{
+284                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j = 0; j < this->\hyperlink{classtestData_a7b7ea4d5b03144b691e909730d70ce62}{returnNumObservations}(); j++)\{
+285                     std::cout << this->\hyperlink{classtestData_aec2686210c4776df10cc0658133ed4ad}{returnFeatureValue}(i,j) << \textcolor{stringliteral}{" "};
+286                 \}
+287                 std::cout << \textcolor{stringliteral}{"\(\backslash\)n"};
+288             \}
+289         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classtestData_a7141bf93c921a9f7ca4d47f890458123}\label{classtestData_a7141bf93c921a9f7ca4d47f890458123}} 
+\index{test\+Data@{test\+Data}!print\+Y\+Values@{print\+Y\+Values}}
+\index{print\+Y\+Values@{print\+Y\+Values}!test\+Data@{test\+Data}}
+\subsubsection{\texorpdfstring{print\+Y\+Values()}{printYValues()}}
+{\footnotesize\ttfamily template$<$typename T, typename Q$>$ \\
+void \hyperlink{classtestData}{test\+Data}$<$ T, Q $>$\+::print\+Y\+Values (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 291 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+291                            \{
+292             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j = 0; j < this->\hyperlink{classtestData_a7b7ea4d5b03144b691e909730d70ce62}{returnNumObservations}(); j++)\{
+293                 std::cout << this->\hyperlink{classtestData_a32ce8f625023ea9a9c0a7aff224c75cc}{returnClassOfObservation}(j) << \textcolor{stringliteral}{" "};
+294             \}
+295             std::cout << \textcolor{stringliteral}{"\(\backslash\)n"};
+296         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classtestData_a32ce8f625023ea9a9c0a7aff224c75cc}\label{classtestData_a32ce8f625023ea9a9c0a7aff224c75cc}} 
+\index{test\+Data@{test\+Data}!return\+Class\+Of\+Observation@{return\+Class\+Of\+Observation}}
+\index{return\+Class\+Of\+Observation@{return\+Class\+Of\+Observation}!test\+Data@{test\+Data}}
+\subsubsection{\texorpdfstring{return\+Class\+Of\+Observation()}{returnClassOfObservation()}}
+{\footnotesize\ttfamily template$<$typename T, typename Q$>$ \\
+Q \hyperlink{classtestData}{test\+Data}$<$ T, Q $>$\+::return\+Class\+Of\+Observation (\begin{DoxyParamCaption}\item[{const int \&}]{observation\+Num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 257 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+257                                                                     \{
+258             \textcolor{keywordflow}{return} \hyperlink{classtestData_a97961fe071062be1146fcbcb1aaf7a00}{Y}.\hyperlink{classinputYData_affffd6432eaa11acc46fc83fb4ce409a}{returnYElement}(observationNum);
+259         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classtestData_aec2686210c4776df10cc0658133ed4ad}\label{classtestData_aec2686210c4776df10cc0658133ed4ad}} 
+\index{test\+Data@{test\+Data}!return\+Feature\+Value@{return\+Feature\+Value}}
+\index{return\+Feature\+Value@{return\+Feature\+Value}!test\+Data@{test\+Data}}
+\subsubsection{\texorpdfstring{return\+Feature\+Value()}{returnFeatureValue()}}
+{\footnotesize\ttfamily template$<$typename T, typename Q$>$ \\
+T \hyperlink{classtestData}{test\+Data}$<$ T, Q $>$\+::return\+Feature\+Value (\begin{DoxyParamCaption}\item[{const int \&}]{feature\+Num,  }\item[{const int \&}]{observation\+Num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 261 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+261                                                                                      \{
+262             \textcolor{keywordflow}{return} \hyperlink{classtestData_aaed20c168b252c39fb9dc56757315eee}{X}.returnElement(featureNum, observationNum);
+263         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classtestData_a002c37538a2877f8c493b9a27e710be7}\label{classtestData_a002c37538a2877f8c493b9a27e710be7}} 
+\index{test\+Data@{test\+Data}!return\+Num\+Classes@{return\+Num\+Classes}}
+\index{return\+Num\+Classes@{return\+Num\+Classes}!test\+Data@{test\+Data}}
+\subsubsection{\texorpdfstring{return\+Num\+Classes()}{returnNumClasses()}}
+{\footnotesize\ttfamily template$<$typename T, typename Q$>$ \\
+int \hyperlink{classtestData}{test\+Data}$<$ T, Q $>$\+::return\+Num\+Classes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 273 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+273                              \{
+274             \textcolor{keywordflow}{return} \hyperlink{classtestData_a97961fe071062be1146fcbcb1aaf7a00}{Y}.\hyperlink{classinputYDataClassification_ae090531ab57b174ab007a2a8248462fe}{numClasses}();
+275         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classtestData_a5ccc979935f93a18f7a35977a7715dbe}\label{classtestData_a5ccc979935f93a18f7a35977a7715dbe}} 
+\index{test\+Data@{test\+Data}!return\+Num\+Features@{return\+Num\+Features}}
+\index{return\+Num\+Features@{return\+Num\+Features}!test\+Data@{test\+Data}}
+\subsubsection{\texorpdfstring{return\+Num\+Features()}{returnNumFeatures()}}
+{\footnotesize\ttfamily template$<$typename T, typename Q$>$ \\
+int \hyperlink{classtestData}{test\+Data}$<$ T, Q $>$\+::return\+Num\+Features (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 265 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+265                                       \{
+266             \textcolor{keywordflow}{return} \hyperlink{classtestData_aaed20c168b252c39fb9dc56757315eee}{X}.returnNumFeatures();
+267         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classtestData_a7b7ea4d5b03144b691e909730d70ce62}\label{classtestData_a7b7ea4d5b03144b691e909730d70ce62}} 
+\index{test\+Data@{test\+Data}!return\+Num\+Observations@{return\+Num\+Observations}}
+\index{return\+Num\+Observations@{return\+Num\+Observations}!test\+Data@{test\+Data}}
+\subsubsection{\texorpdfstring{return\+Num\+Observations()}{returnNumObservations()}}
+{\footnotesize\ttfamily template$<$typename T, typename Q$>$ \\
+int \hyperlink{classtestData}{test\+Data}$<$ T, Q $>$\+::return\+Num\+Observations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 269 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+269                                           \{
+270             \textcolor{keywordflow}{return} \hyperlink{classtestData_a97961fe071062be1146fcbcb1aaf7a00}{Y}.\hyperlink{classinputYData_a93becb50dcb3b2d6dd3c488ae83b2c6b}{returnNumObservations}();
+271         \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classtestData_aaed20c168b252c39fb9dc56757315eee}\label{classtestData_aaed20c168b252c39fb9dc56757315eee}} 
+\index{test\+Data@{test\+Data}!X@{X}}
+\index{X@{X}!test\+Data@{test\+Data}}
+\subsubsection{\texorpdfstring{X}{X}}
+{\footnotesize\ttfamily template$<$typename T, typename Q$>$ \\
+\hyperlink{classtestXData}{test\+X\+Data}$<$T$>$ \hyperlink{classtestData}{test\+Data}$<$ T, Q $>$\+::X\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 227 of file fp\+Data\+Set.\+h.
+
+\mbox{\Hypertarget{classtestData_a97961fe071062be1146fcbcb1aaf7a00}\label{classtestData_a97961fe071062be1146fcbcb1aaf7a00}} 
+\index{test\+Data@{test\+Data}!Y@{Y}}
+\index{Y@{Y}!test\+Data@{test\+Data}}
+\subsubsection{\texorpdfstring{Y}{Y}}
+{\footnotesize\ttfamily template$<$typename T, typename Q$>$ \\
+\hyperlink{classinputYDataClassification}{input\+Y\+Data\+Classification}$<$Q$>$ \hyperlink{classtestData}{test\+Data}$<$ T, Q $>$\+::Y\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 228 of file fp\+Data\+Set.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/fp\+Singleton/\hyperlink{fpDataSet_8h}{fp\+Data\+Set.\+h}\end{DoxyCompactItemize}
