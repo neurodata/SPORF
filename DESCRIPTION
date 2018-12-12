@@ -34,5 +34,8 @@ Imports: parallel, RcppZiggurat, utils, stats, dummies
 Suggests: roxygen2 (>= 5.0.0), testthat
 LinkingTo: Rcpp, RcppArmadillo
 SystemRequirements: GNU make
+Encoding: UTF-8
 ByteCompile: true
 RoxygenNote: 6.1.0
+Depends: Rcpp
+RcppModules: fpForest

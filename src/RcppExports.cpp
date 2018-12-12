@@ -47,10 +47,13 @@ BEGIN_RCPP
 END_RCPP
 }
 
+RcppExport SEXP _rcpp_module_boot_fpForest();
+
 static const R_CallMethodDef CallEntries[] = {
     {"_rerf_packForestRCPP", (DL_FUNC) &_rerf_packForestRCPP, 0},
     {"_rerf_predictRF", (DL_FUNC) &_rerf_predictRF, 2},
     {"_rerf_findSplit", (DL_FUNC) &_rerf_findSplit, 9},
+    {"_rcpp_module_boot_fpForest", (DL_FUNC) &_rcpp_module_boot_fpForest, 0},
     {NULL, NULL, 0}
 };
 
