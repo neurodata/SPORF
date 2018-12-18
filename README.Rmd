@@ -32,7 +32,7 @@ knitr::opts_chunk$set(
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1933344.svg)](https://doi.org/10.5281/zenodo.1933344)
 
 
--   README
+-   [Randomer Forest](#randomer-forest)
     -   [Repo Contents](#repo-contents)
     -   [Description](#description)
     -   [Tested on](#tested-on)

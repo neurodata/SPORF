@@ -9,7 +9,7 @@ Badge](https://www.r-pkg.org/badges/version/rerf)](https://cran.r-project.org/pa
 shield](https://img.shields.io/badge/arXiv-1506.03410-red.svg?style=flat)](https://arxiv.org/abs/1506.03410)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1933344.svg)](https://doi.org/10.5281/zenodo.1933344)
 
-  - README
+  - [Randomer Forest](#randomer-forest)
       - [Repo Contents](#repo-contents)
       - [Description](#description)
       - [Tested on](#tested-on)
