@@ -775,8 +775,8 @@ gabSamp <- function(n = 1, galpha = 3, gbeta = 1, igalpha = 1, igbeta = 0.5, iw)
 #' @param d the number of desired columns in the projection matrix.
 #' @param ih the height (px) of the image.
 #' @param iw the width (px) of the image.
-#' @param pwMin the minimum patch size to sample.
-#' @param pwMax the maximum patch size to sample.
+#' @param tol Gabor weights in a delta-ball of radius \code{tol}
+#' centered at 0 are set to 0.
 #' @param ... used to handle superfluous arguments passed in using paramList.
 #'
 #' @return A random matrix to use in running \code{\link{RerF}}.
@@ -805,7 +805,7 @@ RandMatGabor <- function(p, d, ih, iw, tol = .Machine$double.eps, ...) {
   gridXY <- expand.grid(gx, gy)
   gaborBank <- list()
   for(i in 1:d){
-    params <- gabSamp(w = whG) ## 3 = letter c
+    params <- gabSamp(iw = iw)
     params$x <- gridXY[, 1]
     params$y <- gridXY[, 2]
     gaborBank[[i]] <- do.call(Gw, params)
