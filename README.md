@@ -1,9 +1,15 @@
-README
+Randomer Forest
 ================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-  - [Randomer Forest](#randomer-forest)
+[![CRAN Status
+Badge](https://www.r-pkg.org/badges/version/rerf)](https://cran.r-project.org/package=rerf)
+[![arXiv
+shield](https://img.shields.io/badge/arXiv-1506.03410-red.svg?style=flat)](https://arxiv.org/abs/1506.03410)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1933344.svg)](https://doi.org/10.5281/zenodo.1933344)
+
+  - README
       - [Repo Contents](#repo-contents)
       - [Description](#description)
       - [Tested on](#tested-on)
@@ -22,13 +28,6 @@ README
         classification:](#train-structured-rerf-s-rerf-for-image-classification)
       - [Unsupervised classification
         (U-RerF)](#unsupervised-classification-u-rerf)
-
-# [Randomer Forest](https://arxiv.org/pdf/1506.03410v2.pdf "arxiv link to RerF paper")
-
-[![CRAN Status
-Badge](https://www.r-pkg.org/badges/version/rerf)](https://cran.r-project.org/package=rerf)
-[![arXiv
-shield](https://img.shields.io/badge/arXiv-1506.03410-red.svg?style=flat)](https://arxiv.org/abs/1506.03410)
 
 ## Repo Contents
 
@@ -80,7 +79,7 @@ Any machine with \>= 2 GB RAM
 
 ## Installation
 
-  - Installation normally takes ~5-10 minutes
+  - Installation normally takes \~5-10 minutes
   - Non-Windows users install the GNU Scientific Library (libgsl0-dev).
   - Windows users install Rtools
     (<https://cran.r-project.org/bin/windows/Rtools/>)
