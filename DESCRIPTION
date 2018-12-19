@@ -26,7 +26,7 @@ Description: R-RerF (aka Randomer Forest (RerF) or Random Projection
   algorithms is where the random linear combinations occur: Forest-RC
   combines features at the per tree level whereas RerF takes linear
   combinations of coordinates at every node in the tree.
-Depends: R (>= 3.3.0)
+Depends: R (>= 3.3.0), Rcpp
 License: Apache License 2.0 | file LICENSE
 URL: https://github.com/neurodata/R-RerF
 BugReports: https://github.com/neurodata/R-RerF/issues
@@ -37,5 +37,4 @@ SystemRequirements: GNU make
 Encoding: UTF-8
 ByteCompile: true
 RoxygenNote: 6.1.0
-Depends: Rcpp
 RcppModules: fpForest

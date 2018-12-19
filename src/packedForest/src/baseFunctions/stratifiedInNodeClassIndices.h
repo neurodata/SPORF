@@ -64,7 +64,7 @@ namespace fp{
 				}
 
 				int numUnusedObs = numObs;
-				int randomObsID;
+				int randomObsID = 0;
 				int tempMoveObs;
 				for(int n=0; n<numObs; n++){
 					randomObsID = distr(eng);
