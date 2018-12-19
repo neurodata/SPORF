@@ -703,6 +703,10 @@ Gw <- function(x, y, alpha, betax, betay, f, phi, x0, y0, tau, betaxy = 0) {
 #'   year={2016}
 #' }
 #'
+#' @importFrom stats runif
+#' @importFrom MCMCpack rinvgamma
+#' 
+#' 
 #' @examples
 #'
 #' params <- gabSamp()
@@ -825,7 +829,6 @@ RandMatGabor <- function(p, d, ih, iw, tol = .Machine$double.eps, ...) {
   w <- Reduce('c', gaborBank)
   w[w <= tol & w >= -tol] <- 0 ## NOTE: This is not efficient
 
-  ## remove w within delta ball of zero to save space
   random.matrix <- 
-    as.matrix(cbind(nz.rows = nz.rows, nz.cols = nz.cols, w = w))[w != 0, ]
+    as.matrix(cbind(nz.rows = nz.rows, nz.cols = nz.cols, w = w))
 }
