@@ -794,7 +794,7 @@ gabSamp <- function(n = 1, galpha = 3, gbeta = 1, igalpha = 1, igbeta = 0.5, iw)
 #' d <- 28
 #' paramList <- list(p = p, d = d, ih = ih, iw = iw)
 #' set.seed(8)
-#' (a <- do.call(RandMatImageGabor, paramList))
+#' (a <- do.call(RandMatGabor, paramList))
 #' for(i in 1:d){
 #'   plot(raster::raster(matrix(a[a[, 2] == i,][, 3L] , 28, 28)))
 #'   Sys.sleep(0.6)
@@ -830,5 +830,5 @@ RandMatGabor <- function(p, d, ih, iw, tol = .Machine$double.eps, ...) {
   w[w <= tol & w >= -tol] <- 0 ## NOTE: This is not efficient
 
   random.matrix <- 
-    as.matrix(cbind(nz.rows = nz.rows, nz.cols = nz.cols, w = w))
+    as.matrix(cbind(nz.rows = nz.rows, nz.cols = nz.cols, w = w))[w != 0, ]
 }
