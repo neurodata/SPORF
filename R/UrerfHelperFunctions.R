@@ -97,6 +97,7 @@ checkInputMatrix <- function(X) {
 #' @param FUN the function to create the rotation matrix used to determine mtry features.
 #' @param options options provided to FUN.
 #' @param Progress logical that determines whether to show tree creation status (Progress=TRUE).
+#' @param LinearCombo logical that determines whether to use linear combination of features. (LinearCombo=TRUE).
 #'
 #' @return tree
 #'
@@ -107,8 +108,12 @@ GrowUnsupervisedForest <-
              MaxDepth = Inf, bagging = 0.2,
              replacement = TRUE, FUN = makeAB,
              options = list(p = ncol(X), d = ceiling(ncol(X)^0.5), sparsity = 1 / ncol(X)),
-             Progress = TRUE) {
+             Progress = TRUE, LinearCombo=TRUE) {
+		if(LinearCombo){ 
     FUN <- match.fun(FUN, descend = TRUE)
+		}else{
+    FUN <- match.fun(makeA, descend = TRUE)
+		}
     ############# Start Growing Forest #################
 
     forest <- vector("list", trees)
