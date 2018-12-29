@@ -1,6 +1,6 @@
 #include <vector>
 #include <iostream>
-#include "../../src/baseFunctions/fpSplit.h"
+#include "../../src/forestTypes/rfClassification/fpSplit.h"
 
 using namespace fp;
 

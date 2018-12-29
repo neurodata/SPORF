@@ -2,7 +2,7 @@
 #include <vector>
 #include <algorithm>
 
-#include "../../src/baseFunctions/inNodeClassIndices.h"
+#include "../../src/forestTypes/stratifiedInNodeClassIndices.h"
 
 using namespace fp;
 

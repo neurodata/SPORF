@@ -1,8 +1,7 @@
 #ifndef rfunprocessedRerFNode_h
 #define rfunprocessedRerFNode_h
 #include "splitRerF.h"
-#include "../classTotals.h"
-#include "../stratifiedInNodeClassIndices.h"
+#include "../baseUnprocessedNode.h"
 #include <vector>
 #include <random>
 
@@ -10,23 +9,11 @@ namespace fp{
 
 
 	template <typename T> //
-		class unprocessedRerFNode{
+		class unprocessedRerFNode : public baseUnprocessedNode<T>{
 			protected:
-				int parentID;
-				int depth;
-				double nodeImpurity; //lower impurity is better
-				bool isLeftNode; //in order to set parent node with location
 
 				splitRerFInfo<T> bestSplitInfo;
-
-				stratifiedInNodeClassIndices* obsIndices;
-				stratifiedInNodeClassIndices* leftIndices;
-				stratifiedInNodeClassIndices* rightIndices;
-
-				//std::vector<int> featuresToTry;
 				std::vector< std::vector<int> > featuresToTry;
-				std::vector<T> featureHolder;
-				std::vector<int> labelHolder;
 
 				//std::random_device rd;
 				//The next three should be static
@@ -36,48 +23,17 @@ namespace fp{
 				//Example: auto random_integer = uni(rng);
 
 			public:
-				unprocessedRerFNode(int numObsForRoot):  parentID(0), depth(0), isLeftNode(true){
-					obsIndices = new stratifiedInNodeClassIndices(numObsForRoot);
+				unprocessedRerFNode(int numObsForRoot): baseUnprocessedNode<T>::baseUnprocessedNode(numObsForRoot){
 					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
-					leftIndices=NULL;
-					rightIndices=NULL;
 				}
 
-				unprocessedRerFNode(int parentID, int dep, bool isLeft):parentID(parentID),depth(dep),isLeftNode(isLeft){
+				unprocessedRerFNode(int parentID, int dep, bool isLeft): baseUnprocessedNode<T>::baseUnprocessedNode(parentID, dep, isLeft){
 					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
-					leftIndices=NULL;
-					rightIndices=NULL;
 				}
 
 				~unprocessedRerFNode(){
-					//	delete leftIndices;
-					//	delete rightIndices;
 				}
 
-
-				inline stratifiedInNodeClassIndices* returnLeftIndices(){
-					return leftIndices;
-				}
-
-				inline stratifiedInNodeClassIndices* returnRightIndices(){
-					return rightIndices;
-				}
-
-				inline int returnParentID(){
-					return parentID;
-				}
-
-				inline double returnNodeImpurity(){
-					return nodeImpurity;
-				}
-
-				inline bool returnIsLeftNode(){
-					return isLeftNode;
-				}
-
-				inline int returnDepth(){
-					return depth;
-				}
 
 				inline std::vector<int> returnBestFeature(){
 					return bestSplitInfo.returnFeatureNum();
@@ -91,36 +47,12 @@ namespace fp{
 					return bestSplitInfo.returnSplitValue();
 				}
 
-				inline void setHolderSizes(){
-					obsIndices->initializeBinnedSamples();
-					if(obsIndices->useBin()){
-						labelHolder.resize(obsIndices->returnBinnedSize());
-						featureHolder.resize(obsIndices->returnBinnedSize());
-					}else{
-						labelHolder.resize(obsIndices->returnInSampleSize());
-						featureHolder.resize(obsIndices->returnInSampleSize());
+
+				inline void setBestSplit(splitRerFInfo<T> tempSplit){
+					if(tempSplit.returnImpurity() < bestSplitInfo.returnImpurity()){
+						bestSplitInfo = tempSplit;
 					}
 				}
-
-				inline int returnInSampleSize(){
-					return obsIndices->returnInSampleSize();
-				}
-
-				inline int returnOutSampleSize(){
-					return obsIndices->returnOutSampleSize();
-				}
-
-				inline int returnOutSampleError(int classNum){
-					int totalRight=0;
-					//	//for(int i : obsIndices->returnOutSamples()){
-					//	for(unsigned int i =0; i <  obsIndices->returnSize(); ++i){
-					//		if (i==classNum){
-					//		++totalRight;
-					//		}
-					//		}
-					return totalRight;
-				}
-
 
 				inline void pickMTRY(){
 					int rndMtry;
@@ -132,83 +64,53 @@ namespace fp{
 					}
 				}
 
-				inline void loadLabelHolder(){
-					if(obsIndices->useBin()){
-						for(int i =0; i < obsIndices->returnBinnedSize(); ++i){
-							labelHolder[i] = fpSingleton::getSingleton().returnLabel(obsIndices->returnBinnedInSample(i));
-						}
-					}else{
-						for(int i =0; i < obsIndices->returnInSampleSize(); ++i){
-							labelHolder[i] = fpSingleton::getSingleton().returnLabel(obsIndices->returnInSample(i));
-						}
-					}
-				}
-
-
 				inline void loadFeatureHolder(){
-					if(obsIndices->useBin()){
-						for(int q=0; q<obsIndices->returnBinnedSize(); q++){
-							fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[0],obsIndices->returnBinnedInSample(q));
+					if(baseUnprocessedNode<T>::obsIndices->useBin()){
+						for(int q=0; q<baseUnprocessedNode<T>::obsIndices->returnBinnedSize(); q++){
+							fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnBinnedInSample(q));
 						}
 
-						for(int i =0; i < obsIndices->returnBinnedSize(); ++i){
-							featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[0],obsIndices->returnBinnedInSample(i));
+						for(int i =0; i < baseUnprocessedNode<T>::obsIndices->returnBinnedSize(); ++i){
+							baseUnprocessedNode<T>::featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnBinnedInSample(i));
 						}
 						if(featuresToTry.back().size()>1){
 							for(unsigned int j =1; j < featuresToTry.back().size(); ++j){
-								for(int q=0; q<obsIndices->returnBinnedSize(); q++){
-									fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[j],obsIndices->returnBinnedInSample(q));
+								for(int q=0; q<baseUnprocessedNode<T>::obsIndices->returnBinnedSize(); q++){
+									fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[j],baseUnprocessedNode<T>::obsIndices->returnBinnedInSample(q));
 								}
-								for(int i =0; i < obsIndices->returnBinnedSize(); ++i){
-									featureHolder[i] += fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[j],obsIndices->returnBinnedInSample(i));
+								for(int i =0; i < baseUnprocessedNode<T>::obsIndices->returnBinnedSize(); ++i){
+									baseUnprocessedNode<T>::featureHolder[i] += fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[j],baseUnprocessedNode<T>::obsIndices->returnBinnedInSample(i));
 								}
 							}
 						}
 					}else{
 
-						for(int q=0; q<obsIndices->returnInSampleSize(); q++){
-							fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[0],obsIndices->returnInSample(q));
+						for(int q=0; q<baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); q++){
+							fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnInSample(q));
 						}
 
-						for(int i =0; i < obsIndices->returnInSampleSize(); ++i){
-							featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[0],obsIndices->returnInSample(i));
+						for(int i =0; i < baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); ++i){
+							baseUnprocessedNode<T>::featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnInSample(i));
 						}
 						if(featuresToTry.back().size()>1){
 							for(unsigned int j =1; j < featuresToTry.back().size(); ++j){
-								for(int q=0; q<obsIndices->returnInSampleSize(); q++){
-									fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[j],obsIndices->returnInSample(q));
+								for(int q=0; q<baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); q++){
+									fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[j],baseUnprocessedNode<T>::obsIndices->returnInSample(q));
 								}
 
-								for(int i =0; i < obsIndices->returnInSampleSize(); ++i){
-									featureHolder[i] += fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[j],obsIndices->returnInSample(i));
+								for(int i =0; i < baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); ++i){
+									baseUnprocessedNode<T>::featureHolder[i] += fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[j],baseUnprocessedNode<T>::obsIndices->returnInSample(i));
 								}
 							}
 						}
 					}
 				}
-
-				inline float calculateNodeImpurity(){
-					return obsIndices->returnImpurity();
-				}
-
 
 				inline void setupNode(){
 					pickMTRY();
-					setHolderSizes();
-					loadLabelHolder();
-					nodeImpurity = calculateNodeImpurity();
-				}
-
-
-				inline void setBestSplit(splitRerFInfo<T> tempSplit){
-					if(tempSplit.returnImpurity() < bestSplitInfo.returnImpurity()){
-						bestSplitInfo = tempSplit;
-					}
-				}
-
-
-				inline void loadIndices(stratifiedInNodeClassIndices* indices){
-					obsIndices = indices;
+					baseUnprocessedNode<T>::setHolderSizes();
+					baseUnprocessedNode<T>::loadLabelHolder();
+					baseUnprocessedNode<T>::setNodeImpurity(baseUnprocessedNode<T>::calculateNodeImpurity());
 				}
 
 
@@ -235,44 +137,44 @@ namespace fp{
 				}
 
 				inline void moveDataLeftOrRight(){
-					if(leftIndices !=NULL){
-						delete leftIndices;
+					if(baseUnprocessedNode<T>::leftIndices !=NULL){
+						delete baseUnprocessedNode<T>::leftIndices;
 					}
-					if(rightIndices !=NULL){
-						delete rightIndices;
+					if(baseUnprocessedNode<T>::rightIndices !=NULL){
+						delete baseUnprocessedNode<T>::rightIndices;
 					}
 
-					leftIndices = new stratifiedInNodeClassIndices();
-					rightIndices = new stratifiedInNodeClassIndices();
+					baseUnprocessedNode<T>::leftIndices = new stratifiedInNodeClassIndices();
+					baseUnprocessedNode<T>::rightIndices = new stratifiedInNodeClassIndices();
 
 					int lNum =0;
 					int rNum =0;
-					for (int i=0; i < obsIndices->returnInSampleSize();++i){
-						if(goLeft(obsIndices->returnInSample(i))){
+					for (int i=0; i < baseUnprocessedNode<T>::obsIndices->returnInSampleSize();++i){
+						if(goLeft(baseUnprocessedNode<T>::obsIndices->returnInSample(i))){
 							++lNum;
-							leftIndices->addIndexToInSamples(obsIndices->returnInSample(i));	
+							baseUnprocessedNode<T>::leftIndices->addIndexToInSamples(baseUnprocessedNode<T>::obsIndices->returnInSample(i));	
 						}else{
 							++rNum;
-							rightIndices->addIndexToInSamples(obsIndices->returnInSample(i));	
+							baseUnprocessedNode<T>::rightIndices->addIndexToInSamples(baseUnprocessedNode<T>::obsIndices->returnInSample(i));	
 						}
 					}
 
-					for (int i=0; i < obsIndices->returnOutSampleSize();++i){
-						if(goLeft(obsIndices->returnInSample(i))){
-							leftIndices->addIndexToOutSamples(obsIndices->returnInSample(i));	
+					for (int i=0; i < baseUnprocessedNode<T>::obsIndices->returnOutSampleSize();++i){
+						if(goLeft(baseUnprocessedNode<T>::obsIndices->returnInSample(i))){
+							baseUnprocessedNode<T>::leftIndices->addIndexToOutSamples(baseUnprocessedNode<T>::obsIndices->returnInSample(i));	
 						}else{
-							rightIndices->addIndexToOutSamples(obsIndices->returnInSample(i));	
+							baseUnprocessedNode<T>::rightIndices->addIndexToOutSamples(baseUnprocessedNode<T>::obsIndices->returnInSample(i));	
 						}
 					}
 
-					delete obsIndices;
-					obsIndices = NULL;
+					delete baseUnprocessedNode<T>::obsIndices;
+					baseUnprocessedNode<T>::obsIndices = NULL;
 				}
 
 
 				inline void findBestSplit(){
 					//timeLogger logTime;
-					splitRerF<T> findSplit(labelHolder); //This is done twice
+					splitRerF<T> findSplit(baseUnprocessedNode<T>::labelHolder); //This is done twice
 					//TODO This needs to change to real mtry
 					std::vector<int> tempVec;
 					tempVec.push_back(0);
@@ -283,7 +185,7 @@ namespace fp{
 							loadFeatureHolder();
 							//logTime.stopGiniTimer();
 							//tempVec = featuresToTry.back();
-							setBestSplit(findSplit.giniSplit(featureHolder ,featuresToTry.back()));
+							setBestSplit(findSplit.giniSplit(baseUnprocessedNode<T>::featureHolder ,featuresToTry.back()));
 							//setBestSplit(findSplit.giniSplit(featureHolder ,tempVec));
 						}
 						featuresToTry.pop_back();
@@ -291,16 +193,6 @@ namespace fp{
 				}
 
 
-				inline int returnMaxClass(){
-					if(nodeImpurity==0){
-						return labelHolder[0];
-					} else {
-						classTotals findMaxClass;
-						findMaxClass.findNumClasses(labelHolder);
-						return findMaxClass.returnLargestClass();
-					}
-				}
-
-				}; //unprocessedNode.h
-		}//namespace fp
+		}; //unprocessedNode.h
+}//namespace fp
 #endif //unprocessedNode_h

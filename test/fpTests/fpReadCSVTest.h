@@ -1,5 +1,5 @@
 #include <string>
-#include "../../src/fpSingleton/fpReadCSV.h"
+#include "../../src/fpSingleton/dataset/fpReadCSV.h"
 
 TEST(fpReadCSV, testReadValsCSV)
 {

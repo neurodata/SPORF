@@ -3,9 +3,10 @@
 #include <exception>
 
 int main(int argc, char* argv[]) {
-		    if (argc != 3) return -1;
-				    int dataSet = atoi(argv[1]);
-						int numCores = atoi(argv[2]);
+	if (argc != 4) return -1;
+	int alg = atoi(argv[1]);
+	int dataSet = atoi(argv[2]);
+	int numCores = atoi(argv[3]);
 
 	/*
 		 fp::timeLogger logTime;
@@ -22,16 +23,27 @@ int main(int argc, char* argv[]) {
 	try{
 		fp::fpForest<double> forest;
 
-		if(false){
-			forest.setParameter("forestType", "rerf");
-		}else{
-			forest.setParameter("forestType", "rfBase");
+		switch(alg){
+			case 1:
+				forest.setParameter("forestType", "rerf");
+				break;
+			case 2:
+				forest.setParameter("forestType", "rfBase");
+				break;
+			case 3:
+				forest.setParameter("forestType", "rerf");
+				forest.setParameter("useBinning", 1000);
+				break;
+			case 4:
+				forest.setParameter("forestType", "rfBase");
+				forest.setParameter("useBinning", 1000);
+				break;
+			default:
+				std::cout << "unknown alg selected" << std::endl;
+				return -1;
+				break;
 		}
 
-
-		forest.setParameter("numTreesInForest", 100);
-		forest.setParameter("minParent", 1);
-	//	int dataSet = 3;
 
 		switch(dataSet){
 			case 1: 
@@ -50,21 +62,21 @@ int main(int argc, char* argv[]) {
 				forest.setParameter("CSVFileName", "res/higgsData.csv");
 				forest.setParameter("columnWithY", 0);
 				break;
+			default:
+				std::cout << "unknown dataset selected" << std::endl;
+				return -1;
+				break;
 		}
 
-//				forest.setParameter("useBinning", 1000);
-				forest.setParameter("numCores", numCores);
 
+		forest.setParameter("numTreesInForest", 10);
+		forest.setParameter("minParent", 1);
+		forest.setParameter("numCores", numCores);
 
-
-		//forest.setParameter("CSVFileName", "test/res/testCSV.csv");
-		//		forest.setParameter("numClasses", 5);
-		//		forest.setParameter("mtry", 100);
-
-
-
+		std::cout << "growing";
 		forest.growForest();
 
+		std::cout << "grew" << std::endl;
 		forest.printParameters();
 		forest.printForestType();
 

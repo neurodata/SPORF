@@ -7,7 +7,6 @@
 #include <ctime>
 #include <chrono>
 #include <cstdlib>
-#include <omp.h>
 #include "rerfTree.h"
 
 namespace fp {

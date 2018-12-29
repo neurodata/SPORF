@@ -5,7 +5,12 @@
 //#include "fpGrowingTreeHelpers/fpSplit.h"
 #include <string>
 #include <memory>
+
+#if defined(ENABLE_OPENMP)
 #include <omp.h>
+#else
+			void omp_set_num_threads(int x){}
+#endif
 
 namespace fp {
 
