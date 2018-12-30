@@ -5,20 +5,20 @@ using namespace fp;
 
 TEST(obsIndexAndClassTuple, basicFunctions)
 {
-int firstClass = 5;
-int secondClass = 6;
+	int firstClass = 5;
+	int secondClass = 6;
 
-int firstIndex = 3;
-int secondIndex = 6;
+	int firstIndex = 3;
+	int secondIndex = 6;
 
 	obsIndexAndClassTuple<int> firstTuple;
 	obsIndexAndClassTuple<int> secondTuple;
 
-firstTuple.setObsIndex(firstIndex);
-firstTuple.setObsClass(firstClass);
+	firstTuple.setObsIndex(firstIndex);
+	firstTuple.setObsClass(firstClass);
 
-secondTuple.setObsIndex(secondIndex);
-secondTuple.setObsClass(secondClass);
+	secondTuple.setObsIndex(secondIndex);
+	secondTuple.setObsClass(secondClass);
 
 
 	EXPECT_EQ(firstTuple.returnClassOfObs(), firstClass);

@@ -51,7 +51,7 @@ namespace fp{
 				}
 
 				inline void isFinished(){
-return mtry.empty();
+					return mtry.empty();
 				}
 
 
@@ -136,11 +136,11 @@ return mtry.empty();
 
 				inline void processNode(){
 					if(isLeafNode()){
-//send node to actual tree container
+						//send node to actual tree container
 					}else{
 						setupNode();
-calcBestSplitInfoForNode();
-//split node if something found.
+						calcBestSplitInfoForNode();
+						//split node if something found.
 					}
 
 				}

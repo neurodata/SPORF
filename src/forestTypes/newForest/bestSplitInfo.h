@@ -12,10 +12,10 @@ namespace fp{
 		class bestSplitInfo
 		{
 			protected:
-				double impurity;
+				float impurity;
 
-				F featureNum;
 				T splitValue;
+				F featureNum;
 
 			public:
 				bestSplitInfo(): impurity(std::numeric_limits<double>::max()){}
@@ -28,7 +28,7 @@ namespace fp{
 					return splitValue;
 				}
 
-				inline void setImpurity(double gVal){
+				inline void setImpurity(float gVal){
 					impurity = gVal;
 				}
 
@@ -36,16 +36,13 @@ namespace fp{
 					return impurity;
 				}
 
-
 				inline void setFeature(F fNum){
 					featureNum = fNum;
 				}
 
-				inline F returnFeatureNum(){
+				inline F& returnFeatureNum(){
 					return featureNum;
 				}
-
-				
 		};
 
 }//namespace fp

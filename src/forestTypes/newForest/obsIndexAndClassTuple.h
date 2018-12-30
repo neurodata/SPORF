@@ -26,11 +26,11 @@ namespace fp{
 					return indexOfObs;
 				}
 
-				void setObsClass(T obsClass){
+				inline void setObsClass(T obsClass){
 					classOfObs = obsClass;
 				}
 
-				void setObsIndex(int index){
+				inline void setObsIndex(int index){
 					indexOfObs = index;
 				}
 		};

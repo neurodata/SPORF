@@ -2,25 +2,26 @@
 #define inNodeClassTotals_h
 
 #include <vector>
+#include "obsIndexAndClassTuple.h"
+#include <iostream>
 
 namespace fp{
 
+	template<typename T>
 	class inNodeClassTotals{
 		protected:
 			int maxClass;
 			int totalNumObj;
-			double impurity;
+			float impurity;
 			std::vector<int> classVec;
 
 		public:
 			inNodeClassTotals() : maxClass(-1), totalNumObj(0), impurity(-1){}
 
 			inline int returnLargestClass(){
-				int largestClass=-1; 
-				int numInClass=-1;
-				for(int i = 0; i <= maxClass; ++i){
-					if(classVec[i] > numInClass){
-						numInClass = classVec[i];
+				int largestClass=0; 
+				for(int i = 1; i <= maxClass; ++i){
+					if(classVec[i] > classVec[largestClass]){
 						largestClass = i;
 					}
 				}
@@ -28,36 +29,26 @@ namespace fp{
 			}
 
 
-			void findClassCardinalities(std::vector<obsIndexAndClassTuple>::const_iterator begin,  std::vector<obsIndexAndClassTuple>::const_iterator end){
-				for(auto i : labels){
-					if(i.returnClassOfObs() > maxClass){
-						maxClass = i;
-						classVec.resize(i+1);//+1 because class labels start at 0.
+			inline void findClassCardinalities(std::vector<obsIndexAndClassTuple<T> >& observations){
+				for(int i = 0; i < (int)observations.size(); ++i){
+					if(observations[i].returnClassOfObs() > maxClass){
+						maxClass = observations[i].returnClassOfObs();
+						classVec.resize(maxClass+1);//+1 because class labels start at 0.
 					}
-					++classVec[i.returnClassOfObs()];
+					++classVec[observations[i].returnClassOfObs()];
 					++totalNumObj;
 				}
 			}
 
 
-			int returnNumItems(){
+			inline int returnNumItems(){
 				return totalNumObj;
 			}
 
-			double returnImpurity(){
+			inline float returnImpurity(){
 				return impurity;
 			}
 
-			/*
-				 inline void setClassVecSize(int newSize){
-				 classVec.resize(newSize);
-				 std::fill(classVec.begin(), classVec.end(), 0.0);
-				 }
-
-				 inline int returnClassVecSize(){
-				 return classVec.size();
-				 }
-				 */
 
 			inline float calcAndReturnImpurity(){
 				if(false){ //use gini impurity
@@ -95,11 +86,16 @@ namespace fp{
 				totalNumObj=0;
 			}
 
-			inline void copyProperties(inNodeClassTotals nodeData){
+			inline void copyInNodeClassTotals(inNodeClassTotals nodeData){
 				maxClass = nodeData.maxClass;
 				totalNumObj = nodeData.totalNumObj;
 				impurity = nodeData.impurity;
 				classVec = nodeData.classVec;
+			}
+
+inline void copyProperties(inNodeClassTotals nodeData){
+				maxClass = nodeData.maxClass;
+				classVec.resize(maxClass+1);//+1 because class labels start at 0.
 			}
 
 	};
