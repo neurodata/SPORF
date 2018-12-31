@@ -34,7 +34,11 @@ namespace fp{
 				std::vector<zipClassAndValue<T> >::iterator zipOfClassAndValueStart;
 				std::vector<zipClassAndValue<T> >::iterator zipOfClassAndValueEnd;
 
-				inline void loadWorkingSet(Q& currMTRY){
+				inline void loadWorkingSet(std::vector<T>& currMTRY){
+					//prefetch data and load.
+				}
+
+				inline void loadWorkingSet(T currMTRY){
 					//prefetch data and load.
 				}
 
