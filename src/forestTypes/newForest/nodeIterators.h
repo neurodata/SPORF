@@ -41,6 +41,12 @@ namespace fp{
 				}
 			}
 
+			inline void setVecOfClassSizes(std::vector<int>& classSizes){
+				for(int i = 0; i < (int)iteratorHolderEnd.size(); ++i){
+					classSizes.push_back(iteratorHolderEnd[i]-iteratorHolderBegin[i]);
+				}
+			}
+
 	};
 
 }//namespace fp

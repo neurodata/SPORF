@@ -51,7 +51,7 @@ namespace fp{
 				}
 
 				inline void resetRightNode(){
-					propertiesOfRightNode->copyProperties(propertiesOfThisNode);
+					propertiesOfRightNode->copyInNodeClassTotals(propertiesOfThisNode);
 				}
 
 				inline void isFinished(){
@@ -62,7 +62,7 @@ namespace fp{
 				inline void findBestSplit(Q& currMtry){
 					double tempImpurity;
 					double currentBestImpurity = bestSplit.returnImpurity();
-					for(vector<>::iterator it = zipOfClassAndValueStart; it != zipOfClassAndValueEnd; ++it){
+					for(vector<>::iterator it = zipOfClassAndValueStart; it < zipOfClassAndValueEnd-1; ++it){
 						leftClasses.incrementClass(it.returnObsClass());
 						rightClasses.decrementClass(it.returnObsClass());
 
@@ -101,13 +101,15 @@ namespace fp{
 			public:
 
 				//needs parent node
-				processingNode(std::vector<obsIndexAndClassTuple<T> >::iterator obsStart, std::vector<obsIndexAndClassTuple<T> >::iterator obsEnd, std::vector<zipClassAndValue<T> >::iterator zipStart, std::vector<zipClassAndValue<T> >::iterator zipEnd): zipOfIndexAndClassStart(obsStart), zipOfIndexAndClassend(obsEnd), zipOfClassAndValueStart(zipStart), zipOfClassAndValueEnd(zipEnd){}
+				processingNode(nodeIterators nodeIts, std::vector<zipClassAndValue<T> >::iterator zipStart, std::vector<zipClassAndValue<T> >::iterator zipEnd): nodeIterators(nodeIts), zipOfClassAndValueStart(zipStart), zipOfClassAndValueEnd(zipEnd){}
 
 
 
 				inline bool isLeafNode(){
-					if (zipOfIndexAndClassEnd - zipOfIndexAndClassStart <= fpSingleton::getSingleton().minParent()){
+					if(propertiesOfThisNode->isNodePure()){
 						return true;
+					}
+					return nodeIndices.isSizeLTMinParent(fpSingleton::getSingleton().minParent());
 					}
 
 					propertiesOfThisNode = make_unique<inNodeClassTotals>();

@@ -2,104 +2,110 @@
 #define inNodeClassTotals_h
 
 #include <vector>
-#include "obsIndexAndClassTuple.h"
+#include "nodeIterators.h"
 #include <iostream>
 
 namespace fp{
 
-	template<typename T>
-	class inNodeClassTotals{
-		protected:
-			int maxClass;
-			int totalNumObj;
-			float impurity;
-			std::vector<int> classVec;
+		class inNodeClassTotals{
+			protected:
+				int totalNumObj;
+				float impurity;
+				std::vector<int> classVec;
 
-		public:
-			inNodeClassTotals() : maxClass(-1), totalNumObj(0), impurity(-1){}
+			public:
+				inNodeClassTotals(nodeIterators& observationIterators) : totalNumObj(0), impurity(-1){
+					setClassCardinalities(observationIterators);
+					setTotalNumObj();
+				}
 
-			inline int returnLargestClass(){
-				int largestClass=0; 
-				for(int i = 1; i <= maxClass; ++i){
-					if(classVec[i] > classVec[largestClass]){
-						largestClass = i;
+				inNodeClassTotals(int numClasses) : totalNumObj(0), impurity(-1){
+					classVec.resize(numClasses);
+				}
+
+				inline void setClassCardinalities(nodeIterators& observationIterators){
+					observationIterators.setVecOfClassSizes(classVec);
+				}
+
+				inline void setTotalNumObj(){
+					for(auto i : classVec){
+						totalNumObj+=i;
 					}
 				}
-				return largestClass;
-			}
 
-
-			inline void findClassCardinalities(std::vector<obsIndexAndClassTuple<T> >& observations){
-				for(int i = 0; i < (int)observations.size(); ++i){
-					if(observations[i].returnClassOfObs() > maxClass){
-						maxClass = observations[i].returnClassOfObs();
-						classVec.resize(maxClass+1);//+1 because class labels start at 0.
-					}
-					++classVec[observations[i].returnClassOfObs()];
-					++totalNumObj;
+				inline int returnNumItems(){
+					return totalNumObj;
 				}
-			}
 
-
-			inline int returnNumItems(){
-				return totalNumObj;
-			}
-
-			inline float returnImpurity(){
-				return impurity;
-			}
-
-
-			inline float calcAndReturnImpurity(){
-				if(false){ //use gini impurity
-					int sumClassTotalsSquared = 0;
-					for(auto i : classVec){
-						sumClassTotalsSquared+=i*i;
-					}
-					return 1.0-double(sumClassTotalsSquared)/double(totalNumObj*totalNumObj);
-				}else{ //use what is this?
-					impurity = 0.0;
-					float classPercent;
-					for(auto i : classVec){
-						classPercent = float(i)/float(totalNumObj);
-
-						impurity += float(i)*(1.0-classPercent);
-					}
+				inline float returnImpurity(){
 					return impurity;
 				}
-			}
+
+				inline float calcAndReturnImpurity(){
+					if(false){ //use gini impurity
+						int sumClassTotalsSquared = 0;
+						for(auto i : classVec){
+							sumClassTotalsSquared+=i*i;
+						}
+						return 1.0-float(sumClassTotalsSquared)/float(totalNumObj*totalNumObj);
+					}else{ //use what is this?
+						impurity = 0.0;
+						float classPercent;
+						for(auto i : classVec){
+							classPercent = (float)i/(float)totalNumObj;
+
+							impurity += (float)i*(1.0-classPercent);
+						}
+						return impurity;
+					}
+				}
 
 
-			inline void decrementClass(int classNum){
-				--classVec[classNum];
-				--totalNumObj;
-			}
+				inline void decrementClass(int classNum){
+					--classVec[classNum];
+					--totalNumObj;
+				}
 
 
-			inline void incrementClass(int classNum){
-				++classVec[classNum];
-				++totalNumObj;
-			}
+				inline void incrementClass(int classNum){
+					++classVec[classNum];
+					++totalNumObj;
+				}
 
-			inline void resetClassTotals(){
-				std::fill(classVec.begin(), classVec.end(), 0);
-				totalNumObj=0;
-			}
+				inline void resetClassTotals(){
+					std::fill(classVec.begin(), classVec.end(), 0);
+					totalNumObj=0;
+				}
 
-			inline void copyInNodeClassTotals(inNodeClassTotals nodeData){
-				maxClass = nodeData.maxClass;
-				totalNumObj = nodeData.totalNumObj;
-				impurity = nodeData.impurity;
-				classVec = nodeData.classVec;
-			}
+				inline void copyInNodeClassTotals(inNodeClassTotals nodeData){
+					//maxClass = nodeData.maxClass;
+					totalNumObj = nodeData.totalNumObj;
+					//impurity = nodeData.impurity;
+					classVec = nodeData.classVec;
+				}
 
-inline void copyProperties(inNodeClassTotals nodeData){
-				maxClass = nodeData.maxClass;
-				classVec.resize(maxClass+1);//+1 because class labels start at 0.
-			}
+				inline bool isNodePure(){
+					return impurity==0.0;
+				}
 
-	};
+				inline int returnMaxClass(){
+					int largestClassSize = classVec[0];
+					int largestClass = 0;
+					for(int i = 1; i < (int)classVec.size(); ++i){
+						if(classVec[i] > largestClassSize){
+							largestClassSize = classVec[i];
+							largestClass = i;
+						}
+					}
+					return largestClass;
+				}
 
+				inline void setClassPercentages(std::vector<float>& classPercentages){
+					for(auto i : classVec){
+						classPercentages.push_back((float)i/(float)totalNumObj);
+					}
+				}
+		};
 
 }//namespace fp
 #endif //inNodeClassTotals_h

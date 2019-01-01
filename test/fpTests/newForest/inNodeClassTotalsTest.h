@@ -1,54 +1,69 @@
 #include "../../../src/forestTypes/newForest/inNodeClassTotals.h"
+#include "../../../src/forestTypes/newForest/obsIndexAndClassVec.h"
+#include "../../../src/forestTypes/newForest/nodeIterators.h"
 #include <vector>
 
 using namespace fp;
 #define typeClass int
 
 
-TEST(inNodeClassTotals, loadInNodeClassTotals)
+TEST(inNodeClassTotals, constructorTwo)
+{
+	int numClasses = 5;
+
+	inNodeClassTotals testTotals(numClasses);
+
+	EXPECT_EQ(testTotals.returnNumItems(), 0);
+	testTotals.incrementClass(0);
+	EXPECT_EQ(testTotals.returnNumItems(), 1);
+	testTotals.incrementClass(1);
+	EXPECT_EQ(testTotals.returnNumItems(), 2);
+	testTotals.decrementClass(0);
+	EXPECT_EQ(testTotals.returnNumItems(), 1);
+	testTotals.decrementClass(1);
+	EXPECT_EQ(testTotals.returnNumItems(), 0);
+}
+
+
+TEST(inNodeClassTotals, constructorOne)
 {
 
 	int numInClassOne = 5;
 	int numInClassTwo = 7;
 	int numInClassFour = 2;
+	int numClasses = 5;
 
-	std::vector<obsIndexAndClassTuple<typeClass> > inputTupleVector;
-	inNodeClassTotals<typeClass> classes;
-
+	obsIndexAndClassVec inputVec(numClasses);
 
 	for(int i = 0; i < numInClassTwo; ++i){
-		inputTupleVector.emplace_back();
-		inputTupleVector.back().setObsClass(2);
-		inputTupleVector.back().setObsIndex(i);
+		inputVec.insertIndex(i,2);
 	}
 
-
-
 	for(int i = 0; i < numInClassOne; ++i){
-		inputTupleVector.emplace_back();
-		inputTupleVector.back().setObsClass(1);
-		inputTupleVector.back().setObsIndex(i);
+		inputVec.insertIndex(i,1);
 	}
 
 	for(int i = 0; i < numInClassFour; ++i){
-		inputTupleVector.emplace_back();
-		inputTupleVector.back().setObsClass(4);
-		inputTupleVector.back().setObsIndex(i);
+		inputVec.insertIndex(i,4);
 	}
 
-	classes.findClassCardinalities(inputTupleVector);
+	nodeIterators iterators(numClasses);
+	iterators.setInitialIterators(inputVec);
 
-	EXPECT_EQ(classes.returnNumItems(), numInClassOne+numInClassTwo+numInClassFour);
-	EXPECT_EQ(classes.returnLargestClass(), 2);
+	inNodeClassTotals testTotals(iterators);
 
-	classes.resetClassTotals();
+	EXPECT_EQ(testTotals.returnNumItems(), numInClassOne+numInClassTwo+numInClassFour);
+	EXPECT_EQ(testTotals.returnMaxClass(), 2);
 
-	EXPECT_EQ(classes.returnNumItems(), 0);
-	EXPECT_EQ(classes.returnLargestClass(), 0);//all classes are 0 so defaults to first class
+	std::vector<float> classPers;
+	testTotals.setClassPercentages(classPers);
 
+	EXPECT_EQ(classPers[0], (float)0/(float)(numInClassOne+numInClassTwo+numInClassFour));
+	EXPECT_EQ(classPers[1], (float)numInClassOne/(float)(numInClassOne+numInClassTwo+numInClassFour));
+	EXPECT_EQ(classPers[2], (float)numInClassTwo/(float)(numInClassOne+numInClassTwo+numInClassFour));
+	EXPECT_EQ(classPers[3], (float)0/(float)(numInClassOne+numInClassTwo+numInClassFour));
+	EXPECT_EQ(classPers[4], (float)numInClassFour/(float)(numInClassOne+numInClassTwo+numInClassFour));
 }
-
-
 
 
 TEST(inNodeClassTotals, impurity)
@@ -57,91 +72,100 @@ TEST(inNodeClassTotals, impurity)
 	int numInClassOne = 5;
 	int numInClassTwo = 5;
 	int numInClassFour = 5;
+	int numClasses = 5;
 
-
-	std::vector<obsIndexAndClassTuple<typeClass> > inputTupleVector;
-	inNodeClassTotals<typeClass> classes;
-
-	for(int i = 0; i < numInClassOne; ++i){
-		inputTupleVector.emplace_back();
-		inputTupleVector.back().setObsClass(1);
-		inputTupleVector.back().setObsIndex(i);
-	}
-
-	classes.findClassCardinalities(inputTupleVector);
-
-	EXPECT_EQ(classes.returnNumItems(), numInClassOne);
-	EXPECT_EQ(classes.calcAndReturnImpurity(), 0);
-	EXPECT_EQ(classes.returnImpurity(), 0);
+	obsIndexAndClassVec inputVec(numClasses);
 
 	for(int i = 0; i < numInClassTwo; ++i){
-		inputTupleVector.emplace_back();
-		inputTupleVector.back().setObsClass(2);
-		inputTupleVector.back().setObsIndex(i);
+		inputVec.insertIndex(i,2);
+	}
+
+
+	nodeIterators iterators(numClasses);
+	iterators.setInitialIterators(inputVec);
+
+	inNodeClassTotals testTotals(iterators);
+
+
+	EXPECT_EQ(testTotals.returnNumItems(), numInClassOne);
+	EXPECT_EQ(testTotals.calcAndReturnImpurity(), 0);
+	EXPECT_EQ(testTotals.returnImpurity(), 0);
+	EXPECT_TRUE(testTotals.isNodePure());
+
+	for(int i = 0; i < numInClassOne; ++i){
+		inputVec.insertIndex(i,1);
 	}
 
 	for(int i = 0; i < numInClassFour; ++i){
-		inputTupleVector.emplace_back();
-		inputTupleVector.back().setObsClass(4);
-		inputTupleVector.back().setObsIndex(i);
+		inputVec.insertIndex(i,4);
 	}
 
 
-	classes.resetClassTotals();
-	classes.findClassCardinalities(inputTupleVector);
+	nodeIterators iteratorsTwo(numClasses);
+	iteratorsTwo.setInitialIterators(inputVec);
 
-	EXPECT_EQ(classes.returnNumItems(), numInClassOne+numInClassTwo+numInClassFour);
-	EXPECT_GT(classes.calcAndReturnImpurity(), 9.95);
-	EXPECT_LT(classes.returnImpurity(), 10.05);
+	inNodeClassTotals testTotalsTwo(iteratorsTwo);
+
+
+	EXPECT_EQ(testTotalsTwo.returnNumItems(), numInClassOne+numInClassTwo+numInClassFour);
+	EXPECT_GT(testTotalsTwo.calcAndReturnImpurity(), 9.95);
+	EXPECT_LT(testTotalsTwo.returnImpurity(), 10.05);
+	EXPECT_FALSE(testTotalsTwo.isNodePure());
+
+
+
+	//	classes.resetClassTotals();
+	//	classes.findClassCardinalities(inputTupleVector);
 
 }
 
 
-TEST(inNodeClassTotals, copyAndDecrement)
+TEST(inNodeClassTotals, copyClassTotals)
 {
 
 	int numInClassOne = 5;
 	int numInClassTwo = 5;
+	int numInClassFour = 5;
+	int numClasses = 5;
 
 
-	std::vector<obsIndexAndClassTuple<typeClass> > inputTupleVector;
-
-	inNodeClassTotals<typeClass> classes;
-	inNodeClassTotals<typeClass> classesCopy;
-
-	inNodeClassTotals<typeClass> classesEmpty;
-
-	for(int i = 0; i < numInClassOne; ++i){
-		inputTupleVector.emplace_back();
-		inputTupleVector.back().setObsClass(1);
-		inputTupleVector.back().setObsIndex(i);
-	}
+	obsIndexAndClassVec inputVec(numClasses);
 
 	for(int i = 0; i < numInClassTwo; ++i){
-		inputTupleVector.emplace_back();
-		inputTupleVector.back().setObsClass(2);
-		inputTupleVector.back().setObsIndex(i);
+		inputVec.insertIndex(i,2);
 	}
 
-	classes.findClassCardinalities(inputTupleVector);
-classesCopy.copyInNodeClassTotals(classes);
+	for(int i = 0; i < numInClassOne; ++i){
+		inputVec.insertIndex(i,1);
+	}
 
-	EXPECT_EQ(classesCopy.returnNumItems(), numInClassOne + numInClassTwo);
-	EXPECT_EQ(classesCopy.calcAndReturnImpurity(), 5);
-	EXPECT_EQ(classesCopy.returnImpurity(), 5);
+	for(int i = 0; i < numInClassFour; ++i){
+		inputVec.insertIndex(i,4);
+	}
 
-	classesEmpty.copyProperties(classesCopy);
-for(int i = 0; i < numInClassOne; ++i){
-	classesCopy.decrementClass(2);
-	classesEmpty.incrementClass(2);
-}
+	nodeIterators iterators(numClasses);
+	iterators.setInitialIterators(inputVec);
+
+	inNodeClassTotals testTotals(iterators);
+	inNodeClassTotals testTotalsTwo(numClasses);
+
+	testTotalsTwo.copyInNodeClassTotals(testTotals);
 
 
-	EXPECT_EQ(classesCopy.returnNumItems(), numInClassOne);
-	EXPECT_EQ(classesCopy.calcAndReturnImpurity(), 0);
-	EXPECT_EQ(classesCopy.returnImpurity(), 0);
+	EXPECT_EQ(testTotalsTwo.returnNumItems(), testTotals.returnNumItems());
+	EXPECT_EQ(testTotalsTwo.calcAndReturnImpurity(), testTotals.calcAndReturnImpurity());
+	EXPECT_GT(testTotalsTwo.returnImpurity(), 9.95);
+	EXPECT_LT(testTotalsTwo.returnImpurity(), 10.05);
 
-	EXPECT_EQ(classesEmpty.returnNumItems(), numInClassTwo);
-	EXPECT_EQ(classesEmpty.calcAndReturnImpurity(), 0);
-	EXPECT_EQ(classesEmpty.returnImpurity(), 0);
+
+	testTotalsTwo.resetClassTotals();
+	EXPECT_EQ(testTotalsTwo.returnNumItems(), 0);
+	testTotalsTwo.incrementClass(1);
+	EXPECT_EQ(testTotalsTwo.calcAndReturnImpurity(), 0);
+	testTotalsTwo.incrementClass(2);
+	EXPECT_EQ(testTotalsTwo.calcAndReturnImpurity(), 1);
+testTotalsTwo.incrementClass(2);
+EXPECT_GT(testTotalsTwo.calcAndReturnImpurity(), 1.3);
+	EXPECT_LT(testTotalsTwo.returnImpurity(), 1.35);
+
 }

@@ -31,6 +31,15 @@ TEST(nodeIterators, basicFunctions)
 	nodeIterators testInitial(numClasses);
 	testInitial.setInitialIterators(indexHolder);
 
+
+	std::vector<int> testVector;
+
+	testInitial.setVecOfClassSizes(testVector);
+	for(int i = 0; i < numClasses; ++i){
+		EXPECT_EQ(testVector[i], classSize);
+	}
+
+
 	for(int i = 0; i < numClasses; ++i){
 		EXPECT_EQ(indexHolder.returnClassVector(i).begin(), testInitial.returnBeginIterator(i));
 		EXPECT_EQ(indexHolder.returnClassVector(i).end(), testInitial.returnEndIterator(i));
@@ -45,6 +54,8 @@ TEST(nodeIterators, basicFunctions)
 		EXPECT_EQ(indexHolder.returnClassVector(i).begin()+1, testInitial.returnBeginIterator(i));
 		EXPECT_EQ(indexHolder.returnClassVector(i).end()-1, testInitial.returnEndIterator(i));
 	}
+
+
 
 }
 
