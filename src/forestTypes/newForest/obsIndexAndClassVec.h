@@ -25,17 +25,17 @@ namespace fp{
 			}
 
 			inline void sortVectors(){
-					 for(auto& i : indexHolder){
-					 std::sort(i.begin(), i.end());
-					 }
+				for(auto& i : indexHolder){
+					std::sort(i.begin(), i.end());
+				}
 			}
 
 			inline void resetVectors(){
 				for(auto& i : indexHolder){
 					i.clear();
 				}
-
 			}
+
 	};
 
 }//namespace fp

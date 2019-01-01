@@ -2,9 +2,10 @@
 #define processingNode_h
 
 #include "inNodeClassTotals.h"
-#include "obsIndexAndClassTuple.h"
+#include "obsIndexAndClassVec.h"
 #include "zipClassAndValue.h"
 #include "bestSplitInfo.h"
+#include "nodeIterators.h"
 
 
 #include <iostream>
@@ -28,8 +29,7 @@ namespace fp{
 				std::unique_ptr<inNodeClassTotals> propertiesOfLeftNode;
 				std::unique_ptr<inNodeClassTotals> propertiesOfRightNode;
 
-				std::vector<obsIndexAndClassTuple<T> >::iterator zipOfIndexAndClassStart;
-				std::vector<obsIndexAndClassTuple<T> >::iterator zipOfIndexAndClassEnd;
+				nodeIterators nodeIndices;
 
 				std::vector<zipClassAndValue<T> >::iterator zipOfClassAndValueStart;
 				std::vector<zipClassAndValue<T> >::iterator zipOfClassAndValueEnd;
