@@ -19,11 +19,11 @@ fastRerF <-
 	function(CSVFile, Ycolumn, forestType = "rerf", trees = 100, minParent = 1){
 
 		forestClass <- methods::new(fpForest)
-		forestClass$setParameter1("forestType", forestType)
-		forestClass$setParameter3("numTreesInForest", trees)
-		forestClass$setParameter3("minParent", minParent)
-		forestClass$setParameter1("CSVFileName", CSVFile);
-		forestClass$setParameter3("columnWithY", Ycolumn);
+		forestClass$setParamString("forestType", forestType)
+		forestClass$setParamInt("numTreesInForest", trees)
+		forestClass$setParamInt("minParent", minParent)
+		forestClass$setParamString("CSVFileName", CSVFile);
+		forestClass$setParamInt("columnWithY", Ycolumn);
 
 		forestClass$growForest();
 		return(forestClass)

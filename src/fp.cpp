@@ -11,9 +11,9 @@ RCPP_MODULE(fpForest){
 
 		.constructor()
 
-		.method("setParameter1", &fp::fpForest<double>::setParameter1)
-		.method("setParameter2", &fp::fpForest<double>::setParameter2)
-		.method("setParameter3", &fp::fpForest<double>::setParameter3)
+		.method("setParamString", &fp::fpForest<double>::setParamString)
+		.method("setParamDouble", &fp::fpForest<double>::setParamDouble)
+		.method("setParamInt", &fp::fpForest<double>::setParamInt)
 		.method("growForest", &fp::fpForest<double>::growForest)
 		.method("printParameters", &fp::fpForest<double>::printParameters)
 		.method("printForestType", &fp::fpForest<double>::printForestType)
