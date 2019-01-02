@@ -1,10 +1,7 @@
 language: r
-dist: trusty
 
 r:
   - release
-
-sudo: false
 
 addons:
   apt:
