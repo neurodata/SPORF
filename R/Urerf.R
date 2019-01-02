@@ -28,7 +28,8 @@ library(mclust)
 Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
                   max.depth = NA, mtry = ceiling(ncol(X)^0.5),
 									sparsity = 1/ncol(X),
-                  normalizeData = TRUE, Progress = TRUE, splitCrit="twomeans") {
+                  normalizeData = TRUE, Progress = TRUE, 
+                  splitCrit="twomeans", LinearCombo=TRUE) {
   normalizeTheData <- function(X, normData) {
     if (normData) {
       X <- sweep(X, 2, apply(X, 2, min), "-")
@@ -87,13 +88,12 @@ Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
     GrowUnsupervisedForest(X, trees = numTrees, MinParent = K, options = list(
       p = ncol(X),
       d = mtry, sparsity = sparsity
-    ), Progress = Progress, splitCrit = splitCrit)
+    ), Progress = Progress, splitCrit = splitCrit, LinearCombo = LinearCombo)
   } else {
     GrowUnsupervisedForest(X,
       trees = numTrees, MinParent = K, MaxDepth = depth,
       options = list(p = ncol(X), d = mtry, sparsity = sparsity), 
-      Progress = Progress, splitCrit = splitCrit
-    )
+      Progress = Progress, splitCrit = splitCrit, LinearCombo = LinearCombo)
   }
 
   sM <- createMatrixFromForest(forest)
