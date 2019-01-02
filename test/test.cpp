@@ -12,4 +12,6 @@
 #include "fpTests/newForest/inNodeClassTotalsTest.h"
 #include "fpTests/newForest/bestSplitInfoTest.h"
 #include "fpTests/newForest/nodeIteratorsTest.h"
+#include "fpTests/newForest/zipperIteratorsTest.h"
+#include "fpTests/newForest/processingNodeTest.h"
 

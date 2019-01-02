@@ -164,8 +164,8 @@ TEST(inNodeClassTotals, copyClassTotals)
 	EXPECT_EQ(testTotalsTwo.calcAndReturnImpurity(), 0);
 	testTotalsTwo.incrementClass(2);
 	EXPECT_EQ(testTotalsTwo.calcAndReturnImpurity(), 1);
-testTotalsTwo.incrementClass(2);
-EXPECT_GT(testTotalsTwo.calcAndReturnImpurity(), 1.3);
+	testTotalsTwo.incrementClass(2);
+	EXPECT_GT(testTotalsTwo.calcAndReturnImpurity(), 1.3);
 	EXPECT_LT(testTotalsTwo.returnImpurity(), 1.35);
 
 }

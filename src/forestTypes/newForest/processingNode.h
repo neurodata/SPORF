@@ -21,37 +21,36 @@ namespace fp{
 			protected:
 
 				std::vector<Q> mtry;
+				bestSplitInfo<T, Q> bestSplit();
 
-				std::unique_ptr<bestSplitInfo<T, Q> > bestSplit;
-
-
-				std::unique_ptr<inNodeClassTotals> propertiesOfThisNode;
-				std::unique_ptr<inNodeClassTotals> propertiesOfLeftNode;
-				std::unique_ptr<inNodeClassTotals> propertiesOfRightNode;
+				inNodeClassTotals propertiesOfThisNode;
+				inNodeClassTotals propertiesOfLeftNode;
+				inNodeClassTotals propertiesOfRightNode;
 
 				nodeIterators nodeIndices;
 
-				std::vector<zipClassAndValue<T> >::iterator zipOfClassAndValueStart;
-				std::vector<zipClassAndValue<T> >::iterator zipOfClassAndValueEnd;
+				zipperIterators<int,T> zipIters;
 
-				inline void loadWorkingSet(std::vector<T>& currMTRY){
+				
+
+				inline void loadWorkingSet(std::vector<Q>& currMTRY){
 					//prefetch data and load.
 				}
 
-				inline void loadWorkingSet(T currMTRY){
+				inline void loadWorkingSet(Q currMTRY){
 					//prefetch data and load.
 				}
-
+/*
 				inline void sortWorkingSet(){
 					std::sort(zipOfClassAndValueStart, zipOfClassAndValueEnd);
 				}
 
 				inline void resetLeftNode(){
-					propertiesOfLeftNode->resetClassTotals();
+					propertiesOfLeftNode.resetClassTotals();
 				}
 
 				inline void resetRightNode(){
-					propertiesOfRightNode->copyInNodeClassTotals(propertiesOfThisNode);
+					propertiesOfRightNode.copyInNodeClassTotals(propertiesOfThisNode);
 				}
 
 				inline void isFinished(){
@@ -88,7 +87,6 @@ namespace fp{
 
 				inline calcMtryForNode(std::vector<std::vector<int> >& featuresToTry){
 					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
-
 					int rndMtry;
 					int rndFeature;
 					for (int i=0; i < fpSingleton::getSingleton().returnMtry(); ++i){
@@ -98,33 +96,21 @@ namespace fp{
 					}
 				}
 
+				*/
 			public:
 
-				//needs parent node
-				processingNode(nodeIterators nodeIts, std::vector<zipClassAndValue<T> >::iterator zipStart, std::vector<zipClassAndValue<T> >::iterator zipEnd): nodeIterators(nodeIts), zipOfClassAndValueStart(zipStart), zipOfClassAndValueEnd(zipEnd){}
+				processingNode(int numClasses): propertiesOfThisNode(numClasses), propertiesOfLeftNode(numClasses),propertiesOfRightNode(numClasses),nodeIndices(numClasses){}
 
-
+				/*
 
 				inline bool isLeafNode(){
-					if(propertiesOfThisNode->isNodePure()){
+					if(propertiesOfThisNode.isNodePure()){
 						return true;
 					}
 					return nodeIndices.isSizeLTMinParent(fpSingleton::getSingleton().minParent());
-					}
-
-					propertiesOfThisNode = make_unique<inNodeClassTotals>();
-					//This has already been calculated, can be stored, and passed as argument.
-					propertiesOfThisNode.findClassCardinalities(zipOfIndexAndClassStart,zipOfIndexAndClassEnd);
-
-					if (propertiesOfThisNode.returnImpurity() == 0){
-						return true;
-					}
-					return false;
 				}
 
 				inline void setupNode(){
-					propertiesOfLeftNode = make_unique<inNodeClassTotals>();
-					propertiesOfRightNode = make_unique<inNodeClassTotals>();
 					calcMtryForNode(mtry);
 				}
 
@@ -139,7 +125,6 @@ namespace fp{
 					}
 				}
 
-
 				inline void processNode(){
 					if(isLeafNode()){
 						//send node to actual tree container
@@ -148,8 +133,8 @@ namespace fp{
 						calcBestSplitInfoForNode();
 						//split node if something found.
 					}
-
 				}
+				*/
 
 		};
 
