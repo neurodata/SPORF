@@ -18,6 +18,13 @@ You are here to help on R-RerF?  First off, thank you!  Please read the followin
 ### Formatting
 
 * Run your code through [styler](http://styler.r-lib.org/) auto-formater
+
+    ```R
+    install.packages("styler")
+    library(styler)
+    styler:::style_pkg(style=tidyverse_style)
+    ```
+
 * Avoid modifying formatting outside the scope of your pull request
 * Use **TRUE** and **FALSE**, not **T** and **F**
 * Check for unnecessary whitespace with `git diff --check` before committing
@@ -28,7 +35,6 @@ We use the [testthat](https://github.com/r-lib/testthat) library for testing in 
 
 * New features need tests
 * Tests should be fast, ideally each test should complete in under 5 seconds
-* Mark longer running tests with 
 * Bug fixes need [testthat](https://github.com/r-lib/testthat) functions (test the condition that was failing)
 
 ### Make your Pull Request
