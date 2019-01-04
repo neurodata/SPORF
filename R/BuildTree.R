@@ -354,7 +354,7 @@ BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, repl
   currLN <- currLN * -1L
   # create tree structure and populate with mandatory elements
   tree <- list(
-    "treeMap" = treeMap[1L:NextUnusedNode - 1L], "CutPoint" = CutPoint[1L:currIN], "ClassProb" = ClassProb[1L:currLN, , drop = FALSE],
+    "treeMap" = treeMap[1L:(NextUnusedNode - 1L)], "CutPoint" = CutPoint[1L:currIN], "ClassProb" = ClassProb[1L:currLN, , drop = FALSE],
     "matAstore" = matAstore[1L:matAindex[currIN + 1L]], "matAindex" = matAindex[1L:(currIN + 1L)], "ind" = NULL, "rotmat" = NULL,
     "rotdims" = NULL, "delta.impurity" = NULL
   )
