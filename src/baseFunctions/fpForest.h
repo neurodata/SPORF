@@ -9,7 +9,7 @@
 #if defined(ENABLE_OPENMP)
 #include <omp.h>
 #else
-			void omp_set_num_threads(int x){}
+void omp_set_num_threads(int x){}
 #endif
 
 namespace fp {
@@ -75,15 +75,15 @@ namespace fp {
 					fpSingleton::getSingleton().printForestType();
 				}
 
-inline void setNumberOfThreads(){
-				omp_set_num_threads(fpSingleton::getSingleton().returnNumThreads());
+				inline void setNumberOfThreads(){
+					omp_set_num_threads(fpSingleton::getSingleton().returnNumThreads());
 				}
 
 				void growForest(){
 					loadData();
 					initializeForestType();
 					setDataDependentParameters();
-setNumberOfThreads();
+					setNumberOfThreads();
 					//timeLogger x;
 					//x.startGrowTimer();
 					forest->growForest();

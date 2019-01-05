@@ -42,6 +42,8 @@ namespace fp{
 			}
 
 			inline void setVecOfClassSizes(std::vector<int>& classSizes){
+				//TODO: duplicate work.  should not grow, shrink, and regrow this vector.
+				classSizes.clear();
 				for(int i = 0; i < (int)iteratorHolderEnd.size(); ++i){
 					classSizes.push_back(iteratorHolderEnd[i]-iteratorHolderBegin[i]);
 				}

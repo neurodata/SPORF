@@ -118,7 +118,7 @@ namespace fp {
 				return fpForestInfo.returnNumTrees();
 			}
 
-inline int returnNumThreads(){
+			inline int returnNumThreads(){
 				return fpForestInfo.returnNumThreads();
 			}
 
