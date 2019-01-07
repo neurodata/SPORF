@@ -25,7 +25,7 @@
 #' clusters <- cutree(dissimilarityMatrix, k = 3)
 Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
                   max.depth = NA, mtry = ceiling(ncol(X)^0.5),
-									sparsity = 1/ncol(X),
+                  sparsity = 1 / ncol(X),
                   normalizeData = TRUE, Progress = TRUE) {
   normalizeTheData <- function(X, normData) {
     if (normData) {
