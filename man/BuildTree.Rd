@@ -6,7 +6,7 @@
 \usage{
 BuildTree(X, Y, FUN, paramList, min.parent, max.depth, bagging,
   replacement, stratify, class.ind, class.ct, store.oob, store.impurity,
-  progress, rotate)
+  progress, rotate, scaleAtNode)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}
@@ -39,16 +39,12 @@ default values will be populated, see \code{\link[rerf]{defaults}} for details.}
 \item{progress}{if true a pipe is printed after each tree is created.  This is useful for large datasets.}
 
 \item{rotate}{if TRUE then the data matrix X is uniformly randomly rotated.}
+
+\item{scaleAtNode}{if TRUE the data in each node is scaled to [0,1] before applying the projection.}
 }
 \value{
 Tree
 }
 \description{
 Creates a single decision tree based on an input matrix and class vector.  This is the function used by rerf to generate trees.
-}
-\examples{
-
-x <- iris[, -5]
-y <- as.numeric(iris[, 5])
-# BuildTree(x, y, RandMatBinary, p = 4, d = 4, rho = 0.25, prob = 0.5)
 }

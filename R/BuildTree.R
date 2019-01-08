@@ -18,17 +18,40 @@
 #' @param store.impurity if TRUE then the reduction in Gini impurity is stored for every split. This is required to run FeatureImportance().
 #' @param progress if true a pipe is printed after each tree is created.  This is useful for large datasets.
 #' @param rotate if TRUE then the data matrix X is uniformly randomly rotated.
+#' @param scaleAtNode if TRUE the data in each node is scaled to [0,1] before applying the projection.
 #'
 #' @return Tree
 #'
 #' @examples
+#' ## setup data
+#' set.seed(10)
+#' X <- as.matrix(iris[, -5])
+#' Y <- as.numeric(iris[, 5])
+#' paramList <- list(p = 4, d = 2, sparsity = 0.25, prob = 0.5)
+#' forest <- list(trees = NULL, labels = NULL, params = NULL)
+#' forest$labels <- sort(unique(Y))
 #'
-#' x <- iris[, -5]
-#' y <- as.numeric(iris[, 5])
-#' # BuildTree(x, y, RandMatBinary, p = 4, d = 4, rho = 0.25, prob = 0.5)
+#' ## instantiate parameters for BuildTree that would normally
+#' ## be handled by the rerf::RerF function
+#'
+#' num.class <- length(forest$labels)
+#' classCt <- cumsum(tabulate(Y, num.class))
+#' Cindex <- vector("list", num.class)
+#' paramBT <- list(X = X, Y = Y, FUN = rerf::RandMatBinary, paramList =
+#' paramList, min.parent = 1L, max.depth = 6L, bagging = 0.2, class.ct =
+#' classCt, class.ind = NULL, replacement = TRUE, stratify = FALSE,
+#' store.oob = FALSE, store.impurity = FALSE, progress = FALSE, rotate =
+#' FALSE, scaleAtNode = FALSE)
+#'
+#' ## Build a Tree (only for demonstrative purposes)
+#' forest$trees[[1]] <- do.call(rerf:::BuildTree, paramBT)
+#'
+#' forest$trees[[1]]
+#'
 BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, replacement,
                       stratify, class.ind, class.ct, store.oob, store.impurity, progress,
-                      rotate) {
+                      rotate, scaleAtNode) {
+
   # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   # rfr builds a randomer classification forest structure made up of a list
   # of trees.  This forest is randomer because each node is rotated before
@@ -126,6 +149,7 @@ BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, repl
   }
   NDepth <- integer(MaxNumNodes)
   Assigned2Node <- vector("list", MaxNumNodes)
+  scalingFactors4Node <- vector("list", MaxNumNodes)
   ind <- double(w)
   # Matrix A storage variables
   matAindex <- integer(maxIN)
@@ -240,8 +264,22 @@ BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, repl
       # lrows are the elements in sparseM that will be used to rotate the data
       lrows <- nz.idx:(nz.idx + feature.nnz - 1L)
 
-      # Project input into new space
-      Xnode[1L:NdSize] <- X[Assigned2Node[[CurrentNode]], sparseM[lrows, 1L], drop = FALSE] %*% sparseM[lrows, 3L, drop = FALSE]
+      if (scaleAtNode) {
+        # scale columns of X[Assigned2Node[[CurrentNode]]
+        scaleDat <- Scale01(X[Assigned2Node[[CurrentNode]], , drop = FALSE])
+
+        ## Store scaled data and scaling factors
+        scaledXnode <- scaleDat$scaledXnode
+
+        # Project scaled input into new space
+        Xnode[1L:NdSize] <- scaledXnode[, sparseM[lrows, 1L], drop = FALSE] %*%
+          sparseM[lrows, 3L, drop = FALSE]
+      } else {
+        # Project input into new space
+        Xnode[1L:NdSize] <-
+          X[Assigned2Node[[CurrentNode]], sparseM[lrows, 1L], drop = FALSE] %*%
+          sparseM[lrows, 3L, drop = FALSE]
+      }
 
       # Sort the projection, Xnode, and rearrange Y accordingly
       SortIdx[1:NdSize] <- order(Xnode[1L:NdSize])
@@ -291,8 +329,21 @@ BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, repl
         break
       }
     }
+    # Reassign lrows to the best projection
     lrows <- ret$BestVar:(ret$BestVar + feature.nnz - 1L)
-    Xnode[1:NdSize] <- X[Assigned2Node[[CurrentNode]], sparseM[lrows, 1L], drop = FALSE] %*% sparseM[lrows, 3L, drop = FALSE]
+
+    if (scaleAtNode) {
+      # Project scaled input into new space
+      Xnode[1L:NdSize] <- scaledXnode[, sparseM[lrows, 1L], drop = FALSE] %*%
+        sparseM[lrows, 3L, drop = FALSE]
+
+      ## Store scaled data and scaling factors
+      scalingFactors4Node[[CurrentNode]] <-
+        lapply(scaleDat$scalingFactors, function(x, y = sparseM[lrows, 1L]) x[y])
+    } else {
+      Xnode[1:NdSize] <- X[Assigned2Node[[CurrentNode]], sparseM[lrows, 1L], drop = FALSE] %*%
+        sparseM[lrows, 3L, drop = FALSE]
+    }
 
     # find which child node each sample will go to and move
     # them accordingly
@@ -356,7 +407,7 @@ BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, repl
   tree <- list(
     "treeMap" = treeMap[1L:NextUnusedNode - 1L], "CutPoint" = CutPoint[1L:currIN], "ClassProb" = ClassProb[1L:currLN, , drop = FALSE],
     "matAstore" = matAstore[1L:matAindex[currIN + 1L]], "matAindex" = matAindex[1L:(currIN + 1L)], "ind" = NULL, "rotmat" = NULL,
-    "rotdims" = NULL, "delta.impurity" = NULL
+    "rotdims" = NULL, "delta.impurity" = NULL, "scalingFactors" = NULL
   )
   if (rotate) {
     tree$rotmat <- rotmat
@@ -371,6 +422,11 @@ BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, repl
   }
   if (store.impurity) {
     tree$delta.impurity <- delta.impurity[1L:currIN]
+  }
+
+  # if (!all(sapply(scalingFactors4Node,is.null))) {
+  if (scaleAtNode) {
+    tree$scalingFactors <- scalingFactors4Node[1:(currIN + 1L)]
   }
 
   if (progress) {
