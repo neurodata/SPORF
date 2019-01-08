@@ -10,4 +10,4 @@
 ^.*\.so$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^CONTRIBUTING.md$
+^\.github$
