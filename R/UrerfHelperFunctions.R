@@ -5,7 +5,102 @@
 #' @return list containing minimizing cut point and corresponding BIC score.
 #'
 
-BICCut <- function(X){
+BICCutFast <- function(X) {
+  minVal <- min(X)
+  maxVal <- max(X)
+  minErr <- Inf
+  finalvartype <- 0
+  otherBIC <- 0
+  if (minVal == maxVal) {
+    return(NULL)
+  }
+  sizeX <- length(X)
+  ## sort after removing zeros
+  X <- sort(X[which(X != 0)])
+  ## Number of Non-Zeros
+  sizeNNZ <- length(X)
+  sizeZ <- sizeX - sizeNNZ
+
+  sumLeft <- 0
+  sumRight <- sum(X)
+  errLeft <- 0
+  errRight <- 0
+  meanLeft <- 0
+  meanRight <- 0
+  errCurr <- 0
+  cutPoint <- 0
+  varType <- 1
+  ## if any are zero
+  if (sizeZ) {
+    meanRight <- sumRight / sizeNNZ
+    minErr <- sum((X - meanRight)^2)
+    cutPoint <- X[1] / 2
+  } else {
+    minErr <- Inf
+  }
+
+  if (sizeNNZ - 1) {
+    index <- 1 
+    for (m in X[1:(sizeNNZ - 1)]) {
+      leftsize <- sizeZ + index
+      rightsize <- sizeNNZ - index
+      sumLeft <- sumLeft + m
+      sumRight <- sumRight - m
+      meanLeft <- sumLeft / leftsize
+      meanRight <- sumRight / rightsize
+      N1 = leftsize
+      N2 = rightsize
+      errLeft <- sum((X[1:index] - meanLeft)^2) + sizeZ * (meanLeft^2)
+      errRight <- sum((X[(index + 1):sizeNNZ] - meanRight)^2)
+      sig1 = (1/N1) * errLeft
+      sig2 = (1/N2) * errRight
+
+      #when sigma=0, the log term becomes undefined 
+      if (sig1 == 0 || sig2==0)
+          next
+      pi1 = N1/(N1+N2)
+      pi2 = N2/(N1+N2)
+      sig_comb = (1/(N1+N2))*(errLeft + errRight)
+
+      sum_log_pi_k1 = -1*N1*log(N1/(N1+N2))
+      sum_log_pi_k2 = -1*N2*log(N2/(N1+N2))
+
+      sum_log_norm1 = (N1/2)*log(2*3.14*sig1)+N1/2
+      sum_log_norm2 = (N2/2)*log(2*3.14*sig2)+N2/2
+
+      #unisig means that the two clusters are constrained to have the same variance
+      #bisig means that the two clusters can have separate variances
+
+      sum_log_norm1_unisig = (N1/2)*log(2*3.14*sig_comb) + (N1+N2)/2
+      sum_log_norm2_unisig = (N2/2)*log(2*3.14*sig_comb) 
+
+      sum_log_terms_bisig = sum_log_norm1 + sum_log_norm2 + sum_log_pi_k1 + sum_log_pi_k2
+      sum_log_terms_unisig = sum_log_norm1_unisig + sum_log_norm2_unisig + sum_log_pi_k1 + sum_log_pi_k2
+
+      if(sum_log_terms_bisig < sum_log_terms_unisig)
+          varType = 2
+      else
+          varType = 1
+
+      bic_score_bisig = 2*sum_log_terms_bisig + log(N1+N2)*(varType + 3)
+      bic_score_unisig = 2*sum_log_terms_unisig + log(N1+N2)*(varType + 3)
+
+      errCurr <- min(bic_score_bisig,  bic_score_unisig)
+
+      # Determine if this split is currently the best option
+      # If current error is lowest, then save current cut point.
+      
+      if (errCurr < minErr) {
+        cutPoint <- (X[index] + X[index + 1]) / 2
+        minErr <- errCurr
+      }
+      index <- index + 1
+    }
+  }
+  return(c(cutPoint, minErr))
+}
+
+BICCutMclust <- function(X){
   X_data = data.frame(X)
   num_elements = (length(unique(X)))
   if (num_elements <= 1 )
@@ -265,8 +360,10 @@ GrowUnsupervisedForest <-
           # Sort the projection, Xnode, and rearrange Y accordingly
           if (splitCrit == "twomeans")
             results <- TwoMeansCut(Xnode[1:NdSize])
+          else if (splitCrit == "bicfast")
+            results <- BICCutFast(Xnode[1:NdSize])
           else
-            results <- BICCut(Xnode[1:NdSize])
+            results <- BICCutMclust(Xnode[1:NdSize])
           if (is.null(results)) {
             next
           }
