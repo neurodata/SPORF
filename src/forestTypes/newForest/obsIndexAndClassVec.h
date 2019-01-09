@@ -36,6 +36,7 @@ namespace fp{
 				}
 			}
 
+
 			//needs test in googletest
 			inline int returnNumClasses(){
 				return (int)indexHolder.size();

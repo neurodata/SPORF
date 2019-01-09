@@ -11,6 +11,7 @@ namespace fp{
 		protected:
 			std::vector<std::vector<int>::iterator > iteratorHolderBegin;
 			std::vector<std::vector<int>::iterator > iteratorHolderEnd;
+			std::vector<std::vector<int>::iterator > iteratorHolderSplit;
 
 		public:
 			nodeIterators(int numClasses){
@@ -24,6 +25,10 @@ namespace fp{
 
 			inline const std::vector<int>::iterator& returnBeginIterator(int iterClass){
 				return iteratorHolderBegin[iterClass];
+			}
+
+inline const std::vector<int>::iterator& returnSplitIterator(int iterClass){
+				return iteratorHolderSplit[iterClass];
 			}
 
 			inline void insertEndIterator(const std::vector<int>::iterator& endIter, int iterClass){
@@ -41,12 +46,27 @@ namespace fp{
 				}
 			}
 
+
+			inline void setNodeIterators(nodeIterators& nodeIters, bool isLeftNode){
+				if(isLeftNode){
+					iteratorHolderBegin = nodeIters.iteratorHolderBegin;
+					iteratorHolderEnd = nodeIters.iteratorHolderSplit;
+				}	else{
+					iteratorHolderBegin = nodeIters.iteratorHolderSplit;
+					iteratorHolderEnd = nodeIters.iteratorHolderEnd;
+				}
+			}
+
 			inline void setVecOfClassSizes(std::vector<int>& classSizes){
 				//TODO: duplicate work.  should not grow, shrink, and regrow this vector.
 				classSizes.clear();
 				for(int i = 0; i < (int)iteratorHolderEnd.size(); ++i){
 					classSizes.push_back(iteratorHolderEnd[i]-iteratorHolderBegin[i]);
 				}
+			}
+
+			inline void loadSplitIterator(std::vector<int>::iterator nextIterator){
+iteratorHolderSplit.push_back(nextIterator);
 			}
 
 	};

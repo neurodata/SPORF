@@ -42,7 +42,7 @@ namespace fp{
 
 
 			//TODO: write test for this function
-			inline void setupRootClassTotals(nodeIterators& observationIterators){
+			inline void setupClassTotals(nodeIterators& observationIterators){
 				setClassCardinalities(observationIterators);
 				setTotalNumObj();
 			}
@@ -118,6 +118,10 @@ namespace fp{
 				for(auto i : classVec){
 					classPercentages.push_back((float)i/(float)totalNumObj);
 				}
+			}
+
+			inline bool isSizeLTMinParent(int minParent){
+				return totalNumObj <= minParent;
 			}
 	};
 

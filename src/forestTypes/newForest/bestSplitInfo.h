@@ -18,7 +18,7 @@ namespace fp{
 				F featureNum;
 
 			public:
-				bestSplitInfo(): impurity(std::numeric_limits<double>::max()){}
+				bestSplitInfo(): impurity(std::numeric_limits<float>::max()){}
 
 				inline void setSplitValue(T sVal){
 					splitValue = sVal;

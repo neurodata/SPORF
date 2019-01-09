@@ -21,7 +21,8 @@ namespace fp{
 		class processingNode{
 			protected:
 				int treeNum;
-				int parentNode;
+				int parentNodeNumber;
+				int nodeNumber;
 
 				std::vector<Q> mtry;
 				bestSplitInfo<T, Q> bestSplit;
@@ -34,17 +35,9 @@ namespace fp{
 
 				zipperIterators<int,T> zipIters;
 
-
-				/*
-					 inline void isFinished(){
-					 return mtry.empty();
-					 }
-
-
-*/
-
-
-
+				inline void isFinished(){
+					return mtry.empty();
+				}
 
 				inline void calcMtryForNode(std::vector<int>& featuresToTry){
 					for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i){ 
@@ -67,7 +60,7 @@ namespace fp{
 
 			public:
 
-				processingNode(int tr, int pN): treeNum(tr), parentNode(pN),propertiesOfThisNode(fpSingleton::getSingleton().returnNumClasses()), propertiesOfLeftNode(fpSingleton::getSingleton().returnNumClasses()),propertiesOfRightNode(fpSingleton::getSingleton().returnNumClasses()),nodeIndices(fpSingleton::getSingleton().returnNumClasses()){}
+				processingNode(int tr, int pN): treeNum(tr), parentNodeNumber(pN),propertiesOfThisNode(fpSingleton::getSingleton().returnNumClasses()), propertiesOfLeftNode(fpSingleton::getSingleton().returnNumClasses()),propertiesOfRightNode(fpSingleton::getSingleton().returnNumClasses()),nodeIndices(fpSingleton::getSingleton().returnNumClasses()){}
 
 
 				inline void findBestSplit(Q& currMtry){
@@ -109,15 +102,18 @@ namespace fp{
 				}
 
 				inline void setRootNodeZipIters(typename std::vector<zipClassAndValue<int,T> >& zipper){
-					zipIters.setZipIterators(zipper);
+					zipIters.setZipIteratorsRoot(zipper);
 				}
 
-				inline void setRootClassTotals(){
-					propertiesOfThisNode.setupRootClassTotals(nodeIndices);
-				}
+				/*
+					 inline void setRootClassTotals(){
+					 propertiesOfThisNode.setupRootClassTotals(nodeIndices);
+					 bestSplit.setImpurity(propertiesOfThisNode.calcAndReturnImpurity());
+					 }
+					 */
 
 
-				inline void loadWorkingSet(std::vector<Q>& currMTRY){
+				inline void loadWorkingSet(std::vector<int>& currMTRY){
 					/*
 						 for(int q=0; q<baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); q++){
 						 fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnInSample(q));
@@ -143,9 +139,9 @@ namespace fp{
 
 
 
-				inline void loadWorkingSet(Q currMTRY, int numClasses){
+				inline void loadWorkingSet(int currMTRY){
 					typename std::vector<zipClassAndValue<int,T> >::iterator zipIterator = zipIters.returnZipBegin();
-					for(int classNum = 0; classNum < numClasses; ++classNum){
+					for(int classNum = 0; classNum < fpSingleton::getSingleton().returnNumClasses(); ++classNum){
 
 						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum); ++q){
 							fpSingleton::getSingleton().prefetchFeatureVal(currMTRY,*q);
@@ -168,6 +164,13 @@ namespace fp{
 				//	}
 
 
+
+				inline void setClassTotals(){
+					propertiesOfThisNode.setupClassTotals(nodeIndices);
+					bestSplit.setImpurity(propertiesOfThisNode.calcAndReturnImpurity());
+				}
+
+
 				inline void sortWorkingSet(){
 					std::sort(zipIters.returnZipBegin(), zipIters.returnZipEnd());
 				}
@@ -175,38 +178,82 @@ namespace fp{
 
 				inline void setupRoot(obsIndexAndClassVec& indexHolder, typename std::vector<zipClassAndValue<int,T> >& zipper){
 					setRootNodeIndices(indexHolder);
-					setRootNodeZipIters(zipper);
-					setRootClassTotals();
-					bestSplit.setImpurity(propertiesOfThisNode.calcAndReturnImpurity());
+					setClassTotals();
 					if(!propertiesOfThisNode.isNodePure()){
 						calcMtryForNode(mtry);
+						setRootNodeZipIters(zipper);
 					}
 				}
 
+
+				inline void setNodeIndices(nodeIterators& nodeIters, bool isLeftNode){
+					nodeIndices.setNodeIterators(nodeIters, isLeftNode);
+				}
+
+
+				inline void setZipIters(zipperIterators<int,T>& zipperIters, int numObjects, bool isLeftNode){
+					zipIters.setZipIterators(zipperIters, numObjects, isLeftNode);
+				}
+
+
+				inline void setupNode(processingNode& parentNode, bool isLeftNode){
+					//inline void setupNode(nodeIterators& nodeIters, zipperIterators<int,T>& zipperIters, bool isLeftNode){
+					setNodeIndices(parentNode.nodeIndices,isLeftNode);
+					setClassTotals();
+					if(!propertiesOfThisNode.isNodePure()){
+						calcMtryForNode(mtry);
+						setZipIters(parentNode.zipIters, propertiesOfThisNode.returnNumItems(), isLeftNode);
+					}
+				}
+
+
+				inline void setVecOfSplitLocations(int fMtry){
+					int tempIndex;
+					for(int i = 0; i < fpSingleton::getSingleton().returnNumClasses(); ++i){
+						std::vector<int>::iterator  lowerValueIndices = nodeIndices.returnBeginIterator(i);
+						std::vector<int>::iterator  higherValueIndices = nodeIndices.returnEndIterator(i)-1;
+
+						while(lowerValueIndices < higherValueIndices){
+							while((lowerValueIndices < higherValueIndices) && (fpSingleton::getSingleton().returnFeatureVal(fMtry,*lowerValueIndices) <= bestSplit.returnSplitValue())){
+								++lowerValueIndices;
+							}
+
+							if(lowerValueIndices != higherValueIndices){
+								while((lowerValueIndices < higherValueIndices) && (fpSingleton::getSingleton().returnFeatureVal(fMtry,*higherValueIndices) > bestSplit.returnSplitValue())){
+									--higherValueIndices;
+								}
+
+								if(lowerValueIndices != higherValueIndices){
+									tempIndex = *lowerValueIndices;
+									*lowerValueIndices = *higherValueIndices;
+									*higherValueIndices = tempIndex;
+
+									++lowerValueIndices;
+									--higherValueIndices;
+								}
+							}
+						}
+						if(fpSingleton::getSingleton().returnFeatureVal(fMtry,*lowerValueIndices) <= bestSplit.returnSplitValue()){
+							nodeIndices.loadSplitIterator(++lowerValueIndices);
+						}else{
+							nodeIndices.loadSplitIterator(lowerValueIndices);
+						}
+
+					}
+				}
+
+
+				inline bool isLeafNode(){
+					if(propertiesOfThisNode.isNodePure()){
+						return true;
+					}
+					return propertiesOfThisNode.isSizeLTMinParent(fpSingleton::getSingleton().returnMinParent());
+				}
+
+
 				/*
-
-					 inline bool isLeafNode(){
-					 if(propertiesOfThisNode.isNodePure()){
-					 return true;
-					 }
-					 return nodeIndices.isSizeLTMinParent(fpSingleton::getSingleton().minParent());
-					 }
-
-
-
-					 inline void calcBestSplitInfoForNode(){
-					 for(auto i : mtry){
-					 loadWorkingSet(i);
-					 sortWorkingSet();
-					 resetRightNode();
-					 resetLeftNode();
-//This next function finds and sets the best split... not just finds.
-findBestSplit(i);
-}
-}
-
-inline void processNode(){
-if(isLeafNode()){
+					 inline void processNode(){
+					 if(isLeafNode()){
 				//send node to actual tree container
 				}else{
 				setupNode();
@@ -216,44 +263,56 @@ if(isLeafNode()){
 				}
 				*/
 
-//testing functions
-int inline exposeTreeNum(){
-	return treeNum;
-}
 
-inline int exposeParentNode(){
-	return parentNode;
-}
 
-inline std::vector<Q>& exposeMtry(){
-	return mtry;
-}
 
-inline bestSplitInfo<T, Q>& exposeBestSplit(){
-	return bestSplit;
-}
+				inline void calcBestSplitInfoForNode(int featureToTry){
+					loadWorkingSet(featureToTry);
+					sortWorkingSet();
+					resetRightNode();
+					resetLeftNode();
+					//This next function finds and sets the best split... not just finds.
+					findBestSplit(featureToTry);
+				}
 
-inline inNodeClassTotals&  exposePropertiesOfThisNode(){
-	return propertiesOfThisNode;
-}
+				//testing functions
+				int inline exposeTreeNum(){
+					return treeNum;
+				}
 
-inline inNodeClassTotals& exposePropertiesOfLeftNode(){
-	return propertiesOfLeftNode;
-}
+				inline int exposeParentNode(){
+					return parentNodeNumber;
+				}
 
-inline inNodeClassTotals& exposePropertiesOfRightNode(){
-	return propertiesOfRightNode;
-}
+				inline std::vector<Q>& exposeMtry(){
+					return mtry;
+				}
 
-inline nodeIterators& exposeNodeIndices(){
-	return nodeIndices;
-}
+				inline bestSplitInfo<T, Q>& exposeBestSplit(){
+					return bestSplit;
+				}
 
-inline zipperIterators<int,T>& exposeZipIters(){
-	return zipIters;
-}
+				inline inNodeClassTotals&  exposePropertiesOfThisNode(){
+					return propertiesOfThisNode;
+				}
 
-};
+				inline inNodeClassTotals& exposePropertiesOfLeftNode(){
+					return propertiesOfLeftNode;
+				}
 
-}//namespace fp
+				inline inNodeClassTotals& exposePropertiesOfRightNode(){
+					return propertiesOfRightNode;
+				}
+
+				inline nodeIterators& exposeNodeIndices(){
+					return nodeIndices;
+				}
+
+				inline zipperIterators<int,T>& exposeZipIters(){
+					return zipIters;
+				}
+
+				};
+
+		}//namespace fp
 #endif //processingNode_h

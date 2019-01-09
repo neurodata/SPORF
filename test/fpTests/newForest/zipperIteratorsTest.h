@@ -12,7 +12,7 @@ TEST(zipperIterators, basicFunctions)
 
 	zipperIterators<int,float> zipOne;
 
-	zipOne.setZipIterators(zipVec);
+	zipOne.setZipIteratorsRoot(zipVec);
 
 	EXPECT_EQ(zipOne.returnZipBegin(), zipVec.begin());
 	EXPECT_EQ(zipOne.returnZipEnd(), zipVec.end());
