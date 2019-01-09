@@ -17,3 +17,28 @@ predictions an n length vector of prediction based on the tree provided to this 
 \description{
 This is the base function called by Predict.
 }
+\examples{
+\dontrun{
+require(rerf)
+X <- as.matrix(iris[, -5])
+Y <- as.numeric(iris[, 5])
+paramList <- list(p = 4, d = 2, sparsity = 0.25, prob = 0.5)
+
+forest <- list(trees = NULL, labels = NULL, params = NULL)
+(forest$labels <- sort(unique(Y)))
+
+(num.class <- length(forest$labels))
+(classCt <- cumsum(tabulate(Y, num.class)))
+Cindex <- vector("list", num.class)
+paramBT <- list(X = X, Y = Y, FUN = rerf::RandMatBinary, paramList =
+paramList, min.parent = 1L, max.depth = 6L, bagging = 0.2, class.ct =
+classCt, class.ind = NULL, replacement = TRUE, stratify = FALSE,
+store.oob = FALSE, store.impurity = FALSE, progress = FALSE, rotate =
+FALSE, scaleAtNode = TRUE)
+list2env(paramBT, .GlobalEnv)
+
+set.seed(10)
+tree <- forest$trees[[1]] <- do.call(rerf:::BuildTree, paramBT)
+rerf:::RunPredict(X, forest$trees[[1]])
+}
+}

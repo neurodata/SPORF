@@ -52,6 +52,6 @@ Scale01 <- function(Xnode, scalingFactors = NULL) {
         MARGIN = 2, STATS = scalingFactors$diff, FUN = "/"
       )
 
-    return(list(scaledXnode = scaledXnode, scalingFactors = scalingFactors))
+    return(scaledXnode)
   }
 }

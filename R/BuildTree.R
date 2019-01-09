@@ -24,6 +24,7 @@
 #'
 #' @examples
 #' ## setup data
+#' \dontrun{
 #' set.seed(10)
 #' X <- as.matrix(iris[, -5])
 #' Y <- as.numeric(iris[, 5])
@@ -47,7 +48,7 @@
 #' forest$trees[[1]] <- do.call(rerf:::BuildTree, paramBT)
 #'
 #' forest$trees[[1]]
-#'
+#' }
 BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, replacement,
                       stratify, class.ind, class.ct, store.oob, store.impurity, progress,
                       rotate, scaleAtNode) {
@@ -149,7 +150,9 @@ BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, repl
   }
   NDepth <- integer(MaxNumNodes)
   Assigned2Node <- vector("list", MaxNumNodes)
-  scalingFactors4Node <- vector("list", MaxNumNodes)
+  if (scaleAtNode) {
+    scalingFactors4Node <- vector("list", MaxNumNodes)
+  }
   ind <- double(w)
   # Matrix A storage variables
   matAindex <- integer(maxIN)
@@ -336,10 +339,6 @@ BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, repl
       # Project scaled input into new space
       Xnode[1L:NdSize] <- scaledXnode[, sparseM[lrows, 1L], drop = FALSE] %*%
         sparseM[lrows, 3L, drop = FALSE]
-
-      ## Store scaled data and scaling factors
-      scalingFactors4Node[[CurrentNode]] <-
-        lapply(scaleDat$scalingFactors, function(x, y = sparseM[lrows, 1L]) x[y])
     } else {
       Xnode[1:NdSize] <- X[Assigned2Node[[CurrentNode]], sparseM[lrows, 1L], drop = FALSE] %*%
         sparseM[lrows, 3L, drop = FALSE]
@@ -367,6 +366,13 @@ BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, repl
 
     # store tree map data (positive value means this is an internal node)
     treeMap[CurrentNode] <- currIN <- currIN + 1L
+
+    ## Store scaled data and scaling factors
+    if (scaleAtNode) {
+      scalingFactors4Node[[currIN]] <-
+        lapply(scaleDat$scalingFactors, function(x, y = sparseM[lrows, 1L]) x[y])
+    }
+
     NDepth[NextUnusedNode] <- NDepth[CurrentNode] + 1L
     NDepth[NextUnusedNode + 1L] <- NDepth[CurrentNode] + 1L
     # Pop the current node off the node stack
@@ -424,7 +430,6 @@ BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, repl
     tree$delta.impurity <- delta.impurity[1L:currIN]
   }
 
-  # if (!all(sapply(scalingFactors4Node,is.null))) {
   if (scaleAtNode) {
     tree$scalingFactors <- scalingFactors4Node[1:(currIN + 1L)]
   }

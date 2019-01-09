@@ -48,3 +48,31 @@ Tree
 \description{
 Creates a single decision tree based on an input matrix and class vector.  This is the function used by rerf to generate trees.
 }
+\examples{
+## setup data
+\dontrun{
+set.seed(10)
+X <- as.matrix(iris[, -5])
+Y <- as.numeric(iris[, 5])
+paramList <- list(p = 4, d = 2, sparsity = 0.25, prob = 0.5)
+forest <- list(trees = NULL, labels = NULL, params = NULL)
+forest$labels <- sort(unique(Y))
+
+## instantiate parameters for BuildTree that would normally
+## be handled by the rerf::RerF function
+
+num.class <- length(forest$labels)
+classCt <- cumsum(tabulate(Y, num.class))
+Cindex <- vector("list", num.class)
+paramBT <- list(X = X, Y = Y, FUN = rerf::RandMatBinary, paramList =
+paramList, min.parent = 1L, max.depth = 6L, bagging = 0.2, class.ct =
+classCt, class.ind = NULL, replacement = TRUE, stratify = FALSE,
+store.oob = FALSE, store.impurity = FALSE, progress = FALSE, rotate =
+FALSE, scaleAtNode = FALSE)
+
+## Build a Tree (only for demonstrative purposes)
+forest$trees[[1]] <- do.call(rerf:::BuildTree, paramBT)
+
+forest$trees[[1]]
+}
+}

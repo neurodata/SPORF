@@ -20,15 +20,15 @@ list with the scaled data and scaling factors
 Scales the data in the current node to live in [0,1] over the columns.
 }
 \examples{
-set.seed(12345) 
+set.seed(12345)
 X <- as.matrix(iris[, -5])
-CurrentNode <- 1 
+CurrentNode <- 1
 Assigned2Node <- list(sample(1:nrow(X), 10))
 
 sparseM <- RandMatBinary(p = 4, d = 2, sparsity = 0.5, prob = 0.5)
 
-lrows  <- which(sparseM[, 2L] == 1)
+lrows  <- which(sparseM[, 3L] == 1)
 Xnode <- X[Assigned2Node[[CurrentNode]], sparseM[lrows, 2L, drop = FALSE]]
-scaleDat <- rerf:::Scale01(X[Assigned2Node[[CurrentNode]], , drop = FALSE])
+scaleDat <- Scale01(X[Assigned2Node[[CurrentNode]], , drop = FALSE])
 
 }
