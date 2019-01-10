@@ -197,7 +197,7 @@ namespace fp{
 					while(tree[currNode].isInternalNode()){
 						featureNum = tree[currNode].returnFeatureNumber();
 						featureVal = fpSingleton::getSingleton().returnTestFeatureVal(featureNum,observationNum);
-						currNode = tree[currNode].nextNode(featureVal);
+						currNode = tree[currNode].fpBaseNode<T, int>::nextNode(featureVal);
 					}
 					return tree[currNode].returnClass();
 				}

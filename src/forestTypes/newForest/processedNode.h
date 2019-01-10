@@ -1,32 +1,20 @@
-#ifndef processingTree_h
-#define processingTree_h
+#ifndef processedNode_h
+#define processedNode_h
 
-#include "obsIndexAndClassTuple.h"
-#include "zipClassAndValue.h"
-
-#include <vector>
+#include "bestSplitInfo.h"
 
 namespace fp{
 
 
-	template <typename T, typename Q> //
-		class processingTree{
+	template <typename T, typename F> //
+		class processedNode{
 			protected:
 				int treeNum;
+				int parentNum;
+				int nodeNum;
 				int binNum;
 
-				std::vector<processingNode<T,Q> > pendingNodes;
-
-
-
-				std::vector<zipClassAndValue<T> > workingSet;
-
-				std::list<processingNode<T, Q> > processedNodes;
-
-				std::vector<int> potentialSamples;
-				std::random_device rd; // obtain a random number from hardware
-				std::mt19937 eng; // seed the generator
-				std::uniform_int_distribution<> distr;
+bestSplitInfo<T,F> splitInfo;
 
 			public:
 				processingTree(int numberOfObsInTree){
@@ -105,6 +93,6 @@ namespace fp{
 					return workingSet.end();
 				}
 
-		}; //processingTree.h
+		}; //processedNode.h
 }//namespace fp
-#endif //processingTree_h
+#endif //processedNode_h

@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-template <typename T>
+template <typename T, typename F>
 class fpBaseNode
 {
 	protected:
@@ -11,6 +11,7 @@ class fpBaseNode
 		T cutValue;
 		int right;
 		int depth;
+		F feature;
 
 	public:
 		fpBaseNode():left(0), right(0), depth(0){}
@@ -63,6 +64,29 @@ class fpBaseNode
 			return featureValue < cutValue;
 		}
 
+		inline void setFeatureValue(F fVal){
+feature = fVal;
+		}
+
+		inline F returnFeatureNumber(){
+			return feature;
+		}
+
+
+inline int nextNode(T featureVal){
+			return (featureVal < cutValue) ? left : right;
+		}
+
+
+		/*
+inline int nextNode(std::vector<T>& observation, std::vector<int>& featureVector){
+			T featureVal = 0;
+			for(auto featureNumber : featureVector){
+				featureVal += observation[featureNumber];
+			}
+			return (featureVal < fpBaseNode<T,std::vector<int> >::cutValue) ? fpBaseNode<T,std::vector<int> >::left : fpBaseNode<T,std::vector<int> >::right;
+		}
+		*/
 
 		void virtual printNode(){
 			if(isInternalNode()){

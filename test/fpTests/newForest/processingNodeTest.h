@@ -66,10 +66,10 @@ TEST(processingNodeTest, setupRootNodeRF)
 	EXPECT_EQ(testRootNode.exposeZipIters().returnZipBegin(), zipVec.begin());
 	EXPECT_EQ(testRootNode.exposeZipIters().returnZipEnd(), zipVec.end());
 
-	testRootNode.resetLeftNode();
+	testRootNode.resetLeftNodeTest();
 	EXPECT_EQ(testRootNode.exposePropertiesOfLeftNode().returnNumItems(), 0);
 
-	testRootNode.resetRightNode();
+	testRootNode.resetRightNodeTest();
 	EXPECT_EQ(testRootNode.exposePropertiesOfRightNode().returnNumItems(), 150);
 	EXPECT_EQ(testRootNode.exposePropertiesOfRightNode().calcAndReturnImpurity(), testRootNode.exposePropertiesOfThisNode().returnImpurity());
 
@@ -108,7 +108,7 @@ TEST(processingNodeTest, loadStandardRFZip)
 	testRootNode.setupRoot(indexHolder, zipVec);
 
 	int testFeature = 0;
-	testRootNode.loadWorkingSet(testFeature);
+	testRootNode.loadWorkingSetTest(testFeature);
 
 	float accumulator = 0;
 	for(int i = 0; i < testSize; ++i){
@@ -119,7 +119,7 @@ TEST(processingNodeTest, loadStandardRFZip)
 	}
 
 
-	testRootNode.sortWorkingSet();
+	testRootNode.sortWorkingSetTest();
 
 	float previousValue = std::numeric_limits<float>::min();
 	float sortedAccumulator = 0;
@@ -165,10 +165,10 @@ TEST(processingNodeTest, findBestSplit)
 	testRootNode.setupRoot(indexHolder, zipVec);
 
 	int testFeature = 3;
-	testRootNode.loadWorkingSet(testFeature);
-	testRootNode.sortWorkingSet();
+	testRootNode.loadWorkingSetTest(testFeature);
+	testRootNode.sortWorkingSetTest();
 
-	testRootNode.findBestSplit(testFeature);
+	testRootNode.findBestSplitTest(testFeature);
 
 	EXPECT_EQ(testRootNode.exposeBestSplit().returnFeatureNum(), testFeature);
 	EXPECT_EQ(testRootNode.exposePropertiesOfRightNode().returnNumItems(), 1);
@@ -228,14 +228,14 @@ TEST(processingNodeTest, moveLeftRight)
 	testRootNode.setupRoot(indexHolder, zipVec);
 
 	int testFeature = 3;
-	testRootNode.loadWorkingSet(testFeature);
-	testRootNode.sortWorkingSet();
+	testRootNode.loadWorkingSetTest(testFeature);
+	testRootNode.sortWorkingSetTest();
 
-	testRootNode.findBestSplit(testFeature);
+	testRootNode.findBestSplitTest(testFeature);
 
 	//std::vector<std::vector<int>::iterator > splitLocations;
 
-	testRootNode.setVecOfSplitLocations(testFeature);
+	testRootNode.setVecOfSplitLocationsTest(testFeature);
 
 	//left side check
 	int classLabel =0;
@@ -311,7 +311,7 @@ TEST(processingNodeTest, moveLeft)
 	}
 
 	testRootNode.calcBestSplitInfoForNode(testFeature);
-	testRootNode.setVecOfSplitLocations(testFeature);
+	testRootNode.setVecOfSplitLocationsTest(testFeature);
 
 	EXPECT_FALSE(testRootNode.isLeafNode());
 
@@ -381,7 +381,7 @@ TEST(processingNodeTest, moveRight)
 	}
 
 	testRootNode.calcBestSplitInfoForNode(testFeature);
-	testRootNode.setVecOfSplitLocations(testFeature);
+	testRootNode.setVecOfSplitLocationsTest(testFeature);
 
 	EXPECT_FALSE(testRootNode.isLeafNode());
 

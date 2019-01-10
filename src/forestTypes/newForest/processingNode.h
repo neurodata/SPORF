@@ -35,9 +35,11 @@ namespace fp{
 
 				zipperIterators<int,T> zipIters;
 
-				inline void isFinished(){
-					return mtry.empty();
-				}
+				/*
+					 inline void isFinished(){
+					 return mtry.empty();
+					 }
+					 */
 
 				inline void calcMtryForNode(std::vector<int>& featuresToTry){
 					for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i){ 
@@ -58,9 +60,14 @@ namespace fp{
 					}
 				}
 
-			public:
 
-				processingNode(int tr, int pN): treeNum(tr), parentNodeNumber(pN),propertiesOfThisNode(fpSingleton::getSingleton().returnNumClasses()), propertiesOfLeftNode(fpSingleton::getSingleton().returnNumClasses()),propertiesOfRightNode(fpSingleton::getSingleton().returnNumClasses()),nodeIndices(fpSingleton::getSingleton().returnNumClasses()){}
+				inline void resetLeftNode(){
+					propertiesOfLeftNode.resetClassTotals();
+				}
+
+				inline void resetRightNode(){
+					propertiesOfRightNode.copyInNodeClassTotals(propertiesOfThisNode);
+				}
 
 
 				inline void findBestSplit(Q& currMtry){
@@ -88,15 +95,6 @@ namespace fp{
 				}
 
 
-				inline void resetLeftNode(){
-					propertiesOfLeftNode.resetClassTotals();
-				}
-
-				inline void resetRightNode(){
-					propertiesOfRightNode.copyInNodeClassTotals(propertiesOfThisNode);
-				}
-
-
 				inline void setRootNodeIndices(obsIndexAndClassVec& indexHolder){
 					nodeIndices.setInitialIterators(indexHolder);
 				}
@@ -104,40 +102,6 @@ namespace fp{
 				inline void setRootNodeZipIters(typename std::vector<zipClassAndValue<int,T> >& zipper){
 					zipIters.setZipIteratorsRoot(zipper);
 				}
-
-				/*
-					 inline void setRootClassTotals(){
-					 propertiesOfThisNode.setupRootClassTotals(nodeIndices);
-					 bestSplit.setImpurity(propertiesOfThisNode.calcAndReturnImpurity());
-					 }
-					 */
-
-
-				inline void loadWorkingSet(std::vector<int>& currMTRY){
-					/*
-						 for(int q=0; q<baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); q++){
-						 fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnInSample(q));
-						 }
-
-						 for(int i =0; i < baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); ++i){
-						 baseUnprocessedNode<T>::featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnInSample(i));
-						 }
-						 if(featuresToTry.back().size()>1){
-						 for(unsigned int j =1; j < featuresToTry.back().size(); ++j){
-						 for(int q=0; q<baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); q++){
-						 fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[j],baseUnprocessedNode<T>::obsIndices->returnInSample(q));
-						 }
-
-						 for(int i =0; i < baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); ++i){
-						 baseUnprocessedNode<T>::featureHolder[i] += fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[j],baseUnprocessedNode<T>::obsIndices->returnInSample(i));
-						 }
-						 }
-						 }
-						 */
-				}
-
-
-
 
 				inline void loadWorkingSet(int currMTRY){
 					typename std::vector<zipClassAndValue<int,T> >::iterator zipIterator = zipIters.returnZipBegin();
@@ -154,15 +118,6 @@ namespace fp{
 						}
 					}	
 				}
-				//	inline void setNodeIndices(nodeIterators& nodeIts){
-				//		nodeIndices=nodeIts;
-				//	}
-
-				//	inline void setupNode(){
-				//		setNodeIndices();
-				//calcMtryForNode(mtry);
-				//	}
-
 
 
 				inline void setClassTotals(){
@@ -173,37 +128,6 @@ namespace fp{
 
 				inline void sortWorkingSet(){
 					std::sort(zipIters.returnZipBegin(), zipIters.returnZipEnd());
-				}
-
-
-				inline void setupRoot(obsIndexAndClassVec& indexHolder, typename std::vector<zipClassAndValue<int,T> >& zipper){
-					setRootNodeIndices(indexHolder);
-					setClassTotals();
-					if(!propertiesOfThisNode.isNodePure()){
-						calcMtryForNode(mtry);
-						setRootNodeZipIters(zipper);
-					}
-				}
-
-
-				inline void setNodeIndices(nodeIterators& nodeIters, bool isLeftNode){
-					nodeIndices.setNodeIterators(nodeIters, isLeftNode);
-				}
-
-
-				inline void setZipIters(zipperIterators<int,T>& zipperIters, int numObjects, bool isLeftNode){
-					zipIters.setZipIterators(zipperIters, numObjects, isLeftNode);
-				}
-
-
-				inline void setupNode(processingNode& parentNode, bool isLeftNode){
-					//inline void setupNode(nodeIterators& nodeIters, zipperIterators<int,T>& zipperIters, bool isLeftNode){
-					setNodeIndices(parentNode.nodeIndices,isLeftNode);
-					setClassTotals();
-					if(!propertiesOfThisNode.isNodePure()){
-						calcMtryForNode(mtry);
-						setZipIters(parentNode.zipIters, propertiesOfThisNode.returnNumItems(), isLeftNode);
-					}
 				}
 
 
@@ -243,6 +167,77 @@ namespace fp{
 				}
 
 
+				inline void setNodeIndices(nodeIterators& nodeIters, bool isLeftNode){
+					nodeIndices.setNodeIterators(nodeIters, isLeftNode);
+				}
+
+
+				inline void setZipIters(zipperIterators<int,T>& zipperIters, int numObjects, bool isLeftNode){
+					zipIters.setZipIterators(zipperIters, numObjects, isLeftNode);
+				}
+
+			public:
+
+				processingNode(int tr, int pN): treeNum(tr), parentNodeNumber(pN),propertiesOfThisNode(fpSingleton::getSingleton().returnNumClasses()), propertiesOfLeftNode(fpSingleton::getSingleton().returnNumClasses()),propertiesOfRightNode(fpSingleton::getSingleton().returnNumClasses()),nodeIndices(fpSingleton::getSingleton().returnNumClasses()){}
+
+				/*
+					 inline void setRootClassTotals(){
+					 propertiesOfThisNode.setupRootClassTotals(nodeIndices);
+					 bestSplit.setImpurity(propertiesOfThisNode.calcAndReturnImpurity());
+					 }
+					 */
+
+
+				inline void loadWorkingSet(std::vector<int>& currMTRY){
+					/*
+						 for(int q=0; q<baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); q++){
+						 fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnInSample(q));
+						 }
+
+						 for(int i =0; i < baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); ++i){
+						 baseUnprocessedNode<T>::featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnInSample(i));
+						 }
+						 if(featuresToTry.back().size()>1){
+						 for(unsigned int j =1; j < featuresToTry.back().size(); ++j){
+						 for(int q=0; q<baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); q++){
+						 fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[j],baseUnprocessedNode<T>::obsIndices->returnInSample(q));
+						 }
+
+						 for(int i =0; i < baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); ++i){
+						 baseUnprocessedNode<T>::featureHolder[i] += fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[j],baseUnprocessedNode<T>::obsIndices->returnInSample(i));
+						 }
+						 }
+						 }
+						 */
+				}
+
+
+
+
+
+
+
+				inline void setupRoot(obsIndexAndClassVec& indexHolder, typename std::vector<zipClassAndValue<int,T> >& zipper){
+					setRootNodeIndices(indexHolder);
+					setClassTotals();
+					if(!propertiesOfThisNode.isNodePure()){
+						calcMtryForNode(mtry);
+						setRootNodeZipIters(zipper);
+					}
+				}
+
+
+				inline void setupNode(processingNode& parentNode, bool isLeftNode){
+					//inline void setupNode(nodeIterators& nodeIters, zipperIterators<int,T>& zipperIters, bool isLeftNode){
+					setNodeIndices(parentNode.nodeIndices,isLeftNode);
+					setClassTotals();
+					if(!propertiesOfThisNode.isNodePure()){
+						calcMtryForNode(mtry);
+						setZipIters(parentNode.zipIters, propertiesOfThisNode.returnNumItems(), isLeftNode);
+					}
+				}
+
+
 				inline bool isLeafNode(){
 					if(propertiesOfThisNode.isNodePure()){
 						return true;
@@ -263,9 +258,6 @@ namespace fp{
 				}
 				*/
 
-
-
-
 				inline void calcBestSplitInfoForNode(int featureToTry){
 					loadWorkingSet(featureToTry);
 					sortWorkingSet();
@@ -275,7 +267,10 @@ namespace fp{
 					findBestSplit(featureToTry);
 				}
 
-				//testing functions
+
+				//////////////////////////////////
+				//testing functions -- not to be used in production
+				//////////////////////////////////
 				int inline exposeTreeNum(){
 					return treeNum;
 				}
@@ -311,6 +306,35 @@ namespace fp{
 				inline zipperIterators<int,T>& exposeZipIters(){
 					return zipIters;
 				}
+
+				inline void resetLeftNodeTest(){
+					resetLeftNode();
+				}
+
+				inline void resetRightNodeTest(){
+					resetRightNode();
+				}
+
+
+				inline void findBestSplitTest(Q& currMtry){
+					findBestSplit(currMtry);
+				}
+
+
+				inline void loadWorkingSetTest(int currMTRY){
+					loadWorkingSet(currMTRY);
+				}
+
+
+				inline void sortWorkingSetTest(){
+					sortWorkingSet();
+				}
+
+
+				inline void setVecOfSplitLocationsTest(int fMtry){
+					setVecOfSplitLocations(fMtry);
+				}
+
 
 				};
 

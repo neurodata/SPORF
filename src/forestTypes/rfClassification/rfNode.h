@@ -5,14 +5,15 @@
 #include <stdio.h>
 
 template <typename T>
-class alignas(32) rfNode : public fpBaseNode<T>
+class alignas(32) rfNode : public fpBaseNode<T, int>
 {
 	protected:
-		int feature;
+		//int feature;
 
 	public:
 		rfNode(){}
 
+		/*
 		inline void setFeatureValue(int fVal){
 			feature = fVal;
 		}
@@ -21,12 +22,17 @@ class alignas(32) rfNode : public fpBaseNode<T>
 			return feature;
 		}
 
+		*/
+
+		
+		/*
     inline int nextNode(T featureValue){
-			return (featureValue < fpBaseNode<T>::cutValue) ? fpBaseNode<T>::left : fpBaseNode<T>::right;
+			return (featureValue < fpBaseNode<T,int>::cutValue) ? fpBaseNode<T,int>::left : fpBaseNode<T,int>::right;
 		}
+		*/
 
     inline int nextNode(std::vector<T>& observation){
-			return (observation[feature] < fpBaseNode<T>::cutValue) ? fpBaseNode<T>::left : fpBaseNode<T>::right;
+			return (observation[fpBaseNode<T, int>::feature] < fpBaseNode<T, int>::cutValue) ? fpBaseNode<T, int>::left : fpBaseNode<T, int>::right;
 		}
 
 };

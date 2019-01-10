@@ -6,36 +6,28 @@
 #include <vector>
 
 template <typename T>
-class rerfNode : public fpBaseNode<T>
+class rerfNode : public fpBaseNode<T, std::vector<int> >
 {
-	protected:
-		std::vector<int> feature;
-
 	public:
 		rerfNode(){}
 
 		inline void addFeatureValue(int fVal){
-			feature.push_back(fVal);
+			fpBaseNode<T,std::vector<int> >::feature.push_back(fVal);
 		}
 
-		inline void setFeatureValue(std::vector<int> fVal){
-			feature = fVal;
+		/*
+inline int nextNode(T featureVal){
+			return (featureVal < fpBaseNode<T,std::vector<int> >::cutValue) ? fpBaseNode<T,std::vector<int> >::left : fpBaseNode<T,std::vector<int> >::right;
 		}
-
-		inline std::vector<int>& returnFeatureNumber(){
-			return feature;
-		}
+*/
 
 		inline int nextNode(std::vector<T>& observation){
 			T featureVal = 0;
-			for(auto featureNumber : feature){
+			for(auto featureNumber : fpBaseNode<T,std::vector<int> >::feature){
 				featureVal += observation[featureNumber];
 			}
-			return (featureVal < fpBaseNode<T>::cutValue) ? fpBaseNode<T>::left : fpBaseNode<T>::right;
+			return (featureVal < fpBaseNode<T,std::vector<int> >::cutValue) ? fpBaseNode<T,std::vector<int> >::left : fpBaseNode<T,std::vector<int> >::right;
 		}
-
-    inline int nextNode(double featureVal){
-			return (featureVal < fpBaseNode<T>::cutValue) ? fpBaseNode<T>::left : fpBaseNode<T>::right;
-		}
+    
 };
 #endif //padNode_h
