@@ -36,18 +36,72 @@ test_that("Testing Scale01 for d=2", {
 })
 
 
+test_that("Testing cut values of a scaled forest", {
+  ## The dataset could be something else here
+  X <- iris[, -5]
+  Y <- iris[[5]]
 
-test_that("Testing a scaled forest", {
-  # Create a random data matrix to be scaled
-  train.idx <- sample(nrow(iris), 125)
+  Ntrees <- 3L
 
-  X <- iris[train.idx, -5]
-  Y <- iris[[5]][train.idx]
+  ## Generate a scaled forest of 3 trees
+  forest <- RerF(X, Y,
+    FUN = RandMatBinary,
+    paramList = list(p = 4, d = 3, sparsity = 0.25, prob = 0.1),
+    scaleAtNode = TRUE, num.cores = 1L, trees = Ntrees
+  )
 
-  xt <- iris[-train.idx, -5]
-  yt <- iris[[5]][-train.idx]
-  forest <- RerF(X, Y, FUN = RandMatBinary, paramList = list(p = 4, d = 1, sparsity = 0.2, prob = 0.1),
-                 scaleAtNode = TRUE, num.cores = 1L)
-  Yhat <- Predict(X, forest)
-  expect_equal(Yhat, Y)
+  cutF <- vector("list", Ntrees)
+  cutV <- vector("list", Ntrees)
+
+  ## for each tree get cut points and features used to split with their
+  ## weights and store them
+  for (numTree in 1:2) {
+    CutValue <- vector("integer", length(forest$trees[[numTree]]$treeMap))
+    CutFeature <- vector("list", length(forest$trees[[numTree]]$treeMap))
+    # nodeNum <- vector("integer", length(forest$trees[[numTree]]$treeMap))
+
+    currentNode <- 0
+    for (z in forest$trees[[numTree]]$treeMap) {
+      currentNode <- currentNode + 1
+      # nodeNum[currentNode] <- currentNode
+      tmpPosition <- z
+      if (tmpPosition > 0) {
+        CutValue[currentNode] <- forest$trees[[numTree]]$CutPoint[forest$trees[[numTree]]$treeMap[currentNode]]
+        firstFeaturePos <- forest$trees[[numTree]]$matAindex[tmpPosition] + 1
+        secondFeaturePos <- forest$trees[[numTree]]$matAindex[tmpPosition + 1]
+        CutFeature[[currentNode]] <- forest$trees[[numTree]]$matAstore[firstFeaturePos:secondFeaturePos]
+      } else {
+        tmpPosition <- -1 * tmpPosition
+        CutValue[currentNode] <- NA
+        CutFeature[[currentNode]] <- NA
+      }
+    }
+    cutF[[numTree]] <- lapply(CutFeature, function(x) matrix(x, ncol = 2, byrow = TRUE)[, 2])
+    cutV[[numTree]] <- CutValue
+  }
+
+  ## for the cut values determine if they in the appropriate bounds
+  tVal <- list()
+  for (ntree in 1:Ntrees) {
+    tVal[[ntree]] <- list()
+    for (node in 1:length(cutV[[ntree]])) {
+      if (!is.null(cutV[[ntree]][[node]]) && !is.na(cutV[[ntree]][[node]])) {
+        if (sum(cutF[[ntree]][[node]]) != 0) {
+          cutRange <-
+            c(min(0, sum(cutF[[ntree]][[node]])), max(0, sum(cutF[[ntree]][[node]])))
+        } else {
+          cutRange <-
+            c(min(0, cutF[[ntree]][[node]]), max(cutF[[ntree]][[node]], 0))
+        }
+
+        tVal[[ntree]][node] <-
+          cutV[[ntree]][[node]] > cutRange[1] & cutV[[ntree]][[node]] < cutRange[2]
+      }
+    }
+  }
+
+  ## Reduce the list and create a boolean that will be true if all of
+  ## the cut values reside in the appropriate interval.
+  testVal <- all(Reduce(c, Reduce(c, tVal)))
+  expect_true(testVal)
 })
