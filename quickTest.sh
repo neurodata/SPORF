@@ -9,5 +9,6 @@ do
 		then
 			echo $i $q $j >> error.log
 		fi
+		printf "\n"
 done
 

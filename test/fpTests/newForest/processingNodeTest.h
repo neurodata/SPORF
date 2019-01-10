@@ -397,6 +397,7 @@ TEST(processingNodeTest, moveRight)
 	}
 	EXPECT_FALSE(testNextNode.exposePropertiesOfThisNode().isNodePure());
 	EXPECT_EQ(testNextNode.exposePropertiesOfThisNode().returnNumItems(), 100);
+	EXPECT_EQ(testNextNode.returnNodeSize(), 100);
 
 	int j = testNextNode.exposePropertiesOfThisNode().returnImpurity();
 	EXPECT_EQ(j,50); 

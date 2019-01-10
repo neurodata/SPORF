@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 template <typename T, typename F>
-class fpBaseNode
+class alignas(32) fpBaseNode
 {
 	protected:
 		int left;
@@ -65,28 +65,41 @@ class fpBaseNode
 		}
 
 		inline void setFeatureValue(F fVal){
-feature = fVal;
+			feature = fVal;
 		}
 
-		inline F returnFeatureNumber(){
+		inline F& returnFeatureNumber(){
 			return feature;
 		}
 
 
-inline int nextNode(T featureVal){
-			return (featureVal < cutValue) ? left : right;
+		inline int nextNode(T featureVal){
+			return (featureVal <= cutValue) ? left : right;
 		}
 
-
-		/*
-inline int nextNode(std::vector<T>& observation, std::vector<int>& featureVector){
+		inline int nextNodeHelper(std::vector<T>& observation, std::vector<int>& featureVec){
 			T featureVal = 0;
-			for(auto featureNumber : featureVector){
+			for(auto featureNumber : featureVec){
 				featureVal += observation[featureNumber];
 			}
-			return (featureVal < fpBaseNode<T,std::vector<int> >::cutValue) ? fpBaseNode<T,std::vector<int> >::left : fpBaseNode<T,std::vector<int> >::right;
+			return (featureVal <= cutValue) ? left : right;
 		}
-		*/
+
+
+		inline int nextNodeHelper(std::vector<T>& observation, int featureIndex){
+			return (observation[featureIndex] <= cutValue) ? left : right;
+		}
+
+
+		inline int nextNode(std::vector<T>& observation){
+			return	nextNodeHelper(observation, feature);
+		}
+
+
+		inline void addFeatureValue(int fVal){
+			feature.push_back(fVal);
+		}
+
 
 		void virtual printNode(){
 			if(isInternalNode()){

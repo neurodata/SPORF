@@ -23,6 +23,9 @@ namespace fp{
 				int treeNum;
 				int parentNodeNumber;
 				int nodeNumber;
+				int depth;
+				
+				bool isLeftNode;
 
 				std::vector<Q> mtry;
 				bestSplitInfo<T, Q> bestSplit;
@@ -265,6 +268,18 @@ namespace fp{
 					resetLeftNode();
 					//This next function finds and sets the best split... not just finds.
 					findBestSplit(featureToTry);
+				}
+
+
+				inline void calcBestSplit(){
+					while(!mtry.empty()){
+						calcBestSplitInfoForNode(mtry.back());
+						mtry.pop_back();
+					}
+				}
+
+				inline int returnNodeSize(){
+propertiesOfThisNode.returnNumItems();
 				}
 
 

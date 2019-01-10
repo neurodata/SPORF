@@ -1,6 +1,7 @@
 #ifndef rfTree_h
 #define rfTree_h
-#include "rfNode.h"
+#include "../../baseFunctions/fpBaseNode.h"
+//#include "rfNode.h"
 #include <vector>
 #include <random>
 #include "unprocessedNode.h"
@@ -14,7 +15,7 @@ namespace fp{
 				float OOBAccuracy;
 				float correctOOB;
 				float totalOOB;
-				std::vector< rfNode<T> > tree;
+				std::vector< fpBaseNode<T, int> > tree;
 				std::vector< unprocessedNode<T> > nodeQueue;
 
 			public:

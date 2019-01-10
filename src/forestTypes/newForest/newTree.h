@@ -1,40 +1,55 @@
-#ifndef rerfTree_h
-#define rerfTree_h
+#ifndef treeStruct_h
+#define treeStruct_h
 #include "../../baseFunctions/fpBaseNode.h"
-//#include "rerfNode.h"
+#include "obsIndexAndClassVec.h"
+#include "zipClassAndValue.h"
 #include <vector>
-#include <random>
-#include "unprocessedRerFNode.h"
 
 namespace fp{
 
-	template <typename T>
-		class rerfTree
+	template <typename T, typename Q>
+		class treeStruct
 		{
 			protected:
 				float OOBAccuracy;
 				float correctOOB;
 				float totalOOB;
-				std::vector< fpBaseNode<T, std::vector<int> > > tree;
-				std::vector< unprocessedRerFNode<T> > nodeQueue;
+				std::vector< fpBaseNode<T,Q> > tree;
+				std::vector<processingNode<T,Q> > nodeQueue;
+
+
+//obsIndexAndClassVec indexHolder(numClasses);
+//std::vector<zipClassAndValue<int, float> > zipVec(testSize);
 
 			public:
-				rerfTree() : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0){}
+				treeStruct(obsIndexAndClassVec& indices, std::vector<zipClassAndValue<int, T> >& zip) : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0){
+			loadFirstNode(indices, zip);	
+				}
 
-				void loadFirstNode(){
-					nodeQueue.emplace_back(fpSingleton::getSingleton().returnNumObservations());
+				void loadFirstNode(obsIndexAndClassVec& indicesHolder, std::vector<zipClassAndValue<int, T> >& zipper){
+					nodeQueue.emplace_back(0,0);
+					//task location
+nodeQueue.back().setupRoot(indicesHolder, zipper);
+nodeQueue.back().calcBestSplit();
 				}
 
 				inline bool shouldProcessNode(){
-					if(nodeQueue.back().returnNodeImpurity()==0){
-						return false;
-					}
-					if(nodeQueue.back().returnInSampleSize() <= fpSingleton::getSingleton().returnMinParent()){
-						return false;
-					}
-					return true;
+					return !nodeQueue.back().isLeafNode();
 				}
 
+				inline void copyProcessedNodeToTree(){
+
+
+				}
+
+				inline void processNode(){
+					
+if(shouldProcessNode()){
+
+}
+
+				}
+				/*
 				inline float returnOOB(){
 					return correctOOB/totalOOB;
 				}
@@ -210,7 +225,8 @@ namespace fp{
 					}
 					return tree[currNode].returnClass();
 				}
+				*/
 		};
 
 }//fp
-#endif //rfTree_h
+#endif //treeStruct_h

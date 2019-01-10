@@ -21,7 +21,7 @@ namespace fp{
 				baseSplitInfo<T,std::vector<int> >::featureNum = fNum;
 			}
 
-			inline std::vector<int> returnFeatureNum(){
+			inline std::vector<int>& returnFeatureNum(){
 				return baseSplitInfo<T,std::vector<int> >::featureNum;
 			}
 	};

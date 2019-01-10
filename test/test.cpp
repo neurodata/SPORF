@@ -14,4 +14,5 @@
 #include "fpTests/newForest/nodeIteratorsTest.h"
 #include "fpTests/newForest/zipperIteratorsTest.h"
 #include "fpTests/newForest/processingNodeTest.h"
+#include "fpTests/newForest/treeStructTest.h"
 
