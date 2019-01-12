@@ -65,7 +65,7 @@ RunPredict <- function(X, tree) {
 
         if (!is.null(tree$scalingFactors[tm])) { ## for when the node data has been scaled to [0,1].
           Xnode[1:nodeSize] <-
-            Scale01(X[Assigned2Node[[m]], tree$matAstore[indexLow:indexHigh][(1:s) * 2L - 1L], drop = FALSE],
+            PredictScale01(X[Assigned2Node[[m]], tree$matAstore[indexLow:indexHigh][(1:s) * 2L - 1L], drop = FALSE],
                   scalingFactors = tree$scalingFactors[[tm]]) %*%
             tree$matAstore[indexLow:indexHigh][(1:s) * 2L]
         } else {

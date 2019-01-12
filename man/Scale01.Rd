@@ -4,14 +4,10 @@
 \alias{Scale01}
 \title{Scale data in current Node to [0,1]}
 \usage{
-Scale01(Xnode, scalingFactors = NULL)
+Scale01(Xnode)
 }
 \arguments{
 \item{Xnode}{an n by d numeric matrix or data frame containing the data assigned to the current node. The rows correspond to observations and columns correspond to features.}
-
-\item{scalingFactors}{a list with names elements \code{min} and
-\code{diff} containing vectors of the minima and difference in maxima
-and minima across columns of Xnode.}
 }
 \value{
 list with the scaled data and scaling factors
@@ -27,7 +23,7 @@ Assigned2Node <- list(sample(1:nrow(X), 10))
 
 sparseM <- RandMatBinary(p = 4, d = 2, sparsity = 0.5, prob = 0.5)
 
-lrows  <- which(sparseM[, 3L] == 1)
+lrows  <- which(sparseM[, 2L] == 1)
 Xnode <- X[Assigned2Node[[CurrentNode]], sparseM[lrows, 2L, drop = FALSE]]
 scaleDat <- Scale01(X[Assigned2Node[[CurrentNode]], , drop = FALSE])
 
