@@ -6,6 +6,7 @@
 #include "fpBaseForest.h"
 #include "../forestTypes/rerf/fpRerFBase.h"
 #include "../forestTypes/rfClassification/fpForestClassificationBase.h"
+#include "../forestTypes/newForest/inPlaceBase.h"
 
 namespace fp{
 
@@ -18,6 +19,8 @@ namespace fp{
 					return std::unique_ptr<fpForestBase<T> >{new fpForestClassificationBase<T>};
 				}else if(parameterName == "rerf"){
 					return std::unique_ptr<fpForestBase<T> >{new fpRerFBase<T>};
+				}else if(parameterName == "inPlace"){
+					return std::unique_ptr<fpForestBase<T> >{new inPlaceBase<T>};
 				}else{
 					throw std::runtime_error("Unimplemented forest type chosen." );
 					return NULL;

@@ -38,6 +38,9 @@ int main(int argc, char* argv[]) {
 				forest.setParameter("forestType", "rfBase");
 				forest.setParameter("useBinning", 1000);
 				break;
+case 5:
+				forest.setParameter("forestType", "inPlace");
+				break;
 			default:
 				std::cout << "unknown alg selected" << std::endl;
 				return -1;

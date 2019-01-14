@@ -313,7 +313,11 @@ TEST(processingNodeTest, moveLeft)
 	testRootNode.calcBestSplitInfoForNode(testFeature);
 	testRootNode.setVecOfSplitLocationsTest(testFeature);
 
+	testRootNode.setAsInternalNode();
 	EXPECT_FALSE(testRootNode.isLeafNode());
+testRootNode.setAsLeafNode();
+	EXPECT_TRUE(testRootNode.isLeafNode());
+
 
 	treeNum = treeNum+1;
 	nodeNum = nodeNum+1;
@@ -338,7 +342,7 @@ TEST(processingNodeTest, moveLeft)
 	EXPECT_EQ(testClassSize[1], 0);
 	EXPECT_EQ(testClassSize[2], 0);
 
-	EXPECT_EQ(testNextNode.exposeZipIters().returnZipEnd()-testNextNode.exposeZipIters().returnZipBegin(), 0);
+	EXPECT_EQ(testNextNode.exposeZipIters().returnZipEnd()-testNextNode.exposeZipIters().returnZipBegin(), 50);
 }
 
 
@@ -383,7 +387,6 @@ TEST(processingNodeTest, moveRight)
 	testRootNode.calcBestSplitInfoForNode(testFeature);
 	testRootNode.setVecOfSplitLocationsTest(testFeature);
 
-	EXPECT_FALSE(testRootNode.isLeafNode());
 
 	treeNum = treeNum+1;
 	nodeNum = nodeNum+1;

@@ -79,7 +79,7 @@ namespace fp {
 					omp_set_num_threads(fpSingleton::getSingleton().returnNumThreads());
 				}
 
-				void growForest(){
+				inline void growForest(){
 					loadData();
 					initializeForestType();
 					setDataDependentParameters();

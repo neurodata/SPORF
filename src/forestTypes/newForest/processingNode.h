@@ -6,6 +6,8 @@
 #include "zipClassAndValue.h"
 #include "bestSplitInfo.h"
 #include "nodeIterators.h"
+#include "zipperIterators.h"
+#include <assert.h>
 #include "../../fpSingleton/fpSingleton.h"
 
 
@@ -24,8 +26,10 @@ namespace fp{
 				int parentNodeNumber;
 				int nodeNumber;
 				int depth;
-				
+
 				bool isLeftNode;
+				bool isLeftNodeBigger;
+				bool leafNode;
 
 				std::vector<Q> mtry;
 				bestSplitInfo<T, Q> bestSplit;
@@ -136,9 +140,18 @@ namespace fp{
 
 				inline void setVecOfSplitLocations(int fMtry){
 					int tempIndex;
+
 					for(int i = 0; i < fpSingleton::getSingleton().returnNumClasses(); ++i){
 						std::vector<int>::iterator  lowerValueIndices = nodeIndices.returnBeginIterator(i);
 						std::vector<int>::iterator  higherValueIndices = nodeIndices.returnEndIterator(i)-1;
+						
+					int numInClass = nodeIndices.returnEndIterator(i) - nodeIndices.returnBeginIterator(i);
+					int numInNewClass = 0;
+
+						if(nodeIndices.returnBeginIterator(i) == nodeIndices.returnEndIterator(i)){
+							nodeIndices.loadSplitIterator(lowerValueIndices);
+continue;
+						}
 
 						while(lowerValueIndices < higherValueIndices){
 							while((lowerValueIndices < higherValueIndices) && (fpSingleton::getSingleton().returnFeatureVal(fMtry,*lowerValueIndices) <= bestSplit.returnSplitValue())){
@@ -160,22 +173,31 @@ namespace fp{
 								}
 							}
 						}
+
 						if(fpSingleton::getSingleton().returnFeatureVal(fMtry,*lowerValueIndices) <= bestSplit.returnSplitValue()){
-							nodeIndices.loadSplitIterator(++lowerValueIndices);
+							nodeIndices.loadSplitIterator(lowerValueIndices+1);
+numInNewClass = (lowerValueIndices+1) - nodeIndices.returnBeginIterator(i) + nodeIndices.returnEndIterator(i) - (lowerValueIndices+1);
+assert(numInNewClass == numInClass);
+						assert(nodeIndices.returnEndIterator(i) - lowerValueIndices + 1 >= 0);
+						assert(lowerValueIndices + 1 - nodeIndices.returnBeginIterator(i) >= 0);
 						}else{
 							nodeIndices.loadSplitIterator(lowerValueIndices);
+numInNewClass = (lowerValueIndices) - nodeIndices.returnBeginIterator(i) + nodeIndices.returnEndIterator(i) - (lowerValueIndices);
+assert(numInNewClass == numInClass);
+						assert(nodeIndices.returnEndIterator(i) - lowerValueIndices >= 0);
+						assert(lowerValueIndices - nodeIndices.returnBeginIterator(i) >= 0);
 						}
 
 					}
 				}
 
 
-				inline void setNodeIndices(nodeIterators& nodeIters, bool isLeftNode){
+				inline void setNodeIndices(nodeIterators& nodeIters){
 					nodeIndices.setNodeIterators(nodeIters, isLeftNode);
 				}
 
 
-				inline void setZipIters(zipperIterators<int,T>& zipperIters, int numObjects, bool isLeftNode){
+				inline void setZipIters(zipperIterators<int,T>& zipperIters, int numObjects){
 					zipIters.setZipIterators(zipperIters, numObjects, isLeftNode);
 				}
 
@@ -223,43 +245,71 @@ namespace fp{
 				inline void setupRoot(obsIndexAndClassVec& indexHolder, typename std::vector<zipClassAndValue<int,T> >& zipper){
 					setRootNodeIndices(indexHolder);
 					setClassTotals();
+					setRootNodeZipIters(zipper);
 					if(!propertiesOfThisNode.isNodePure()){
-						calcMtryForNode(mtry);
-						setRootNodeZipIters(zipper);
+						//		calcMtryForNode(mtry);
 					}
 				}
 
 
-				inline void setupNode(processingNode& parentNode, bool isLeftNode){
-					//inline void setupNode(nodeIterators& nodeIters, zipperIterators<int,T>& zipperIters, bool isLeftNode){
-					setNodeIndices(parentNode.nodeIndices,isLeftNode);
+				inline void setupNode(processingNode& parentNode, bool leftNode){
+					setIsLeftNode(leftNode);
+					setNodeIndices(parentNode.nodeIndices);
 					setClassTotals();
-					if(!propertiesOfThisNode.isNodePure()){
-						calcMtryForNode(mtry);
-						setZipIters(parentNode.zipIters, propertiesOfThisNode.returnNumItems(), isLeftNode);
-					}
+					setZipIters(parentNode.zipIters, propertiesOfThisNode.returnNumItems());
 				}
 
 
-				inline bool isLeafNode(){
+				inline void setupNode(nodeIterators& nodeIts, zipperIterators<int,T>& zips, bool leftNode){
+					setIsLeftNode(leftNode);
+					setNodeIndices(nodeIts);
+					setClassTotals();
+					setZipIters(zips, propertiesOfThisNode.returnNumItems());
+					/*
+					if(propertiesOfThisNode.returnNumItems() < 1 || propertiesOfThisNode.returnNumItems() > 150){
+						std::cout << propertiesOfThisNode.returnNumItems() << "\n";
+					}
+					*/
+				}
+
+
+				inline bool leafPropertiesMet(){
 					if(propertiesOfThisNode.isNodePure()){
 						return true;
 					}
 					return propertiesOfThisNode.isSizeLTMinParent(fpSingleton::getSingleton().returnMinParent());
 				}
 
+				inline void setAsLeafNode(){
+					leafNode = true;
+				}
 
-				/*
-					 inline void processNode(){
-					 if(isLeafNode()){
-				//send node to actual tree container
-				}else{
-				setupNode();
-				calcBestSplitInfoForNode();
-				//split node if something found.
+				inline void setAsInternalNode(){
+					leafNode = false;
 				}
+
+				inline bool impurityImproved(){
+					return bestSplit.returnImpurity() < propertiesOfThisNode.returnImpurity();  
 				}
-				*/
+
+
+				inline void processNode(){
+					if(leafPropertiesMet()){
+						setAsLeafNode();
+					}else{
+						calcBestSplit();
+						if(impurityImproved()){
+							setAsInternalNode();
+							setVecOfSplitLocations(bestSplit.returnFeatureNum());
+						}else{
+							setAsLeafNode();
+						}
+					}
+				}
+
+				inline bool isLeafNode(){
+					return leafNode;
+				}
 
 				inline void calcBestSplitInfoForNode(int featureToTry){
 					loadWorkingSet(featureToTry);
@@ -272,6 +322,7 @@ namespace fp{
 
 
 				inline void calcBestSplit(){
+					calcMtryForNode(mtry);
 					while(!mtry.empty()){
 						calcBestSplitInfoForNode(mtry.back());
 						mtry.pop_back();
@@ -279,9 +330,52 @@ namespace fp{
 				}
 
 				inline int returnNodeSize(){
-propertiesOfThisNode.returnNumItems();
+					return propertiesOfThisNode.returnNumItems();
 				}
 
+				inline int returnNodeDepth(){
+					return depth;
+				}
+
+				inline T returnNodeCutValue(){
+					return bestSplit.returnSplitValue();
+				}
+
+				inline Q returnNodeCutFeature(){
+					return bestSplit.returnFeatureNum();
+				}
+
+				inline bool returnIsLeftNode(){
+					return isLeftNode;
+				}
+
+				inline void setIsLeftNode(bool leftNode){
+					isLeftNode = leftNode;
+				}
+
+				inline int returnParentNodeNumber(){
+					return parentNodeNumber;
+				}
+
+				inline int returnNodeIndices(){
+					return parentNodeNumber;
+				}
+
+				inline nodeIterators& returnNodeIterators(){
+					return nodeIndices;
+				}
+
+				inline zipperIterators<int,T>& returnZipIterators(){
+					return zipIters;
+				}
+
+				inline bool isLeftChildLarger(){
+					return nodeIndices.returnLeftChildSize() > propertiesOfThisNode.returnNumItems() - nodeIndices.returnLeftChildSize();
+				}
+
+				inline int returnNodeClass(){
+					return propertiesOfThisNode.returnMaxClass();
+				}
 
 				//////////////////////////////////
 				//testing functions -- not to be used in production
@@ -351,7 +445,7 @@ propertiesOfThisNode.returnNumItems();
 				}
 
 
-				};
+		};
 
-		}//namespace fp
+}//namespace fp
 #endif //processingNode_h

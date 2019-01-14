@@ -2,6 +2,7 @@
 #define nodeIterators_h
 
 #include <vector>
+#include <assert.h>
 #include "obsIndexAndClassVec.h"
 
 namespace fp{
@@ -27,7 +28,7 @@ namespace fp{
 				return iteratorHolderBegin[iterClass];
 			}
 
-inline const std::vector<int>::iterator& returnSplitIterator(int iterClass){
+			inline const std::vector<int>::iterator& returnSplitIterator(int iterClass){
 				return iteratorHolderSplit[iterClass];
 			}
 
@@ -43,6 +44,7 @@ inline const std::vector<int>::iterator& returnSplitIterator(int iterClass){
 				for(int i = 0; i < (int)iteratorHolderBegin.size(); ++i){
 					iteratorHolderBegin[i] = indexHolder.returnClassVector(i).begin();
 					iteratorHolderEnd[i] = indexHolder.returnClassVector(i).end();
+					assert(iteratorHolderEnd[i]-iteratorHolderBegin[i]>=0);
 				}
 			}
 
@@ -62,11 +64,23 @@ inline const std::vector<int>::iterator& returnSplitIterator(int iterClass){
 				classSizes.clear();
 				for(int i = 0; i < (int)iteratorHolderEnd.size(); ++i){
 					classSizes.push_back(iteratorHolderEnd[i]-iteratorHolderBegin[i]);
+					assert(iteratorHolderEnd[i]-iteratorHolderBegin[i] >= 0);	
 				}
 			}
 
 			inline void loadSplitIterator(std::vector<int>::iterator nextIterator){
-iteratorHolderSplit.push_back(nextIterator);
+				iteratorHolderSplit.push_back(nextIterator);
+				assert(iteratorHolderSplit.back() - iteratorHolderBegin[iteratorHolderSplit.size()-1] >= 0);
+				assert( iteratorHolderEnd[iteratorHolderSplit.size()-1] - iteratorHolderSplit.back() >= 0);
+			}
+
+			inline int returnLeftChildSize(){
+				int leftChildSize = 0;
+				for(int i = 0; i < (int)iteratorHolderBegin.size();++i){
+					assert(iteratorHolderSplit[i]-iteratorHolderBegin[i] >= 0);
+					leftChildSize +=iteratorHolderSplit[i]-iteratorHolderBegin[i]; 
+				}
+				return leftChildSize;
 			}
 
 	};

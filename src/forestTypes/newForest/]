@@ -17,20 +17,23 @@ namespace fp{
 				std::vector< fpBaseNode<T,Q> > tree;
 				std::vector<processingNode<T,Q> > nodeQueue;
 
+				int numberOfNodes;
+
 
 //obsIndexAndClassVec indexHolder(numClasses);
 //std::vector<zipClassAndValue<int, float> > zipVec(testSize);
 
 			public:
-				treeStruct(obsIndexAndClassVec& indices, std::vector<zipClassAndValue<int, T> >& zip) : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0){
+				treeStruct(obsIndexAndClassVec& indices, std::vector<zipClassAndValue<int, T> >& zip) : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0),numberOfNodes(0){
 			loadFirstNode(indices, zip);	
 				}
 
-				void loadFirstNode(obsIndexAndClassVec& indicesHolder, std::vector<zipClassAndValue<int, T> >& zipper){
+				inline void loadFirstNode(obsIndexAndClassVec& indicesHolder, std::vector<zipClassAndValue<int, T> >& zipper){
 					nodeQueue.emplace_back(0,0);
 					//task location
 nodeQueue.back().setupRoot(indicesHolder, zipper);
 nodeQueue.back().calcBestSplit();
+copyProcessedNodeToTree();
 				}
 
 				inline bool shouldProcessNode(){
@@ -38,9 +41,21 @@ nodeQueue.back().calcBestSplit();
 				}
 
 				inline void copyProcessedNodeToTree(){
-
-
+tree.emplace_back(nodeQueue.back().returnNodeCutValue(), nodeQueue.back().returnNodeDepth(), nodeQueue.back().returnNodeCutFeature());
+numberOfNodes++;
 				}
+
+inline void linkParentToChild(){
+if(nodeQueue.back().returnIsLeftNode()){
+tree[nodeQueue.back().returnParentNodeNumber].setLeftValue(numberOfNodes);
+}else{
+tree[nodeQueue.back().returnParentNodeNumber].setRightValue(numberOfNodes)
+}
+}
+
+inline void createChildNodes(){
+
+}
 
 				inline void processNode(){
 					

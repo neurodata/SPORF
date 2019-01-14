@@ -14,6 +14,9 @@ class inputYData
 		std::vector < T > YData;
 
 	public:
+
+		virtual ~inputYData(){};
+
 		void initializeYData(const int &numObs){
 			YData.resize(numObs);
 		}
@@ -34,7 +37,7 @@ class inputYData
 
 
 template <typename T>
-class inputYDataClassification : public inputYData<T>
+class inputYDataClassification : public inputYData<int>
 {
 	private:
 		int maxClass;
@@ -42,8 +45,11 @@ class inputYDataClassification : public inputYData<T>
 
 	public:
 		inputYDataClassification(): maxClass(-1){}
+
+		~inputYDataClassification(){};
+
 		inline void setYElement(const int &elementNumber, const T &value){
-			inputYData<T>::YData[elementNumber] = (int)value;
+			inputYData<int>::YData[elementNumber] = (int)value;
 			if(value > maxClass){
 				maxClass = value;
 				classesUsed.resize(maxClass+1,0);
@@ -72,6 +78,7 @@ class inputXData
 		std::vector < std::vector<T> > XData;
 
 	public:
+		virtual ~inputXData(){}
 		void initializeXData( const int &numFeatures, const int &numObservations){
 			XData.resize(numFeatures);
 			for (int i=0; i<numFeatures; i++){

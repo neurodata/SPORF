@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "nodeIterators.h"
+#include <assert.h>
 #include <iostream>
 
 namespace fp{
@@ -36,6 +37,7 @@ namespace fp{
 
 			inline void setTotalNumObj(){
 				for(auto i : classVec){
+					assert(i >= 0);
 					totalNumObj+=i;
 				}
 			}
@@ -78,12 +80,14 @@ namespace fp{
 			inline void decrementClass(int classNum){
 				--classVec[classNum];
 				--totalNumObj;
+				assert(totalNumObj >=0);
 			}
 
 
 			inline void incrementClass(int classNum){
 				++classVec[classNum];
 				++totalNumObj;
+				assert(totalNumObj >=0);
 			}
 
 			inline void resetClassTotals(){
