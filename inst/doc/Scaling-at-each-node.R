@@ -1,0 +1,170 @@
+## ----setup, include = FALSE----------------------------------------------
+require(gridExtra)
+require(ggExtra)
+require(ggplot2)
+require(rerf)
+require(data.table)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>", 
+  fig.width = 8,
+  fig.height = 8
+)
+
+## ---- include = FALSE----------------------------------------------------
+xb <- c(1e-4, 1e4)
+yb <- c(0,1)
+
+bc <- curve((x - 1e-4) / 2, 1e-4, 1, n = 100)
+
+
+x <- c(1e-4, 1, 1, 1e-4)
+y <- c(0,0,0.5,0)
+
+
+plot(log10(xb), yb, type= 'n')
+polygon(x = log10(c(bc$x, 1, 1, 1e-4, 1e-4)), y = c(bc$y, 0.5,1,1,0), col = scales::alpha('blue', 0.25))
+polygon(x = log10(c(bc$x, 1, 1, 1e4, 1e4)), y = c(bc$y, 0.5,1,1,0), col = scales::alpha('red', 0.25))
+
+#label <- 
+#dt <- data.frame(x = x, y = y, label = label)
+#
+#dt
+#p.toy <- ggplot(dt,aes(x=x,y=y,color=label)) +
+#           geom_polygon(data = dt,aes(fill=label),alpha = 0.5) + 
+#           scale_x_log10() + 
+#           geom_point()
+
+## ------------------------------------------------------------------------
+set.seed(1234)
+n <- 1e4
+n0 <- n / 2
+n1 <- n / 2
+
+r1 <- list(x = c(1, 1e4), y = c(0,1))
+r2 <- list(x = c(1e-4, 1), y = c(0.5,1))
+r3 <- list(x = c(1e-4, 1), y = c(0.5,1))
+r4 <- list(x = c(1e-4, 1), y = c(0,0.5))
+
+xr1 <- runif(n0/2, r1$x[1], r1$x[2])
+yr1 <- runif(n0/2, r1$y[1], r1$y[2])
+
+xr2 <- runif(n1/2, r2$x[1], r2$x[2])
+yr2 <- runif(n1/2, r2$y[1], r2$y[2])
+
+xr3 <- runif(n1/2, r3$x[1], r3$x[2])
+yr3 <- runif(n1/2, (xr3 - 1e-4) / 2, r3$y[2])
+
+xr4 <- runif(n0/2, r4$x[1], r4$x[2])
+yr4 <- runif(n0/2, r4$y[1], (xr4 - 1e-4) / 2)
+
+c0 <- rbind(cbind(x = xr1, y = yr1), cbind(x = xr4, y = yr4))
+c1 <- rbind(cbind(x = xr2, y = yr2), cbind(x = xr3, y = yr3))
+
+## ------------------------------------------------------------------------
+Y <- as.factor(c(rep(0, n0), rep(1, n1)))
+X <- data.frame(rbind(c0,c1))
+XY <- data.frame(X, Y)
+
+g1 <- ggplot(data = XY, aes(x = x, y = y, color = Y)) + geom_point(alpha = 0.75) 
+g2 <- ggplot(data = XY, aes(x = x, y = y, color = Y)) + geom_point(alpha = 0.45) + scale_x_log10()
+g3 <- ggplot(data = XY, aes(x = x, y = y, color = Y)) + geom_point(alpha = 0.45) + scale_x_log10() + scale_y_log10()
+
+grid.arrange(g1, g2, g3)
+
+## ------------------------------------------------------------------------
+set.seed(2^9)
+paramList <- list(p = 2, d = 2, sparsity = 0.5, prob = 0.5)
+depth <- 3L
+ntrees <- 1L
+
+f <- RerF(X, Y, FUN = RandMatBinary, 
+          paramList = paramList, scaleAtNode = FALSE, trees = ntrees, 
+          max.depth = depth, num.cores = 1L)
+
+sf <- RerF(X, Y, FUN = RandMatBinary, 
+           paramList = paramList, scaleAtNode = TRUE, trees = ntrees, 
+           max.depth = depth, num.cores = 1L)
+
+rf <- RerF(X, Y, FUN = RandMatRF, 
+          paramList = list(p = 2, d = 2), scaleAtNode = FALSE, trees = ntrees, 
+          max.depth = depth, num.cores = 1L)
+
+Yhat <- Predict(X, f)
+sYhat <- Predict(X, sf)
+rfYhat <- Predict(X, rf)
+
+sum(Yhat != Y)/n
+sum(sYhat != Y)/n
+sum(rfYhat != Y)/n
+
+## ------------------------------------------------------------------------
+ntest <- 1e3
+
+set.seed(2019)
+r1U <- data.frame(x = runif(ntest, min = 1, max = 1e4),
+                  y = runif(ntest, min = 0, max = 1), label = 0)
+
+r2U <- data.frame(x = runif(ntest, min = 1e-4, max = 1),
+                  y = runif(ntest, min = 0.5, max = 1), label = 1)
+
+r3U <- data.frame(x = x <- runif(ntest, min = 1e-4, max = 1),
+                  y = runif(ntest, min = (x - 1e-4) / 2 - 1e-4, max = 1), label = 1)
+
+r4U <- data.frame(x = x <- runif(ntest, min = 1e-4, max = 1),
+                  y = runif(ntest, min = 0, max = (x - 1e-4) / 2 - 1e-4), label = 0)
+
+
+rU <- as.data.frame(rbind(r1U, r2U, r3U, r4U))
+rU$label <- as.factor(rU$label)
+
+p00 <- ggplot(data = rU, aes(x = x, y = y, col = label)) + geom_point(alpha = 0.5, size = .8) + scale_x_log10()
+
+yhat <- as.factor(Predict(rU[, -3], f))
+syhat <- as.factor(Predict(rU[, -3], sf))
+rfyhat <- as.factor(Predict(rU[, -3], rf))
+
+gg1 <- data.frame(rU, RerF = yhat, Scal01 = syhat, RF = rfyhat, truth = rU$label)
+
+
+post0.y   <- sum(yhat[gg1$label == 0] == 0) / sum(gg1$label == 0)
+post0.sy  <- sum(syhat[gg1$label == 0] == 0) / sum(gg1$label == 0)
+post0.rfy <- sum(rfyhat[gg1$label == 0] == 0) / sum(gg1$label == 0)
+
+
+post1.y   <- sum(yhat[gg1$label == 1] == 1) / sum(gg1$label == 1)
+post1.sy  <- sum(syhat[gg1$label == 1] == 1) / sum(gg1$label == 1)
+post1.rfy <- sum(rfyhat[gg1$label == 1] == 1) / sum(gg1$label == 1)
+
+## ------------------------------------------------------------------------
+p0 <- ggplot(data = gg1, aes(x = x, y = y, color = truth)) + geom_point(alpha = 0.6) + scale_x_log10()
+
+  p1 <- ggplot(data = gg1, aes(x = x, y = y, color = RerF)) + geom_point(alpha = 0.6)
+p11 <- p1 + annotate("text", x = 1e-2, y = 0.75, label = paste("P(yhat = 1 | Y = 1) = ", post1.y), size = 5) +
+  annotate("text", x = 1e2, y = 0.5, label = paste("P(yhat = 0 | Y = 0) = ", post0.y), size = 5)
+
+
+p2 <- ggplot(data = gg1, aes(x = x, y = y, color = Scal01))  + geom_point(alpha = 0.6)
+p22 <- p2 + annotate("text", x = 1e-2, y = 0.75, label = paste("P(yhat = 1 | Y = 1) = ", post1.sy), size = 5) +
+  annotate("text", x = 1e2, y = 0.5, label = paste("P(yhat = 0 | Y = 0) = ", post0.sy), size = 5)
+
+p3 <- ggplot(data = gg1, aes(x = x, y = y, color = RF)) + geom_point(alpha = 0.6)
+p33 <- p3 + annotate("text", x = 1e-2, y = 0.75, label = paste("P(yhat = 1 | Y = 1) = ", post1.rfy), size = 5) +
+  annotate("text", x = 1e2, y = 0.5, label = paste("P(yhat = 0 | Y = 0) = ", post0.rfy), size = 5)
+
+## ------------------------------------------------------------------------
+show(
+grid.arrange(p0 + ggtitle("Truth"),
+             p11 + scale_x_log10() + ggtitle('Using RandMatBinary'), 
+             p22 + scale_x_log10() + ggtitle('Using Scale01'), 
+             p33 + scale_x_log10() + ggtitle('Using RF'), ncol = 1)
+)
+
+## ---- warning = 0--------------------------------------------------------
+show(
+grid.arrange(p0 + ggtitle("Truth") + xlim(0,1),
+             p1 + xlim(0, 1), 
+             p2 + xlim(0, 1), 
+             p3 + xlim(0, 1), ncol = 1)
+)
+
