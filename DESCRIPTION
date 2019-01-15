@@ -34,7 +34,10 @@ Imports: parallel, RcppZiggurat, utils, stats, dummies
 Suggests: roxygen2 (>= 5.0.0), testthat,
     knitr,
     rmarkdown,
-    data.table
+    data.table,
+    scales,
+    ggplot2,
+    gridExtra
 LinkingTo: Rcpp, RcppArmadillo
 SystemRequirements: GNU make
 ByteCompile: true

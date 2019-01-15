@@ -11,10 +11,10 @@ vignette: >
 
 ```{r setup, include = FALSE}
 require(gridExtra)
-require(ggExtra)
 require(ggplot2)
 require(rerf)
 require(data.table)
+require(scales)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>", 
