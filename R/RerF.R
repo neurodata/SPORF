@@ -22,6 +22,8 @@
 #' @param seed the seed to use for training the forest.  For two runs to match you must use the same seed for each run AND you must also use the same number of cores for each run. (seed=sample((0:100000000,1)))
 #' @param cat.map a list specifying which columns in X correspond to the same one-of-K encoded feature. Each element of cat.map is a numeric vector specifying the K column indices of X corresponding to the same categorical feature after one-of-K encoding. All one-of-K encoded features in X must come after the numeric features. The K encoded columns corresponding to the same categorical feature must be placed contiguously within X. The reason for specifying cat.map is to adjust for the fact that one-of-K encoding cateogorical features results in a dilution of numeric features, since a single categorical feature is expanded to K binary features. If cat.map = NULL, then RerF assumes all features are numeric (i.e. none of the features have been one-of-K encoded).
 #' @param rfPack boolean flag to determine whether to pack a random forest in order to improve prediction speed.  This flag is only applicable when training a forest with the "rf" option.  (rfPack = FALSE)
+#' @param scaleAtNode boolean for if data should be scale to [0,1] at
+#' each node in training the forest.
 #'
 #' @return forest
 #'
@@ -91,7 +93,7 @@ RerF <-
              store.impurity = FALSE, progress = FALSE,
              rotate = FALSE, num.cores = 0L,
              seed = sample(0:100000000, 1),
-             cat.map = NULL, rfPack = FALSE) {
+             cat.map = NULL, rfPack = FALSE, scaleAtNode = FALSE) {
 
     # The below 'na.action' was removed from the parameter list of RerF because the CRAN check did not accept it and because it will potentially change the X and Y input by the user.
     # na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] },
@@ -165,7 +167,8 @@ RerF <-
         store.oob = store.oob,
         store.impurity = store.impurity,
         progress = progress,
-        rotate = rotate
+        rotate = rotate,
+        scaleAtNode = scaleAtNode
       )
     }
 
@@ -181,7 +184,8 @@ RerF <-
       store.oob = store.oob,
       store.impurity = store.impurity,
       rotate = rotate,
-      seed = seed
+      seed = seed,
+      scaleAtNode = scaleAtNode
     )
 
     if (num.cores != 1L) {

@@ -10,7 +10,7 @@ RerF(X, Y, FUN = RandMatBinary, paramList = list(p = NA, d = NA,
   stratify = TRUE, rank.transform = FALSE, store.oob = FALSE,
   store.impurity = FALSE, progress = FALSE, rotate = FALSE,
   num.cores = 0L, seed = sample(0:1e+08, 1), cat.map = NULL,
-  rfPack = FALSE)
+  rfPack = FALSE, scaleAtNode = FALSE)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}
@@ -51,6 +51,9 @@ default values will be populated, see \code{\link[rerf]{defaults}} for details.}
 \item{cat.map}{a list specifying which columns in X correspond to the same one-of-K encoded feature. Each element of cat.map is a numeric vector specifying the K column indices of X corresponding to the same categorical feature after one-of-K encoding. All one-of-K encoded features in X must come after the numeric features. The K encoded columns corresponding to the same categorical feature must be placed contiguously within X. The reason for specifying cat.map is to adjust for the fact that one-of-K encoding cateogorical features results in a dilution of numeric features, since a single categorical feature is expanded to K binary features. If cat.map = NULL, then RerF assumes all features are numeric (i.e. none of the features have been one-of-K encoded).}
 
 \item{rfPack}{boolean flag to determine whether to pack a random forest in order to improve prediction speed.  This flag is only applicable when training a forest with the "rf" option.  (rfPack = FALSE)}
+
+\item{scaleAtNode}{boolean for if data should be scale to [0,1] at
+each node in training the forest.}
 }
 \value{
 forest
