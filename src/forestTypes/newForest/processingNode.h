@@ -25,7 +25,6 @@ namespace fp{
 				int treeNum;
 				int parentNodeNumber;
 				int nodeNumber;
-				int depth;
 
 				bool isLeftNode;
 				bool isLeftNodeBigger;
@@ -331,10 +330,6 @@ assert(numInNewClass == numInClass);
 
 				inline int returnNodeSize(){
 					return propertiesOfThisNode.returnNumItems();
-				}
-
-				inline int returnNodeDepth(){
-					return depth;
 				}
 
 				inline T returnNodeCutValue(){

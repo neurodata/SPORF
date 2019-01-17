@@ -49,9 +49,8 @@ TEST(treeStructTest, setupRootNode)
 
 	EXPECT_TRUE(testTree.exposeNodeQueueTest()[0].returnIsLeftNode() != testTree.exposeNodeQueueTest()[1].returnIsLeftNode());
 
-	
+	fpSingleton::getSingleton().deleteData();	
 }	
-
 
 TEST(treeStructTest, growTree)
 {
@@ -81,4 +80,6 @@ TEST(treeStructTest, growTree)
 
 	treeStruct<float, int> testTree(indexHolder,zipVec);
 	testTree.createTree();	
+
+//	fpSingleton::getSingleton().deleteData();	
 }

@@ -54,7 +54,7 @@ namespace fp{
 
 
 				inline int positionOfNextNode(){
-					return (int)tree.size();
+					return (int)tree.size()-1;
 				}
 
 
@@ -75,8 +75,13 @@ namespace fp{
 				}
 
 
+				inline int returnDepthOfNode(){
+return tree[nodeQueue.back().returnParentNodeNumber()].returnDepth()+1;
+				}
+
+
 				inline void copyProcessedNodeToTree(){
-					tree.emplace_back(nodeQueue.back().returnNodeCutValue(), nodeQueue.back().returnNodeDepth(), nodeQueue.back().returnNodeCutFeature());
+					tree.emplace_back(nodeQueue.back().returnNodeCutValue(), returnDepthOfNode(), nodeQueue.back().returnNodeCutFeature());
 				//	++numberOfNodes;
 				}
 
@@ -156,23 +161,43 @@ namespace fp{
 				}
 
 
-				inline int returnMaxDepth(){
-return 2;
-				}
+inline int returnMaxDepth(){
+					 int maxDepth=0;
+					 for(auto nodes : tree){
+					 if(maxDepth < nodes.returnDepth()){
+					 maxDepth = nodes.returnDepth();
+					 }
+					 }
+					 return maxDepth+1;
+					 }
+
 
 inline int returnNumLeafNodes(){
-return fpSingleton::getSingleton().returnNumClasses();
-				}
+					 return (int)tree.size() - fpSingleton::getSingleton().returnNumClasses() + 1;
+					 }
+
 
 inline int returnLeafDepthSum(){
-return 3;
-				}
+					 int leafDepthSums=0;
+					 for(auto nodes : tree){
+					 if(nodes.isInternalNodeFront()){
+						 if(nodes.returnLeftNodeID() < fpSingleton::getSingleton().returnNumClasses()){
+					 leafDepthSums += nodes.returnDepth()+1;
+						 }
+if(nodes.returnRightNodeID() < fpSingleton::getSingleton().returnNumClasses()){
+					 leafDepthSums += nodes.returnDepth()+1;
+						 }
+					 }
+					 }
+					 return leafDepthSums;
+					 }
+
 
 	inline int predictObservation(int observationNum){
 					int currNode = fpSingleton::getSingleton().returnNumClasses();
 					int featureNum = 0;
 					T featureVal;
-					while(tree[currNode].isInternalNode()){
+					while(tree[currNode].isInternalNodeFront()){
 						featureNum = tree[currNode].returnFeatureNumber();
 						featureVal = fpSingleton::getSingleton().returnTestFeatureVal(featureNum,observationNum);
 						currNode = tree[currNode].fpBaseNode<T, int>::nextNode(featureVal);

@@ -15,4 +15,6 @@
 #include "fpTests/newForest/zipperIteratorsTest.h"
 #include "fpTests/newForest/processingNodeTest.h"
 #include "fpTests/newForest/treeStructTest.h"
+#include "fpTests/baseUnprocessedNodeTest.h"
+#include "fpTests/RerF/unprocessedRerFNodeTest.h"
 

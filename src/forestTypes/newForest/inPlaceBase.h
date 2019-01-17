@@ -50,9 +50,7 @@ namespace fp {
 					printProgress.displayProgress(i);
 					trees.emplace_back(indexHolder, zipVec);
 					trees.back().createTree();
-					if(i == 1){
-						trees.back().printTree();
-					}
+					
 				}
 				std::cout << "\n"<< std::flush;
 			}

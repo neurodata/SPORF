@@ -17,7 +17,7 @@ DEPEXT      := d
 OBJEXT      := o
 
 #Flags, Libraries and Includes
-CFLAGS      := -fopenmp -Wall -O3  
+CFLAGS      := -fopenmp -Wall -O3 -DNDEBUG -ffast-math
 #LIB         := -fopenmp -lm -lnuma
 LIB         := -fopenmp -lm -O3 
 INC         := -I$(INCDIR) -I/usr/local/include
@@ -71,8 +71,10 @@ $(BUILDDIR)/%.$(OBJEXT): $(SRCDIR)/%.$(SRCEXT)
 
 #Debug
 #debug: CFLAGS := -fopenmp -Wall -O3 -g -ggdb -ffast-math
-debug: CFLAGS := -fopenmp -Wall -O0 -g -ggdb -ffast-math
-debug: LIB := -fopenmp -ggdb
+debug: CFLAGS := -Wall -O0 -g -ggdb -ffast-math
+#debug: CFLAGS := -fopenmp -Wall -O0 -g -ggdb -ffast-math
+debug: LIB := -ggdb
+#debug: LIB := -fopenmp -ggdb
 debug: cleaner all
  
 #Test
