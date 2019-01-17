@@ -3,7 +3,7 @@
 #' A helper function to extract the feature indices from the projection
 #' vector stored in a tree object.
 #'
-#' @param a list of unique.projections from the intermediate steps of
+#' @param x a list of unique.projections from the intermediate steps of
 #' the FeatureImportance function.
 #'
 #' @return list of unique feature combinations
@@ -19,7 +19,7 @@ getFeatures <- function(x) {
 #' A helper function to extract the feature weights from the projection
 #' vector stored in a tree object.
 #'
-#' @param a list of unique.projections from the intermediate steps of
+#' @param x a list of unique.projections from the intermediate steps of
 #' the FeatureImportance function.
 #'
 #' @return list of unique feature weights
@@ -30,28 +30,30 @@ getWeights <- function(x) {
   return(x[s])
 }
 
-#' Remove Unique Projections that are equivalent due to a rotation of 180
+#' Remove unique projections that are equivalent due to a rotation of 180
 #' degrees.
 #'
 #' This function finds the projections that are equivalent via a 180
 #' degree rotation and removes the duplicates.
 #'
-#' @param unique.projection a list of projections from intermediate
+#' @param p the number of features in the original data.  This can be
+#' obtained from a forest object via \code{forest$params$paramList$p}.
+#' @param unique.projections a list of projections from intermediate
 #' steps of the \code{\link{FeatureImportance}} function.
 #'
-#' @return a list which is a subset of the input.
+#' @return unique.projections a list which is a subset of the input.
 #'
 #' @seealso \code{\link{FeatureImportance}}
 #'
-#' @import Matrix
+#'
 
-uniqueByEquivalenceClass <- function(unique.projections) {
+uniqueByEquivalenceClass <- function(p, unique.projections) {
 
   ## the matrix of weights (w)
-  w <- as(matrix(0,
-    ncol = forest$params$paramList$p,
+  w <- matrix(0,
+    ncol = p,
     nrow = length(unique.projections)
-  ), "sparseMatrix")
+  )
 
   for (i in 1:length(unique.projections)) {
     for (j in seq(1, length(unique.projections[[i]]), by = 2)) {

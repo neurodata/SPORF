@@ -2,17 +2,20 @@
 % Please edit documentation in R/helperFunctions.R
 \name{uniqueByEquivalenceClass}
 \alias{uniqueByEquivalenceClass}
-\title{Remove Unique Projections that are equivalent due to a rotation of 180
+\title{Remove unique projections that are equivalent due to a rotation of 180
 degrees.}
 \usage{
-uniqueByEquivalenceClass(unique.projections)
+uniqueByEquivalenceClass(p, unique.projections)
 }
 \arguments{
-\item{unique.projection}{a list of projections from intermediate
+\item{p}{the number of features in the original data.  This can be
+obtained from a forest object via \code{forest$params$paramList$p}.}
+
+\item{unique.projections}{a list of projections from intermediate
 steps of the \code{\link{FeatureImportance}} function.}
 }
 \value{
-a list which is a subset of the input.
+unique.projections a list which is a subset of the input.
 }
 \description{
 This function finds the projections that are equivalent via a 180

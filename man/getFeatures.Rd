@@ -7,7 +7,7 @@
 getFeatures(x)
 }
 \arguments{
-\item{a}{list of unique.projections from the intermediate steps of
+\item{x}{a list of unique.projections from the intermediate steps of
 the FeatureImportance function.}
 }
 \value{

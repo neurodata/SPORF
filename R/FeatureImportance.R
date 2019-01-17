@@ -73,7 +73,7 @@ FeatureImportance <- function(forest, num.cores = 0L, featureCounts = FALSE) {
 
   if (identical(forest$params$fun, rerf::RandMatBinary) & !featureCounts) {
     message("Message: Computing feature importance for RandMatBinary.\n")
-    unique.projections <- uniqueByEquivalenceClass(
+    unique.projections <- uniqueByEquivalenceClass(forest$params$paramList$p,
       unique(unique.projections)
     )
 

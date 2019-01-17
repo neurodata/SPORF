@@ -9,7 +9,7 @@ test_that("Test equivalent sum of scores between methods", {
 
   # This checks to make sure the sums of scores of a tree
   # are equivalent
-  forest <- RerF(X, Y, seed = 1L, num.cores = 1L, store.impurity = TRUE)
+  forest <- RerF(X, Y, trees = 1L, seed = 1L, num.cores = 1L, store.impurity = TRUE)
 
   tree <- forest$trees[[1]]
   num.trees <- length(forest$trees)
@@ -26,8 +26,11 @@ test_that("Test equivalent sum of scores between methods", {
   }
 
   unique.projections <- unique(unique.projections)
-  unique.projections.equiv <- rerf:::uniqueByEquivalenceClass(unique(unique.projections))
+  unique.projections.equiv <- rerf:::uniqueByEquivalenceClass(forest$params$paramList$p, unique(unique.projections))
 
+  ## The two different methods should return the same sum of
+  ## scores.  The only change is which scores gets assigned to which
+  ## feature.
   a <- sum(rerf:::RunFeatureImportance(tree, unique.projections))
   b <- sum(rerf:::RunFeatureImportanceBinary(tree, unique.projections.equiv))
 
