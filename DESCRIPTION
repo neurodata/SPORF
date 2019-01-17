@@ -30,7 +30,7 @@ Depends: R (>= 3.3.0)
 License: Apache License 2.0 | file LICENSE
 URL: https://github.com/neurodata/R-RerF
 BugReports: https://github.com/neurodata/R-RerF/issues
-Imports: parallel, RcppZiggurat, utils, stats, dummies
+Imports: parallel, RcppZiggurat, utils, stats, dummies, mclust
 Suggests: roxygen2 (>= 5.0.0), testthat
 LinkingTo: Rcpp, RcppArmadillo
 SystemRequirements: GNU make
