@@ -605,7 +605,7 @@ defaults <- function(ncolX, paramList, cat.map) {
 #' matrix.  The creation of this matrix can be changed, but the nrow of
 #' sparseM should remain p.  The ncol of the sparseM matrix is currently
 #' set to mtry but this can actually be any integer > 1; can even be
-#' greater than p.  The matrix returned by this function creates a 
+#' greater than p.  The matrix returned by this function creates a
 #' sparse matrix with multiple features per column.
 #'
 #' @param p the number of dimensions.
@@ -623,7 +623,7 @@ makeAB <- function(p, d, sparsity, ...) {
   sparseM <- matrix(0L, nrow = p, ncol = d)
   featuresToTry <- sample(1:p, d, replace = FALSE)
   # the line below creates linear combinations of features to try
-  sparseM[sample(1L:(p*d),nnzs, replace=FALSE)]<-sample(c(1L,-1L),nnzs,replace=TRUE)
+  sparseM[sample(1L:(p * d), nnzs, replace = FALSE)] <- sample(c(1L, -1L), nnzs, replace = TRUE)
   # The below returns a matrix after removing zero columns in sparseM.
   ind <- which(sparseM != 0, arr.ind = TRUE)
   return(cbind(ind, sparseM[ind]))
@@ -638,7 +638,7 @@ makeAB <- function(p, d, sparsity, ...) {
 #' matrix.  The creation of this matrix can be changed, but the nrow of
 #' sparseM should remain p.  The ncol of the sparseM matrix is currently
 #' set to mtry but this can actually be any integer > 1; can even be
-#' greater than p.  The matrix returned by this function creates a 
+#' greater than p.  The matrix returned by this function creates a
 #' sparse matrix with one feature per column.
 #'
 #' @param p the number of dimensions.

@@ -244,11 +244,11 @@ GrowUnsupervisedForest <-
              MaxDepth = Inf, bagging = 0.2,
              replacement = TRUE, FUN = makeAB,
              options = list(p = ncol(X), d = ceiling(ncol(X)^0.5), sparsity = 1 / ncol(X)),
-             Progress = TRUE, splitCrit="twomeans", LinearCombo=TRUE) {
-		if(LinearCombo){ 
-    FUN <- match.fun(FUN, descend = TRUE)
-		}else{
-    FUN <- match.fun(makeA, descend = TRUE)
+             Progress = TRUE, splitCrit = "twomeans", LinearCombo = TRUE) {
+		if (LinearCombo) {
+      FUN <- match.fun(FUN, descend = TRUE)
+		} else {
+      FUN <- match.fun(makeA, descend = TRUE)
 		}
     ############# Start Growing Forest #################
 

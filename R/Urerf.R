@@ -27,9 +27,9 @@
 library(mclust)
 Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
                   max.depth = NA, mtry = ceiling(ncol(X)^0.5),
-									sparsity = 1/ncol(X),
+									sparsity = 1 / ncol(X),
                   normalizeData = TRUE, Progress = TRUE, 
-                  splitCrit="twomeans", LinearCombo=TRUE) {
+                  splitCrit = "twomeans", LinearCombo = TRUE) {
   normalizeTheData <- function(X, normData) {
     if (normData) {
       X <- sweep(X, 2, apply(X, 2, min), "-")

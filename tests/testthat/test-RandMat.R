@@ -263,3 +263,36 @@ test_that("Testing RandMat custom option.", {
   a11 <- do.call(RandMatCustom, optC)
   expect_equal(a11, rC)
 })
+
+
+test_that("Testing RandMat makeAB for Urerf option.", {
+  numFeatures <- 10
+  numToTry <- 5
+  mAB <- makeAB(numFeatures, numToTry, 1 / numFeatures)
+
+
+  expect_true(min(mAB[, 1]) > 0)
+  expect_true(max(mAB[, 1]) <= numFeatures)
+  expect_true(min(mAB[, 2]) > 0)
+  expect_true(max(mAB[, 2]) <= numToTry)
+  expect_true(ncol(mAB) == 3)
+  expect_true(nrow(mAB) == numToTry)
+  expect_true(all(unique(mAB[, 3]) == -1 | unique(mAB[, 3]) == 1))
+})
+
+
+test_that("Testing RandMat makeA for Urerf option.", {
+  numFeatures <- 10
+  numToTry <- 5
+  mAB <- makeA(numFeatures, numToTry, 1 / numFeatures)
+
+
+  expect_true(min(mAB[, 1]) > 0)
+  expect_true(max(mAB[, 1]) <= numFeatures)
+  expect_true(min(mAB[, 2]) == 1)
+  expect_true(max(mAB[, 2]) == numToTry)
+  expect_true(sum(mAB[, 2]) == numToTry * (numToTry + 1) / 2)
+  expect_true(ncol(mAB) == 3)
+  expect_true(nrow(mAB) == numToTry)
+  expect_true(unique(mAB[, 3]) == 1)
+})
