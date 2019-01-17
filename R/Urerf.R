@@ -8,6 +8,7 @@
 #' @param max.depth the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=NA, the tree will be allowed to grow without bound.  (max.depth=NA)
 #' @param mtry the number of features to test at each node.  (mtry=ceiling(ncol(X)^.5))
 #' @param normalizeData a logical value that determines if input data is normalized to values ranging from 0 to 1 prior to processing.  (normalizeData=TRUE)
+#' @param sparsity a real number in \eqn{(0,1)} that specifies the distribution of non-zero elements in the random matrix. (sparsity=1/nrow(X))
 #' @param Progress boolean for printing progress.
 #'
 #' @return urerfStructure
@@ -24,6 +25,7 @@
 #' clusters <- cutree(dissimilarityMatrix, k = 3)
 Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
                   max.depth = NA, mtry = ceiling(ncol(X)^0.5),
+                  sparsity = 1 / ncol(X),
                   normalizeData = TRUE, Progress = TRUE) {
   normalizeTheData <- function(X, normData) {
     if (normData) {
@@ -82,12 +84,12 @@ Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
   forest <- if (is.na(depth)) {
     GrowUnsupervisedForest(X, trees = numTrees, MinParent = K, options = list(
       p = ncol(X),
-      d = mtry, sparsity = 1 / ncol(X)
+      d = mtry, sparsity = sparsity
     ), Progress = Progress)
   } else {
     GrowUnsupervisedForest(X,
       trees = numTrees, MinParent = K, MaxDepth = depth,
-      options = list(p = ncol(X), d = mtry, sparsity = 1 / ncol(X)), Progress = Progress
+      options = list(p = ncol(X), d = mtry, sparsity = sparsity), Progress = Progress
     )
   }
 
