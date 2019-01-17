@@ -30,6 +30,26 @@ getWeights <- function(x) {
   return(x[s])
 }
 
+#' Change the sign of the weights
+#'
+#' A helper function to extract the feature weights from the projection
+#' vector stored in a tree object. Used in
+#' \code{RunFeatureImportanceBinary}.
+#'
+#' @param x a list of unique.projections from the intermediate steps of
+#' the FeatureImportance function.
+#'
+#' @return x with sign of weights flipped.
+#'
+
+
+flipWeights <- function(x) {
+  s <- seq(2, length(x), by = 2)
+  x[s] <- -x[s]
+  return(x)
+}
+
+
 #' Remove unique projections that are equivalent due to a rotation of 180
 #' degrees.
 #'

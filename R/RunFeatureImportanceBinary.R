@@ -17,12 +17,6 @@
 #' FeatureImportance(forest, num.cores = 1L)
 
 RunFeatureImportanceBinary <- function(tree, unique.projections) {
-  # help function to find equivalent projections
-  flipWeights <- function(x) {
-    s <- seq(2, length(x), by = 2)
-    x[s] <- -x[s]
-    return(x)
-  }
 
   ## compute the 180 rotations of the projections
   neg.up <- lapply(unique.projections, flipWeights)

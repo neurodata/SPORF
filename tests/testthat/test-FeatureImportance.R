@@ -5,6 +5,72 @@ library(rerf)
 X <- as.matrix(iris[, 1:4])
 Y <- iris[[5L]]
 
+test_that("Test that the correct features are removed/kept", {
+
+  ## Create synthetic feature/weight list:
+  uni <-
+    unique(
+      list(
+        c(1L, 1L),
+        c(2L, 1L),
+        c(3L, 1L),
+        c(4L, 1L),
+        #
+        c(1L, -1L),
+        c(2L, -1L),
+        c(3L, -1L),
+        c(4L, -1L),
+        #
+        c(1L, 1L, 2L, 1L),
+        c(1L, 1L, 3L, 1L),
+        c(1L, 1L, 4L, 1L),
+        c(2L, 1L, 3L, 1L),
+        c(2L, 1L, 4L, 1L),
+        c(3L, 1L, 4L, 1L),
+        #
+        c(1L, -1L, 2L, 1L),
+        c(1L, -1L, 3L, 1L),
+        c(1L, -1L, 4L, 1L),
+        c(2L, -1L, 3L, 1L),
+        c(2L, -1L, 4L, 1L),
+        c(3L, -1L, 4L, 1L),
+        #
+        c(1L, 1L, 2L, -1L),
+        c(1L, 1L, 3L, -1L),
+        c(1L, 1L, 4L, -1L),
+        c(2L, 1L, 3L, -1L),
+        c(2L, 1L, 4L, -1L),
+        c(3L, 1L, 4L, -1L),
+        #
+        c(1L, -1L, 2L, -1L),
+        c(1L, -1L, 3L, -1L),
+        c(1L, -1L, 4L, -1L),
+        c(2L, -1L, 3L, -1L),
+        c(2L, -1L, 4L, -1L),
+        c(3L, -1L, 4L, -1L)
+      )
+    )
+
+
+  p <- 4 ## p would normally come from the forest object
+  uni.equiv <- rerf:::uniqueByEquivalenceClass(p, uni)
+
+  expect_equal(length(which(uni %in% uni.equiv)), 16)
+
+  ## get indices of projections removed from full list
+  up.ind <- which(!(uni %in% uni.equiv))
+
+  ## Check that all of the flips of unique.projections.equiv are in
+  expect_true(
+    all(
+      lapply(uni[up.ind], rerf:::flipWeights) %in% uni.equiv
+    )
+  )
+})
+
+
+
+
 test_that("Test equivalent sum of scores between methods", {
 
   # This checks to make sure the sums of scores of a tree
