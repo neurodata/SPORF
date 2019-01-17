@@ -4,32 +4,86 @@
 #'
 #' @param forest a forest trained using the RerF function with argument store.impurity = TRUE
 #' @param num.cores number of cores to use. If num.cores = 0, then 1 less than the number of cores reported by the OS are used. (num.cores = 0)
+#' @param featureCounts boolean set to true if only the table of unique
+#' feature combinations is desired.
 #'
 #' @return feature.imp
 #'
 #' @examples
 #' library(rerf)
-#' forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L, store.impurity = TRUE)
-#' feature.imp <- FeatureImportance(forest, num.cores = 1L)
+#' num.cores <- 1L
+#' fBinary <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L, store.impurity = TRUE)
+#'
+#' fBinary.imp <- FeatureImportance(forest = fBinary, num.cores = num.cores)
+#'
+#' fRF <- RerF(as.matrix(iris[, 1:4]), iris[[5L]],
+#'             FUN = RandMatRF, num.cores = 1L, store.impurity = TRUE)
+#'
+#' fRF.imp <- FeatureImportance(forest = fRF, num.cores = num.cores)
+#'
+#' fC <- RerF(as.matrix(iris[, 1:4]), iris[[5L]],
+#'             FUN = RandMatContinuous, num.cores = 1L, store.impurity = TRUE)
+#'
+#' fC.imp <- FeatureImportance(forest = fC, num.cores = num.cores, featureCounts = TRUE)
+#'
 #' @export
 #' @importFrom parallel detectCores makeCluster clusterExport parSapply stopCluster
 #' @importFrom utils object.size
 
-FeatureImportance <- function(forest, num.cores = 0L) {
+FeatureImportance <- function(forest, num.cores = 0L, featureCounts = FALSE) {
   num.trees <- length(forest$trees)
   num.splits <- sapply(forest$trees, function(tree) length(tree$CutPoint))
 
   unique.projections <- vector("list", sum(num.splits))
 
   idx.start <- 1L
-  for (t in 1:num.trees) {
-    idx.end <- idx.start + num.splits[t] - 1L
-    unique.projections[idx.start:idx.end] <- lapply(1:num.splits[t], function(nd) forest$trees[[t]]$matAstore[(forest$trees[[t]]$matAindex[nd] + 1L):forest$trees[[t]]$matAindex[nd + 1L]])
-    idx.start <- idx.end + 1L
-  }
-  unique.projections <- unique(unique.projections)
 
-  CompImportanceCaller <- function(tree, ...) RunFeatureImportance(tree = tree, unique.projections = unique.projections)
+  ## Set algorithm depending on RandMat* used
+  if (featureCounts) {
+    message("Message: Computing feature importance as counts.\n")
+
+    for (t in 1:num.trees) {
+      idx.end <- idx.start + num.splits[t] - 1L
+      unique.projections[idx.start:idx.end] <-
+        lapply(1:num.splits[t], function(nd) forest$trees[[t]]$matAstore[(forest$trees[[t]]$matAindex[nd] + 1L):forest$trees[[t]]$matAindex[nd + 1L]])
+
+      idx.start <- idx.end + 1L
+    }
+
+    unique.projections <- unique(lapply(unique.projections, getFeatures))
+
+    CompImportanceCaller <- function(tree, ...) {
+      RunFeatureImportanceCounts(tree = tree, unique.projections = unique.projections)
+    }
+  } else {
+    for (t in 1:num.trees) {
+      idx.end <- idx.start + num.splits[t] - 1L
+      unique.projections[idx.start:idx.end] <- lapply(1:num.splits[t], function(nd) forest$trees[[t]]$matAstore[(forest$trees[[t]]$matAindex[nd] + 1L):forest$trees[[t]]$matAindex[nd + 1L]])
+      idx.start <- idx.end + 1L
+    }
+  }
+
+  if (identical(forest$params$fun, rerf::RandMatRF) & !featureCounts) {
+    message("Message: Computing feature importance for RandMatRF.\n")
+    unique.projections <- unique(unique.projections)
+    CompImportanceCaller <- function(tree, ...) {
+      RunFeatureImportance(tree = tree, unique.projections = unique.projections)
+    }
+  }
+
+  if (identical(forest$params$fun, rerf::RandMatBinary) & !featureCounts) {
+    message("Message: Computing feature importance for RandMatBinary.\n")
+    unique.projections <- uniqueByEquivalenceClass(
+      unique(unique.projections)
+    )
+
+    CompImportanceCaller <- function(tree, ...) {
+      RunFeatureImportanceBinary(
+        tree = tree,
+        unique.projections = unique.projections
+      )
+    }
+  }
 
   if (num.cores != 1L) {
     if (num.cores == 0L) {
@@ -58,5 +112,9 @@ FeatureImportance <- function(forest, num.cores = 0L) {
   sort.idx <- order(feature.imp, decreasing = TRUE)
   feature.imp <- feature.imp[sort.idx]
   unique.projections <- unique.projections[sort.idx]
-  return(feature.imp <- list(imp = feature.imp, proj = unique.projections))
+  if (!featureCounts) {
+    return(feature.imp <- list(imp = feature.imp, proj = unique.projections))
+  } else {
+    return(feature.imp <- list(impCount = feature.imp, featureCombination = unique.projections))
+  }
 }

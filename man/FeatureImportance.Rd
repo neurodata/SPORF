@@ -4,12 +4,15 @@
 \alias{FeatureImportance}
 \title{Compute Feature Importance of a RerF model}
 \usage{
-FeatureImportance(forest, num.cores = 0L)
+FeatureImportance(forest, num.cores = 0L, featureCounts = FALSE)
 }
 \arguments{
 \item{forest}{a forest trained using the RerF function with argument store.impurity = TRUE}
 
 \item{num.cores}{number of cores to use. If num.cores = 0, then 1 less than the number of cores reported by the OS are used. (num.cores = 0)}
+
+\item{featureCounts}{boolean set to true if only the table of unique
+feature combinations is desired.}
 }
 \value{
 feature.imp
@@ -19,6 +22,19 @@ Computes feature importance of every unique feature used to make a split in the 
 }
 \examples{
 library(rerf)
-forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L, store.impurity = TRUE)
-feature.imp <- FeatureImportance(forest, num.cores = 1L)
+num.cores <- 1L
+fBinary <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L, store.impurity = TRUE)
+
+fBinary.imp <- FeatureImportance(forest = fBinary, num.cores = num.cores)
+
+fRF <- RerF(as.matrix(iris[, 1:4]), iris[[5L]],
+            FUN = RandMatRF, num.cores = 1L, store.impurity = TRUE)
+
+fRF.imp <- FeatureImportance(forest = fRF, num.cores = num.cores)
+
+fC <- RerF(as.matrix(iris[, 1:4]), iris[[5L]],
+            FUN = RandMatContinuous, num.cores = 1L, store.impurity = TRUE)
+
+fC.imp <- FeatureImportance(forest = fC, num.cores = num.cores, featureCounts = TRUE)
+
 }
