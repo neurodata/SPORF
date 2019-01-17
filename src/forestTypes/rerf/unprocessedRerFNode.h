@@ -4,6 +4,7 @@
 #include "../baseUnprocessedNode.h"
 #include <vector>
 #include <random>
+#include <assert.h>
 
 namespace fp{
 
@@ -23,13 +24,11 @@ namespace fp{
 				//Example: auto random_integer = uni(rng);
 
 			public:
-				unprocessedRerFNode(int numObsForRoot): baseUnprocessedNode<T>::baseUnprocessedNode(numObsForRoot){
-					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
-				}
+				unprocessedRerFNode(int numObsForRoot): baseUnprocessedNode<T>::baseUnprocessedNode(numObsForRoot), featuresToTry(fpSingleton::getSingleton().returnMtry()){}
+				
 
-				unprocessedRerFNode(int parentID, int dep, bool isLeft): baseUnprocessedNode<T>::baseUnprocessedNode(parentID, dep, isLeft){
-					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
-				}
+				unprocessedRerFNode(int parentID, int dep, bool isLeft): baseUnprocessedNode<T>::baseUnprocessedNode(parentID, dep, isLeft), featuresToTry(fpSingleton::getSingleton().returnMtry()){}
+				
 
 				~unprocessedRerFNode(){
 				}
@@ -117,10 +116,8 @@ namespace fp{
 				inline bool goLeft(const int& index){
 					int inIndex = index;
 					std::vector<int> featureNum = bestSplitInfo.returnFeatureNum();
-					if(featureNum.empty()){
-						std::cout << "found it\n";
-						exit(1);
-					}
+					assert(!featureNum.empty());
+
 					double featureVal = fpSingleton::getSingleton().returnFeatureVal(featureNum[0],inIndex);
 					if(featureNum.size() > 1){
 						for(unsigned int j = 1; j < featureNum.size(); ++j){
@@ -129,7 +126,7 @@ namespace fp{
 					}
 
 					double splitVal = bestSplitInfo.returnSplitValue();
-					if(featureVal < splitVal ){
+					if(featureVal <= splitVal ){
 						return true;
 					}else{
 						return false;
@@ -158,6 +155,11 @@ namespace fp{
 							baseUnprocessedNode<T>::rightIndices->addIndexToInSamples(baseUnprocessedNode<T>::obsIndices->returnInSample(i));	
 						}
 					}
+
+
+					assert(lNum > 0);
+					assert(rNum > 0);
+
 
 					for (int i=0; i < baseUnprocessedNode<T>::obsIndices->returnOutSampleSize();++i){
 						if(goLeft(baseUnprocessedNode<T>::obsIndices->returnInSample(i))){

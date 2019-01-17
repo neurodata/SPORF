@@ -8,6 +8,8 @@
 #include <vector>
 #include <algorithm>
 #include <limits>
+#include <utility>
+#include <assert.h>
 
 namespace fp{
 
@@ -25,8 +27,8 @@ namespace fp{
 					combinedDataLabels.resize(labels.size());
 				}
 
-				inline void zipDataLabels(std::vector<T> featureVals){
-					for(unsigned int i=0; i<labels.size(); ++i){
+				inline void zipDataLabels(std::vector<T>& featureVals){
+					for(int i=0; i<(int)labels.size(); ++i){
 						combinedDataLabels[i].setPair(featureVals[i],labels[i]);
 					}
 				}
@@ -40,13 +42,14 @@ namespace fp{
 				}
 
 				inline void setupForNextRun(){
-					//setup for next possible run
 					leftClasses.incrementClass(combinedDataLabels.back().returnDataLabel());
 					rightClasses.decrementClass(combinedDataLabels.back().returnDataLabel());
-					//TODO ensure rightClasses is zero at this point.
 
-					rightClasses = leftClasses;
-					leftClasses.resetClassTotals();
+					assert(rightClasses.returnNumItems == 0);
+
+					std::swap(rightClasses, leftClasses);
+
+					assert(leftClasses.returnNumItems == 0);
 				}
 
 			public:

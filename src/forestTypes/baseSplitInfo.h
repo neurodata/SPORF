@@ -33,11 +33,12 @@ namespace fp{
 				inline void setImpurity(double gVal){
 					impurity = gVal;
 				}
+
 				inline double returnImpurity(){
 					return impurity;
 				}
 
-				inline void setLeftImpurity(float gVal){
+				inline void setLeftImpurity(double gVal){
 					leftImpurity = gVal;
 				}
 				inline double returnLeftImpurity(){
@@ -52,15 +53,6 @@ namespace fp{
 					return rightImpurity;
 				}
 
-				/*
-				inline void setFeatureNum(int fNum){
-					featureNum = fNum;
-				}
-
-				inline int returnFeatureNum(){
-					return featureNum;
-				}
-				*/
 		};
 
 }//namespace fp

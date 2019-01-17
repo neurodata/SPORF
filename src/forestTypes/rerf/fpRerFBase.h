@@ -19,21 +19,21 @@ namespace fp {
 
 		public:
 
-			using fpForestBase<T>::fpForestBase;
+		//	using fpForestBase<T>::fpForestBase;
 
 			fpDisplayProgress printProgress;
-			void printForestType(){
+		inline void printForestType(){
 				std::cout << "This is a rerf forest.\n";
 			}
 
-			void changeForestSize(){
+		inline void changeForestSize(){
 				trees.resize(fpSingleton::getSingleton().returnNumTrees());
 			}
 
-			void growTrees(){
+			inline void growTrees(){
 
 #pragma omp parallel for
-				for(unsigned int i = 0; i < trees.size(); ++i){
+				for(int i = 0; i < (int)trees.size(); ++i){
 					printProgress.displayProgress(i);
 					trees[i].growTree();
 				}
@@ -45,7 +45,7 @@ namespace fp {
 				;
 			}
 
-			void treeStats(){
+			inline void treeStats(){
 				int maxDepth=0;
 				int totalLeafNodes=0;
 				int totalLeafDepth=0;

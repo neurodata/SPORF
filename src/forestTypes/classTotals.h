@@ -10,7 +10,7 @@ namespace fp{
 			int maxClass;
 			int totalNumObj;
 			double impurity;
-			std::vector<float> classVec;
+			std::vector<int> classVec;
 
 		public:
 			classTotals() : maxClass(-1), totalNumObj(0), impurity(-1){}
@@ -27,7 +27,7 @@ namespace fp{
 				return largestClass;
 			}
 
-			void findNumClasses(std::vector<int>& labs){
+			inline void findNumClasses(std::vector<int>& labs){
 				for(auto i : labs){
 					if(i>maxClass){
 						maxClass = i;
@@ -38,11 +38,11 @@ namespace fp{
 				}
 			}
 
-			int returnNumItems(){
+			inline int returnNumItems(){
 				return totalNumObj;
 			}
 
-			double returnImpurity(){
+			inline double returnImpurity(){
 				return impurity;
 			}
 

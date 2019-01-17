@@ -4,6 +4,7 @@
 #include "../baseUnprocessedNode.h"
 #include <vector>
 #include <random>
+#include <assert.h>
 
 namespace fp{
 
@@ -80,13 +81,11 @@ namespace fp{
 				inline bool goLeft(const int& index){
 					int inIndex = index;
 					int featureNum = bestSplitInfo.returnFeatureNum();
-					if(featureNum == -1){
-						std::cout << "found it\n";
-						exit(1);
-					}
+					assert(featureNum >= 0);
+					
 					double featureVal = fpSingleton::getSingleton().returnFeatureVal(featureNum,inIndex);
 					double splitVal = bestSplitInfo.returnSplitValue();
-					if(featureVal < splitVal ){
+					if(featureVal <= splitVal ){
 						return true;
 					}else{
 						return false;
@@ -116,6 +115,9 @@ namespace fp{
 							baseUnprocessedNode<T>::rightIndices->addIndexToInSamples(baseUnprocessedNode<T>::obsIndices->returnInSample(i));	
 						}
 					}
+
+					assert(lNum > 0);
+					assert(rNum > 0);
 
 					for (int i=0; i < baseUnprocessedNode<T>::obsIndices->returnOutSampleSize();++i){
 						if(goLeft(baseUnprocessedNode<T>::obsIndices->returnInSample(i))){

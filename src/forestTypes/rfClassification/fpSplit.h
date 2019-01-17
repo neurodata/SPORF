@@ -9,6 +9,8 @@
 #include <vector>
 #include <algorithm>
 #include <limits>
+#include <utility>
+#include <assert.h>
 
 namespace fp{
 
@@ -44,17 +46,17 @@ namespace fp{
 					//setup for next possible run
 					leftClasses.incrementClass(combinedDataLabels.back().returnDataLabel());
 					rightClasses.decrementClass(combinedDataLabels.back().returnDataLabel());
-					//TODO ensure rightClasses is zero at this point.
-
-					rightClasses = leftClasses;
-					leftClasses.resetClassTotals();
+					
+					assert(rightClasses.returnNumItems() == 0);
+					std::swap(rightClasses, leftClasses);
+					assert(leftClasses.returnNumItems() == 0);
 				}
 
 			public:
 				fpSplit(const std::vector<int>& labelVector): labels(labelVector){
 					rightClasses.findNumClasses(labels);
 					leftClasses.setClassVecSize(rightClasses.returnClassVecSize());
-					this->setCombinedVecSize();
+					setCombinedVecSize();
 					overallImpurity = rightClasses.calcAndReturnImpurity();
 				}
 
@@ -63,14 +65,13 @@ namespace fp{
 				}
 
 
-				splitInfo<T> giniSplit(const std::vector<T>& featureVals, int featureNum){
+				inline splitInfo<T> giniSplit(const std::vector<T>& featureVals, int featureNum){
 					double tempImpurity;
-					int numLabels = labels.size();
+					int numLabels = (int)labels.size();
 				//	timeLogger logTime;
 
 					// initialize return value
 					splitInfo<T> currSplitInfo;
-					currSplitInfo.setFeatureNum(featureNum);
 
 					// zip data and labels
 					zipDataLabels(featureVals);
@@ -91,15 +92,12 @@ namespace fp{
 								currSplitInfo.setSplitValue(midVal(i));
 								currSplitInfo.setLeftImpurity(leftClasses.returnImpurity());
 								currSplitInfo.setRightImpurity(rightClasses.returnImpurity());
+					currSplitInfo.setFeatureNum(featureNum);
 							}
 						}
 					}
 
-					if(currSplitInfo.returnImpurity() == overallImpurity){
-						std::cout << "it happened\n";
-exit(1); //should never happen.  Why?
-								currSplitInfo.setImpurity(-1);
-					}
+					assert(currSplitInfo.returnImpurity() != overallImpurity);
 					//logTime.startFindSplitTimer();
 					setupForNextRun();
 					//logTime.stopFindSplitTimer();

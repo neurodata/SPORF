@@ -1,6 +1,8 @@
 #ifndef labeledData_h
 #define labeledData_h
 
+#include <assert.h>
+#include <iomanip>
 
 namespace fp{
 
@@ -13,7 +15,7 @@ namespace fp{
 
 			public:
 
-				inline bool operator < (const labeledData<T>& otherData) const
+				inline bool operator < (const labeledData<T>& otherData)
 				{
 					return dataElement < otherData.dataElement;
 				}
@@ -26,8 +28,11 @@ namespace fp{
 					return dataElement;
 				}
 
-				inline T midVal (const labeledData<T>& otherData) const
+				inline T midVal (const labeledData<T>& otherData)
 				{
+					assert(dataElement != otherData.dataElement);
+					assert(dataElement != (dataElement+otherData.dataElement)/2.0);
+					assert(otherData.dataElement != (dataElement/otherData.dataElement)/2.0);
 					return (dataElement + otherData.dataElement)/2.0;
 				}
 
@@ -35,7 +40,7 @@ namespace fp{
 					return dataElement != otherData.dataElement;
 				}
 
-				void setPair(T dElement, int dLab){
+				inline void setPair(const T dElement, const int dLab){
 					dataElement = dElement;
 					dataLabel = dLab;
 				}
