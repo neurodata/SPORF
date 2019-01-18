@@ -1,8 +1,12 @@
 #' Find minimizing BIC Cut for Vector
 #'
 #' @param X a one dimensional vector
-#' 
+#'
 #' @return list containing minimizing cut point and corresponding BIC score.
+#'
+#' @importFrom mclust Mclust mclustBIC
+#'
+#'
 #'
 
 BICCutFast <- function(X) {
@@ -40,7 +44,7 @@ BICCutFast <- function(X) {
   }
 
   if (sizeNNZ - 1) {
-    index <- 1 
+    index <- 1
     for (m in X[1:(sizeNNZ - 1)]) {
       leftsize <- sizeZ + index
       rightsize <- sizeNNZ - index
@@ -48,48 +52,50 @@ BICCutFast <- function(X) {
       sumRight <- sumRight - m
       meanLeft <- sumLeft / leftsize
       meanRight <- sumRight / rightsize
-      N1 = leftsize
-      N2 = rightsize
+      N1 <- leftsize
+      N2 <- rightsize
       errLeft <- sum((X[1:index] - meanLeft)^2) + sizeZ * (meanLeft^2)
       errRight <- sum((X[(index + 1):sizeNNZ] - meanRight)^2)
-      sig1 = (1/N1) * errLeft
-      sig2 = (1/N2) * errRight
+      sig1 <- (1 / N1) * errLeft
+      sig2 <- (1 / N2) * errRight
 
-      #when sigma=0, the log term becomes undefined 
-      if (sig1 == 0 || sig2==0)
-          next
-      pi1 = N1/(N1+N2)
-      pi2 = N2/(N1+N2)
-      sig_comb = (1/(N1+N2))*(errLeft + errRight)
+      # when sigma=0, the log term becomes undefined
+      if (sig1 == 0 || sig2 == 0) {
+        next
+      }
+      pi1 <- N1 / (N1 + N2)
+      pi2 <- N2 / (N1 + N2)
+      sig_comb <- (1 / (N1 + N2)) * (errLeft + errRight)
 
-      sum_log_pi_k1 = -1*N1*log(N1/(N1+N2))
-      sum_log_pi_k2 = -1*N2*log(N2/(N1+N2))
+      sum_log_pi_k1 <- -1 * N1 * log(N1 / (N1 + N2))
+      sum_log_pi_k2 <- -1 * N2 * log(N2 / (N1 + N2))
 
-      sum_log_norm1 = (N1/2)*log(2*3.14*sig1)+N1/2
-      sum_log_norm2 = (N2/2)*log(2*3.14*sig2)+N2/2
+      sum_log_norm1 <- (N1 / 2) * log(2 * 3.14 * sig1) + N1 / 2
+      sum_log_norm2 <- (N2 / 2) * log(2 * 3.14 * sig2) + N2 / 2
 
-      #unisig means that the two clusters are constrained to have the same variance
-      #bisig means that the two clusters can have separate variances
+      # unisig means that the two clusters are constrained to have the same variance
+      # bisig means that the two clusters can have separate variances
 
-      sum_log_norm1_unisig = (N1/2)*log(2*3.14*sig_comb) + (N1+N2)/2
-      sum_log_norm2_unisig = (N2/2)*log(2*3.14*sig_comb) 
+      sum_log_norm1_unisig <- (N1 / 2) * log(2 * 3.14 * sig_comb) + (N1 + N2) / 2
+      sum_log_norm2_unisig <- (N2 / 2) * log(2 * 3.14 * sig_comb)
 
-      sum_log_terms_bisig = sum_log_norm1 + sum_log_norm2 + sum_log_pi_k1 + sum_log_pi_k2
-      sum_log_terms_unisig = sum_log_norm1_unisig + sum_log_norm2_unisig + sum_log_pi_k1 + sum_log_pi_k2
+      sum_log_terms_bisig <- sum_log_norm1 + sum_log_norm2 + sum_log_pi_k1 + sum_log_pi_k2
+      sum_log_terms_unisig <- sum_log_norm1_unisig + sum_log_norm2_unisig + sum_log_pi_k1 + sum_log_pi_k2
 
-      if(sum_log_terms_bisig < sum_log_terms_unisig)
-          varType = 2
-      else
-          varType = 1
+      if (sum_log_terms_bisig < sum_log_terms_unisig) {
+        varType <- 2
+      } else {
+        varType <- 1
+      }
 
-      bic_score_bisig = 2*sum_log_terms_bisig + log(N1+N2)*(varType + 3)
-      bic_score_unisig = 2*sum_log_terms_unisig + log(N1+N2)*(varType + 3)
+      bic_score_bisig <- 2 * sum_log_terms_bisig + log(N1 + N2) * (varType + 3)
+      bic_score_unisig <- 2 * sum_log_terms_unisig + log(N1 + N2) * (varType + 3)
 
-      errCurr <- min(bic_score_bisig,  bic_score_unisig)
+      errCurr <- min(bic_score_bisig, bic_score_unisig)
 
       # Determine if this split is currently the best option
       # If current error is lowest, then save current cut point.
-      
+
       if (errCurr < minErr) {
         cutPoint <- (X[index] + X[index + 1]) / 2
         minErr <- errCurr
@@ -100,37 +106,53 @@ BICCutFast <- function(X) {
   return(c(cutPoint, minErr))
 }
 
-BICCutMclust <- function(X){
-  X_data = data.frame(X)
-  num_elements = (length(unique(X)))
-  if (num_elements <= 1 )
-    return (NULL)
 
-  BIC <- mclustBIC(X_data, G=2, warn=TRUE, verbose=FALSE )
-  mod1 <- Mclust(data.frame(X), G=2, x=BIC, verbose=FALSE)
+#' Find minimizing BIC Cut for Vector
+#'
+#' @param X a one dimensional vector
+#'
+#' @return list containing minimizing cut point and corresponding BIC score.
+#'
+#' @importFrom mclust Mclust mclustBIC
+#' @importFrom utils tail
+#'
 
-  if (!is.null(mod1) && !is.na(mod1)){
-    #Group the elements according to the cluster they belong to.
-    #Then sort the elements in each cluster.
-    X_data["classi"] <- mod1["classification"]
-    X_1 = data.frame(dplyr::filter(X_data, classi==1))
-    X_1_sorted <- X_1[order(X_1$X),]
-    X_2 = data.frame(dplyr::filter(X_data, classi==2))
-    X_2_sorted <- X_2[order(X_2$X),]
-    if(nrow(X_1) == 0)
-      return (NULL)
-    if(nrow(X_2) == 0)
-      return (NULL)
 
-    #Determine the cutpoint
-    cutpt1 = tail(X_1_sorted["X"], n=1)["X"]
-    cutpt2 = tail(X_2_sorted["X"], n=1)["X"]
-    BIC_score = BIC[1][1]
-    cutpt = min(cutpt1, cutpt2)
-
-    return(c(cutpt, BIC_score))
+BICCutMclust <- function(X) {
+  X_data <- data.frame(X)
+  num_elements <- (length(unique(X)))
+  if (num_elements <= 1) {
+    return(NULL)
   }
-  return (NULL)
+
+  BIC <- mclustBIC(X_data, G = 2, warn = TRUE, verbose = FALSE)
+  mod1 <- Mclust(data.frame(X), G = 2, x = BIC, verbose = FALSE)
+
+  if (!is.null(mod1) && !is.na(mod1)) {
+    # Group the elements according to the cluster they belong to.
+    # Then sort the elements in each cluster.
+    X_1 <- X_data[mod1$classification == 1, ]
+    X_1_sorted <- sort(X_1)
+
+    X_2 <- X_data[mod1$classification == 2, ]
+    X_2_sorted <- sort(X_2)
+
+    if (nrow(X_1) == 0) {
+      return(NULL)
+    }
+    if (nrow(X_2) == 0) {
+      return(NULL)
+    }
+
+    # Determine the cutpoint
+    cutpt1 <- tail(X_1_sorted, n = 1)
+    cutpt2 <- tail(X_2_sorted, n = 1)
+    BIC_score <- BIC[1][1]
+    cutpt <- min(cutpt1, cutpt2)
+
+    return(c(cutpt = cutpt, BIC_score = BIC_score))
+  }
+  return(NULL)
 }
 
 
@@ -233,7 +255,7 @@ checkInputMatrix <- function(X) {
 #' @param options options provided to FUN.
 #' @param Progress logical that determines whether to show tree creation status (Progress=TRUE).
 #' @param LinearCombo logical that determines whether to use linear combination of features. (LinearCombo=TRUE).
-#' @param splitCrit split based on twomeans(splitCrit="twomeans") or BIC test(splitCrit="BIC")
+#' @param splitCrit split based on twomeans(splitCrit="twomeans") or BIC test(splitCrit="bicfast")
 #'
 #' @return tree
 #'
@@ -245,11 +267,11 @@ GrowUnsupervisedForest <-
              replacement = TRUE, FUN = makeAB,
              options = list(p = ncol(X), d = ceiling(ncol(X)^0.5), sparsity = 1 / ncol(X)),
              Progress = TRUE, splitCrit = "twomeans", LinearCombo = TRUE) {
-		if (LinearCombo) {
+    if (LinearCombo) {
       FUN <- match.fun(FUN, descend = TRUE)
-		} else {
+    } else {
       FUN <- match.fun(makeA, descend = TRUE)
-		}
+    }
     ############# Start Growing Forest #################
 
     forest <- vector("list", trees)
@@ -358,12 +380,13 @@ GrowUnsupervisedForest <-
           Xnode[1:NdSize] <- X[NodeRows[[1L]], sparseM[lrows, 1], drop = FALSE] %*%
             sparseM[lrows, 3, drop = FALSE]
           # Sort the projection, Xnode, and rearrange Y accordingly
-          if (splitCrit == "twomeans")
+          if (splitCrit == "twomeans") {
             results <- TwoMeansCut(Xnode[1:NdSize])
-          else if (splitCrit == "bicfast")
+          } else if (splitCrit == "bicfast") {
             results <- BICCutFast(Xnode[1:NdSize])
-          else
+          } else {
             results <- BICCutMclust(Xnode[1:NdSize])
+          }
           if (is.null(results)) {
             next
           }
