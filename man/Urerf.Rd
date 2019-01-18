@@ -5,8 +5,9 @@
 \title{Unsupervised RerF forest Generator}
 \usage{
 Urerf(X, trees = 100, min.parent = round(nrow(X)^0.5),
-  max.depth = NA, mtry = ceiling(ncol(X)^0.5), normalizeData = TRUE,
-  Progress = TRUE)
+  max.depth = NA, mtry = ceiling(ncol(X)^0.5), sparsity = 1/ncol(X),
+  normalizeData = TRUE, Progress = TRUE, splitCrit = "twomeans",
+  LinearCombo = TRUE)
 }
 \arguments{
 \item{X}{an n by d numeric matrix. The rows correspond to observations and columns correspond to features.}
@@ -19,9 +20,15 @@ Urerf(X, trees = 100, min.parent = round(nrow(X)^0.5),
 
 \item{mtry}{the number of features to test at each node.  (mtry=ceiling(ncol(X)^.5))}
 
+\item{sparsity}{a real number in \eqn{(0,1)} that specifies the distribution of non-zero elements in the random matrix. (sparsity=1/nrow(X))}
+
 \item{normalizeData}{a logical value that determines if input data is normalized to values ranging from 0 to 1 prior to processing.  (normalizeData=TRUE)}
 
 \item{Progress}{boolean for printing progress.}
+
+\item{splitCrit}{split based on twomeans(splitCrit="twomeans") or BIC test(splitCrit="bicfast")}
+
+\item{LinearCombo}{logical that determines whether to use linear combination of features. (LinearCombo=TRUE).}
 }
 \value{
 urerfStructure
@@ -33,7 +40,10 @@ Creates a decision forest based on an input matrix.
 ### Train RerF on numeric data ###
 library(rerf)
 urerfStructure <- Urerf(as.matrix(iris[, 1:4]))
+urerfStructure.bic <- Urerf(as.matrix(iris[, 1:4]), splitCrit = 'bicfast')
 
 dissimilarityMatrix <- hclust(as.dist(1 - urerfStructure$similarityMatrix), method = "mcquitty")
 clusters <- cutree(dissimilarityMatrix, k = 3)
+
+
 }
