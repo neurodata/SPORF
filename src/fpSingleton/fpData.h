@@ -43,6 +43,9 @@ namespace fp {
 				}
 			}
 
+			inline void printXValues(){
+inData->printXValues();
+			}
 
 			void fpLoadData(fpInfo& settings){
 				if(settings.loadDataFromCSV()){
@@ -85,7 +88,7 @@ namespace fp {
 				return inData->returnClassOfObservation(observationNumber);
 			}
 
-			inline double returnFeatureVal(const int featureNumber, const int observationNumber){
+			inline DATA_TYPE_X returnFeatureVal(const int featureNumber, const int observationNumber){
 				return inData->returnFeatureValue(featureNumber, observationNumber);
 			}
 
@@ -133,7 +136,7 @@ namespace fp {
 			inline int returnTestLabel(int observationNumber){
 				return inTestData->returnClassOfObservation(observationNumber);
 			}
-			inline double returnTestFeatureVal(const int featureNumber, const int observationNumber){
+			inline DATA_TYPE_X returnTestFeatureVal(const int featureNumber, const int observationNumber){
 				return inTestData->returnFeatureValue(featureNumber, observationNumber);
 			}
 	}; // class fpData

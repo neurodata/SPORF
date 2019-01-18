@@ -19,34 +19,31 @@ namespace fp{
 				//splitInfo<T> bestSplitInfo;
 
 				stratifiedInNodeClassIndices* obsIndices;
-					 stratifiedInNodeClassIndices* leftIndices;
-					 stratifiedInNodeClassIndices* rightIndices;
+				stratifiedInNodeClassIndices* leftIndices;
+				stratifiedInNodeClassIndices* rightIndices;
 
-					 std::vector<T> featureHolder;
-					 std::vector<int> labelHolder;
+				std::vector<T> featureHolder;
+				std::vector<int> labelHolder;
 				/*
 					 std::vector<int> featuresToTry;
 					 */
 			public:
 				baseUnprocessedNode(int numObsForRoot):  parentID(0), depth(0), isLeftNode(true){
 					obsIndices = new stratifiedInNodeClassIndices(numObsForRoot);
-		leftIndices=NULL;
-					rightIndices=NULL;
 				}
-				baseUnprocessedNode(int parentID, int dep, bool isLeft): parentID(parentID), depth(dep), isLeftNode(isLeft){
-				leftIndices=NULL;
-					rightIndices=NULL;
-				}
+
+				baseUnprocessedNode(int parentID, int dep, bool isLeft): parentID(parentID), depth(dep), isLeftNode(isLeft){}
+
 				~baseUnprocessedNode(){
 				}
 
-					 inline stratifiedInNodeClassIndices* returnLeftIndices(){
-					 return leftIndices;
-					 }
+				inline stratifiedInNodeClassIndices* returnLeftIndices(){
+					return leftIndices;
+				}
 
-					 inline stratifiedInNodeClassIndices* returnRightIndices(){
-					 return rightIndices;
-					 }
+				inline stratifiedInNodeClassIndices* returnRightIndices(){
+					return rightIndices;
+				}
 
 				inline int returnParentID(){
 					return parentID;
@@ -100,41 +97,41 @@ namespace fp{
 					 return bestSplitInfo.returnSplitValue();
 					 }
 
-					 */
-					 inline void setHolderSizes(){
-					 obsIndices->initializeBinnedSamples();
-					 if(obsIndices->useBin()){
-					 labelHolder.resize(obsIndices->returnBinnedSize());
-					 featureHolder.resize(obsIndices->returnBinnedSize());
-					 }else{
-					 labelHolder.resize(obsIndices->returnInSampleSize());
-					 featureHolder.resize(obsIndices->returnInSampleSize());
-					 }
-					 }
+*/
+				inline void setHolderSizes(){
+					obsIndices->initializeBinnedSamples();
+					if(obsIndices->useBin()){
+						labelHolder.resize(obsIndices->returnBinnedSize());
+						featureHolder.resize(obsIndices->returnBinnedSize());
+					}else{
+						labelHolder.resize(obsIndices->returnInSampleSize());
+						featureHolder.resize(obsIndices->returnInSampleSize());
+					}
+				}
 
-					 /*
+				/*
 					 inline void pickMTRY(){
 					 for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i) featuresToTry.push_back(i);
 					 std::random_shuffle ( featuresToTry.begin(), featuresToTry.end() );
 					 featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
 					 }
 
-					 */
+*/
 
-					 inline void loadLabelHolder(){
-					 if(obsIndices->useBin()){
-					 for(int i =0; i < obsIndices->returnBinnedSize(); ++i){
-					 labelHolder[i] = fpSingleton::getSingleton().returnLabel(obsIndices->returnBinnedInSample(i));
-					 }
-					 }else{
-					 for(int i =0; i < obsIndices->returnInSampleSize(); ++i){
-					 labelHolder[i] = fpSingleton::getSingleton().returnLabel(obsIndices->returnInSample(i));
-					 }
-					 }
-					 }
+				inline void loadLabelHolder(){
+					if(obsIndices->useBin()){
+						for(int i =0; i < obsIndices->returnBinnedSize(); ++i){
+							labelHolder[i] = fpSingleton::getSingleton().returnLabel(obsIndices->returnBinnedInSample(i));
+						}
+					}else{
+						for(int i =0; i < obsIndices->returnInSampleSize(); ++i){
+							labelHolder[i] = fpSingleton::getSingleton().returnLabel(obsIndices->returnInSample(i));
+						}
+					}
+				}
 
 
-					 /*
+				/*
 					 inline void loadFeatureHolder(){
 					 if(obsIndices->useBin()){
 					 for(int q=0; q<obsIndices->returnBinnedSize(); q++){
@@ -156,28 +153,28 @@ namespace fp{
 					 }
 					 }
 
-					 */
-					 inline float calculateNodeImpurity(){
-					 return obsIndices->returnImpurity();
+*/
+				inline float calculateNodeImpurity(){
+					return obsIndices->returnImpurity();
+				}
+
+
+				/*
+					 inline void setupNode(){
+					 pickMTRY();
+					 setHolderSizes();
+					 loadLabelHolder();
+					 nodeImpurity = calculateNodeImpurity();
 					 }
 
 
-					 /*
-				inline void setupNode(){
-					pickMTRY();
-					setHolderSizes();
-					loadLabelHolder();
-					nodeImpurity = calculateNodeImpurity();
-				}
+					 inline void setBestSplit(splitInfo<T> tempSplit){
+					 if(tempSplit.returnImpurity() < bestSplitInfo.returnImpurity()){
+					 bestSplitInfo = tempSplit;
+					 }
+					 }
 
-
-				inline void setBestSplit(splitInfo<T> tempSplit){
-					if(tempSplit.returnImpurity() < bestSplitInfo.returnImpurity()){
-						bestSplitInfo = tempSplit;
-					}
-				}
-
-				*/
+*/
 
 				inline void loadIndices(stratifiedInNodeClassIndices* indices){
 					obsIndices = indices;
@@ -185,72 +182,72 @@ namespace fp{
 				/*
 
 
-				inline bool goLeft(const int& index){
-					int inIndex = index;
-					int featureNum = bestSplitInfo.returnFeatureNum();
-					if(featureNum == -1){
-						std::cout << "found it\n";
-						exit(1);
-					}
-					double featureVal = fpSingleton::getSingleton().returnFeatureVal(featureNum,inIndex);
-					double splitVal = bestSplitInfo.returnSplitValue();
-					if(featureVal < splitVal ){
-						return true;
-					}else{
-						return false;
-					}
+					 inline bool goLeft(const int& index){
+					 int inIndex = index;
+					 int featureNum = bestSplitInfo.returnFeatureNum();
+					 if(featureNum == -1){
+					 std::cout << "found it\n";
+					 exit(1);
+					 }
+					 double featureVal = fpSingleton::getSingleton().returnFeatureVal(featureNum,inIndex);
+					 double splitVal = bestSplitInfo.returnSplitValue();
+					 if(featureVal < splitVal ){
+					 return true;
+					 }else{
+					 return false;
+					 }
+					 }
+
+					 inline void moveDataLeftOrRight(){
+					 if(leftIndices !=NULL){
+					 delete leftIndices;
+					 }
+					 if(rightIndices !=NULL){
+					 delete rightIndices;
+					 }
+
+					 leftIndices = new stratifiedInNodeClassIndices();
+					 rightIndices = new stratifiedInNodeClassIndices();
+
+					 int lNum =0;
+					 int rNum =0;
+					 for (int i=0; i < obsIndices->returnInSampleSize();++i){
+					 if(goLeft(obsIndices->returnInSample(i))){
+					 ++lNum;
+					 leftIndices->addIndexToInSamples(obsIndices->returnInSample(i));	
+					 }else{
+					 ++rNum;
+					 rightIndices->addIndexToInSamples(obsIndices->returnInSample(i));	
+					 }
+					 }
+
+					 for (int i=0; i < obsIndices->returnOutSampleSize();++i){
+					 if(goLeft(obsIndices->returnInSample(i))){
+					 leftIndices->addIndexToOutSamples(obsIndices->returnInSample(i));	
+					 }else{
+					 rightIndices->addIndexToOutSamples(obsIndices->returnInSample(i));	
+					 }
+					 }
+
+					 delete obsIndices;
+					 obsIndices = NULL;
+					 }
+
+
+					 inline void findBestSplit(){
+				//timeLogger logTime;
+				fpSplit<T> findSplit(labelHolder); //This is done twice
+				while(!featuresToTry.empty()){
+				//logTime.startGiniTimer();
+				loadFeatureHolder();
+				//logTime.stopGiniTimer();
+				setBestSplit(findSplit.giniSplit(featureHolder ,featuresToTry.back()));
+
+				featuresToTry.pop_back();
+				}
 				}
 
-				inline void moveDataLeftOrRight(){
-					if(leftIndices !=NULL){
-						delete leftIndices;
-					}
-					if(rightIndices !=NULL){
-						delete rightIndices;
-					}
-
-					leftIndices = new stratifiedInNodeClassIndices();
-					rightIndices = new stratifiedInNodeClassIndices();
-
-					int lNum =0;
-					int rNum =0;
-					for (int i=0; i < obsIndices->returnInSampleSize();++i){
-						if(goLeft(obsIndices->returnInSample(i))){
-							++lNum;
-							leftIndices->addIndexToInSamples(obsIndices->returnInSample(i));	
-						}else{
-							++rNum;
-							rightIndices->addIndexToInSamples(obsIndices->returnInSample(i));	
-						}
-					}
-
-					for (int i=0; i < obsIndices->returnOutSampleSize();++i){
-						if(goLeft(obsIndices->returnInSample(i))){
-							leftIndices->addIndexToOutSamples(obsIndices->returnInSample(i));	
-						}else{
-							rightIndices->addIndexToOutSamples(obsIndices->returnInSample(i));	
-						}
-					}
-
-					delete obsIndices;
-					obsIndices = NULL;
-				}
-
-
-				inline void findBestSplit(){
-					//timeLogger logTime;
-					fpSplit<T> findSplit(labelHolder); //This is done twice
-					while(!featuresToTry.empty()){
-						//logTime.startGiniTimer();
-						loadFeatureHolder();
-						//logTime.stopGiniTimer();
-						setBestSplit(findSplit.giniSplit(featureHolder ,featuresToTry.back()));
-
-						featuresToTry.pop_back();
-					}
-				}
-
-				*/
+*/
 
 				inline int returnMaxClass(){
 					if(nodeImpurity==0){

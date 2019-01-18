@@ -37,6 +37,12 @@ namespace fp{
 				}
 
 				inline bool checkInequality(const labeledData<T>& otherData){
+					if( dataElement != otherData.dataElement ){
+						if( dataElement == (dataElement+otherData.dataElement)/2.0 ){
+							std::cout << std::setprecision(10) << dataElement << ", " << otherData.dataElement << "\n";
+						}
+
+					}
 					return dataElement != otherData.dataElement;
 				}
 

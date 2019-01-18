@@ -20,22 +20,13 @@ namespace fp{
 
 			//TODO: the following functions would benefit from Vitter's Sequential Random Sampling
 		public:
-			stratifiedInNodeClassIndices(){
-				inSamples.resize(fpSingleton::getSingleton().returnNumClasses());
-				outSamples.resize(fpSingleton::getSingleton().returnNumClasses());
+			stratifiedInNodeClassIndices(): inSamples(fpSingleton::getSingleton().returnNumClasses()), outSamples(fpSingleton::getSingleton().returnNumClasses()), inSampleSize(0), outSampleSize(0){}
 
-				inSampleSize =0;
-				outSampleSize =0;
-			}
 
-			stratifiedInNodeClassIndices(const int &numObservationsInDataSet){
-				inSamples.resize(fpSingleton::getSingleton().returnNumClasses());
-				outSamples.resize(fpSingleton::getSingleton().returnNumClasses());
+			stratifiedInNodeClassIndices(const int &numObservationsInDataSet): inSamples(fpSingleton::getSingleton().returnNumClasses()), outSamples(fpSingleton::getSingleton().returnNumClasses()), inSampleSize(0), outSampleSize(0){
 
 				createInAndOutSets(numObservationsInDataSet);
 
-				inSampleSize = 0;
-				outSampleSize =0;
 				for(auto inSamps : inSamples){
 					inSampleSize += inSamps.size();
 				}
@@ -48,8 +39,7 @@ namespace fp{
 
 
 			inline void createInAndOutSets(const int &numObs){
-				std::vector<int> potentialSamples;
-				potentialSamples.resize(numObs);
+				std::vector<int> potentialSamples(numObs);
 
 				std::random_device rd; // obtain a random number from hardware
 				std::mt19937 eng(rd()); // seed the generator
@@ -100,7 +90,7 @@ namespace fp{
 				}
 			}
 
-			void printIndices(){
+			inline void printIndices(){
 				std::cout << "samples in bag\n";
 				for(unsigned int n = 0; n < inSamples.size(); ++n){
 					for(auto & i : inSamples[n]){

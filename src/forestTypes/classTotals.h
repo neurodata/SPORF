@@ -13,7 +13,7 @@ namespace fp{
 			std::vector<int> classVec;
 
 		public:
-			classTotals() : maxClass(-1), totalNumObj(0), impurity(-1){}
+			classTotals() : maxClass(-1), totalNumObj(0), impurity(-1), classVec(fpSingleton::getSingleton().returnNumClasses(),0){}
 
 			inline int returnLargestClass(){
 				int largestClass=-1; 
@@ -31,11 +31,11 @@ namespace fp{
 				for(auto i : labs){
 					if(i>maxClass){
 						maxClass = i;
-						classVec.resize(i+1);
 					}
 					++classVec[i];
 					++totalNumObj;
 				}
+						classVec.resize(maxClass+1);
 			}
 
 			inline int returnNumItems(){

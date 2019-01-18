@@ -126,22 +126,32 @@ namespace fp{
 				}
 
 
-				inline void createChildren(){
-					bool isLeftNode = true;
+				inline bool isLeftNode(){
+					return true;
+				}
 
+inline bool isRightNode(){
+					return false;
+				}
+
+
+				inline void createChildren(){
 					nodeQueue.back().moveDataLeftOrRight();
 
 					stratifiedInNodeClassIndices* leftIndices = nodeQueue.back().returnLeftIndices();
 					stratifiedInNodeClassIndices* rightIndices = nodeQueue.back().returnRightIndices();
 
+					assert(leftIndices->returnInSampleSize() > 0);
+					assert(rightIndices->returnInSampleSize() > 0);
+
 					int childDepth = nodeQueue.back().returnDepth()+1;
 
 					nodeQueue.pop_back();
 
-					nodeQueue.emplace_back(returnLastNodeID(),childDepth, isLeftNode);
+					nodeQueue.emplace_back(returnLastNodeID(),childDepth, isLeftNode());
 					nodeQueue.back().loadIndices(leftIndices);
 
-					nodeQueue.emplace_back(returnLastNodeID(),childDepth, !isLeftNode);
+					nodeQueue.emplace_back(returnLastNodeID(),childDepth, isRightNode());
 					nodeQueue.back().loadIndices(rightIndices);
 				}
 
@@ -152,7 +162,6 @@ namespace fp{
 
 
 				inline bool noGoodSplitFound(){
-					//return nodeQueue.back().returnBestImpurity() < 0;
 					return nodeQueue.back().returnBestFeature() == -1;
 				}
 

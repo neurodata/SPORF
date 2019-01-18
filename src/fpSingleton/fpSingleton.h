@@ -61,6 +61,9 @@ namespace fp {
 				data.fpDeleteTestData();
 			}
 
+			inline void printXValues(){
+data.printXValues();
+			}
 
 			inline void setNumFeatures(int numF){
 				fpForestInfo.setNumFeatures(numF);

@@ -5,6 +5,7 @@
 #include <vector>
 #include <random>
 #include "unprocessedRerFNode.h"
+#include <assert.h>
 
 namespace fp{
 
@@ -102,6 +103,7 @@ namespace fp{
 					linkParentToChild();
 					setAsLeaf();
 					checkOOB();
+					nodeQueue.back().deleteObsIndices();
 					nodeQueue.pop_back();
 				}
 
@@ -125,23 +127,31 @@ namespace fp{
 					createChildren();
 				}
 
+				inline bool isLeftNode(){
+					return true;
+				}
+
+				inline bool isRightNode(){
+					return false;
+				}
 
 				inline void createChildren(){
-					bool isLeftNode = true;
-
 					nodeQueue.back().moveDataLeftOrRight();
 
 					stratifiedInNodeClassIndices* leftIndices = nodeQueue.back().returnLeftIndices();
 					stratifiedInNodeClassIndices* rightIndices = nodeQueue.back().returnRightIndices();
 
+					assert(leftIndices->returnInSampleSize() > 0);
+					assert(rightIndices->returnInSampleSize() > 0);
+
 					int childDepth = nodeQueue.back().returnDepth()+1;
 
 					nodeQueue.pop_back();
 
-					nodeQueue.emplace_back(returnLastNodeID(),childDepth, isLeftNode);
+					nodeQueue.emplace_back(returnLastNodeID(),childDepth, isLeftNode());
 					nodeQueue.back().loadIndices(leftIndices);
 
-					nodeQueue.emplace_back(returnLastNodeID(),childDepth, !isLeftNode);
+					nodeQueue.emplace_back(returnLastNodeID(),childDepth, isRightNode());
 					nodeQueue.back().loadIndices(rightIndices);
 				}
 
@@ -176,14 +186,14 @@ namespace fp{
 				}
 
 
-				void processNodes(){
+				inline void processNodes(){
 					while(!nodeQueue.empty()){
 						processANode();
 					}
 				}
 
 
-				void growTree(){
+				inline void growTree(){
 					loadFirstNode();
 					processNodes();
 				}
@@ -194,7 +204,7 @@ namespace fp{
 					T featureVal = 0;
 					while(tree[currNode].isInternalNode()){
 						featureVal = 0;
-					for(auto featureNumber : tree[currNode].returnFeatureNumber()){
+						for(auto featureNumber : tree[currNode].returnFeatureNumber()){
 							featureVal += fpSingleton::getSingleton().returnTestFeatureVal(featureNumber,observationNum);
 						}
 						currNode = tree[currNode].fpBaseNode<T, std::vector<int> >::nextNode(featureVal);

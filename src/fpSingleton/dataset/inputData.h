@@ -2,6 +2,7 @@
 #define inputData_h
 
 #include <iostream>
+#include <iomanip>
 
 
 namespace fp {
@@ -49,9 +50,10 @@ namespace fp {
 				}
 
 				void printXValues(){
-					for(int i = 0; i < this->returnNumFeatures(); i++){
+					std::cout << std::fixed;
 						for(int j = 0; j < this->returnNumObservations(); j++){
-							std::cout << this->returnFeatureValue(i,j) << " ";
+					for(int i = 0; i < this->returnNumFeatures(); i++){
+							std::cout << std::setprecision(10) << this->returnFeatureValue(i,j) << " ";
 						}
 						std::cout << "\n";
 					}

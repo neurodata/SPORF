@@ -25,16 +25,16 @@ namespace fp{
 
 			public:
 				unprocessedRerFNode(int numObsForRoot): baseUnprocessedNode<T>::baseUnprocessedNode(numObsForRoot), featuresToTry(fpSingleton::getSingleton().returnMtry()){}
-				
+
 
 				unprocessedRerFNode(int parentID, int dep, bool isLeft): baseUnprocessedNode<T>::baseUnprocessedNode(parentID, dep, isLeft), featuresToTry(fpSingleton::getSingleton().returnMtry()){}
-				
+
 
 				~unprocessedRerFNode(){
 				}
 
 
-				inline std::vector<int> returnBestFeature(){
+				inline std::vector<int>& returnBestFeature(){
 					return bestSplitInfo.returnFeatureNum();
 				}
 
@@ -92,7 +92,7 @@ namespace fp{
 							baseUnprocessedNode<T>::featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnInSample(i));
 						}
 						if(featuresToTry.back().size()>1){
-							for(unsigned int j =1; j < featuresToTry.back().size(); ++j){
+							for(int j =1; j < (int)featuresToTry.back().size(); ++j){
 								for(int q=0; q<baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); q++){
 									fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[j],baseUnprocessedNode<T>::obsIndices->returnInSample(q));
 								}
@@ -113,33 +113,26 @@ namespace fp{
 				}
 
 
-				inline bool goLeft(const int& index){
-					int inIndex = index;
-					std::vector<int> featureNum = bestSplitInfo.returnFeatureNum();
-					assert(!featureNum.empty());
+				inline bool goLeft(const int index){
+					T featureVal = 0;
 
-					double featureVal = fpSingleton::getSingleton().returnFeatureVal(featureNum[0],inIndex);
-					if(featureNum.size() > 1){
-						for(unsigned int j = 1; j < featureNum.size(); ++j){
-							featureVal += fpSingleton::getSingleton().returnFeatureVal(featureNum[j],inIndex);
-						}
+					for(auto j : bestSplitInfo.returnFeatureNum()){
+						featureVal += fpSingleton::getSingleton().returnFeatureVal(j,index);
 					}
 
-					double splitVal = bestSplitInfo.returnSplitValue();
-					if(featureVal <= splitVal ){
+					if(featureVal <= bestSplitInfo.returnSplitValue()){
 						return true;
 					}else{
 						return false;
 					}
 				}
 
+				inline void deleteObsIndices(){
+					delete baseUnprocessedNode<T>::obsIndices;
+					baseUnprocessedNode<T>::obsIndices = NULL;
+				}
+
 				inline void moveDataLeftOrRight(){
-					if(baseUnprocessedNode<T>::leftIndices !=NULL){
-						delete baseUnprocessedNode<T>::leftIndices;
-					}
-					if(baseUnprocessedNode<T>::rightIndices !=NULL){
-						delete baseUnprocessedNode<T>::rightIndices;
-					}
 
 					baseUnprocessedNode<T>::leftIndices = new stratifiedInNodeClassIndices();
 					baseUnprocessedNode<T>::rightIndices = new stratifiedInNodeClassIndices();
@@ -168,9 +161,7 @@ namespace fp{
 							baseUnprocessedNode<T>::rightIndices->addIndexToOutSamples(baseUnprocessedNode<T>::obsIndices->returnInSample(i));	
 						}
 					}
-
-					delete baseUnprocessedNode<T>::obsIndices;
-					baseUnprocessedNode<T>::obsIndices = NULL;
+					deleteObsIndices();
 				}
 
 

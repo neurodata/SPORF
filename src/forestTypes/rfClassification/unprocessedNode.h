@@ -78,14 +78,10 @@ namespace fp{
 				}
 
 
-				inline bool goLeft(const int& index){
-					int inIndex = index;
-					int featureNum = bestSplitInfo.returnFeatureNum();
-					assert(featureNum >= 0);
-					
-					double featureVal = fpSingleton::getSingleton().returnFeatureVal(featureNum,inIndex);
-					double splitVal = bestSplitInfo.returnSplitValue();
-					if(featureVal <= splitVal ){
+				inline bool goLeft(const int index){
+					T featureVal = fpSingleton::getSingleton().returnFeatureVal(bestSplitInfo.returnFeatureNum(),index);
+
+					if(featureVal <= bestSplitInfo.returnSplitValue()){
 						return true;
 					}else{
 						return false;
@@ -94,12 +90,6 @@ namespace fp{
 
 
 				inline void moveDataLeftOrRight(){
-					if(baseUnprocessedNode<T>::leftIndices !=NULL){
-						delete baseUnprocessedNode<T>::leftIndices;
-					}
-					if(baseUnprocessedNode<T>::rightIndices !=NULL){
-						delete baseUnprocessedNode<T>::rightIndices;
-					}
 
 					baseUnprocessedNode<T>::leftIndices = new stratifiedInNodeClassIndices();
 					baseUnprocessedNode<T>::rightIndices = new stratifiedInNodeClassIndices();

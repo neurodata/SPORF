@@ -28,7 +28,7 @@ namespace fp{
 				}
 
 				inline void zipDataLabels(std::vector<T> featureVals){
-					for(unsigned int i=0; i<labels.size(); ++i){
+					for(int i=0; i<(int)labels.size(); ++i){
 						combinedDataLabels[i].setPair(featureVals[i],labels[i]);
 					}
 				}
@@ -66,7 +66,7 @@ namespace fp{
 
 				inline splitRerFInfo<T> giniSplit(const std::vector<T>& featureVals, const std::vector<int>& featureNums){
 					double tempImpurity;
-					int numLabels = labels.size();
+					int numLabels = (int)labels.size();
 					//	timeLogger logTime;
 
 					// initialize return value
