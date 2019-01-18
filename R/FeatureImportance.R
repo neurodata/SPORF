@@ -4,78 +4,103 @@
 #'
 #' @param forest a forest trained using the RerF function with argument store.impurity = TRUE
 #' @param num.cores number of cores to use. If num.cores = 0, then 1 less than the number of cores reported by the OS are used. (num.cores = 0)
-#' @param featureCounts boolean set to true if only the table of unique
-#' feature combinations is desired.
+#' @param type character string specifying which method to use in
+#' calculating feature importance.
+#' \describe{
+#'   \item{'C'}{specifies that unique combinations of features
+#'   should be *c*ounted across trees.}
+#'   \item{'R'}{feature importance will be calculated as in *R*andomForest.}
+#'   \item{'E'}{calculates the unique projections up to *e*quivalence if
+#'   the vector of projection weights parametrizes the same line in
+#'   \eqn{R^p}.}
+#' }
 #'
-#' @return feature.imp
+#' @return a list with 3 elements, 
+#' \describe{
+#'   \item{\code{imp}}{The vector of scores/counts, corresponding to each feature.}
+#'   \item{\code{features}}{The features/projections used.}
+#'   \item{\code{type}}{The code for the method used.}
+#'   }
 #'
 #' @examples
 #' library(rerf)
 #' num.cores <- 1L
-#' fBinary <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L, store.impurity = TRUE)
+#' forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L, store.impurity = TRUE)
 #'
-#' fBinary.imp <- FeatureImportance(forest = fBinary, num.cores = num.cores)
+#' imp.C <- FeatureImportance(forest, num.cores, "C")
+#' imp.R <- FeatureImportance(forest, num.cores, "R")
+#' imp.E <- FeatureImportance(forest, num.cores, "E")
 #'
 #' fRF <- RerF(as.matrix(iris[, 1:4]), iris[[5L]],
 #'             FUN = RandMatRF, num.cores = 1L, store.impurity = TRUE)
 #'
 #' fRF.imp <- FeatureImportance(forest = fRF, num.cores = num.cores)
 #'
-#' fC <- RerF(as.matrix(iris[, 1:4]), iris[[5L]],
-#'             FUN = RandMatContinuous, num.cores = 1L, store.impurity = TRUE)
-#'
-#' fC.imp <- FeatureImportance(forest = fC, num.cores = num.cores, featureCounts = TRUE)
-#'
 #' @export
 #' @importFrom parallel detectCores makeCluster clusterExport parSapply stopCluster
 #' @importFrom utils object.size
 
-FeatureImportance <- function(forest, num.cores = 0L, featureCounts = FALSE) {
+FeatureImportance <- function(forest, num.cores = 0L, type = NULL) {
+
+  ## choose method to use for calculating feature importance
+  if(is.null(type)){
+    if(identical(forest$params$fun, rerf::RandMatRF)){
+      type <- "R"
+    } else if (identical(forest$params$fun, rerf::RandMatBinary)) {
+      type <- "E"
+    } else {
+      type <- "C"
+    }
+  }
+
   num.trees <- length(forest$trees)
   num.splits <- sapply(forest$trees, function(tree) length(tree$CutPoint))
 
-  unique.projections <- vector("list", sum(num.splits))
+  forest.projections <- vector("list")
 
-  idx.start <- 1L
+  ## Iterate over trees in the forest to save all projections used
+  for (t in 1:num.trees) {
+    tree.projections <- 
+      lapply(1:num.splits[t], function(nd) {
+             forest$trees[[t]]$matAstore[(forest$trees[[t]]$matAindex[nd] + 1L):forest$trees[[t]]$matAindex[nd + 1L]]
+      })
 
-  ## Set algorithm depending on RandMat* used
-  if (featureCounts) {
-    message("Message: Computing feature importance as counts.\n")
+    forest.projections <- c(forest.projections, tree.projections)
+  }
 
-    for (t in 1:num.trees) {
-      idx.end <- idx.start + num.splits[t] - 1L
-      unique.projections[idx.start:idx.end] <-
-        lapply(1:num.splits[t], function(nd) forest$trees[[t]]$matAstore[(forest$trees[[t]]$matAindex[nd] + 1L):forest$trees[[t]]$matAindex[nd + 1L]])
-
-      idx.start <- idx.end + 1L
-    }
-
-    unique.projections <- unique(lapply(unique.projections, getFeatures))
+  ## Calculate the unique projections used according to the distribution
+  ## of weights
+  if (identical(type, "C")) {
+    message("Message: Computing feature importance as counts of unique feature combinations.\n")
+    ## compute the unique combinations of features used in the
+    ## projections 
+    unique.projections <- unique(lapply(forest.projections, getFeatures))
 
     CompImportanceCaller <- function(tree, ...) {
       RunFeatureImportanceCounts(tree = tree, unique.projections = unique.projections)
     }
-  } else {
-    for (t in 1:num.trees) {
-      idx.end <- idx.start + num.splits[t] - 1L
-      unique.projections[idx.start:idx.end] <- lapply(1:num.splits[t], function(nd) forest$trees[[t]]$matAstore[(forest$trees[[t]]$matAindex[nd] + 1L):forest$trees[[t]]$matAindex[nd + 1L]])
-      idx.start <- idx.end + 1L
-    }
-  }
+    varlist <- c("unique.projections", "RunFeatureImportanceCounts")
+  } 
 
-  if (identical(forest$params$fun, rerf::RandMatRF) & !featureCounts) {
+  if (identical(type, "R")) {
     message("Message: Computing feature importance for RandMatRF.\n")
-    unique.projections <- unique(unique.projections)
+    ## Compute the unique projections without the need to account for
+    ## 180-degree rotations.
+    unique.projections <- unique(forest.projections)
+
     CompImportanceCaller <- function(tree, ...) {
       RunFeatureImportance(tree = tree, unique.projections = unique.projections)
     }
+    varlist <- c("unique.projections", "RunFeatureImportance")
   }
 
-  if (identical(forest$params$fun, rerf::RandMatBinary) & !featureCounts) {
+  if (identical(type, "E")) {
     message("Message: Computing feature importance for RandMatBinary.\n")
+    ## compute the unique projections properly accounting for
+    ## projections that differ by a 180-degree rotation.
     unique.projections <- uniqueByEquivalenceClass(
       forest$params$paramList$p,
-      unique(unique.projections)
+      unique(forest.projections)
     )
 
     CompImportanceCaller <- function(tree, ...) {
@@ -84,7 +109,10 @@ FeatureImportance <- function(forest, num.cores = 0L, featureCounts = FALSE) {
         unique.projections = unique.projections
       )
     }
+    varlist <- c("unique.projections", "RunFeatureImportanceBinary")
   }
+
+
 
   if (num.cores != 1L) {
     if (num.cores == 0L) {
@@ -96,7 +124,7 @@ FeatureImportance <- function(forest, num.cores = 0L, featureCounts = FALSE) {
     if ((utils::object.size(forest) > 2e9) |
       .Platform$OS.type == "windows") {
       cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
-      parallel::clusterExport(cl = cl, varlist = c("unique.projections", "RunFeatureImportance"), envir = environment())
+      parallel::clusterExport(cl = cl, varlist = varlist, envir = environment())
       feature.imp <- parallel::parSapply(cl = cl, forest$trees, FUN = CompImportanceCaller)
     } else {
       cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
@@ -113,9 +141,6 @@ FeatureImportance <- function(forest, num.cores = 0L, featureCounts = FALSE) {
   sort.idx <- order(feature.imp, decreasing = TRUE)
   feature.imp <- feature.imp[sort.idx]
   unique.projections <- unique.projections[sort.idx]
-  if (!featureCounts) {
-    return(feature.imp <- list(imp = feature.imp, proj = unique.projections))
-  } else {
-    return(feature.imp <- list(impCount = feature.imp, featureCombination = unique.projections))
-  }
+
+  return(feature.imp <- list(imp = feature.imp, features = unique.projections, type = type))
 }
