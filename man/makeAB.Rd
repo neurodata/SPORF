@@ -2,7 +2,7 @@
 % Please edit documentation in R/RandMat.R
 \name{makeAB}
 \alias{makeAB}
-\title{Create rotation matrix used to determine mtry features.}
+\title{Create rotation matrix used to determine linear combination of mtry features.}
 \usage{
 makeAB(p, d, sparsity, ...)
 }
@@ -24,5 +24,6 @@ unsupervised random forest. The sparseM matrix is the projection
 matrix.  The creation of this matrix can be changed, but the nrow of
 sparseM should remain p.  The ncol of the sparseM matrix is currently
 set to mtry but this can actually be any integer > 1; can even be
-greater than p.
+greater than p.  The matrix returned by this function creates a
+sparse matrix with multiple features per column.
 }

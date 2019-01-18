@@ -6,7 +6,7 @@ Rscript -e "Rcpp::compileAttributes()"
 # Rscript -e "install.packages('devtools', repos = 'http://cran.us.r-project.org')"
 # Rscript -e "install.packages('roxygen2', repos = 'http://cran.us.r-project.org')"
 ## RUN styler on directory
-# Rscript -e "styler::style_dir(style = tidyverse_style)"
+# Rscript -e "styler:::style_pkg(style=tidyverse_style)"
 Rscript -e "devtools::document('R')"
 
 R CMD build --resave-data .

@@ -7,7 +7,7 @@
 GrowUnsupervisedForest(X, MinParent = 1, trees = 100, MaxDepth = Inf,
   bagging = 0.2, replacement = TRUE, FUN = makeAB, options = list(p
   = ncol(X), d = ceiling(ncol(X)^0.5), sparsity = 1/ncol(X)),
-  Progress = TRUE)
+  Progress = TRUE, splitCrit = "twomeans", LinearCombo = TRUE)
 }
 \arguments{
 \item{X}{an Nxd matrix or Data frame of numeric values.}
@@ -27,6 +27,10 @@ GrowUnsupervisedForest(X, MinParent = 1, trees = 100, MaxDepth = Inf,
 \item{options}{options provided to FUN.}
 
 \item{Progress}{logical that determines whether to show tree creation status (Progress=TRUE).}
+
+\item{splitCrit}{split based on twomeans(splitCrit="twomeans") or BIC test(splitCrit="bicfast")}
+
+\item{LinearCombo}{logical that determines whether to use linear combination of features. (LinearCombo=TRUE).}
 }
 \value{
 tree
