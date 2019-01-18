@@ -313,16 +313,17 @@ scor
 ### Compute feature (projection) importance (DEV version only):
 
 Computes the Gini importance for all of the unique projections used to
-split the data. The returned value is a list with members imp and proj.
-The member imp is a numeric vector of feature importances sorted in
-decreasing order. The member proj is a list the same length as imp of
-vectors specifying the split projections corresponding to the values in
-imp. The projections are represented by the vector such that the odd
-numbered indices indicate the canonical feature indices and the even
-numbered indices indicate the linear coefficients. For example a vector
-(1,-1,4,1,5,-1) is the projection -X1 + X4 - X5. **Note**: it is highly
-advised to run this only when the splitting features (projections) have
-unweighted coefficients, such as for the default setting or for RF.
+split the data. The returned value is a list with members imp and
+features. The member imp is a numeric vector of feature importances
+sorted in decreasing order. The member features is a list the same
+length as imp of vectors specifying the split projections corresponding
+to the values in imp. The projections are represented by the vector such
+that the odd numbered indices indicate the canonical feature indices and
+the even numbered indices indicate the linear coefficients. For example
+a vector (1,-1,4,1,5,-1) is the projection -X1 + X4 - X5. **Note**: it
+is highly advised to run this only when the splitting features
+(projections) have unweighted coefficients, such as for the default
+setting or for RF.
 
 ``` r
 X <- as.matrix(iris[, 1:4]) # feature matrix
@@ -336,7 +337,8 @@ forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], FUN = RandMatRF,
                paramList = list(p = p, d = d), num.cores = 1L,
                store.impurity = TRUE, seed = 1L)
 
-feature.imp <- FeatureImportance(forest, num.cores = 1L)
+feature.imp <- FeatureImportance(forest, num.cores = 1L, type = "R")
+#> Message: Computing feature importance for RandMatRF.
 ```
 
 **Expected output**
@@ -346,18 +348,22 @@ feature.imp
 #> $imp
 #> [1] 23549.727 20799.581  4617.132  1026.042
 #> 
-#> $proj
-#> $proj[[1]]
+#> $features
+#> $features[[1]]
 #> [1] 4 1
 #> 
-#> $proj[[2]]
+#> $features[[2]]
 #> [1] 3 1
 #> 
-#> $proj[[3]]
+#> $features[[3]]
 #> [1] 1 1
 #> 
-#> $proj[[4]]
+#> $features[[4]]
 #> [1] 2 1
+#> 
+#> 
+#> $type
+#> [1] "R"
 ```
 
 ## Train Structured RerF (S-RerF) for image classification:
@@ -434,8 +440,8 @@ table(clusters, truth = as.numeric(iris[[5]]))
 #>         truth
 #> clusters  1  2  3
 #>        1 50  0  0
-#>        2  0 12 50
-#>        3  0 38  0
+#>        2  0 20 37
+#>        3  0 30 13
 ```
 
 <!-- calcium-spike data are not properly documented at this time, waiting on @jasonkyuyim TBD by 20180813 -->
