@@ -34,8 +34,8 @@ namespace fp{
 
 				baseUnprocessedNode(int parentID, int dep, bool isLeft): parentID(parentID), depth(dep), isLeftNode(isLeft){}
 
-				~baseUnprocessedNode(){
-				}
+				virtual ~baseUnprocessedNode(){}
+				
 
 				inline stratifiedInNodeClassIndices* returnLeftIndices(){
 					return leftIndices;
@@ -250,6 +250,10 @@ namespace fp{
 */
 
 				inline int returnMaxClass(){
+					if(labelHolder.empty()){
+						std::cout << "no labels in holder\n";
+						exit(1);
+					}
 					if(nodeImpurity==0){
 						return labelHolder[0];
 					} else {

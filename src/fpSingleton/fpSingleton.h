@@ -4,6 +4,7 @@
 #include "fpData.h"
 #include "fpInfo.h"
 #include <string>
+#include <memory>
 
 namespace fp {
 
@@ -21,7 +22,8 @@ namespace fp {
 
 		public:
 			static fpSingleton& getSingleton(){
-				static fpSingleton* infoSetting(new fpSingleton);
+				static std::unique_ptr<fpSingleton> infoSetting(new fpSingleton);
+				//static fpSingleton* infoSetting(new fpSingleton);
 				return *infoSetting;
 			}
 
@@ -62,7 +64,7 @@ namespace fp {
 			}
 
 			inline void printXValues(){
-data.printXValues();
+				data.printXValues();
 			}
 
 			inline void setNumFeatures(int numF){
@@ -75,6 +77,14 @@ data.printXValues();
 
 			inline void setNumClasses(int numC){
 				fpForestInfo.setNumClasses(numC);
+			}
+
+			inline float returnFloatEpsilon(){
+				return fpForestInfo.returnFloatEpsilon();
+			}
+
+			inline double returnDoubleEpsilon(){
+				return fpForestInfo.returnDoubleEpsilon();
 			}
 
 			inline int returnNumClasses(){
@@ -145,7 +155,7 @@ data.printXValues();
 
 		private: //These are singleton specific methods
 			fpSingleton(){}
-			~fpSingleton();
+			//~fpSingleton();
 			fpSingleton(const fpSingleton &old){
 				if(this != &old){
 					infoSetting= old.infoSetting;

@@ -21,8 +21,7 @@ namespace fp{
 				unprocessedNode(int parentID, int dep, bool isLeft): baseUnprocessedNode<T>::baseUnprocessedNode(parentID, dep, isLeft){
 				}
 
-				~unprocessedNode(){
-				}
+				~unprocessedNode(){}
 
 				inline int returnBestFeature(){
 					return bestSplitInfo.returnFeatureNum();

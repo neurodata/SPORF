@@ -20,6 +20,7 @@ namespace fp{
 				std::srand(unsigned(std::time(0)));
 				}
 
+				virtual ~fpForestBase() {}
 				virtual void printForestType() = 0;
 				virtual void growForest() = 0;
 				virtual float testForest() = 0;

@@ -32,7 +32,7 @@ namespace fp{
 				{
 					assert(dataElement != otherData.dataElement);
 					assert(dataElement != (dataElement+otherData.dataElement)/2.0);
-					assert(otherData.dataElement != (dataElement/otherData.dataElement)/2.0);
+					assert(otherData.dataElement != (dataElement+otherData.dataElement)/2.0);
 					return (dataElement + otherData.dataElement)/2.0;
 				}
 

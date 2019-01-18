@@ -1,7 +1,7 @@
 #ifndef inPlaceBase_h
 #define inPlaceBase_h
 
-#include "../../baseFunctions/fpBaseForest.h"
+#include "../../baseFunctions/fpForestBase.h"
 #include <vector>
 #include <stdio.h>
 #include <ctime>
@@ -19,7 +19,9 @@ namespace fp {
 
 		public:
 
-			using fpForestBase<T>::fpForestBase;
+		//	using fpForestBase<T>::fpForestBase;
+
+			~inPlaceBase(){}
 
 			fpDisplayProgress printProgress;
 			void printForestType(){
@@ -50,7 +52,7 @@ namespace fp {
 					printProgress.displayProgress(i);
 					trees.emplace_back(indexHolder, zipVec);
 					trees.back().createTree();
-					
+
 				}
 				std::cout << "\n"<< std::flush;
 			}
@@ -121,8 +123,8 @@ namespace fp {
 
 
 			float testForest(){
-				float numTried = 0;
-				float numWrong = 0;
+				int numTried = 0;
+				int numWrong = 0;
 
 				for (int i = 0; i <fpSingleton::getSingleton().returnNumObservations();i++){
 					++numTried;

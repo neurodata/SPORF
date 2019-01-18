@@ -71,7 +71,11 @@ class alignas(32) fpBaseNode
 			return featureValue <= cutValue;
 		}
 
-		inline void setFeatureValue(F fVal){
+		inline void setFeatureValue(int fVal){
+			feature = fVal;
+		}
+
+inline void setFeatureValue(std::vector<int>& fVal){
 			feature = fVal;
 		}
 

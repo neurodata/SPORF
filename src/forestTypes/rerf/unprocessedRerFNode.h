@@ -30,8 +30,8 @@ namespace fp{
 				unprocessedRerFNode(int parentID, int dep, bool isLeft): baseUnprocessedNode<T>::baseUnprocessedNode(parentID, dep, isLeft), featuresToTry(fpSingleton::getSingleton().returnMtry()){}
 
 
-				~unprocessedRerFNode(){
-				}
+				~unprocessedRerFNode(){}
+				
 
 
 				inline std::vector<int>& returnBestFeature(){
@@ -169,8 +169,8 @@ namespace fp{
 					//timeLogger logTime;
 					splitRerF<T> findSplit(baseUnprocessedNode<T>::labelHolder); //This is done twice
 					//TODO This needs to change to real mtry
-					std::vector<int> tempVec;
-					tempVec.push_back(0);
+				//	std::vector<int> tempVec;
+				//	tempVec.push_back(0);
 					while(!featuresToTry.empty()){
 						//not all featuresToTry will be populated.  This checks first.
 						if(!featuresToTry.back().empty()){

@@ -1,7 +1,7 @@
 #ifndef fpRerF_h
 #define fpRerf_h
 
-#include "../../baseFunctions/fpBaseForest.h"
+#include "../../baseFunctions/fpForestBase.h"
 #include <vector>
 #include <stdio.h>
 #include <ctime>
@@ -19,7 +19,7 @@ namespace fp {
 
 		public:
 
-		//	using fpForestBase<T>::fpForestBase;
+			~fpRerFBase(){}
 
 			fpDisplayProgress printProgress;
 		inline void printForestType(){
@@ -106,8 +106,8 @@ fpSingleton::getSingleton().printXValues();
 
 
 			float testForest(){
-				float numTried = 0;
-				float numWrong = 0;
+				int numTried = 0;
+				int numWrong = 0;
 
 				for (int i = 0; i <fpSingleton::getSingleton().returnNumObservations();i++){
 					++numTried;
