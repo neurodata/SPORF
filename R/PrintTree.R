@@ -4,16 +4,35 @@
 #'
 #' @param forest a rerf forest structure.
 #' @param numTree the tree number to print. (numTree=1)
+#' @param pretty boolean if TRUE the column of cut features are formatted nicely
+#' for viewing. (FALSE)
+#'
+#' @return a data.frame with the following information about the tree:
+#' \itemize{
+#'  \item \code{nodeNum} The node number
+#'  \item \code{LC} The id of the left child of the node
+#'  \item \code{RC} The id of the right child of the node
+#'  \item \code{CutValue} The cut value of non-terminal nodes, otherwise NA.
+#'  \item \code{nodeClass} The class vote of a terminal node when used for classification/prediction.
+#'  \item \code{CutFeatures} a list of ordered pairs \eqn{(d, w)}, where
+#'  \code{d} is the original feature and \code{w} is the corresponding
+#'  weight.
+#' }
 #'
 #' @export
 #'
 #' @examples
 #' ### Train RerF on numeric data ###
 #' library(rerf)
-#' forest <- rerf(as.matrix(iris[, 1:4]), iris[, 5])
-#' 
-#' PrintTree(forest, 1)
-PrintTree <- function(forest, numTree = 1) {
+#' numTree <- 1
+#' forest <- RerF(as.matrix(iris[, 1:4]), iris[, 5], num.core = 1L)
+#' forest.rmc <- RerF(as.matrix(iris[, 1:4]), iris[, 5], num.core = 1L, RandMatContinuous)
+#' (out <- PrintTree(forest, numTree))
+#' (out.rmc <- PrintTree(forest.rmc, numTree))
+#'
+
+
+PrintTree <- function(forest, numTree = 1, pretty = FALSE) {
 
   # TODO: make forest a class so that the input can be tested prior to processing.
 
@@ -29,10 +48,11 @@ PrintTree <- function(forest, numTree = 1) {
   }
 
   nodeNum <- vector("integer", length(forest$trees[[numTree]]$treeMap))
-  LC <- nodeNum <- vector("integer", length(forest$trees[[numTree]]$treeMap))
-  RC <- nodeNum <- vector("integer", length(forest$trees[[numTree]]$treeMap))
-  CutValue <- nodeNum <- vector("integer", length(forest$trees[[numTree]]$treeMap))
-  nodeClass <- nodeNum <- vector("integer", length(forest$trees[[numTree]]$treeMap))
+  LC <- vector("integer", length(forest$trees[[numTree]]$treeMap))
+  RC <- vector("integer", length(forest$trees[[numTree]]$treeMap))
+  CutValue <- vector("integer", length(forest$trees[[numTree]]$treeMap))
+  nodeClass <- vector("integer", length(forest$trees[[numTree]]$treeMap))
+  classProb <- vector("numeric", length(forest$trees[[numTree]]$treeMap))
   CutFeature <- vector("list", length(forest$trees[[numTree]]$treeMap))
 
   currentNode <- 0
@@ -51,18 +71,46 @@ PrintTree <- function(forest, numTree = 1) {
     } else {
       tmpPosition <- -1 * tmpPosition
       nodeClass[currentNode] <- which.max(forest$trees[[numTree]]$ClassProb[tmpPosition, ])
+      classProb[currentNode] <- forest$trees[[numTree]]$ClassProb[tmpPosition, which.max(forest$trees[[numTree]]$ClassProb[tmpPosition, ])]
       CutValue[currentNode] <- NA
       CutFeature[[currentNode]] <- NA
     }
   }
 
-  dfRet <- data.frame(nodeNum, LC, RC, CutValue, nodeClass)
+  ## Set zero values to NA to avoid confusion
+  nodeClass[which(nodeClass == 0)] <- NA
+  LC[which(LC == 0)] <- NA
+  RC[which(RC == 0)] <- NA
+
+  dfRet <- data.frame(nodeNum, LC, RC, CutValue, nodeClass, classProb)
   if (nrow(dfRet) != length(CutFeature)) {
     print
     warning("not enough cut features")
     return()
   }
+
   # print(data.frame(nodeNum, LC, RC, CutValue, nodeClass))
+  ## The below code formats the CutFeatures nicely for visualization
+  prettyCut <- as.list(rep(NA, length = length(CutFeature)))
+  for (ci in 1:length(CutFeature)) {
+    if (!any(is.na(CutFeature[[ci]]))) {
+      Cut <- CutFeature[[ci]]
+      tmp <- list()
+      for (i in seq(1, length(Cut), by = 2)) {
+        tmp <- c(tmp, list(Cut[c(i, i + 1)]))
+      }
+      prettyCut[[ci]] <- Reduce(
+        f = function(x, y) paste(x, y, sep = ", "),
+        lapply(tmp, function(x) paste0("(", x[1], ",", x[2], ")"))
+      )
+    }
+  }
   dfRet$CutFeature <- CutFeature
-  print(dfRet)
+  dfRet$prettyPrint <- prettyCut
+
+  if (!pretty) {
+    return(dfRet[, -which(colnames(dfRet) == "prettyPrint")])
+  } else {
+    return(dfRet[, -which(colnames(dfRet) == "CutFeature")])
+  }
 }
