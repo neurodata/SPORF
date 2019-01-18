@@ -10,6 +10,8 @@
 #' @param normalizeData a logical value that determines if input data is normalized to values ranging from 0 to 1 prior to processing.  (normalizeData=TRUE)
 #' @param sparsity a real number in \eqn{(0,1)} that specifies the distribution of non-zero elements in the random matrix. (sparsity=1/nrow(X))
 #' @param Progress boolean for printing progress.
+#' @param splitCrit split based on twomeans(splitCrit="twomeans") or BIC test(splitCrit="bicfast")
+#' @param LinearCombo logical that determines whether to use linear combination of features. (LinearCombo=TRUE).
 #'
 #' @return urerfStructure
 #'
@@ -20,13 +22,18 @@
 #' ### Train RerF on numeric data ###
 #' library(rerf)
 #' urerfStructure <- Urerf(as.matrix(iris[, 1:4]))
+#' urerfStructure.bic <- Urerf(as.matrix(iris[, 1:4]), splitCrit = 'bicfast')
 #'
 #' dissimilarityMatrix <- hclust(as.dist(1 - urerfStructure$similarityMatrix), method = "mcquitty")
 #' clusters <- cutree(dissimilarityMatrix, k = 3)
+#'
+#'
+
 Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
                   max.depth = NA, mtry = ceiling(ncol(X)^0.5),
                   sparsity = 1 / ncol(X),
-                  normalizeData = TRUE, Progress = TRUE) {
+                  normalizeData = TRUE, Progress = TRUE,
+                  splitCrit = "twomeans", LinearCombo = TRUE) {
   normalizeTheData <- function(X, normData) {
     if (normData) {
       X <- sweep(X, 2, apply(X, 2, min), "-")
@@ -85,12 +92,18 @@ Urerf <- function(X, trees = 100, min.parent = round(nrow(X)^0.5),
     GrowUnsupervisedForest(X, trees = numTrees, MinParent = K, options = list(
       p = ncol(X),
       d = mtry, sparsity = sparsity
-    ), Progress = Progress)
+    ), Progress = Progress, splitCrit = splitCrit, LinearCombo = LinearCombo)
   } else {
     GrowUnsupervisedForest(X,
       trees = numTrees, MinParent = K, MaxDepth = depth,
-      options = list(p = ncol(X), d = mtry, sparsity = sparsity), Progress = Progress
+      options = list(p = ncol(X), d = mtry, sparsity = sparsity),
+      Progress = Progress, splitCrit = splitCrit, LinearCombo = LinearCombo
     )
+  }
+
+  if (Progress) {
+    cat("\n")
+    flush.console()
   }
 
   sM <- createMatrixFromForest(forest)
