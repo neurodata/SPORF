@@ -15,6 +15,9 @@ namespace fp{
 		protected:
 
 		public:
+			splitInfo(){
+			baseSplitInfo<T,int>::featureNum = -1;
+			}
 
 			inline void setFeatureNum(int fNum){
 				baseSplitInfo<T,int>::featureNum = fNum;

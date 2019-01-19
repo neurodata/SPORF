@@ -41,12 +41,6 @@ namespace fp{
 
 				zipperIterators<int,T> zipIters;
 
-				/*
-					 inline void isFinished(){
-					 return mtry.empty();
-					 }
-					 */
-
 				inline void calcMtryForNode(std::vector<int>& featuresToTry){
 					for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i){ 
 						featuresToTry.push_back(i);
@@ -143,13 +137,11 @@ namespace fp{
 					for(int i = 0; i < fpSingleton::getSingleton().returnNumClasses(); ++i){
 						std::vector<int>::iterator  lowerValueIndices = nodeIndices.returnBeginIterator(i);
 						std::vector<int>::iterator  higherValueIndices = nodeIndices.returnEndIterator(i)-1;
-						
-					int numInClass = nodeIndices.returnEndIterator(i) - nodeIndices.returnBeginIterator(i);
-					int numInNewClass = 0;
+
 
 						if(nodeIndices.returnBeginIterator(i) == nodeIndices.returnEndIterator(i)){
 							nodeIndices.loadSplitIterator(lowerValueIndices);
-continue;
+							continue;
 						}
 
 						while(lowerValueIndices < higherValueIndices){
@@ -175,16 +167,14 @@ continue;
 
 						if(fpSingleton::getSingleton().returnFeatureVal(fMtry,*lowerValueIndices) <= bestSplit.returnSplitValue()){
 							nodeIndices.loadSplitIterator(lowerValueIndices+1);
-numInNewClass = (lowerValueIndices+1) - nodeIndices.returnBeginIterator(i) + nodeIndices.returnEndIterator(i) - (lowerValueIndices+1);
-assert(numInNewClass == numInClass);
-						assert(nodeIndices.returnEndIterator(i) - lowerValueIndices + 1 >= 0);
-						assert(lowerValueIndices + 1 - nodeIndices.returnBeginIterator(i) >= 0);
+							assert((lowerValueIndices+1) - nodeIndices.returnBeginIterator(i) + nodeIndices.returnEndIterator(i) - (lowerValueIndices+1) == nodeIndices.returnEndIterator(i) - nodeIndices.returnBeginIterator(i));
+							assert(nodeIndices.returnEndIterator(i) - lowerValueIndices + 1 >= 0);
+							assert(lowerValueIndices + 1 - nodeIndices.returnBeginIterator(i) >= 0);
 						}else{
 							nodeIndices.loadSplitIterator(lowerValueIndices);
-numInNewClass = (lowerValueIndices) - nodeIndices.returnBeginIterator(i) + nodeIndices.returnEndIterator(i) - (lowerValueIndices);
-assert(numInNewClass == numInClass);
-						assert(nodeIndices.returnEndIterator(i) - lowerValueIndices >= 0);
-						assert(lowerValueIndices - nodeIndices.returnBeginIterator(i) >= 0);
+							assert((lowerValueIndices) - nodeIndices.returnBeginIterator(i) + nodeIndices.returnEndIterator(i) - (lowerValueIndices) == nodeIndices.returnEndIterator(i) - nodeIndices.returnBeginIterator(i));
+							assert(nodeIndices.returnEndIterator(i) - lowerValueIndices >= 0);
+							assert(lowerValueIndices - nodeIndices.returnBeginIterator(i) >= 0);
 						}
 
 					}
@@ -203,14 +193,6 @@ assert(numInNewClass == numInClass);
 			public:
 
 				processingNode(int tr, int pN): treeNum(tr), parentNodeNumber(pN),propertiesOfThisNode(fpSingleton::getSingleton().returnNumClasses()), propertiesOfLeftNode(fpSingleton::getSingleton().returnNumClasses()),propertiesOfRightNode(fpSingleton::getSingleton().returnNumClasses()),nodeIndices(fpSingleton::getSingleton().returnNumClasses()){}
-
-				/*
-					 inline void setRootClassTotals(){
-					 propertiesOfThisNode.setupRootClassTotals(nodeIndices);
-					 bestSplit.setImpurity(propertiesOfThisNode.calcAndReturnImpurity());
-					 }
-					 */
-
 
 				inline void loadWorkingSet(std::vector<int>& currMTRY){
 					/*
@@ -245,9 +227,6 @@ assert(numInNewClass == numInClass);
 					setRootNodeIndices(indexHolder);
 					setClassTotals();
 					setRootNodeZipIters(zipper);
-					if(!propertiesOfThisNode.isNodePure()){
-						//		calcMtryForNode(mtry);
-					}
 				}
 
 
@@ -264,11 +243,6 @@ assert(numInNewClass == numInClass);
 					setNodeIndices(nodeIts);
 					setClassTotals();
 					setZipIters(zips, propertiesOfThisNode.returnNumItems());
-					/*
-					if(propertiesOfThisNode.returnNumItems() < 1 || propertiesOfThisNode.returnNumItems() > 150){
-						std::cout << propertiesOfThisNode.returnNumItems() << "\n";
-					}
-					*/
 				}
 
 

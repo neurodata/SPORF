@@ -3,6 +3,11 @@
 
 #include <assert.h>
 #include <iomanip>
+#include <cmath>
+
+#define FLOAT_EPSILON  .0000001
+#define DOUBLE_EPSILON .0000001
+
 
 namespace fp{
 
@@ -36,13 +41,15 @@ namespace fp{
 					return (dataElement + otherData.dataElement)/2.0;
 				}
 
-				inline bool checkInequality(const labeledData<T>& otherData){
-					if( dataElement != otherData.dataElement ){
-						if( dataElement == (dataElement+otherData.dataElement)/2.0 ){
-							std::cout << std::setprecision(10) << dataElement << ", " << otherData.dataElement << "\n";
-						}
+				inline bool checkInequality(const labeledData<double>& otherData){
+					return std::abs(dataElement - otherData.dataElement) > DOUBLE_EPSILON;
+				}
 
-					}
+				inline bool checkInequality(const labeledData<float>& otherData){
+					return std::abs(dataElement - otherData.dataElement) > FLOAT_EPSILON;
+				}
+
+				inline bool checkInequality(const labeledData<int>& otherData){
 					return dataElement != otherData.dataElement;
 				}
 

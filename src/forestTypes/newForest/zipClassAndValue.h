@@ -18,18 +18,6 @@ namespace fp{
 
 			public:
 
-				/*
-				inline bool operator < (const zipClassAndValue<T,double>& otherData) const
-				{
-					return otherData.featureVal - featureVal > DOUBLE_EPSILON;
-				}
-
-				inline bool operator < (const zipClassAndValue<T,float>& otherData) const
-				{
-					return otherData.featureVal - featureVal > FLOAT_EPSILON ;
-				}
-
-				*/
 				inline bool operator < (const zipClassAndValue<T,Q>& otherData) const
 				{
 					return featureVal < otherData.featureVal;
@@ -51,17 +39,15 @@ namespace fp{
 					return (featureVal + otherData.featureVal)/2.0;
 				}
 
-/*
-				inline bool checkInequality(const zipClassAndValue<T,double>& otherData){
-					return std::abs(featureVal - otherData.featureVal) < DOUBLE_EPSILON;
+				inline bool checkInequality(const zipClassAndValue<int,double>& otherData){
+					return std::abs(featureVal - otherData.featureVal) > DOUBLE_EPSILON;
 				}
 
-				inline bool checkInequality(const zipClassAndValue<T,float>& otherData){
-					return std::abs(featureVal - otherData.featureVal) < FLOAT_EPSILON;
+				inline bool checkInequality(const zipClassAndValue<int,float>& otherData){
+					return std::abs(featureVal - otherData.featureVal) > FLOAT_EPSILON;
 				}
-				*/
 
-				inline bool checkInequality(const zipClassAndValue<T,Q>& otherData){
+				inline bool checkInequality(const zipClassAndValue<int,int>& otherData){
 					return featureVal != otherData.featureVal;
 				}
 

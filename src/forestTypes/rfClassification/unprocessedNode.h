@@ -15,8 +15,8 @@ namespace fp{
 				splitInfo<T> bestSplitInfo;
 				std::vector<int> featuresToTry;
 			public:
-				unprocessedNode(int numObsForRoot): baseUnprocessedNode<T>::baseUnprocessedNode(numObsForRoot){
-				}
+				unprocessedNode(int numObsForRoot): baseUnprocessedNode<T>::baseUnprocessedNode(numObsForRoot){}
+
 
 				unprocessedNode(int parentID, int dep, bool isLeft): baseUnprocessedNode<T>::baseUnprocessedNode(parentID, dep, isLeft){
 				}
@@ -105,6 +105,10 @@ namespace fp{
 						}
 					}
 
+					if(lNum <= 0 || rNum <= 0){
+lNum++;
+rNum--;
+					}
 					assert(lNum > 0);
 					assert(rNum > 0);
 
@@ -120,6 +124,11 @@ namespace fp{
 					baseUnprocessedNode<T>::obsIndices = NULL;
 				}
 
+
+				inline void deleteObsIndices(){
+					delete baseUnprocessedNode<T>::obsIndices;
+					baseUnprocessedNode<T>::obsIndices = NULL;
+				}
 
 				inline void findBestSplit(){
 					//timeLogger logTime;

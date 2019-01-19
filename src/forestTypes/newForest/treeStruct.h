@@ -76,13 +76,13 @@ namespace fp{
 
 
 				inline int returnDepthOfNode(){
-return tree[nodeQueue.back().returnParentNodeNumber()].returnDepth()+1;
+					return tree[nodeQueue.back().returnParentNodeNumber()].returnDepth()+1;
 				}
 
 
 				inline void copyProcessedNodeToTree(){
 					tree.emplace_back(nodeQueue.back().returnNodeCutValue(), returnDepthOfNode(), nodeQueue.back().returnNodeCutFeature());
-				//	++numberOfNodes;
+					//	++numberOfNodes;
 				}
 
 
@@ -96,11 +96,11 @@ return tree[nodeQueue.back().returnParentNodeNumber()].returnDepth()+1;
 
 
 				inline void linkParentToLeaf(){
-						assert(nodeQueue.back().returnParentNodeNumber() >= fpSingleton::getSingleton().returnNumClasses());
-						assert(nodeQueue.back().returnParentNodeNumber() <= parentNodesPosition());
+					assert(nodeQueue.back().returnParentNodeNumber() >= fpSingleton::getSingleton().returnNumClasses());
+					assert(nodeQueue.back().returnParentNodeNumber() <= parentNodesPosition());
 
-						assert(nodeQueue.back().returnNodeClass() >= 0);
-						assert(nodeQueue.back().returnNodeClass() < fpSingleton::getSingleton().returnNumClasses());
+					assert(nodeQueue.back().returnNodeClass() >= 0);
+					assert(nodeQueue.back().returnNodeClass() < fpSingleton::getSingleton().returnNumClasses());
 
 					if(nodeQueue.back().returnIsLeftNode()){
 						tree[nodeQueue.back().returnParentNodeNumber()].setLeftValue(nodeQueue.back().returnNodeClass());
@@ -161,39 +161,39 @@ return tree[nodeQueue.back().returnParentNodeNumber()].returnDepth()+1;
 				}
 
 
-inline int returnMaxDepth(){
-					 int maxDepth=0;
-					 for(auto nodes : tree){
-					 if(maxDepth < nodes.returnDepth()){
-					 maxDepth = nodes.returnDepth();
-					 }
-					 }
-					 return maxDepth+1;
-					 }
+				inline int returnMaxDepth(){
+					int maxDepth=0;
+					for(auto nodes : tree){
+						if(maxDepth < nodes.returnDepth()){
+							maxDepth = nodes.returnDepth();
+						}
+					}
+					return maxDepth+1;
+				}
 
 
-inline int returnNumLeafNodes(){
-					 return (int)tree.size() - fpSingleton::getSingleton().returnNumClasses() + 1;
-					 }
+				inline int returnNumLeafNodes(){
+					return (int)tree.size() - fpSingleton::getSingleton().returnNumClasses() + 1;
+				}
 
 
-inline int returnLeafDepthSum(){
-					 int leafDepthSums=0;
-					 for(auto nodes : tree){
-					 if(nodes.isInternalNodeFront()){
-						 if(nodes.returnLeftNodeID() < fpSingleton::getSingleton().returnNumClasses()){
-					 leafDepthSums += nodes.returnDepth()+1;
-						 }
-if(nodes.returnRightNodeID() < fpSingleton::getSingleton().returnNumClasses()){
-					 leafDepthSums += nodes.returnDepth()+1;
-						 }
-					 }
-					 }
-					 return leafDepthSums;
-					 }
+				inline int returnLeafDepthSum(){
+					int leafDepthSums=0;
+					for(auto nodes : tree){
+						if(nodes.isInternalNodeFront()){
+							if(nodes.returnLeftNodeID() < fpSingleton::getSingleton().returnNumClasses()){
+								leafDepthSums += nodes.returnDepth()+1;
+							}
+							if(nodes.returnRightNodeID() < fpSingleton::getSingleton().returnNumClasses()){
+								leafDepthSums += nodes.returnDepth()+1;
+							}
+						}
+					}
+					return leafDepthSums;
+				}
 
 
-	inline int predictObservation(int observationNum){
+				inline int predictObservation(int observationNum){
 					int currNode = fpSingleton::getSingleton().returnNumClasses();
 					int featureNum = 0;
 					T featureVal;
@@ -213,7 +213,7 @@ if(nodes.returnRightNodeID() < fpSingleton::getSingleton().returnNumClasses()){
 					}
 					return tree[currNode].returnClass();
 				}
-				
+
 				///////////////////////////////////
 				/// Test Functions not to be used in production
 				//////////////////////////////////
@@ -227,8 +227,8 @@ if(nodes.returnRightNodeID() < fpSingleton::getSingleton().returnNumClasses()){
 					return nodeQueue;
 				}
 
-void printTree(){
-	std::cout << "\n";
+				void printTree(){
+					std::cout << "\n";
 					for(auto nd : tree){
 						nd.printNode();
 					}

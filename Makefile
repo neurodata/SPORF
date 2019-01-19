@@ -71,8 +71,7 @@ $(BUILDDIR)/%.$(OBJEXT): $(SRCDIR)/%.$(SRCEXT)
 
 #Debug
 #debug: CFLAGS := -fopenmp -Wall -O3 -g -ggdb -ffast-math
-debug: CFLAGS := -Wall -O0 -g -ggdb 
-#debug: CFLAGS := -Wall -O0 -g -ggdb -ffast-math -DNDEBUG
+debug: CFLAGS := -Wall -O0 -g -ggdb -ffast-math
 debug: LIB := -ggdb
 #debug: LIB := -fopenmp -ggdb
 debug: cleaner all

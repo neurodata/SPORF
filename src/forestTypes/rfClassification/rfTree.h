@@ -102,6 +102,7 @@ namespace fp{
 					linkParentToChild();
 					setAsLeaf();
 					checkOOB();
+					nodeQueue.back().deleteObsIndices();
 					nodeQueue.pop_back();
 				}
 
