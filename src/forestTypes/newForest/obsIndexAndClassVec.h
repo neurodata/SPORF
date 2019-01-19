@@ -12,9 +12,7 @@ namespace fp{
 			std::vector<std::vector<int> > indexHolder;
 
 		public:
-			obsIndexAndClassVec(int numClasses){
-				indexHolder.resize(numClasses);
-			}
+			obsIndexAndClassVec(int numClasses):indexHolder(numClasses){}
 
 			inline void insertIndex(int index, int classOfObs){
 				indexHolder[classOfObs].push_back(index);

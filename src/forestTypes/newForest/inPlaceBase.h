@@ -8,6 +8,11 @@
 #include <chrono>
 #include <cstdlib>
 #include "treeStruct.h"
+#include <random>
+
+#include <iostream>
+#include <algorithm>
+
 
 namespace fp {
 
@@ -17,11 +22,15 @@ namespace fp {
 		protected:
 			std::vector<treeStruct<T, int> > trees;
 
+
 		public:
 
-		//	using fpForestBase<T>::fpForestBase;
+			//	using fpForestBase<T>::fpForestBase;
 
 			~inPlaceBase(){}
+			inPlaceBase(){
+
+			}
 
 			fpDisplayProgress printProgress;
 			void printForestType(){
@@ -32,23 +41,50 @@ namespace fp {
 				trees.reserve(fpSingleton::getSingleton().returnNumTrees());
 			}
 
-			void growTrees(){
 
-				std::vector<int> testIndices;
-				obsIndexAndClassVec indexHolder(fpSingleton::getSingleton().returnNumClasses());
+			inline void setSharedVectors(obsIndexAndClassVec& indicesInNode){
+
+				std::random_device rd; // obtain a random number from hardware
+				std::mt19937 eng(rd());
+			std::uniform_int_distribution<> distr(0, fpSingleton::getSingleton().returnNumObservations()-1);
+
+				std::vector<int> nodeIndices(fpSingleton::getSingleton().returnNumObservations());
+
+				indicesInNode.resetVectors();
 
 				for(int i = 0; i < fpSingleton::getSingleton().returnNumObservations(); ++i){
-					testIndices.push_back(i);
+					nodeIndices[i] =i;
 				}
 
-				for(int i = 0; i < (int)testIndices.size(); ++i){
-					indexHolder.insertIndex(testIndices[i], fpSingleton::getSingleton().returnLabel(i));
+				int numUnusedObs = fpSingleton::getSingleton().returnNumObservations();
+				int randomObsID;
+				int tempMoveObs;
+
+				for(int n = 0; n<fpSingleton::getSingleton().returnNumObservations(); n++){
+					randomObsID = distr(eng);
+
+					indicesInNode.insertIndex(nodeIndices[randomObsID], fpSingleton::getSingleton().returnLabel(nodeIndices[randomObsID]));
+
+					if(randomObsID < numUnusedObs){
+						--numUnusedObs;
+						tempMoveObs = nodeIndices[numUnusedObs];
+						nodeIndices[numUnusedObs] = nodeIndices[randomObsID];
+						nodeIndices[randomObsID] = tempMoveObs;
+					}
 				}
 
+			}
+
+
+			void growTrees(){
+
+				obsIndexAndClassVec indexHolder(fpSingleton::getSingleton().returnNumClasses());
 				std::vector<zipClassAndValue<int, T> > zipVec(fpSingleton::getSingleton().returnNumObservations());
+
 
 				//#pragma omp parallel for
 				for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
+				setSharedVectors(indexHolder);
 					printProgress.displayProgress(i);
 					trees.emplace_back(indexHolder, zipVec);
 					trees.back().createTree();
@@ -136,7 +172,7 @@ namespace fp {
 				}
 				std::cout << "\nnumWrong= " << numWrong << "\n";
 
-				return numWrong/numTried;
+				return (float)numWrong/(float)numTried;
 			}
 	};
 

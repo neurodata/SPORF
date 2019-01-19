@@ -123,7 +123,7 @@ namespace fp {
 				}
 				std::cout << "\nnumWrong= " << numWrong << "\n";
 
-				return numWrong/numTried;
+				return (float)numWrong/(float)numTried;
 			}
 	};
 
