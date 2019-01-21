@@ -1,0 +1,6 @@
+To use Likwid you must first install the library according to website.  
+
+Check if MSR device files are present.  Do an "ls /dev/cpu/" to make sure there is an msr file for each CPI (this will just be a directory with processor number as name).  If these directories do not exist then do a "sudo modprobe msr" then check again for files.
+
+Run the program through likwid- 
+sudo likwid-perfctr -C 2 -O -o experiment1.UopsExec -g UOPS_EXEC -m ./bin/experiment1
