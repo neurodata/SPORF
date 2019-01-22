@@ -82,14 +82,15 @@ namespace fp {
 				std::vector<zipClassAndValue<int, T> > zipVec(fpSingleton::getSingleton().returnNumObservations());
 
 
+						LIKWID_MARKER_START("createTree");
 				//#pragma omp parallel for
 				for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
 				setSharedVectors(indexHolder);
 					printProgress.displayProgress(i);
 					trees.emplace_back(indexHolder, zipVec);
 					trees.back().createTree();
-
 				}
+						LIKWID_MARKER_STOP("createTree");
 				std::cout << "\n"<< std::flush;
 			}
 

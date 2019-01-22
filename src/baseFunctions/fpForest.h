@@ -84,10 +84,10 @@ namespace fp {
 					initializeForestType();
 					setDataDependentParameters();
 					setNumberOfThreads();
-					//timeLogger x;
-					//x.startGrowTimer();
+					timeLogger x;
+					x.startGrowTimer();
 					forest->growForest();
-					//x.stopGrowTimer();
+					x.stopGrowTimer();
 					//x.printGrowTime();
 					deleteData();
 				}

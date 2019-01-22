@@ -15,9 +15,10 @@ DEPEXT      := d
 OBJEXT      := o
 
 #Flags, Libraries and Includes
-CFLAGS      := -fopenmp -Wall -O3 -g 
-LIB         := -fopenmp -lm -L/usr/local/lib -llikwid
-INC         := -I$(INCDIR) -I/usr/local/include -DLIKWWID_PERFMON
+CFLAGS      := -fopenmp -pthread -Wall -O3 -DLIKWID_PERFMON -DNDEBUG 
+#CFLAGS      := -fopenmp -Wall -O3 -g -ggdb -DLIKWID_PERFMON
+LIB         := -fopenmp -lm -L/usr/local/bin/../lib -llikwid -I/usr/local/bin/../include 
+INC         := -I$(INCDIR) -I/usr/local/bin/../include 
 INCDEP      := -I$(INCDIR)
 
 #---------------------------------------------------------------------------------

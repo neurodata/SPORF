@@ -1,7 +1,6 @@
 #include "../../../src/packedForest.h"
 #include <iostream>
 #include <exception>
-#include <likwid.h>
 
 int main(int argc, char* argv[]) {
 	if (argc != 4) return -1;
@@ -21,7 +20,7 @@ int main(int argc, char* argv[]) {
 
 		 logTime.printGrowTime();
 		 */	
-LIKWID_MARKER_INIT;
+	LIKWID_MARKER_INIT;
 	try{
 		fp::fpForest<double> forest;
 
@@ -40,7 +39,7 @@ LIKWID_MARKER_INIT;
 				forest.setParameter("forestType", "rfBase");
 				forest.setParameter("useBinning", 1000);
 				break;
-case 5:
+			case 5:
 				forest.setParameter("forestType", "inPlace");
 				break;
 			default:
@@ -74,23 +73,19 @@ case 5:
 		}
 
 
-		forest.setParameter("numTreesInForest", 1000);
+		forest.setParameter("numTreesInForest", 10);
 		forest.setParameter("minParent", 1);
 		forest.setParameter("numCores", numCores);
 
 		std::cout << "growing";
-		LIKWID_MARKER_START("allExp1");
 		forest.growForest();
-		LIKWID_MARKER_STOP("allExp1");
 
 		std::cout << "grew" << std::endl;
 		forest.printParameters();
 		forest.printForestType();
 
-		std::cout << "error: " << forest.testAccuracy() << "\n";
-
 	}catch(std::exception& e){
 		std::cout << "standard error: " << e.what() << std::endl;
 	}
-		LIKWID_MARKER_CLOSE;
+	LIKWID_MARKER_CLOSE;
 }

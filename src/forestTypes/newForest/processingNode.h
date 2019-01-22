@@ -285,12 +285,18 @@ namespace fp{
 				}
 
 				inline void calcBestSplitInfoForNode(int featureToTry){
+						LIKWID_MARKER_START("loadNode");
 					loadWorkingSet(featureToTry);
+						LIKWID_MARKER_STOP("loadNode");
+						LIKWID_MARKER_START("sortNode");
 					sortWorkingSet();
+						LIKWID_MARKER_STOP("sortNode");
 					resetRightNode();
 					resetLeftNode();
 					//This next function finds and sets the best split... not just finds.
+						LIKWID_MARKER_START("findSplit");
 					findBestSplit(featureToTry);
+						LIKWID_MARKER_STOP("findSplit");
 				}
 
 

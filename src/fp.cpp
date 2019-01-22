@@ -8,8 +8,8 @@ int main(int argc, char* argv[]) {
 	int dataSet = atoi(argv[2]);
 	int numCores = atoi(argv[3]);
 
-	/*
 		 fp::timeLogger logTime;
+	/*
 		 logTime.startFindSplitTimer();
 		 fp::inNodeClassIndices test(100000000);
 		 logTime.stopFindSplitTimer();
@@ -72,12 +72,15 @@ case 5:
 		}
 
 
-		forest.setParameter("numTreesInForest", 1000);
+		forest.setParameter("numTreesInForest", 10);
 		forest.setParameter("minParent", 1);
 		forest.setParameter("numCores", numCores);
 
 		std::cout << "growing";
+		 logTime.startFindSplitTimer();
 		forest.growForest();
+		 logTime.stopFindSplitTimer();
+		 logTime.printGrowTime();
 
 		std::cout << "grew" << std::endl;
 		forest.printParameters();
