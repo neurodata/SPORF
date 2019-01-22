@@ -105,7 +105,7 @@ namespace fp {
 			}
 
 
-			float testForest(){
+			inline float testForest(){
 				int numTried = 0;
 				int numWrong = 0;
 

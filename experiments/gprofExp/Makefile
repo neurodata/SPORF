@@ -17,11 +17,11 @@ DEPEXT      := d
 OBJEXT      := o
 
 #Flags, Libraries and Includes
-CFLAGS      := -fopenmp -Wall -O3 -DNDEBUG -ffast-math 
+CFLAGS      := -fopenmp -Wall -O3 -DNDEBUG -ffast-math -lprofiler 
 #CFLAGS      := -fopenmp -Wall -O3 -DNDEBUG -ffast-math
 #LIB         := -fopenmp -lm -lnuma
-LIB         := -fopenmp -lm -O3 
-INC         := -I$(INCDIR) -I/usr/local/include 
+LIB         := -fopenmp -lprofiler -lm -O3 
+INC         := -I$(INCDIR) -I/usr/local/include -lprofiler 
 INCDEP      := -I$(INCDIR)
 
 #---------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ SOURCES     := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS     := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.$(OBJEXT)))
 
 #Defauilt Make
-all: resources $(TARGET)
+all: resources $(TARGET) 
 
 #Remake
 remake: cleaner all
@@ -77,5 +77,9 @@ debug: LIB := -ggdb
 #debug: LIB := -fopenmp -ggdb
 debug: cleaner all
  
+#Test
+test: 
+	$(MAKE) -C test
+
 #Non-File Targets
 .PHONY: all remake clean cleaner resources

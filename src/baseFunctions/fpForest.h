@@ -9,7 +9,9 @@
 #if defined(ENABLE_OPENMP)
 #include <omp.h>
 #else
-void omp_set_num_threads(int x){}
+void omp_set_num_threads(int x){
+//	std::cout << "I get called a lot\n";
+}
 #endif
 
 namespace fp {
@@ -83,11 +85,11 @@ namespace fp {
 					loadData();
 					initializeForestType();
 					setDataDependentParameters();
-					setNumberOfThreads();
-					timeLogger x;
-					x.startGrowTimer();
+					//setNumberOfThreads();
+					//timeLogger x;
+					//x.startGrowTimer();
 					forest->growForest();
-					x.stopGrowTimer();
+					//x.stopGrowTimer();
 					//x.printGrowTime();
 					deleteData();
 				}

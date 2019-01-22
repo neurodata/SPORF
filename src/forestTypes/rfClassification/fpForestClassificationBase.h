@@ -24,15 +24,15 @@ namespace fp {
 //			using fpForestBase<T>::fpForestBase;
 ~fpForestClassificationBase(){}
 
-			void printForestType(){
+			inline void printForestType(){
 				std::cout << "This is a basic classification forest.\n";
 			}
 
-			void changeForestSize(){
+			inline void changeForestSize(){
 				trees.resize(fpSingleton::getSingleton().returnNumTrees());
 			}
 
-			void growTrees(){
+			inline void growTrees(){
 
 #pragma omp parallel for
 				for(unsigned int i = 0; i < trees.size(); ++i){
@@ -47,7 +47,7 @@ namespace fp {
 				;
 			}
 
-			void treeStats(){
+			inline void treeStats(){
 				int maxDepth=0;
 				int totalLeafNodes=0;
 				int totalLeafDepth=0;
@@ -109,7 +109,7 @@ namespace fp {
 			}
 
 
-			float testForest(){
+			inline float testForest(){
 				int numTried = 0;
 				int numWrong = 0;
 

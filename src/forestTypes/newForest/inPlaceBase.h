@@ -33,11 +33,12 @@ namespace fp {
 			}
 
 			fpDisplayProgress printProgress;
-			void printForestType(){
+
+			inline void printForestType(){
 				std::cout << "This is an inPlaceBase forest.\n";
 			}
 
-			void changeForestSize(){
+			inline void changeForestSize(){
 				trees.reserve(fpSingleton::getSingleton().returnNumTrees());
 			}
 
@@ -76,13 +77,13 @@ namespace fp {
 			}
 
 
-			void growTrees(){
+			inline void growTrees(){
 
 				obsIndexAndClassVec indexHolder(fpSingleton::getSingleton().returnNumClasses());
 				std::vector<zipClassAndValue<int, T> > zipVec(fpSingleton::getSingleton().returnNumObservations());
 
 
-						LIKWID_MARKER_START("createTree");
+				//		LIKWID_MARKER_START("createTree");
 				//#pragma omp parallel for
 				for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
 				setSharedVectors(indexHolder);
@@ -90,7 +91,7 @@ namespace fp {
 					trees.emplace_back(indexHolder, zipVec);
 					trees.back().createTree();
 				}
-						LIKWID_MARKER_STOP("createTree");
+				//		LIKWID_MARKER_STOP("createTree");
 				std::cout << "\n"<< std::flush;
 			}
 
@@ -99,7 +100,7 @@ namespace fp {
 				;
 			}
 
-			void treeStats(){
+			inline void treeStats(){
 				int maxDepth=0;
 				int totalLeafNodes=0;
 				int totalLeafDepth=0;
@@ -122,7 +123,7 @@ namespace fp {
 				trees[0].printTree();
 			}
 
-			void growForest(){
+			inline void growForest(){
 				//	checkParameters();
 				//TODO: change this so forest isn't grown dynamically.
 				//changeForestSize();
@@ -159,7 +160,7 @@ namespace fp {
 			}
 
 
-			float testForest(){
+			inline float testForest(){
 				int numTried = 0;
 				int numWrong = 0;
 

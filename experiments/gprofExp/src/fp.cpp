@@ -1,4 +1,4 @@
-#include "packedForest.h"
+#include "../../../src/packedForest.h"
 #include <iostream>
 #include <exception>
 
@@ -50,19 +50,19 @@ case 5:
 
 		switch(dataSet){
 			case 1: 
-				forest.setParameter("CSVFileName", "res/iris.csv");
+				forest.setParameter("CSVFileName", "../../res/iris.csv");
 				forest.setParameter("columnWithY", 4);
 				break;
 			case 2:
-				forest.setParameter("CSVFileName", "res/higgs2.csv");
+				forest.setParameter("CSVFileName", "../../res/higgs2.csv");
 				forest.setParameter("columnWithY", 0);
 				break;
 			case 3:
-				forest.setParameter("CSVFileName", "res/mnist.csv");
+				forest.setParameter("CSVFileName", "../../res/mnist.csv");
 				forest.setParameter("columnWithY", 0);
 				break;
 			case 4:
-				forest.setParameter("CSVFileName", "res/higgsData.csv");
+				forest.setParameter("CSVFileName", "../../res/higgsData.csv");
 				forest.setParameter("columnWithY", 0);
 				break;
 			default:
