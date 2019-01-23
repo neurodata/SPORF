@@ -17,10 +17,10 @@ DEPEXT      := d
 OBJEXT      := o
 
 #Flags, Libraries and Includes
-CFLAGS      := -fopenmp -Wall -O3 -DNDEBUG -ffast-math -lprofiler 
+CFLAGS      := -Wall -O3 -DNDEBUG -ffast-math -lprofiler 
 #CFLAGS      := -fopenmp -Wall -O3 -DNDEBUG -ffast-math
 #LIB         := -fopenmp -lm -lnuma
-LIB         := -fopenmp -lprofiler -lm -O3 
+LIB         := -lprofiler -lm -O3 
 INC         := -I$(INCDIR) -I/usr/local/include -lprofiler 
 INCDEP      := -I$(INCDIR)
 

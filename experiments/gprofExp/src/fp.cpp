@@ -72,7 +72,7 @@ case 5:
 		}
 
 
-		forest.setParameter("numTreesInForest", 1000);
+		forest.setParameter("numTreesInForest", 100);
 		forest.setParameter("minParent", 1);
 		forest.setParameter("numCores", numCores);
 

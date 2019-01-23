@@ -151,6 +151,25 @@ namespace fp{
 				}
 
 
+				inline void setVecOfSplitLocations2(int fMtry){
+
+					for(int i = 0; i < fpSingleton::getSingleton().returnNumClasses(); ++i){
+						std::vector<int>::iterator  lowerValueIndices = nodeIndices.returnBeginIterator(i);
+						std::vector<int>::iterator  higherValueIndices = nodeIndices.returnEndIterator(i)-1;
+						std::vector<int>::iterator  smallerNumberIndex = nodeIndices.returnBeginIterator(i);
+
+						for(; lowerValueIndices <= higherValueIndices; ++lowerValueIndices){
+							if(fpSingleton::getSingleton().returnFeatureVal(fMtry,*lowerValueIndices) <= bestSplit.returnSplitValue()){
+								++smallerNumberIndex;
+								swap(smallerNumberIndex, lowerValueIndices);
+							}
+						}
+						nodeIndices.loadSplitIterator(lowerValueIndices);
+					}
+				}
+				
+
+
 				inline void setVecOfSplitLocations(int fMtry){
 					int tempIndex;
 
