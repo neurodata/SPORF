@@ -76,13 +76,11 @@ case 5:
 		forest.setParameter("minParent", 1);
 		forest.setParameter("numCores", numCores);
 
-		std::cout << "growing";
 		 //logTime.startFindSplitTimer();
 		forest.growForest();
 		 //logTime.stopFindSplitTimer();
 		 //logTime.printGrowTime();
 
-		std::cout << "grew" << std::endl;
 		forest.printParameters();
 		forest.printForestType();
 

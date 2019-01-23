@@ -1,4 +1,5 @@
 #!/bin/bash
+make
 
 LD_PRELOAD=/usr/local/lib/libprofiler.so CPUPROFILE=temp.prof ./bin/fp 1 3 1
 google-pprof --pdf bin/fp temp.prof > rerf_profiling.pdf

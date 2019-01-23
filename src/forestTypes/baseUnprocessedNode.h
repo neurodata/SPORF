@@ -3,7 +3,6 @@
 #include "classTotals.h"
 #include "stratifiedInNodeClassIndices.h"
 #include <vector>
-#include <random>
 
 namespace fp{
 
@@ -16,7 +15,6 @@ namespace fp{
 				double nodeImpurity; //lower impurity is better
 				bool isLeftNode; //in order to set parent node with location
 
-				//splitInfo<T> bestSplitInfo;
 
 				stratifiedInNodeClassIndices* obsIndices;
 				stratifiedInNodeClassIndices* leftIndices;
@@ -24,9 +22,7 @@ namespace fp{
 
 				std::vector<T> featureHolder;
 				std::vector<int> labelHolder;
-				/*
-					 std::vector<int> featuresToTry;
-					 */
+				
 			public:
 				baseUnprocessedNode(int numObsForRoot):  parentID(0), depth(0), isLeftNode(true){
 					obsIndices = new stratifiedInNodeClassIndices(numObsForRoot);
@@ -109,14 +105,6 @@ namespace fp{
 					}
 				}
 
-				/*
-					 inline void pickMTRY(){
-					 for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i) featuresToTry.push_back(i);
-					 std::random_shuffle ( featuresToTry.begin(), featuresToTry.end() );
-					 featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
-					 }
-
-*/
 
 				inline void loadLabelHolder(){
 					if(obsIndices->useBin()){

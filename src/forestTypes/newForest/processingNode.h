@@ -42,11 +42,31 @@ namespace fp{
 				zipperIterators<int,T> zipIters;
 
 				inline void calcMtryForNode(std::vector<int>& featuresToTry){
-					for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i){ 
+					for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i){
 						featuresToTry.push_back(i);
 					}
-					std::random_shuffle ( featuresToTry.begin(), featuresToTry.end() );
+
+					std::random_device rd; // obtain a random number from hardware
+					std::mt19937 eng(rd()); // seed the generator
+
+					int tempSwap;
+
+					for(int locationToMove = 0; locationToMove < fpSingleton::getSingleton().returnNumFeatures(); locationToMove++){
+						std::uniform_int_distribution<> distr(locationToMove, fpSingleton::getSingleton().returnNumFeatures()-1);
+						int randomPosition = distr(eng);
+						tempSwap = featuresToTry[locationToMove];
+						featuresToTry[locationToMove] = featuresToTry[randomPosition];
+						featuresToTry[randomPosition] = tempSwap;
+					}
 					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
+					/*
+						 featuresToTry.reserve(fpSingleton::getSingleton().returnNumFeatures());
+						 for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i){ 
+						 featuresToTry.push_back(i);
+						 }
+						 std::random_shuffle ( featuresToTry.begin(), featuresToTry.end() );
+						 featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
+						 */
 				}
 
 				inline void calcMtryForNode(std::vector<std::vector<int> >& featuresToTry){
@@ -285,18 +305,18 @@ namespace fp{
 				}
 
 				inline void calcBestSplitInfoForNode(int featureToTry){
-//						LIKWID_MARKER_START("loadNode");
+					//						LIKWID_MARKER_START("loadNode");
 					loadWorkingSet(featureToTry);
-//						LIKWID_MARKER_STOP("loadNode");
-//						LIKWID_MARKER_START("sortNode");
+					//						LIKWID_MARKER_STOP("loadNode");
+					//						LIKWID_MARKER_START("sortNode");
 					sortWorkingSet();
-//						LIKWID_MARKER_STOP("sortNode");
+					//						LIKWID_MARKER_STOP("sortNode");
 					resetRightNode();
 					resetLeftNode();
 					//This next function finds and sets the best split... not just finds.
-//						LIKWID_MARKER_START("findSplit");
+					//						LIKWID_MARKER_START("findSplit");
 					findBestSplit(featureToTry);
-//						LIKWID_MARKER_STOP("findSplit");
+					//						LIKWID_MARKER_STOP("findSplit");
 				}
 
 

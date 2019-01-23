@@ -22,14 +22,15 @@ namespace fp {
 		protected:
 			std::vector<treeStruct<T, int> > trees;
 
-
+				std::vector<int> nodeIndices;
 		public:
-
-			//	using fpForestBase<T>::fpForestBase;
 
 			~inPlaceBase(){}
 			inPlaceBase(){
-
+				nodeIndices.resize(fpSingleton::getSingleton().returnNumObservations());
+for(int i = 0; i < fpSingleton::getSingleton().returnNumObservations(); ++i){
+					nodeIndices[i] =i;
+				}
 			}
 
 			fpDisplayProgress printProgress;
@@ -47,21 +48,15 @@ namespace fp {
 
 				std::random_device rd; // obtain a random number from hardware
 				std::mt19937 eng(rd());
-			std::uniform_int_distribution<> distr(0, fpSingleton::getSingleton().returnNumObservations()-1);
-
-				std::vector<int> nodeIndices(fpSingleton::getSingleton().returnNumObservations());
+				std::uniform_int_distribution<> distr(0, fpSingleton::getSingleton().returnNumObservations()-1);
 
 				indicesInNode.resetVectors();
-
-				for(int i = 0; i < fpSingleton::getSingleton().returnNumObservations(); ++i){
-					nodeIndices[i] =i;
-				}
 
 				int numUnusedObs = fpSingleton::getSingleton().returnNumObservations();
 				int randomObsID;
 				int tempMoveObs;
 
-				for(int n = 0; n<fpSingleton::getSingleton().returnNumObservations(); n++){
+				for(int n = 0; n < fpSingleton::getSingleton().returnNumObservations(); n++){
 					randomObsID = distr(eng);
 
 					indicesInNode.insertIndex(nodeIndices[randomObsID], fpSingleton::getSingleton().returnLabel(nodeIndices[randomObsID]));
@@ -82,11 +77,10 @@ namespace fp {
 				obsIndexAndClassVec indexHolder(fpSingleton::getSingleton().returnNumClasses());
 				std::vector<zipClassAndValue<int, T> > zipVec(fpSingleton::getSingleton().returnNumObservations());
 
-
 				//		LIKWID_MARKER_START("createTree");
 				//#pragma omp parallel for
 				for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
-				setSharedVectors(indexHolder);
+					setSharedVectors(indexHolder);
 					printProgress.displayProgress(i);
 					trees.emplace_back(indexHolder, zipVec);
 					trees.back().createTree();

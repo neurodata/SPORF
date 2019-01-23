@@ -1,10 +1,8 @@
 #ifndef rerfTree_h
 #define rerfTree_h
 #include "../../baseFunctions/fpBaseNode.h"
-//#include "rerfNode.h"
-#include <vector>
-#include <random>
 #include "unprocessedRerFNode.h"
+#include <vector>
 #include <assert.h>
 
 namespace fp{

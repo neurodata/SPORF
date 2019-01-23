@@ -19,6 +19,7 @@ namespace fp{
 
 
 				unprocessedNode(int parentID, int dep, bool isLeft): baseUnprocessedNode<T>::baseUnprocessedNode(parentID, dep, isLeft){
+					featuresToTry.reserve(fpSingleton::getSingleton().returnNumFeatures());
 				}
 
 				~unprocessedNode(){}
@@ -42,8 +43,22 @@ namespace fp{
 				}
 
 				inline void pickMTRY(){
-					for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i) featuresToTry.push_back(i);
-					std::random_shuffle ( featuresToTry.begin(), featuresToTry.end() );
+					for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i){
+						featuresToTry.push_back(i);
+					}
+
+					std::random_device rd; // obtain a random number from hardware
+					std::mt19937 eng(rd()); // seed the generator
+
+					int tempSwap;
+
+					for(int locationToMove = 0; locationToMove < fpSingleton::getSingleton().returnNumFeatures(); locationToMove++){
+						std::uniform_int_distribution<> distr(locationToMove, fpSingleton::getSingleton().returnNumFeatures()-1);
+						int randomPosition = distr(eng);
+						tempSwap = featuresToTry[locationToMove];
+						featuresToTry[locationToMove] = featuresToTry[randomPosition];
+						featuresToTry[randomPosition] = tempSwap;
+					}
 					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
 				}
 
@@ -106,8 +121,8 @@ namespace fp{
 					}
 
 					if(lNum <= 0 || rNum <= 0){
-lNum++;
-rNum--;
+						lNum++;
+						rNum--;
 					}
 					assert(lNum > 0);
 					assert(rNum > 0);
