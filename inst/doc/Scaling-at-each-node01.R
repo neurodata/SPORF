@@ -1,0 +1,330 @@
+## ----render, include = FALSE, eval = FALSE, echo = FALSE-----------------
+#  require(rmarkdown)
+#  render("Scaling-at-each-node01.Rmd")
+#  system("open Scaling-at-each-node01.html")
+
+## ----setup, include = FALSE----------------------------------------------
+set.seed(2019)
+require(knitr)
+require(gridExtra)
+require(ggplot2)
+require(rerf)
+require(data.table)
+require(scales)
+#options(digits = 20)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>", 
+  fig.width = 8,
+  fig.height = 8,
+  dev = 'png',
+  dpi = 62
+)
+
+## ------------------------------------------------------------------------
+n1 <- 1e3
+n2 <- 1e3
+
+rx1 <- c(1e-4, 1e-3)
+rx2 <- c(1e4, 1e5)
+(m <- diff(rx2) / diff(rx1))
+
+ymxb <- function(x) m * x
+
+xb <- c(1e-4, 1e-3)
+yb <- c(1e4, 1e5)
+
+xb  <- c(seq(1e-4, 1e-3, length = 5), 1e-3, 1e-4)
+yb  <- c(ymxb(xb[-c(6,7)]), 1e4, 1e4)
+yb2  <- c(ymxb(xb[-c(6,7)]), 1e5, 1e5)
+
+set.seed(1234)
+x11 <- runif(4*n1, rx1[1], rx1[2])
+x12 <- runif(4*n2, rx2[1], rx2[2])
+
+Y1o <- (x12 < (m * x11)) + 1
+
+Y1o.ind <- c(sample(which(Y1o == 1), n1), sample(which(Y1o == 2), n2))
+
+Y1 <- Y1o[Y1o.ind]
+X1 <- cbind(x11[Y1o.ind], x12[Y1o.ind])
+
+#plot(X1, col = Y1, pch = '.', xlim = rx1, ylim = rx2)
+#curve(ymxb, rx1[1],rx1[2], add = TRUE)
+
+plot(X1, col = Y1, type = 'p', pch = '.', cex = 2, main = "True regions
+with sampled points")
+
+polygon(x = xb, y = yb, col= scales::alpha('red', 0.25))
+polygon(x = xb, y = yb2, col= scales::alpha('blue', 0.25))
+
+## ---- echo = FALSE, include = FALSE--------------------------------------
+  # Find range of current data
+  r <- apply(X1, 2, range)
+
+  # store scaling factors at this node
+  scalingFactors <- list(min = r[1, ], diff = (r[2, ] - r[1, ]))
+
+  # shift data by the minimum
+  Xscaled <- sweep(X1, MARGIN = 2, STATS = scalingFactors$min, FUN = "-")
+
+  Xscaled <-
+    sweep(Xscaled, 2, STATS = scalingFactors$diff, FUN = "/")
+
+  plot(Xscaled, col = Y1)
+
+## ---- RerF-setup---------------------------------------------------------
+FUN <- RandMatBinary
+num.cores <- 1L
+paramList <- list(p = 2, d = 3, sparsity = 1, prob = 0.5)
+ntrees <- 1L
+
+## ------------------------------------------------------------------------
+seed <- 2
+
+f1 <- RerF(X1, Y1, FUN = FUN, paramList = paramList, scaleAtNode = FALSE, trees = ntrees, max.depth = 2L, store.oob = TRUE, store.impurity = TRUE, num.cores = num.cores, seed = seed)
+f1.pred <- Predict(X1, f1)
+
+f1s <- RerF(X1, Y1, FUN = FUN, paramList = paramList, scaleAtNode = TRUE, trees = ntrees, max.depth = 2L, store.oob = TRUE, store.impurity = TRUE, num.cores = num.cores, seed = seed)
+f1s.pred <- Predict(X1, f1s)
+
+RcppZiggurat::zsetseed(seed)
+f1c <- RerF(X1, Y1, FUN = RandMatContinuous,  paramList = paramList, scaleAtNode = FALSE, trees = ntrees, max.depth = 2L, store.oob = TRUE, store.impurity = TRUE, num.cores = num.cores, seed = seed)
+f1c.pred <- Predict(X1, f1c)
+
+## ---- echo = FALSE, results = 'asis'-------------------------------------
+kable(PrintTree(f1s, 1))
+
+## ---- echo = FALSE, results = 'asis'-------------------------------------
+kable(table(f1s.pred, Y1))
+
+## ------------------------------------------------------------------------
+sum(f1s.pred != Y1) / length(Y1)
+
+## ---- results = 'asis'---------------------------------------------------
+kable(PrintTree(f1, 1))
+
+## ---- echo = FALSE, results = 'asis'-------------------------------------
+kable(table(f1.pred, Y1))
+
+## ------------------------------------------------------------------------
+sum(f1.pred != Y1) / length(Y1)
+
+## ---- results = 'asis'---------------------------------------------------
+kable(PrintTree(f1c, 1))
+
+## ---- echo = FALSE, results = 'asis'-------------------------------------
+kable(table(f1c.pred, Y1))
+
+## ------------------------------------------------------------------------
+sum(f1c.pred != Y1) / length(Y1)
+
+## ------------------------------------------------------------------------
+cutV <- PrintTree(f1s, 1)$CutV[1]
+
+mins <- apply(X1, 2, min)
+diff <- apply(X1, 2, max) - mins
+
+X1s <- sweep(sweep(X1, MARGIN = 2, STATS = mins, "-"), MARGIN = 2, STATS = diff, FUN = "/")
+
+sparseM <- matrix(c(1,-1))
+A <- X1s %*% sparseM
+
+par(mfrow = c(1,3))
+plot(cbind(A, Y1), col = Y1, pch = 19)
+abline(v = cutV)
+title("Scaled")
+
+PrintTree(f1, 1)
+cutV <- PrintTree(f1, 1)$CutV[1]
+cutF <- PrintTree(f1, 1)$CutF[[1]][c(2,4)]
+
+sparseM <- matrix(cutF)
+A <- X1 %*% sparseM
+
+plot(cbind(A, Y1), col = Y1, pch = 19)
+abline(v = cutV)
+title("Un-Scaled")
+
+PrintTree(f1c, 1)
+cutV <- PrintTree(f1c, 1)$CutV[1]
+cutF <- PrintTree(f1c, 1)$CutF[[1]][c(2,4)]
+
+sparseM <- matrix(cutF)
+A <- X1 %*% sparseM
+
+
+plot(cbind(A, Y1), col = Y1, pch = 19)
+abline(v = cutV)
+title("Continuous")
+
+
+#plot(X1, col = Y1, type = 'p', pch = '.', cex = 2, main = "True regions
+#with sampled points")
+#polygon(x = xb, y = yb, col= scales::alpha('red', 0.25))
+#polygon(x = xb, y = yb2, col= scales::alpha('blue', 0.25))
+#v1 <- c(1e-4, 1e-3)
+#v2 <- c(1e4, 1e5)
+#V <- rbind(v1, -v1, v2, -v2)
+#v3 <- v1 - v2
+#v3 <- v1 - v2
+#plot(V)
+#arrows(v1[1], v3[1], v1[2], v3[2])
+#arrows(v1[1], v2[1], v1[2], v2[2])
+
+## ------------------------------------------------------------------------
+#plot(X1, col = Y1, pch = 19)
+n1 <- 4e3
+
+eps <- 1e-5
+
+ax1 <- c(1e-4, 1e-3)
+ay1 <- c(1e4, 1e5)
+
+ax2 <- c(1e-3, 1e3)
+ay2 <- c(1e5, 1e5 + eps)
+
+
+px <- runif(n1, ax1[1], ax1[2])
+py <- runif(n1, ay1[1], ay1[2])
+
+R1 <- data.frame(x = px, y = py)
+
+m1 <- diff(ay1) / diff(ax1)
+b1 <- 0
+l1 <- function(x) m1 * x + b1
+
+ind1 <- R1$y < l1(R1$x)
+
+Xr1 <- R1[ind1, ][1:1e3, ]
+Or1 <- R1[!ind1, ][1:500, ]
+
+#plot(Xr1)
+#plot(Or1)
+
+qx <- runif(n1, ax2[1], ax2[2])
+qy <- runif(n1, ay2[1], ay2[2])
+
+R2 <- data.frame(x = qx, y = qy)
+
+m2 <- diff(ay2) / diff(ax2)
+b2 <- ay2[1] - (m2 * ax2[1])
+l2 <- function(x) m2 * x + b2
+
+ind2 <- R2$y > l2(R2$x)
+
+Xr2 <- R2[ind2, ][1:1e3, ]
+Or2 <- R2[!ind2, ][1:500, ]
+
+
+Or3 <- data.frame(x = runif(n1, ax2[1], ax2[2]), 
+                  y = runif(n1, ay1[1], ay1[2]))[1:500, ]
+
+Or4 <- data.frame(x = runif(n1, ax1[1], ax1[2]), 
+                  y = runif(n1, ay2[1], ay2[2]))[1:500, ]
+
+
+Y <- rep(c(1,2), each = 2e3)
+par(mfrow = c(1,3))
+plot(rbind(Xr1, Xr2, Or1, Or2), col = Y, xlim = c(1e-4, 1e-3), pch = 19)
+title("Region 1")
+curve(l1, 1e-4, 1e-3, add = TRUE, lwd = 4, col = 'hotpink')
+
+plot(rbind(Xr1, Xr2, Or1, Or2), col = Y, ylim = c(1e5, 1e5 + eps), pch = 19)
+title("Region 2")
+curve(l2, lwd = 4, col = 'purple', add = TRUE)
+
+Xrb <- data.frame(rbind(Xr1, Xr2, Or1, Or2, Or3, Or4))
+Yrb <- rep(c(1,2), each = 2e3)
+
+plot(log10(Xrb$x), log10(Xrb$y), col = Yrb, pch = 19, cex = 0.5)
+
+## ---- RerF-setup2--------------------------------------------------------
+FUN <- RandMatBinary
+mdepth <- 4L
+num.cores <- 1L
+paramList <- list(p = 2, d = 4, sparsity = 0.5, prob = 0.5)
+ntrees <- 1L
+
+## ------------------------------------------------------------------------
+seed <- 1234
+set.seed(seed)
+
+f2 <- RerF(Xrb, Yrb, FUN = FUN, paramList = paramList, scaleAtNode = FALSE, trees = ntrees, max.depth = mdepth, store.oob = TRUE, store.impurity = TRUE, num.cores = num.cores, seed = seed)
+f2.pred <- Predict(Xrb, f2)
+
+f2s <- RerF(Xrb, Yrb, FUN = FUN, paramList = paramList, scaleAtNode = TRUE, trees = ntrees, max.depth = mdepth, store.oob = TRUE, store.impurity = TRUE, num.cores = num.cores, seed = seed)
+f2s.pred <- Predict(Xrb, f2s)
+
+RcppZiggurat::zsetseed(seed)
+f2c <- RerF(Xrb, Yrb, FUN = RandMatContinuous,  paramList = paramList, scaleAtNode = FALSE, trees = ntrees, max.depth = mdepth, store.oob = TRUE, store.impurity = TRUE, num.cores = num.cores, seed = seed)
+f2c.pred <- Predict(Xrb, f2c)
+
+## ---- echo = FALSE, results = 'asis'-------------------------------------
+kable(PrintTree(f2s, 1))
+
+## ---- echo = FALSE, results = 'asis'-------------------------------------
+kable(table(f2s.pred, Yrb))
+
+## ------------------------------------------------------------------------
+sum(f2s.pred != Yrb) / length(Yrb)
+
+## ---- results = 'asis'---------------------------------------------------
+kable(PrintTree(f2, 1))
+
+## ---- echo = FALSE, results = 'asis'-------------------------------------
+kable(table(f2.pred, Yrb))
+
+## ------------------------------------------------------------------------
+sum(f2.pred != Yrb) / length(Yrb)
+
+## ---- results = 'asis'---------------------------------------------------
+kable(PrintTree(f2c, 1))
+
+## ---- echo = FALSE, results = 'asis'-------------------------------------
+kable(table(f2c.pred, Yrb))
+
+## ------------------------------------------------------------------------
+sum(f2c.pred != Yrb) / length(Yrb)
+
+## ---- results = 'hold'---------------------------------------------------
+cutV <- PrintTree(f2s, 1)$CutV[1]
+cutF <- PrintTree(f2s, 1)$CutF[[1]][c(2,4)]
+
+mins <- apply(Xrb, 2, min)
+diff <- apply(Xrb, 2, max) - mins
+
+Xrbs <- sweep(sweep(Xrb, MARGIN = 2, STATS = mins, "-"), MARGIN = 2, STATS = diff, FUN = "/")
+
+sparseM <- matrix(cutF)
+A <- as.matrix(Xrbs) %*% sparseM
+
+par(mfrow = c(1,3))
+plot(cbind(A, Yrb), col = Yrb, pch = 19)
+abline(v = cutV)
+title("Scaled")
+
+PrintTree(f2, 1)
+cutV <- PrintTree(f2, 1)$CutV[1]
+cutF <- PrintTree(f2, 1)$CutF[[1]][c(2,4)]
+
+sparseM <- matrix(cutF)
+A <- as.matrix(Xrb) %*% sparseM
+
+plot(cbind(A, Yrb), col = Yrb, pch = 19)
+abline(v = cutV)
+title("Un-Scaled")
+
+PrintTree(f2c, 1)
+cutV <- PrintTree(f2c, 1)$CutV[1]
+cutF <- PrintTree(f2c, 1)$CutF[[1]][c(2, 4)]
+
+sparseM <- matrix(cutF)
+sparseM[is.na(sparseM), ] <- 0
+A <- as.matrix(Xrb) %*% sparseM
+
+
+plot(cbind(A, Yrb), col = Yrb, pch = 19)
+abline(v = cutV)
+title("Continuous")
+

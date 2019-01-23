@@ -19,7 +19,9 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>", 
   fig.width = 8,
-  fig.height = 8
+  fig.height = 8,
+  dpi = 62,
+  dev = 'png'
 )
 ```
 
@@ -47,12 +49,11 @@ will be sampled from region $X$.
 xb <- c(1e-4, 1e4)
 yb <- c(0,1)
 
-bc <- curve((x - 1e-4) / 2, 1e-4, 1, n = 100)
-
-
 x <- c(1e-4, 1, 1, 1e-4)
 y <- c(0,0,0.5,0)
 
+b <- function(x) (x - 1e-4) / 2
+bc <- list(x = seq(1e-4, 1, length = 100), y = b(seq(1e-4, 1, length = 100)))
 
 plot(log10(xb), yb, type= 'n')
 polygon(x = log10(c(bc$x, 1, 1, 1e-4, 1e-4)), y = c(bc$y, 0.5,1,1,0), col = scales::alpha('blue', 0.25))
@@ -67,7 +68,6 @@ polygon(x = log10(c(bc$x, 1, 1, 1e4, 1e4)), y = c(bc$y, 0.5,1,1,0), col = scales
 #           scale_x_log10() + 
 #           geom_point()
 ```
-
 
 
 ## Generate samples from the toy distribution 
@@ -90,6 +90,9 @@ yr2 <- runif(n1/2, r2$y[1], r2$y[2])
 
 xr3 <- runif(n1/2, r3$x[1], r3$x[2])
 yr3 <- runif(n1/2, (xr3 - 1e-4) / 2, r3$y[2])
+
+xr4 <- runif(n0/2, r4$x[1], r4$x[2])
+yr4 <- runif(n0/2, r4$y[1], (xr4 - 1e-4) / 2)
 
 xr4 <- runif(n0/2, r4$x[1], r4$x[2])
 yr4 <- runif(n0/2, r4$y[1], (xr4 - 1e-4) / 2)
@@ -209,17 +212,10 @@ grid.arrange(p0 + ggtitle("Truth"),
 
 ```{r, warning = 0}
 show(
-grid.arrange(p0 + ggtitle("Truth") + xlim(0,1),
-             p1 + xlim(0, 1), 
-             p2 + xlim(0, 1), 
-             p3 + xlim(0, 1), ncol = 1)
+grid.arrange(p0 + ggtitle("Truth") + xlim(0,5),
+             p1 + xlim(0, 5), 
+             p2 + xlim(0, 5), 
+             p3 + xlim(0, 5), ncol = 1)
 )
 ```
-
-
-
-
-
-
-
 
