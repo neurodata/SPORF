@@ -77,15 +77,15 @@ for(int i = 0; i < fpSingleton::getSingleton().returnNumObservations(); ++i){
 				obsIndexAndClassVec indexHolder(fpSingleton::getSingleton().returnNumClasses());
 				std::vector<zipClassAndValue<int, T> > zipVec(fpSingleton::getSingleton().returnNumObservations());
 
-				//		LIKWID_MARKER_START("createTree");
 				//#pragma omp parallel for
 				for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
 					setSharedVectors(indexHolder);
 					printProgress.displayProgress(i);
 					trees.emplace_back(indexHolder, zipVec);
+					//	LIKWID_MARKER_START("createTree");
 					trees.back().createTree();
+					//	LIKWID_MARKER_STOP("createTree");
 				}
-				//		LIKWID_MARKER_STOP("createTree");
 				std::cout << "\n"<< std::flush;
 			}
 

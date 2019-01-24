@@ -151,74 +151,23 @@ namespace fp{
 				}
 
 
-				inline void setVecOfSplitLocations2(int fMtry){
+				inline void setVecOfSplitLocations(int fMtry){
 
 					for(int i = 0; i < fpSingleton::getSingleton().returnNumClasses(); ++i){
 						std::vector<int>::iterator  lowerValueIndices = nodeIndices.returnBeginIterator(i);
-						std::vector<int>::iterator  higherValueIndices = nodeIndices.returnEndIterator(i)-1;
+						std::vector<int>::iterator  higherValueIndices = nodeIndices.returnEndIterator(i);
 						std::vector<int>::iterator  smallerNumberIndex = nodeIndices.returnBeginIterator(i);
 
-						for(; lowerValueIndices <= higherValueIndices; ++lowerValueIndices){
+						for(; lowerValueIndices < higherValueIndices; ++lowerValueIndices){
 							if(fpSingleton::getSingleton().returnFeatureVal(fMtry,*lowerValueIndices) <= bestSplit.returnSplitValue()){
+								std::iter_swap(smallerNumberIndex, lowerValueIndices);
 								++smallerNumberIndex;
-								swap(smallerNumberIndex, lowerValueIndices);
 							}
 						}
-						nodeIndices.loadSplitIterator(lowerValueIndices);
+						nodeIndices.loadSplitIterator(smallerNumberIndex);
 					}
 				}
 				
-
-
-				inline void setVecOfSplitLocations(int fMtry){
-					int tempIndex;
-
-					for(int i = 0; i < fpSingleton::getSingleton().returnNumClasses(); ++i){
-						std::vector<int>::iterator  lowerValueIndices = nodeIndices.returnBeginIterator(i);
-						std::vector<int>::iterator  higherValueIndices = nodeIndices.returnEndIterator(i)-1;
-
-
-						if(nodeIndices.returnBeginIterator(i) == nodeIndices.returnEndIterator(i)){
-							nodeIndices.loadSplitIterator(lowerValueIndices);
-							continue;
-						}
-
-						while(lowerValueIndices < higherValueIndices){
-							while((lowerValueIndices < higherValueIndices) && (fpSingleton::getSingleton().returnFeatureVal(fMtry,*lowerValueIndices) <= bestSplit.returnSplitValue())){
-								++lowerValueIndices;
-							}
-
-							if(lowerValueIndices != higherValueIndices){
-								while((lowerValueIndices < higherValueIndices) && (fpSingleton::getSingleton().returnFeatureVal(fMtry,*higherValueIndices) > bestSplit.returnSplitValue())){
-									--higherValueIndices;
-								}
-
-								if(lowerValueIndices != higherValueIndices){
-									tempIndex = *lowerValueIndices;
-									*lowerValueIndices = *higherValueIndices;
-									*higherValueIndices = tempIndex;
-
-									++lowerValueIndices;
-									--higherValueIndices;
-								}
-							}
-						}
-
-						if(fpSingleton::getSingleton().returnFeatureVal(fMtry,*lowerValueIndices) <= bestSplit.returnSplitValue()){
-							nodeIndices.loadSplitIterator(lowerValueIndices+1);
-							assert((lowerValueIndices+1) - nodeIndices.returnBeginIterator(i) + nodeIndices.returnEndIterator(i) - (lowerValueIndices+1) == nodeIndices.returnEndIterator(i) - nodeIndices.returnBeginIterator(i));
-							assert(nodeIndices.returnEndIterator(i) - lowerValueIndices + 1 >= 0);
-							assert(lowerValueIndices + 1 - nodeIndices.returnBeginIterator(i) >= 0);
-						}else{
-							nodeIndices.loadSplitIterator(lowerValueIndices);
-							assert((lowerValueIndices) - nodeIndices.returnBeginIterator(i) + nodeIndices.returnEndIterator(i) - (lowerValueIndices) == nodeIndices.returnEndIterator(i) - nodeIndices.returnBeginIterator(i));
-							assert(nodeIndices.returnEndIterator(i) - lowerValueIndices >= 0);
-							assert(lowerValueIndices - nodeIndices.returnBeginIterator(i) >= 0);
-						}
-
-					}
-				}
-
 
 				inline void setNodeIndices(nodeIterators& nodeIters){
 					nodeIndices.setNodeIterators(nodeIters, isLeftNode);
@@ -255,10 +204,6 @@ namespace fp{
 						 }
 						 */
 				}
-
-
-
-
 
 
 
@@ -324,18 +269,14 @@ namespace fp{
 				}
 
 				inline void calcBestSplitInfoForNode(int featureToTry){
-					//						LIKWID_MARKER_START("loadNode");
+											LIKWID_MARKER_START("loadNode");
 					loadWorkingSet(featureToTry);
-					//						LIKWID_MARKER_STOP("loadNode");
-					//						LIKWID_MARKER_START("sortNode");
+											LIKWID_MARKER_STOP("loadNode");
 					sortWorkingSet();
-					//						LIKWID_MARKER_STOP("sortNode");
 					resetRightNode();
 					resetLeftNode();
 					//This next function finds and sets the best split... not just finds.
-					//						LIKWID_MARKER_START("findSplit");
 					findBestSplit(featureToTry);
-					//						LIKWID_MARKER_STOP("findSplit");
 				}
 
 
