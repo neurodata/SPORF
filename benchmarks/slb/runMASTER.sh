@@ -10,9 +10,12 @@
 #SBATCH --mail-user=jpatsol1@jhu.edu
 
 
+## Run this with the following command
+## sbatch --array=1-166%4 runMASTER.sh
+
+module load gsl
 module load R
 
-mpirun Rscript runDataSet.r
+Rscript single_dataset_run.R $SLURM_ARRAY_TASK_ID
 
-## array
 
