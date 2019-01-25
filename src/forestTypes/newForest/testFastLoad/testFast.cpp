@@ -140,7 +140,7 @@ int main(int argc, char* argv[]) {
 	for(int i = 0;i < 1000;++i){
 		cacheClearVec[i].resize(100000);
 		for(int j = 0; j < 100000; ++j){
-			cacheClearVec[i][j]=i;
+			cacheClearVec[i][j]=(int)MWC;
 		}
 	}
 	//////////
@@ -155,6 +155,10 @@ int main(int argc, char* argv[]) {
 
 	roundRobinLoad rrIters;
 	int loadPosition = 0;
+
+	std::vector<int> position(12);
+	int binSize = (int)randomOrderVec.size() / 12;
+	int currPos = 0;
 
 	///////Run test code
 	switch(alg){
@@ -195,7 +199,7 @@ int main(int argc, char* argv[]) {
 						iter = rrIters.eraseIt(iter);
 						continue;
 					}
-					__builtin_prefetch (&randomValVec[randomOrderVec[iter->returnStart()+1]], 0, 0);
+					__builtin_prefetch (&randomValVec[randomOrderVec[iter->returnStart()+1]], 0, 3);
 					zipVec[loadPosition].setPair(loadPosition, randomValVec[randomOrderVec[iter->returnStart()]]);
 					++loadPosition;
 					iter->incrementStart();
@@ -204,6 +208,21 @@ int main(int argc, char* argv[]) {
 
 			break;
 		case 5:
+			for(auto &i : position){
+				i = currPos;
+				__builtin_prefetch (&randomValVec[randomOrderVec[i]], 0, 3);
+				currPos += binSize;
+			}
+
+			for(int i=0; i < binSize;++i){
+				for(auto i : position){
+					__builtin_prefetch (&randomValVec[randomOrderVec[i+1]], 0, 3);
+					zipVec[i].setPair(i, randomValVec[randomOrderVec[i]]);
+				}
+			}
+			for(int i = currPos; i < (int)randomOrderVec.size(); ++i){
+				zipVec[i].setPair(i, randomValVec[randomOrderVec[i]]);
+			}
 			break;
 		default:
 			std::cout << "unknown alg selected" << std::endl;
@@ -224,5 +243,6 @@ int main(int argc, char* argv[]) {
 	elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
 
 	std::cout << "It ran in " << elapsed << "s\n";
+	std::cout << "last random " << cacheClearVec[999][99999] << "\n";
 
 }
