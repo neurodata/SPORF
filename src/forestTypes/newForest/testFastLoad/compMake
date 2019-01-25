@@ -1,0 +1,4 @@
+#!/bin/bash
+
+g++ -o testFast -ggdb testFast.cpp
+

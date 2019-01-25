@@ -128,7 +128,7 @@ namespace fp{
 					for(int classNum = 0; classNum < fpSingleton::getSingleton().returnNumClasses(); ++classNum){
 
 						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum); ++q){
-							fpSingleton::getSingleton().prefetchFeatureVal(currMTRY,*q);
+							//fpSingleton::getSingleton().prefetchFeatureVal(currMTRY,*q);
 						}
 
 
@@ -272,16 +272,22 @@ namespace fp{
 											LIKWID_MARKER_START("loadNode");
 					loadWorkingSet(featureToTry);
 											LIKWID_MARKER_STOP("loadNode");
+											LIKWID_MARKER_START("sort");
 					sortWorkingSet();
+											LIKWID_MARKER_STOP("sort");
 					resetRightNode();
 					resetLeftNode();
 					//This next function finds and sets the best split... not just finds.
+											LIKWID_MARKER_START("split");
 					findBestSplit(featureToTry);
+											LIKWID_MARKER_STOP("split");
 				}
 
 
 				inline void calcBestSplit(){
+											LIKWID_MARKER_START("mtry");
 					calcMtryForNode(mtry);
+											LIKWID_MARKER_STOP("mtry");
 					while(!mtry.empty()){
 						calcBestSplitInfoForNode(mtry.back());
 						mtry.pop_back();

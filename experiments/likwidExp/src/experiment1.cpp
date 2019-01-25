@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
 				forest.setParameter("columnWithY", 0);
 				break;
 			case 4:
-				forest.setParameter("CSVFileName", "../../res/higgsData.csv");
+				forest.setParameter("CSVFileName", "../../res/HIGGS.csv");
 				forest.setParameter("columnWithY", 0);
 				break;
 			default:
@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
 		}
 
 
-		forest.setParameter("numTreesInForest", 10);
+		forest.setParameter("numTreesInForest", 1);
 		forest.setParameter("minParent", 1);
 		forest.setParameter("numCores", numCores);
 
