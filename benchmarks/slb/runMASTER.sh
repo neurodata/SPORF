@@ -4,14 +4,14 @@
 #SBATCH --job-name=MASTER
 #SBATCH --time=4:0:0
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=24
-#SBATCH --partition=shared
+#SBATCH --ntasks-per-node=12
+#SBATCH --partition=shared,parallel,lrgmem
 #SBATCH --mail-type=end
 #SBATCH --mail-user=jpatsol1@jhu.edu
 
 
 ## Run this with the following command
-## sbatch --array=1-166%4 runMASTER.sh
+## sbatch --array=1-25%4 runMASTER.sh
 
 module load gsl
 module load R
