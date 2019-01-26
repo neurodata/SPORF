@@ -4,6 +4,7 @@
 #include "splitRerFInfo.h"
 #include "../labeledData.h"
 #include "../classTotals.h"
+#include "../../baseFunctions/pdqsort.h"
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -76,7 +77,8 @@ namespace fp{
 					zipDataLabels(featureVals);
 
 					// sort feature Vals
-					std::sort(combinedDataLabels.begin(), combinedDataLabels.end());
+					pdqsort_branchless(combinedDataLabels.begin(), combinedDataLabels.end());
+					//std::sort(combinedDataLabels.begin(), combinedDataLabels.end());
 
 					// find split
 					for(int i=0; i<numLabels-1; ++i){

@@ -20,7 +20,7 @@ namespace fp{
 
 			public:
 
-				inline bool operator < (const labeledData<T>& otherData)
+				inline bool operator < (const labeledData<T>& otherData) const
 				{
 					return dataElement < otherData.dataElement;
 				}

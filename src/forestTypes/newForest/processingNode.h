@@ -148,6 +148,7 @@ namespace fp{
 
 
 				inline void sortWorkingSet(){
+					//pdqsort(zipIters.returnZipBegin(), zipIters.returnZipEnd());
 					pdqsort_branchless(zipIters.returnZipBegin(), zipIters.returnZipEnd());
 					//std::sort(zipIters.returnZipBegin(), zipIters.returnZipEnd());
 				}
