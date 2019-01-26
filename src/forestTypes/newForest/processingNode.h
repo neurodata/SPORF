@@ -9,6 +9,7 @@
 #include "zipperIterators.h"
 #include <assert.h>
 #include "../../fpSingleton/fpSingleton.h"
+#include "../../baseFunctions/pdqsort.h"
 
 
 #include <iostream>
@@ -147,7 +148,8 @@ namespace fp{
 
 
 				inline void sortWorkingSet(){
-					std::sort(zipIters.returnZipBegin(), zipIters.returnZipEnd());
+					pdqsort_branchless(zipIters.returnZipBegin(), zipIters.returnZipEnd());
+					//std::sort(zipIters.returnZipBegin(), zipIters.returnZipEnd());
 				}
 
 
