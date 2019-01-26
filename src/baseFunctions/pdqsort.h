@@ -40,8 +40,8 @@
 
 namespace pdqsort_detail {
 	enum {
-		Partitions below this size are sorted using insertion sort.
-			insertion_sort_threshold = 24,
+		// Partitions below this size are sorted using insertion sort.
+		insertion_sort_threshold = 24,
 
 		// Partitions above this size use Tukey's ninther to select the pivot.
 		ninther_threshold = 128,
