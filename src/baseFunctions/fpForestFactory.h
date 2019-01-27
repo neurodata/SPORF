@@ -11,21 +11,23 @@
 namespace fp{
 
 	template <typename T>
-	class forestFactory
-	{
-		public:
-			static std::unique_ptr<fpForestBase<T> > setForestType(const std::string& parameterName){
-				if(parameterName == "rfBase"){
-					return std::unique_ptr<fpForestBase<T> >{new fpForestClassificationBase<T>};
-				}else if(parameterName == "rerf"){
-					return std::unique_ptr<fpForestBase<T> >{new fpRerFBase<T>};
-				}else if(parameterName == "inPlace"){
-					return std::unique_ptr<fpForestBase<T> >{new inPlaceBase<T>};
-				}else{
-					throw std::runtime_error("Unimplemented forest type chosen." );
-					return NULL;
+		class forestFactory
+		{
+			public:
+				static std::unique_ptr<fpForestBase<T> > setForestType(const std::string& parameterName){
+					if(parameterName == "rfBase"){
+						return std::unique_ptr<fpForestBase<T> >{new fpForestClassificationBase<T>};
+					}else if(parameterName == "rerf"){
+						return std::unique_ptr<fpForestBase<T> >{new fpRerFBase<T>};
+					}else if(parameterName == "inPlace"){
+						return std::unique_ptr<fpForestBase<T> >{new inPlaceBase<T,int>};
+					}else if(parameterName == "inPlaceRerF"){
+						return std::unique_ptr<fpForestBase<T> >{new inPlaceBase<T,std::vector<int> >};
+					}else{
+						throw std::runtime_error("Unimplemented forest type chosen." );
+						return NULL;
+					}
 				}
-			}
-	};
+		};
 }//namespace fp
 #endif //fpForestFactory_h

@@ -82,7 +82,6 @@ namespace fp{
 
 				inline void copyProcessedNodeToTree(){
 					tree.emplace_back(nodeQueue.back().returnNodeCutValue(), returnDepthOfNode(), nodeQueue.back().returnNodeCutFeature());
-					//	++numberOfNodes;
 				}
 
 
@@ -192,20 +191,46 @@ namespace fp{
 					return leafDepthSums;
 				}
 
+				template<typename U>
+					struct identity { typedef U type; };
 
 				inline int predictObservation(int observationNum){
+return predictObservation(observationNum, identity<Q>());
+				}
+
+				inline int predictObservation(int observationNum, identity<int> ){
 					int currNode = fpSingleton::getSingleton().returnNumClasses();
 					int featureNum = 0;
 					T featureVal;
 					while(tree[currNode].isInternalNodeFront()){
 						featureNum = tree[currNode].returnFeatureNumber();
 						featureVal = fpSingleton::getSingleton().returnTestFeatureVal(featureNum,observationNum);
-						currNode = tree[currNode].fpBaseNode<T, int>::nextNode(featureVal);
+						currNode = tree[currNode].fpBaseNode<T, Q>::nextNode(featureVal);
 					}
 					return tree[currNode].returnClass();
 				}
 
+				
+inline int predictObservation(int observationNum, identity<std::vector<int> >){
+					int currNode = fpSingleton::getSingleton().returnNumClasses();
+					T aggregator;
+					while(tree[currNode].isInternalNodeFront()){
+						aggregator = 0;
+						for(auto i : tree[currNode].returnFeatureNumber()){
+aggregator += fpSingleton::getSingleton().returnTestFeatureVal(i,observationNum);
+						}
+						currNode = tree[currNode].fpBaseNode<T, Q>::nextNode(aggregator);
+					}
+					return tree[currNode].returnClass();
+				}
 
+/*
+inline int predictObservation(std::vector<T>& observation){
+return predictObservation(observation, identity<Q>());
+				}
+				*/
+
+				//inline int predictObservation(std::vector<T>& observation, identity<int>){
 				inline int predictObservation(std::vector<T>& observation){
 					int currNode = fpSingleton::getSingleton().returnNumClasses();
 					while(tree[currNode].isInternalNode()){
@@ -213,6 +238,16 @@ namespace fp{
 					}
 					return tree[currNode].returnClass();
 				}
+
+				/*
+				inline int predictObservation(std::vector<T>& observation, identity<std::vector<int> >){
+int currNode = fpSingleton::getSingleton().returnNumClasses();
+					while(tree[currNode].isInternalNode()){
+						currNode = tree[currNode].nextNode(observation);
+					}
+					return tree[currNode].returnClass();
+				}
+				*/
 
 				///////////////////////////////////
 				/// Test Functions not to be used in production

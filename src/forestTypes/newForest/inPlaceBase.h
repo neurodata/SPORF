@@ -16,11 +16,11 @@
 
 namespace fp {
 
-	template <typename T>
+	template <typename T, typename Q>
 		class inPlaceBase : public fpForestBase<T>
 	{
 		protected:
-			std::vector<treeStruct<T, int> > trees;
+			std::vector<treeStruct<T, Q> > trees;
 
 				std::vector<int> nodeIndices;
 		public:

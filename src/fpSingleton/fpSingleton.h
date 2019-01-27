@@ -23,7 +23,6 @@ namespace fp {
 		public:
 			static fpSingleton& getSingleton(){
 				static std::unique_ptr<fpSingleton> infoSetting(new fpSingleton);
-				//static fpSingleton* infoSetting(new fpSingleton);
 				return *infoSetting;
 			}
 
@@ -70,6 +69,21 @@ namespace fp {
 			inline void setNumFeatures(int numF){
 				fpForestInfo.setNumFeatures(numF);
 			}
+
+			////////////////////////////////////////
+			//Random Number Generator
+			///////////////////////////////////////
+			inline void initializeRandomNumberGenerator(){
+				fpForestInfo.initRandom();
+			}
+
+			inline int genRandom(int range){
+return fpForestInfo.genRandom(range);
+			}
+
+			///////////////////////////////////////
+			//
+			//////////////////////////////////////
 
 			inline void setNumObservations(int numO){
 				fpForestInfo.setNumObservations(numO);
@@ -150,6 +164,7 @@ namespace fp {
 
 			inline void setDataDependentParameters(){
 				fpForestInfo.setMTRY();
+initializeRandomNumberGenerator();
 			}
 
 

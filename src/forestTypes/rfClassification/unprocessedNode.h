@@ -52,7 +52,7 @@ namespace fp{
 
 					int tempSwap;
 
-					for(int locationToMove = 0; locationToMove < fpSingleton::getSingleton().returnNumFeatures(); locationToMove++){
+					for(int locationToMove = 0; locationToMove < fpSingleton::getSingleton().returnMtry(); locationToMove++){
 						std::uniform_int_distribution<> distr(locationToMove, fpSingleton::getSingleton().returnNumFeatures()-1);
 						int randomPosition = distr(eng);
 						tempSwap = featuresToTry[locationToMove];

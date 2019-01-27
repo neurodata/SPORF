@@ -21,8 +21,8 @@ namespace fp {
 		public:
 			fpDisplayProgress printProgress;
 
-//			using fpForestBase<T>::fpForestBase;
-~fpForestClassificationBase(){}
+			//			using fpForestBase<T>::fpForestBase;
+			~fpForestClassificationBase(){}
 
 			inline void printForestType(){
 				std::cout << "This is a basic classification forest.\n";
@@ -34,7 +34,7 @@ namespace fp {
 
 			inline void growTrees(){
 
-//#pragma omp parallel for
+#pragma omp parallel for num_threads(fpSingleton::getSingleton().returnNumThreads())
 				for(unsigned int i = 0; i < trees.size(); ++i){
 					printProgress.displayProgress(i);
 					trees[i].growTree();

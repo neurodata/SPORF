@@ -42,44 +42,72 @@ namespace fp{
 
 				zipperIterators<int,T> zipIters;
 
+				/*
+					 inline void calcMtryForNode(std::vector<int>& featuresToTry){
+					 for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i){
+					 featuresToTry.push_back(i);
+					 }
+
+					 std::random_device rd; // obtain a random number from hardware
+					 std::mt19937 eng(rd()); // seed the generator
+
+					 int tempSwap;
+
+					 for(int locationToMove = 0; locationToMove < fpSingleton::getSingleton().returnMtry(); locationToMove++){
+					 std::uniform_int_distribution<> distr(locationToMove, fpSingleton::getSingleton().returnNumFeatures()-1);
+					 int randomPosition = distr(eng);
+
+					 tempSwap = featuresToTry[locationToMove];
+					 featuresToTry[locationToMove] = featuresToTry[randomPosition];
+					 featuresToTry[randomPosition] = tempSwap;
+					 }
+
+					 featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
+					 }
+					 */
+
 				inline void calcMtryForNode(std::vector<int>& featuresToTry){
 					for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i){
 						featuresToTry.push_back(i);
 					}
 
-					std::random_device rd; // obtain a random number from hardware
-					std::mt19937 eng(rd()); // seed the generator
-
 					int tempSwap;
 
-					for(int locationToMove = 0; locationToMove < fpSingleton::getSingleton().returnNumFeatures(); locationToMove++){
-						std::uniform_int_distribution<> distr(locationToMove, fpSingleton::getSingleton().returnNumFeatures()-1);
-						int randomPosition = distr(eng);
+					for(int locationToMove = 0; locationToMove < fpSingleton::getSingleton().returnMtry(); locationToMove++){
+						int randomPosition = fpSingleton::getSingleton().genRandom(fpSingleton::getSingleton().returnNumFeatures()-locationToMove)+locationToMove;
 						tempSwap = featuresToTry[locationToMove];
 						featuresToTry[locationToMove] = featuresToTry[randomPosition];
 						featuresToTry[randomPosition] = tempSwap;
 					}
+
 					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
-					/*
-						 featuresToTry.reserve(fpSingleton::getSingleton().returnNumFeatures());
-						 for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i){ 
-						 featuresToTry.push_back(i);
-						 }
-						 std::random_shuffle ( featuresToTry.begin(), featuresToTry.end() );
-						 featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
-						 */
 				}
+
+
 
 				inline void calcMtryForNode(std::vector<std::vector<int> >& featuresToTry){
 					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
 					int rndMtry;
 					int rndFeature;
 					for (int i=0; i < fpSingleton::getSingleton().returnMtry(); ++i){
-						rndMtry = std::rand() % fpSingleton::getSingleton().returnMtry();
-						rndFeature = std::rand() % fpSingleton::getSingleton().returnNumFeatures();
+						rndMtry = fpSingleton::getSingleton().genRandom(fpSingleton::getSingleton().returnMtry());
+						rndFeature = fpSingleton::getSingleton().genRandom(fpSingleton::getSingleton().returnNumFeatures());
 						featuresToTry[rndMtry].push_back(rndFeature);
 					}
 				}
+
+				/*
+					 inline void calcMtryForNode(std::vector<std::vector<int> >& featuresToTry){
+					 featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
+					 int rndMtry;
+					 int rndFeature;
+					 for (int i=0; i < fpSingleton::getSingleton().returnMtry(); ++i){
+					 rndMtry = std::rand() % fpSingleton::getSingleton().returnMtry();
+					 rndFeature = std::rand() % fpSingleton::getSingleton().returnNumFeatures();
+					 featuresToTry[rndMtry].push_back(rndFeature);
+					 }
+					 }
+					 */
 
 
 				inline void resetLeftNode(){
@@ -124,6 +152,7 @@ namespace fp{
 					zipIters.setZipIteratorsRoot(zipper);
 				}
 
+
 				inline void loadWorkingSet(int currMTRY){
 					typename std::vector<zipClassAndValue<int,T> >::iterator zipIterator = zipIters.returnZipBegin();
 					for(int classNum = 0; classNum < fpSingleton::getSingleton().returnNumClasses(); ++classNum){
@@ -138,6 +167,33 @@ namespace fp{
 							++zipIterator;
 						}
 					}	
+				}
+
+
+
+				inline void loadWorkingSet(std::vector<int>& currMTRY){
+
+					typename std::vector<zipClassAndValue<int,T> >::iterator zipIterator = zipIters.returnZipBegin();
+					T accumulator;
+
+					for(int classNum = 0; classNum < fpSingleton::getSingleton().returnNumClasses(); ++classNum){
+
+						/*
+							 for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum); ++q){
+						//fpSingleton::getSingleton().prefetchFeatureVal(currMTRY,*q);
+						}
+						*/
+
+						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum); ++q){
+							accumulator=0;
+							for(auto i : currMTRY){
+								accumulator+=	fpSingleton::getSingleton().returnFeatureVal(i,*q);
+							}
+							zipIterator->setPair(classNum,accumulator);
+							++zipIterator;
+						}
+					}
+
 				}
 
 
@@ -170,7 +226,30 @@ namespace fp{
 						nodeIndices.loadSplitIterator(smallerNumberIndex);
 					}
 				}
-				
+
+
+				inline void setVecOfSplitLocations(std::vector<int> fMtry){
+
+					for(int i = 0; i < fpSingleton::getSingleton().returnNumClasses(); ++i){
+						std::vector<int>::iterator  lowerValueIndices = nodeIndices.returnBeginIterator(i);
+						std::vector<int>::iterator  higherValueIndices = nodeIndices.returnEndIterator(i);
+						std::vector<int>::iterator  smallerNumberIndex = nodeIndices.returnBeginIterator(i);
+
+						T aggregator;	
+						for(; lowerValueIndices < higherValueIndices; ++lowerValueIndices){
+							aggregator = 0;
+							for(auto i : fMtry){
+								aggregator += fpSingleton::getSingleton().returnFeatureVal(i,*lowerValueIndices);
+							}
+							if(aggregator <= bestSplit.returnSplitValue()){
+								std::iter_swap(smallerNumberIndex, lowerValueIndices);
+								++smallerNumberIndex;
+							}
+						}
+						nodeIndices.loadSplitIterator(smallerNumberIndex);
+					}
+				}
+
 
 				inline void setNodeIndices(nodeIterators& nodeIters){
 					nodeIndices.setNodeIterators(nodeIters, isLeftNode);
@@ -185,28 +264,7 @@ namespace fp{
 
 				processingNode(int tr, int pN): treeNum(tr), parentNodeNumber(pN),propertiesOfThisNode(fpSingleton::getSingleton().returnNumClasses()), propertiesOfLeftNode(fpSingleton::getSingleton().returnNumClasses()),propertiesOfRightNode(fpSingleton::getSingleton().returnNumClasses()),nodeIndices(fpSingleton::getSingleton().returnNumClasses()){}
 
-				inline void loadWorkingSet(std::vector<int>& currMTRY){
-					/*
-						 for(int q=0; q<baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); q++){
-						 fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnInSample(q));
-						 }
 
-						 for(int i =0; i < baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); ++i){
-						 baseUnprocessedNode<T>::featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnInSample(i));
-						 }
-						 if(featuresToTry.back().size()>1){
-						 for(unsigned int j =1; j < featuresToTry.back().size(); ++j){
-						 for(int q=0; q<baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); q++){
-						 fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[j],baseUnprocessedNode<T>::obsIndices->returnInSample(q));
-						 }
-
-						 for(int i =0; i < baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); ++i){
-						 baseUnprocessedNode<T>::featureHolder[i] += fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[j],baseUnprocessedNode<T>::obsIndices->returnInSample(i));
-						 }
-						 }
-						 }
-						 */
-				}
 
 
 
@@ -272,25 +330,33 @@ namespace fp{
 				}
 
 				inline void calcBestSplitInfoForNode(int featureToTry){
-											LIKWID_MARKER_START("loadNode");
+					LIKWID_MARKER_START("loadNode");
 					loadWorkingSet(featureToTry);
-											LIKWID_MARKER_STOP("loadNode");
-											LIKWID_MARKER_START("sort");
+					LIKWID_MARKER_STOP("loadNode");
+					LIKWID_MARKER_START("sort");
 					sortWorkingSet();
-											LIKWID_MARKER_STOP("sort");
+					LIKWID_MARKER_STOP("sort");
 					resetRightNode();
 					resetLeftNode();
 					//This next function finds and sets the best split... not just finds.
-											LIKWID_MARKER_START("split");
+					LIKWID_MARKER_START("split");
 					findBestSplit(featureToTry);
-											LIKWID_MARKER_STOP("split");
+					LIKWID_MARKER_STOP("split");
+				}
+
+inline void calcBestSplitInfoForNode(std::vector<int> featureToTry){
+					loadWorkingSet(featureToTry);
+					sortWorkingSet();
+					resetRightNode();
+					resetLeftNode();
+					findBestSplit(featureToTry);
 				}
 
 
 				inline void calcBestSplit(){
-											LIKWID_MARKER_START("mtry");
+					LIKWID_MARKER_START("mtry");
 					calcMtryForNode(mtry);
-											LIKWID_MARKER_STOP("mtry");
+					LIKWID_MARKER_STOP("mtry");
 					while(!mtry.empty()){
 						calcBestSplitInfoForNode(mtry.back());
 						mtry.pop_back();

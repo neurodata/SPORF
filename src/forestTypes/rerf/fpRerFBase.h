@@ -22,18 +22,18 @@ namespace fp {
 			~fpRerFBase(){}
 
 			fpDisplayProgress printProgress;
-		inline void printForestType(){
+			inline void printForestType(){
 				std::cout << "This is a rerf forest.\n";
 			}
 
-		inline void changeForestSize(){
+			inline void changeForestSize(){
 				trees.resize(fpSingleton::getSingleton().returnNumTrees());
 			}
 
 			inline void growTrees(){
-			
-//fpSingleton::getSingleton().printXValues();
-//#pragma omp parallel for
+
+				//fpSingleton::getSingleton().printXValues();
+#pragma omp parallel for num_threads(fpSingleton::getSingleton().returnNumThreads())
 				for(int i = 0; i < (int)trees.size(); ++i){
 					printProgress.displayProgress(i);
 					trees[i].growTree();

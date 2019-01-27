@@ -5,6 +5,7 @@
 #include <memory>
 #include <math.h>
 #include <iostream>
+#include "../baseFunctions/MWC.h"
 
 namespace fp {
 
@@ -38,6 +39,9 @@ namespace fp {
 
 			std::string forestType;
 			std::string CSVFileName;
+
+			int seed;
+			randomNumberRerFMWC randNum;
 
 
 		public:
@@ -128,13 +132,36 @@ namespace fp {
 				}
 			}
 
+////////////////////////////////////////
+			//Random Number Generator
+			///////////////////////////////////////
+			inline void initRandom(){
+			std::random_device rd;
+			if(seed == -1){
+			seed = rd();
+			}
+				randNum.initialize(seed);
+			}
+
+			inline int genRandom(int range){
+return randNum.gen(range);
+			}
+
+			///////////////////////////////////////
+			//
+			//////////////////////////////////////
+
+
+
+
+
 			//////
 			//This is from CPP.
 			/////////
 			fpInfo(): numTreesInForest(100),
 			minParent(1),	numClasses(-1), numObservations(-1), numFeatures(-1),
 			mtry(-1), columnWithY(-1), 
-			numberOfNodes(0), maxDepth(0),sumLeafNodeDepths(0), fractionOfFeaturesToTest(-1.0), binSize(0), numCores(1), double_epsilon(0.0000001), float_epsilon(0.0000001){}
+			numberOfNodes(0), maxDepth(0),sumLeafNodeDepths(0), fractionOfFeaturesToTest(-1.0), binSize(0), numCores(1), double_epsilon(0.0000001), float_epsilon(0.0000001),seed(-1){}
 
 
 
@@ -166,6 +193,8 @@ namespace fp {
 					binSize = (int)parameterValue;
 				}else if(parameterName == "numCores"){
 					numCores = (int)parameterValue;
+				}else if(parameterName == "seed"){
+					seed = (int)parameterValue;
 				}else {
 					throw std::runtime_error("Unknown parameter type.(double)");
 				}
@@ -189,6 +218,8 @@ namespace fp {
 					binSize = parameterValue;
 				}else if(parameterName == "numCores"){
 					numCores = parameterValue;
+				}else if(parameterName == "seed"){
+					seed = parameterValue;
 				}else {
 					throw std::runtime_error("Unknown parameter type.(int)");
 				}
@@ -207,6 +238,7 @@ namespace fp {
 				std::cout << "Type of Forest -> " << forestType << "\n";
 				std::cout << "binSize -> " << binSize << "\n";
 				std::cout << "numCores -> " << numCores << "\n";
+				std::cout << "seed -> " << seed << "\n";
 			}
 
 

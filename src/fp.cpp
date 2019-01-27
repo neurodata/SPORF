@@ -41,6 +41,10 @@ int main(int argc, char* argv[]) {
 case 5:
 				forest.setParameter("forestType", "inPlace");
 				break;
+case 6:
+				forest.setParameter("forestType", "inPlaceRerF");
+				break;
+
 			default:
 				std::cout << "unknown alg selected" << std::endl;
 				return -1;

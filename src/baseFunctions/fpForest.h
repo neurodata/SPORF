@@ -9,8 +9,11 @@
 #if defined(ENABLE_OPENMP)
 #include <omp.h>
 #else
+void	omp_set_dynamic(int x){
+	std::cout << "I should not get called\n";
+}
 void omp_set_num_threads(int x){
-//	std::cout << "I get called a lot\n";
+	std::cout << "I should not get called\n";
 }
 #endif
 
@@ -78,16 +81,20 @@ namespace fp {
 				}
 
 				inline void setNumberOfThreads(){
+					omp_set_dynamic(0);     // Explicitly disable dynamic teams
 					omp_set_num_threads(fpSingleton::getSingleton().returnNumThreads());
+					std::cout << "\n" << fpSingleton::getSingleton().returnNumThreads() << " thread was set\n";
 				}
 
 				inline void growForest(){
-					loadData();
-					initializeForestType();
-					setDataDependentParameters();
-					//setNumberOfThreads();
 					timeLogger x;
 					x.startGrowTimer();
+					loadData();
+					x.stopGrowTimer();
+					x.printGrowTime();
+					initializeForestType();
+					setDataDependentParameters();
+					//	setNumberOfThreads();
 					forest->growForest();
 					x.stopGrowTimer();
 					x.printGrowTime();
