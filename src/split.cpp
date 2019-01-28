@@ -5,7 +5,7 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize, const double & I,
 		double maxdI, int bv, double bs, const int nzidx, arma::vec cc) {
-	double xl, xr, dI;
+	double xl, xr, dI, epsilon;
 	int yl, yr, cons, bsidx, potsplit;
 	bool multiy;
 
@@ -19,12 +19,13 @@ List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize,
 	yl = y[0] - 1;
 	potsplit = 0;
 	multiy = false;
+	epsilon = std::numeric_limits<double>::epsilon() *10;
 
 	// iterate over split locations from left to right
 	for (int i = 0; i < ndSize - 1; ++i) {
 		xr = x[i+1];
 		yr = y[i+1] - 1;
-		if (xl == xr) {
+		if (std::abs(xl-xr) < epsilon) { //is xl == xr
 			cons += 1;
 			if (yl == yr) {
 				continue;
