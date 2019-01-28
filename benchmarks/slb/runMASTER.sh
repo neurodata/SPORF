@@ -5,13 +5,13 @@
 #SBATCH --time=12:0:0
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=24
-#SBATCH --partition=parallel,shared
+#SBATCH --partition=parallel,shared,lrgmem
 #SBATCH --mail-type=end
 #SBATCH --mail-user=jpatsol1@jhu.edu
 
 
 ## Run this with the following command
-## sbatch --array=1-166%4 runMASTER.sh
+## sbatch --array=1-25%4 runMASTER.sh
 
 module load gsl
 module load R

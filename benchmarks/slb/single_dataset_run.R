@@ -49,8 +49,7 @@ storeData <- c('row'     = lineNum,
 
 sprintf("Saving dataset %s", op$dataset)
 
-saveName <- 
-  sprintf("%s_%s_%s.RData", op$dataset, op$RandMats, op$Scale01)
-save(storeData, file = sprintf("%s_testing.RData", params$dataset))
+saveName <- sprintf("OutputData/%s_%s_%s.RData", op$dataset, op$RandMats, op$Scale01)
+save(storeData, file = saveName)
 
 sprintf("Finished dataset %s", op$dataset)
