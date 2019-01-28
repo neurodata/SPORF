@@ -41,7 +41,8 @@ out <- RunRerF(X, Y, FUN, paramList = NULL, scaleAtNode = scaleAtNode)
 
 
 ## Prepend some more parameter data
-storeData <- c('dataset' = op$dataset, 
+storeData <- c('row'     = lineNum,
+               'dataset' = op$dataset, 
                'RandMat' = op$RandMats, 
                'Scale01' = op$Scale01, 
                out)
@@ -51,3 +52,5 @@ sprintf("Saving dataset %s", op$dataset)
 saveName <- 
   sprintf("%s_%s_%s.RData", op$dataset, op$RandMats, op$Scale01)
 save(storeData, file = sprintf("%s_testing.RData", params$dataset))
+
+sprintf("Finished dataset %s", op$dataset)

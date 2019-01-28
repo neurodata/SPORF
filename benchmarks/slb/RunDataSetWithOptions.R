@@ -39,7 +39,7 @@ RunRerF <- function(X, Y, FUN, paramList, scaleAtNode = FALSE) {
 
   imp.time <- 
     system.time({
-      feature.importance.R <- FeatureImportance(forest, type = "R")
+      feature.importance <- FeatureImportance(forest)
     })
 
 
@@ -56,6 +56,8 @@ RunRerF <- function(X, Y, FUN, paramList, scaleAtNode = FALSE) {
               testing.predictions = testing.predictions,
               training.predictions = training.predictions,
               OOB.predictions = OOB.predictions,
+              ## Feature Importance
+              feature.importance = feature.importance,
               ## Timings
               training.time = training.time,
               train.prediction.time = train.prediction.time,
