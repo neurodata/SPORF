@@ -1,0 +1,114 @@
+---
+title: "Blank RMarkdown file."
+author: "Jesse Leigh Patsolic"
+output: 
+  html_document:
+    keep_md: true
+---
+
+<!--
+### ### INITIAL COMMENTS HERE ###
+###
+### Jesse Leigh Patsolic 
+### 2019
+### S.D.G 
+#
+-->
+
+```{r render, eval=FALSE, echo=FALSE}
+require(rmarkdown)
+require(ggplot2)
+rmarkdown::render("aggregateOutput.Rmd")
+system('open aggregateOutput.html')
+```
+
+<style type="text/css">
+.table {
+    width: 40%;
+}
+tr:hover {background-color:#f5f5f5;}
+</style>
+
+
+
+```{r cc1}
+f <- dir("OutputData", full.names = TRUE)
+stats <- vector('list', length = length(f))
+```
+
+
+```{r, eval = FALSE}
+for(i in 1:length(f)) {
+  fi <- f[i]
+  e <- new.env()
+  load(fi, e)
+  .GlobalEnv$stats[[i]] <- with(e$storeData, 
+                      data.frame(dataset = dataset, RandMat = RandMat, 
+                                 Scale01 = Scale01, testing.error = testing.error, 
+                                 training.error = training.error, OOB.error = OOB.error))
+  
+  
+  rm(e)
+}
+
+saveRDS(stats, file = "runStats.rds")
+```
+
+
+## plot results
+
+```{r}
+dat <- as.data.frame(do.call(rbind, stats))
+
+e.binary <- new.env(parent = emptyenv())
+w <- dat[with(dat, Scale01 == TRUE), ]
+wo <-dat[with(dat, Scale01 == FALSE), ]
+
+md <- merge(w, wo, by = c("dataset", "RandMat"))
+head(md)
+tmp <- with(md, sum(testing.error.x <= testing.error.y) / nrow(md))
+plot(hist(with(md, testing.error.x - testing.error.y)))
+```
+
+```{r}
+p2 <- 
+  ggplot(md, aes(x = testing.error.x, testing.error.y, color = RandMat)) + geom_point() + geom_abline(intercept = 0)
+
+p2 + xlab("with scaling") + ylab("without scaling")
+```
+
+## Wilcoxon tests
+
+```{r}
+tmp <- md[with(md, RandMat == 'RandMatBinary'), ]
+
+with(tmp, 
+     wilcox.test(testing.error.x, testing.error.y, alt = "less", paried = TRUE)
+     )
+```
+
+```{r}
+tmp <- md[with(md, RandMat == 'RandMatContinuous'), ]
+
+with(tmp, 
+     wilcox.test(testing.error.x, testing.error.y, alt = "less", paried = TRUE)
+     )
+```
+
+```{r}
+tmp <- md[with(md, RandMat == 'RandMatRF'), ]
+
+with(tmp, 
+     wilcox.test(testing.error.x, testing.error.y, alt = "less", paried = TRUE)
+     )
+```
+
+
+
+<!--
+#   Time:
+##  Working status:
+### Comments:
+####Soli Deo Gloria
+--> 
+
