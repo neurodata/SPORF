@@ -1,7 +1,7 @@
 #!/bin/bash -l
 
 #SBATCH
-#SBATCH --job-name=Bench-RerF
+#SBATCH --job-name=UCI_RerF_Benchmarks
 #SBATCH --time=12:0:0
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=24
@@ -16,6 +16,6 @@
 module load gsl
 module load R
 
-Rscript single_dataset_run.R $SLURM_ARRAY_TASK_ID
+PARAMS_FILE="uci_params.csv"
 
-
+Rscript single_dataset_run.R $PARAMS_FILE $SLURM_ARRAY_TASK_ID

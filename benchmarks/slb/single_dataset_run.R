@@ -1,19 +1,23 @@
 #
 args = commandArgs(trailingOnly=TRUE)
 
-if (length(args)==0) {
-  stop("At least one argument must be supplied (input file).n", call.=FALSE)
-} else if (length(args)==1) {
-  # default output file
-  lineNum <- as.numeric(args[1])
+if (length(args) <= 1) {
+  stop("The output file, params file, and line number must be supplied.\n", call.=FALSE)
+} else if (length(args) == 3) {
+  outputFile <- as.character(args[1])
+  paramsFile <- as.character(args[2])
+  lineNum <- as.numeric(args[3])
 }
 
+if(any(is.null(c(outputFile, paramsFile, lineNum)))) {
+  stop("Failed to specify the correct parameters.")
+}
 
 source('RunDataSetWithOptions.R')
 require(rerf)
 require(slb)
 
-params <- read.csv("params.csv")[lineNum, ]
+params <- read.csv(paramsFile)[lineNum, ]
 op <- lapply(params, as.character)
 
 dat <- slb.load.datasets(repositories = params$repository, 
@@ -45,11 +49,12 @@ storeData <- c('row'     = lineNum,
                'dataset' = op$dataset, 
                'RandMat' = op$RandMats, 
                'Scale01' = op$Scale01, 
+               'commitSHA1' = op$commitSHA,
                out)
 
 sprintf("Saving dataset %s", op$dataset)
 
-saveName <- sprintf("OutputData/%s_%s_%s.RData", op$dataset, op$RandMats, op$Scale01)
+saveName <- sprintf("%s/%s_%s_%s.RData", outputFile, op$dataset, op$RandMats, op$Scale01)
 save(storeData, file = saveName)
 
 sprintf("Finished dataset %s", op$dataset)
