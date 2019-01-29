@@ -16,9 +16,9 @@ output:
 -->
 
 ```{r render, eval=FALSE, echo=FALSE}
-require(rmarkdown)
-require(ggplot2)
-rmarkdown::render("aggregateOutput.Rmd")
+require(rmarkdown) 
+require(ggplot2) 
+rmarkdown::render("aggregateOutput.Rmd") 
 system('open aggregateOutput.html')
 ```
 
@@ -58,24 +58,103 @@ saveRDS(stats, file = "runStats.rds")
 ## plot results
 
 ```{r}
+stats <- readRDS('runStats.rds')
 dat <- as.data.frame(do.call(rbind, stats))
 
 e.binary <- new.env(parent = emptyenv())
-w <- dat[with(dat, Scale01 == TRUE), ]
+
 wo <-dat[with(dat, Scale01 == FALSE), ]
 
 md <- merge(w, wo, by = c("dataset", "RandMat"))
-head(md)
 tmp <- with(md, sum(testing.error.x <= testing.error.y) / nrow(md))
-plot(hist(with(md, testing.error.x - testing.error.y)))
+
+hist(with(md, testing.error.x - testing.error.y), breaks = 'Fr', xlim = c(-1,1), prob = FALSE,
+     main = "testing.error w/ scaling - testing.error w/o scaling")
+```
+
+## Which datasets did scaling do better on?
+```{r}
+tmp <- md[with(md, RandMat == 'RandMatBinary'), ]
+
+ids <- unique(md[with(md, testing.error.x < testing.error.y), 1])
+
+dat <- slb.load.datasets(dataset = as.character(ids[18]), clean.ohe = FALSE)
+
+head(dat[[1]]$X)
 ```
 
 ```{r}
-p2 <- 
-  ggplot(md, aes(x = testing.error.x, testing.error.y, color = RandMat)) + geom_point() + geom_abline(intercept = 0)
+positions <- data.frame(
+  x = c(0, 1, 0),
+  y = c(0, 1, 1)
+)
 
-p2 + xlab("with scaling") + ylab("without scaling")
+p <- ggplot(positions, aes(x = x, y = y)) + geom_polygon(alpha = 0.25, fill = 'green')
+
+p + geom_point(data = md, aes(x = testing.error.x, testing.error.y, color = RandMat)) + 
+        geom_point() + geom_abline(intercept = 0) + xlab("testing.error w/ scaling") + ylab("testing.error w/o scaling")
 ```
+
+```{r}
+tmp <- 
+  with(md, data.frame(diff = testing.error.x - testing.error.y, dataset = dataset))
+
+uid <- as.character(unique(tmp$dataset))
+
+dat <- slb.load.datasets(repositories = "pmlb", task = "classification")
+
+X <- dat[[ which(names(dat) == uid[2]) ]]
+
+```
+
+## Hypothesis tests
+
+Let $X =$ `training error with scaling` and $Y =$ `training error without scaling`.
+
+Let $Z = X - Y$, then $\bar{Z} \sim \mathcal{N}(0,\sigma = \frac{s}{\sqrt{n}})$.
+
+Our hypotheses are as follows:
+$H_0: \mu \leq 0$ and $H_A: \mu > 0$
+
+
+### RandMatBinary
+
+```{r}
+tmp <- md[with(md, RandMat == 'RandMatBinary'), ]
+
+sd0 <- 
+  sd(with(tmp, testing.error.x - testing.error.y)) / sqrt(nrow(tmp))
+
+zbar <- 
+  mean(with(tmp, testing.error.x - testing.error.y))
+
+pnorm(q = zbar, mean = 0, sd = sd0)
+```
+
+### RandMatContinuous
+
+```{r}
+tmp <- md[with(md, RandMat == 'RandMatContinuous'), ]
+
+sd0 <- sd(with(tmp, testing.error.x - testing.error.y)) / sqrt(nrow(tmp))
+
+zbar <- 
+  mean(with(tmp, testing.error.x - testing.error.y))
+
+pnorm(q = zbar, mean = 0, sd = sd0)
+```
+
+```{r}
+tmp <- md[with(md, RandMat == 'RandMatRF'), ]
+
+sd0 <- sd(with(tmp, testing.error.x - testing.error.y)) / sqrt(nrow(tmp))
+
+zbar <- 
+  mean(with(tmp, testing.error.x - testing.error.y))
+
+pnorm(q = zbar, mean = 0, sd = sd0)
+```
+
 
 ## Wilcoxon tests
 
