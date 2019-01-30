@@ -12,7 +12,7 @@
   weights are continuous we tabulate how many times a unique combination
   of features was used, ignoring the weights.
 
-* The base functionality is being moved into C++.
+* A C++ implmentation of Randomer Forest has been added.
 
 
 ## Changes in 2.0.2:
