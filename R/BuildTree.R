@@ -348,19 +348,6 @@ BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, repl
     # them accordingly
     MoveLeft <- Xnode[1L:NdSize] <= ret$BestSplit
 
-    # Move samples left or right based on split
-    if (sum(MoveLeft) == 0 || sum(!MoveLeft) == 0) {
-      treeMap[CurrentNode] <- currLN <- currLN - 1L
-      ClassProb[currLN * -1, ] <- ClProb
-      NodeStack <- NodeStack[-1L] # pop node off stack
-      Assigned2Node[[CurrentNode]] <- NA # remove saved indexes
-      CurrentNode <- NodeStack[1L] # point to top of stack
-      if (is.na(CurrentNode)) {
-        break
-      }
-      next
-    }
-
     Assigned2Node[[NextUnusedNode]] <- Assigned2Node[[CurrentNode]][MoveLeft]
     Assigned2Node[[NextUnusedNode + 1L]] <- Assigned2Node[[CurrentNode]][!MoveLeft]
 

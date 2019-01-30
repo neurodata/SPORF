@@ -39,7 +39,7 @@ test_that("Test fails when input is not matrix", {
 test_that("Iris OOB Predictions", {
   # Build as large of trees as possible
   forest <- RerF(X, Y,
-    seed = 1L, num.cores = 1L, store.oob = TRUE, min.parent = 1,
+    seed = 100L, num.cores = 1L, store.oob = TRUE, min.parent = 1,
     max.depth = 0, stratify = FALSE
   )
   oob.predictions <- OOBPredict(X, forest, num.cores = 1L)
