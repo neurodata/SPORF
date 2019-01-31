@@ -1,0 +1,4 @@
+[submodule "src/packedForest"]
+	path = src/packedForest
+	url = https://github.com/neurodata/packedForest
+	branch = master
