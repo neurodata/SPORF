@@ -43,4 +43,4 @@ Note: problems running the compile command on `fish`.  Use `bash` for the time b
 
 ## Run the example
 
-[Example.py](examples/example.py)
+[Example.py](example.py)
