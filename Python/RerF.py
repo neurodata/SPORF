@@ -35,20 +35,20 @@ def fastRerF(
     """
 
     forestClass = pyfp.fpForest()
-    forestClass.setParameter("forestType", forestType)
-    forestClass.setParameter("numTreesInForest", trees)
-    forestClass.setParameter("minParent", minParent)
-    forestClass.setParameter("CSVFileName", CSVFile)
-    forestClass.setParameter("columnWithY", Ycolumn)
+    forestClass.setParamString("forestType", forestType)
+    forestClass.setParamInt("numTreesInForest", trees)
+    forestClass.setParamInt("minParent", minParent)
+    forestClass.setParamString("CSVFileName", CSVFile)
+    forestClass.setParamInt("columnWithY", Ycolumn)
 
     if numCores is not None:
-        forestClass.setParameter("numCores", numCores)
+        forestClass.setParamInt("numCores", numCores)
     if mtry is not None:
-        forestClass.setParameter("mtry", mtry)
+        forestClass.setParamInt("mtry", mtry)
     if fractionOfFeaturesToTest is not None:
-        forestClass.setParameter("fractionOfFeaturesToTest", fractionOfFeaturesToTest)
+        forestClass.setParamDouble("fractionOfFeaturesToTest", fractionOfFeaturesToTest)
     if seed is not None:
-        forestClass.setParameter("seed", seed)
+        forestClass.setParamInt("seed", seed)
 
     # forestClass.setNumberOfThreads()
     forestClass.growForest()
