@@ -7,7 +7,7 @@ Python bindings are made using [pybind11](https://github.com/pybind/pybind11).
 C++ compiler (gcc)
 
   ```sh
-  sudo apt-get install build-essential cmake python3-dev   # Ubuntu/Debian
+  sudo apt-get install build-essential cmake python3-dev libomp-dev   # Ubuntu/Debian
   ```
 
 ## Environment
