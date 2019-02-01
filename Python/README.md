@@ -28,7 +28,7 @@ pip install pybind11
 - Install from github
 
   ```sh
-  pip install -e git+https://github.io/neurodata/rerf/@pybind#egg=rerf&subdirectory=Python
+  pip install -e "git+https://github.com/neurodata/RerF.git@pybind#egg=rerf&subdirectory=Python"
   ```
 
 - Build from source
