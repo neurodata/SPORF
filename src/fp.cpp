@@ -25,24 +25,24 @@ int main(int argc, char* argv[]) {
 
 		switch(alg){
 			case 1:
-				forest.setParameter("forestType", "rerf");
+				forest.setParamString("forestType", "rerf");
 				break;
 			case 2:
-				forest.setParameter("forestType", "rfBase");
+				forest.setParamString("forestType", "rfBase");
 				break;
 			case 3:
-				forest.setParameter("forestType", "rerf");
-				forest.setParameter("useBinning", 1000);
+				forest.setParamString("forestType", "rerf");
+				forest.setParamInt("useBinning", 1000);
 				break;
 			case 4:
-				forest.setParameter("forestType", "rfBase");
-				forest.setParameter("useBinning", 1000);
+				forest.setParamString("forestType", "rfBase");
+				forest.setParamInt("useBinning", 1000);
 				break;
 case 5:
-				forest.setParameter("forestType", "inPlace");
+				forest.setParamString("forestType", "inPlace");
 				break;
 case 6:
-				forest.setParameter("forestType", "inPlaceRerF");
+				forest.setParamString("forestType", "inPlaceRerF");
 				break;
 
 			default:
@@ -54,20 +54,20 @@ case 6:
 
 		switch(dataSet){
 			case 1: 
-				forest.setParameter("CSVFileName", "res/iris.csv");
-				forest.setParameter("columnWithY", 4);
+				forest.setParamString("CSVFileName", "res/iris.csv");
+				forest.setParamInt("columnWithY", 4);
 				break;
 			case 2:
-				forest.setParameter("CSVFileName", "res/higgs2.csv");
-				forest.setParameter("columnWithY", 0);
+				forest.setParamString("CSVFileName", "res/higgs2.csv");
+				forest.setParamInt("columnWithY", 0);
 				break;
 			case 3:
-				forest.setParameter("CSVFileName", "res/mnist.csv");
-				forest.setParameter("columnWithY", 0);
+				forest.setParamString("CSVFileName", "res/mnist.csv");
+				forest.setParamInt("columnWithY", 0);
 				break;
 			case 4:
-				forest.setParameter("CSVFileName", "res/HIGGS.csv");
-				forest.setParameter("columnWithY", 0);
+				forest.setParamString("CSVFileName", "res/HIGGS.csv");
+				forest.setParamInt("columnWithY", 0);
 				break;
 			default:
 				std::cout << "unknown dataset selected" << std::endl;
@@ -76,9 +76,9 @@ case 6:
 		}
 
 
-		forest.setParameter("numTreesInForest", 10);
-		forest.setParameter("minParent", 1);
-		forest.setParameter("numCores", numCores);
+		forest.setParamInt("numTreesInForest", 10);
+		forest.setParamInt("minParent", 1);
+		forest.setParamInt("numCores", numCores);
 
 		 //logTime.startFindSplitTimer();
 		forest.growForest();

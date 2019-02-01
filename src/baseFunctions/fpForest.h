@@ -59,16 +59,16 @@ namespace fp {
 
 				fpForest(){}
 
-				inline void setParameter(const std::string& parameterName, const std::string& parameterValue){
+				inline void setParamString(const std::string& parameterName, const std::string& parameterValue){
 					fpSingleton::getSingleton().setParameter(parameterName, parameterValue);	
 				}
 
 
-				inline void setParameter(const std::string& parameterName, const double parameterValue){
+				inline void setParamDouble(const std::string& parameterName, const double parameterValue){
 					fpSingleton::getSingleton().setParameter(parameterName, parameterValue);	
 				}
 
-				inline void setParameter(const std::string& parameterName, const int parameterValue){
+				inline void setParamInt(const std::string& parameterName, const int parameterValue){
 					fpSingleton::getSingleton().setParameter(parameterName, parameterValue);	
 				}
 
