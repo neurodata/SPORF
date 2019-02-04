@@ -1,29 +1,44 @@
-language: r
-sudo: false
-cache: packages
+matrix:
+  include:
+  - language: r
+    sudo: false
+    cache: packages
 
-env:
-  global:
-    - WARNINGS_ARE_ERRORS=1
+    env:
+      global:
+        - WARNINGS_ARE_ERRORS=1
 
-r:
-  - release
+    r:
+      - release
 
-addons:
-  apt:
-    packages:
-      - libgsl0-dev
+    addons:
+      apt:
+        packages:
+          - libgsl0-dev
 
-r_packages:
-  - devtools
-  - testthat
-  - Rcpp
+    r_packages:
+      - devtools
+      - testthat
+      - Rcpp
 
-script:
-  - printf "Starting install and test with devtools.\n\n"
-  - Rscript -e "Rcpp::compileAttributes()"
-  - Rscript -e "devtools::install(local=FALSE);devtools::test()"
-  - Rscript travisTest/test-on-prior-release.R
-  - printf "Starting BUILD and CHECK --as-cran\n\n"
-  - R CMD build --resave-data .
-  - R CMD check --as-cran --no-manual rerf*tar.gz
+    script:
+      - printf "Starting install and test with devtools.\n\n"
+      - Rscript -e "Rcpp::compileAttributes()"
+      - Rscript -e "devtools::install(local=FALSE);devtools::test()"
+      - Rscript travisTest/test-on-prior-release.R
+      - printf "Starting BUILD and CHECK --as-cran\n\n"
+      - R CMD build --resave-data .
+      - R CMD check --as-cran --no-manual rerf*tar.gz
+
+  - language: python
+    dist: xenial
+    python: 
+      - "3.6"
+    before_install: cd Python
+    install: 
+      - pip install -r requirements.txt
+      - pip install -e .
+      - cd ..
+    script:
+      - pytest
+

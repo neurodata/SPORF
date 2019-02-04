@@ -33,14 +33,39 @@ pip install pybind11
 
 - Build from source
 
+  Get the source files:
+
   ```sh
   git clone https://github.com/neurodata/R-RerF.git
   cd R-RerF/Python
-  c++ -O3 -Wall -shared -std=c++14 -fPIC `python3 -m pybind11 --includes` packedForest.cpp -o pyfp`python3-config --extension-suffix`
   ```
 
-Note: problems running the compile command on `fish`.  Use `bash` for the time being.
+  Then either:
+  
+  - Build the package using `setup.py`
+
+    ```sh
+    pip install -e .
+    ```
+
+  - Run the following compile script
+
+    ```sh
+    c++ -O3 -Wall -shared -std=c++14 -fPIC `python3 -m pybind11 --includes` packedForest.cpp -o pyfp`python3-config --extension-suffix`
+    ```
+
+  Note: problems running the compile command on alternate shells (`fish`).  Make sure to use `bash` for the time being.
 
 ## Run the example
 
 [Example.py](example.py)
+
+## Tests
+
+We use pytest for Python testing
+
+Run the tests from command line at the root of the repo (`RerF/`)
+
+  ```sh
+  python -m pytest
+  ```

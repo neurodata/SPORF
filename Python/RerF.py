@@ -61,6 +61,9 @@ def fastPredict(X, forest):
     Arguments:
         X {ndarray} -- numpy ndarray of data, if more than 1 row, run multiple predictions
         forest {forestClass} -- forest to run predictions on
+
+    Returns:
+        predictions {double, list} -- a double if a single row, a list if multiple predictions
     """
 
     X_rows = X.shape[0]
