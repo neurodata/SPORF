@@ -37,7 +37,7 @@ class inputYData
 
 
 template <typename T>
-class inputYDataClassification : public inputYData<int>
+class inputYDataClassification : public inputYData<T>
 {
 	private:
 		int maxClass;

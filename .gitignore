@@ -38,6 +38,8 @@
 *.ignore
 bin/
 *.swp
+*.pdf
+*.tmp
 
 # data files that may be too large
 *.csv

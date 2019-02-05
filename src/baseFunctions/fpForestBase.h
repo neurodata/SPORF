@@ -25,6 +25,7 @@ namespace fp{
 				virtual void growForest() = 0;
 				virtual float testForest() = 0;
 				virtual int predictClass(std::vector<T>& observation) = 0;
+				virtual int predictClass(const T* observation) = 0;
 		};
 
 }//namespace fp

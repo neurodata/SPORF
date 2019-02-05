@@ -1,14 +1,14 @@
 #ifndef fpData_h
 #define fpData_h
 
-#include "dataset/fpDataSet.h"
+#include "dataset/inputCSVData.h"
 #include "dataset/inputMatrixData.h"
 #include "fpInfo.h"
 #include <string>
 #include <vector>
 
 using DATA_TYPE_X = double;
-using DATA_TYPE_Y = double;
+using DATA_TYPE_Y = int;
 
 namespace fp {
 
@@ -29,7 +29,7 @@ namespace fp {
 
 		public:
 
-			fpData(){
+			fpData():inData(NULL),inTestData(NULL){
 			}
 
 			~fpData(){
@@ -44,19 +44,21 @@ namespace fp {
 			}
 
 			inline void printXValues(){
-inData->printXValues();
+				inData->printXValues();
 			}
 
 			void fpLoadData(fpInfo& settings){
 				if(settings.loadDataFromCSV()){
 					inData = new inputCSVData<DATA_TYPE_X, DATA_TYPE_Y>(settings.returnCSVFileName(), settings.returnColumnWithY());
-				}else if(false){
-					inData = new inputCSVData<DATA_TYPE_X, DATA_TYPE_Y>(settings.returnCSVFileName(), settings.returnColumnWithY());
-					//inData = new inputMatrixData<DATA_TYPE_X, DATA_TYPE_Y>();//TODO add parameters
-					//inData = new inputMatrixData<DATA_TYPE_X, DATA_TYPE_Y>(std::vector<std::vector<DATA_TYPE_X> > X, std::vector<DATA_TYPE_Y> Y);
-				}else{
+				}else {
 					throw std::runtime_error("Unable to read data." );
 				}
+				setDataRelatedParameters(settings);
+			}
+
+
+			void fpLoadData(const DATA_TYPE_X* x, const DATA_TYPE_Y* y,int numObs, int numFeatures,fpInfo& settings){
+				inData = new inputMatrixData<DATA_TYPE_X, DATA_TYPE_Y>(x,y,numObs,numFeatures);
 				setDataRelatedParameters(settings);
 			}
 

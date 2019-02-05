@@ -1,5 +1,0 @@
-#!/bin/bash
-
-g++ -std=c++11 -o correctTest -O3 correctTest.cpp
-#g++ -o testFast -ggdb testFast.cpp
-

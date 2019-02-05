@@ -43,8 +43,18 @@ namespace fp {
 			int seed;
 			randomNumberRerFMWC randNum;
 
+			int numTreeBins;
+
 
 		public:
+			inline int returnNumTreeBins(){
+				return numTreeBins;
+			}
+
+			inline void setNumTreeBins(int numTB){
+				numTreeBins = numTB;
+			}
+
 			inline float returnFloatEpsilon(){
 				return float_epsilon;
 			}
@@ -132,19 +142,19 @@ namespace fp {
 				}
 			}
 
-////////////////////////////////////////
+			////////////////////////////////////////
 			//Random Number Generator
 			///////////////////////////////////////
 			inline void initRandom(){
-			std::random_device rd;
-			if(seed == -1){
-			seed = rd();
-			}
+				std::random_device rd;
+				if(seed == -1){
+					seed = rd();
+				}
 				randNum.initialize(seed);
 			}
 
 			inline int genRandom(int range){
-return randNum.gen(range);
+				return randNum.gen(range);
 			}
 
 			///////////////////////////////////////
@@ -161,7 +171,7 @@ return randNum.gen(range);
 			fpInfo(): numTreesInForest(100),
 			minParent(1),	numClasses(-1), numObservations(-1), numFeatures(-1),
 			mtry(-1), columnWithY(-1), 
-			numberOfNodes(0), maxDepth(0),sumLeafNodeDepths(0), fractionOfFeaturesToTest(-1.0), binSize(0), numCores(1), double_epsilon(0.0000001), float_epsilon(0.0000001),seed(-1){}
+			numberOfNodes(0), maxDepth(0),sumLeafNodeDepths(0), fractionOfFeaturesToTest(-1.0), binSize(0), numCores(1), double_epsilon(0.0000001), float_epsilon(0.0000001),seed(-1),numTreeBins(-1){}
 
 
 
@@ -195,6 +205,8 @@ return randNum.gen(range);
 					numCores = (int)parameterValue;
 				}else if(parameterName == "seed"){
 					seed = (int)parameterValue;
+				}else if(parameterName == "numTreeBins"){
+					numTreeBins = (int)parameterValue;
 				}else {
 					throw std::runtime_error("Unknown parameter type.(double)");
 				}
@@ -220,6 +232,8 @@ return randNum.gen(range);
 					numCores = parameterValue;
 				}else if(parameterName == "seed"){
 					seed = parameterValue;
+				}else if(parameterName == "numTreeBins"){
+					numTreeBins = parameterValue;
 				}else {
 					throw std::runtime_error("Unknown parameter type.(int)");
 				}
@@ -239,11 +253,12 @@ return randNum.gen(range);
 				std::cout << "binSize -> " << binSize << "\n";
 				std::cout << "numCores -> " << numCores << "\n";
 				std::cout << "seed -> " << seed << "\n";
+				std::cout << "numTreeBins -> " << numTreeBins << "\n";
 			}
 
 
 			void printForestType(){
-				std::cout << forestType;
+				std::cout << forestType << "\n";
 			}
 
 	}; // class fpInfo

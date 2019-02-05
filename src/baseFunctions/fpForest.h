@@ -2,7 +2,6 @@
 #define fpForest_h
 
 #include "../fpSingleton/fpSingleton.h"
-//#include "fpGrowingTreeHelpers/fpSplit.h"
 #include <string>
 #include <memory>
 
@@ -28,6 +27,11 @@ namespace fp {
 				void loadData(){
 					fpSingleton::getSingleton().loadData();
 				}
+
+				void loadData(const T* Xmat, const int* Yvec, int numObs, int numFeatures){
+					fpSingleton::getSingleton().loadData(Xmat,Yvec,numObs,numFeatures);
+				}
+
 
 				void loadTestData(){
 					fpSingleton::getSingleton().loadTestData();
@@ -59,26 +63,30 @@ namespace fp {
 
 				fpForest(){}
 
-				inline void setParamString(const std::string& parameterName, const std::string& parameterValue){
+				inline void setParameter(const std::string& parameterName, const std::string& parameterValue){
 					fpSingleton::getSingleton().setParameter(parameterName, parameterValue);	
 				}
 
 
-				inline void setParamDouble(const std::string& parameterName, const double parameterValue){
+				inline void setParameter(const std::string& parameterName, const double parameterValue){
 					fpSingleton::getSingleton().setParameter(parameterName, parameterValue);	
 				}
 
-				inline void setParamInt(const std::string& parameterName, const int parameterValue){
+
+				inline void setParameter(const std::string& parameterName, const int parameterValue){
 					fpSingleton::getSingleton().setParameter(parameterName, parameterValue);	
 				}
+
 
 				inline void printParameters(){
 					fpSingleton::getSingleton().printAllParameters();
 				}
 
+
 				inline void printForestType(){
 					fpSingleton::getSingleton().printForestType();
 				}
+
 
 				inline void setNumberOfThreads(){
 					omp_set_dynamic(0);     // Explicitly disable dynamic teams
@@ -86,23 +94,30 @@ namespace fp {
 					std::cout << "\n" << fpSingleton::getSingleton().returnNumThreads() << " thread was set\n";
 				}
 
-				inline void growForest(){
-					timeLogger x;
-					x.startGrowTimer();
-					loadData();
-					x.stopGrowTimer();
-					x.printGrowTime();
+
+				inline void growForest(const T* Xmat, const int* Yvec, int numObs, int numFeatures){
+					loadData(Xmat,Yvec,numObs,numFeatures);
 					initializeForestType();
 					setDataDependentParameters();
-					//	setNumberOfThreads();
 					forest->growForest();
-					x.stopGrowTimer();
-					x.printGrowTime();
+					deleteData();
+				}
+
+
+				inline void growForest(){
+					loadData();
+					initializeForestType();
+					setDataDependentParameters();
+					forest->growForest();
 					deleteData();
 				}
 
 
 				inline int predict(std::vector<T>& observation){
+					return forest->predictClass(observation);
+				}
+
+				inline int predict(const T* observation){
 					return forest->predictClass(observation);
 				}
 

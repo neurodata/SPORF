@@ -20,7 +20,16 @@ namespace fp {
 			fpInfo fpForestInfo;
 			fpData data;
 
+
 		public:
+			inline int returnNumTreeBins(){
+				return fpForestInfo.returnNumTreeBins();
+			}
+
+			inline void setNumTreeBins(int numTB){
+				fpForestInfo.setNumTreeBins(numTB);
+			}
+
 			static fpSingleton& getSingleton(){
 				static std::unique_ptr<fpSingleton> infoSetting(new fpSingleton);
 				return *infoSetting;
@@ -46,7 +55,11 @@ namespace fp {
 				fpForestInfo.printForestType();
 			}
 
-			inline void loadData(){
+			inline void loadData(const double* Xmat, const int* Yvec, int numObs, int numFeatures){
+				data.fpLoadData(Xmat,Yvec,numObs,numFeatures, fpForestInfo);
+			}
+
+inline void loadData(){
 				data.fpLoadData(fpForestInfo);
 			}
 
@@ -78,7 +91,7 @@ namespace fp {
 			}
 
 			inline int genRandom(int range){
-return fpForestInfo.genRandom(range);
+				return fpForestInfo.genRandom(range);
 			}
 
 			///////////////////////////////////////
@@ -164,7 +177,7 @@ return fpForestInfo.genRandom(range);
 
 			inline void setDataDependentParameters(){
 				fpForestInfo.setMTRY();
-initializeRandomNumberGenerator();
+				initializeRandomNumberGenerator();
 			}
 
 

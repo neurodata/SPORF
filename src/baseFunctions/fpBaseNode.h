@@ -8,14 +8,14 @@ class alignas(32) fpBaseNode
 {
 	protected:
 		int left;
+		F feature;
 		T cutValue;
 		int right;
 		int depth;
-		F feature;
 
 	public:
 		fpBaseNode():left(0), right(0), depth(0){}
-		fpBaseNode(T cutValue, int depth, F feature): left(0), cutValue(cutValue), right(0), depth(depth), feature(feature){}
+		fpBaseNode(T cutValue, int depth, F feature): left(0),feature(feature),cutValue(cutValue),right(0), depth(depth){}
 		fpBaseNode(int classNum):left(0), right(classNum), depth(-1){}
 
 		inline bool isInternalNode(){
@@ -59,6 +59,12 @@ class alignas(32) fpBaseNode
 			left = 0;
 		}
 
+inline void setSharedClass(int classNum){
+			right = classNum;
+			left = -1;
+			depth = -1;
+		}
+
 		inline void setLeftValue(int LVal){
 			left = LVal;	
 		}
@@ -75,7 +81,7 @@ class alignas(32) fpBaseNode
 			feature = fVal;
 		}
 
-inline void setFeatureValue(std::vector<int>& fVal){
+		inline void setFeatureValue(std::vector<int> fVal){
 			feature = fVal;
 		}
 
@@ -104,6 +110,21 @@ inline void setFeatureValue(std::vector<int>& fVal){
 
 		inline int nextNode(std::vector<T>& observation){
 			return	nextNodeHelper(observation, feature);
+		}
+
+
+inline int nextNode(const T* observation){
+			return	nextNodeHelper(observation, feature);
+		}
+inline int nextNodeHelper(const T* observation, std::vector<int>& featureVec){
+			T featureVal = 0;
+			for(auto featureNumber : featureVec){
+				featureVal += observation[featureNumber];
+			}
+			return (featureVal <= cutValue) ? left : right;
+		}
+inline int nextNodeHelper(const T* observation, int featureIndex){
+			return (observation[featureIndex] <= cutValue) ? left : right;
 		}
 
 

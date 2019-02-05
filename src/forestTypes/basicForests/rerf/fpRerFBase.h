@@ -1,93 +1,44 @@
-#ifndef inPlaceBase_h
-#define inPlaceBase_h
+#ifndef fpRerF_h
+#define fpRerf_h
 
-#include "../../baseFunctions/fpForestBase.h"
+#include "../../../baseFunctions/fpForestBase.h"
 #include <vector>
 #include <stdio.h>
 #include <ctime>
 #include <chrono>
 #include <cstdlib>
-#include "treeStruct.h"
-#include <random>
-
-#include <iostream>
-#include <algorithm>
-
+#include "rerfTree.h"
 
 namespace fp {
 
-	template <typename T, typename Q>
-		class inPlaceBase : public fpForestBase<T>
+	template <typename T>
+		class fpRerFBase : public fpForestBase<T>
 	{
 		protected:
-			std::vector<treeStruct<T, Q> > trees;
+			std::vector<rerfTree<T> > trees;
 
-			std::vector<int> nodeIndices;
 		public:
 
-			~inPlaceBase(){}
-			inPlaceBase(){
-				nodeIndices.resize(fpSingleton::getSingleton().returnNumObservations());
-				for(int i = 0; i < fpSingleton::getSingleton().returnNumObservations(); ++i){
-					nodeIndices[i] =i;
-				}
-			}
+			~fpRerFBase(){}
 
 			fpDisplayProgress printProgress;
-
 			inline void printForestType(){
-				std::cout << "This is an inPlaceBase forest.\n";
+				std::cout << "This is a rerf forest.\n";
 			}
 
 			inline void changeForestSize(){
-				trees.reserve(fpSingleton::getSingleton().returnNumTrees());
+				trees.resize(fpSingleton::getSingleton().returnNumTrees());
 			}
-
-
-			inline void setSharedVectors(obsIndexAndClassVec& indicesInNode){
-
-				std::random_device rd; // obtain a random number from hardware
-				std::mt19937 eng(rd());
-				std::uniform_int_distribution<> distr(0, fpSingleton::getSingleton().returnNumObservations()-1);
-
-				indicesInNode.resetVectors();
-
-				int numUnusedObs = fpSingleton::getSingleton().returnNumObservations();
-				int randomObsID;
-				int tempMoveObs;
-
-				for(int n = 0; n < fpSingleton::getSingleton().returnNumObservations(); n++){
-					randomObsID = distr(eng);
-
-					indicesInNode.insertIndex(nodeIndices[randomObsID], fpSingleton::getSingleton().returnLabel(nodeIndices[randomObsID]));
-
-					if(randomObsID < numUnusedObs){
-						--numUnusedObs;
-						tempMoveObs = nodeIndices[numUnusedObs];
-						nodeIndices[numUnusedObs] = nodeIndices[randomObsID];
-						nodeIndices[randomObsID] = tempMoveObs;
-					}
-				}
-
-			}
-
 
 			inline void growTrees(){
 
-				obsIndexAndClassVec indexHolder(fpSingleton::getSingleton().returnNumClasses());
-				std::vector<zipClassAndValue<int, T> > zipVec(fpSingleton::getSingleton().returnNumObservations());
-
-				//#pragma omp parallel for
-				for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
-					setSharedVectors(indexHolder);
+				//fpSingleton::getSingleton().printXValues();
+#pragma omp parallel for num_threads(fpSingleton::getSingleton().returnNumThreads())
+				for(int i = 0; i < (int)trees.size(); ++i){
 					printProgress.displayProgress(i);
-					trees.emplace_back(indexHolder, zipVec);
-					//	LIKWID_MARKER_START("createTree");
-					trees.back().createTree();
-					//	LIKWID_MARKER_STOP("createTree");
+					trees[i].growTree();
 				}
-				nodeIndices.clear();
-				std::cout << "\n"<< std::flush;
+				std::cout << " done growing forest.\n"<< std::flush;
 			}
 
 			inline void checkParameters(){
@@ -110,7 +61,7 @@ namespace fp {
 				}
 
 				std::cout << "max depth: " << maxDepth << "\n";
-				std::cout << "avg depth: " << float(totalLeafDepth)/float(totalLeafNodes) << "\n";
+				std::cout << "avg leaf depth: " << float(totalLeafDepth)/float(totalLeafNodes) << "\n";
 				std::cout << "num leaf nodes: " << totalLeafNodes << "\n";
 			}
 
@@ -118,10 +69,8 @@ namespace fp {
 				trees[0].printTree();
 			}
 
-			inline void growForest(){
-				//	checkParameters();
-				//TODO: change this so forest isn't grown dynamically.
-				//changeForestSize();
+			void growForest(){
+				changeForestSize();
 				growTrees();
 				treeStats();
 			}
@@ -192,4 +141,4 @@ inline int predictClass(const T* observation){
 	};
 
 }// namespace fp
-#endif //inPlaceBase_h
+#endif //fpForestClassification_h

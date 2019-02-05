@@ -1,92 +1,44 @@
-#ifndef inPlaceBase_h
-#define inPlaceBase_h
+#ifndef fpForestClassification_h
+#define fpForestClassification_h
 
-#include "../../baseFunctions/fpForestBase.h"
+#include "../../../baseFunctions/fpForestBase.h"
 #include <vector>
 #include <stdio.h>
 #include <ctime>
 #include <chrono>
 #include <cstdlib>
-#include "treeStruct.h"
-#include <random>
-
-#include <iostream>
-#include <algorithm>
-
+#include <omp.h>
+#include "rfTree.h"
 
 namespace fp {
 
-	template <typename T, typename Q>
-		class inPlaceBase : public fpForestBase<T>
+	template <typename T>
+		class fpForestClassificationBase : public fpForestBase<T>
 	{
 		protected:
-			std::vector<treeStruct<T, Q> > trees;
+			std::vector<rfTree<T> > trees;
 
-			std::vector<int> nodeIndices;
 		public:
-
-			~inPlaceBase(){}
-			inPlaceBase(){
-				nodeIndices.resize(fpSingleton::getSingleton().returnNumObservations());
-				for(int i = 0; i < fpSingleton::getSingleton().returnNumObservations(); ++i){
-					nodeIndices[i] =i;
-				}
-			}
-
 			fpDisplayProgress printProgress;
 
+			//			using fpForestBase<T>::fpForestBase;
+			~fpForestClassificationBase(){}
+
 			inline void printForestType(){
-				std::cout << "This is an inPlaceBase forest.\n";
+				std::cout << "This is a basic classification forest.\n";
 			}
 
 			inline void changeForestSize(){
-				trees.reserve(fpSingleton::getSingleton().returnNumTrees());
+				trees.resize(fpSingleton::getSingleton().returnNumTrees());
 			}
-
-
-			inline void setSharedVectors(obsIndexAndClassVec& indicesInNode){
-
-				std::random_device rd; // obtain a random number from hardware
-				std::mt19937 eng(rd());
-				std::uniform_int_distribution<> distr(0, fpSingleton::getSingleton().returnNumObservations()-1);
-
-				indicesInNode.resetVectors();
-
-				int numUnusedObs = fpSingleton::getSingleton().returnNumObservations();
-				int randomObsID;
-				int tempMoveObs;
-
-				for(int n = 0; n < fpSingleton::getSingleton().returnNumObservations(); n++){
-					randomObsID = distr(eng);
-
-					indicesInNode.insertIndex(nodeIndices[randomObsID], fpSingleton::getSingleton().returnLabel(nodeIndices[randomObsID]));
-
-					if(randomObsID < numUnusedObs){
-						--numUnusedObs;
-						tempMoveObs = nodeIndices[numUnusedObs];
-						nodeIndices[numUnusedObs] = nodeIndices[randomObsID];
-						nodeIndices[randomObsID] = tempMoveObs;
-					}
-				}
-
-			}
-
 
 			inline void growTrees(){
 
-				obsIndexAndClassVec indexHolder(fpSingleton::getSingleton().returnNumClasses());
-				std::vector<zipClassAndValue<int, T> > zipVec(fpSingleton::getSingleton().returnNumObservations());
-
-				//#pragma omp parallel for
-				for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
-					setSharedVectors(indexHolder);
+#pragma omp parallel for num_threads(fpSingleton::getSingleton().returnNumThreads())
+				for(unsigned int i = 0; i < trees.size(); ++i){
 					printProgress.displayProgress(i);
-					trees.emplace_back(indexHolder, zipVec);
-					//	LIKWID_MARKER_START("createTree");
-					trees.back().createTree();
-					//	LIKWID_MARKER_STOP("createTree");
+					trees[i].growTree();
 				}
-				nodeIndices.clear();
 				std::cout << "\n"<< std::flush;
 			}
 
@@ -118,10 +70,9 @@ namespace fp {
 				trees[0].printTree();
 			}
 
-			inline void growForest(){
+			void growForest(){
 				//	checkParameters();
-				//TODO: change this so forest isn't grown dynamically.
-				//changeForestSize();
+				changeForestSize();
 				growTrees();
 				treeStats();
 			}
@@ -131,20 +82,7 @@ namespace fp {
 				for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
 					++classTally[trees[i].predictObservation(observationNumber)];
 				}
-				int bestClass = 0;
-				for(int j = 1; j < fpSingleton::getSingleton().returnNumClasses(); ++j){
-					if(classTally[bestClass] < classTally[j]){
-						bestClass = j;
-					}
-				}
-				return bestClass;
-			}
 
-			inline int predictClass(std::vector<T>& observation){
-				std::vector<int> classTally(fpSingleton::getSingleton().returnNumClasses(),0);
-				for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
-					++classTally[trees[i].predictObservation(observation)];
-				}
 				int bestClass = 0;
 				for(int j = 1; j < fpSingleton::getSingleton().returnNumClasses(); ++j){
 					if(classTally[bestClass] < classTally[j]){
@@ -161,6 +99,7 @@ inline int predictClass(const T* observation){
 				for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
 					++classTally[trees[i].predictObservation(observation)];
 				}
+
 				int bestClass = 0;
 				for(int j = 1; j < fpSingleton::getSingleton().returnNumClasses(); ++j){
 					if(classTally[bestClass] < classTally[j]){
@@ -170,6 +109,22 @@ inline int predictClass(const T* observation){
 				return bestClass;
 				*/
 	return 0;
+			}
+
+
+			inline int predictClass(std::vector<T>& observation){
+				std::vector<int> classTally(fpSingleton::getSingleton().returnNumClasses(),0);
+				for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
+					++classTally[trees[i].predictObservation(observation)];
+				}
+
+				int bestClass = 0;
+				for(int j = 1; j < fpSingleton::getSingleton().returnNumClasses(); ++j){
+					if(classTally[bestClass] < classTally[j]){
+						bestClass = j;
+					}
+				}
+				return bestClass;
 			}
 
 
@@ -192,4 +147,4 @@ inline int predictClass(const T* observation){
 	};
 
 }// namespace fp
-#endif //inPlaceBase_h
+#endif //fpForestClassification_h
