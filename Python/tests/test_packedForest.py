@@ -6,14 +6,14 @@ import pyfp
 
 def test_set_params():
     forest = pyfp.fpForest()
-    forest.setParamString("CSVFileName", "somefile")
-    forest.setParamInt("numTreesInForest", 300)
-    forest.setParamInt("minParent", 2)
-    forest.setParamInt("columnWithY", 3)
-    forest.setParamInt("numCores", 4)
-    forest.setParamDouble("fractionOfFeaturesToTest", 0.25)
-    forest.setParamInt("seed", 300)
-    forest.setParamString("forestType", "rerf")
+    forest.setParameter("CSVFileName", "somefile")
+    forest.setParameter("numTreesInForest", 300)
+    forest.setParameter("minParent", 2)
+    forest.setParameter("columnWithY", 3)
+    forest.setParameter("numCores", 4)
+    forest.setParameter("fractionOfFeaturesToTest", 0.25)
+    forest.setParameter("seed", 300)
+    forest.setParameter("forestType", "rerf")
 
     params = get_params(forest)
 

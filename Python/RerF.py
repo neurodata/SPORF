@@ -3,8 +3,10 @@ import numpy as np
 
 
 def fastRerF(
-    CSVFile,
-    Ycolumn,
+    X=None,
+    Y=None,
+    CSVFile=None,
+    Ycolumn=None,
     forestType="rerf",
     trees=500,
     minParent=1,
@@ -17,8 +19,10 @@ def fastRerF(
     """Creates a decision forest based on an input matrix and class vector.
     
     Arguments:
-        CSVFile {str} -- training CSV filename
-        Ycolumn {int} -- column in data with labels
+        X {2D numpy array} -- (default: {None})
+        Y {list, 1D numpy array} -- (default: {None})
+        CSVFile {str} -- training CSV filename (default: {None})
+        Ycolumn {int} -- column in data with labels (default: {None})
     
     Keyword Arguments:
         forestType {str} -- type of forest (default: {"rerf"})
@@ -35,23 +39,31 @@ def fastRerF(
     """
 
     forestClass = pyfp.fpForest()
-    forestClass.setParamString("forestType", forestType)
-    forestClass.setParamInt("numTreesInForest", trees)
-    forestClass.setParamInt("minParent", minParent)
-    forestClass.setParamString("CSVFileName", CSVFile)
-    forestClass.setParamInt("columnWithY", Ycolumn)
+
+    forestClass.setParameter("forestType", forestType)
+    forestClass.setParameter("numTreesInForest", trees)
+    forestClass.setParameter("minParent", minParent)
 
     if numCores is not None:
-        forestClass.setParamInt("numCores", numCores)
+        forestClass.setParameter("numCores", numCores)
     if mtry is not None:
-        forestClass.setParamInt("mtry", mtry)
+        forestClass.setParameter("mtry", mtry)
     if fractionOfFeaturesToTest is not None:
-        forestClass.setParamDouble("fractionOfFeaturesToTest", fractionOfFeaturesToTest)
+        forestClass.setParameter("fractionOfFeaturesToTest", fractionOfFeaturesToTest)
     if seed is not None:
-        forestClass.setParamInt("seed", seed)
+        forestClass.setParameter("seed", seed)
 
     # forestClass.setNumberOfThreads()
-    forestClass.growForest()
+
+    if CSVFile is not None and Ycolumn is not None:
+        forestClass.setParameter("CSVFileName", CSVFile)
+        forestClass.setParameter("columnWithY", Ycolumn)
+        forestClass.growForest()
+    elif X is not None and Y is not None:
+        num_obs = len(Y)
+        num_features = X.shape[1]
+        forestClass.growForest(X, Y, num_obs, num_features)
+
     return forestClass
 
 
