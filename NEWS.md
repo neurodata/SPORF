@@ -1,7 +1,7 @@
 ## Changes in 2.0.3:
 
 * The `PrintTree` function has been added to aid in viewing the
-  cutpoints, features, and other statistics in a particular tree of a
+  cut-points, features, and other statistics in a particular tree of a
   forest.
 
 * Urerf now supports using the Bayesian information criterion (BIC) from
@@ -12,8 +12,9 @@
   weights are continuous we tabulate how many times a unique combination
   of features was used, ignoring the weights.
 
-* A C++ implmentation of Randomer Forest has been added.
-
+* An issue where the `split.cpp` function split the data `A` into `{A, {}}`
+  has been resolved by computing equivalence within some factor of
+  machine precision instead of exactly.
 
 ## Changes in 2.0.2:
 
