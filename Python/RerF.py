@@ -58,11 +58,11 @@ def fastRerF(
     if CSVFile is not None and Ycolumn is not None:
         forestClass.setParameter("CSVFileName", CSVFile)
         forestClass.setParameter("columnWithY", Ycolumn)
-        forestClass.growForest()
+        forestClass._growForest()
     elif X is not None and Y is not None:
         num_obs = len(Y)
         num_features = X.shape[1]
-        forestClass.growForestnumpy(X, Y, num_obs, num_features)
+        forestClass._growForestnumpy(X, Y, num_obs, num_features)
 
     return forestClass
 
@@ -75,17 +75,13 @@ def fastPredict(X, forest):
         forest {forestClass} -- forest to run predictions on
 
     Returns:
-        predictions {double, list} -- a double if a single row, a list if multiple predictions
+        predictions {int, list} -- int if a single row, a list if multiple observations input
     """
 
-    X_rows = X.shape[0]
-
-    if X_rows == 1:
-        predictions = forest.predict(X.tolist())
-
+    if X.ndim == 1:
+        predictions = forest._predict(X.tolist())
     else:
-        predictions = list(map(forest.predict, [row[:].tolist() for row in X]))
-
+        predictions = forest._predict_numpy(X)
     return predictions
 
 
