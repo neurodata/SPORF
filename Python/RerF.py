@@ -62,7 +62,7 @@ def fastRerF(
     elif X is not None and Y is not None:
         num_obs = len(Y)
         num_features = X.shape[1]
-        forestClass.growForest(X, Y, num_obs, num_features)
+        forestClass.growForestnumpy(X, Y, num_obs, num_features)
 
     return forestClass
 

@@ -15,8 +15,12 @@ print("data loaded")
 feat_data = X[:, 0:4]  # iris
 # feat_data = X[:, 1:]  # mnist
 
+# forest = fastRerF(
+#     CSVFile=datafile, Ycolumn=label_col, forestType="rerf", trees=1, seed=1, numCores=4
+# )
+
 forest = fastRerF(
-    CSVFile=datafile, Ycolumn=label_col, forestType="rerf", trees=1, seed=1, numCores=4
+    X=feat_data, Y=X[:, 4], forestType="rerf", trees=1, seed=1, numCores=4
 )
 
 forest.printParameters()

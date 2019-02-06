@@ -33,16 +33,16 @@ PYBIND11_MODULE(pyfp, m)
                             py::scoped_estream_redirect>())
         .def("setNumberOfThreads", &fpForest<double>::setNumberOfThreads)
 
-        .def("growForestnumpy", [](py::array_t<double> X, py::array_t<int> Y, int numObs, int numFeatures) {
+        .def("growForestnumpy", [](fpForest<double> &self, py::array_t<double> X, py::array_t<int> Y, int numObs, int numFeatures) {
             py::buffer_info Xinfo = X.request();
-            double *Xptr = (double *)Xinfo.ptr;
+            const double *Xptr = (double *)Xinfo.ptr;
             // auto Xptr = static_cast<double *>(Xinfo.ptr);
 
             py::buffer_info Yinfo = Y.request();
-            int *Yptr = (int *)Yinfo.ptr;
-            // auto Yptr = static_cast<double *>(Yinfo.ptr);
+            const int *Yptr = (int *)Yinfo.ptr;
+            // auto Yptr = static_cast<int *>(Yinfo.ptr);
 
-            &fpForest<double>.growForest(*Xptr, *Yptr, numObs, numFeatures);
+            self.growForest(Xptr, Yptr, numObs, numFeatures);
         })
 
         .def("growForest", py::overload_cast<>(&fpForest<double>::growForest))
