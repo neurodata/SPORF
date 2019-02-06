@@ -32,14 +32,22 @@ PYBIND11_MODULE(pyfp, m)
              py::call_guard<py::scoped_ostream_redirect,
                             py::scoped_estream_redirect>())
         .def("setNumberOfThreads", &fpForest<double>::setNumberOfThreads)
-        .def("growForest",
-             py::overload_cast<const py::array_t<double> *, const int *, int, int>(&fpForest<double>::growForest))
-        .def("growForest",
-             py::overload_cast<>(&fpForest<double>::growForest))
-        .def("predict",
-             py::overload_cast<std::vector<double> &>(&fpForest<double>::predict))
-        .def("predict",
-             py::overload_cast<const double *>(&fpForest<double>::predict))
+
+        .def("growForestnumpy", [](py::array_t<double> X, py::array_t<int> Y, int numObs, int numFeatures) {
+            py::buffer_info Xinfo = X.request();
+            double *Xptr = (double *)Xinfo.ptr;
+            // auto Xptr = static_cast<double *>(Xinfo.ptr);
+
+            py::buffer_info Yinfo = Y.request();
+            int *Yptr = (int *)Yinfo.ptr;
+            // auto Yptr = static_cast<double *>(Yinfo.ptr);
+
+            &fpForest<double>.growForest(*Xptr, *Yptr, numObs, numFeatures);
+        })
+
+        .def("growForest", py::overload_cast<>(&fpForest<double>::growForest))
+        .def("predict", py::overload_cast<std::vector<double> &>(&fpForest<double>::predict))
+        .def("predict", py::overload_cast<const double *>(&fpForest<double>::predict))
         .def("testAccuracy", &fpForest<double>::testAccuracy);
 }
 
