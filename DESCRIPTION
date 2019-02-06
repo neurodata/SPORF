@@ -1,8 +1,8 @@
 Package: rerf
 Type: Package
 Title: Randomer Forest
-Version: 2.0.2.9000
-Date: 2019-01-17
+Version: 2.0.3
+Date: 2019-02-06
 Authors@R: c(
         person("Jesse", "Patsolic", role = c("ctb", "cre"), email = "software@neurodata.io"),
         person("Benjamin", "Falk", role = "ctb", email = "falk.ben@jhu.edu"),
@@ -26,7 +26,7 @@ Description: R-RerF (aka Randomer Forest (RerF) or Random Projection
   algorithms is where the random linear combinations occur: Forest-RC
   combines features at the per tree level whereas RerF takes linear
   combinations of coordinates at every node in the tree.
-Depends: R (>= 3.3.0)
+Depends: R (>= 3.3.0), Rcpp (>= 1.0.0)
 License: Apache License 2.0 | file LICENSE
 URL: https://github.com/neurodata/R-RerF
 BugReports: https://github.com/neurodata/R-RerF/issues
