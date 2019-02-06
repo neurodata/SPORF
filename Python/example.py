@@ -1,26 +1,32 @@
 from RerF import fastRerF, fastPredict
 import numpy as np
 
+# datatype = "iris"
+datatype = "mnist"
 
-datafile = "../src/packedForest/res/iris.csv"
-# datafile = "../src/packedForest/res/mnist.csv"
-
-label_col = 4  # iris
-# label_col = 0  # mnist
+if datatype == "iris":
+    datafile = "../src/packedForest/res/iris.csv"
+    label_col = 4
+elif datatype == "mnist":
+    datafile = "../src/packedForest/res/mnist.csv"
+    label_col = 0
 
 print("loading data...")
 X = np.genfromtxt(datafile, delimiter=",")
 print("data loaded")
 
-feat_data = X[:, 0:4]  # iris
-# feat_data = X[:, 1:]  # mnist
+if datatype == "iris":
+    feat_data = X[:, 0:4]  # iris
+    labels = X[:, 4]
+elif datatype == "mnist":
+    feat_data = X[:, 1:]  # mnist
+    labels = X[:, 0]
 
 # forest = fastRerF(
 #     CSVFile=datafile, Ycolumn=label_col, forestType="rerf", trees=1, seed=1, numCores=4
 # )
-
 forest = fastRerF(
-    X=feat_data, Y=X[:, 4], forestType="rerf", trees=1, seed=1, numCores=4
+    X=feat_data, Y=labels, forestType="rerf", trees=500, seed=1, numCores=4
 )
 
 forest.printParameters()
@@ -34,12 +40,20 @@ print(
 )
 
 print("loading test data...")
-test_X = np.genfromtxt("../src/packedForest/res/iris.csv", delimiter=",")  # iris
-# test_X = np.genfromtxt("../src/packedForest/res/mnist_test.csv", delimiter=",") #mnist
+
+if datatype == "iris":
+    test_X = np.genfromtxt("../src/packedForest/res/iris.csv", delimiter=",")  # iris
+elif datatype == "mnist":
+    test_X = np.genfromtxt(
+        "../src/packedForest/res/mnist_test.csv", delimiter=","
+    )  # mnist
 print("data loaded")
 
-test_data = test_X[:, 0:4]  # iris
-# test_data = test_X[:, 1:]  # mnist
+if datatype == "iris":
+    test_data = test_X[:, 0:4]  # iris
+elif datatype == "mnist":
+    test_data = test_X[:, 1:]  # mnist
+
 test_pred = fastPredict(test_data, forest)
 
 print(
