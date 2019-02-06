@@ -1,7 +1,13 @@
-README
+Randomer Forest
 ================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+[![CRAN Status
+Badge](https://www.r-pkg.org/badges/version/rerf)](https://cran.r-project.org/package=rerf)
+[![arXiv
+shield](https://img.shields.io/badge/arXiv-1506.03410-red.svg?style=flat)](https://arxiv.org/abs/1506.03410)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1933344.svg)](https://doi.org/10.5281/zenodo.1933344)
 
   - [Randomer Forest](#randomer-forest)
       - [Repo Contents](#repo-contents)
@@ -22,13 +28,6 @@ README
         classification:](#train-structured-rerf-s-rerf-for-image-classification)
       - [Unsupervised classification
         (U-RerF)](#unsupervised-classification-u-rerf)
-
-# [Randomer Forest](https://arxiv.org/pdf/1506.03410v2.pdf "arxiv link to RerF paper")
-
-[![CRAN Status
-Badge](https://www.r-pkg.org/badges/version/rerf)](https://cran.r-project.org/package=rerf)
-[![arXiv
-shield](https://img.shields.io/badge/arXiv-1506.03410-red.svg?style=flat)](https://arxiv.org/abs/1506.03410)
 
 ## Repo Contents
 
@@ -80,7 +79,7 @@ Any machine with \>= 2 GB RAM
 
 ## Installation
 
-  - Installation normally takes ~5-10 minutes
+  - Installation normally takes \~5-10 minutes
   - Non-Windows users install the GNU Scientific Library (libgsl0-dev).
   - Windows users install Rtools
     (<https://cran.r-project.org/bin/windows/Rtools/>)
@@ -268,18 +267,18 @@ sim.matrix <- ComputeSimilarity(X, forest, num.cores = 1L)
 
 ``` r
 sim.matrix[1, ]
-#>   [1] 1.000 0.948 0.940 0.932 0.998 0.958 0.966 0.994 0.916 0.958 0.980
-#>  [12] 0.980 0.948 0.920 0.828 0.800 0.968 1.000 0.828 0.998 0.996 0.992
-#>  [23] 0.970 0.966 0.978 0.958 0.984 1.000 0.996 0.940 0.946 0.996 0.964
-#>  [34] 0.876 0.956 0.968 0.910 0.994 0.924 0.996 0.994 0.870 0.936 0.972
-#>  [45] 0.968 0.930 0.996 0.938 0.984 0.972 0.000 0.000 0.000 0.000 0.000
+#>   [1] 1.000 0.958 0.962 0.958 0.996 0.948 0.970 0.992 0.936 0.966 0.964
+#>  [12] 0.986 0.958 0.938 0.788 0.746 0.954 1.000 0.794 0.994 0.994 0.994
+#>  [23] 0.982 0.976 0.984 0.962 0.988 1.000 0.998 0.962 0.964 0.992 0.954
+#>  [34] 0.848 0.964 0.970 0.878 0.994 0.938 0.998 0.992 0.884 0.948 0.984
+#>  [45] 0.976 0.954 0.992 0.960 0.968 0.972 0.000 0.000 0.000 0.000 0.000
 #>  [56] 0.000 0.000 0.008 0.000 0.000 0.002 0.000 0.000 0.000 0.000 0.000
-#>  [67] 0.000 0.002 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
-#>  [78] 0.000 0.000 0.002 0.000 0.000 0.000 0.000 0.004 0.000 0.000 0.000
-#>  [89] 0.000 0.000 0.000 0.000 0.000 0.002 0.000 0.000 0.000 0.000 0.032
-#> [100] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.002
-#> [111] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.004 0.000 0.000 0.000
-#> [122] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.004
+#>  [67] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+#>  [78] 0.000 0.000 0.000 0.002 0.004 0.000 0.000 0.008 0.000 0.000 0.000
+#>  [89] 0.000 0.000 0.000 0.000 0.000 0.002 0.000 0.000 0.000 0.000 0.014
+#> [100] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+#> [111] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.002 0.000 0.000 0.000
+#> [122] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.002
 #> [133] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
 #> [144] 0.000 0.000 0.000 0.000 0.000 0.000 0.000
 ```
@@ -305,25 +304,26 @@ scor <- StrCorr(predictions, Y[-trainIdx])
 ``` r
 scor
 #> $s
-#> [1] 0.8484
+#> [1] 0.8488667
 #> 
 #> $rho
-#> [1] 0.3299739
+#> [1] 0.4747382
 ```
 
 ### Compute feature (projection) importance (DEV version only):
 
 Computes the Gini importance for all of the unique projections used to
-split the data. The returned value is a list with members imp and proj.
-The member imp is a numeric vector of feature importances sorted in
-decreasing order. The member proj is a list the same length as imp of
-vectors specifying the split projections corresponding to the values in
-imp. The projections are represented by the vector such that the odd
-numbered indices indicate the canonical feature indices and the even
-numbered indices indicate the linear coefficients. For example a vector
-(1,-1,4,1,5,-1) is the projection -X1 + X4 - X5. **Note**: it is highly
-advised to run this only when the splitting features (projections) have
-unweighted coefficients, such as for the default setting or for RF.
+split the data. The returned value is a list with members imp and
+features. The member imp is a numeric vector of feature importances
+sorted in decreasing order. The member features is a list the same
+length as imp of vectors specifying the split projections corresponding
+to the values in imp. The projections are represented by the vector such
+that the odd numbered indices indicate the canonical feature indices and
+the even numbered indices indicate the linear coefficients. For example
+a vector (1,-1,4,1,5,-1) is the projection -X1 + X4 - X5. **Note**: it
+is highly advised to run this only when the splitting features
+(projections) have unweighted coefficients, such as for the default
+setting or for RF.
 
 ``` r
 X <- as.matrix(iris[, 1:4]) # feature matrix
@@ -337,7 +337,8 @@ forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], FUN = RandMatRF,
                paramList = list(p = p, d = d), num.cores = 1L,
                store.impurity = TRUE, seed = 1L)
 
-feature.imp <- FeatureImportance(forest, num.cores = 1L)
+feature.imp <- FeatureImportance(forest, num.cores = 1L, type = "R")
+#> Message: Computing feature importance for RandMatRF.
 ```
 
 **Expected output**
@@ -347,18 +348,22 @@ feature.imp
 #> $imp
 #> [1] 23549.727 20799.581  4617.132  1026.042
 #> 
-#> $proj
-#> $proj[[1]]
+#> $features
+#> $features[[1]]
 #> [1] 4 1
 #> 
-#> $proj[[2]]
+#> $features[[2]]
 #> [1] 3 1
 #> 
-#> $proj[[3]]
+#> $features[[3]]
 #> [1] 1 1
 #> 
-#> $proj[[4]]
+#> $features[[4]]
 #> [1] 2 1
+#> 
+#> 
+#> $type
+#> [1] "R"
 ```
 
 ## Train Structured RerF (S-RerF) for image classification:
@@ -405,7 +410,7 @@ mnist.error.rate <- mean(predictions != Ytest)
 
 ``` r
 mnist.error.rate
-#> [1] 0.03732913
+#> [1] 0.0362776
 ```
 
 ## Unsupervised classification (U-RerF)
@@ -435,8 +440,8 @@ table(clusters, truth = as.numeric(iris[[5]]))
 #>         truth
 #> clusters  1  2  3
 #>        1 50  0  0
-#>        2  0 12 50
-#>        3  0 38  0
+#>        2  0 20 37
+#>        3  0 30 13
 ```
 
 <!-- calcium-spike data are not properly documented at this time, waiting on @jasonkyuyim TBD by 20180813 -->

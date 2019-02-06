@@ -1,10 +1,13 @@
 language: r
-dist: trusty
+sudo: false
+cache: packages
+
+env:
+  global:
+    - WARNINGS_ARE_ERRORS=1
 
 r:
   - release
-
-sudo: false
 
 addons:
   apt:

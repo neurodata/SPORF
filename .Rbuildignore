@@ -10,4 +10,6 @@
 ^.*\.so$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^CONTRIBUTING.md$
+^\.github$
+^src/packedForest$
+^src/submodule_readme.md$
