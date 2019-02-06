@@ -44,3 +44,4 @@ bin/
 # data files that may be too large
 *.csv
 
+.vscode
