@@ -43,7 +43,7 @@ pip install pybind11
   ```sh
   cd RerF/src
   git submodule update --init
-  cd ..
+  cd ../..
   ```
   Then, go to the Python directory:
   ```sh
