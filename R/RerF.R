@@ -28,6 +28,7 @@
 #' @return forest
 #'
 #' @useDynLib rerf
+#' @import Rcpp
 #' @importFrom parallel detectCores mclapply makePSOCKcluster clusterEvalQ clusterSetRNGStream
 #' @importFrom dummies dummy
 #' @importFrom stats na.action

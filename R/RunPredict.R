@@ -58,7 +58,8 @@ RunPredict <- function(X, tree) {
   for (m in 1:numNodes) {
     nodeSize <- length(Assigned2Node[[m]])
     if (nodeSize > 0L) {
-      if ((tm <- tree$treeMap[m]) > 0L) { ## if node is not terminal, then split data
+      tm <- tree$treeMap[m]
+      if (tm > 0L) {
         indexHigh <- tree$matAindex[tm + 1L]
         indexLow <- tree$matAindex[tm] + 1L
         s <- (indexHigh - indexLow + 1L) / 2L
