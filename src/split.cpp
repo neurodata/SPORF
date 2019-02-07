@@ -29,7 +29,7 @@ List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize,
 			if (yl == yr) {
 				continue;
 			} else {
-				if (~multiy) {
+				if (!multiy) {
 					multiy = true;
 					if (potsplit != 0) {
 						cpl = potccl/potsplit;
@@ -54,7 +54,7 @@ List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize,
 			if (yl == yr) {
 				continue;
 			} else {
-				if (~multiy) {
+				if (!multiy) {
 					multiy = true;
 					if (potsplit != 0) {
 						cpl = potccl/potsplit;
