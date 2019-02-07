@@ -37,6 +37,16 @@ pip install pybind11
 
   ```sh
   git clone https://github.com/neurodata/R-RerF.git
+  ```
+  
+  You may have to initialize the RerF/src submodule:
+  ```sh
+  cd RerF/src
+  git submodule update --init
+  cd ..
+  ```
+  Then, go to the Python directory:
+  ```sh
   cd R-RerF/Python
   ```
 
