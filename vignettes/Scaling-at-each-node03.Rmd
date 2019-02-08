@@ -1,0 +1,301 @@
+---
+title: "Scaling at each node: Experiment 03"
+author: "Jesse L. Patsolic"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r render, include = FALSE, eval = FALSE, echo = FALSE}
+#devtools::install_github('neurodata/RerF', 
+#                         ref = 'e7f0181dba6c5434fd44cf9077e3ac75a458912c')
+#rm(list = ls())
+require(rmarkdown)
+render("Scaling-at-each-node03.Rmd")
+system("open Scaling-at-each-node03.html")
+```
+
+```{r setup, include = FALSE}
+set.seed(2019)
+require(rerf)
+require(knitr)
+require(gridExtra)
+require(ggplot2)
+require(rerf)
+require(data.table)
+require(scales)
+#options(digits = 20)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>", 
+  fig.width = 8,
+  fig.height = 8,
+  dev = 'png'
+)
+```
+
+```{r setup2, include = FALSE}
+#' @param X prediction data points. an n by d numeric matrix. The rows correspond to observations and columns correspond to features.
+#' @param forest a trained forest
+#' @param N integer that determines the size of grid. Higher means finer grid, and more detailed plot
+#' @param log string. Axis to change to log scale. Either 'x', 'y' or 'xy'.
+#' @param points Whether to plot X
+#' @param contours Whether to plot contour lines
+#' @param legend Whether to plot legend
+#' @param Y the true labels if available
+
+PlotBoundary.2Class <- function(X, forest, N=200L, log='', points=TRUE, contours=TRUE, legend=TRUE, Y = NULL) {
+  collist.diverging <- c('#c51b7d','#e9a3c9','#fde0ef','#e6f5d0','#a1d76a','#4d9221')
+
+  pred = Predict(X, forest)
+  num.classes <- length(levels(pred))
+
+  grid = expand.grid(
+    X.1 = seq(min(X[,1]), max(X[,1]), length.out = N),
+    X.2 = seq(min(X[,2]), max(X[,2]), length.out = N)
+  )
+
+  names(grid) <- names(X)
+
+  pred.grid <- Predict(grid, forest, output.scores = TRUE)
+  pred.grid <- matrix(pred.grid, ncol = N, nrow = N)
+
+  x.plot <- unique(grid[, 1])
+  y.plot <- unique(grid[, 2])
+
+  image(
+    x.plot,
+    y.plot,
+    pred.grid,
+    useRaster = TRUE,
+    col = colorRampPalette(collist.diverging)(N),
+    xlab = names(grid)[1],
+    ylab = names(grid)[2],
+    log = log
+    #main = "RerF"
+  )
+
+  if (points) {
+    if(!is.null(Y)) { 
+      pch = c(16,17)[(as.numeric(pred) != Y) + 1]
+    } else {
+      pch = c(16,17)[as.numeric(pred)]
+    }
+    points(
+      X,
+      pch = pch,
+      col = adjustcolor("black", alpha = 0.5)
+    )
+  }
+
+  if (contours) {
+    contour(
+      unique(grid$Petal.Length),
+      unique(grid$Petal.Width),
+      pred.grid,
+      add = TRUE,
+      levels = c(.25,.5,.75),
+      labcex = 1,
+      lwd = 1.75
+    )
+  }
+
+  if (legend) {
+    if(!is.null(Y)){
+      lev = c("correct", "incorrect")
+    } else {
+      lev = levels(pred)
+    }
+    legend("bottomright", xpd=NA, legend = lev, pch = c(16,17), bg = "white")
+  }
+}
+
+```
+
+# Introduction
+
+## Toy dataset 3
+
+```{r}
+set.seed(54321)
+N <- 1e4
+n <- 100
+eps <- 1
+
+#m1 <- -100
+#b1 <- 100
+m1 <- 100
+b1 <- 0
+l1 <- function(x) m1 * x + b1
+
+r12 <- data.frame(x = 10^runif(N, -1, 0), y = 10^runif(N, 1, 2))
+
+r1x <- r12[with(r12, y < l1(x)), ][1:50, ]
+r2o <- r12[with(r12, y >= l1(x)), ][1:50, ]
+
+r3x <- data.frame(x = 10^runif(50, -1, 0), y = 10^runif(50, 2, 3))
+r4o <- data.frame(x = 10^runif(50, 0, 1), y = 10^runif(50, 1, 3))
+
+X <- data.frame(rbind(r1x, r3x, r2o, r4o))
+Y <- rep(c(1, 2), each = 100)
+```
+
+
+### note the differing scales
+
+Sampling uniformly on a log-scale
+```{r}
+plot(X, col = Y, pch = 19, cex = 0.5)
+curve(l1, xlim = c(0.1,1), col = 'green', add = TRUE)
+plot(log10(X), col = Y, pch = 19, cex = 0.5)
+```
+
+
+## Train some forests
+
+```{r, RerF-setup2}
+FUN <- RandMatBinary
+mdepth <- 3L
+num.cores <- 1L
+paramList <- list(p = 2, d = 8, sparsity = 0.65, prob = 0.5)
+ntrees <- 1L
+```
+
+```{r}
+seed <- 2^13
+set.seed(seed)
+
+f2 <- RerF(X, Y, FUN = FUN, paramList = paramList, scaleAtNode = FALSE, trees = ntrees, max.depth = mdepth, store.oob = TRUE, store.impurity = TRUE, num.cores = num.cores, seed = seed)
+f2.pred <- Predict(X, f2)
+
+f2s <- RerF(X, Y, FUN = FUN, paramList = paramList, scaleAtNode = TRUE, trees = ntrees, max.depth = mdepth, store.oob = TRUE, store.impurity = TRUE, num.cores = num.cores, seed = seed)
+f2s.pred <- Predict(X, f2s)
+
+RcppZiggurat::zsetseed(seed)
+f2c <- RerF(X, Y, FUN = RandMatContinuous,  paramList = paramList, scaleAtNode = FALSE, trees = ntrees, max.depth = mdepth, store.oob = TRUE, store.impurity = TRUE, num.cores = num.cores, seed = seed)
+f2c.pred <- Predict(X, f2c)
+
+RcppZiggurat::zsetseed(seed)
+f2cs <- RerF(X, Y, FUN = RandMatContinuous,  paramList = paramList, scaleAtNode = TRUE, trees = ntrees, max.depth = mdepth, store.oob = TRUE, store.impurity = TRUE, num.cores = num.cores, seed = seed)
+f2cs.pred <- Predict(X, f2cs)
+```
+
+
+### Scaled forest (RandMatBinary)
+
+```{r, echo = FALSE, results = 'asis'}
+kable(PrintTree(f2s, 1))
+```
+
+#### Confusion matrix
+
+```{r, echo = FALSE, results = 'asis'}
+kable(table(f2s.pred, Y))
+```
+
+#### Percent error
+```{r}
+mean(f2s.pred != Y)
+```
+
+### Un-scaled forest (RandMatBinary)
+
+```{r, results = 'asis'}
+kable(PrintTree(f2, 1))
+```
+
+#### Confusion matrix
+
+```{r, echo = FALSE, results = 'asis'}
+kable(table(f2.pred, Y))
+```
+
+#### Percent error
+
+```{r}
+mean(f2.pred != Y)
+```
+
+### Un-scaled forest (RandMatContinuous)
+
+```{r, results = 'asis'}
+kable(PrintTree(f2c, 1))
+```
+
+#### Confusion matrix
+
+```{r, echo = FALSE, results = 'asis'}
+kable(table(f2c.pred, Y))
+```
+
+
+#### Percent error
+
+```{r}
+mean(f2c.pred != Y)
+```
+
+### Scaled forest (RandMatContinuous)
+
+```{r, results = 'asis'}
+kable(PrintTree(f2cs, 1))
+```
+
+#### Confusion matrix
+
+```{r, echo = FALSE, results = 'asis'}
+kable(table(f2cs.pred, Y))
+```
+
+
+#### Percent error
+
+```{r}
+mean(f2cs.pred != Y)
+```
+
+
+
+### Plots
+
+```{r}
+PlotBoundary.2Class(X, f2s, N = 200L, contour = FALSE, Y = Y)
+PlotBoundary.2Class(X, f2, N = 200L, contour = FALSE, Y = Y)
+
+
+plot(X, col = (f2s.pred != Y) + 1)
+plot(log10(X), col = Y)
+```
+
+
+
+# Manual projections
+
+
+```{r, fig.width = 10}
+A <- as.matrix(X)
+As <- as.matrix(Scale01(X)$scaledXnode)
+
+projList <- list(c(1,0), c(0,1), c(1, 1), c(-1,1))
+
+proj1 <- lapply(projList, function(x) A %*% as.matrix(x))
+projS <- lapply(projList, function(x) As %*% as.matrix(x))
+
+tmp1 <- cbind(Reduce(c, proj1), rep(1:length(projList), each = nrow(X)))
+tmpS <- cbind(Reduce(c, projS), rep(1:length(projList), each = nrow(X)))
+
+tmp1[, 2] <- tmp1[, 2] + 0.1 * Y
+tmpS[, 2] <- tmpS[, 2] + 0.1 * Y
+
+par(mfrow = c(1,3))
+plot(log10(X), col = Y, main = "Original data on log10-scale")
+plot(tmpS, col = Y, pch = Y, main = "scaled projections")
+plot(tmp1, col = Y, pch = Y, main = "non-scaled projections")
+```
+
+
+
+
