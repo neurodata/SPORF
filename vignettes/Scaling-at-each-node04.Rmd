@@ -1,5 +1,5 @@
 ---
-title: "Scaling at each node: Experiment 03"
+title: "Scaling at each node: Experiment 04"
 author: "Jesse L. Patsolic"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -14,8 +14,8 @@ vignette: >
 #                         ref = 'e7f0181dba6c5434fd44cf9077e3ac75a458912c')
 #rm(list = ls())
 require(rmarkdown)
-render("Scaling-at-each-node03.Rmd")
-system("open Scaling-at-each-node03.html")
+render("Scaling-at-each-node04.Rmd")
+system("open Scaling-at-each-node04.html")
 ```
 
 ```{r setup, include = FALSE}
