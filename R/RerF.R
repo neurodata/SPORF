@@ -22,6 +22,7 @@
 #' @param seed the seed to use for training the forest.  For two runs to match you must use the same seed for each run AND you must also use the same number of cores for each run. (seed=sample((0:100000000,1)))
 #' @param cat.map a list specifying which columns in X correspond to the same one-of-K encoded feature. Each element of cat.map is a numeric vector specifying the K column indices of X corresponding to the same categorical feature after one-of-K encoding. All one-of-K encoded features in X must come after the numeric features. The K encoded columns corresponding to the same categorical feature must be placed contiguously within X. The reason for specifying cat.map is to adjust for the fact that one-of-K encoding cateogorical features results in a dilution of numeric features, since a single categorical feature is expanded to K binary features. If cat.map = NULL, then RerF assumes all features are numeric (i.e. none of the features have been one-of-K encoded).
 #' @param rfPack boolean flag to determine whether to pack a random forest in order to improve prediction speed.  This flag is only applicable when training a forest with the "rf" option.  (rfPack = FALSE)
+#' @param eps a scalar between 0 and 1. A leaf node is designated if the mean node similarity is at least 1 - eps. Only used if task is 'similarity' (eps=0.05)
 #'
 #' @return forest
 #'
@@ -92,7 +93,8 @@ RerF <-
              store.impurity = FALSE, progress = FALSE,
              rotate = FALSE, num.cores = 0L,
              seed = sample(0:100000000, 1),
-             cat.map = NULL, rfPack = FALSE) {
+             cat.map = NULL, rfPack = FALSE,
+             task = 'classification', eps = 0.05) {
 
     # The below 'na.action' was removed from the parameter list of RerF because the CRAN check did not accept it and because it will potentially change the X and Y input by the user.
     # na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] },
@@ -119,25 +121,46 @@ RerF <-
       X <- RankMatrix(X)
     }
 
-    # adjust Y to go from 1 to num.class if needed
-    if (is.factor(Y)) {
-      forest$labels <- levels(Y)
-      Y <- as.integer(Y)
-    } else if (is.numeric(Y)) {
-      forest$labels <- sort(unique(Y))
-      Y <- as.integer(as.factor(Y))
-    } else {
-      stop("Incompatible data type. Y must be of type factor or numeric.")
-    }
-    num.class <- length(forest$labels)
-    classCt <- cumsum(tabulate(Y, num.class))
-    if (stratify) {
-      Cindex <- vector("list", num.class)
-      for (m in 1L:num.class) {
-        Cindex[[m]] <- which(Y == m)
+    # check if the data type of Y matches the learning task
+    if (task == 'classifcation') {
+      if (is.matrix(Y)) {
+        if ((dim(Y)[1L] == 1L) || (dim(Y)[2L] == 1L)) {
+          Y <- as.vector(Y)
+        } else {
+          stop("Incompatible data type. Y must be a vector or 1D matrix")
+        }
       }
-    } else {
-      Cindex <- NULL
+      # adjust Y to go from 1 to num.class if needed
+      if (is.factor(Y)) {
+        forest$labels <- levels(Y)
+        Y <- as.integer(Y)
+      } else if (is.numeric(Y)) {
+        forest$labels <- sort(unique(Y))
+        Y <- as.integer(as.factor(Y))
+      } else {
+        stop("Incompatible data type. Y must be of type factor or numeric.")
+      }
+      num.class <- length(forest$labels)
+      classCt <- cumsum(tabulate(Y, num.class))
+      if (stratify) {
+        Cindex <- vector("list", num.class)
+        for (m in 1L:num.class) {
+          Cindex[[m]] <- which(Y == m)
+        }
+      } else {
+        Cindex <- NULL
+      }
+    } else if (task == 'similarity') {
+      if (!is.matrix(Y)) {
+        stop("Incompatible data type. Y must be an n-by-n numeric matrix.")
+      } else {
+        if (!is.numeric(Y[1L])) {
+          stop("Incompatible data type. Y must be an n-by-n numeric matrix.")
+        }
+        if (!identical(Y, t(Y))) {
+          stop("Incompatible data type. Y must be a symmetric numeric matrix.")
+        }
+      }
     }
 
     # address na values.
@@ -151,23 +174,42 @@ RerF <-
     }
 
     mcrun <- function(...) {
-      BuildTree(
-        X = X,
-        Y = Y,
-        FUN = FUN,
-        paramList = paramList,
-        min.parent = min.parent,
-        max.depth = max.depth,
-        bagging = bagging,
-        replacement = replacement,
-        stratify = stratify,
-        class.ind = Cindex,
-        class.ct = classCt,
-        store.oob = store.oob,
-        store.impurity = store.impurity,
-        progress = progress,
-        rotate = rotate
-      )
+      if (task == 'classification') {
+        BuildTree(
+          X = X,
+          Y = Y,
+          FUN = FUN,
+          paramList = paramList,
+          min.parent = min.parent,
+          max.depth = max.depth,
+          bagging = bagging,
+          replacement = replacement,
+          stratify = stratify,
+          class.ind = Cindex,
+          class.ct = classCt,
+          store.oob = store.oob,
+          store.impurity = store.impurity,
+          progress = progress,
+          rotate = rotate
+        )
+      } else if (task == 'similarity') {
+        BuildSimTree(
+          X = X,
+          Y = Y,
+          FUN = FUN,
+          paramList = paramList,
+          min.parent = min.parent,
+          max.depth = max.depth,
+          bagging = bagging,
+          replacement = replacement,
+          stratify = stratify,
+          store.oob = store.oob,
+          store.impurity = store.impurity,
+          progress = progress,
+          rotate = rotate,
+          eps = eps
+        )
+      }
     }
 
     forest$params <- list(
@@ -182,7 +224,9 @@ RerF <-
       store.oob = store.oob,
       store.impurity = store.impurity,
       rotate = rotate,
-      seed = seed
+      seed = seed,
+      task = task,
+      eps = ifelse(task == 'similarity', eps, NULL)
     )
 
     if (num.cores != 1L) {

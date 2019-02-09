@@ -13,3 +13,7 @@ findSplit <- function(x, y, ndSize, I, maxdI, bv, bs, nzidx, cc) {
     .Call('_rerf_findSplit', PACKAGE = 'rerf', x, y, ndSize, I, maxdI, bv, bs, nzidx, cc)
 }
 
+findSplitSim <- function(x, y, ndSize, I, maxdI, bv, bs, nb, nzidx) {
+    .Call('_rerf_findSplitSim', PACKAGE = 'rerf', x, y, ndSize, I, maxdI, bv, bs, nb, nzidx)
+}
+
