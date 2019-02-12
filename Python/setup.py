@@ -71,7 +71,17 @@ def cpp_flag(compiler):
 class BuildExt(build_ext):
     """A custom build extension for adding compiler-specific options."""
 
-    c_opts = {"msvc": ["/EHsc"], "unix": []}
+    c_opts = {
+        "msvc": ["/EHsc", "/openmp"],
+        "unix": [
+            "-Xpreprocessor",
+            "-fopenmp",
+            "-Wall",
+            "-O3",
+            "-DNDEBUG",
+            "-ffast-math",
+        ],
+    }
 
     if sys.platform == "darwin":
         c_opts["unix"] += ["-stdlib=libc++", "-mmacosx-version-min=10.7"]
@@ -88,6 +98,8 @@ class BuildExt(build_ext):
             opts.append('/DVERSION_INFO=\\"%s\\"' % self.distribution.get_version())
         for ext in self.extensions:
             ext.extra_compile_args = opts
+            if ct == "unix":
+                ext.extra_link_args = ["-lgomp"]
         build_ext.build_extensions(self)
 
 

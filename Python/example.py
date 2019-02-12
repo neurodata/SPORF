@@ -1,5 +1,6 @@
 from RerF import fastRerF, fastPredict
 import numpy as np
+from multiprocessing import cpu_count
 
 # datatype = "iris"
 datatype = "mnist"
@@ -23,10 +24,15 @@ elif datatype == "mnist":
     labels = X[:, 0]
 
 # forest = fastRerF(
-#     CSVFile=datafile, Ycolumn=label_col, forestType="rerf", trees=1, seed=1, numCores=4
+#     CSVFile=datafile, Ycolumn=label_col, forestType="rerf", trees=1, seed=1, numCores=cpu_count()-1
 # )
 forest = fastRerF(
-    X=feat_data, Y=labels, forestType="rerf", trees=500, seed=1, numCores=4
+    X=feat_data,
+    Y=labels,
+    forestType="rerf",
+    trees=500,
+    seed=1,
+    numCores=cpu_count() - 1,
 )
 
 forest.printParameters()
