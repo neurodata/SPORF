@@ -4,8 +4,8 @@
 \alias{BuildSimTree}
 \title{RerF Similarity Tree Generator}
 \usage{
-BuildSimTree(X, Y, FUN, paramList, min.parent, max.depth, bagging, replacement,
-  stratify, store.oob, store.impurity, progress, rotate, eps)
+BuildSimTree(X, Y, FUN, paramList, min.parent, max.depth, bagging,
+  replacement, stratify, store.oob, store.impurity, progress, rotate, eps)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}
@@ -45,7 +45,7 @@ Creates a single decision tree based on an input feature matrix and n-by-n simil
 }
 \examples{
 
-x <- matrix(c(0, -1, 1), nrow=3L)
-y <- matrix(c(1, 0, 0, 0, 1, 1, 0, 1, 1), nrow=3L)
+x <- matrix(c(0, -1, 1), nrow = 3L)
+y <- matrix(c(1, 0, 0, 0, 1, 1, 0, 1, 1), nrow = 3L)
 # BuildSimTree(x, y, RandMatBinary, p = 1L, d = 1L, rho = 1, prob = 1)
 }

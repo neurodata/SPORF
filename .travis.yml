@@ -19,6 +19,9 @@ r_packages:
   - testthat
   - Rcpp
 
+before_install:
+  - cd R-Project
+
 script:
   - printf "Starting install and test with devtools.\n\n"
   - Rscript -e "Rcpp::compileAttributes()"

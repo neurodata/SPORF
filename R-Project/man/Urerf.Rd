@@ -4,9 +4,10 @@
 \alias{Urerf}
 \title{Unsupervised RerF forest Generator}
 \usage{
-Urerf(X, trees = 100, min.parent = round(nrow(X)^0.5), max.depth = NA,
-  mtry = ceiling(ncol(X)^0.5), sparsity = 1/ncol(X), normalizeData = TRUE,
-  Progress = TRUE, splitCrit = "twomeans", LinearCombo = TRUE)
+Urerf(X, trees = 100, min.parent = round(nrow(X)^0.5),
+  max.depth = NA, mtry = ceiling(ncol(X)^0.5), sparsity = 1/ncol(X),
+  normalizeData = TRUE, Progress = TRUE, splitCrit = "twomeans",
+  LinearCombo = TRUE)
 }
 \arguments{
 \item{X}{an n by d numeric matrix. The rows correspond to observations and columns correspond to features.}
@@ -39,10 +40,8 @@ Creates a decision forest based on an input matrix.
 ### Train RerF on numeric data ###
 library(rerf)
 urerfStructure <- Urerf(as.matrix(iris[, 1:4]))
-urerfStructure.bic <- Urerf(as.matrix(iris[, 1:4]), splitCrit = 'bicfast')
+urerfStructure.bic <- Urerf(as.matrix(iris[, 1:4]), splitCrit = "bicfast")
 
 dissimilarityMatrix <- hclust(as.dist(1 - urerfStructure$similarityMatrix), method = "mcquitty")
 clusters <- cutree(dissimilarityMatrix, k = 3)
-
-
 }
