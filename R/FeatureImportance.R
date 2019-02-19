@@ -15,7 +15,7 @@
 #'   \eqn{R^p}.}
 #' }
 #'
-#' @return a list with 3 elements, 
+#' @return a list with 3 elements,
 #' \describe{
 #'   \item{\code{imp}}{The vector of scores/counts, corresponding to each feature.}
 #'   \item{\code{features}}{The features/projections used.}
@@ -32,10 +32,10 @@
 #' imp.E <- FeatureImportance(forest, num.cores, "E")
 #'
 #' fRF <- RerF(as.matrix(iris[, 1:4]), iris[[5L]],
-#'             FUN = RandMatRF, num.cores = 1L, store.impurity = TRUE)
+#'   FUN = RandMatRF, num.cores = 1L, store.impurity = TRUE
+#' )
 #'
 #' fRF.imp <- FeatureImportance(forest = fRF, num.cores = num.cores)
-#'
 #' @export
 #' @importFrom parallel detectCores makeCluster clusterExport parSapply stopCluster
 #' @importFrom utils object.size
@@ -43,8 +43,8 @@
 FeatureImportance <- function(forest, num.cores = 0L, type = NULL) {
 
   ## choose method to use for calculating feature importance
-  if(is.null(type)){
-    if(identical(forest$params$fun, rerf::RandMatRF)){
+  if (is.null(type)) {
+    if (identical(forest$params$fun, rerf::RandMatRF)) {
       type <- "R"
     } else if (identical(forest$params$fun, rerf::RandMatBinary)) {
       type <- "E"
@@ -60,9 +60,9 @@ FeatureImportance <- function(forest, num.cores = 0L, type = NULL) {
 
   ## Iterate over trees in the forest to save all projections used
   for (t in 1:num.trees) {
-    tree.projections <- 
+    tree.projections <-
       lapply(1:num.splits[t], function(nd) {
-             forest$trees[[t]]$matAstore[(forest$trees[[t]]$matAindex[nd] + 1L):forest$trees[[t]]$matAindex[nd + 1L]]
+        forest$trees[[t]]$matAstore[(forest$trees[[t]]$matAindex[nd] + 1L):forest$trees[[t]]$matAindex[nd + 1L]]
       })
 
     forest.projections <- c(forest.projections, tree.projections)
@@ -73,14 +73,14 @@ FeatureImportance <- function(forest, num.cores = 0L, type = NULL) {
   if (identical(type, "C")) {
     message("Message: Computing feature importance as counts of unique feature combinations.\n")
     ## compute the unique combinations of features used in the
-    ## projections 
+    ## projections
     unique.projections <- unique(lapply(forest.projections, getFeatures))
 
     CompImportanceCaller <- function(tree, ...) {
       RunFeatureImportanceCounts(tree = tree, unique.projections = unique.projections)
     }
     varlist <- c("unique.projections", "RunFeatureImportanceCounts")
-  } 
+  }
 
   if (identical(type, "R")) {
     message("Message: Computing feature importance for RandMatRF.\n")

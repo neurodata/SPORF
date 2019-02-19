@@ -46,11 +46,31 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// findSplitSim
+List findSplitSim(const NumericVector x, arma::mat y, const int& ndSize, const double& I, double maxdI, IntegerVector bv, NumericVector bs, int nb, const int nzidx);
+RcppExport SEXP _rerf_findSplitSim(SEXP xSEXP, SEXP ySEXP, SEXP ndSizeSEXP, SEXP ISEXP, SEXP maxdISEXP, SEXP bvSEXP, SEXP bsSEXP, SEXP nbSEXP, SEXP nzidxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const int& >::type ndSize(ndSizeSEXP);
+    Rcpp::traits::input_parameter< const double& >::type I(ISEXP);
+    Rcpp::traits::input_parameter< double >::type maxdI(maxdISEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type bv(bvSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type bs(bsSEXP);
+    Rcpp::traits::input_parameter< int >::type nb(nbSEXP);
+    Rcpp::traits::input_parameter< const int >::type nzidx(nzidxSEXP);
+    rcpp_result_gen = Rcpp::wrap(findSplitSim(x, y, ndSize, I, maxdI, bv, bs, nb, nzidx));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_rerf_packForestRCPP", (DL_FUNC) &_rerf_packForestRCPP, 0},
     {"_rerf_predictRF", (DL_FUNC) &_rerf_predictRF, 2},
     {"_rerf_findSplit", (DL_FUNC) &_rerf_findSplit, 9},
+    {"_rerf_findSplitSim", (DL_FUNC) &_rerf_findSplitSim, 9},
     {NULL, NULL, 0}
 };
 
