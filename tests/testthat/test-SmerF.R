@@ -8,7 +8,7 @@ set.seed(123456)
 ################################################################
 
 # points lie on one of two axes, or at the origin
-# points that strictly lie on the same axis have a similarity of 1 to each others
+# points that strictly lie on the same axis have a similarity of 1
 # points that lie on different axes have a similarity of 0
 # points on either axis have a similarity of 0.5 to points at the origin
 # points have a similarity of 1 with themselves (diagonals)
