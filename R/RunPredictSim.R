@@ -11,10 +11,9 @@
 #'
 
 RunPredictSim <-
-  function(X, Xtrain, tree, OOB){
-
+  function(X, Xtrain, tree, OOB) {
     tm <- 0L
-    currentNode<-0L
+    currentNode <- 0L
     curr_ind <- 0L
     if (!is.null(Xtrain)) {
       ntrain <- nrow(Xtrain)
@@ -33,9 +32,9 @@ RunPredictSim <-
     # do we need to rotate the data?
     if (!is.null(tree$rotmat)) {
       if (is.null(tree$rotdims)) {
-        X[] <- X%*%tree$rotmat
+        X[] <- X %*% tree$rotmat
       } else {
-        X[, tree$rotdims] <- X[, tree$rotdims]%*%tree$rotmat
+        X[, tree$rotdims] <- X[, tree$rotdims] %*% tree$rotmat
       }
     }
 
@@ -49,26 +48,26 @@ RunPredictSim <-
       nodeSize <- length(Assigned2Node[[m]])
       if (nodeSize > 0L) {
         if ((tm <- tree$treeMap[m]) > 0L) {
-          indexHigh <- tree$matAindex[tm+1L]
+          indexHigh <- tree$matAindex[tm + 1L]
           indexLow <- tree$matAindex[tm] + 1L
-          s <- (indexHigh - indexLow + 1L)/2L
-          Xnode[1:nodeSize] <- X[Assigned2Node[[m]],tree$matAstore[indexLow:indexHigh][(1:s)*2L-1L], drop = F]%*%
-            tree$matAstore[indexLow:indexHigh][(1:s)*2L]
+          s <- (indexHigh - indexLow + 1L) / 2L
+          Xnode[1:nodeSize] <- X[Assigned2Node[[m]], tree$matAstore[indexLow:indexHigh][(1:s) * 2L - 1L], drop = F] %*%
+            tree$matAstore[indexLow:indexHigh][(1:s) * 2L]
           moveLeft <- Xnode[1L:nodeSize] <= tree$CutPoint[tm]
-          Assigned2Node[[tm*2L]] <- Assigned2Node[[m]][moveLeft]
-          Assigned2Node[[tm*2L+1L]] <- Assigned2Node[[m]][!moveLeft]
+          Assigned2Node[[tm * 2L]] <- Assigned2Node[[m]][moveLeft]
+          Assigned2Node[[tm * 2L + 1L]] <- Assigned2Node[[m]][!moveLeft]
         } else {
-          leafNodeIdx[Assigned2Node[[m]]] <- tm*-1L
+          leafNodeIdx[Assigned2Node[[m]]] <- tm * -1L
         }
       }
-      Assigned2Node[m] <-list(NULL)
+      Assigned2Node[m] <- list(NULL)
     }
 
     if (is.null(Xtrain)) {
       predictions <- matrix(as.double(NA), nrow = n, ncol = n)
       diag(predictions) <- 1
-      for (j in 1L:(n-1L)) {
-        for (i in (j+1L):n) {
+      for (j in 1L:(n - 1L)) {
+        for (i in (j + 1L):n) {
           if (leafNodeIdx[i] >= leafNodeIdx[j]) {
             predictions[i, j] <- tree$leafSimilarity[leafNodeIdx[i], leafNodeIdx[j]]
           } else {
@@ -83,20 +82,20 @@ RunPredictSim <-
           oob.idx <- tree$ind[j]
           # oob.idx <- predict.idx[j]
           for (i in 1L:ntest) {
-            if (leafNodeIdx[num.oob+i] >= leafNodeIdx[j]) {
-              predictions[i, oob.idx] <- tree$leafSimilarity[leafNodeIdx[num.oob+i], leafNodeIdx[j]]
+            if (leafNodeIdx[num.oob + i] >= leafNodeIdx[j]) {
+              predictions[i, oob.idx] <- tree$leafSimilarity[leafNodeIdx[num.oob + i], leafNodeIdx[j]]
             } else {
-              predictions[i, oob.idx] <- tree$leafSimilarity[leafNodeIdx[j], leafNodeIdx[num.oob+i]]
+              predictions[i, oob.idx] <- tree$leafSimilarity[leafNodeIdx[j], leafNodeIdx[num.oob + i]]
             }
           }
         }
       } else {
         for (j in 1L:ntrain) {
           for (i in 1L:ntest) {
-            if (leafNodeIdx[ntrain+i] >= leafNodeIdx[j]) {
-              predictions[i, j] <- tree$leafSimilarity[leafNodeIdx[ntrain+i], leafNodeIdx[j]]
+            if (leafNodeIdx[ntrain + i] >= leafNodeIdx[j]) {
+              predictions[i, j] <- tree$leafSimilarity[leafNodeIdx[ntrain + i], leafNodeIdx[j]]
             } else {
-              predictions[i, j] <- tree$leafSimilarity[leafNodeIdx[j], leafNodeIdx[ntrain+i]]
+              predictions[i, j] <- tree$leafSimilarity[leafNodeIdx[j], leafNodeIdx[ntrain + i]]
             }
           }
         }

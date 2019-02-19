@@ -29,9 +29,6 @@
 #' forest.rmc <- RerF(as.matrix(iris[, 1:4]), iris[, 5], num.core = 1L, RandMatContinuous)
 #' (out <- PrintTree(forest, numTree))
 #' (out.rmc <- PrintTree(forest.rmc, numTree))
-#'
-
-
 PrintTree <- function(forest, numTree = 1, pretty = FALSE) {
 
   # TODO: make forest a class so that the input can be tested prior to processing.

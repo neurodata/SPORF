@@ -38,7 +38,7 @@
 #' @examples
 #' ### Train RerF on numeric data ###
 #' library(rerf)
-#' forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]], num.cores = 1L)
+#' forest <- RerF(as.matrix(iris[, 1:4]), as.numeric(iris[[5L]]), num.cores = 1L)
 #'
 #' ### Train RerF on one-of-K encoded categorical data ###
 #' df1 <- as.data.frame(Titanic)
@@ -94,7 +94,7 @@ RerF <-
              rotate = FALSE, num.cores = 0L,
              seed = sample(0:100000000, 1),
              cat.map = NULL, rfPack = FALSE,
-             task = 'classification', eps = 0.05) {
+             task = "classification", eps = 0.05) {
 
     # The below 'na.action' was removed from the parameter list of RerF because the CRAN check did not accept it and because it will potentially change the X and Y input by the user.
     # na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] },
@@ -122,7 +122,7 @@ RerF <-
     }
 
     # check if the data type of Y matches the learning task
-    if (task == 'classifcation') {
+    if (task == "classification") {
       if (is.matrix(Y)) {
         if ((dim(Y)[1L] == 1L) || (dim(Y)[2L] == 1L)) {
           Y <- as.vector(Y)
@@ -150,7 +150,7 @@ RerF <-
       } else {
         Cindex <- NULL
       }
-    } else if (task == 'similarity') {
+    } else if (task == "similarity") {
       if (!is.matrix(Y)) {
         stop("Incompatible data type. Y must be an n-by-n numeric matrix.")
       } else {
@@ -174,7 +174,7 @@ RerF <-
     }
 
     mcrun <- function(...) {
-      if (task == 'classification') {
+      if (task == "classification") {
         BuildTree(
           X = X,
           Y = Y,
@@ -192,7 +192,7 @@ RerF <-
           progress = progress,
           rotate = rotate
         )
-      } else if (task == 'similarity') {
+      } else if (task == "similarity") {
         BuildSimTree(
           X = X,
           Y = Y,
@@ -226,7 +226,9 @@ RerF <-
       rotate = rotate,
       seed = seed,
       task = task,
-      eps = ifelse(task == 'similarity', eps, NULL)
+      eps = if (task == "similarity") {
+        eps
+      }
     )
 
     if (num.cores != 1L) {

@@ -22,12 +22,12 @@
 #'
 #' @examples
 #'
-#' x <- matrix(c(0, -1, 1), nrow=3L)
-#' y <- matrix(c(1, 0, 0, 0, 1, 1, 0, 1, 1), nrow=3L)
+#' x <- matrix(c(0, -1, 1), nrow = 3L)
+#' y <- matrix(c(1, 0, 0, 0, 1, 1, 0, 1, 1), nrow = 3L)
 #' # BuildSimTree(x, y, RandMatBinary, p = 1L, d = 1L, rho = 1, prob = 1)
 BuildSimTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, replacement,
-                      stratify, store.oob, store.impurity, progress,
-                      rotate, eps) {
+                         stratify, store.oob, store.impurity, progress,
+                         rotate, eps) {
   # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   # rfr builds a randomer similarity forest structure made up of a list
   # of trees.  This forest is randomer because each node is rotated before
@@ -277,11 +277,11 @@ BuildSimTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, r
     # Recalculate the best projection and reproject the data
     feature.idx <- sparseM[ret$BestVar[bsidx], 2L]
     feature.nnz <- 0L
-    while(sparseM[ret$BestVar[bsidx] + feature.nnz, 2L] == feature.idx) {
-        feature.nnz <- feature.nnz + 1L
-        if (ret$BestVar[bsidx] + feature.nnz > nnz) {
-            break
-        }
+    while (sparseM[ret$BestVar[bsidx] + feature.nnz, 2L] == feature.idx) {
+      feature.nnz <- feature.nnz + 1L
+      if (ret$BestVar[bsidx] + feature.nnz > nnz) {
+        break
+      }
     }
     lrows <- ret$BestVar[bsidx]:(ret$BestVar[bsidx] + feature.nnz - 1L)
     Xnode[1:NdSize] <- X[Assigned2Node[[CurrentNode]], sparseM[lrows, 1L], drop = FALSE] %*% sparseM[lrows, 3L, drop = FALSE]
@@ -333,7 +333,7 @@ BuildSimTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, r
   currLN <- currLN * -1L
   # create tree structure and populate with mandatory elements
   tree <- list(
-    "treeMap" = treeMap[1L:(NextUnusedNode - 1L)], "CutPoint" = CutPoint[1L:currIN], "leafSimilarity"=NULL,
+    "treeMap" = treeMap[1L:(NextUnusedNode - 1L)], "CutPoint" = CutPoint[1L:currIN], "leafSimilarity" = NULL,
     "matAstore" = matAstore[1L:matAindex[currIN + 1L]], "matAindex" = matAindex[1L:(currIN + 1L)], "ind" = NULL, "rotmat" = NULL,
     "rotdims" = NULL, "delta.impurity" = NULL
   )

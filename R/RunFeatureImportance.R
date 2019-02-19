@@ -38,8 +38,6 @@ RunFeatureImportance <- function(tree, unique.projections) {
 #' FUN <- RandMatBinary
 #' forest <- RerF(X, Y, FUN = FUN, num.cores = 1L, store.impurity = store.impurity)
 #' FeatureImportance(forest, num.cores = 1L)
-
-
 RunFeatureImportanceBinary <- function(tree, unique.projections) {
 
   ## compute the 180 rotations of the projections
@@ -78,8 +76,6 @@ RunFeatureImportanceBinary <- function(tree, unique.projections) {
 #' FUN <- RandMatContinuous
 #' forest <- RerF(X, Y, FUN = FUN, num.cores = 1L, store.impurity = store.impurity)
 #' FeatureImportance(forest, num.cores = 1L, type = "C")
-
-
 RunFeatureImportanceCounts <- function(tree, unique.projections) {
   num.proj <- length(unique.projections)
   feature.counts <- double(num.proj)

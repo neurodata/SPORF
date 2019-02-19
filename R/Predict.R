@@ -130,11 +130,11 @@ Predict <- function(X, forest, OOB = FALSE, num.cores = 0L, Xtrain = NULL, aggre
       # if Xtrain is provided, then the similarity matrix will be between observations in X (rows) and OOB samples from Xtrain (columns)
       if (!is.null(Xtrain)) {
         nc <- nrow(Xtrain)
-        CompPredictCaller <- function(tree, ...) RunPredictSim(X=X, Xtrain=Xtrain, tree=tree, OOB=OOB)
+        CompPredictCaller <- function(tree, ...) RunPredictSim(X = X, Xtrain = Xtrain, tree = tree, OOB = OOB)
         # if Xtrain is not provided and OOB is TRUE, then we just assume X is the training set and compute pairwise similarities for all OOB samples
       } else {
         nc <- nr
-        CompPredictCaller <- function(tree, ...) RunOOBSim(X=X, tree=tree)
+        CompPredictCaller <- function(tree, ...) RunOOBSim(X = X, tree = tree)
       }
     } else {
       # if Xtrain is provided, then the similarity matrix will be between observations in X (rows) and all observations in Xtrain (columns)
@@ -144,34 +144,31 @@ Predict <- function(X, forest, OOB = FALSE, num.cores = 0L, Xtrain = NULL, aggre
       } else {
         nc <- nr
       }
-      CompPredictCaller <- function(tree, ...) RunPredictSim(X=X, Xtrain=Xtrain, tree=tree, OOB=OOB)
+      CompPredictCaller <- function(tree, ...) RunPredictSim(X = X, Xtrain = Xtrain, tree = tree, OOB = OOB)
     }
 
     f_size <- length(forest$trees)
     if (num.cores != 1L) {
       if (num.cores == 0L) {
-        #Use all but 1 core if num.cores=0.
-        num.cores=parallel::detectCores()-1L
+        # Use all but 1 core if num.cores=0.
+        num.cores <- parallel::detectCores() - 1L
       }
       num.cores <- min(num.cores, f_size)
       gc()
       if ((utils::object.size(forest) > 2e9) |
-          (utils::object.size(X) > 2e9) |
-          .Platform$OS.type == "windows") {
-
+        (utils::object.size(X) > 2e9) |
+        .Platform$OS.type == "windows") {
         cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
         parallel::clusterExport(cl = cl, varlist = c("X", "Xtrain", "OOB", "RunPredictSim"), envir = environment())
         Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
-
       } else {
         cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
         Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
       }
 
       parallel::stopCluster(cl)
-
     } else {
-      #Use just one core.
+      # Use just one core.
       Yhats <- lapply(forest$trees, FUN = CompPredictCaller)
     }
 

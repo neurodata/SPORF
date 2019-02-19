@@ -9,62 +9,62 @@
 #'
 
 RunOOBSim <-
-    function(X, tree) {
-        n <- nrow(X)
-        num.oob <- length(tree$ind)
-        X <- X[tree$ind, , drop = F]
+  function(X, tree) {
+    n <- nrow(X)
+    num.oob <- length(tree$ind)
+    X <- X[tree$ind, , drop = F]
 
-        # do we need to rotate the data?
-        if (!is.null(tree$rotmat)) {
-            if (is.null(tree$rotdims)) {
-                X[] <- X%*%tree$rotmat
-            } else {
-                X[, tree$rotdims] <- X[, tree$rotdims]%*%tree$rotmat
-            }
-        }
-
-        predictions <- matrix(as.double(NA), nrow = n, ncol = n)
-        diag(predictions) <- 1
-
-        if (num.oob > 1L) {
-          currentNode<-0L
-          curr_ind <- 0L
-          tm <- 0L
-          leafNodeIdx <- integer(num.oob)
-
-          Xnode <- double(num.oob)
-          numNodes <- length(tree$treeMap)
-          Assigned2Node <- vector("list", numNodes)
-          Assigned2Node[[1L]] <- 1L:num.oob
-          for (m in 1:numNodes) {
-            nodeSize <- length(Assigned2Node[[m]])
-            if (nodeSize > 0L) {
-              if ((tm <- tree$treeMap[m]) > 0L) {
-                indexHigh <- tree$matAindex[tm+1L]
-                indexLow <- tree$matAindex[tm] + 1L
-                s <- (indexHigh - indexLow + 1L)/2L
-                Xnode[1:nodeSize] <- X[Assigned2Node[[m]],tree$matAstore[indexLow:indexHigh][(1:s)*2L-1L], drop = F]%*%
-                  tree$matAstore[indexLow:indexHigh][(1:s)*2L]
-                moveLeft <- Xnode[1L:nodeSize] <= tree$CutPoint[tm]
-                Assigned2Node[[tm*2L]] <- Assigned2Node[[m]][moveLeft]
-                Assigned2Node[[tm*2L+1L]] <- Assigned2Node[[m]][!moveLeft]
-              } else {
-                leafNodeIdx[Assigned2Node[[m]]] <- tm*-1L
-              }
-            }
-            Assigned2Node[m] <-list(NULL)
-          }
-
-          for (j in 1L:(num.oob-1L)) {
-            for (i in (j+1L):num.oob) {
-              if (leafNodeIdx[i] >= leafNodeIdx[j]) {
-                predictions[tree$ind[i], tree$ind[j]] <- tree$leafSimilarity[leafNodeIdx[i], leafNodeIdx[j]]
-              } else {
-                predictions[tree$ind[i], tree$ind[j]] <- tree$leafSimilarity[leafNodeIdx[j], leafNodeIdx[i]]
-              }
-            }
-          }
-        }
-
-        return(predictions)
+    # do we need to rotate the data?
+    if (!is.null(tree$rotmat)) {
+      if (is.null(tree$rotdims)) {
+        X[] <- X %*% tree$rotmat
+      } else {
+        X[, tree$rotdims] <- X[, tree$rotdims] %*% tree$rotmat
+      }
     }
+
+    predictions <- matrix(as.double(NA), nrow = n, ncol = n)
+    diag(predictions) <- 1
+
+    if (num.oob > 1L) {
+      currentNode <- 0L
+      curr_ind <- 0L
+      tm <- 0L
+      leafNodeIdx <- integer(num.oob)
+
+      Xnode <- double(num.oob)
+      numNodes <- length(tree$treeMap)
+      Assigned2Node <- vector("list", numNodes)
+      Assigned2Node[[1L]] <- 1L:num.oob
+      for (m in 1:numNodes) {
+        nodeSize <- length(Assigned2Node[[m]])
+        if (nodeSize > 0L) {
+          if ((tm <- tree$treeMap[m]) > 0L) {
+            indexHigh <- tree$matAindex[tm + 1L]
+            indexLow <- tree$matAindex[tm] + 1L
+            s <- (indexHigh - indexLow + 1L) / 2L
+            Xnode[1:nodeSize] <- X[Assigned2Node[[m]], tree$matAstore[indexLow:indexHigh][(1:s) * 2L - 1L], drop = F] %*%
+              tree$matAstore[indexLow:indexHigh][(1:s) * 2L]
+            moveLeft <- Xnode[1L:nodeSize] <= tree$CutPoint[tm]
+            Assigned2Node[[tm * 2L]] <- Assigned2Node[[m]][moveLeft]
+            Assigned2Node[[tm * 2L + 1L]] <- Assigned2Node[[m]][!moveLeft]
+          } else {
+            leafNodeIdx[Assigned2Node[[m]]] <- tm * -1L
+          }
+        }
+        Assigned2Node[m] <- list(NULL)
+      }
+
+      for (j in 1L:(num.oob - 1L)) {
+        for (i in (j + 1L):num.oob) {
+          if (leafNodeIdx[i] >= leafNodeIdx[j]) {
+            predictions[tree$ind[i], tree$ind[j]] <- tree$leafSimilarity[leafNodeIdx[i], leafNodeIdx[j]]
+          } else {
+            predictions[tree$ind[i], tree$ind[j]] <- tree$leafSimilarity[leafNodeIdx[j], leafNodeIdx[i]]
+          }
+        }
+      }
+    }
+
+    return(predictions)
+  }
