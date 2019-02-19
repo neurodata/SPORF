@@ -20,6 +20,7 @@ r_packages:
   - Rcpp
 
 script:
+  - cd R-Project
   - printf "Starting install and test with devtools.\n\n"
   - Rscript -e "Rcpp::compileAttributes()"
   - Rscript -e "devtools::install(local=FALSE);devtools::test()"

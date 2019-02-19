@@ -23,7 +23,7 @@ calculating feature importance.
 }}
 }
 \value{
-a list with 3 elements, 
+a list with 3 elements,
 \describe{
   \item{\code{imp}}{The vector of scores/counts, corresponding to each feature.}
   \item{\code{features}}{The features/projections used.}
@@ -43,8 +43,8 @@ imp.R <- FeatureImportance(forest, num.cores, "R")
 imp.E <- FeatureImportance(forest, num.cores, "E")
 
 fRF <- RerF(as.matrix(iris[, 1:4]), iris[[5L]],
-            FUN = RandMatRF, num.cores = 1L, store.impurity = TRUE)
+  FUN = RandMatRF, num.cores = 1L, store.impurity = TRUE
+)
 
 fRF.imp <- FeatureImportance(forest = fRF, num.cores = num.cores)
-
 }
