@@ -12,7 +12,7 @@ Predict(X, forest, OOB = FALSE, num.cores = 0L, Xtrain = NULL,
 
 \item{forest}{a forest trained using the RerF function.}
 
-\item{OOB}{if TRUE then run predictions using out-of-bag samples.}
+\item{OOB}{if TRUE and task is "classification" or "regression" then run predictions using out-of-bag samples; if TRUE and task is "similarity" then each tree predicts only the similarities of the out-of-bag training points to the test points. (OOB=FALSE)}
 
 \item{num.cores}{the number of cores to use while training. If NumCores=0 then 1 less than the number of cores reported by the OS are used. (NumCores=0)}
 
@@ -25,7 +25,7 @@ TODO: Remove option for aggregate output? Only options for returning aggregate p
 \item{output.scores}{if TRUE then predicted class scores (probabilities) for each observation are returned rather than class labels. (output.scores = FALSE)}
 }
 \value{
-predictions an n length vector of predictions
+predictions an n length vector of predictions if the task is "classification" or "regression"; a similarity matrix if the task is "similarity".
 }
 \description{
 Predicts the classification of samples using a trained forest.
