@@ -53,4 +53,16 @@ matrix:
       - make
       - cd test
       - make
+
+  - language: python
+    dist: xenial
+    python: 
+      - "3.6"
+    before_install: cd Python
+    install: 
+      - pip install -r requirements.txt
+      - pip install -e .
+      - cd ..
+    script:
+      - pytest
     
