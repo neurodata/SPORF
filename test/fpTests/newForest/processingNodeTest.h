@@ -18,7 +18,7 @@ TEST(processingNodeTest, setupRootNodeRF)
 {
 	std::srand(std::time(0));
 	std::string p1 = "CSVFileName";
-	std::string p2 = "res/iris.csv";
+	std::string p2 = "../res/iris.csv";
 	fpSingleton::getSingleton().setParameter(p1, p2);
 	fpSingleton::getSingleton().setParameter("columnWithY", 4);
 	fpSingleton::getSingleton().loadData();
@@ -81,7 +81,7 @@ TEST(processingNodeTest, loadStandardRFZip)
 
 	std::srand(std::time(0));
 	std::string p1 = "CSVFileName";
-	std::string p2 = "res/iris.csv";
+	std::string p2 = "../res/iris.csv";
 	fpSingleton::getSingleton().setParameter(p1, p2);
 	fpSingleton::getSingleton().setParameter("columnWithY", 4);
 	fpSingleton::getSingleton().loadData();
@@ -137,7 +137,7 @@ TEST(processingNodeTest, findBestSplit)
 
 	std::srand(std::time(0));
 	std::string p1 = "CSVFileName";
-	std::string p2 = "res/iris.csv";
+	std::string p2 = "../res/iris.csv";
 	fpSingleton::getSingleton().setParameter(p1, p2);
 	fpSingleton::getSingleton().setParameter("columnWithY", 4);
 	fpSingleton::getSingleton().loadData();
@@ -201,7 +201,7 @@ TEST(processingNodeTest, moveLeftRight)
 
 	std::srand(std::time(0));
 	std::string p1 = "CSVFileName";
-	std::string p2 = "res/iris.csv";
+	std::string p2 = "../res/iris.csv";
 	fpSingleton::getSingleton().setParameter(p1, p2);
 	fpSingleton::getSingleton().setParameter("columnWithY", 4);
 	fpSingleton::getSingleton().loadData();
@@ -278,7 +278,7 @@ TEST(processingNodeTest, moveLeft)
 
 	std::srand(std::time(0));
 	std::string p1 = "CSVFileName";
-	std::string p2 = "res/iris.csv";
+	std::string p2 = "../res/iris.csv";
 	fpSingleton::getSingleton().setParameter(p1, p2);
 	fpSingleton::getSingleton().setParameter("columnWithY", 4);
 	fpSingleton::getSingleton().loadData();
@@ -351,7 +351,7 @@ TEST(processingNodeTest, moveRight)
 
 	std::srand(std::time(0));
 	std::string p1 = "CSVFileName";
-	std::string p2 = "res/iris.csv";
+	std::string p2 = "../res/iris.csv";
 	fpSingleton::getSingleton().setParameter(p1, p2);
 	fpSingleton::getSingleton().setParameter("columnWithY", 4);
 	fpSingleton::getSingleton().loadData();

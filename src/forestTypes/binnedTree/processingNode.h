@@ -1,5 +1,5 @@
-#ifndef processingNode_h
-#define processingNode_h
+#ifndef processingNodeBin_h
+#define processingNodeBin_h
 
 #include "inNodeClassTotals.h"
 #include "obsIndexAndClassVec.h"
@@ -10,6 +10,7 @@
 #include <assert.h>
 #include "../../fpSingleton/fpSingleton.h"
 #include "../../baseFunctions/pdqsort.h"
+#include "../../baseFunctions/MWC.h"
 
 
 #include <iostream>
@@ -21,7 +22,7 @@
 namespace fp{
 
 	template<typename T, typename Q>
-		class processingNode{
+		class processingNodeBin{
 			protected:
 				int treeNum;
 				int parentNodeNumber;
@@ -42,6 +43,7 @@ namespace fp{
 
 				zipperIterators<int,T> zipIters;
 
+				randomNumberRerFMWC* randNum;
 				/*
 					 inline void calcMtryForNode(std::vector<int>& featuresToTry){
 					 for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i){
@@ -74,7 +76,7 @@ namespace fp{
 					int tempSwap;
 
 					for(int locationToMove = 0; locationToMove < fpSingleton::getSingleton().returnMtry(); locationToMove++){
-						int randomPosition = fpSingleton::getSingleton().genRandom(fpSingleton::getSingleton().returnNumFeatures()-locationToMove)+locationToMove;
+						int randomPosition = randNum->gen(fpSingleton::getSingleton().returnNumFeatures()-locationToMove)+locationToMove;
 						tempSwap = featuresToTry[locationToMove];
 						featuresToTry[locationToMove] = featuresToTry[randomPosition];
 						featuresToTry[randomPosition] = tempSwap;
@@ -90,8 +92,8 @@ namespace fp{
 					int rndMtry;
 					int rndFeature;
 					for (int i=0; i < fpSingleton::getSingleton().returnMtry(); ++i){
-						rndMtry = fpSingleton::getSingleton().genRandom(fpSingleton::getSingleton().returnMtry());
-						rndFeature = fpSingleton::getSingleton().genRandom(fpSingleton::getSingleton().returnNumFeatures());
+						rndMtry = randNum->gen(fpSingleton::getSingleton().returnMtry());
+						rndFeature = randNum->gen(fpSingleton::getSingleton().returnNumFeatures());
 						featuresToTry[rndMtry].push_back(rndFeature);
 					}
 				}
@@ -262,7 +264,9 @@ namespace fp{
 
 			public:
 
-				processingNode(int tr, int pN): treeNum(tr), parentNodeNumber(pN),propertiesOfThisNode(fpSingleton::getSingleton().returnNumClasses()), propertiesOfLeftNode(fpSingleton::getSingleton().returnNumClasses()),propertiesOfRightNode(fpSingleton::getSingleton().returnNumClasses()),nodeIndices(fpSingleton::getSingleton().returnNumClasses()){}
+				processingNodeBin(int tr, int pN, randomNumberRerFMWC& randNumBin): treeNum(tr), parentNodeNumber(pN),propertiesOfThisNode(fpSingleton::getSingleton().returnNumClasses()), propertiesOfLeftNode(fpSingleton::getSingleton().returnNumClasses()),propertiesOfRightNode(fpSingleton::getSingleton().returnNumClasses()),nodeIndices(fpSingleton::getSingleton().returnNumClasses()){
+					randNum = &randNumBin;	
+				}
 
 
 
@@ -275,7 +279,7 @@ namespace fp{
 				}
 
 
-				inline void setupNode(processingNode& parentNode, bool leftNode){
+				inline void setupNode(processingNodeBin& parentNode, bool leftNode){
 					setIsLeftNode(leftNode);
 					setNodeIndices(parentNode.nodeIndices);
 					setClassTotals();
@@ -344,7 +348,7 @@ namespace fp{
 					//LIKWID_MARKER_STOP("split");
 				}
 
-inline void calcBestSplitInfoForNode(std::vector<int> featureToTry){
+				inline void calcBestSplitInfoForNode(std::vector<int> featureToTry){
 					loadWorkingSet(featureToTry);
 					sortWorkingSet();
 					resetRightNode();
@@ -486,4 +490,4 @@ inline void calcBestSplitInfoForNode(std::vector<int> featureToTry){
 		};
 
 }//namespace fp
-#endif //processingNode_h
+#endif //processingNodeBin_h

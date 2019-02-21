@@ -1,3 +1,7 @@
+#ifndef MWC_h
+#define MWC_h
+
+
 #include <random>
 
 class randomNumberRerFMWC{
@@ -38,3 +42,4 @@ class randomNumberRerFMWC{
 
 };
 
+#endif //MWC_h

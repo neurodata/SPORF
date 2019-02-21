@@ -7,6 +7,7 @@
 
 namespace fp {
 
+	//TODO these two classes can be merged into one.
 	class fpDisplayProgressStaticStore{
 
 		private:
@@ -34,8 +35,8 @@ namespace fp {
 
 	class fpDisplayProgress{
 		public:
+			fpDisplayProgressStaticStore staticPrint;
 		inline void displayProgress(int treeNum) { 
-			static fpDisplayProgressStaticStore staticPrint;
 			staticPrint.print(treeNum); } 
 	};
 

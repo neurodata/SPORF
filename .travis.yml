@@ -1,0 +1,21 @@
+dist: xenial
+sudo: false
+language: cpp
+compiler: 
+  - gcc
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-6 
+
+before_install:
+- pip install --user cpp-coveralls
+
+script:
+  - make
+  - cd test
+  - make
+  

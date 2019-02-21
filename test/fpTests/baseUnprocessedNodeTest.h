@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "../../src/forestTypes/baseUnprocessedNode.h"
+#include "../../src/forestTypes/basicForests/baseUnprocessedNode.h"
 //#include "../../src/baseFunctions/fpUtils.h"
 
 using namespace fp;

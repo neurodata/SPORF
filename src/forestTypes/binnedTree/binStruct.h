@@ -1,6 +1,7 @@
 #ifndef binStruct_h
 #define binStruct_h
 #include "../../baseFunctions/fpBaseNode.h"
+#include "../../baseFunctions/MWC.h"
 #include "obsIndexAndClassVec.h"
 #include "zipClassAndValue.h"
 #include "processingNode.h"
@@ -16,16 +17,21 @@ namespace fp{
 				float correctOOB;
 				float totalOOB;
 				std::vector< fpBaseNode<T,Q> > bin;
-				std::vector<processingNode<T,Q> > nodeQueue;
+				std::vector<processingNodeBin<T,Q> > nodeQueue;
 
 				int numberOfNodes;
 
 				int numOfTreesInBin;
 				int currTree;
 
-				obsIndexAndClassVec& indicesHolder;
-				std::vector<zipClassAndValue<int, T> >& zipper;
-				std::vector<int>& nodeIndices;
+				obsIndexAndClassVec indicesHolder;
+				std::vector<zipClassAndValue<int, T> > zipper;
+
+				std::vector<int> nodeIndices;
+
+
+				randomNumberRerFMWC randNum;
+
 				//obsIndexAndClassVec indexHolder(numClasses);
 				//std::vector<zipClassAndValue<int, float> > zipVec(testSize);
 
@@ -36,17 +42,14 @@ namespace fp{
 				inline bool leftNode(){
 					return true;
 				}
-			public:
-				binStruct(obsIndexAndClassVec& indices, std::vector<zipClassAndValue<int, T> >& zip, std::vector<int>& indicesChooser, int numTrees) : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0),numberOfNodes(0),numOfTreesInBin(numTrees),currTree(0),indicesHolder(indices),zipper(zip),nodeIndices(indicesChooser){
 
-					bin.resize(numOfTreesInBin+fpSingleton::getSingleton().returnNumClasses());
-					makeLeafNodes();
-				}
+			public:
+				binStruct() : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0),numberOfNodes(0),numOfTreesInBin(0),currTree(0), indicesHolder(fpSingleton::getSingleton().returnNumClasses()){	}
 
 
 				inline void loadFirstNode(){
 					//inline void loadFirstNode(obsIndexAndClassVec& indicesHolder, std::vector<zipClassAndValue<int, T> >& zipper){
-					nodeQueue.emplace_back(0,0);
+					nodeQueue.emplace_back(0,0,randNum);
 					nodeQueue.back().setupRoot(indicesHolder, zipper);
 					nodeQueue.back().processNode();
 					if(nodeQueue.back().isLeafNode()){
@@ -58,7 +61,7 @@ namespace fp{
 				}
 
 				inline void makeRootALeaf(){
-          bin[returnRootLocation()].setClass(nodeQueue.back().returnNodeClass());
+					bin[returnRootLocation()].setClass(nodeQueue.back().returnNodeClass());
 					bin[returnRootLocation()].setDepth(-1);
 				}
 
@@ -70,7 +73,7 @@ namespace fp{
 					int tempMoveObs;
 
 					for(int n = 0; n < fpSingleton::getSingleton().returnNumObservations(); n++){
-						randomObsID = fpSingleton::getSingleton().genRandom(fpSingleton::getSingleton().returnNumObservations());
+						randomObsID = randNum.gen(fpSingleton::getSingleton().returnNumObservations());
 
 						indicesInNode.insertIndex(nodeIndices[randomObsID], fpSingleton::getSingleton().returnLabel(nodeIndices[randomObsID]));
 
@@ -158,15 +161,15 @@ namespace fp{
 					if(nodeQueue.back().isLeftChildLarger()){
 						nodeQueue.pop_back();
 						//TODO: don't emplace_back if should be leaf node.
-						nodeQueue.emplace_back(1,parentNodesPosition());
+						nodeQueue.emplace_back(1,parentNodesPosition(), randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
-						nodeQueue.emplace_back(1,parentNodesPosition());
+						nodeQueue.emplace_back(1,parentNodesPosition(),randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
 					}else{
 						nodeQueue.pop_back();
-						nodeQueue.emplace_back(1,parentNodesPosition());
+						nodeQueue.emplace_back(1,parentNodesPosition(),randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
-						nodeQueue.emplace_back(1,parentNodesPosition());
+						nodeQueue.emplace_back(1,parentNodesPosition(),randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
 					}
 				}
@@ -178,15 +181,15 @@ namespace fp{
 					if(nodeQueue.back().isLeftChildLarger()){
 						nodeQueue.pop_back();
 						//TODO: don't emplace_back if should be leaf node.
-						nodeQueue.emplace_back(1,returnRootLocation());
+						nodeQueue.emplace_back(1,returnRootLocation(),randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
-						nodeQueue.emplace_back(1,returnRootLocation());
+						nodeQueue.emplace_back(1,returnRootLocation(),randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
 					}else{
 						nodeQueue.pop_back();
-						nodeQueue.emplace_back(1,returnRootLocation());
+						nodeQueue.emplace_back(1,returnRootLocation(),randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
-						nodeQueue.emplace_back(1,returnRootLocation());
+						nodeQueue.emplace_back(1,returnRootLocation(),randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
 					}
 				}
@@ -221,15 +224,36 @@ namespace fp{
 				}
 
 
-				inline void createBin(){
+				inline void createBin(int numTrees, int randSeed){
+					numOfTreesInBin = numTrees;
+					randNum.initialize(randSeed);
+					initializeStructures();
 					for(; currTree < numOfTreesInBin; ++currTree){
 						setSharedVectors(indicesHolder);
-						//loadFirstNode(indicesHolder, zipper);	
 						loadFirstNode();	
 						while(!nodeQueue.empty()){
 							processNode();
 						}
 					}
+					removeStructures();
+				}
+
+				inline void initializeStructures(){
+					zipper.resize(fpSingleton::getSingleton().returnNumObservations());
+					nodeIndices.resize(fpSingleton::getSingleton().returnNumObservations());
+					for(int i = 0; i < fpSingleton::getSingleton().returnNumObservations(); ++i){
+						nodeIndices[i] =i;
+					}
+					bin.resize(numOfTreesInBin+fpSingleton::getSingleton().returnNumClasses());
+					makeLeafNodes();
+				}
+
+
+				inline void removeStructures(){
+					std::vector<processingNodeBin<T,Q> >().swap( nodeQueue );
+					//indicesHolder.removeObsIndexAndClassVec();
+					std::vector<zipClassAndValue<int, T> >().swap( zipper );
+					std::vector<int>().swap( nodeIndices);
 				}
 
 
@@ -273,6 +297,10 @@ namespace fp{
 				inline void predictBinObservation(int observationNum, std::vector<int>& preds){
 					predictBinObservation(observationNum,preds, identity<Q>());
 				}
+
+				inline void predictBinObservation(std::vector<T>& observation, std::vector<int>& preds){
+					predictBinObservation(observation,preds,identity<Q>());
+				}
 				////////////////////////////////
 
 				//PredictForRF
@@ -313,7 +341,7 @@ namespace fp{
 
 
 				inline void predictBinObservation(int observationNum, std::vector<int>& preds, identity<std::vector<int> >){
-std::vector<int> currNode(numOfTreesInBin);
+					std::vector<int> currNode(numOfTreesInBin);
 					int numberNotInLeaf;
 					T featureVal;
 					int  q;
@@ -330,10 +358,10 @@ std::vector<int> currNode(numOfTreesInBin);
 						for( q=0; q<numOfTreesInBin; ++q){
 
 							if(bin[currNode[q]].isInternalNodeFront()){
-featureVal = 0;
-for(auto i : bin[currNode[q]].returnFeatureNumber()){
-							featureVal += fpSingleton::getSingleton().returnTestFeatureVal(i,observationNum);
-						}
+								featureVal = 0;
+								for(auto i : bin[currNode[q]].returnFeatureNumber()){
+									featureVal += fpSingleton::getSingleton().returnTestFeatureVal(i,observationNum);
+								}
 								currNode[q] = bin[currNode[q]].fpBaseNode<T, Q>::nextNode(featureVal);
 								__builtin_prefetch(&bin[currNode[q]], 0, 3);
 								++numberNotInLeaf;
@@ -350,18 +378,74 @@ for(auto i : bin[currNode[q]].returnFeatureNumber()){
 
 
 				//inline int predictObservation(std::vector<T>& observation, identity<int>){
-				inline void predictBinObservation(std::vector<T>& observation, std::vector<int> preds){
-					/*
-					int currNode = fpSingleton::getSingleton().returnNumClasses();
-					while(bin[currNode].isInternalNode()){
-						currNode = bin[currNode].nextNode(observation);
+				inline void predictBinObservation(std::vector<T>& observation, std::vector<int>& preds,identity<int> ){
+					std::vector<int> currNode(numOfTreesInBin);
+					int numberNotInLeaf;
+					int featureNum;
+					int q;
+
+					for( q=0; q<numOfTreesInBin; ++q){
+						currNode[q] = q+fpSingleton::getSingleton().returnNumClasses();
+						__builtin_prefetch(&bin[currNode[q]], 0, 3);
 					}
-					return bin[currNode].returnClass();
-					*/
+
+					do{
+						numberNotInLeaf = 0;
+
+						for( q=0; q<numOfTreesInBin; ++q){
+
+							if(bin[currNode[q]].isInternalNodeFront()){
+								featureNum = bin[currNode[q]].returnFeatureNumber();
+								currNode[q] = bin[currNode[q]].fpBaseNode<T, Q>::nextNode(observation[featureNum]);
+								__builtin_prefetch(&bin[currNode[q]], 0, 3);
+								++numberNotInLeaf;
+							}
+						}
+
+					}while(numberNotInLeaf);
+
+					for( q=0; q<numOfTreesInBin; q++){
+#pragma omp atomic update
+						++preds[bin[currNode[q]].returnClass()];
+					}
 				}
 
 
+				inline void predictBinObservation(std::vector<T>& observation, std::vector<int>& preds, identity<std::vector<int> >){
+					std::vector<int> currNode(numOfTreesInBin);
+					int numberNotInLeaf;
+					T featureVal;
+					int  q;
 
+
+					for( q=0; q<numOfTreesInBin; ++q){
+						currNode[q] = q+fpSingleton::getSingleton().returnNumClasses();
+						__builtin_prefetch(&bin[currNode[q]], 0, 3);
+					}
+
+					do{
+						numberNotInLeaf = 0;
+
+						for( q=0; q<numOfTreesInBin; ++q){
+
+							if(bin[currNode[q]].isInternalNodeFront()){
+								featureVal = 0;
+								for(auto i : bin[currNode[q]].returnFeatureNumber()){
+									featureVal +=observation[i];
+								}
+								currNode[q] = bin[currNode[q]].fpBaseNode<T, Q>::nextNode(featureVal);
+								__builtin_prefetch(&bin[currNode[q]], 0, 3);
+								++numberNotInLeaf;
+							}
+						}
+
+					}while(numberNotInLeaf);
+
+					for( q=0; q<numOfTreesInBin; q++){
+#pragma omp atomic update
+						++preds[bin[currNode[q]].returnClass()];
+					}
+				}
 				///////////////////////////////////
 				/// Test Functions not to be used in production
 				//////////////////////////////////

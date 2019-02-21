@@ -56,50 +56,97 @@ namespace fp{
 				inline void pickMTRY(){
 					int rndMtry;
 					int rndFeature;
-					for (int i=0; i < fpSingleton::getSingleton().returnMtry(); ++i){
+					int mtryDensity = (int)((double)fpSingleton::getSingleton().returnMtry()*fpSingleton::getSingleton().returnMtryMult());
+					for (int i=0; i < mtryDensity; ++i){
 						rndMtry = std::rand() % fpSingleton::getSingleton().returnMtry();
 						rndFeature = std::rand() % fpSingleton::getSingleton().returnNumFeatures();
 						featuresToTry[rndMtry].push_back(rndFeature);
 					}
 				}
 
+				//Note, this seems like a really intimidating function but it is just a 
+				//basic prefetched gather operation.  Without prefetching this function
+				//would be less than half as long.
 				inline void loadFeatureHolder(){
 					if(baseUnprocessedNode<T>::obsIndices->useBin()){
-						for(int q=0; q<baseUnprocessedNode<T>::obsIndices->returnBinnedSize(); q++){
+						int numToPrefetch=200;
+						if(baseUnprocessedNode<T>::obsIndices->returnBinnedSize() <numToPrefetch){
+							numToPrefetch = baseUnprocessedNode<T>::obsIndices->returnBinnedSize();
+						}
+
+						//load the first feature
+						for(int q=0; q<numToPrefetch; q++){
 							fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnBinnedInSample(q));
 						}
 
-						for(int i =0; i < baseUnprocessedNode<T>::obsIndices->returnBinnedSize(); ++i){
+						for(int i =0; i < baseUnprocessedNode<T>::obsIndices->returnBinnedSize()-numToPrefetch; ++i){
+							fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnBinnedInSample(i+numToPrefetch));
 							baseUnprocessedNode<T>::featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnBinnedInSample(i));
 						}
+
+						for(int q=baseUnprocessedNode<T>::obsIndices->returnBinnedSize()-numToPrefetch; q<baseUnprocessedNode<T>::obsIndices->returnBinnedSize(); ++q){
+							baseUnprocessedNode<T>::featureHolder[q] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnBinnedInSample(q));
+						}
+
+						//load all additional features
 						if(featuresToTry.back().size()>1){
+
 							for(unsigned int j =1; j < featuresToTry.back().size(); ++j){
-								for(int q=0; q<baseUnprocessedNode<T>::obsIndices->returnBinnedSize(); q++){
+
+								for(int q=0; q<numToPrefetch; q++){
 									fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[j],baseUnprocessedNode<T>::obsIndices->returnBinnedInSample(q));
 								}
-								for(int i =0; i < baseUnprocessedNode<T>::obsIndices->returnBinnedSize(); ++i){
+
+								for(int i =0; i < baseUnprocessedNode<T>::obsIndices->returnBinnedSize()-numToPrefetch; ++i){
+									fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[j],baseUnprocessedNode<T>::obsIndices->returnBinnedInSample(i+numToPrefetch));
 									baseUnprocessedNode<T>::featureHolder[i] += fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[j],baseUnprocessedNode<T>::obsIndices->returnBinnedInSample(i));
 								}
+
+								for(int q=baseUnprocessedNode<T>::obsIndices->returnBinnedSize()-numToPrefetch; q<baseUnprocessedNode<T>::obsIndices->returnBinnedSize(); ++q){
+									baseUnprocessedNode<T>::featureHolder[q] += fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[j],baseUnprocessedNode<T>::obsIndices->returnBinnedInSample(q));
+								}
+
 							}
 						}
 					}else{
+						int numToPrefetch=200;
+						if(baseUnprocessedNode<T>::obsIndices->returnInSampleSize()<numToPrefetch){
+							numToPrefetch = baseUnprocessedNode<T>::obsIndices->returnInSampleSize();
+						}
 
-						for(int q=0; q<baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); q++){
+
+						//load the first feature
+						for(int q=0; q<numToPrefetch; q++){
 							fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnInSample(q));
 						}
 
-						for(int i =0; i < baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); ++i){
+						for(int i =0; i < baseUnprocessedNode<T>::obsIndices->returnInSampleSize()-numToPrefetch; ++i){
+							fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnInSample(i+numToPrefetch));
 							baseUnprocessedNode<T>::featureHolder[i] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnInSample(i));
 						}
+
+						for(int q=baseUnprocessedNode<T>::obsIndices->returnInSampleSize()-numToPrefetch; q<baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); ++q){
+							baseUnprocessedNode<T>::featureHolder[q] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnInSample(q));
+						}
+
+
+						//if more than one feature exists in MTRY load these now.
 						if(featuresToTry.back().size()>1){
 							for(int j =1; j < (int)featuresToTry.back().size(); ++j){
-								for(int q=0; q<baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); q++){
+
+								for(int q=0; q<numToPrefetch; q++){
 									fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[j],baseUnprocessedNode<T>::obsIndices->returnInSample(q));
 								}
 
-								for(int i =0; i < baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); ++i){
+								for(int i =0; i < baseUnprocessedNode<T>::obsIndices->returnInSampleSize()-numToPrefetch; ++i){
+									fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[j],baseUnprocessedNode<T>::obsIndices->returnInSample(i+numToPrefetch));
 									baseUnprocessedNode<T>::featureHolder[i] += fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[j],baseUnprocessedNode<T>::obsIndices->returnInSample(i));
 								}
+
+								for(int q=baseUnprocessedNode<T>::obsIndices->returnInSampleSize()-numToPrefetch; q<baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); ++q){
+									baseUnprocessedNode<T>::featureHolder[q] += fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back()[j],baseUnprocessedNode<T>::obsIndices->returnInSample(q));
+								}
+
 							}
 						}
 					}

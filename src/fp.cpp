@@ -32,11 +32,13 @@ int main(int argc, char* argv[]) {
 				break;
 			case 3:
 				forest.setParameter("forestType", "rerf");
-				forest.setParameter("useBinning", 1000);
+				forest.setParameter("binSize", 1000);
+				forest.setParameter("binMin", 1000);
 				break;
 			case 4:
 				forest.setParameter("forestType", "rfBase");
-				forest.setParameter("useBinning", 1000);
+				forest.setParameter("binSize", 100);
+				forest.setParameter("binMin", 1000);
 				break;
 			case 5:
 				forest.setParameter("forestType", "inPlace");
@@ -46,11 +48,11 @@ int main(int argc, char* argv[]) {
 				break;
 			case 7:
 				forest.setParameter("forestType", "binnedBase");
-				forest.setParameter("numTreeBins", 5);
+				forest.setParameter("numTreeBins", numCores);
 				break;
 			case 8:
 				forest.setParameter("forestType", "binnedBaseRerF");
-				forest.setParameter("numTreeBins", 5);
+				forest.setParameter("numTreeBins", numCores);
 				break;
 			default:
 				std::cout << "unknown alg selected" << std::endl;
@@ -94,6 +96,7 @@ int main(int argc, char* argv[]) {
 		forest.setParameter("numTreesInForest", 10);
 		forest.setParameter("minParent", 1);
 		forest.setParameter("numCores", numCores);
+		forest.setParameter("seed",-1661580697);
 
 		//logTime.startFindSplitTimer();
 		forest.growForest();

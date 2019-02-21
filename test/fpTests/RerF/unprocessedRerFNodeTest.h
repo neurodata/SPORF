@@ -1,4 +1,4 @@
-#include "../../../src/forestTypes/rerf/unprocessedRerFNode.h"
+#include "../../../src/forestTypes/basicForests/rerf/unprocessedRerFNode.h"
 #include "../../../src/fpSingleton/fpSingleton.h"
 
 using namespace fp;

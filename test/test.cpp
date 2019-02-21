@@ -17,4 +17,5 @@
 #include "fpTests/newForest/treeStructTest.h"
 #include "fpTests/baseUnprocessedNodeTest.h"
 #include "fpTests/RerF/unprocessedRerFNodeTest.h"
-
+#include "fpTests/MWC.h"
+#include "fpTests/fpInfo.h"

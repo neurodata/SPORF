@@ -59,7 +59,7 @@ namespace fp {
 				data.fpLoadData(Xmat,Yvec,numObs,numFeatures, fpForestInfo);
 			}
 
-inline void loadData(){
+			inline void loadData(){
 				data.fpLoadData(fpForestInfo);
 			}
 
@@ -69,6 +69,10 @@ inline void loadData(){
 
 			inline void deleteData(){
 				data.fpDeleteData();
+			}
+
+			inline void resetSingleton(){
+				fpForestInfo.resetInfo();
 			}
 
 			inline void deleteTestData(){
@@ -122,6 +126,10 @@ inline void loadData(){
 				return fpForestInfo.returnMtry();
 			}
 
+			inline double returnMtryMult(){
+				return fpForestInfo.returnMtryMult();
+			}
+
 			inline std::string& returnForestType(){
 				return fpForestInfo.returnForestType();
 			}
@@ -167,6 +175,10 @@ inline void loadData(){
 			}
 
 			inline int returnBinSize(){
+				return fpForestInfo.returnBinSize();
+			}
+
+			inline int returnBinMin(){
 				return fpForestInfo.returnBinSize();
 			}
 

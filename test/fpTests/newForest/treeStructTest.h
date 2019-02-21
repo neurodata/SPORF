@@ -16,7 +16,7 @@ TEST(treeStructTest, setupRootNode)
 {
 	std::srand(std::time(0));
 	std::string p1 = "CSVFileName";
-	std::string p2 = "res/iris.csv";
+	std::string p2 = "../res/iris.csv";
 	fpSingleton::getSingleton().setParameter(p1, p2);
 	fpSingleton::getSingleton().setParameter("columnWithY", 4);
 	fpSingleton::getSingleton().loadData();
@@ -56,7 +56,7 @@ TEST(treeStructTest, growTree)
 {
 	std::srand(std::time(0));
 	std::string p1 = "CSVFileName";
-	std::string p2 = "res/iris.csv";
+	std::string p2 = "../res/iris.csv";
 	fpSingleton::getSingleton().setParameter(p1, p2);
 	fpSingleton::getSingleton().setParameter("columnWithY", 4);
 	fpSingleton::getSingleton().loadData();

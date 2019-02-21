@@ -62,6 +62,9 @@ namespace fp {
 			public:
 
 				fpForest(){}
+				~fpForest(){
+				fpSingleton::getSingleton().resetSingleton();
+				}
 
 				inline void setParameter(const std::string& parameterName, const std::string& parameterValue){
 					fpSingleton::getSingleton().setParameter(parameterName, parameterValue);	
@@ -97,8 +100,8 @@ namespace fp {
 
 				inline void growForest(const T* Xmat, const int* Yvec, int numObs, int numFeatures){
 					loadData(Xmat,Yvec,numObs,numFeatures);
-					initializeForestType();
 					setDataDependentParameters();
+					initializeForestType();
 					forest->growForest();
 					deleteData();
 				}
@@ -106,8 +109,8 @@ namespace fp {
 
 				inline void growForest(){
 					loadData();
-					initializeForestType();
 					setDataDependentParameters();
+					initializeForestType();
 					forest->growForest();
 					deleteData();
 				}

@@ -40,6 +40,10 @@ namespace fp{
 				return (int)indexHolder.size();
 			}
 
+			inline void removeObsIndexAndClassVec(){
+			std::vector<std::vector<int> >().swap( indexHolder );
+			}
+
 	};
 
 }//namespace fp

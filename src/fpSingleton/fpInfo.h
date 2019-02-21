@@ -23,6 +23,7 @@ namespace fp {
 			int numObservations;
 			int numFeatures;
 			int mtry;
+			double mtryMult;
 			int columnWithY;
 
 			int numberOfNodes;
@@ -32,6 +33,7 @@ namespace fp {
 			double fractionOfFeaturesToTest;
 
 			int binSize;
+			int binMin;
 			int numCores;
 
 			double double_epsilon;
@@ -44,9 +46,36 @@ namespace fp {
 			randomNumberRerFMWC randNum;
 
 			int numTreeBins;
+			bool useRowMajor;
 
 
 		public:
+
+			inline void resetInfo(){
+				numTreesInForest=100;
+				minParent=1;
+				numClasses=-1;
+				numObservations=-1;
+				numFeatures=-1;
+				mtry=-1;
+				mtryMult=1;
+				columnWithY=-1;
+				numberOfNodes=0;
+				maxDepth=0;
+				sumLeafNodeDepths=0;
+				fractionOfFeaturesToTest=-1.0; 
+				binSize=0;
+				numCores=1;
+				double_epsilon=0.0000001;
+				float_epsilon=0.0000001; 
+				seed=-1;
+				numTreeBins=-1;
+				forestType.clear();
+				CSVFileName.clear();
+				//initRandom();
+			}
+
+
 			inline int returnNumTreeBins(){
 				return numTreeBins;
 			}
@@ -64,11 +93,15 @@ namespace fp {
 			}
 
 			inline bool returnUseBinning(){
-				return binSize;
+				return binMin;
 			}
 
 			inline int returnBinSize(){
 				return binSize;
+			}
+
+			inline int returnBinMin(){
+				return binMin;
 			}
 
 			inline std::string& returnCSVFileName(){
@@ -128,8 +161,15 @@ namespace fp {
 			inline int returnMtry(){
 				return mtry;
 			}
+			inline double returnMtryMult(){
+				return mtryMult;
+			}
+
 			inline bool useDefaultMTRY(){
 				return fractionOfFeaturesToTest < 0;
+			}
+			inline bool returnUseRowMajor(){
+				return useRowMajor;
 			}
 
 			inline void setMTRY(){
@@ -146,8 +186,8 @@ namespace fp {
 			//Random Number Generator
 			///////////////////////////////////////
 			inline void initRandom(){
-				std::random_device rd;
 				if(seed == -1){
+					std::random_device rd;
 					seed = rd();
 				}
 				randNum.initialize(seed);
@@ -170,8 +210,8 @@ namespace fp {
 			/////////
 			fpInfo(): numTreesInForest(100),
 			minParent(1),	numClasses(-1), numObservations(-1), numFeatures(-1),
-			mtry(-1), columnWithY(-1), 
-			numberOfNodes(0), maxDepth(0),sumLeafNodeDepths(0), fractionOfFeaturesToTest(-1.0), binSize(0), numCores(1), double_epsilon(0.0000001), float_epsilon(0.0000001),seed(-1),numTreeBins(-1){}
+			mtry(-1),mtryMult(1), columnWithY(-1), 
+			numberOfNodes(0), maxDepth(0),sumLeafNodeDepths(0), fractionOfFeaturesToTest(-1.0), binSize(0),binMin(0),numCores(1),double_epsilon(0.0000001), float_epsilon(0.0000001),seed(-1),numTreeBins(-1),useRowMajor(true){}
 
 
 
@@ -195,18 +235,24 @@ namespace fp {
 					numClasses = (int)parameterValue;
 				}else if(parameterName == "mtry"){
 					mtry = (int)parameterValue;
+				}else if(parameterName == "mtryMult"){
+					mtryMult = parameterValue;
 				}else if(parameterName == "fractionOfFeaturesToTest"){
 					fractionOfFeaturesToTest = parameterValue;
 				}else if(parameterName == "columnWithY"){
 					columnWithY = (int)parameterValue;
-				}else if(parameterName == "useBinning"){
+				}else if(parameterName == "binSize"){
 					binSize = (int)parameterValue;
+				}else if(parameterName == "binMin"){
+					binMin = (int)parameterValue;
 				}else if(parameterName == "numCores"){
 					numCores = (int)parameterValue;
 				}else if(parameterName == "seed"){
 					seed = (int)parameterValue;
 				}else if(parameterName == "numTreeBins"){
 					numTreeBins = (int)parameterValue;
+				}else if(parameterName == "useRowMajor"){
+					useRowMajor = (bool)parameterValue;
 				}else {
 					throw std::runtime_error("Unknown parameter type.(double)");
 				}
@@ -222,18 +268,24 @@ namespace fp {
 					numClasses = parameterValue;
 				}else if(parameterName == "mtry"){
 					mtry = parameterValue;
+				}else if(parameterName == "mtryMult"){
+					mtryMult = (double)parameterValue;
 				}else if(parameterName == "fractionOfFeaturesToTest"){
 					fractionOfFeaturesToTest = (double)parameterValue;
 				}else if(parameterName == "columnWithY"){
 					columnWithY = parameterValue;
-				}else if(parameterName == "useBinning"){
+				}else if(parameterName == "binSize"){
 					binSize = parameterValue;
+				}else if(parameterName == "binMin"){
+					binMin = parameterValue;
 				}else if(parameterName == "numCores"){
 					numCores = parameterValue;
 				}else if(parameterName == "seed"){
 					seed = parameterValue;
 				}else if(parameterName == "numTreeBins"){
 					numTreeBins = parameterValue;
+				}else if(parameterName == "useRowMajor"){
+					useRowMajor = (bool)parameterValue;
 				}else {
 					throw std::runtime_error("Unknown parameter type.(int)");
 				}
@@ -246,11 +298,13 @@ namespace fp {
 				std::cout << "numObservations -> " << numObservations << "\n";
 				std::cout << "numFeatures -> " << numFeatures << "\n";
 				std::cout << "mtry -> " << mtry << "\n";
+				std::cout << "mtryMult -> " << mtryMult << "\n";
 				std::cout << "fractionOfFeaturesToTest -> " << fractionOfFeaturesToTest << "\n";
 				std::cout << "CSV file name -> " <<  CSVFileName << "\n";
 				std::cout << "columnWithY -> " << columnWithY << "\n";
 				std::cout << "Type of Forest -> " << forestType << "\n";
 				std::cout << "binSize -> " << binSize << "\n";
+				std::cout << "binMin -> " << binMin << "\n";
 				std::cout << "numCores -> " << numCores << "\n";
 				std::cout << "seed -> " << seed << "\n";
 				std::cout << "numTreeBins -> " << numTreeBins << "\n";

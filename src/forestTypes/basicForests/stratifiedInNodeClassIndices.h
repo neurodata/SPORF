@@ -156,8 +156,12 @@ namespace fp{
 				return fpSingleton::getSingleton().returnBinSize();
 			}
 
+inline int returnBinMin(){
+				return fpSingleton::getSingleton().returnBinMin();
+			}
+
 			inline bool useBin(){
-				return fpSingleton::getSingleton().returnUseBinning() && (inSampleSize > 5*returnBinSize());
+				return fpSingleton::getSingleton().returnUseBinning() && (inSampleSize > returnBinMin());
 			}
 
 			inline void initializeBinnedSamples(){
