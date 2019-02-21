@@ -89,7 +89,8 @@ namespace fp{
 
 
 				inline bool shouldProcessNode(){
-					return !nodeQueue.back().isLeafNode();
+					return nodeQueue.back().returnDepthOfNode() < fpSingleton::getSingleton().returnMaxDepth() && !nodeQueue.back().isLeafNode();
+					//return !nodeQueue.back().isLeafNode();
 				}
 
 

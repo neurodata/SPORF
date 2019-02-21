@@ -123,7 +123,10 @@ namespace fp {
 			inline int returnMinParent() const{
 				return minParent;
 			}
-
+			inline int returnMaxDepth() const{
+				return maxDepth;
+			}
+		
 			inline int returnNumFeatures() const{
 				return numFeatures;
 			}
@@ -264,6 +267,8 @@ namespace fp {
 					numTreesInForest = parameterValue;
 				}else if(parameterName == "minParent"){
 					minParent = parameterValue;
+				}else if(parameterName == "maxDepth"){
+					maxDepth = parameterValue;
 				}else if(parameterName == "numClasses"){
 					numClasses = parameterValue;
 				}else if(parameterName == "mtry"){
@@ -293,6 +298,7 @@ namespace fp {
 
 			void printAllParameters(){
 				std::cout << "numTreesInForest -> " << numTreesInForest << "\n";
+				std::cout << "maxDepth -> " << maxDepth << "\n";
 				std::cout << "minParent -> " << minParent << "\n";
 				std::cout << "numClasses -> " << numClasses << "\n";
 				std::cout << "numObservations -> " << numObservations << "\n";
