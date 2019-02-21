@@ -3,8 +3,6 @@ Randomer Forest
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-    ## Loading required package: Rcpp
-
 [![CRAN Status
 Badge](https://www.r-pkg.org/badges/version/rerf)](https://cran.r-project.org/package=rerf)
 [![arXiv

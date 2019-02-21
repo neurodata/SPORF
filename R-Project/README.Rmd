@@ -19,7 +19,7 @@ system.time({
 )
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, include = FALSE}
 library(rerf)
 knitr::opts_chunk$set(
   cache = FALSE,
