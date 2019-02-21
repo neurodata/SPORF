@@ -38,16 +38,54 @@
 
 # object files and library files
 *.o
-*.so
 *.a
-
-# files created during packing
-*.out
-*.csv
-*.swp
 
 /R-Project/.Rproj.user
 
 #automatically generated on Windows
-rerf.dll
 src-i386
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Valgrind
+*.out.*
+
+# generic don't upload
+*.ignore
+bin/
+*.swp
+*.pdf
+*.tmp
+
+# data files that may be too large
+*.csv

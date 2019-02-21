@@ -1,0 +1,163 @@
+\hypertarget{classtestXData}{}\section{test\+X\+Data$<$ T $>$ Class Template Reference}
+\label{classtestXData}\index{test\+X\+Data$<$ T $>$@{test\+X\+Data$<$ T $>$}}
+
+
+{\ttfamily \#include $<$fp\+Data\+Set.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classtestXData_a198eae2889a3477c6a59038e54fc0e72}{initialize\+Test\+X\+Data} (const int \&num\+Features, const int \&num\+Observations)
+\item 
+T \hyperlink{classtestXData_ac26a03abde5b65053944ff9f6eec00b6}{return\+Element} (const int \&feature, const int \&observation)
+\item 
+void \hyperlink{classtestXData_a04843e072396cac0fb8f3417b9dd3f22}{prefetch\+Element} (const int \&feature, const int \&observation)
+\item 
+void \hyperlink{classtestXData_a3e1c527719cb3f3535fd332270c91553}{set\+X\+Element} (const int \&feature, const int \&observation, const T \&value)
+\item 
+int \hyperlink{classtestXData_a81de09b65cf32fc0aa728ac48b881b64}{return\+Num\+Features} ()
+\item 
+int \hyperlink{classtestXData_a11dc79bc56b7a5240c0b7c89e9fbeca1}{return\+Num\+Observations} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::vector$<$ T $>$ $>$ \hyperlink{classtestXData_aabb02eb5f97c674d6a88c8194498b621}{X\+Data}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class test\+X\+Data$<$ T $>$}
+
+
+
+Definition at line 188 of file fp\+Data\+Set.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classtestXData_a198eae2889a3477c6a59038e54fc0e72}\label{classtestXData_a198eae2889a3477c6a59038e54fc0e72}} 
+\index{test\+X\+Data@{test\+X\+Data}!initialize\+Test\+X\+Data@{initialize\+Test\+X\+Data}}
+\index{initialize\+Test\+X\+Data@{initialize\+Test\+X\+Data}!test\+X\+Data@{test\+X\+Data}}
+\subsubsection{\texorpdfstring{initialize\+Test\+X\+Data()}{initializeTestXData()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classtestXData}{test\+X\+Data}$<$ T $>$\+::initialize\+Test\+X\+Data (\begin{DoxyParamCaption}\item[{const int \&}]{num\+Features,  }\item[{const int \&}]{num\+Observations }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 194 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+194                                                                                      \{
+195             \hyperlink{classtestXData_aabb02eb5f97c674d6a88c8194498b621}{XData}.resize(numObservations);
+196             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0; i<numObservations; i++)\{
+197                 \hyperlink{classtestXData_aabb02eb5f97c674d6a88c8194498b621}{XData}[i].resize(numFeatures);
+198             \}
+199         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classtestXData_a04843e072396cac0fb8f3417b9dd3f22}\label{classtestXData_a04843e072396cac0fb8f3417b9dd3f22}} 
+\index{test\+X\+Data@{test\+X\+Data}!prefetch\+Element@{prefetch\+Element}}
+\index{prefetch\+Element@{prefetch\+Element}!test\+X\+Data@{test\+X\+Data}}
+\subsubsection{\texorpdfstring{prefetch\+Element()}{prefetchElement()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classtestXData}{test\+X\+Data}$<$ T $>$\+::prefetch\+Element (\begin{DoxyParamCaption}\item[{const int \&}]{feature,  }\item[{const int \&}]{observation }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 205 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+205                                                                       \{
+206                             \_\_builtin\_prefetch(\hyperlink{classtestXData_aabb02eb5f97c674d6a88c8194498b621}{XData}[observation][feature], 0, 3);
+207         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classtestXData_ac26a03abde5b65053944ff9f6eec00b6}\label{classtestXData_ac26a03abde5b65053944ff9f6eec00b6}} 
+\index{test\+X\+Data@{test\+X\+Data}!return\+Element@{return\+Element}}
+\index{return\+Element@{return\+Element}!test\+X\+Data@{test\+X\+Data}}
+\subsubsection{\texorpdfstring{return\+Element()}{returnElement()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+T \hyperlink{classtestXData}{test\+X\+Data}$<$ T $>$\+::return\+Element (\begin{DoxyParamCaption}\item[{const int \&}]{feature,  }\item[{const int \&}]{observation }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 201 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+201                                                                          \{
+202             \textcolor{keywordflow}{return} \hyperlink{classtestXData_aabb02eb5f97c674d6a88c8194498b621}{XData}[observation][feature];
+203         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classtestXData_a81de09b65cf32fc0aa728ac48b881b64}\label{classtestXData_a81de09b65cf32fc0aa728ac48b881b64}} 
+\index{test\+X\+Data@{test\+X\+Data}!return\+Num\+Features@{return\+Num\+Features}}
+\index{return\+Num\+Features@{return\+Num\+Features}!test\+X\+Data@{test\+X\+Data}}
+\subsubsection{\texorpdfstring{return\+Num\+Features()}{returnNumFeatures()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+int \hyperlink{classtestXData}{test\+X\+Data}$<$ T $>$\+::return\+Num\+Features (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 213 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+213                                       \{
+214             \textcolor{keywordflow}{return} \hyperlink{classtestXData_aabb02eb5f97c674d6a88c8194498b621}{XData}[0].size();
+215         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classtestXData_a11dc79bc56b7a5240c0b7c89e9fbeca1}\label{classtestXData_a11dc79bc56b7a5240c0b7c89e9fbeca1}} 
+\index{test\+X\+Data@{test\+X\+Data}!return\+Num\+Observations@{return\+Num\+Observations}}
+\index{return\+Num\+Observations@{return\+Num\+Observations}!test\+X\+Data@{test\+X\+Data}}
+\subsubsection{\texorpdfstring{return\+Num\+Observations()}{returnNumObservations()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+int \hyperlink{classtestXData}{test\+X\+Data}$<$ T $>$\+::return\+Num\+Observations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 217 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+217                                           \{
+218             \textcolor{keywordflow}{return} \hyperlink{classtestXData_aabb02eb5f97c674d6a88c8194498b621}{XData}.size();
+219         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classtestXData_a3e1c527719cb3f3535fd332270c91553}\label{classtestXData_a3e1c527719cb3f3535fd332270c91553}} 
+\index{test\+X\+Data@{test\+X\+Data}!set\+X\+Element@{set\+X\+Element}}
+\index{set\+X\+Element@{set\+X\+Element}!test\+X\+Data@{test\+X\+Data}}
+\subsubsection{\texorpdfstring{set\+X\+Element()}{setXElement()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classtestXData}{test\+X\+Data}$<$ T $>$\+::set\+X\+Element (\begin{DoxyParamCaption}\item[{const int \&}]{feature,  }\item[{const int \&}]{observation,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 209 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+209                                                                                             \{
+210             \hyperlink{classtestXData_aabb02eb5f97c674d6a88c8194498b621}{XData}[observation][feature] = value;
+211         \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classtestXData_aabb02eb5f97c674d6a88c8194498b621}\label{classtestXData_aabb02eb5f97c674d6a88c8194498b621}} 
+\index{test\+X\+Data@{test\+X\+Data}!X\+Data@{X\+Data}}
+\index{X\+Data@{X\+Data}!test\+X\+Data@{test\+X\+Data}}
+\subsubsection{\texorpdfstring{X\+Data}{XData}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+std\+::vector$<$ std\+::vector$<$T$>$ $>$ \hyperlink{classtestXData}{test\+X\+Data}$<$ T $>$\+::X\+Data\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 191 of file fp\+Data\+Set.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/fp\+Singleton/\hyperlink{fpDataSet_8h}{fp\+Data\+Set.\+h}\end{DoxyCompactItemize}

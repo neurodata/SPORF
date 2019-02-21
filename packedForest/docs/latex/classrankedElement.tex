@@ -1,0 +1,136 @@
+\hypertarget{classrankedElement}{}\section{ranked\+Element$<$ T $>$ Class Template Reference}
+\label{classrankedElement}\index{ranked\+Element$<$ T $>$@{ranked\+Element$<$ T $>$}}
+
+
+{\ttfamily \#include $<$fp\+Data\+Set.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrankedElement_a9e4dc03750c4c7c228d3366aa5f9b6e5}{set\+Element\+Values} (int rank\+Value, T feature\+Val)
+\item 
+int \hyperlink{classrankedElement_a1de90c49ea4143986f5fc9b197758518}{return\+Rank} ()
+\item 
+void \hyperlink{classrankedElement_a94d4033db01ce1259a689e45f8f0d859}{set\+Feature\+Value} (T new\+Feature\+Value)
+\item 
+T \hyperlink{classrankedElement_ab49ad201b4452d0ec63f850f3eec26cc}{return\+Feature\+Value} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classrankedElement_a419244fe97e0bace27a3cb7db7639e1c}{rank\+In\+Feature}
+\item 
+T \hyperlink{classrankedElement_a710e6e4cc93b791e5cd1fd21716be2e9}{feature\+Value}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class ranked\+Element$<$ T $>$}
+
+
+
+Definition at line 305 of file fp\+Data\+Set.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classrankedElement_ab49ad201b4452d0ec63f850f3eec26cc}\label{classrankedElement_ab49ad201b4452d0ec63f850f3eec26cc}} 
+\index{ranked\+Element@{ranked\+Element}!return\+Feature\+Value@{return\+Feature\+Value}}
+\index{return\+Feature\+Value@{return\+Feature\+Value}!ranked\+Element@{ranked\+Element}}
+\subsubsection{\texorpdfstring{return\+Feature\+Value()}{returnFeatureValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \hyperlink{classrankedElement}{ranked\+Element}$<$ T $>$\+::return\+Feature\+Value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 328 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+329         \{
+330             \textcolor{keywordflow}{return} \hyperlink{classrankedElement_a710e6e4cc93b791e5cd1fd21716be2e9}{featureValue};
+331         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrankedElement_a1de90c49ea4143986f5fc9b197758518}\label{classrankedElement_a1de90c49ea4143986f5fc9b197758518}} 
+\index{ranked\+Element@{ranked\+Element}!return\+Rank@{return\+Rank}}
+\index{return\+Rank@{return\+Rank}!ranked\+Element@{ranked\+Element}}
+\subsubsection{\texorpdfstring{return\+Rank()}{returnRank()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrankedElement}{ranked\+Element}$<$ T $>$\+::return\+Rank (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 318 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+319         \{
+320             \textcolor{keywordflow}{return} \hyperlink{classrankedElement_a419244fe97e0bace27a3cb7db7639e1c}{rankInFeature};
+321         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrankedElement_a9e4dc03750c4c7c228d3366aa5f9b6e5}\label{classrankedElement_a9e4dc03750c4c7c228d3366aa5f9b6e5}} 
+\index{ranked\+Element@{ranked\+Element}!set\+Element\+Values@{set\+Element\+Values}}
+\index{set\+Element\+Values@{set\+Element\+Values}!ranked\+Element@{ranked\+Element}}
+\subsubsection{\texorpdfstring{set\+Element\+Values()}{setElementValues()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrankedElement}{ranked\+Element}$<$ T $>$\+::set\+Element\+Values (\begin{DoxyParamCaption}\item[{int}]{rank\+Value,  }\item[{T}]{feature\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 312 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+313         \{
+314             \hyperlink{classrankedElement_a419244fe97e0bace27a3cb7db7639e1c}{rankInFeature} = rankValue;
+315             \hyperlink{classrankedElement_a710e6e4cc93b791e5cd1fd21716be2e9}{featureValue} = featureVal;
+316         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrankedElement_a94d4033db01ce1259a689e45f8f0d859}\label{classrankedElement_a94d4033db01ce1259a689e45f8f0d859}} 
+\index{ranked\+Element@{ranked\+Element}!set\+Feature\+Value@{set\+Feature\+Value}}
+\index{set\+Feature\+Value@{set\+Feature\+Value}!ranked\+Element@{ranked\+Element}}
+\subsubsection{\texorpdfstring{set\+Feature\+Value()}{setFeatureValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrankedElement}{ranked\+Element}$<$ T $>$\+::set\+Feature\+Value (\begin{DoxyParamCaption}\item[{T}]{new\+Feature\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 323 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+324         \{
+325             \hyperlink{classrankedElement_a710e6e4cc93b791e5cd1fd21716be2e9}{featureValue} = newFeatureValue;
+326         \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classrankedElement_a710e6e4cc93b791e5cd1fd21716be2e9}\label{classrankedElement_a710e6e4cc93b791e5cd1fd21716be2e9}} 
+\index{ranked\+Element@{ranked\+Element}!feature\+Value@{feature\+Value}}
+\index{feature\+Value@{feature\+Value}!ranked\+Element@{ranked\+Element}}
+\subsubsection{\texorpdfstring{feature\+Value}{featureValue}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \hyperlink{classrankedElement}{ranked\+Element}$<$ T $>$\+::feature\+Value\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 309 of file fp\+Data\+Set.\+h.
+
+\mbox{\Hypertarget{classrankedElement_a419244fe97e0bace27a3cb7db7639e1c}\label{classrankedElement_a419244fe97e0bace27a3cb7db7639e1c}} 
+\index{ranked\+Element@{ranked\+Element}!rank\+In\+Feature@{rank\+In\+Feature}}
+\index{rank\+In\+Feature@{rank\+In\+Feature}!ranked\+Element@{ranked\+Element}}
+\subsubsection{\texorpdfstring{rank\+In\+Feature}{rankInFeature}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrankedElement}{ranked\+Element}$<$ T $>$\+::rank\+In\+Feature\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 308 of file fp\+Data\+Set.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/fp\+Singleton/\hyperlink{fpDataSet_8h}{fp\+Data\+Set.\+h}\end{DoxyCompactItemize}

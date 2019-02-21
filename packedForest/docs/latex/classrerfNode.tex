@@ -1,0 +1,458 @@
+\hypertarget{classrerfNode}{}\section{rerf\+Node$<$ T $>$ Class Template Reference}
+\label{classrerfNode}\index{rerf\+Node$<$ T $>$@{rerf\+Node$<$ T $>$}}
+
+
+{\ttfamily \#include $<$rerf\+Node.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrerfNode_a22e89eb08a352567b5880f40b167ced8}{rerf\+Node} ()
+\item 
+bool \hyperlink{classrerfNode_ace2de533e796bc163c5da0b183746e69}{is\+Internal\+Node} ()
+\item 
+int \hyperlink{classrerfNode_a6b6d6f3a3e754e680b1a8801ed7d10c8}{return\+Depth} ()
+\item 
+void \hyperlink{classrerfNode_a5fe73086780accca796a8e2b2465ac39}{set\+Depth} (int dep)
+\item 
+T \hyperlink{classrerfNode_a24e784c2f3b958ca6f48be08b2d4a0de}{return\+Cut\+Value} ()
+\item 
+void \hyperlink{classrerfNode_a0cdc84a6c6cc7544e0a71525b8688c8d}{set\+Cut\+Value} (T c\+Val)
+\item 
+void \hyperlink{classrerfNode_a118ca4701cbeaefe6059d26df05bb912}{add\+Feature\+Value} (int f\+Val)
+\item 
+void \hyperlink{classrerfNode_aa3253da3948adeffa9a908caa339f396}{set\+Feature\+Value} (std\+::vector$<$ int $>$ f\+Val)
+\item 
+std\+::vector$<$ int $>$ \& \hyperlink{classrerfNode_aa51d1f5df455856bda7af94f1799760f}{return\+Feature\+Number} ()
+\item 
+int \hyperlink{classrerfNode_ad6ff2fef3621b52280f1bb2b3e9f23d5}{return\+Left\+Node\+ID} ()
+\item 
+int \hyperlink{classrerfNode_a0f183e7683ebd7683f003db3eaa9a4a6}{return\+Right\+Node\+ID} ()
+\item 
+int \hyperlink{classrerfNode_a48a5c0d5ae3fd5f59791065f5bc54367}{return\+Class} ()
+\item 
+void \hyperlink{classrerfNode_af150e653daddcde22261e3e12ebc2986}{set\+Class} (int class\+Num)
+\item 
+void \hyperlink{classrerfNode_a1de908ea051d4845ca00296d42c7ae80}{set\+Left\+Value} (int L\+Val)
+\item 
+void \hyperlink{classrerfNode_a9561bbd59f5aa7b2beef6d520d89d4ad}{set\+Right\+Value} (int R\+Val)
+\item 
+bool \hyperlink{classrerfNode_a69984008dbb0c64dc8553c45b1d85d2d}{go\+Left} (T feature\+Value)
+\item 
+int \hyperlink{classrerfNode_aa2a1f7dceca7652d28a60c872b3351cf}{next\+Node} (T feature\+Value)
+\item 
+virtual void \hyperlink{classrerfNode_afc097136492957d5cd96269addcfb413}{print\+Node} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classrerfNode_a0ffbd4e13914bfdd0d35e2e737b0a959}{left}
+\item 
+int \hyperlink{classrerfNode_ae04521c833fe33f2b1cde19bb3cb615f}{right}
+\item 
+int \hyperlink{classrerfNode_a85845e08b7db33d241ddc3ff6b63799f}{depth}
+\item 
+T \hyperlink{classrerfNode_afbb93d044e16d18d7502e5d58fa345bf}{cut\+Value}
+\item 
+std\+::vector$<$ int $>$ \hyperlink{classrerfNode_af41edc70aae781312c3b20311430a89a}{feature}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class rerf\+Node$<$ T $>$}
+
+
+
+Definition at line 8 of file rerf\+Node.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classrerfNode_a22e89eb08a352567b5880f40b167ced8}\label{classrerfNode_a22e89eb08a352567b5880f40b167ced8}} 
+\index{rerf\+Node@{rerf\+Node}!rerf\+Node@{rerf\+Node}}
+\index{rerf\+Node@{rerf\+Node}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{rerf\+Node()}{rerfNode()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::\hyperlink{classrerfNode}{rerf\+Node} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 18 of file rerf\+Node.\+h.
+
+
+\begin{DoxyCode}
+18 :\hyperlink{classrerfNode_a0ffbd4e13914bfdd0d35e2e737b0a959}{left}(0), \hyperlink{classrerfNode_ae04521c833fe33f2b1cde19bb3cb615f}{right}(0), \hyperlink{classrerfNode_a85845e08b7db33d241ddc3ff6b63799f}{depth}(0)\{\}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classrerfNode_a118ca4701cbeaefe6059d26df05bb912}\label{classrerfNode_a118ca4701cbeaefe6059d26df05bb912}} 
+\index{rerf\+Node@{rerf\+Node}!add\+Feature\+Value@{add\+Feature\+Value}}
+\index{add\+Feature\+Value@{add\+Feature\+Value}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{add\+Feature\+Value()}{addFeatureValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::add\+Feature\+Value (\begin{DoxyParamCaption}\item[{int}]{f\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 38 of file rerf\+Node.\+h.
+
+
+\begin{DoxyCode}
+38                                              \{
+39             \hyperlink{classrerfNode_af41edc70aae781312c3b20311430a89a}{feature}.push\_back(fVal);
+40         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrerfNode_a69984008dbb0c64dc8553c45b1d85d2d}\label{classrerfNode_a69984008dbb0c64dc8553c45b1d85d2d}} 
+\index{rerf\+Node@{rerf\+Node}!go\+Left@{go\+Left}}
+\index{go\+Left@{go\+Left}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{go\+Left()}{goLeft()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::go\+Left (\begin{DoxyParamCaption}\item[{T}]{feature\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 75 of file rerf\+Node.\+h.
+
+
+\begin{DoxyCode}
+75                                           \{
+76             \textcolor{keywordflow}{return} featureValue < \hyperlink{classrerfNode_afbb93d044e16d18d7502e5d58fa345bf}{cutValue};
+77         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrerfNode_ace2de533e796bc163c5da0b183746e69}\label{classrerfNode_ace2de533e796bc163c5da0b183746e69}} 
+\index{rerf\+Node@{rerf\+Node}!is\+Internal\+Node@{is\+Internal\+Node}}
+\index{is\+Internal\+Node@{is\+Internal\+Node}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{is\+Internal\+Node()}{isInternalNode()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::is\+Internal\+Node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 19 of file rerf\+Node.\+h.
+
+
+\begin{DoxyCode}
+19                                     \{
+20             \textcolor{keywordflow}{return} \hyperlink{classrerfNode_a0ffbd4e13914bfdd0d35e2e737b0a959}{left};
+21         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrerfNode_aa2a1f7dceca7652d28a60c872b3351cf}\label{classrerfNode_aa2a1f7dceca7652d28a60c872b3351cf}} 
+\index{rerf\+Node@{rerf\+Node}!next\+Node@{next\+Node}}
+\index{next\+Node@{next\+Node}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{next\+Node()}{nextNode()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::next\+Node (\begin{DoxyParamCaption}\item[{T}]{feature\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 79 of file rerf\+Node.\+h.
+
+
+\begin{DoxyCode}
+79                                            \{
+80             \textcolor{keywordflow}{return} (featureValue < \hyperlink{classrerfNode_afbb93d044e16d18d7502e5d58fa345bf}{cutValue}) ? \hyperlink{classrerfNode_a0ffbd4e13914bfdd0d35e2e737b0a959}{left} : \hyperlink{classrerfNode_ae04521c833fe33f2b1cde19bb3cb615f}{right};
+81         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrerfNode_afc097136492957d5cd96269addcfb413}\label{classrerfNode_afc097136492957d5cd96269addcfb413}} 
+\index{rerf\+Node@{rerf\+Node}!print\+Node@{print\+Node}}
+\index{print\+Node@{print\+Node}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{print\+Node()}{printNode()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+virtual void \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::print\+Node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Definition at line 83 of file rerf\+Node.\+h.
+
+
+\begin{DoxyCode}
+83                                 \{
+84             \textcolor{keywordflow}{if}(\hyperlink{classrerfNode_ace2de533e796bc163c5da0b183746e69}{isInternalNode}())\{
+85                 std::cout << \textcolor{stringliteral}{"internal "};
+86             \}\textcolor{keywordflow}{else}\{
+87                 std::cout << \textcolor{stringliteral}{"leaf "};
+88             \}
+89             std::cout << \textcolor{stringliteral}{"cutValue "} << \hyperlink{classrerfNode_afbb93d044e16d18d7502e5d58fa345bf}{cutValue} << \textcolor{stringliteral}{", left "} << \hyperlink{classrerfNode_a0ffbd4e13914bfdd0d35e2e737b0a959}{left} << \textcolor{stringliteral}{", right "} << 
+      \hyperlink{classrerfNode_ae04521c833fe33f2b1cde19bb3cb615f}{right} << \textcolor{stringliteral}{", depth "} << \hyperlink{classrerfNode_a85845e08b7db33d241ddc3ff6b63799f}{depth} << \textcolor{stringliteral}{"\(\backslash\)n"};
+90             \textcolor{comment}{//std::cout << "cutValue " << cutValue <<", feature " << feature << ", left " << left << ",
+       right " << right << ", depth " << depth << "\(\backslash\)n";}
+91         \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=341pt]{classrerfNode_afc097136492957d5cd96269addcfb413_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classrerfNode_a48a5c0d5ae3fd5f59791065f5bc54367}\label{classrerfNode_a48a5c0d5ae3fd5f59791065f5bc54367}} 
+\index{rerf\+Node@{rerf\+Node}!return\+Class@{return\+Class}}
+\index{return\+Class@{return\+Class}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{return\+Class()}{returnClass()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::return\+Class (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 58 of file rerf\+Node.\+h.
+
+
+\begin{DoxyCode}
+58                                 \{
+59             \textcolor{keywordflow}{return} \hyperlink{classrerfNode_ae04521c833fe33f2b1cde19bb3cb615f}{right};  
+60         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrerfNode_a24e784c2f3b958ca6f48be08b2d4a0de}\label{classrerfNode_a24e784c2f3b958ca6f48be08b2d4a0de}} 
+\index{rerf\+Node@{rerf\+Node}!return\+Cut\+Value@{return\+Cut\+Value}}
+\index{return\+Cut\+Value@{return\+Cut\+Value}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{return\+Cut\+Value()}{returnCutValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::return\+Cut\+Value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 31 of file rerf\+Node.\+h.
+
+
+\begin{DoxyCode}
+31                                  \{
+32             \textcolor{keywordflow}{return} \hyperlink{classrerfNode_afbb93d044e16d18d7502e5d58fa345bf}{cutValue};
+33         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrerfNode_a6b6d6f3a3e754e680b1a8801ed7d10c8}\label{classrerfNode_a6b6d6f3a3e754e680b1a8801ed7d10c8}} 
+\index{rerf\+Node@{rerf\+Node}!return\+Depth@{return\+Depth}}
+\index{return\+Depth@{return\+Depth}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{return\+Depth()}{returnDepth()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::return\+Depth (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 23 of file rerf\+Node.\+h.
+
+
+\begin{DoxyCode}
+23                                 \{
+24             \textcolor{keywordflow}{return} \hyperlink{classrerfNode_a85845e08b7db33d241ddc3ff6b63799f}{depth};
+25         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrerfNode_aa51d1f5df455856bda7af94f1799760f}\label{classrerfNode_aa51d1f5df455856bda7af94f1799760f}} 
+\index{rerf\+Node@{rerf\+Node}!return\+Feature\+Number@{return\+Feature\+Number}}
+\index{return\+Feature\+Number@{return\+Feature\+Number}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{return\+Feature\+Number()}{returnFeatureNumber()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::vector$<$int$>$\& \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::return\+Feature\+Number (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 46 of file rerf\+Node.\+h.
+
+
+\begin{DoxyCode}
+46                                                     \{
+47             \textcolor{keywordflow}{return} \hyperlink{classrerfNode_af41edc70aae781312c3b20311430a89a}{feature};
+48         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrerfNode_ad6ff2fef3621b52280f1bb2b3e9f23d5}\label{classrerfNode_ad6ff2fef3621b52280f1bb2b3e9f23d5}} 
+\index{rerf\+Node@{rerf\+Node}!return\+Left\+Node\+ID@{return\+Left\+Node\+ID}}
+\index{return\+Left\+Node\+ID@{return\+Left\+Node\+ID}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{return\+Left\+Node\+I\+D()}{returnLeftNodeID()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::return\+Left\+Node\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 50 of file rerf\+Node.\+h.
+
+
+\begin{DoxyCode}
+50                                      \{
+51             \textcolor{keywordflow}{return} \hyperlink{classrerfNode_a0ffbd4e13914bfdd0d35e2e737b0a959}{left};    
+52         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrerfNode_a0f183e7683ebd7683f003db3eaa9a4a6}\label{classrerfNode_a0f183e7683ebd7683f003db3eaa9a4a6}} 
+\index{rerf\+Node@{rerf\+Node}!return\+Right\+Node\+ID@{return\+Right\+Node\+ID}}
+\index{return\+Right\+Node\+ID@{return\+Right\+Node\+ID}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{return\+Right\+Node\+I\+D()}{returnRightNodeID()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::return\+Right\+Node\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 54 of file rerf\+Node.\+h.
+
+
+\begin{DoxyCode}
+54                                       \{
+55             \textcolor{keywordflow}{return} \hyperlink{classrerfNode_ae04521c833fe33f2b1cde19bb3cb615f}{right};
+56         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrerfNode_af150e653daddcde22261e3e12ebc2986}\label{classrerfNode_af150e653daddcde22261e3e12ebc2986}} 
+\index{rerf\+Node@{rerf\+Node}!set\+Class@{set\+Class}}
+\index{set\+Class@{set\+Class}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{set\+Class()}{setClass()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::set\+Class (\begin{DoxyParamCaption}\item[{int}]{class\+Num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 62 of file rerf\+Node.\+h.
+
+
+\begin{DoxyCode}
+62                                           \{
+63             \hyperlink{classrerfNode_ae04521c833fe33f2b1cde19bb3cb615f}{right} = classNum;
+64             \hyperlink{classrerfNode_a0ffbd4e13914bfdd0d35e2e737b0a959}{left} = 0;
+65         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrerfNode_a0cdc84a6c6cc7544e0a71525b8688c8d}\label{classrerfNode_a0cdc84a6c6cc7544e0a71525b8688c8d}} 
+\index{rerf\+Node@{rerf\+Node}!set\+Cut\+Value@{set\+Cut\+Value}}
+\index{set\+Cut\+Value@{set\+Cut\+Value}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{set\+Cut\+Value()}{setCutValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::set\+Cut\+Value (\begin{DoxyParamCaption}\item[{T}]{c\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 34 of file rerf\+Node.\+h.
+
+
+\begin{DoxyCode}
+34                                        \{
+35             \hyperlink{classrerfNode_afbb93d044e16d18d7502e5d58fa345bf}{cutValue} = cVal;
+36         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrerfNode_a5fe73086780accca796a8e2b2465ac39}\label{classrerfNode_a5fe73086780accca796a8e2b2465ac39}} 
+\index{rerf\+Node@{rerf\+Node}!set\+Depth@{set\+Depth}}
+\index{set\+Depth@{set\+Depth}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{set\+Depth()}{setDepth()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::set\+Depth (\begin{DoxyParamCaption}\item[{int}]{dep }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 27 of file rerf\+Node.\+h.
+
+
+\begin{DoxyCode}
+27                                      \{
+28             \hyperlink{classrerfNode_a85845e08b7db33d241ddc3ff6b63799f}{depth} = dep;
+29         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrerfNode_aa3253da3948adeffa9a908caa339f396}\label{classrerfNode_aa3253da3948adeffa9a908caa339f396}} 
+\index{rerf\+Node@{rerf\+Node}!set\+Feature\+Value@{set\+Feature\+Value}}
+\index{set\+Feature\+Value@{set\+Feature\+Value}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{set\+Feature\+Value()}{setFeatureValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::set\+Feature\+Value (\begin{DoxyParamCaption}\item[{std\+::vector$<$ int $>$}]{f\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 42 of file rerf\+Node.\+h.
+
+
+\begin{DoxyCode}
+42                                                         \{
+43             \hyperlink{classrerfNode_af41edc70aae781312c3b20311430a89a}{feature} = fVal;
+44         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrerfNode_a1de908ea051d4845ca00296d42c7ae80}\label{classrerfNode_a1de908ea051d4845ca00296d42c7ae80}} 
+\index{rerf\+Node@{rerf\+Node}!set\+Left\+Value@{set\+Left\+Value}}
+\index{set\+Left\+Value@{set\+Left\+Value}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{set\+Left\+Value()}{setLeftValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::set\+Left\+Value (\begin{DoxyParamCaption}\item[{int}]{L\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 67 of file rerf\+Node.\+h.
+
+
+\begin{DoxyCode}
+67                                           \{
+68             \hyperlink{classrerfNode_a0ffbd4e13914bfdd0d35e2e737b0a959}{left} = LVal;    
+69         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrerfNode_a9561bbd59f5aa7b2beef6d520d89d4ad}\label{classrerfNode_a9561bbd59f5aa7b2beef6d520d89d4ad}} 
+\index{rerf\+Node@{rerf\+Node}!set\+Right\+Value@{set\+Right\+Value}}
+\index{set\+Right\+Value@{set\+Right\+Value}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{set\+Right\+Value()}{setRightValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::set\+Right\+Value (\begin{DoxyParamCaption}\item[{int}]{R\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 71 of file rerf\+Node.\+h.
+
+
+\begin{DoxyCode}
+71                                            \{
+72             \hyperlink{classrerfNode_ae04521c833fe33f2b1cde19bb3cb615f}{right} = RVal;
+73         \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classrerfNode_afbb93d044e16d18d7502e5d58fa345bf}\label{classrerfNode_afbb93d044e16d18d7502e5d58fa345bf}} 
+\index{rerf\+Node@{rerf\+Node}!cut\+Value@{cut\+Value}}
+\index{cut\+Value@{cut\+Value}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{cut\+Value}{cutValue}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::cut\+Value\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 14 of file rerf\+Node.\+h.
+
+\mbox{\Hypertarget{classrerfNode_a85845e08b7db33d241ddc3ff6b63799f}\label{classrerfNode_a85845e08b7db33d241ddc3ff6b63799f}} 
+\index{rerf\+Node@{rerf\+Node}!depth@{depth}}
+\index{depth@{depth}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{depth}{depth}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::depth\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 13 of file rerf\+Node.\+h.
+
+\mbox{\Hypertarget{classrerfNode_af41edc70aae781312c3b20311430a89a}\label{classrerfNode_af41edc70aae781312c3b20311430a89a}} 
+\index{rerf\+Node@{rerf\+Node}!feature@{feature}}
+\index{feature@{feature}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{feature}{feature}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::vector$<$int$>$ \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::feature\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 15 of file rerf\+Node.\+h.
+
+\mbox{\Hypertarget{classrerfNode_a0ffbd4e13914bfdd0d35e2e737b0a959}\label{classrerfNode_a0ffbd4e13914bfdd0d35e2e737b0a959}} 
+\index{rerf\+Node@{rerf\+Node}!left@{left}}
+\index{left@{left}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{left}{left}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::left\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 11 of file rerf\+Node.\+h.
+
+\mbox{\Hypertarget{classrerfNode_ae04521c833fe33f2b1cde19bb3cb615f}\label{classrerfNode_ae04521c833fe33f2b1cde19bb3cb615f}} 
+\index{rerf\+Node@{rerf\+Node}!right@{right}}
+\index{right@{right}!rerf\+Node@{rerf\+Node}}
+\subsubsection{\texorpdfstring{right}{right}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrerfNode}{rerf\+Node}$<$ T $>$\+::right\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 12 of file rerf\+Node.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/forest\+Types/rerf/\hyperlink{rerfNode_8h}{rerf\+Node.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,537 @@
+\hypertarget{classfp_1_1fpData}{}\section{fp\+:\+:fp\+Data Class Reference}
+\label{classfp_1_1fpData}\index{fp\+::fp\+Data@{fp\+::fp\+Data}}
+
+
+{\ttfamily \#include $<$fp\+Data.\+h$>$}
+
+
+
+Collaboration diagram for fp\+:\+:fp\+Data\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpData__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classfp_1_1fpData_a0e111a379a969d2ff0b3e8c5911cf78a}{fp\+Data} ()
+\item 
+\hyperlink{classfp_1_1fpData_a62998c12f30ea88e6b3ea30b17d1a3e0}{$\sim$fp\+Data} ()
+\item 
+bool \hyperlink{classfp_1_1fpData_a2b4d9be328aaa7acf9a2561150da0402}{load\+Data\+From\+C\+SV} (\hyperlink{classfp_1_1fpInfo}{fp\+Info} \&settings)
+\item 
+void \hyperlink{classfp_1_1fpData_a91c727b1475eca340ca14c241b25c959}{fp\+Load\+Data} (\hyperlink{classfp_1_1fpInfo}{fp\+Info} \&settings)
+\item 
+void \hyperlink{classfp_1_1fpData_a44df119acad6c339966d67f2c634a369}{fp\+Delete\+Data} ()
+\item 
+int \hyperlink{classfp_1_1fpData_a7abfc93af30b7262d59b6d304796a09d}{return\+Num\+Classes} ()
+\item 
+int \hyperlink{classfp_1_1fpData_a95088e33b280e5c82b3543033d8852e1}{return\+Num\+Features} ()
+\item 
+int \hyperlink{classfp_1_1fpData_a9056a8c0e7e48fe9aa591269064ecc43}{return\+Num\+Observations} ()
+\item 
+int \hyperlink{classfp_1_1fpData_aac722f51424cb7f6ab7d89525f82cc72}{return\+Label} (int observation\+Number)
+\item 
+double \hyperlink{classfp_1_1fpData_a6b359086ec1e5c534095600e2ed5575f}{return\+Feature\+Val} (const int feature\+Number, const int observation\+Number)
+\item 
+void \hyperlink{classfp_1_1fpData_a3f9645ca93e9b64a788b3042e9e41fcc}{prefetch\+Feature\+Val} (const int feature\+Number, const int observation\+Number)
+\item 
+void \hyperlink{classfp_1_1fpData_ab48923d57206e17b88f0d89833051b43}{set\+Data\+Related\+Parameters} (\hyperlink{classfp_1_1fpInfo}{fp\+Info} \&settings)
+\item 
+int \hyperlink{classfp_1_1fpData_a9a115d29fafb6e5b941f4e0c860e65e7}{return\+Num\+Test\+Observations} ()
+\item 
+void \hyperlink{classfp_1_1fpData_ab60d2098334e253a0bf3115f029c1996}{set\+Test\+Data\+Related\+Parameters} (\hyperlink{classfp_1_1fpInfo}{fp\+Info} \&settings)
+\item 
+void \hyperlink{classfp_1_1fpData_a4b527bc84762c4708992b7fdce3d0602}{fp\+Load\+Test\+Data} (\hyperlink{classfp_1_1fpInfo}{fp\+Info} \&settings)
+\item 
+void \hyperlink{classfp_1_1fpData_a996eedfc5ffe559ce1f6061af1efc1db}{fp\+Delete\+Test\+Data} ()
+\item 
+int \hyperlink{classfp_1_1fpData_a50b6343c52560d1992de50e8cd6b1206}{return\+Test\+Label} (int observation\+Number)
+\item 
+double \hyperlink{classfp_1_1fpData_a42f76961f1649e329d654e9e1bb13fc6}{return\+Test\+Feature\+Val} (const int feature\+Number, const int observation\+Number)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classfp_1_1inputData}{input\+Data}$<$ double, int $>$ $\ast$ \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{in\+Data}
+\item 
+\hyperlink{classfp_1_1testData}{test\+Data}$<$ double, int $>$ $\ast$ \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{in\+Test\+Data}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classfp_1_1fpData}{fp\+Data} holds both the training and test data. This data gets loaded from fp\+Dataset.
+
+T\+O\+DO\+: This is not a good way to do this. There is nothing different from training data and test data. This is wrong. test data should be stored by observation whereas training data is stored by feature. 
+
+Definition at line 19 of file fp\+Data.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classfp_1_1fpData_a0e111a379a969d2ff0b3e8c5911cf78a}\label{classfp_1_1fpData_a0e111a379a969d2ff0b3e8c5911cf78a}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!fp\+Data@{fp\+Data}}
+\index{fp\+Data@{fp\+Data}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{fp\+Data()}{fpData()}}
+{\footnotesize\ttfamily fp\+::fp\+Data\+::fp\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 27 of file fp\+Data.\+h.
+
+
+\begin{DoxyCode}
+27                     \{
+28             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpData_a62998c12f30ea88e6b3ea30b17d1a3e0}\label{classfp_1_1fpData_a62998c12f30ea88e6b3ea30b17d1a3e0}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!````~fp\+Data@{$\sim$fp\+Data}}
+\index{````~fp\+Data@{$\sim$fp\+Data}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{$\sim$fp\+Data()}{~fpData()}}
+{\footnotesize\ttfamily fp\+::fp\+Data\+::$\sim$fp\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 30 of file fp\+Data.\+h.
+
+
+\begin{DoxyCode}
+30                      \{
+31                 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData} != NULL)\{
+32                     \textcolor{keyword}{delete} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData};
+33                     \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData} = NULL;
+34                 \}
+35                 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData} != NULL)\{
+36                     \textcolor{keyword}{delete} \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData};
+37                     \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData} = NULL;
+38                 \}
+39             \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1fpData_a44df119acad6c339966d67f2c634a369}\label{classfp_1_1fpData_a44df119acad6c339966d67f2c634a369}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!fp\+Delete\+Data@{fp\+Delete\+Data}}
+\index{fp\+Delete\+Data@{fp\+Delete\+Data}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{fp\+Delete\+Data()}{fpDeleteData()}}
+{\footnotesize\ttfamily void fp\+::fp\+Data\+::fp\+Delete\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 57 of file fp\+Data.\+h.
+
+
+\begin{DoxyCode}
+57                                \{
+58                 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData} != NULL)\{
+59                     \textcolor{keyword}{delete} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData};
+60                     \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData} = NULL;
+61                 \}\textcolor{keywordflow}{else} \{
+62                     \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Unable to delete data.  Data does not exist."} );
+63                 \}
+64             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpData_a996eedfc5ffe559ce1f6061af1efc1db}\label{classfp_1_1fpData_a996eedfc5ffe559ce1f6061af1efc1db}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!fp\+Delete\+Test\+Data@{fp\+Delete\+Test\+Data}}
+\index{fp\+Delete\+Test\+Data@{fp\+Delete\+Test\+Data}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{fp\+Delete\+Test\+Data()}{fpDeleteTestData()}}
+{\footnotesize\ttfamily void fp\+::fp\+Data\+::fp\+Delete\+Test\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 119 of file fp\+Data.\+h.
+
+
+\begin{DoxyCode}
+119                                    \{
+120                 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData} != NULL)\{
+121                     \textcolor{keyword}{delete} \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData};
+122                     \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData} = NULL;
+123                 \}\textcolor{keywordflow}{else} \{
+124                     \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Unable to delete test data.  Test data does not exist."} );
+125                 \}
+126             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpData_a91c727b1475eca340ca14c241b25c959}\label{classfp_1_1fpData_a91c727b1475eca340ca14c241b25c959}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!fp\+Load\+Data@{fp\+Load\+Data}}
+\index{fp\+Load\+Data@{fp\+Load\+Data}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{fp\+Load\+Data()}{fpLoadData()}}
+{\footnotesize\ttfamily void fp\+::fp\+Data\+::fp\+Load\+Data (\begin{DoxyParamCaption}\item[{\hyperlink{classfp_1_1fpInfo}{fp\+Info} \&}]{settings }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 47 of file fp\+Data.\+h.
+
+
+\begin{DoxyCode}
+47                                              \{
+48                 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpData_a2b4d9be328aaa7acf9a2561150da0402}{loadDataFromCSV}(settings))\{
+49                     \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData} = \textcolor{keyword}{new} inputData<double,int>(settings.returnCSVFileName(), settings.
+      returnColumnWithY());
+50                 \}\textcolor{keywordflow}{else} \{
+51                     \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Unable to read data."} );
+52                 \}
+53                 \hyperlink{classfp_1_1fpData_ab48923d57206e17b88f0d89833051b43}{setDataRelatedParameters}(settings);
+54             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpData_a91c727b1475eca340ca14c241b25c959_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpData_a4b527bc84762c4708992b7fdce3d0602}\label{classfp_1_1fpData_a4b527bc84762c4708992b7fdce3d0602}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!fp\+Load\+Test\+Data@{fp\+Load\+Test\+Data}}
+\index{fp\+Load\+Test\+Data@{fp\+Load\+Test\+Data}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{fp\+Load\+Test\+Data()}{fpLoadTestData()}}
+{\footnotesize\ttfamily void fp\+::fp\+Data\+::fp\+Load\+Test\+Data (\begin{DoxyParamCaption}\item[{\hyperlink{classfp_1_1fpInfo}{fp\+Info} \&}]{settings }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 109 of file fp\+Data.\+h.
+
+
+\begin{DoxyCode}
+109                                                  \{
+110                 \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1fpData_a2b4d9be328aaa7acf9a2561150da0402}{loadDataFromCSV}(settings))\{
+111                     \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData} = \textcolor{keyword}{new} testData<double,int>(settings.returnCSVFileName(), settings.
+      returnColumnWithY());
+112                 \}\textcolor{keywordflow}{else} \{
+113                     \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Unable to read test data."} );
+114                 \}
+115                 \hyperlink{classfp_1_1fpData_ab60d2098334e253a0bf3115f029c1996}{setTestDataRelatedParameters}(settings);
+116             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpData_a4b527bc84762c4708992b7fdce3d0602_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpData_a2b4d9be328aaa7acf9a2561150da0402}\label{classfp_1_1fpData_a2b4d9be328aaa7acf9a2561150da0402}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!load\+Data\+From\+C\+SV@{load\+Data\+From\+C\+SV}}
+\index{load\+Data\+From\+C\+SV@{load\+Data\+From\+C\+SV}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{load\+Data\+From\+C\+S\+V()}{loadDataFromCSV()}}
+{\footnotesize\ttfamily bool fp\+::fp\+Data\+::load\+Data\+From\+C\+SV (\begin{DoxyParamCaption}\item[{\hyperlink{classfp_1_1fpInfo}{fp\+Info} \&}]{settings }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 42 of file fp\+Data.\+h.
+
+
+\begin{DoxyCode}
+42                                                          \{
+43                 \textcolor{keywordflow}{return} settings.loadDataFromCSV();
+44             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpData_a2b4d9be328aaa7acf9a2561150da0402_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpData_a3f9645ca93e9b64a788b3042e9e41fcc}\label{classfp_1_1fpData_a3f9645ca93e9b64a788b3042e9e41fcc}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!prefetch\+Feature\+Val@{prefetch\+Feature\+Val}}
+\index{prefetch\+Feature\+Val@{prefetch\+Feature\+Val}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{prefetch\+Feature\+Val()}{prefetchFeatureVal()}}
+{\footnotesize\ttfamily void fp\+::fp\+Data\+::prefetch\+Feature\+Val (\begin{DoxyParamCaption}\item[{const int}]{feature\+Number,  }\item[{const int}]{observation\+Number }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 88 of file fp\+Data.\+h.
+
+
+\begin{DoxyCode}
+88                                                                                                 \{
+89                 \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData}->\hyperlink{classfp_1_1inputData_a348baff7c24d263bb24185dbaa19d455}{prefetchFeatureValue}(featureNumber, observationNumber);
+90             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpData_a3f9645ca93e9b64a788b3042e9e41fcc_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpData_a6b359086ec1e5c534095600e2ed5575f}\label{classfp_1_1fpData_a6b359086ec1e5c534095600e2ed5575f}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!return\+Feature\+Val@{return\+Feature\+Val}}
+\index{return\+Feature\+Val@{return\+Feature\+Val}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{return\+Feature\+Val()}{returnFeatureVal()}}
+{\footnotesize\ttfamily double fp\+::fp\+Data\+::return\+Feature\+Val (\begin{DoxyParamCaption}\item[{const int}]{feature\+Number,  }\item[{const int}]{observation\+Number }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 84 of file fp\+Data.\+h.
+
+
+\begin{DoxyCode}
+84                                                                                                 \{
+85                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData}->\hyperlink{classfp_1_1inputData_af52ac3512ee8f6e973799e024ddbf629}{returnFeatureValue}(featureNumber, observationNumber)
+      ;
+86             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpData_a6b359086ec1e5c534095600e2ed5575f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpData_aac722f51424cb7f6ab7d89525f82cc72}\label{classfp_1_1fpData_aac722f51424cb7f6ab7d89525f82cc72}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!return\+Label@{return\+Label}}
+\index{return\+Label@{return\+Label}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{return\+Label()}{returnLabel()}}
+{\footnotesize\ttfamily int fp\+::fp\+Data\+::return\+Label (\begin{DoxyParamCaption}\item[{int}]{observation\+Number }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 80 of file fp\+Data.\+h.
+
+
+\begin{DoxyCode}
+80                                                          \{
+81                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData}->\hyperlink{classfp_1_1inputData_a0a767252e950159110d3f2a0c74064ec}{returnClassOfObservation}(observationNumber);
+82             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpData_aac722f51424cb7f6ab7d89525f82cc72_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpData_a7abfc93af30b7262d59b6d304796a09d}\label{classfp_1_1fpData_a7abfc93af30b7262d59b6d304796a09d}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!return\+Num\+Classes@{return\+Num\+Classes}}
+\index{return\+Num\+Classes@{return\+Num\+Classes}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{return\+Num\+Classes()}{returnNumClasses()}}
+{\footnotesize\ttfamily int fp\+::fp\+Data\+::return\+Num\+Classes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 67 of file fp\+Data.\+h.
+
+
+\begin{DoxyCode}
+67                                          \{
+68                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData}->\hyperlink{classfp_1_1inputData_a1e775e3744cb3bacb1a6776054aabe4f}{returnNumClasses}();
+69             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpData_a7abfc93af30b7262d59b6d304796a09d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpData_a95088e33b280e5c82b3543033d8852e1}\label{classfp_1_1fpData_a95088e33b280e5c82b3543033d8852e1}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!return\+Num\+Features@{return\+Num\+Features}}
+\index{return\+Num\+Features@{return\+Num\+Features}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{return\+Num\+Features()}{returnNumFeatures()}}
+{\footnotesize\ttfamily int fp\+::fp\+Data\+::return\+Num\+Features (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 72 of file fp\+Data.\+h.
+
+
+\begin{DoxyCode}
+72                                           \{
+73                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData}->\hyperlink{classfp_1_1inputData_ae9362286ea7706a8b0d91ba96e9ad478}{returnNumFeatures}();
+74             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpData_a95088e33b280e5c82b3543033d8852e1_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpData_a9056a8c0e7e48fe9aa591269064ecc43}\label{classfp_1_1fpData_a9056a8c0e7e48fe9aa591269064ecc43}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!return\+Num\+Observations@{return\+Num\+Observations}}
+\index{return\+Num\+Observations@{return\+Num\+Observations}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{return\+Num\+Observations()}{returnNumObservations()}}
+{\footnotesize\ttfamily int fp\+::fp\+Data\+::return\+Num\+Observations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 76 of file fp\+Data.\+h.
+
+
+\begin{DoxyCode}
+76                                               \{
+77                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}{inData}->\hyperlink{classfp_1_1inputData_af7dc02941195e025d1d89c882096027d}{returnNumObservations}();
+78             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpData_a9056a8c0e7e48fe9aa591269064ecc43_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpData_a9a115d29fafb6e5b941f4e0c860e65e7}\label{classfp_1_1fpData_a9a115d29fafb6e5b941f4e0c860e65e7}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!return\+Num\+Test\+Observations@{return\+Num\+Test\+Observations}}
+\index{return\+Num\+Test\+Observations@{return\+Num\+Test\+Observations}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{return\+Num\+Test\+Observations()}{returnNumTestObservations()}}
+{\footnotesize\ttfamily int fp\+::fp\+Data\+::return\+Num\+Test\+Observations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 101 of file fp\+Data.\+h.
+
+
+\begin{DoxyCode}
+101                                                   \{
+102                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData}->\hyperlink{classfp_1_1testData_af9dd7a4aa116d99a11838a02f2154c08}{returnNumObservations}();
+103             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpData_a9a115d29fafb6e5b941f4e0c860e65e7_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpData_a42f76961f1649e329d654e9e1bb13fc6}\label{classfp_1_1fpData_a42f76961f1649e329d654e9e1bb13fc6}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!return\+Test\+Feature\+Val@{return\+Test\+Feature\+Val}}
+\index{return\+Test\+Feature\+Val@{return\+Test\+Feature\+Val}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{return\+Test\+Feature\+Val()}{returnTestFeatureVal()}}
+{\footnotesize\ttfamily double fp\+::fp\+Data\+::return\+Test\+Feature\+Val (\begin{DoxyParamCaption}\item[{const int}]{feature\+Number,  }\item[{const int}]{observation\+Number }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 132 of file fp\+Data.\+h.
+
+
+\begin{DoxyCode}
+132                                                                                                     \{
+133                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData}->\hyperlink{classfp_1_1testData_a0c49c5fc2f1bf3fc39c7d55413cddabf}{returnFeatureValue}(featureNumber, 
+      observationNumber);
+134             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpData_a42f76961f1649e329d654e9e1bb13fc6_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpData_a50b6343c52560d1992de50e8cd6b1206}\label{classfp_1_1fpData_a50b6343c52560d1992de50e8cd6b1206}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!return\+Test\+Label@{return\+Test\+Label}}
+\index{return\+Test\+Label@{return\+Test\+Label}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{return\+Test\+Label()}{returnTestLabel()}}
+{\footnotesize\ttfamily int fp\+::fp\+Data\+::return\+Test\+Label (\begin{DoxyParamCaption}\item[{int}]{observation\+Number }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 129 of file fp\+Data.\+h.
+
+
+\begin{DoxyCode}
+129                                                              \{
+130                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}{inTestData}->\hyperlink{classfp_1_1testData_a3a964b20b07dd4b49e958fdde93ebc59}{returnClassOfObservation}(
+      observationNumber);
+131             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpData_a50b6343c52560d1992de50e8cd6b1206_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpData_ab48923d57206e17b88f0d89833051b43}\label{classfp_1_1fpData_ab48923d57206e17b88f0d89833051b43}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!set\+Data\+Related\+Parameters@{set\+Data\+Related\+Parameters}}
+\index{set\+Data\+Related\+Parameters@{set\+Data\+Related\+Parameters}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{set\+Data\+Related\+Parameters()}{setDataRelatedParameters()}}
+{\footnotesize\ttfamily void fp\+::fp\+Data\+::set\+Data\+Related\+Parameters (\begin{DoxyParamCaption}\item[{\hyperlink{classfp_1_1fpInfo}{fp\+Info} \&}]{settings }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 94 of file fp\+Data.\+h.
+
+
+\begin{DoxyCode}
+94                                                                   \{
+95                 settings.setNumFeatures(this->\hyperlink{classfp_1_1fpData_a95088e33b280e5c82b3543033d8852e1}{returnNumFeatures}());
+96                 settings.setNumObservations(this->\hyperlink{classfp_1_1fpData_a9056a8c0e7e48fe9aa591269064ecc43}{returnNumObservations}());
+97                 settings.setNumClasses(this->\hyperlink{classfp_1_1fpData_a7abfc93af30b7262d59b6d304796a09d}{returnNumClasses}());
+98             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpData_ab48923d57206e17b88f0d89833051b43_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpData_ab60d2098334e253a0bf3115f029c1996}\label{classfp_1_1fpData_ab60d2098334e253a0bf3115f029c1996}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!set\+Test\+Data\+Related\+Parameters@{set\+Test\+Data\+Related\+Parameters}}
+\index{set\+Test\+Data\+Related\+Parameters@{set\+Test\+Data\+Related\+Parameters}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{set\+Test\+Data\+Related\+Parameters()}{setTestDataRelatedParameters()}}
+{\footnotesize\ttfamily void fp\+::fp\+Data\+::set\+Test\+Data\+Related\+Parameters (\begin{DoxyParamCaption}\item[{\hyperlink{classfp_1_1fpInfo}{fp\+Info} \&}]{settings }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 105 of file fp\+Data.\+h.
+
+
+\begin{DoxyCode}
+105                                                                       \{
+106                 settings.setNumObservations(this->\hyperlink{classfp_1_1fpData_a9a115d29fafb6e5b941f4e0c860e65e7}{returnNumTestObservations}());
+107             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpData_ab60d2098334e253a0bf3115f029c1996_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}\label{classfp_1_1fpData_a49d7c3f58bcf88843c25b1b0c9714ebe}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!in\+Data@{in\+Data}}
+\index{in\+Data@{in\+Data}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{in\+Data}{inData}}
+{\footnotesize\ttfamily \hyperlink{classfp_1_1inputData}{input\+Data}$<$double, int$>$$\ast$ fp\+::fp\+Data\+::in\+Data\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 22 of file fp\+Data.\+h.
+
+\mbox{\Hypertarget{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}\label{classfp_1_1fpData_ad4f4dd3a8d15633b7f983932fa60bbad}} 
+\index{fp\+::fp\+Data@{fp\+::fp\+Data}!in\+Test\+Data@{in\+Test\+Data}}
+\index{in\+Test\+Data@{in\+Test\+Data}!fp\+::fp\+Data@{fp\+::fp\+Data}}
+\subsubsection{\texorpdfstring{in\+Test\+Data}{inTestData}}
+{\footnotesize\ttfamily \hyperlink{classfp_1_1testData}{test\+Data}$<$double, int$>$$\ast$ fp\+::fp\+Data\+::in\+Test\+Data\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 23 of file fp\+Data.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/fp\+Singleton/\hyperlink{fpData_8h}{fp\+Data.\+h}\end{DoxyCompactItemize}

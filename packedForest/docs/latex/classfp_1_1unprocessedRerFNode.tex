@@ -1,0 +1,1070 @@
+\hypertarget{classfp_1_1unprocessedRerFNode}{}\section{fp\+:\+:unprocessed\+Rer\+F\+Node$<$ T $>$ Class Template Reference}
+\label{classfp_1_1unprocessedRerFNode}\index{fp\+::unprocessed\+Rer\+F\+Node$<$ T $>$@{fp\+::unprocessed\+Rer\+F\+Node$<$ T $>$}}
+
+
+{\ttfamily \#include $<$unprocessed\+Rer\+F\+Node.\+h$>$}
+
+
+
+Collaboration diagram for fp\+:\+:unprocessed\+Rer\+F\+Node$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=235pt]{classfp_1_1unprocessedRerFNode__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classfp_1_1unprocessedRerFNode_a49970c4650bc7c448e29d6efd0dcfd34}{unprocessed\+Rer\+F\+Node} (int num\+Obs\+For\+Root)
+\item 
+\hyperlink{classfp_1_1unprocessedRerFNode_ab20dcd6c9729051144ac3013c7c8fd5d}{unprocessed\+Rer\+F\+Node} (int \hyperlink{classfp_1_1unprocessedRerFNode_ab87cfcf5df700dbc7ec02c87057b27aa}{parent\+ID}, int dep, bool is\+Left)
+\item 
+\hyperlink{classfp_1_1unprocessedRerFNode_a3316afcf52743fc7ade9ba8e0cdde2e2}{$\sim$unprocessed\+Rer\+F\+Node} ()
+\item 
+\hyperlink{classfp_1_1stratifiedInNodeClassIndices}{stratified\+In\+Node\+Class\+Indices} $\ast$ \hyperlink{classfp_1_1unprocessedRerFNode_a49c123f04f9c961e8d6142aa11200bcd}{return\+Left\+Indices} ()
+\item 
+\hyperlink{classfp_1_1stratifiedInNodeClassIndices}{stratified\+In\+Node\+Class\+Indices} $\ast$ \hyperlink{classfp_1_1unprocessedRerFNode_a4a8ede0f5b6e34c39bd10ce40ef1f110}{return\+Right\+Indices} ()
+\item 
+int \hyperlink{classfp_1_1unprocessedRerFNode_a94fadd35ce0d5c9bf446c3c9da534cbb}{return\+Parent\+ID} ()
+\item 
+double \hyperlink{classfp_1_1unprocessedRerFNode_a05ccccf919dec2285a31de5e47145b76}{return\+Node\+Impurity} ()
+\item 
+bool \hyperlink{classfp_1_1unprocessedRerFNode_acabfd0846277d68f05f3ba4ca639c29e}{return\+Is\+Left\+Node} ()
+\item 
+int \hyperlink{classfp_1_1unprocessedRerFNode_a37f1b49ac906ec2921365a35d1a5b96c}{return\+Depth} ()
+\item 
+std\+::vector$<$ int $>$ \hyperlink{classfp_1_1unprocessedRerFNode_a99927a98b98f2924f31cf03ece3b5d50}{return\+Best\+Feature} ()
+\item 
+double \hyperlink{classfp_1_1unprocessedRerFNode_a15b562553cf6417806ee8085ed4a1725}{return\+Best\+Impurity} ()
+\item 
+T \hyperlink{classfp_1_1unprocessedRerFNode_a87211d2d5ab3bc9f3de237870975e382}{return\+Best\+Cut\+Value} ()
+\item 
+void \hyperlink{classfp_1_1unprocessedRerFNode_a0fccfed626582cf730f6302fc2f703c4}{set\+Holder\+Sizes} ()
+\item 
+int \hyperlink{classfp_1_1unprocessedRerFNode_ae8b096a92819dbb811d1319d5c4eaecd}{return\+In\+Sample\+Size} ()
+\item 
+int \hyperlink{classfp_1_1unprocessedRerFNode_a850d04831326a6d700258bc8526cf7a2}{return\+Out\+Sample\+Size} ()
+\item 
+int \hyperlink{classfp_1_1unprocessedRerFNode_af920a23a290c9552c246a2913be55761}{return\+Out\+Sample\+Error} (int class\+Num)
+\item 
+void \hyperlink{classfp_1_1unprocessedRerFNode_af4593ac3feb0551307f5a863e109dd30}{pick\+M\+T\+RY} ()
+\item 
+int \hyperlink{classfp_1_1unprocessedRerFNode_a436990a7a7e08ded050ffe55c585e605}{return\+M\+T\+R\+Y\+Vector\+Size\+Delete} ()
+\item 
+void \hyperlink{classfp_1_1unprocessedRerFNode_ad4ed23c3eecd133c0f194b94d7e75404}{load\+Label\+Holder} ()
+\item 
+void \hyperlink{classfp_1_1unprocessedRerFNode_a6510faa628fda49d672dcd1b88a3834b}{load\+Feature\+Holder} ()
+\item 
+float \hyperlink{classfp_1_1unprocessedRerFNode_ac86ccad68a93a1957b7563244c03c0c0}{calculate\+Node\+Impurity} ()
+\item 
+void \hyperlink{classfp_1_1unprocessedRerFNode_a5ec1c45ede99474478d616f748c733ba}{setup\+Node} ()
+\item 
+void \hyperlink{classfp_1_1unprocessedRerFNode_ac31049fede0262a8879905802884fe6f}{set\+Best\+Split} (\hyperlink{classfp_1_1splitRerFInfo}{split\+Rer\+F\+Info}$<$ T $>$ temp\+Split)
+\item 
+void \hyperlink{classfp_1_1unprocessedRerFNode_aee896249351b674045d1cecd653cb446}{load\+Indices} (\hyperlink{classfp_1_1stratifiedInNodeClassIndices}{stratified\+In\+Node\+Class\+Indices} $\ast$indices)
+\item 
+bool \hyperlink{classfp_1_1unprocessedRerFNode_a4c4e6bb795c327b38301610d0158735a}{go\+Left} (const int \&index)
+\item 
+void \hyperlink{classfp_1_1unprocessedRerFNode_a6b0103f44984a79d6a0871d3e1866b34}{move\+Data\+Left\+Or\+Right} ()
+\item 
+void \hyperlink{classfp_1_1unprocessedRerFNode_a92456de8922f84605246d2a1800434a1}{find\+Best\+Split} ()
+\item 
+int \hyperlink{classfp_1_1unprocessedRerFNode_a656fca7854eae97dae1b93082d703606}{return\+Max\+Class} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classfp_1_1unprocessedRerFNode_ab87cfcf5df700dbc7ec02c87057b27aa}{parent\+ID}
+\item 
+int \hyperlink{classfp_1_1unprocessedRerFNode_ad54ee9ea4003179b8304afb4f20d3a84}{depth}
+\item 
+double \hyperlink{classfp_1_1unprocessedRerFNode_a5d7bc15c3a0717abefc4845aec168167}{node\+Impurity}
+\item 
+bool \hyperlink{classfp_1_1unprocessedRerFNode_a75fe4b426a6a1cc8bb1de50380dcec94}{is\+Left\+Node}
+\item 
+\hyperlink{classfp_1_1splitRerFInfo}{split\+Rer\+F\+Info}$<$ T $>$ \hyperlink{classfp_1_1unprocessedRerFNode_acf98051b30cb1c0f2e62bb7df51c0884}{best\+Split\+Info}
+\item 
+\hyperlink{classfp_1_1stratifiedInNodeClassIndices}{stratified\+In\+Node\+Class\+Indices} $\ast$ \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obs\+Indices}
+\item 
+\hyperlink{classfp_1_1stratifiedInNodeClassIndices}{stratified\+In\+Node\+Class\+Indices} $\ast$ \hyperlink{classfp_1_1unprocessedRerFNode_ae402805c487d29fa6d0b8fb6f873a4d3}{left\+Indices}
+\item 
+\hyperlink{classfp_1_1stratifiedInNodeClassIndices}{stratified\+In\+Node\+Class\+Indices} $\ast$ \hyperlink{classfp_1_1unprocessedRerFNode_a4cc97ffcfe51937766fed926bbc4892a}{right\+Indices}
+\item 
+std\+::vector$<$ std\+::vector$<$ int $>$ $>$ \hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{features\+To\+Try}
+\item 
+std\+::vector$<$ T $>$ \hyperlink{classfp_1_1unprocessedRerFNode_a09fa17210a5916239cba6716c636cc4e}{feature\+Holder}
+\item 
+std\+::vector$<$ int $>$ \hyperlink{classfp_1_1unprocessedRerFNode_a9e1a9728861a19034c9b17d5eaa2891d}{label\+Holder}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class fp\+::unprocessed\+Rer\+F\+Node$<$ T $>$}
+
+
+
+Definition at line 11 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a49970c4650bc7c448e29d6efd0dcfd34}\label{classfp_1_1unprocessedRerFNode_a49970c4650bc7c448e29d6efd0dcfd34}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!unprocessed\+Rer\+F\+Node@{unprocessed\+Rer\+F\+Node}}
+\index{unprocessed\+Rer\+F\+Node@{unprocessed\+Rer\+F\+Node}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{unprocessed\+Rer\+F\+Node()}{unprocessedRerFNode()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::\hyperlink{classfp_1_1unprocessedRerFNode}{unprocessed\+Rer\+F\+Node} (\begin{DoxyParamCaption}\item[{int}]{num\+Obs\+For\+Root }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 37 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+37                                                       :  \hyperlink{classfp_1_1unprocessedRerFNode_ab87cfcf5df700dbc7ec02c87057b27aa}{parentID}(0), 
+      \hyperlink{classfp_1_1unprocessedRerFNode_ad54ee9ea4003179b8304afb4f20d3a84}{depth}(0), \hyperlink{classfp_1_1unprocessedRerFNode_a75fe4b426a6a1cc8bb1de50380dcec94}{isLeftNode}(\textcolor{keyword}{true})\{
+38                     \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices} = \textcolor{keyword}{new} stratifiedInNodeClassIndices(numObsForRoot);
+39                     \hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}.resize(\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      returnMtry());
+40                     \hyperlink{classfp_1_1unprocessedRerFNode_ae402805c487d29fa6d0b8fb6f873a4d3}{leftIndices}=NULL;
+41                     \hyperlink{classfp_1_1unprocessedRerFNode_a4cc97ffcfe51937766fed926bbc4892a}{rightIndices}=NULL;
+42                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1unprocessedRerFNode_a49970c4650bc7c448e29d6efd0dcfd34_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_ab20dcd6c9729051144ac3013c7c8fd5d}\label{classfp_1_1unprocessedRerFNode_ab20dcd6c9729051144ac3013c7c8fd5d}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!unprocessed\+Rer\+F\+Node@{unprocessed\+Rer\+F\+Node}}
+\index{unprocessed\+Rer\+F\+Node@{unprocessed\+Rer\+F\+Node}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{unprocessed\+Rer\+F\+Node()}{unprocessedRerFNode()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::\hyperlink{classfp_1_1unprocessedRerFNode}{unprocessed\+Rer\+F\+Node} (\begin{DoxyParamCaption}\item[{int}]{parent\+ID,  }\item[{int}]{dep,  }\item[{bool}]{is\+Left }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 44 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+44                                                                        :\hyperlink{classfp_1_1unprocessedRerFNode_ab87cfcf5df700dbc7ec02c87057b27aa}{parentID}(
+      \hyperlink{classfp_1_1unprocessedRerFNode_ab87cfcf5df700dbc7ec02c87057b27aa}{parentID}),\hyperlink{classfp_1_1unprocessedRerFNode_ad54ee9ea4003179b8304afb4f20d3a84}{depth}(dep),\hyperlink{classfp_1_1unprocessedRerFNode_a75fe4b426a6a1cc8bb1de50380dcec94}{isLeftNode}(isLeft)\{
+45                     \hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}.resize(\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      returnMtry());
+46                     \hyperlink{classfp_1_1unprocessedRerFNode_ae402805c487d29fa6d0b8fb6f873a4d3}{leftIndices}=NULL;
+47                     \hyperlink{classfp_1_1unprocessedRerFNode_a4cc97ffcfe51937766fed926bbc4892a}{rightIndices}=NULL;
+48                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1unprocessedRerFNode_ab20dcd6c9729051144ac3013c7c8fd5d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a3316afcf52743fc7ade9ba8e0cdde2e2}\label{classfp_1_1unprocessedRerFNode_a3316afcf52743fc7ade9ba8e0cdde2e2}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!````~unprocessed\+Rer\+F\+Node@{$\sim$unprocessed\+Rer\+F\+Node}}
+\index{````~unprocessed\+Rer\+F\+Node@{$\sim$unprocessed\+Rer\+F\+Node}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{$\sim$unprocessed\+Rer\+F\+Node()}{~unprocessedRerFNode()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::$\sim$\hyperlink{classfp_1_1unprocessedRerFNode}{unprocessed\+Rer\+F\+Node} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 50 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+50                                       \{
+51                     \textcolor{comment}{//  delete leftIndices;}
+52                     \textcolor{comment}{//  delete rightIndices;}
+53                 \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_ac86ccad68a93a1957b7563244c03c0c0}\label{classfp_1_1unprocessedRerFNode_ac86ccad68a93a1957b7563244c03c0c0}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!calculate\+Node\+Impurity@{calculate\+Node\+Impurity}}
+\index{calculate\+Node\+Impurity@{calculate\+Node\+Impurity}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{calculate\+Node\+Impurity()}{calculateNodeImpurity()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+float \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::calculate\+Node\+Impurity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 204 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+204                                                     \{
+205                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a044392c507fe54073f55f5ae6aceac5f}{returnImpurity}();
+206                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1unprocessedRerFNode_ac86ccad68a93a1957b7563244c03c0c0_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a92456de8922f84605246d2a1800434a1}\label{classfp_1_1unprocessedRerFNode_a92456de8922f84605246d2a1800434a1}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!find\+Best\+Split@{find\+Best\+Split}}
+\index{find\+Best\+Split@{find\+Best\+Split}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{find\+Best\+Split()}{findBestSplit()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::find\+Best\+Split (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 287 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+287                                            \{
+288                     \textcolor{comment}{//timeLogger logTime;}
+289                     splitRerF<T> findSplit(\hyperlink{classfp_1_1unprocessedRerFNode_a9e1a9728861a19034c9b17d5eaa2891d}{labelHolder}); \textcolor{comment}{//This is done twice}
+290                     \textcolor{comment}{//TODO This needs to change to real mtry}
+291                     std::vector<int> tempVec;
+292                     tempVec.push\_back(0);
+293                     \textcolor{keywordflow}{while}(!\hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}.empty())\{
+294                         \textcolor{comment}{//not all featuresToTry will be populated.  This checks first.}
+295                         \textcolor{keywordflow}{if}(!\hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}.back().empty())\{
+296                             \textcolor{comment}{//logTime.startGiniTimer();}
+297                             \hyperlink{classfp_1_1unprocessedRerFNode_a6510faa628fda49d672dcd1b88a3834b}{loadFeatureHolder}();
+298                             \textcolor{comment}{//logTime.stopGiniTimer();}
+299                             \textcolor{comment}{//tempVec = featuresToTry.back();}
+300                             \hyperlink{classfp_1_1unprocessedRerFNode_ac31049fede0262a8879905802884fe6f}{setBestSplit}(findSplit.giniSplit(
+      \hyperlink{classfp_1_1unprocessedRerFNode_a09fa17210a5916239cba6716c636cc4e}{featureHolder} ,\hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}.back()));
+301                             \textcolor{comment}{//setBestSplit(findSplit.giniSplit(featureHolder ,tempVec));}
+302                         \}
+303                         \hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}.pop\_back();
+304                     \}
+305                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1unprocessedRerFNode_a92456de8922f84605246d2a1800434a1_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a4c4e6bb795c327b38301610d0158735a}\label{classfp_1_1unprocessedRerFNode_a4c4e6bb795c327b38301610d0158735a}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!go\+Left@{go\+Left}}
+\index{go\+Left@{go\+Left}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{go\+Left()}{goLeft()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::go\+Left (\begin{DoxyParamCaption}\item[{const int \&}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 229 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+229                                                     \{
+230                     \textcolor{keywordtype}{int} inIndex = index;
+231                     std::vector<int> featureNum = \hyperlink{classfp_1_1unprocessedRerFNode_acf98051b30cb1c0f2e62bb7df51c0884}{bestSplitInfo}.returnFeatureNum();
+232                     \textcolor{keywordflow}{if}(featureNum.empty())\{
+233                         std::cout << \textcolor{stringliteral}{"found it\(\backslash\)n"};
+234                         exit(1);
+235                     \}
+236                     \textcolor{keywordtype}{double} featureVal = \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_aacc2eb894a219e2fe234743b51fa1a76}{returnFeatureVal}(featureNum[0],inIndex);
+237                     \textcolor{keywordflow}{if}(featureNum.size() > 1)\{
+238                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j = 1; j < featureNum.size(); ++j)\{
+239 featureVal += \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_aacc2eb894a219e2fe234743b51fa1a76}{returnFeatureVal}(featureNum[j],inIndex);
+240                         \}
+241                     \}
+242 
+243                     \textcolor{keywordtype}{double} splitVal = \hyperlink{classfp_1_1unprocessedRerFNode_acf98051b30cb1c0f2e62bb7df51c0884}{bestSplitInfo}.returnSplitValue();
+244                     \textcolor{keywordflow}{if}(featureVal < splitVal )\{
+245                         \textcolor{keywordflow}{return} \textcolor{keyword}{true};
+246                     \}\textcolor{keywordflow}{else}\{
+247                         \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+248                     \}
+249                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1unprocessedRerFNode_a4c4e6bb795c327b38301610d0158735a_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a6510faa628fda49d672dcd1b88a3834b}\label{classfp_1_1unprocessedRerFNode_a6510faa628fda49d672dcd1b88a3834b}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!load\+Feature\+Holder@{load\+Feature\+Holder}}
+\index{load\+Feature\+Holder@{load\+Feature\+Holder}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{load\+Feature\+Holder()}{loadFeatureHolder()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::load\+Feature\+Holder (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 162 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+162                                                \{
+163                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_af740a8054cefe977f8f1288fc6b39109}{useBin}())\{
+164                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} q=0; q<\hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a9f77fe5e638170c4ad4ce99541561cfc}{returnBinnedSize}(); q++)\{
+165                             \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_ab789c4e4bfb3248711a5857015008f8d}{prefetchFeatureVal}(\hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}.back()[0],
+      \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a775d9a820b6f48ab44cd1ac4ffde1578}{returnBinnedInSample}(q));
+166                         \}
+167 
+168                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i =0; i < \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a9f77fe5e638170c4ad4ce99541561cfc}{returnBinnedSize}(); ++i)\{
+169                             \hyperlink{classfp_1_1unprocessedRerFNode_a09fa17210a5916239cba6716c636cc4e}{featureHolder}[i] = 
+      \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().\hyperlink{classfp_1_1fpSingleton_aacc2eb894a219e2fe234743b51fa1a76}{returnFeatureVal}(
+      \hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}.back()[0],\hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a775d9a820b6f48ab44cd1ac4ffde1578}{returnBinnedInSample}(i));
+170                         \}
+171                         \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}.back().size()>1)\{
+172                             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j =1; j < \hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}.back().size(); ++j)\{
+173                                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} q=0; q<\hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->
+      \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a9f77fe5e638170c4ad4ce99541561cfc}{returnBinnedSize}(); q++)\{
+174                                     \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_ab789c4e4bfb3248711a5857015008f8d}{prefetchFeatureVal}(\hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}.back()[j],
+      \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a775d9a820b6f48ab44cd1ac4ffde1578}{returnBinnedInSample}(q));
+175                                 \}
+176                                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i =0; i < \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->
+      \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a9f77fe5e638170c4ad4ce99541561cfc}{returnBinnedSize}(); ++i)\{
+177                                     \hyperlink{classfp_1_1unprocessedRerFNode_a09fa17210a5916239cba6716c636cc4e}{featureHolder}[i] += 
+      \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().\hyperlink{classfp_1_1fpSingleton_aacc2eb894a219e2fe234743b51fa1a76}{returnFeatureVal}(
+      \hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}.back()[j],\hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a775d9a820b6f48ab44cd1ac4ffde1578}{returnBinnedInSample}(i));
+178                                 \}
+179                             \}
+180                         \}
+181                     \}\textcolor{keywordflow}{else}\{
+182 
+183                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} q=0; q<\hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a596235ffec7250fabd2818d395b39c66}{returnInSampleSize}(); q++)\{
+184                             \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_ab789c4e4bfb3248711a5857015008f8d}{prefetchFeatureVal}(\hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}.back()[0],
+      \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2d7e802fb97db0367bb8e8f31d393afd}{returnInSample}(q));
+185                         \}
+186 
+187                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i =0; i < \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->
+      \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a596235ffec7250fabd2818d395b39c66}{returnInSampleSize}(); ++i)\{
+188                             \hyperlink{classfp_1_1unprocessedRerFNode_a09fa17210a5916239cba6716c636cc4e}{featureHolder}[i] = 
+      \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().\hyperlink{classfp_1_1fpSingleton_aacc2eb894a219e2fe234743b51fa1a76}{returnFeatureVal}(
+      \hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}.back()[0],\hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2d7e802fb97db0367bb8e8f31d393afd}{returnInSample}(i));
+189                         \}
+190                         \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}.back().size()>1)\{
+191                             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j =1; j < \hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}.back().size(); ++j)\{
+192                                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} q=0; q<\hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->
+      \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a596235ffec7250fabd2818d395b39c66}{returnInSampleSize}(); q++)\{
+193                                     \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_ab789c4e4bfb3248711a5857015008f8d}{prefetchFeatureVal}(\hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}.back()[j],
+      \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2d7e802fb97db0367bb8e8f31d393afd}{returnInSample}(q));
+194                                 \}
+195 
+196                                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i =0; i < \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->
+      \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a596235ffec7250fabd2818d395b39c66}{returnInSampleSize}(); ++i)\{
+197                                     \hyperlink{classfp_1_1unprocessedRerFNode_a09fa17210a5916239cba6716c636cc4e}{featureHolder}[i] += 
+      \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().\hyperlink{classfp_1_1fpSingleton_aacc2eb894a219e2fe234743b51fa1a76}{returnFeatureVal}(
+      \hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}.back()[j],\hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2d7e802fb97db0367bb8e8f31d393afd}{returnInSample}(i));
+198                                 \}
+199                             \}
+200                         \}
+201                     \}
+202                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1unprocessedRerFNode_a6510faa628fda49d672dcd1b88a3834b_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_aee896249351b674045d1cecd653cb446}\label{classfp_1_1unprocessedRerFNode_aee896249351b674045d1cecd653cb446}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!load\+Indices@{load\+Indices}}
+\index{load\+Indices@{load\+Indices}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{load\+Indices()}{loadIndices()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::load\+Indices (\begin{DoxyParamCaption}\item[{\hyperlink{classfp_1_1stratifiedInNodeClassIndices}{stratified\+In\+Node\+Class\+Indices} $\ast$}]{indices }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 224 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+224                                                                               \{
+225                     \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices} = indices;
+226                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_ad4ed23c3eecd133c0f194b94d7e75404}\label{classfp_1_1unprocessedRerFNode_ad4ed23c3eecd133c0f194b94d7e75404}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!load\+Label\+Holder@{load\+Label\+Holder}}
+\index{load\+Label\+Holder@{load\+Label\+Holder}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{load\+Label\+Holder()}{loadLabelHolder()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::load\+Label\+Holder (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 149 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+149                                              \{
+150                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_af740a8054cefe977f8f1288fc6b39109}{useBin}())\{
+151                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i =0; i < \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a9f77fe5e638170c4ad4ce99541561cfc}{returnBinnedSize}(); ++i)\{
+152                             \hyperlink{classfp_1_1unprocessedRerFNode_a9e1a9728861a19034c9b17d5eaa2891d}{labelHolder}[i] = 
+      \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().\hyperlink{classfp_1_1fpSingleton_aa2f644b1521948fb994f4087ddfaea14}{returnLabel}(
+      \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a775d9a820b6f48ab44cd1ac4ffde1578}{returnBinnedInSample}(i));
+153                         \}
+154                     \}\textcolor{keywordflow}{else}\{
+155                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i =0; i < \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->
+      \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a596235ffec7250fabd2818d395b39c66}{returnInSampleSize}(); ++i)\{
+156                             \hyperlink{classfp_1_1unprocessedRerFNode_a9e1a9728861a19034c9b17d5eaa2891d}{labelHolder}[i] = 
+      \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().\hyperlink{classfp_1_1fpSingleton_aa2f644b1521948fb994f4087ddfaea14}{returnLabel}(
+      \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2d7e802fb97db0367bb8e8f31d393afd}{returnInSample}(i));
+157                         \}
+158                     \}
+159                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1unprocessedRerFNode_ad4ed23c3eecd133c0f194b94d7e75404_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a6b0103f44984a79d6a0871d3e1866b34}\label{classfp_1_1unprocessedRerFNode_a6b0103f44984a79d6a0871d3e1866b34}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!move\+Data\+Left\+Or\+Right@{move\+Data\+Left\+Or\+Right}}
+\index{move\+Data\+Left\+Or\+Right@{move\+Data\+Left\+Or\+Right}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{move\+Data\+Left\+Or\+Right()}{moveDataLeftOrRight()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::move\+Data\+Left\+Or\+Right (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 251 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+251                                                  \{
+252                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1unprocessedRerFNode_ae402805c487d29fa6d0b8fb6f873a4d3}{leftIndices} !=NULL)\{
+253                         \textcolor{keyword}{delete} \hyperlink{classfp_1_1unprocessedRerFNode_ae402805c487d29fa6d0b8fb6f873a4d3}{leftIndices};
+254                     \}
+255                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1unprocessedRerFNode_a4cc97ffcfe51937766fed926bbc4892a}{rightIndices} !=NULL)\{
+256                         \textcolor{keyword}{delete} \hyperlink{classfp_1_1unprocessedRerFNode_a4cc97ffcfe51937766fed926bbc4892a}{rightIndices};
+257                     \}
+258 
+259                     \hyperlink{classfp_1_1unprocessedRerFNode_ae402805c487d29fa6d0b8fb6f873a4d3}{leftIndices} = \textcolor{keyword}{new} stratifiedInNodeClassIndices();
+260                     \hyperlink{classfp_1_1unprocessedRerFNode_a4cc97ffcfe51937766fed926bbc4892a}{rightIndices} = \textcolor{keyword}{new} stratifiedInNodeClassIndices();
+261 
+262                     \textcolor{keywordtype}{int} lNum =0;
+263                     \textcolor{keywordtype}{int} rNum =0;
+264                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0; i < \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a596235ffec7250fabd2818d395b39c66}{returnInSampleSize}();++i)\{
+265                         \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1unprocessedRerFNode_a4c4e6bb795c327b38301610d0158735a}{goLeft}(\hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2d7e802fb97db0367bb8e8f31d393afd}{returnInSample}(i)))\{
+266                             ++lNum;
+267                             \hyperlink{classfp_1_1unprocessedRerFNode_ae402805c487d29fa6d0b8fb6f873a4d3}{leftIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a493b23961e38f5f534c236a22b4ff4b6}{addIndexToInSamples}(
+      \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2d7e802fb97db0367bb8e8f31d393afd}{returnInSample}(i)); 
+268                         \}\textcolor{keywordflow}{else}\{
+269                             ++rNum;
+270                             \hyperlink{classfp_1_1unprocessedRerFNode_a4cc97ffcfe51937766fed926bbc4892a}{rightIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a493b23961e38f5f534c236a22b4ff4b6}{addIndexToInSamples}(
+      \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2d7e802fb97db0367bb8e8f31d393afd}{returnInSample}(i)); 
+271                         \}
+272                     \}
+273 
+274                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0; i < \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a6630b77af340d2023d88bafa87b94cae}{returnOutSampleSize}();++i)\{
+275                         \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1unprocessedRerFNode_a4c4e6bb795c327b38301610d0158735a}{goLeft}(\hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2d7e802fb97db0367bb8e8f31d393afd}{returnInSample}(i)))\{
+276                             \hyperlink{classfp_1_1unprocessedRerFNode_ae402805c487d29fa6d0b8fb6f873a4d3}{leftIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_adc99a046031545bc59c2b43abcf75ed9}{addIndexToOutSamples}(
+      \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2d7e802fb97db0367bb8e8f31d393afd}{returnInSample}(i)); 
+277                         \}\textcolor{keywordflow}{else}\{
+278                             \hyperlink{classfp_1_1unprocessedRerFNode_a4cc97ffcfe51937766fed926bbc4892a}{rightIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_adc99a046031545bc59c2b43abcf75ed9}{addIndexToOutSamples}(
+      \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a2d7e802fb97db0367bb8e8f31d393afd}{returnInSample}(i)); 
+279                         \}
+280                     \}
+281 
+282                     \textcolor{keyword}{delete} \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices};
+283                     \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices} = NULL;
+284                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1unprocessedRerFNode_a6b0103f44984a79d6a0871d3e1866b34_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_af4593ac3feb0551307f5a863e109dd30}\label{classfp_1_1unprocessedRerFNode_af4593ac3feb0551307f5a863e109dd30}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!pick\+M\+T\+RY@{pick\+M\+T\+RY}}
+\index{pick\+M\+T\+RY@{pick\+M\+T\+RY}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{pick\+M\+T\+R\+Y()}{pickMTRY()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::pick\+M\+T\+RY (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 123 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+123                                       \{
+124                     \textcolor{comment}{//for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i)
+       featuresToTry.push\_back(i);}
+125                     \textcolor{comment}{//std::random\_shuffle ( featuresToTry.begin(), featuresToTry.end() );}
+126                     \textcolor{comment}{//featuresToTry.resize(fpSingleton::getSingleton().returnMtry());}
+127                     \textcolor{keywordtype}{int} rndMtry;
+128                     \textcolor{keywordtype}{int} rndFeature;
+129                     \textcolor{comment}{/*}
+130 \textcolor{comment}{for (int i=0; i < fpSingleton::getSingleton().returnMtry(); ++i)\{}
+131 \textcolor{comment}{                        //rndMtry = std::rand() % fpSingleton::getSingleton().returnMtry();}
+132 \textcolor{comment}{                        rndFeature = std::rand() % fpSingleton::getSingleton().returnNumFeatures();}
+133 \textcolor{comment}{                        featuresToTry[i].push\_back(rndFeature);}
+134 \textcolor{comment}{                        //featuresToTry[randomMtry(rng)].push\_back(randomFeature(rng));}
+135 \textcolor{comment}{                    \}}
+136 \textcolor{comment}{                    */}
+137                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i=0; i < \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_a45ae68ceb91880ddbc0e049a47c371eb}{returnMtry}(); ++i)\{
+138                         rndMtry = std::rand() % \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_a45ae68ceb91880ddbc0e049a47c371eb}{returnMtry}();
+139                         rndFeature = std::rand() % \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_a97cbcad5ae9daa8c747fd4db84928c20}{returnNumFeatures}();
+140                         \hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}[rndMtry].push\_back(rndFeature);
+141                         \textcolor{comment}{//featuresToTry[randomMtry(rng)].push\_back(randomFeature(rng));}
+142                     \}
+143                                     \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1unprocessedRerFNode_af4593ac3feb0551307f5a863e109dd30_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a87211d2d5ab3bc9f3de237870975e382}\label{classfp_1_1unprocessedRerFNode_a87211d2d5ab3bc9f3de237870975e382}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!return\+Best\+Cut\+Value@{return\+Best\+Cut\+Value}}
+\index{return\+Best\+Cut\+Value@{return\+Best\+Cut\+Value}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{return\+Best\+Cut\+Value()}{returnBestCutValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::return\+Best\+Cut\+Value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 88 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+88                                              \{
+89                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1unprocessedRerFNode_acf98051b30cb1c0f2e62bb7df51c0884}{bestSplitInfo}.returnSplitValue();
+90                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=340pt]{classfp_1_1unprocessedRerFNode_a87211d2d5ab3bc9f3de237870975e382_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a99927a98b98f2924f31cf03ece3b5d50}\label{classfp_1_1unprocessedRerFNode_a99927a98b98f2924f31cf03ece3b5d50}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!return\+Best\+Feature@{return\+Best\+Feature}}
+\index{return\+Best\+Feature@{return\+Best\+Feature}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{return\+Best\+Feature()}{returnBestFeature()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::vector$<$int$>$ \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::return\+Best\+Feature (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 80 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+80                                                          \{
+81                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1unprocessedRerFNode_acf98051b30cb1c0f2e62bb7df51c0884}{bestSplitInfo}.returnFeatureNum();
+82                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=342pt]{classfp_1_1unprocessedRerFNode_a99927a98b98f2924f31cf03ece3b5d50_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a15b562553cf6417806ee8085ed4a1725}\label{classfp_1_1unprocessedRerFNode_a15b562553cf6417806ee8085ed4a1725}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!return\+Best\+Impurity@{return\+Best\+Impurity}}
+\index{return\+Best\+Impurity@{return\+Best\+Impurity}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{return\+Best\+Impurity()}{returnBestImpurity()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+double \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::return\+Best\+Impurity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 84 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+84                                                   \{
+85                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1unprocessedRerFNode_acf98051b30cb1c0f2e62bb7df51c0884}{bestSplitInfo}.returnImpurity();
+86                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=340pt]{classfp_1_1unprocessedRerFNode_a15b562553cf6417806ee8085ed4a1725_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a37f1b49ac906ec2921365a35d1a5b96c}\label{classfp_1_1unprocessedRerFNode_a37f1b49ac906ec2921365a35d1a5b96c}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!return\+Depth@{return\+Depth}}
+\index{return\+Depth@{return\+Depth}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{return\+Depth()}{returnDepth()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::return\+Depth (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 76 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+76                                         \{
+77                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1unprocessedRerFNode_ad54ee9ea4003179b8304afb4f20d3a84}{depth};
+78                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_ae8b096a92819dbb811d1319d5c4eaecd}\label{classfp_1_1unprocessedRerFNode_ae8b096a92819dbb811d1319d5c4eaecd}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!return\+In\+Sample\+Size@{return\+In\+Sample\+Size}}
+\index{return\+In\+Sample\+Size@{return\+In\+Sample\+Size}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{return\+In\+Sample\+Size()}{returnInSampleSize()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::return\+In\+Sample\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 103 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+103                                                \{
+104                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a596235ffec7250fabd2818d395b39c66}{returnInSampleSize}();
+105                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1unprocessedRerFNode_ae8b096a92819dbb811d1319d5c4eaecd_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_acabfd0846277d68f05f3ba4ca639c29e}\label{classfp_1_1unprocessedRerFNode_acabfd0846277d68f05f3ba4ca639c29e}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!return\+Is\+Left\+Node@{return\+Is\+Left\+Node}}
+\index{return\+Is\+Left\+Node@{return\+Is\+Left\+Node}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{return\+Is\+Left\+Node()}{returnIsLeftNode()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::return\+Is\+Left\+Node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 72 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+72                                               \{
+73                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1unprocessedRerFNode_a75fe4b426a6a1cc8bb1de50380dcec94}{isLeftNode};
+74                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a49c123f04f9c961e8d6142aa11200bcd}\label{classfp_1_1unprocessedRerFNode_a49c123f04f9c961e8d6142aa11200bcd}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!return\+Left\+Indices@{return\+Left\+Indices}}
+\index{return\+Left\+Indices@{return\+Left\+Indices}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{return\+Left\+Indices()}{returnLeftIndices()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classfp_1_1stratifiedInNodeClassIndices}{stratified\+In\+Node\+Class\+Indices}$\ast$ \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::return\+Left\+Indices (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 56 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+56                                                                         \{
+57                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1unprocessedRerFNode_ae402805c487d29fa6d0b8fb6f873a4d3}{leftIndices};
+58                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a656fca7854eae97dae1b93082d703606}\label{classfp_1_1unprocessedRerFNode_a656fca7854eae97dae1b93082d703606}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!return\+Max\+Class@{return\+Max\+Class}}
+\index{return\+Max\+Class@{return\+Max\+Class}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{return\+Max\+Class()}{returnMaxClass()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::return\+Max\+Class (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 308 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+308                                            \{
+309                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1unprocessedRerFNode_a5d7bc15c3a0717abefc4845aec168167}{nodeImpurity}==0)\{
+310                         \textcolor{keywordflow}{return} \hyperlink{classfp_1_1unprocessedRerFNode_a9e1a9728861a19034c9b17d5eaa2891d}{labelHolder}[0];
+311                     \} \textcolor{keywordflow}{else} \{
+312                         classRerFTotals findMaxClass;
+313                         findMaxClass.findNumClasses(\hyperlink{classfp_1_1unprocessedRerFNode_a9e1a9728861a19034c9b17d5eaa2891d}{labelHolder});
+314                         \textcolor{keywordflow}{return} findMaxClass.returnLargestClass();
+315                     \}
+316                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1unprocessedRerFNode_a656fca7854eae97dae1b93082d703606_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a436990a7a7e08ded050ffe55c585e605}\label{classfp_1_1unprocessedRerFNode_a436990a7a7e08ded050ffe55c585e605}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!return\+M\+T\+R\+Y\+Vector\+Size\+Delete@{return\+M\+T\+R\+Y\+Vector\+Size\+Delete}}
+\index{return\+M\+T\+R\+Y\+Vector\+Size\+Delete@{return\+M\+T\+R\+Y\+Vector\+Size\+Delete}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{return\+M\+T\+R\+Y\+Vector\+Size\+Delete()}{returnMTRYVectorSizeDelete()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::return\+M\+T\+R\+Y\+Vector\+Size\+Delete (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 145 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+145                                                        \{
+146                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}{featuresToTry}.size();
+147                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a05ccccf919dec2285a31de5e47145b76}\label{classfp_1_1unprocessedRerFNode_a05ccccf919dec2285a31de5e47145b76}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!return\+Node\+Impurity@{return\+Node\+Impurity}}
+\index{return\+Node\+Impurity@{return\+Node\+Impurity}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{return\+Node\+Impurity()}{returnNodeImpurity()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+double \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::return\+Node\+Impurity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 68 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+68                                                   \{
+69                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1unprocessedRerFNode_a5d7bc15c3a0717abefc4845aec168167}{nodeImpurity};
+70                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_af920a23a290c9552c246a2913be55761}\label{classfp_1_1unprocessedRerFNode_af920a23a290c9552c246a2913be55761}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!return\+Out\+Sample\+Error@{return\+Out\+Sample\+Error}}
+\index{return\+Out\+Sample\+Error@{return\+Out\+Sample\+Error}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{return\+Out\+Sample\+Error()}{returnOutSampleError()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::return\+Out\+Sample\+Error (\begin{DoxyParamCaption}\item[{int}]{class\+Num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 111 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+111                                                              \{
+112                     \textcolor{keywordtype}{int} totalRight=0;
+113                     \textcolor{comment}{//  //for(int i : obsIndices->returnOutSamples())\{}
+114                     \textcolor{comment}{//  for(unsigned int i =0; i <  obsIndices->returnSize(); ++i)\{}
+115                     \textcolor{comment}{//      if (i==classNum)\{}
+116                     \textcolor{comment}{//      ++totalRight;}
+117                     \textcolor{comment}{//      \}}
+118                     \textcolor{comment}{//      \}}
+119                     \textcolor{keywordflow}{return} totalRight;
+120                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a850d04831326a6d700258bc8526cf7a2}\label{classfp_1_1unprocessedRerFNode_a850d04831326a6d700258bc8526cf7a2}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!return\+Out\+Sample\+Size@{return\+Out\+Sample\+Size}}
+\index{return\+Out\+Sample\+Size@{return\+Out\+Sample\+Size}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{return\+Out\+Sample\+Size()}{returnOutSampleSize()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::return\+Out\+Sample\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 107 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+107                                                 \{
+108                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_a6630b77af340d2023d88bafa87b94cae}{returnOutSampleSize}();
+109                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1unprocessedRerFNode_a850d04831326a6d700258bc8526cf7a2_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a94fadd35ce0d5c9bf446c3c9da534cbb}\label{classfp_1_1unprocessedRerFNode_a94fadd35ce0d5c9bf446c3c9da534cbb}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!return\+Parent\+ID@{return\+Parent\+ID}}
+\index{return\+Parent\+ID@{return\+Parent\+ID}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{return\+Parent\+I\+D()}{returnParentID()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::return\+Parent\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 64 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+64                                            \{
+65                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1unprocessedRerFNode_ab87cfcf5df700dbc7ec02c87057b27aa}{parentID};
+66                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a4a8ede0f5b6e34c39bd10ce40ef1f110}\label{classfp_1_1unprocessedRerFNode_a4a8ede0f5b6e34c39bd10ce40ef1f110}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!return\+Right\+Indices@{return\+Right\+Indices}}
+\index{return\+Right\+Indices@{return\+Right\+Indices}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{return\+Right\+Indices()}{returnRightIndices()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classfp_1_1stratifiedInNodeClassIndices}{stratified\+In\+Node\+Class\+Indices}$\ast$ \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::return\+Right\+Indices (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 60 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+60                                                                          \{
+61                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1unprocessedRerFNode_a4cc97ffcfe51937766fed926bbc4892a}{rightIndices};
+62                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_ac31049fede0262a8879905802884fe6f}\label{classfp_1_1unprocessedRerFNode_ac31049fede0262a8879905802884fe6f}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!set\+Best\+Split@{set\+Best\+Split}}
+\index{set\+Best\+Split@{set\+Best\+Split}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{set\+Best\+Split()}{setBestSplit()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::set\+Best\+Split (\begin{DoxyParamCaption}\item[{\hyperlink{classfp_1_1splitRerFInfo}{split\+Rer\+F\+Info}$<$ T $>$}]{temp\+Split }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 217 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+217                                                                     \{
+218                     \textcolor{keywordflow}{if}(tempSplit.returnImpurity() < \hyperlink{classfp_1_1unprocessedRerFNode_acf98051b30cb1c0f2e62bb7df51c0884}{bestSplitInfo}.returnImpurity())\{
+219                         \hyperlink{classfp_1_1unprocessedRerFNode_acf98051b30cb1c0f2e62bb7df51c0884}{bestSplitInfo} = tempSplit;
+220                     \}
+221                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=340pt]{classfp_1_1unprocessedRerFNode_ac31049fede0262a8879905802884fe6f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a0fccfed626582cf730f6302fc2f703c4}\label{classfp_1_1unprocessedRerFNode_a0fccfed626582cf730f6302fc2f703c4}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!set\+Holder\+Sizes@{set\+Holder\+Sizes}}
+\index{set\+Holder\+Sizes@{set\+Holder\+Sizes}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{set\+Holder\+Sizes()}{setHolderSizes()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::set\+Holder\+Sizes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 92 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+92                                             \{
+93                     \hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_ae9907f8984615f91417fb7961e1b582d}{initializeBinnedSamples}();
+94                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->\hyperlink{classfp_1_1stratifiedInNodeClassIndices_af740a8054cefe977f8f1288fc6b39109}{useBin}())\{
+95                         \hyperlink{classfp_1_1unprocessedRerFNode_a9e1a9728861a19034c9b17d5eaa2891d}{labelHolder}.resize(\hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->
+      \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a9f77fe5e638170c4ad4ce99541561cfc}{returnBinnedSize}());
+96                         \hyperlink{classfp_1_1unprocessedRerFNode_a09fa17210a5916239cba6716c636cc4e}{featureHolder}.resize(\hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->
+      \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a9f77fe5e638170c4ad4ce99541561cfc}{returnBinnedSize}());
+97                     \}\textcolor{keywordflow}{else}\{
+98                         \hyperlink{classfp_1_1unprocessedRerFNode_a9e1a9728861a19034c9b17d5eaa2891d}{labelHolder}.resize(\hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->
+      \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a596235ffec7250fabd2818d395b39c66}{returnInSampleSize}());
+99                         \hyperlink{classfp_1_1unprocessedRerFNode_a09fa17210a5916239cba6716c636cc4e}{featureHolder}.resize(\hyperlink{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}{obsIndices}->
+      \hyperlink{classfp_1_1stratifiedInNodeClassIndices_a596235ffec7250fabd2818d395b39c66}{returnInSampleSize}());
+100                     \}
+101                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1unprocessedRerFNode_a0fccfed626582cf730f6302fc2f703c4_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a5ec1c45ede99474478d616f748c733ba}\label{classfp_1_1unprocessedRerFNode_a5ec1c45ede99474478d616f748c733ba}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!setup\+Node@{setup\+Node}}
+\index{setup\+Node@{setup\+Node}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{setup\+Node()}{setupNode()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::setup\+Node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 209 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+\begin{DoxyCode}
+209                                        \{
+210                     \hyperlink{classfp_1_1unprocessedRerFNode_af4593ac3feb0551307f5a863e109dd30}{pickMTRY}();
+211                     \hyperlink{classfp_1_1unprocessedRerFNode_a0fccfed626582cf730f6302fc2f703c4}{setHolderSizes}();
+212                     \hyperlink{classfp_1_1unprocessedRerFNode_ad4ed23c3eecd133c0f194b94d7e75404}{loadLabelHolder}();
+213                     \hyperlink{classfp_1_1unprocessedRerFNode_a5d7bc15c3a0717abefc4845aec168167}{nodeImpurity} = \hyperlink{classfp_1_1unprocessedRerFNode_ac86ccad68a93a1957b7563244c03c0c0}{calculateNodeImpurity}();
+214                 \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1unprocessedRerFNode_a5ec1c45ede99474478d616f748c733ba_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_acf98051b30cb1c0f2e62bb7df51c0884}\label{classfp_1_1unprocessedRerFNode_acf98051b30cb1c0f2e62bb7df51c0884}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!best\+Split\+Info@{best\+Split\+Info}}
+\index{best\+Split\+Info@{best\+Split\+Info}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{best\+Split\+Info}{bestSplitInfo}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classfp_1_1splitRerFInfo}{split\+Rer\+F\+Info}$<$T$>$ \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::best\+Split\+Info\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 18 of file unprocessed\+Rer\+F\+Node.\+h.
+
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_ad54ee9ea4003179b8304afb4f20d3a84}\label{classfp_1_1unprocessedRerFNode_ad54ee9ea4003179b8304afb4f20d3a84}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!depth@{depth}}
+\index{depth@{depth}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{depth}{depth}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::depth\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 14 of file unprocessed\+Rer\+F\+Node.\+h.
+
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a09fa17210a5916239cba6716c636cc4e}\label{classfp_1_1unprocessedRerFNode_a09fa17210a5916239cba6716c636cc4e}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!feature\+Holder@{feature\+Holder}}
+\index{feature\+Holder@{feature\+Holder}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{feature\+Holder}{featureHolder}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::vector$<$T$>$ \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::feature\+Holder\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 26 of file unprocessed\+Rer\+F\+Node.\+h.
+
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}\label{classfp_1_1unprocessedRerFNode_aa2028578f341c8f41cf000eb40d228f2}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!features\+To\+Try@{features\+To\+Try}}
+\index{features\+To\+Try@{features\+To\+Try}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{features\+To\+Try}{featuresToTry}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::vector$<$ std\+::vector$<$int$>$ $>$ \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::features\+To\+Try\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 25 of file unprocessed\+Rer\+F\+Node.\+h.
+
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a75fe4b426a6a1cc8bb1de50380dcec94}\label{classfp_1_1unprocessedRerFNode_a75fe4b426a6a1cc8bb1de50380dcec94}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!is\+Left\+Node@{is\+Left\+Node}}
+\index{is\+Left\+Node@{is\+Left\+Node}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{is\+Left\+Node}{isLeftNode}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::is\+Left\+Node\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 16 of file unprocessed\+Rer\+F\+Node.\+h.
+
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a9e1a9728861a19034c9b17d5eaa2891d}\label{classfp_1_1unprocessedRerFNode_a9e1a9728861a19034c9b17d5eaa2891d}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!label\+Holder@{label\+Holder}}
+\index{label\+Holder@{label\+Holder}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{label\+Holder}{labelHolder}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::vector$<$int$>$ \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::label\+Holder\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 27 of file unprocessed\+Rer\+F\+Node.\+h.
+
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_ae402805c487d29fa6d0b8fb6f873a4d3}\label{classfp_1_1unprocessedRerFNode_ae402805c487d29fa6d0b8fb6f873a4d3}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!left\+Indices@{left\+Indices}}
+\index{left\+Indices@{left\+Indices}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{left\+Indices}{leftIndices}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classfp_1_1stratifiedInNodeClassIndices}{stratified\+In\+Node\+Class\+Indices}$\ast$ \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::left\+Indices\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 21 of file unprocessed\+Rer\+F\+Node.\+h.
+
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a5d7bc15c3a0717abefc4845aec168167}\label{classfp_1_1unprocessedRerFNode_a5d7bc15c3a0717abefc4845aec168167}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!node\+Impurity@{node\+Impurity}}
+\index{node\+Impurity@{node\+Impurity}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{node\+Impurity}{nodeImpurity}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+double \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::node\+Impurity\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 15 of file unprocessed\+Rer\+F\+Node.\+h.
+
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}\label{classfp_1_1unprocessedRerFNode_ad52d9d508bf378bc793b8cf961163735}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!obs\+Indices@{obs\+Indices}}
+\index{obs\+Indices@{obs\+Indices}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{obs\+Indices}{obsIndices}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classfp_1_1stratifiedInNodeClassIndices}{stratified\+In\+Node\+Class\+Indices}$\ast$ \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::obs\+Indices\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 20 of file unprocessed\+Rer\+F\+Node.\+h.
+
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_ab87cfcf5df700dbc7ec02c87057b27aa}\label{classfp_1_1unprocessedRerFNode_ab87cfcf5df700dbc7ec02c87057b27aa}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!parent\+ID@{parent\+ID}}
+\index{parent\+ID@{parent\+ID}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{parent\+ID}{parentID}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::parent\+ID\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 13 of file unprocessed\+Rer\+F\+Node.\+h.
+
+\mbox{\Hypertarget{classfp_1_1unprocessedRerFNode_a4cc97ffcfe51937766fed926bbc4892a}\label{classfp_1_1unprocessedRerFNode_a4cc97ffcfe51937766fed926bbc4892a}} 
+\index{fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}!right\+Indices@{right\+Indices}}
+\index{right\+Indices@{right\+Indices}!fp\+::unprocessed\+Rer\+F\+Node@{fp\+::unprocessed\+Rer\+F\+Node}}
+\subsubsection{\texorpdfstring{right\+Indices}{rightIndices}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classfp_1_1stratifiedInNodeClassIndices}{stratified\+In\+Node\+Class\+Indices}$\ast$ \hyperlink{classfp_1_1unprocessedRerFNode}{fp\+::unprocessed\+Rer\+F\+Node}$<$ T $>$\+::right\+Indices\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 22 of file unprocessed\+Rer\+F\+Node.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/forest\+Types/rerf/\hyperlink{forestTypes_2rerf_2unprocessedRerFNode_8h}{unprocessed\+Rer\+F\+Node.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,252 @@
+\hypertarget{classrankedInput}{}\section{ranked\+Input$<$ T $>$ Class Template Reference}
+\label{classrankedInput}\index{ranked\+Input$<$ T $>$@{ranked\+Input$<$ T $>$}}
+
+
+{\ttfamily \#include $<$fp\+Data\+Set.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrankedInput_a68fd13cc8d6784da58717a85f811fbf3}{ranked\+Input} (\hyperlink{classcsvHandle}{csv\+Handle} \&csvH)
+\item 
+\hyperlink{classrankedInput_a5b881de847a501b5c6857f6f3ade26a2}{ranked\+Input} (const std\+::string \&forest\+C\+S\+V\+File\+Name)
+\item 
+void \hyperlink{classrankedInput_a5a63105754b648c5047f887f5ca9b3b6}{print\+C\+S\+V\+Stats} ()
+\item 
+int \hyperlink{classrankedInput_a2386d6816fca791a04f13fe2312307be}{return\+Num\+Features} ()
+\item 
+int \hyperlink{classrankedInput_a0760d6140433f4935f57f0d2cdabeef9}{return\+Num\+Observations} ()
+\item 
+void \hyperlink{classrankedInput_a72fc3f9bf4d358babdf84c96617417f3}{print\+Table\+Of\+Values} ()
+\item 
+T \hyperlink{classrankedInput_a691f0acc7f92a6e8051e85e585556f06}{return\+Feature\+Value} (int feature\+Num, int Observation\+Num)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::vector$<$ \hyperlink{classrankedElement}{ranked\+Element}$<$ T $>$ $>$ $>$ \hyperlink{classrankedInput_a5450364c3f258e15f28248a8a3c93ffa}{ranked\+Input\+Data}
+\item 
+int \hyperlink{classrankedInput_ad86e2ad8f4044697450ddfdb15aa10a9}{num\+Features}
+\item 
+int \hyperlink{classrankedInput_a7b0e6ebcf6fa2fcd0b08918e3b3020be}{num\+Observations}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class ranked\+Input$<$ T $>$}
+
+
+
+Definition at line 339 of file fp\+Data\+Set.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classrankedInput_a68fd13cc8d6784da58717a85f811fbf3}\label{classrankedInput_a68fd13cc8d6784da58717a85f811fbf3}} 
+\index{ranked\+Input@{ranked\+Input}!ranked\+Input@{ranked\+Input}}
+\index{ranked\+Input@{ranked\+Input}!ranked\+Input@{ranked\+Input}}
+\subsubsection{\texorpdfstring{ranked\+Input()}{rankedInput()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classrankedInput}{ranked\+Input}$<$ T $>$\+::\hyperlink{classrankedInput}{ranked\+Input} (\begin{DoxyParamCaption}\item[{\hyperlink{classcsvHandle}{csv\+Handle} \&}]{csvH }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 347 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+347                                      \{
+348 
+349             \hyperlink{classrankedInput_ad86e2ad8f4044697450ddfdb15aa10a9}{numFeatures} = csvH.\hyperlink{classcsvHandle_a7dc362efe916e5a9707f26ad20d3c870}{returnNumColumns}();
+350             \hyperlink{classrankedInput_a7b0e6ebcf6fa2fcd0b08918e3b3020be}{numObservations} = csvH.\hyperlink{classcsvHandle_a605aeef90b440e8c7b090999da3739a8}{returnNumRows}();
+351             \hyperlink{classrankedInput_a5450364c3f258e15f28248a8a3c93ffa}{rankedInputData}.resize(\hyperlink{classrankedInput_ad86e2ad8f4044697450ddfdb15aa10a9}{numFeatures});
+352             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < \hyperlink{classrankedInput_ad86e2ad8f4044697450ddfdb15aa10a9}{numFeatures}; i++)\{
+353                 \hyperlink{classrankedInput_a5450364c3f258e15f28248a8a3c93ffa}{rankedInputData}[i].resize(\hyperlink{classrankedInput_a7b0e6ebcf6fa2fcd0b08918e3b3020be}{numObservations});
+354             \}
+355 
+356             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j = 0; j < \hyperlink{classrankedInput_a7b0e6ebcf6fa2fcd0b08918e3b3020be}{numObservations}; j++)\{
+357                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < \hyperlink{classrankedInput_ad86e2ad8f4044697450ddfdb15aa10a9}{numFeatures}; i++)
+358                 \{
+359                     \hyperlink{classrankedInput_a5450364c3f258e15f28248a8a3c93ffa}{rankedInputData}[i][j].setFeatureValue(csvH.
+      \hyperlink{classcsvHandle_a28f8ee0fa06f1c78132b3551da272bde}{returnNextElement}<T>());   
+360                 \}
+361             \}
+362         \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classrankedInput_a68fd13cc8d6784da58717a85f811fbf3_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classrankedInput_a5b881de847a501b5c6857f6f3ade26a2}\label{classrankedInput_a5b881de847a501b5c6857f6f3ade26a2}} 
+\index{ranked\+Input@{ranked\+Input}!ranked\+Input@{ranked\+Input}}
+\index{ranked\+Input@{ranked\+Input}!ranked\+Input@{ranked\+Input}}
+\subsubsection{\texorpdfstring{ranked\+Input()}{rankedInput()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classrankedInput}{ranked\+Input}$<$ T $>$\+::\hyperlink{classrankedInput}{ranked\+Input} (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{forest\+C\+S\+V\+File\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 364 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+364                                                         \{
+365 
+366             \hyperlink{classcsvHandle}{csvHandle} csvH(forestCSVFileName);
+367             \hyperlink{classrankedInput_ad86e2ad8f4044697450ddfdb15aa10a9}{numFeatures} = csvH.returnNumColumns();
+368             \hyperlink{classrankedInput_a7b0e6ebcf6fa2fcd0b08918e3b3020be}{numObservations} = csvH.returnNumRows();
+369             \hyperlink{classrankedInput_a5450364c3f258e15f28248a8a3c93ffa}{rankedInputData}.resize(\hyperlink{classrankedInput_ad86e2ad8f4044697450ddfdb15aa10a9}{numFeatures});
+370             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < \hyperlink{classrankedInput_ad86e2ad8f4044697450ddfdb15aa10a9}{numFeatures}; i++)\{
+371                 \hyperlink{classrankedInput_a5450364c3f258e15f28248a8a3c93ffa}{rankedInputData}[i].resize(\hyperlink{classrankedInput_a7b0e6ebcf6fa2fcd0b08918e3b3020be}{numObservations});
+372             \}
+373 
+374             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j = 0; j < \hyperlink{classrankedInput_a7b0e6ebcf6fa2fcd0b08918e3b3020be}{numObservations}; j++)\{
+375                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < \hyperlink{classrankedInput_ad86e2ad8f4044697450ddfdb15aa10a9}{numFeatures}; i++)
+376                 \{
+377                     \hyperlink{classrankedInput_a5450364c3f258e15f28248a8a3c93ffa}{rankedInputData}[i][j].setFeatureValue(csvH.returnNextElement<T>());  
+378                 \}
+379             \}
+380         \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classrankedInput_a5b881de847a501b5c6857f6f3ade26a2_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classrankedInput_a5a63105754b648c5047f887f5ca9b3b6}\label{classrankedInput_a5a63105754b648c5047f887f5ca9b3b6}} 
+\index{ranked\+Input@{ranked\+Input}!print\+C\+S\+V\+Stats@{print\+C\+S\+V\+Stats}}
+\index{print\+C\+S\+V\+Stats@{print\+C\+S\+V\+Stats}!ranked\+Input@{ranked\+Input}}
+\subsubsection{\texorpdfstring{print\+C\+S\+V\+Stats()}{printCSVStats()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrankedInput}{ranked\+Input}$<$ T $>$\+::print\+C\+S\+V\+Stats (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 382 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+382                             \{
+383             std::cout << \textcolor{stringliteral}{"there are "} << \hyperlink{classrankedInput_ad86e2ad8f4044697450ddfdb15aa10a9}{numFeatures} << \textcolor{stringliteral}{" features.\(\backslash\)n"};
+384             std::cout << \textcolor{stringliteral}{"there are "} << \hyperlink{classrankedInput_a7b0e6ebcf6fa2fcd0b08918e3b3020be}{numObservations} << \textcolor{stringliteral}{" observations.\(\backslash\)n"};
+385         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrankedInput_a72fc3f9bf4d358babdf84c96617417f3}\label{classrankedInput_a72fc3f9bf4d358babdf84c96617417f3}} 
+\index{ranked\+Input@{ranked\+Input}!print\+Table\+Of\+Values@{print\+Table\+Of\+Values}}
+\index{print\+Table\+Of\+Values@{print\+Table\+Of\+Values}!ranked\+Input@{ranked\+Input}}
+\subsubsection{\texorpdfstring{print\+Table\+Of\+Values()}{printTableOfValues()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrankedInput}{ranked\+Input}$<$ T $>$\+::print\+Table\+Of\+Values (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 390 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+390                                  \{
+391             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < \hyperlink{classrankedInput_ad86e2ad8f4044697450ddfdb15aa10a9}{numFeatures}; i++)\{
+392                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j = 0; j < \hyperlink{classrankedInput_a7b0e6ebcf6fa2fcd0b08918e3b3020be}{numObservations}; j++)\{
+393                     std::cout << \hyperlink{classrankedInput_a5450364c3f258e15f28248a8a3c93ffa}{rankedInputData}[i][j].returnFeatureValue() << \textcolor{stringliteral}{" "};
+394                 \}
+395                 std::cout << \textcolor{stringliteral}{"\(\backslash\)n"};
+396             \}
+397         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrankedInput_a691f0acc7f92a6e8051e85e585556f06}\label{classrankedInput_a691f0acc7f92a6e8051e85e585556f06}} 
+\index{ranked\+Input@{ranked\+Input}!return\+Feature\+Value@{return\+Feature\+Value}}
+\index{return\+Feature\+Value@{return\+Feature\+Value}!ranked\+Input@{ranked\+Input}}
+\subsubsection{\texorpdfstring{return\+Feature\+Value()}{returnFeatureValue()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \hyperlink{classrankedInput}{ranked\+Input}$<$ T $>$\+::return\+Feature\+Value (\begin{DoxyParamCaption}\item[{int}]{feature\+Num,  }\item[{int}]{Observation\+Num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 399 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+399                                                                        \{
+400             \textcolor{keywordflow}{return} \hyperlink{classrankedInput_a5450364c3f258e15f28248a8a3c93ffa}{rankedInputData}[featureNum][ObservationNum].returnFeatureValue(); 
+401         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrankedInput_a2386d6816fca791a04f13fe2312307be}\label{classrankedInput_a2386d6816fca791a04f13fe2312307be}} 
+\index{ranked\+Input@{ranked\+Input}!return\+Num\+Features@{return\+Num\+Features}}
+\index{return\+Num\+Features@{return\+Num\+Features}!ranked\+Input@{ranked\+Input}}
+\subsubsection{\texorpdfstring{return\+Num\+Features()}{returnNumFeatures()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrankedInput}{ranked\+Input}$<$ T $>$\+::return\+Num\+Features (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 387 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+387 \{\textcolor{keywordflow}{return} \hyperlink{classrankedInput_ad86e2ad8f4044697450ddfdb15aa10a9}{numFeatures};\}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrankedInput_a0760d6140433f4935f57f0d2cdabeef9}\label{classrankedInput_a0760d6140433f4935f57f0d2cdabeef9}} 
+\index{ranked\+Input@{ranked\+Input}!return\+Num\+Observations@{return\+Num\+Observations}}
+\index{return\+Num\+Observations@{return\+Num\+Observations}!ranked\+Input@{ranked\+Input}}
+\subsubsection{\texorpdfstring{return\+Num\+Observations()}{returnNumObservations()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrankedInput}{ranked\+Input}$<$ T $>$\+::return\+Num\+Observations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 388 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+388 \{\textcolor{keywordflow}{return} \hyperlink{classrankedInput_a7b0e6ebcf6fa2fcd0b08918e3b3020be}{numObservations};\}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classrankedInput_ad86e2ad8f4044697450ddfdb15aa10a9}\label{classrankedInput_ad86e2ad8f4044697450ddfdb15aa10a9}} 
+\index{ranked\+Input@{ranked\+Input}!num\+Features@{num\+Features}}
+\index{num\+Features@{num\+Features}!ranked\+Input@{ranked\+Input}}
+\subsubsection{\texorpdfstring{num\+Features}{numFeatures}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrankedInput}{ranked\+Input}$<$ T $>$\+::num\+Features\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 343 of file fp\+Data\+Set.\+h.
+
+\mbox{\Hypertarget{classrankedInput_a7b0e6ebcf6fa2fcd0b08918e3b3020be}\label{classrankedInput_a7b0e6ebcf6fa2fcd0b08918e3b3020be}} 
+\index{ranked\+Input@{ranked\+Input}!num\+Observations@{num\+Observations}}
+\index{num\+Observations@{num\+Observations}!ranked\+Input@{ranked\+Input}}
+\subsubsection{\texorpdfstring{num\+Observations}{numObservations}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrankedInput}{ranked\+Input}$<$ T $>$\+::num\+Observations\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 344 of file fp\+Data\+Set.\+h.
+
+\mbox{\Hypertarget{classrankedInput_a5450364c3f258e15f28248a8a3c93ffa}\label{classrankedInput_a5450364c3f258e15f28248a8a3c93ffa}} 
+\index{ranked\+Input@{ranked\+Input}!ranked\+Input\+Data@{ranked\+Input\+Data}}
+\index{ranked\+Input\+Data@{ranked\+Input\+Data}!ranked\+Input@{ranked\+Input}}
+\subsubsection{\texorpdfstring{ranked\+Input\+Data}{rankedInputData}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::vector$<$ std\+::vector$<$\hyperlink{classrankedElement}{ranked\+Element}$<$T$>$ $>$ $>$ \hyperlink{classrankedInput}{ranked\+Input}$<$ T $>$\+::ranked\+Input\+Data\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 342 of file fp\+Data\+Set.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/fp\+Singleton/\hyperlink{fpDataSet_8h}{fp\+Data\+Set.\+h}\end{DoxyCompactItemize}

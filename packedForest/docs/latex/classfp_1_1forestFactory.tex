@@ -1,0 +1,51 @@
+\hypertarget{classfp_1_1forestFactory}{}\section{fp\+:\+:forest\+Factory Class Reference}
+\label{classfp_1_1forestFactory}\index{fp\+::forest\+Factory@{fp\+::forest\+Factory}}
+
+
+{\ttfamily \#include $<$fp\+Forest\+Factory.\+h$>$}
+
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::unique\+\_\+ptr$<$ \hyperlink{classfp_1_1fpForestBase}{fp\+Forest\+Base} $>$ \hyperlink{classfp_1_1forestFactory_a856050d77f96dd155d41b95684552c20}{set\+Forest\+Type} (const std\+::string \&parameter\+Name)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 12 of file fp\+Forest\+Factory.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1forestFactory_a856050d77f96dd155d41b95684552c20}\label{classfp_1_1forestFactory_a856050d77f96dd155d41b95684552c20}} 
+\index{fp\+::forest\+Factory@{fp\+::forest\+Factory}!set\+Forest\+Type@{set\+Forest\+Type}}
+\index{set\+Forest\+Type@{set\+Forest\+Type}!fp\+::forest\+Factory@{fp\+::forest\+Factory}}
+\subsubsection{\texorpdfstring{set\+Forest\+Type()}{setForestType()}}
+{\footnotesize\ttfamily static std\+::unique\+\_\+ptr$<$\hyperlink{classfp_1_1fpForestBase}{fp\+Forest\+Base}$>$ fp\+::forest\+Factory\+::set\+Forest\+Type (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{parameter\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Definition at line 15 of file fp\+Forest\+Factory.\+h.
+
+
+\begin{DoxyCode}
+15                                                                                             \{
+16             \textcolor{comment}{//  std::uniqe\_ptr<fpForestBase> pToForest;}
+17                 \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"rfBase"})\{
+18                     \textcolor{keywordflow}{return} std::unique\_ptr<fpForestBase>\{\textcolor{keyword}{new} fpForestClassificationBase<float>\};
+19                 \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(parameterName == \textcolor{stringliteral}{"rerf"})\{
+20                     \textcolor{keywordflow}{return} std::unique\_ptr<fpForestBase>\{\textcolor{keyword}{new} fpRerFBase<float>\};
+21                 \}\textcolor{keywordflow}{else}\{
+22                     \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Unimplemented forest type chosen."} );
+23                     \textcolor{keywordflow}{return} NULL;
+24                 \}
+25         \textcolor{comment}{//      return pToForest;}
+26             \}
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/base\+Functions/\hyperlink{fpForestFactory_8h}{fp\+Forest\+Factory.\+h}\end{DoxyCompactItemize}

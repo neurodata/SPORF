@@ -1,0 +1,164 @@
+\hypertarget{classinputYDataClassification}{}\section{input\+Y\+Data\+Classification$<$ T $>$ Class Template Reference}
+\label{classinputYDataClassification}\index{input\+Y\+Data\+Classification$<$ T $>$@{input\+Y\+Data\+Classification$<$ T $>$}}
+
+
+{\ttfamily \#include $<$fp\+Data\+Set.\+h$>$}
+
+
+
+Inheritance diagram for input\+Y\+Data\+Classification$<$ T $>$\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=229pt]{classinputYDataClassification__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for input\+Y\+Data\+Classification$<$ T $>$\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=229pt]{classinputYDataClassification__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classinputYDataClassification_ad499a9459c748f9df338fc870f6bf62b}{input\+Y\+Data\+Classification} ()
+\item 
+void \hyperlink{classinputYDataClassification_ae6f3f163739a75bb379dd80d7c9649a2}{set\+Y\+Element} (const int \&element\+Number, const T \&value)
+\item 
+int \hyperlink{classinputYDataClassification_ae090531ab57b174ab007a2a8248462fe}{num\+Classes} ()
+\item 
+void \hyperlink{classinputYDataClassification_a738130d6cf0ed15aff355d612aae67ca}{check\+Class\+Representation} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classinputYDataClassification_a869375cfd78524833cd69aca9daf8aec}{max\+Class}
+\item 
+std\+::vector$<$ short $>$ \hyperlink{classinputYDataClassification_aa757e6d11b67d82357b863132155f933}{classes\+Used}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class input\+Y\+Data\+Classification$<$ T $>$}
+
+
+
+Definition at line 34 of file fp\+Data\+Set.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classinputYDataClassification_ad499a9459c748f9df338fc870f6bf62b}\label{classinputYDataClassification_ad499a9459c748f9df338fc870f6bf62b}} 
+\index{input\+Y\+Data\+Classification@{input\+Y\+Data\+Classification}!input\+Y\+Data\+Classification@{input\+Y\+Data\+Classification}}
+\index{input\+Y\+Data\+Classification@{input\+Y\+Data\+Classification}!input\+Y\+Data\+Classification@{input\+Y\+Data\+Classification}}
+\subsubsection{\texorpdfstring{input\+Y\+Data\+Classification()}{inputYDataClassification()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+\hyperlink{classinputYDataClassification}{input\+Y\+Data\+Classification}$<$ T $>$\+::\hyperlink{classinputYDataClassification}{input\+Y\+Data\+Classification} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 41 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+41 : \hyperlink{classinputYDataClassification_a869375cfd78524833cd69aca9daf8aec}{maxClass}(-1)\{\}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classinputYDataClassification_a738130d6cf0ed15aff355d612aae67ca}\label{classinputYDataClassification_a738130d6cf0ed15aff355d612aae67ca}} 
+\index{input\+Y\+Data\+Classification@{input\+Y\+Data\+Classification}!check\+Class\+Representation@{check\+Class\+Representation}}
+\index{check\+Class\+Representation@{check\+Class\+Representation}!input\+Y\+Data\+Classification@{input\+Y\+Data\+Classification}}
+\subsubsection{\texorpdfstring{check\+Class\+Representation()}{checkClassRepresentation()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classinputYDataClassification}{input\+Y\+Data\+Classification}$<$ T $>$\+::check\+Class\+Representation (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 55 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+55                                        \{
+56             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i<\hyperlink{classinputYDataClassification_a869375cfd78524833cd69aca9daf8aec}{maxClass}; i++)\{
+57                 \textcolor{keywordflow}{if}(\hyperlink{classinputYDataClassification_aa757e6d11b67d82357b863132155f933}{classesUsed}[i]==0)\{
+58                 \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"Not all classes represented in input."} );
+59                     \}
+60             \}
+61         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classinputYDataClassification_ae090531ab57b174ab007a2a8248462fe}\label{classinputYDataClassification_ae090531ab57b174ab007a2a8248462fe}} 
+\index{input\+Y\+Data\+Classification@{input\+Y\+Data\+Classification}!num\+Classes@{num\+Classes}}
+\index{num\+Classes@{num\+Classes}!input\+Y\+Data\+Classification@{input\+Y\+Data\+Classification}}
+\subsubsection{\texorpdfstring{num\+Classes()}{numClasses()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+int \hyperlink{classinputYDataClassification}{input\+Y\+Data\+Classification}$<$ T $>$\+::num\+Classes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 51 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+51                                \{
+52             \textcolor{keywordflow}{return} \hyperlink{classinputYDataClassification_a869375cfd78524833cd69aca9daf8aec}{maxClass}+1;
+53         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classinputYDataClassification_ae6f3f163739a75bb379dd80d7c9649a2}\label{classinputYDataClassification_ae6f3f163739a75bb379dd80d7c9649a2}} 
+\index{input\+Y\+Data\+Classification@{input\+Y\+Data\+Classification}!set\+Y\+Element@{set\+Y\+Element}}
+\index{set\+Y\+Element@{set\+Y\+Element}!input\+Y\+Data\+Classification@{input\+Y\+Data\+Classification}}
+\subsubsection{\texorpdfstring{set\+Y\+Element()}{setYElement()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classinputYDataClassification}{input\+Y\+Data\+Classification}$<$ T $>$\+::set\+Y\+Element (\begin{DoxyParamCaption}\item[{const int \&}]{element\+Number,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 42 of file fp\+Data\+Set.\+h.
+
+
+\begin{DoxyCode}
+42                                                                          \{
+43             \hyperlink{classinputYData}{inputYData<T>::YData}[elementNumber] = value;
+44             \textcolor{keywordflow}{if}(value > \hyperlink{classinputYDataClassification_a869375cfd78524833cd69aca9daf8aec}{maxClass})\{
+45                 \hyperlink{classinputYDataClassification_a869375cfd78524833cd69aca9daf8aec}{maxClass} = value;
+46                 \hyperlink{classinputYDataClassification_aa757e6d11b67d82357b863132155f933}{classesUsed}.resize(\hyperlink{classinputYDataClassification_a869375cfd78524833cd69aca9daf8aec}{maxClass}+1,0);
+47             \}
+48             \hyperlink{classinputYDataClassification_aa757e6d11b67d82357b863132155f933}{classesUsed}[value]=1;
+49         \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classinputYDataClassification_aa757e6d11b67d82357b863132155f933}\label{classinputYDataClassification_aa757e6d11b67d82357b863132155f933}} 
+\index{input\+Y\+Data\+Classification@{input\+Y\+Data\+Classification}!classes\+Used@{classes\+Used}}
+\index{classes\+Used@{classes\+Used}!input\+Y\+Data\+Classification@{input\+Y\+Data\+Classification}}
+\subsubsection{\texorpdfstring{classes\+Used}{classesUsed}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+std\+::vector$<$short$>$ \hyperlink{classinputYDataClassification}{input\+Y\+Data\+Classification}$<$ T $>$\+::classes\+Used\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 38 of file fp\+Data\+Set.\+h.
+
+\mbox{\Hypertarget{classinputYDataClassification_a869375cfd78524833cd69aca9daf8aec}\label{classinputYDataClassification_a869375cfd78524833cd69aca9daf8aec}} 
+\index{input\+Y\+Data\+Classification@{input\+Y\+Data\+Classification}!max\+Class@{max\+Class}}
+\index{max\+Class@{max\+Class}!input\+Y\+Data\+Classification@{input\+Y\+Data\+Classification}}
+\subsubsection{\texorpdfstring{max\+Class}{maxClass}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+int \hyperlink{classinputYDataClassification}{input\+Y\+Data\+Classification}$<$ T $>$\+::max\+Class\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 37 of file fp\+Data\+Set.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/fp\+Singleton/\hyperlink{fpDataSet_8h}{fp\+Data\+Set.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,174 @@
+\hypertarget{classfp_1_1labeledRerFData}{}\section{fp\+:\+:labeled\+Rer\+F\+Data$<$ T $>$ Class Template Reference}
+\label{classfp_1_1labeledRerFData}\index{fp\+::labeled\+Rer\+F\+Data$<$ T $>$@{fp\+::labeled\+Rer\+F\+Data$<$ T $>$}}
+
+
+{\ttfamily \#include $<$fp\+Rer\+F\+Split.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classfp_1_1labeledRerFData_a1df20c9fe02d55ba60210ec2a32721f1}{operator$<$} (const \hyperlink{classfp_1_1labeledRerFData}{labeled\+Rer\+F\+Data}$<$ T $>$ \&other\+Data) const
+\item 
+int \hyperlink{classfp_1_1labeledRerFData_a00837188cd3075180409f30490a3ccaa}{return\+Data\+Label} ()
+\item 
+T \hyperlink{classfp_1_1labeledRerFData_adb2f827456257e754cb1ab2a497a1d6e}{return\+Data\+Element} ()
+\item 
+T \hyperlink{classfp_1_1labeledRerFData_a8e5d0268a82f465278f58e5f1d9c79b5}{mid\+Val} (const \hyperlink{classfp_1_1labeledRerFData}{labeled\+Rer\+F\+Data}$<$ T $>$ \&other\+Data) const
+\item 
+bool \hyperlink{classfp_1_1labeledRerFData_a4f7bdd5ff9931f899ed534e3d15a6a1a}{check\+Inequality} (const \hyperlink{classfp_1_1labeledRerFData}{labeled\+Rer\+F\+Data}$<$ T $>$ \&other\+Data)
+\item 
+void \hyperlink{classfp_1_1labeledRerFData_a6442c552436874cc3e4ec2760153d4e7}{set\+Pair} (T d\+Element, int d\+Lab)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+T \hyperlink{classfp_1_1labeledRerFData_ace341f012e4e282c5a926ccb62246e84}{data\+Element}
+\item 
+int \hyperlink{classfp_1_1labeledRerFData_a0129409ac4957e14ac1095c9df035b6d}{data\+Label}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class fp\+::labeled\+Rer\+F\+Data$<$ T $>$}
+
+
+
+Definition at line 66 of file fp\+Rer\+F\+Split.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1labeledRerFData_a4f7bdd5ff9931f899ed534e3d15a6a1a}\label{classfp_1_1labeledRerFData_a4f7bdd5ff9931f899ed534e3d15a6a1a}} 
+\index{fp\+::labeled\+Rer\+F\+Data@{fp\+::labeled\+Rer\+F\+Data}!check\+Inequality@{check\+Inequality}}
+\index{check\+Inequality@{check\+Inequality}!fp\+::labeled\+Rer\+F\+Data@{fp\+::labeled\+Rer\+F\+Data}}
+\subsubsection{\texorpdfstring{check\+Inequality()}{checkInequality()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+bool \hyperlink{classfp_1_1labeledRerFData}{fp\+::labeled\+Rer\+F\+Data}$<$ T $>$\+::check\+Inequality (\begin{DoxyParamCaption}\item[{const \hyperlink{classfp_1_1labeledRerFData}{labeled\+Rer\+F\+Data}$<$ T $>$ \&}]{other\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 92 of file fp\+Rer\+F\+Split.\+h.
+
+
+\begin{DoxyCode}
+92                                                                                 \{
+93                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1labeledRerFData_ace341f012e4e282c5a926ccb62246e84}{dataElement} != otherData.dataElement;
+94                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1labeledRerFData_a8e5d0268a82f465278f58e5f1d9c79b5}\label{classfp_1_1labeledRerFData_a8e5d0268a82f465278f58e5f1d9c79b5}} 
+\index{fp\+::labeled\+Rer\+F\+Data@{fp\+::labeled\+Rer\+F\+Data}!mid\+Val@{mid\+Val}}
+\index{mid\+Val@{mid\+Val}!fp\+::labeled\+Rer\+F\+Data@{fp\+::labeled\+Rer\+F\+Data}}
+\subsubsection{\texorpdfstring{mid\+Val()}{midVal()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+T \hyperlink{classfp_1_1labeledRerFData}{fp\+::labeled\+Rer\+F\+Data}$<$ T $>$\+::mid\+Val (\begin{DoxyParamCaption}\item[{const \hyperlink{classfp_1_1labeledRerFData}{labeled\+Rer\+F\+Data}$<$ T $>$ \&}]{other\+Data }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 87 of file fp\+Rer\+F\+Split.\+h.
+
+
+\begin{DoxyCode}
+88                 \{
+89                     \textcolor{keywordflow}{return} (\hyperlink{classfp_1_1labeledRerFData_ace341f012e4e282c5a926ccb62246e84}{dataElement} + otherData.dataElement)/2.0;
+90                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1labeledRerFData_a1df20c9fe02d55ba60210ec2a32721f1}\label{classfp_1_1labeledRerFData_a1df20c9fe02d55ba60210ec2a32721f1}} 
+\index{fp\+::labeled\+Rer\+F\+Data@{fp\+::labeled\+Rer\+F\+Data}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!fp\+::labeled\+Rer\+F\+Data@{fp\+::labeled\+Rer\+F\+Data}}
+\subsubsection{\texorpdfstring{operator$<$()}{operator<()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+bool \hyperlink{classfp_1_1labeledRerFData}{fp\+::labeled\+Rer\+F\+Data}$<$ T $>$\+::operator$<$ (\begin{DoxyParamCaption}\item[{const \hyperlink{classfp_1_1labeledRerFData}{labeled\+Rer\+F\+Data}$<$ T $>$ \&}]{other\+Data }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 74 of file fp\+Rer\+F\+Split.\+h.
+
+
+\begin{DoxyCode}
+75                 \{
+76                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1labeledRerFData_ace341f012e4e282c5a926ccb62246e84}{dataElement} < otherData.dataElement;
+77                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1labeledRerFData_adb2f827456257e754cb1ab2a497a1d6e}\label{classfp_1_1labeledRerFData_adb2f827456257e754cb1ab2a497a1d6e}} 
+\index{fp\+::labeled\+Rer\+F\+Data@{fp\+::labeled\+Rer\+F\+Data}!return\+Data\+Element@{return\+Data\+Element}}
+\index{return\+Data\+Element@{return\+Data\+Element}!fp\+::labeled\+Rer\+F\+Data@{fp\+::labeled\+Rer\+F\+Data}}
+\subsubsection{\texorpdfstring{return\+Data\+Element()}{returnDataElement()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+T \hyperlink{classfp_1_1labeledRerFData}{fp\+::labeled\+Rer\+F\+Data}$<$ T $>$\+::return\+Data\+Element (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 83 of file fp\+Rer\+F\+Split.\+h.
+
+
+\begin{DoxyCode}
+83                                             \{
+84                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1labeledRerFData_ace341f012e4e282c5a926ccb62246e84}{dataElement};
+85                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1labeledRerFData_a00837188cd3075180409f30490a3ccaa}\label{classfp_1_1labeledRerFData_a00837188cd3075180409f30490a3ccaa}} 
+\index{fp\+::labeled\+Rer\+F\+Data@{fp\+::labeled\+Rer\+F\+Data}!return\+Data\+Label@{return\+Data\+Label}}
+\index{return\+Data\+Label@{return\+Data\+Label}!fp\+::labeled\+Rer\+F\+Data@{fp\+::labeled\+Rer\+F\+Data}}
+\subsubsection{\texorpdfstring{return\+Data\+Label()}{returnDataLabel()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+int \hyperlink{classfp_1_1labeledRerFData}{fp\+::labeled\+Rer\+F\+Data}$<$ T $>$\+::return\+Data\+Label (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 79 of file fp\+Rer\+F\+Split.\+h.
+
+
+\begin{DoxyCode}
+79                                             \{
+80                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1labeledRerFData_a0129409ac4957e14ac1095c9df035b6d}{dataLabel};
+81                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1labeledRerFData_a6442c552436874cc3e4ec2760153d4e7}\label{classfp_1_1labeledRerFData_a6442c552436874cc3e4ec2760153d4e7}} 
+\index{fp\+::labeled\+Rer\+F\+Data@{fp\+::labeled\+Rer\+F\+Data}!set\+Pair@{set\+Pair}}
+\index{set\+Pair@{set\+Pair}!fp\+::labeled\+Rer\+F\+Data@{fp\+::labeled\+Rer\+F\+Data}}
+\subsubsection{\texorpdfstring{set\+Pair()}{setPair()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classfp_1_1labeledRerFData}{fp\+::labeled\+Rer\+F\+Data}$<$ T $>$\+::set\+Pair (\begin{DoxyParamCaption}\item[{T}]{d\+Element,  }\item[{int}]{d\+Lab }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 96 of file fp\+Rer\+F\+Split.\+h.
+
+
+\begin{DoxyCode}
+96                                                   \{
+97                     \hyperlink{classfp_1_1labeledRerFData_ace341f012e4e282c5a926ccb62246e84}{dataElement} = dElement;
+98                     \hyperlink{classfp_1_1labeledRerFData_a0129409ac4957e14ac1095c9df035b6d}{dataLabel} = dLab;
+99                 \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1labeledRerFData_ace341f012e4e282c5a926ccb62246e84}\label{classfp_1_1labeledRerFData_ace341f012e4e282c5a926ccb62246e84}} 
+\index{fp\+::labeled\+Rer\+F\+Data@{fp\+::labeled\+Rer\+F\+Data}!data\+Element@{data\+Element}}
+\index{data\+Element@{data\+Element}!fp\+::labeled\+Rer\+F\+Data@{fp\+::labeled\+Rer\+F\+Data}}
+\subsubsection{\texorpdfstring{data\+Element}{dataElement}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+T \hyperlink{classfp_1_1labeledRerFData}{fp\+::labeled\+Rer\+F\+Data}$<$ T $>$\+::data\+Element\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 69 of file fp\+Rer\+F\+Split.\+h.
+
+\mbox{\Hypertarget{classfp_1_1labeledRerFData_a0129409ac4957e14ac1095c9df035b6d}\label{classfp_1_1labeledRerFData_a0129409ac4957e14ac1095c9df035b6d}} 
+\index{fp\+::labeled\+Rer\+F\+Data@{fp\+::labeled\+Rer\+F\+Data}!data\+Label@{data\+Label}}
+\index{data\+Label@{data\+Label}!fp\+::labeled\+Rer\+F\+Data@{fp\+::labeled\+Rer\+F\+Data}}
+\subsubsection{\texorpdfstring{data\+Label}{dataLabel}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+int \hyperlink{classfp_1_1labeledRerFData}{fp\+::labeled\+Rer\+F\+Data}$<$ T $>$\+::data\+Label\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 70 of file fp\+Rer\+F\+Split.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/forest\+Types/rerf/\hyperlink{fpRerFSplit_8h}{fp\+Rer\+F\+Split.\+h}\end{DoxyCompactItemize}

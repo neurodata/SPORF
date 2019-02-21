@@ -1,0 +1,192 @@
+\hypertarget{classfp_1_1growingTreeElement}{}\section{fp\+:\+:growing\+Tree\+Element$<$ T $>$ Class Template Reference}
+\label{classfp_1_1growingTreeElement}\index{fp\+::growing\+Tree\+Element$<$ T $>$@{fp\+::growing\+Tree\+Element$<$ T $>$}}
+
+
+{\ttfamily \#include $<$growing\+Tree\+Element.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classfp_1_1growingTreeElement_ada6dd34623e1db4f83711eaa6ebdb44a}{operator$<$} (const \hyperlink{classfp_1_1labeledData}{labeled\+Data}$<$ T $>$ \&other\+Data) const
+\item 
+int \hyperlink{classfp_1_1growingTreeElement_a9c18aa94771185dbd8b8bf12dde0070d}{return\+Data\+Index} ()
+\item 
+T \hyperlink{classfp_1_1growingTreeElement_af928932ccf63dd846c014750d3a7d020}{return\+Data\+Element} ()
+\item 
+T \hyperlink{classfp_1_1growingTreeElement_a60d0647dff7d4a92d3851209dc15c75f}{mid\+Val} (const \hyperlink{classfp_1_1labeledData}{labeled\+Data}$<$ T $>$ \&other\+Data) const
+\item 
+bool \hyperlink{classfp_1_1growingTreeElement_a4d94211c8127a82719ac33dd40edf6aa}{check\+Inequality} (const \hyperlink{classfp_1_1labeledData}{labeled\+Data}$<$ T $>$ \&other\+Data)
+\item 
+void \hyperlink{classfp_1_1growingTreeElement_af343b7265672cf507c5f834c9e005952}{set\+Index} (int d\+Lab)
+\item 
+void \hyperlink{classfp_1_1growingTreeElement_aa7d20a6d37bef8bbd573a946f664a5c2}{set\+Data\+Element} (T d\+Element)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classfp_1_1growingTreeElement_a8ba52aff2a9d11fa59a2544fd05c7d45}{data\+Index}
+\item 
+T \hyperlink{classfp_1_1growingTreeElement_ae56213ef46269673e10a4046d7cfc7e4}{data\+Element}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class fp\+::growing\+Tree\+Element$<$ T $>$}
+
+
+
+Definition at line 8 of file growing\+Tree\+Element.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1growingTreeElement_a4d94211c8127a82719ac33dd40edf6aa}\label{classfp_1_1growingTreeElement_a4d94211c8127a82719ac33dd40edf6aa}} 
+\index{fp\+::growing\+Tree\+Element@{fp\+::growing\+Tree\+Element}!check\+Inequality@{check\+Inequality}}
+\index{check\+Inequality@{check\+Inequality}!fp\+::growing\+Tree\+Element@{fp\+::growing\+Tree\+Element}}
+\subsubsection{\texorpdfstring{check\+Inequality()}{checkInequality()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \hyperlink{classfp_1_1growingTreeElement}{fp\+::growing\+Tree\+Element}$<$ T $>$\+::check\+Inequality (\begin{DoxyParamCaption}\item[{const \hyperlink{classfp_1_1labeledData}{labeled\+Data}$<$ T $>$ \&}]{other\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 34 of file growing\+Tree\+Element.\+h.
+
+
+\begin{DoxyCode}
+34                                                                             \{
+35                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1growingTreeElement_ae56213ef46269673e10a4046d7cfc7e4}{dataElement} != otherData.dataElement;
+36                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1growingTreeElement_a60d0647dff7d4a92d3851209dc15c75f}\label{classfp_1_1growingTreeElement_a60d0647dff7d4a92d3851209dc15c75f}} 
+\index{fp\+::growing\+Tree\+Element@{fp\+::growing\+Tree\+Element}!mid\+Val@{mid\+Val}}
+\index{mid\+Val@{mid\+Val}!fp\+::growing\+Tree\+Element@{fp\+::growing\+Tree\+Element}}
+\subsubsection{\texorpdfstring{mid\+Val()}{midVal()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \hyperlink{classfp_1_1growingTreeElement}{fp\+::growing\+Tree\+Element}$<$ T $>$\+::mid\+Val (\begin{DoxyParamCaption}\item[{const \hyperlink{classfp_1_1labeledData}{labeled\+Data}$<$ T $>$ \&}]{other\+Data }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 29 of file growing\+Tree\+Element.\+h.
+
+
+\begin{DoxyCode}
+30                 \{
+31                     \textcolor{keywordflow}{return} (\hyperlink{classfp_1_1growingTreeElement_ae56213ef46269673e10a4046d7cfc7e4}{dataElement} + otherData.dataElement)/2.0;
+32                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1growingTreeElement_ada6dd34623e1db4f83711eaa6ebdb44a}\label{classfp_1_1growingTreeElement_ada6dd34623e1db4f83711eaa6ebdb44a}} 
+\index{fp\+::growing\+Tree\+Element@{fp\+::growing\+Tree\+Element}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!fp\+::growing\+Tree\+Element@{fp\+::growing\+Tree\+Element}}
+\subsubsection{\texorpdfstring{operator$<$()}{operator<()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \hyperlink{classfp_1_1growingTreeElement}{fp\+::growing\+Tree\+Element}$<$ T $>$\+::operator$<$ (\begin{DoxyParamCaption}\item[{const \hyperlink{classfp_1_1labeledData}{labeled\+Data}$<$ T $>$ \&}]{other\+Data }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 16 of file growing\+Tree\+Element.\+h.
+
+
+\begin{DoxyCode}
+17                 \{
+18                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1growingTreeElement_ae56213ef46269673e10a4046d7cfc7e4}{dataElement} < otherData.dataElement;
+19                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1growingTreeElement_af928932ccf63dd846c014750d3a7d020}\label{classfp_1_1growingTreeElement_af928932ccf63dd846c014750d3a7d020}} 
+\index{fp\+::growing\+Tree\+Element@{fp\+::growing\+Tree\+Element}!return\+Data\+Element@{return\+Data\+Element}}
+\index{return\+Data\+Element@{return\+Data\+Element}!fp\+::growing\+Tree\+Element@{fp\+::growing\+Tree\+Element}}
+\subsubsection{\texorpdfstring{return\+Data\+Element()}{returnDataElement()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \hyperlink{classfp_1_1growingTreeElement}{fp\+::growing\+Tree\+Element}$<$ T $>$\+::return\+Data\+Element (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 25 of file growing\+Tree\+Element.\+h.
+
+
+\begin{DoxyCode}
+25                                             \{
+26                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1growingTreeElement_ae56213ef46269673e10a4046d7cfc7e4}{dataElement};
+27                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1growingTreeElement_a9c18aa94771185dbd8b8bf12dde0070d}\label{classfp_1_1growingTreeElement_a9c18aa94771185dbd8b8bf12dde0070d}} 
+\index{fp\+::growing\+Tree\+Element@{fp\+::growing\+Tree\+Element}!return\+Data\+Index@{return\+Data\+Index}}
+\index{return\+Data\+Index@{return\+Data\+Index}!fp\+::growing\+Tree\+Element@{fp\+::growing\+Tree\+Element}}
+\subsubsection{\texorpdfstring{return\+Data\+Index()}{returnDataIndex()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1growingTreeElement}{fp\+::growing\+Tree\+Element}$<$ T $>$\+::return\+Data\+Index (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 21 of file growing\+Tree\+Element.\+h.
+
+
+\begin{DoxyCode}
+21                                             \{
+22                     \textcolor{keywordflow}{return} \hyperlink{classfp_1_1growingTreeElement_a8ba52aff2a9d11fa59a2544fd05c7d45}{dataIndex};
+23                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1growingTreeElement_aa7d20a6d37bef8bbd573a946f664a5c2}\label{classfp_1_1growingTreeElement_aa7d20a6d37bef8bbd573a946f664a5c2}} 
+\index{fp\+::growing\+Tree\+Element@{fp\+::growing\+Tree\+Element}!set\+Data\+Element@{set\+Data\+Element}}
+\index{set\+Data\+Element@{set\+Data\+Element}!fp\+::growing\+Tree\+Element@{fp\+::growing\+Tree\+Element}}
+\subsubsection{\texorpdfstring{set\+Data\+Element()}{setDataElement()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1growingTreeElement}{fp\+::growing\+Tree\+Element}$<$ T $>$\+::set\+Data\+Element (\begin{DoxyParamCaption}\item[{T}]{d\+Element }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 42 of file growing\+Tree\+Element.\+h.
+
+
+\begin{DoxyCode}
+42                                                       \{
+43                     \hyperlink{classfp_1_1growingTreeElement_ae56213ef46269673e10a4046d7cfc7e4}{dataElement} = dElement;
+44                 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1growingTreeElement_af343b7265672cf507c5f834c9e005952}\label{classfp_1_1growingTreeElement_af343b7265672cf507c5f834c9e005952}} 
+\index{fp\+::growing\+Tree\+Element@{fp\+::growing\+Tree\+Element}!set\+Index@{set\+Index}}
+\index{set\+Index@{set\+Index}!fp\+::growing\+Tree\+Element@{fp\+::growing\+Tree\+Element}}
+\subsubsection{\texorpdfstring{set\+Index()}{setIndex()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1growingTreeElement}{fp\+::growing\+Tree\+Element}$<$ T $>$\+::set\+Index (\begin{DoxyParamCaption}\item[{int}]{d\+Lab }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 38 of file growing\+Tree\+Element.\+h.
+
+
+\begin{DoxyCode}
+38                                               \{
+39                     \hyperlink{classfp_1_1growingTreeElement_a8ba52aff2a9d11fa59a2544fd05c7d45}{dataIndex} = dLab;
+40                 \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1growingTreeElement_ae56213ef46269673e10a4046d7cfc7e4}\label{classfp_1_1growingTreeElement_ae56213ef46269673e10a4046d7cfc7e4}} 
+\index{fp\+::growing\+Tree\+Element@{fp\+::growing\+Tree\+Element}!data\+Element@{data\+Element}}
+\index{data\+Element@{data\+Element}!fp\+::growing\+Tree\+Element@{fp\+::growing\+Tree\+Element}}
+\subsubsection{\texorpdfstring{data\+Element}{dataElement}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \hyperlink{classfp_1_1growingTreeElement}{fp\+::growing\+Tree\+Element}$<$ T $>$\+::data\+Element\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 12 of file growing\+Tree\+Element.\+h.
+
+\mbox{\Hypertarget{classfp_1_1growingTreeElement_a8ba52aff2a9d11fa59a2544fd05c7d45}\label{classfp_1_1growingTreeElement_a8ba52aff2a9d11fa59a2544fd05c7d45}} 
+\index{fp\+::growing\+Tree\+Element@{fp\+::growing\+Tree\+Element}!data\+Index@{data\+Index}}
+\index{data\+Index@{data\+Index}!fp\+::growing\+Tree\+Element@{fp\+::growing\+Tree\+Element}}
+\subsubsection{\texorpdfstring{data\+Index}{dataIndex}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1growingTreeElement}{fp\+::growing\+Tree\+Element}$<$ T $>$\+::data\+Index\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 11 of file growing\+Tree\+Element.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/base\+Functions/fp\+Growing\+Tree\+Helpers/\hyperlink{growingTreeElement_8h}{growing\+Tree\+Element.\+h}\end{DoxyCompactItemize}

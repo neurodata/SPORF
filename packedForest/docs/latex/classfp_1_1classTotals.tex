@@ -1,0 +1,312 @@
+\hypertarget{classfp_1_1classTotals}{}\section{fp\+:\+:class\+Totals Class Reference}
+\label{classfp_1_1classTotals}\index{fp\+::class\+Totals@{fp\+::class\+Totals}}
+
+
+{\ttfamily \#include $<$fp\+Split.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classfp_1_1classTotals_af1d0b6b91ce2569bf672f1b7d9ce911f}{class\+Totals} ()
+\item 
+int \hyperlink{classfp_1_1classTotals_ace51088c43d444d4bcdbe423909c5b91}{return\+Largest\+Class} ()
+\item 
+void \hyperlink{classfp_1_1classTotals_a4d042d3a31d3f03d577bd4ad02bb5e6a}{find\+Num\+Classes} (std\+::vector$<$ int $>$ \&labs)
+\item 
+int \hyperlink{classfp_1_1classTotals_ad4bc21663842003780efaf9fd2b75360}{return\+Num\+Items} ()
+\item 
+double \hyperlink{classfp_1_1classTotals_a82993575e2ad13f057f01050a52ef4ce}{return\+Impurity} ()
+\item 
+void \hyperlink{classfp_1_1classTotals_a026ec5ce8d0ad54702891c0d6ba51fc8}{set\+Class\+Vec\+Size} (int new\+Size)
+\item 
+int \hyperlink{classfp_1_1classTotals_a088c363e5ae669d52e4836bc900d6a73}{return\+Class\+Vec\+Size} ()
+\item 
+double \hyperlink{classfp_1_1classTotals_a94eaf5d719442de6f7014b0630932bb8}{calc\+And\+Return\+Impurity} ()
+\item 
+void \hyperlink{classfp_1_1classTotals_af388dc1e664488603f7834da2f097a06}{decrement\+Class} (int class\+Num)
+\item 
+void \hyperlink{classfp_1_1classTotals_aa05c13b36638adc361d638559c43a447}{increment\+Class} (int class\+Num)
+\item 
+void \hyperlink{classfp_1_1classTotals_ab0ad9daa63bc410ae15f344b86386f87}{reset\+Class\+Totals} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classfp_1_1classTotals_a83aa8e17bf3b31db3ae19b9ab554624b}{max\+Class}
+\item 
+int \hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{total\+Num\+Obj}
+\item 
+double \hyperlink{classfp_1_1classTotals_acd239321a9b15e93e6de272c70b301b3}{impurity}
+\item 
+std\+::vector$<$ float $>$ \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{class\+Vec}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 103 of file fp\+Split.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classfp_1_1classTotals_af1d0b6b91ce2569bf672f1b7d9ce911f}\label{classfp_1_1classTotals_af1d0b6b91ce2569bf672f1b7d9ce911f}} 
+\index{fp\+::class\+Totals@{fp\+::class\+Totals}!class\+Totals@{class\+Totals}}
+\index{class\+Totals@{class\+Totals}!fp\+::class\+Totals@{fp\+::class\+Totals}}
+\subsubsection{\texorpdfstring{class\+Totals()}{classTotals()}}
+{\footnotesize\ttfamily fp\+::class\+Totals\+::class\+Totals (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 111 of file fp\+Split.\+h.
+
+
+\begin{DoxyCode}
+111 : \hyperlink{classfp_1_1classTotals_a83aa8e17bf3b31db3ae19b9ab554624b}{maxClass}(-1), \hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj}(0), \hyperlink{classfp_1_1classTotals_acd239321a9b15e93e6de272c70b301b3}{impurity}(-1)\{\}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1classTotals_a94eaf5d719442de6f7014b0630932bb8}\label{classfp_1_1classTotals_a94eaf5d719442de6f7014b0630932bb8}} 
+\index{fp\+::class\+Totals@{fp\+::class\+Totals}!calc\+And\+Return\+Impurity@{calc\+And\+Return\+Impurity}}
+\index{calc\+And\+Return\+Impurity@{calc\+And\+Return\+Impurity}!fp\+::class\+Totals@{fp\+::class\+Totals}}
+\subsubsection{\texorpdfstring{calc\+And\+Return\+Impurity()}{calcAndReturnImpurity()}}
+{\footnotesize\ttfamily double fp\+::class\+Totals\+::calc\+And\+Return\+Impurity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 153 of file fp\+Split.\+h.
+
+
+\begin{DoxyCode}
+153                                                  \{
+154                 \textcolor{keywordflow}{if}(\textcolor{keyword}{false})\{ \textcolor{comment}{//use gini impurity}
+155                     \textcolor{keywordtype}{int} sumClassTotalsSquared = 0;
+156                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} i : \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec})\{
+157                         sumClassTotalsSquared+=i*i;
+158                     \}
+159                     \textcolor{keywordflow}{return} 1.0-double(sumClassTotalsSquared)/double(\hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj}*
+      \hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj});
+160                 \}\textcolor{keywordflow}{else}\{ \textcolor{comment}{//use what is this?}
+161                     \textcolor{keywordtype}{double} impSum = 0;
+162                     \textcolor{keywordtype}{double} classPercent;
+163                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} i : \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec})\{
+164                         classPercent = double(i)/double(\hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj});
+165 
+166                         impSum += double(i)*(1.0-classPercent);
+167                     \}
+168                     \textcolor{keywordflow}{return} impSum;
+169                 \}
+170             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1classTotals_af388dc1e664488603f7834da2f097a06}\label{classfp_1_1classTotals_af388dc1e664488603f7834da2f097a06}} 
+\index{fp\+::class\+Totals@{fp\+::class\+Totals}!decrement\+Class@{decrement\+Class}}
+\index{decrement\+Class@{decrement\+Class}!fp\+::class\+Totals@{fp\+::class\+Totals}}
+\subsubsection{\texorpdfstring{decrement\+Class()}{decrementClass()}}
+{\footnotesize\ttfamily void fp\+::class\+Totals\+::decrement\+Class (\begin{DoxyParamCaption}\item[{int}]{class\+Num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 173 of file fp\+Split.\+h.
+
+
+\begin{DoxyCode}
+173                                                     \{
+174                 --\hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}[classNum];
+175                 --\hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj};
+176             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1classTotals_a4d042d3a31d3f03d577bd4ad02bb5e6a}\label{classfp_1_1classTotals_a4d042d3a31d3f03d577bd4ad02bb5e6a}} 
+\index{fp\+::class\+Totals@{fp\+::class\+Totals}!find\+Num\+Classes@{find\+Num\+Classes}}
+\index{find\+Num\+Classes@{find\+Num\+Classes}!fp\+::class\+Totals@{fp\+::class\+Totals}}
+\subsubsection{\texorpdfstring{find\+Num\+Classes()}{findNumClasses()}}
+{\footnotesize\ttfamily void fp\+::class\+Totals\+::find\+Num\+Classes (\begin{DoxyParamCaption}\item[{std\+::vector$<$ int $>$ \&}]{labs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 125 of file fp\+Split.\+h.
+
+
+\begin{DoxyCode}
+125                                                      \{
+126                 \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} i : labs)\{
+127                     \textcolor{keywordflow}{if}(i>\hyperlink{classfp_1_1classTotals_a83aa8e17bf3b31db3ae19b9ab554624b}{maxClass})\{
+128                         \hyperlink{classfp_1_1classTotals_a83aa8e17bf3b31db3ae19b9ab554624b}{maxClass} = i;
+129                         \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.resize(i+1);
+130                     \}
+131                     ++\hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}[i];
+132                     ++\hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj};
+133                 \}
+134             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1classTotals_aa05c13b36638adc361d638559c43a447}\label{classfp_1_1classTotals_aa05c13b36638adc361d638559c43a447}} 
+\index{fp\+::class\+Totals@{fp\+::class\+Totals}!increment\+Class@{increment\+Class}}
+\index{increment\+Class@{increment\+Class}!fp\+::class\+Totals@{fp\+::class\+Totals}}
+\subsubsection{\texorpdfstring{increment\+Class()}{incrementClass()}}
+{\footnotesize\ttfamily void fp\+::class\+Totals\+::increment\+Class (\begin{DoxyParamCaption}\item[{int}]{class\+Num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 179 of file fp\+Split.\+h.
+
+
+\begin{DoxyCode}
+179                                                     \{
+180                 ++\hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}[classNum];
+181                 ++\hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj};
+182             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1classTotals_ab0ad9daa63bc410ae15f344b86386f87}\label{classfp_1_1classTotals_ab0ad9daa63bc410ae15f344b86386f87}} 
+\index{fp\+::class\+Totals@{fp\+::class\+Totals}!reset\+Class\+Totals@{reset\+Class\+Totals}}
+\index{reset\+Class\+Totals@{reset\+Class\+Totals}!fp\+::class\+Totals@{fp\+::class\+Totals}}
+\subsubsection{\texorpdfstring{reset\+Class\+Totals()}{resetClassTotals()}}
+{\footnotesize\ttfamily void fp\+::class\+Totals\+::reset\+Class\+Totals (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 185 of file fp\+Split.\+h.
+
+
+\begin{DoxyCode}
+185                                           \{
+186                 std::fill(\hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.begin(), \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.end(), 0);
+187                 \hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj}=0;
+188             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1classTotals_a088c363e5ae669d52e4836bc900d6a73}\label{classfp_1_1classTotals_a088c363e5ae669d52e4836bc900d6a73}} 
+\index{fp\+::class\+Totals@{fp\+::class\+Totals}!return\+Class\+Vec\+Size@{return\+Class\+Vec\+Size}}
+\index{return\+Class\+Vec\+Size@{return\+Class\+Vec\+Size}!fp\+::class\+Totals@{fp\+::class\+Totals}}
+\subsubsection{\texorpdfstring{return\+Class\+Vec\+Size()}{returnClassVecSize()}}
+{\footnotesize\ttfamily int fp\+::class\+Totals\+::return\+Class\+Vec\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 149 of file fp\+Split.\+h.
+
+
+\begin{DoxyCode}
+149                                            \{
+150                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.size();
+151             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1classTotals_a82993575e2ad13f057f01050a52ef4ce}\label{classfp_1_1classTotals_a82993575e2ad13f057f01050a52ef4ce}} 
+\index{fp\+::class\+Totals@{fp\+::class\+Totals}!return\+Impurity@{return\+Impurity}}
+\index{return\+Impurity@{return\+Impurity}!fp\+::class\+Totals@{fp\+::class\+Totals}}
+\subsubsection{\texorpdfstring{return\+Impurity()}{returnImpurity()}}
+{\footnotesize\ttfamily double fp\+::class\+Totals\+::return\+Impurity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 140 of file fp\+Split.\+h.
+
+
+\begin{DoxyCode}
+140                                    \{
+141                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1classTotals_acd239321a9b15e93e6de272c70b301b3}{impurity};
+142             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1classTotals_ace51088c43d444d4bcdbe423909c5b91}\label{classfp_1_1classTotals_ace51088c43d444d4bcdbe423909c5b91}} 
+\index{fp\+::class\+Totals@{fp\+::class\+Totals}!return\+Largest\+Class@{return\+Largest\+Class}}
+\index{return\+Largest\+Class@{return\+Largest\+Class}!fp\+::class\+Totals@{fp\+::class\+Totals}}
+\subsubsection{\texorpdfstring{return\+Largest\+Class()}{returnLargestClass()}}
+{\footnotesize\ttfamily int fp\+::class\+Totals\+::return\+Largest\+Class (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 113 of file fp\+Split.\+h.
+
+
+\begin{DoxyCode}
+113                                            \{
+114                 \textcolor{keywordtype}{int} largestClass=-1; 
+115                 \textcolor{keywordtype}{int} numInClass=-1;
+116                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i <= \hyperlink{classfp_1_1classTotals_a83aa8e17bf3b31db3ae19b9ab554624b}{maxClass}; ++i)\{
+117                     \textcolor{keywordflow}{if}(\hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}[i] > numInClass)\{
+118                         numInClass = \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}[i];
+119                         largestClass = i;
+120                     \}
+121                 \}
+122                 \textcolor{keywordflow}{return} largestClass;
+123             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1classTotals_ad4bc21663842003780efaf9fd2b75360}\label{classfp_1_1classTotals_ad4bc21663842003780efaf9fd2b75360}} 
+\index{fp\+::class\+Totals@{fp\+::class\+Totals}!return\+Num\+Items@{return\+Num\+Items}}
+\index{return\+Num\+Items@{return\+Num\+Items}!fp\+::class\+Totals@{fp\+::class\+Totals}}
+\subsubsection{\texorpdfstring{return\+Num\+Items()}{returnNumItems()}}
+{\footnotesize\ttfamily int fp\+::class\+Totals\+::return\+Num\+Items (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 136 of file fp\+Split.\+h.
+
+
+\begin{DoxyCode}
+136                                 \{
+137                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}{totalNumObj};
+138             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1classTotals_a026ec5ce8d0ad54702891c0d6ba51fc8}\label{classfp_1_1classTotals_a026ec5ce8d0ad54702891c0d6ba51fc8}} 
+\index{fp\+::class\+Totals@{fp\+::class\+Totals}!set\+Class\+Vec\+Size@{set\+Class\+Vec\+Size}}
+\index{set\+Class\+Vec\+Size@{set\+Class\+Vec\+Size}!fp\+::class\+Totals@{fp\+::class\+Totals}}
+\subsubsection{\texorpdfstring{set\+Class\+Vec\+Size()}{setClassVecSize()}}
+{\footnotesize\ttfamily void fp\+::class\+Totals\+::set\+Class\+Vec\+Size (\begin{DoxyParamCaption}\item[{int}]{new\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 144 of file fp\+Split.\+h.
+
+
+\begin{DoxyCode}
+144                                                     \{
+145                 \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.resize(newSize);
+146                 std::fill(\hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.begin(), \hyperlink{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}{classVec}.end(), 0.0);
+147             \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}\label{classfp_1_1classTotals_af96102537592dbda8601d0235dfccfca}} 
+\index{fp\+::class\+Totals@{fp\+::class\+Totals}!class\+Vec@{class\+Vec}}
+\index{class\+Vec@{class\+Vec}!fp\+::class\+Totals@{fp\+::class\+Totals}}
+\subsubsection{\texorpdfstring{class\+Vec}{classVec}}
+{\footnotesize\ttfamily std\+::vector$<$float$>$ fp\+::class\+Totals\+::class\+Vec\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 108 of file fp\+Split.\+h.
+
+\mbox{\Hypertarget{classfp_1_1classTotals_acd239321a9b15e93e6de272c70b301b3}\label{classfp_1_1classTotals_acd239321a9b15e93e6de272c70b301b3}} 
+\index{fp\+::class\+Totals@{fp\+::class\+Totals}!impurity@{impurity}}
+\index{impurity@{impurity}!fp\+::class\+Totals@{fp\+::class\+Totals}}
+\subsubsection{\texorpdfstring{impurity}{impurity}}
+{\footnotesize\ttfamily double fp\+::class\+Totals\+::impurity\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 107 of file fp\+Split.\+h.
+
+\mbox{\Hypertarget{classfp_1_1classTotals_a83aa8e17bf3b31db3ae19b9ab554624b}\label{classfp_1_1classTotals_a83aa8e17bf3b31db3ae19b9ab554624b}} 
+\index{fp\+::class\+Totals@{fp\+::class\+Totals}!max\+Class@{max\+Class}}
+\index{max\+Class@{max\+Class}!fp\+::class\+Totals@{fp\+::class\+Totals}}
+\subsubsection{\texorpdfstring{max\+Class}{maxClass}}
+{\footnotesize\ttfamily int fp\+::class\+Totals\+::max\+Class\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 105 of file fp\+Split.\+h.
+
+\mbox{\Hypertarget{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}\label{classfp_1_1classTotals_a97be63e3e4a1b7c553df839034828aae}} 
+\index{fp\+::class\+Totals@{fp\+::class\+Totals}!total\+Num\+Obj@{total\+Num\+Obj}}
+\index{total\+Num\+Obj@{total\+Num\+Obj}!fp\+::class\+Totals@{fp\+::class\+Totals}}
+\subsubsection{\texorpdfstring{total\+Num\+Obj}{totalNumObj}}
+{\footnotesize\ttfamily int fp\+::class\+Totals\+::total\+Num\+Obj\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 106 of file fp\+Split.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/base\+Functions/\hyperlink{fpSplit_8h}{fp\+Split.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,776 @@
+\hypertarget{classrfNode}{}\section{rf\+Node$<$ T $>$ Class Template Reference}
+\label{classrfNode}\index{rf\+Node$<$ T $>$@{rf\+Node$<$ T $>$}}
+
+
+{\ttfamily \#include $<$rf\+Node.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrfNode_afdc668c17dc9190635c088b54f251732}{rf\+Node} ()
+\item 
+bool \hyperlink{classrfNode_a1df9f7bc841c6df1ef5aa67a72c6d09c}{is\+Internal\+Node} ()
+\item 
+int \hyperlink{classrfNode_a0e95db0d0008bf347f53343cbcd5a38e}{return\+Depth} ()
+\item 
+void \hyperlink{classrfNode_a3de3a667502b31a45f90e92a7ae767e8}{set\+Depth} (int dep)
+\item 
+T \hyperlink{classrfNode_a8d51a6acaff3d3dca74881b55743884f}{return\+Cut\+Value} ()
+\item 
+void \hyperlink{classrfNode_aa37983f12ed98b25ff306313b93bb249}{set\+Cut\+Value} (T c\+Val)
+\item 
+void \hyperlink{classrfNode_a6a713bccdf5e59978075b0171bdaae73}{set\+Feature\+Value} (int f\+Val)
+\item 
+int \hyperlink{classrfNode_a060b06548e267392449252e14e9edab1}{return\+Feature\+Number} ()
+\item 
+int \hyperlink{classrfNode_a97148e8fd84a37471ab7ad5e7bdc12a4}{return\+Left\+Node\+ID} ()
+\item 
+int \hyperlink{classrfNode_aef5c965bd9810b3573057d611dcca7f5}{return\+Right\+Node\+ID} ()
+\item 
+int \hyperlink{classrfNode_aa43edab3527a456028116928e83b123d}{return\+Class} ()
+\item 
+void \hyperlink{classrfNode_a61c8f87f97999e0123a1f4655ffedd15}{set\+Class} (int class\+Num)
+\item 
+void \hyperlink{classrfNode_a959c72aff3d20ca0552d2369e7d88188}{set\+Left\+Value} (int L\+Val)
+\item 
+void \hyperlink{classrfNode_a473dc8da457727bc50dea408320e6993}{set\+Right\+Value} (int R\+Val)
+\item 
+bool \hyperlink{classrfNode_a973b8c555b2b07873b588dd4bc307605}{go\+Left} (T feature\+Value)
+\item 
+int \hyperlink{classrfNode_a1be14784687b46395585c9513748143d}{next\+Node} (T feature\+Value)
+\item 
+virtual void \hyperlink{classrfNode_afaa1b6e358070f895504f4faaefe5f37}{print\+Node} ()
+\item 
+\hyperlink{classrfNode_afdc668c17dc9190635c088b54f251732}{rf\+Node} ()
+\item 
+bool \hyperlink{classrfNode_a1df9f7bc841c6df1ef5aa67a72c6d09c}{is\+Internal\+Node} ()
+\item 
+int \hyperlink{classrfNode_a0e95db0d0008bf347f53343cbcd5a38e}{return\+Depth} ()
+\item 
+void \hyperlink{classrfNode_a3de3a667502b31a45f90e92a7ae767e8}{set\+Depth} (int dep)
+\item 
+T \hyperlink{classrfNode_a8d51a6acaff3d3dca74881b55743884f}{return\+Cut\+Value} ()
+\item 
+void \hyperlink{classrfNode_aa37983f12ed98b25ff306313b93bb249}{set\+Cut\+Value} (T c\+Val)
+\item 
+void \hyperlink{classrfNode_a6a713bccdf5e59978075b0171bdaae73}{set\+Feature\+Value} (int f\+Val)
+\item 
+int \hyperlink{classrfNode_a060b06548e267392449252e14e9edab1}{return\+Feature\+Number} ()
+\item 
+int \hyperlink{classrfNode_a97148e8fd84a37471ab7ad5e7bdc12a4}{return\+Left\+Node\+ID} ()
+\item 
+int \hyperlink{classrfNode_aef5c965bd9810b3573057d611dcca7f5}{return\+Right\+Node\+ID} ()
+\item 
+int \hyperlink{classrfNode_aa43edab3527a456028116928e83b123d}{return\+Class} ()
+\item 
+void \hyperlink{classrfNode_a61c8f87f97999e0123a1f4655ffedd15}{set\+Class} (int class\+Num)
+\item 
+void \hyperlink{classrfNode_a959c72aff3d20ca0552d2369e7d88188}{set\+Left\+Value} (int L\+Val)
+\item 
+void \hyperlink{classrfNode_a473dc8da457727bc50dea408320e6993}{set\+Right\+Value} (int R\+Val)
+\item 
+bool \hyperlink{classrfNode_a973b8c555b2b07873b588dd4bc307605}{go\+Left} (T feature\+Value)
+\item 
+int \hyperlink{classrfNode_a1be14784687b46395585c9513748143d}{next\+Node} (T feature\+Value)
+\item 
+virtual void \hyperlink{classrfNode_afaa1b6e358070f895504f4faaefe5f37}{print\+Node} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classrfNode_ac8e195fc3d8a9647f10a42153d76119f}{left}
+\item 
+int \hyperlink{classrfNode_ac8c0dd14a4e53f9b831f326f5d197e0e}{feature}
+\item 
+T \hyperlink{classrfNode_a49b9c55f11f1f3898eb7811f78f68796}{cut\+Value}
+\item 
+int \hyperlink{classrfNode_a01e57d43ac8af60d16880544e99ed965}{right}
+\item 
+int \hyperlink{classrfNode_a7cb8fb854d8ec90635bd7207d8b8c31e}{depth}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class rf\+Node$<$ T $>$}
+
+
+
+Definition at line 7 of file rf\+Node.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classrfNode_afdc668c17dc9190635c088b54f251732}\label{classrfNode_afdc668c17dc9190635c088b54f251732}} 
+\index{rf\+Node@{rf\+Node}!rf\+Node@{rf\+Node}}
+\index{rf\+Node@{rf\+Node}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{rf\+Node()}{rfNode()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::\hyperlink{classrfNode}{rf\+Node} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 17 of file rf\+Node.\+h.
+
+
+\begin{DoxyCode}
+17 :\hyperlink{classrfNode_ac8e195fc3d8a9647f10a42153d76119f}{left}(0), \hyperlink{classrfNode_ac8c0dd14a4e53f9b831f326f5d197e0e}{feature}(0), \hyperlink{classrfNode_a01e57d43ac8af60d16880544e99ed965}{right}(0), \hyperlink{classrfNode_a7cb8fb854d8ec90635bd7207d8b8c31e}{depth}(0)\{\}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_afdc668c17dc9190635c088b54f251732}\label{classrfNode_afdc668c17dc9190635c088b54f251732}} 
+\index{rf\+Node@{rf\+Node}!rf\+Node@{rf\+Node}}
+\index{rf\+Node@{rf\+Node}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{rf\+Node()}{rfNode()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::\hyperlink{classrfNode}{rf\+Node} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 17 of file small\+Sample\+Node.\+h.
+
+
+\begin{DoxyCode}
+17 :\hyperlink{classrfNode_ac8e195fc3d8a9647f10a42153d76119f}{left}(0), \hyperlink{classrfNode_ac8c0dd14a4e53f9b831f326f5d197e0e}{feature}(0), \hyperlink{classrfNode_a01e57d43ac8af60d16880544e99ed965}{right}(0), \hyperlink{classrfNode_a7cb8fb854d8ec90635bd7207d8b8c31e}{depth}(0)\{\}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classrfNode_a973b8c555b2b07873b588dd4bc307605}\label{classrfNode_a973b8c555b2b07873b588dd4bc307605}} 
+\index{rf\+Node@{rf\+Node}!go\+Left@{go\+Left}}
+\index{go\+Left@{go\+Left}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{go\+Left()}{goLeft()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::go\+Left (\begin{DoxyParamCaption}\item[{T}]{feature\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 70 of file rf\+Node.\+h.
+
+
+\begin{DoxyCode}
+70                                           \{
+71             \textcolor{keywordflow}{return} featureValue < \hyperlink{classrfNode_a49b9c55f11f1f3898eb7811f78f68796}{cutValue};
+72         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a973b8c555b2b07873b588dd4bc307605}\label{classrfNode_a973b8c555b2b07873b588dd4bc307605}} 
+\index{rf\+Node@{rf\+Node}!go\+Left@{go\+Left}}
+\index{go\+Left@{go\+Left}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{go\+Left()}{goLeft()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::go\+Left (\begin{DoxyParamCaption}\item[{T}]{feature\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 70 of file small\+Sample\+Node.\+h.
+
+
+\begin{DoxyCode}
+70                                           \{
+71             \textcolor{keywordflow}{return} featureValue < \hyperlink{classrfNode_a49b9c55f11f1f3898eb7811f78f68796}{cutValue};
+72         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a1df9f7bc841c6df1ef5aa67a72c6d09c}\label{classrfNode_a1df9f7bc841c6df1ef5aa67a72c6d09c}} 
+\index{rf\+Node@{rf\+Node}!is\+Internal\+Node@{is\+Internal\+Node}}
+\index{is\+Internal\+Node@{is\+Internal\+Node}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{is\+Internal\+Node()}{isInternalNode()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::is\+Internal\+Node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 18 of file small\+Sample\+Node.\+h.
+
+
+\begin{DoxyCode}
+18                                     \{
+19             \textcolor{keywordflow}{return} \hyperlink{classrfNode_ac8e195fc3d8a9647f10a42153d76119f}{left};
+20         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a1df9f7bc841c6df1ef5aa67a72c6d09c}\label{classrfNode_a1df9f7bc841c6df1ef5aa67a72c6d09c}} 
+\index{rf\+Node@{rf\+Node}!is\+Internal\+Node@{is\+Internal\+Node}}
+\index{is\+Internal\+Node@{is\+Internal\+Node}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{is\+Internal\+Node()}{isInternalNode()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::is\+Internal\+Node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 18 of file rf\+Node.\+h.
+
+
+\begin{DoxyCode}
+18                                     \{
+19             \textcolor{keywordflow}{return} \hyperlink{classrfNode_ac8e195fc3d8a9647f10a42153d76119f}{left};
+20         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a1be14784687b46395585c9513748143d}\label{classrfNode_a1be14784687b46395585c9513748143d}} 
+\index{rf\+Node@{rf\+Node}!next\+Node@{next\+Node}}
+\index{next\+Node@{next\+Node}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{next\+Node()}{nextNode()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::next\+Node (\begin{DoxyParamCaption}\item[{T}]{feature\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 74 of file rf\+Node.\+h.
+
+
+\begin{DoxyCode}
+74                                            \{
+75             \textcolor{keywordflow}{return} (featureValue < \hyperlink{classrfNode_a49b9c55f11f1f3898eb7811f78f68796}{cutValue}) ? \hyperlink{classrfNode_ac8e195fc3d8a9647f10a42153d76119f}{left} : \hyperlink{classrfNode_a01e57d43ac8af60d16880544e99ed965}{right};
+76         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a1be14784687b46395585c9513748143d}\label{classrfNode_a1be14784687b46395585c9513748143d}} 
+\index{rf\+Node@{rf\+Node}!next\+Node@{next\+Node}}
+\index{next\+Node@{next\+Node}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{next\+Node()}{nextNode()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::next\+Node (\begin{DoxyParamCaption}\item[{T}]{feature\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 74 of file small\+Sample\+Node.\+h.
+
+
+\begin{DoxyCode}
+74                                            \{
+75             \textcolor{keywordflow}{return} (featureValue < \hyperlink{classrfNode_a49b9c55f11f1f3898eb7811f78f68796}{cutValue}) ? \hyperlink{classrfNode_ac8e195fc3d8a9647f10a42153d76119f}{left} : \hyperlink{classrfNode_a01e57d43ac8af60d16880544e99ed965}{right};
+76         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_afaa1b6e358070f895504f4faaefe5f37}\label{classrfNode_afaa1b6e358070f895504f4faaefe5f37}} 
+\index{rf\+Node@{rf\+Node}!print\+Node@{print\+Node}}
+\index{print\+Node@{print\+Node}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{print\+Node()}{printNode()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+virtual void \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::print\+Node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Definition at line 78 of file rf\+Node.\+h.
+
+
+\begin{DoxyCode}
+78                                 \{
+79             \textcolor{keywordflow}{if}(\hyperlink{classrfNode_a1df9f7bc841c6df1ef5aa67a72c6d09c}{isInternalNode}())\{
+80                 std::cout << \textcolor{stringliteral}{"internal "};
+81             \}\textcolor{keywordflow}{else}\{
+82                 std::cout << \textcolor{stringliteral}{"leaf "};
+83             \}
+84             std::cout << \textcolor{stringliteral}{"cutValue "} << \hyperlink{classrfNode_a49b9c55f11f1f3898eb7811f78f68796}{cutValue} <<\textcolor{stringliteral}{", feature "} << 
+      \hyperlink{classrfNode_ac8c0dd14a4e53f9b831f326f5d197e0e}{feature} << \textcolor{stringliteral}{", left "} << \hyperlink{classrfNode_ac8e195fc3d8a9647f10a42153d76119f}{left} << \textcolor{stringliteral}{", right "} << \hyperlink{classrfNode_a01e57d43ac8af60d16880544e99ed965}{right} << \textcolor{stringliteral}{", depth "} << 
+      \hyperlink{classrfNode_a7cb8fb854d8ec90635bd7207d8b8c31e}{depth} << \textcolor{stringliteral}{"\(\backslash\)n"};
+85         \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=325pt]{classrfNode_afaa1b6e358070f895504f4faaefe5f37_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classrfNode_afaa1b6e358070f895504f4faaefe5f37}\label{classrfNode_afaa1b6e358070f895504f4faaefe5f37}} 
+\index{rf\+Node@{rf\+Node}!print\+Node@{print\+Node}}
+\index{print\+Node@{print\+Node}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{print\+Node()}{printNode()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+virtual void \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::print\+Node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Definition at line 78 of file small\+Sample\+Node.\+h.
+
+
+\begin{DoxyCode}
+78                                 \{
+79             \textcolor{keywordflow}{if}(\hyperlink{classrfNode_a1df9f7bc841c6df1ef5aa67a72c6d09c}{isInternalNode}())\{
+80                 std::cout << \textcolor{stringliteral}{"internal "};
+81             \}\textcolor{keywordflow}{else}\{
+82                 std::cout << \textcolor{stringliteral}{"leaf "};
+83             \}
+84             std::cout << \textcolor{stringliteral}{"cutValue "} << \hyperlink{classrfNode_a49b9c55f11f1f3898eb7811f78f68796}{cutValue} <<\textcolor{stringliteral}{", feature "} << 
+      \hyperlink{classrfNode_ac8c0dd14a4e53f9b831f326f5d197e0e}{feature} << \textcolor{stringliteral}{", left "} << \hyperlink{classrfNode_ac8e195fc3d8a9647f10a42153d76119f}{left} << \textcolor{stringliteral}{", right "} << \hyperlink{classrfNode_a01e57d43ac8af60d16880544e99ed965}{right} << \textcolor{stringliteral}{", depth "} << 
+      \hyperlink{classrfNode_a7cb8fb854d8ec90635bd7207d8b8c31e}{depth} << \textcolor{stringliteral}{"\(\backslash\)n"};
+85         \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=325pt]{classrfNode_afaa1b6e358070f895504f4faaefe5f37_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classrfNode_aa43edab3527a456028116928e83b123d}\label{classrfNode_aa43edab3527a456028116928e83b123d}} 
+\index{rf\+Node@{rf\+Node}!return\+Class@{return\+Class}}
+\index{return\+Class@{return\+Class}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{return\+Class()}{returnClass()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::return\+Class (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 53 of file rf\+Node.\+h.
+
+
+\begin{DoxyCode}
+53                                 \{
+54             \textcolor{keywordflow}{return} \hyperlink{classrfNode_a01e57d43ac8af60d16880544e99ed965}{right};  
+55         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_aa43edab3527a456028116928e83b123d}\label{classrfNode_aa43edab3527a456028116928e83b123d}} 
+\index{rf\+Node@{rf\+Node}!return\+Class@{return\+Class}}
+\index{return\+Class@{return\+Class}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{return\+Class()}{returnClass()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::return\+Class (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 53 of file small\+Sample\+Node.\+h.
+
+
+\begin{DoxyCode}
+53                                 \{
+54             \textcolor{keywordflow}{return} \hyperlink{classrfNode_a01e57d43ac8af60d16880544e99ed965}{right};  
+55         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a8d51a6acaff3d3dca74881b55743884f}\label{classrfNode_a8d51a6acaff3d3dca74881b55743884f}} 
+\index{rf\+Node@{rf\+Node}!return\+Cut\+Value@{return\+Cut\+Value}}
+\index{return\+Cut\+Value@{return\+Cut\+Value}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{return\+Cut\+Value()}{returnCutValue()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::return\+Cut\+Value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 30 of file rf\+Node.\+h.
+
+
+\begin{DoxyCode}
+30                                  \{
+31             \textcolor{keywordflow}{return} \hyperlink{classrfNode_a49b9c55f11f1f3898eb7811f78f68796}{cutValue};
+32         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a8d51a6acaff3d3dca74881b55743884f}\label{classrfNode_a8d51a6acaff3d3dca74881b55743884f}} 
+\index{rf\+Node@{rf\+Node}!return\+Cut\+Value@{return\+Cut\+Value}}
+\index{return\+Cut\+Value@{return\+Cut\+Value}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{return\+Cut\+Value()}{returnCutValue()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::return\+Cut\+Value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 30 of file small\+Sample\+Node.\+h.
+
+
+\begin{DoxyCode}
+30                                  \{
+31             \textcolor{keywordflow}{return} \hyperlink{classrfNode_a49b9c55f11f1f3898eb7811f78f68796}{cutValue};
+32         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a0e95db0d0008bf347f53343cbcd5a38e}\label{classrfNode_a0e95db0d0008bf347f53343cbcd5a38e}} 
+\index{rf\+Node@{rf\+Node}!return\+Depth@{return\+Depth}}
+\index{return\+Depth@{return\+Depth}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{return\+Depth()}{returnDepth()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::return\+Depth (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 22 of file rf\+Node.\+h.
+
+
+\begin{DoxyCode}
+22                                 \{
+23             \textcolor{keywordflow}{return} \hyperlink{classrfNode_a7cb8fb854d8ec90635bd7207d8b8c31e}{depth};
+24         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a0e95db0d0008bf347f53343cbcd5a38e}\label{classrfNode_a0e95db0d0008bf347f53343cbcd5a38e}} 
+\index{rf\+Node@{rf\+Node}!return\+Depth@{return\+Depth}}
+\index{return\+Depth@{return\+Depth}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{return\+Depth()}{returnDepth()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::return\+Depth (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 22 of file small\+Sample\+Node.\+h.
+
+
+\begin{DoxyCode}
+22                                 \{
+23             \textcolor{keywordflow}{return} \hyperlink{classrfNode_a7cb8fb854d8ec90635bd7207d8b8c31e}{depth};
+24         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a060b06548e267392449252e14e9edab1}\label{classrfNode_a060b06548e267392449252e14e9edab1}} 
+\index{rf\+Node@{rf\+Node}!return\+Feature\+Number@{return\+Feature\+Number}}
+\index{return\+Feature\+Number@{return\+Feature\+Number}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{return\+Feature\+Number()}{returnFeatureNumber()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::return\+Feature\+Number (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 41 of file small\+Sample\+Node.\+h.
+
+
+\begin{DoxyCode}
+41                                         \{
+42             \textcolor{keywordflow}{return} \hyperlink{classrfNode_ac8c0dd14a4e53f9b831f326f5d197e0e}{feature};
+43         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a060b06548e267392449252e14e9edab1}\label{classrfNode_a060b06548e267392449252e14e9edab1}} 
+\index{rf\+Node@{rf\+Node}!return\+Feature\+Number@{return\+Feature\+Number}}
+\index{return\+Feature\+Number@{return\+Feature\+Number}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{return\+Feature\+Number()}{returnFeatureNumber()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::return\+Feature\+Number (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 41 of file rf\+Node.\+h.
+
+
+\begin{DoxyCode}
+41                                         \{
+42             \textcolor{keywordflow}{return} \hyperlink{classrfNode_ac8c0dd14a4e53f9b831f326f5d197e0e}{feature};
+43         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a97148e8fd84a37471ab7ad5e7bdc12a4}\label{classrfNode_a97148e8fd84a37471ab7ad5e7bdc12a4}} 
+\index{rf\+Node@{rf\+Node}!return\+Left\+Node\+ID@{return\+Left\+Node\+ID}}
+\index{return\+Left\+Node\+ID@{return\+Left\+Node\+ID}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{return\+Left\+Node\+I\+D()}{returnLeftNodeID()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::return\+Left\+Node\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 45 of file rf\+Node.\+h.
+
+
+\begin{DoxyCode}
+45                                      \{
+46             \textcolor{keywordflow}{return} \hyperlink{classrfNode_ac8e195fc3d8a9647f10a42153d76119f}{left};    
+47         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a97148e8fd84a37471ab7ad5e7bdc12a4}\label{classrfNode_a97148e8fd84a37471ab7ad5e7bdc12a4}} 
+\index{rf\+Node@{rf\+Node}!return\+Left\+Node\+ID@{return\+Left\+Node\+ID}}
+\index{return\+Left\+Node\+ID@{return\+Left\+Node\+ID}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{return\+Left\+Node\+I\+D()}{returnLeftNodeID()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::return\+Left\+Node\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 45 of file small\+Sample\+Node.\+h.
+
+
+\begin{DoxyCode}
+45                                      \{
+46             \textcolor{keywordflow}{return} \hyperlink{classrfNode_ac8e195fc3d8a9647f10a42153d76119f}{left};    
+47         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_aef5c965bd9810b3573057d611dcca7f5}\label{classrfNode_aef5c965bd9810b3573057d611dcca7f5}} 
+\index{rf\+Node@{rf\+Node}!return\+Right\+Node\+ID@{return\+Right\+Node\+ID}}
+\index{return\+Right\+Node\+ID@{return\+Right\+Node\+ID}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{return\+Right\+Node\+I\+D()}{returnRightNodeID()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::return\+Right\+Node\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 49 of file rf\+Node.\+h.
+
+
+\begin{DoxyCode}
+49                                       \{
+50             \textcolor{keywordflow}{return} \hyperlink{classrfNode_a01e57d43ac8af60d16880544e99ed965}{right};
+51         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_aef5c965bd9810b3573057d611dcca7f5}\label{classrfNode_aef5c965bd9810b3573057d611dcca7f5}} 
+\index{rf\+Node@{rf\+Node}!return\+Right\+Node\+ID@{return\+Right\+Node\+ID}}
+\index{return\+Right\+Node\+ID@{return\+Right\+Node\+ID}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{return\+Right\+Node\+I\+D()}{returnRightNodeID()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::return\+Right\+Node\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 49 of file small\+Sample\+Node.\+h.
+
+
+\begin{DoxyCode}
+49                                       \{
+50             \textcolor{keywordflow}{return} \hyperlink{classrfNode_a01e57d43ac8af60d16880544e99ed965}{right};
+51         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a61c8f87f97999e0123a1f4655ffedd15}\label{classrfNode_a61c8f87f97999e0123a1f4655ffedd15}} 
+\index{rf\+Node@{rf\+Node}!set\+Class@{set\+Class}}
+\index{set\+Class@{set\+Class}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{set\+Class()}{setClass()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::set\+Class (\begin{DoxyParamCaption}\item[{int}]{class\+Num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 57 of file rf\+Node.\+h.
+
+
+\begin{DoxyCode}
+57                                           \{
+58             \hyperlink{classrfNode_a01e57d43ac8af60d16880544e99ed965}{right} = classNum;
+59             \hyperlink{classrfNode_ac8e195fc3d8a9647f10a42153d76119f}{left} = 0;
+60         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a61c8f87f97999e0123a1f4655ffedd15}\label{classrfNode_a61c8f87f97999e0123a1f4655ffedd15}} 
+\index{rf\+Node@{rf\+Node}!set\+Class@{set\+Class}}
+\index{set\+Class@{set\+Class}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{set\+Class()}{setClass()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::set\+Class (\begin{DoxyParamCaption}\item[{int}]{class\+Num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 57 of file small\+Sample\+Node.\+h.
+
+
+\begin{DoxyCode}
+57                                           \{
+58             \hyperlink{classrfNode_a01e57d43ac8af60d16880544e99ed965}{right} = classNum;
+59             \hyperlink{classrfNode_ac8e195fc3d8a9647f10a42153d76119f}{left} = 0;
+60         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_aa37983f12ed98b25ff306313b93bb249}\label{classrfNode_aa37983f12ed98b25ff306313b93bb249}} 
+\index{rf\+Node@{rf\+Node}!set\+Cut\+Value@{set\+Cut\+Value}}
+\index{set\+Cut\+Value@{set\+Cut\+Value}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{set\+Cut\+Value()}{setCutValue()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::set\+Cut\+Value (\begin{DoxyParamCaption}\item[{T}]{c\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 33 of file small\+Sample\+Node.\+h.
+
+
+\begin{DoxyCode}
+33                                        \{
+34             \hyperlink{classrfNode_a49b9c55f11f1f3898eb7811f78f68796}{cutValue} = cVal;
+35         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_aa37983f12ed98b25ff306313b93bb249}\label{classrfNode_aa37983f12ed98b25ff306313b93bb249}} 
+\index{rf\+Node@{rf\+Node}!set\+Cut\+Value@{set\+Cut\+Value}}
+\index{set\+Cut\+Value@{set\+Cut\+Value}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{set\+Cut\+Value()}{setCutValue()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::set\+Cut\+Value (\begin{DoxyParamCaption}\item[{T}]{c\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 33 of file rf\+Node.\+h.
+
+
+\begin{DoxyCode}
+33                                        \{
+34             \hyperlink{classrfNode_a49b9c55f11f1f3898eb7811f78f68796}{cutValue} = cVal;
+35         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a3de3a667502b31a45f90e92a7ae767e8}\label{classrfNode_a3de3a667502b31a45f90e92a7ae767e8}} 
+\index{rf\+Node@{rf\+Node}!set\+Depth@{set\+Depth}}
+\index{set\+Depth@{set\+Depth}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{set\+Depth()}{setDepth()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::set\+Depth (\begin{DoxyParamCaption}\item[{int}]{dep }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 26 of file small\+Sample\+Node.\+h.
+
+
+\begin{DoxyCode}
+26                              \{
+27             \hyperlink{classrfNode_a7cb8fb854d8ec90635bd7207d8b8c31e}{depth} = dep;
+28         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a3de3a667502b31a45f90e92a7ae767e8}\label{classrfNode_a3de3a667502b31a45f90e92a7ae767e8}} 
+\index{rf\+Node@{rf\+Node}!set\+Depth@{set\+Depth}}
+\index{set\+Depth@{set\+Depth}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{set\+Depth()}{setDepth()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::set\+Depth (\begin{DoxyParamCaption}\item[{int}]{dep }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 26 of file rf\+Node.\+h.
+
+
+\begin{DoxyCode}
+26                              \{
+27             \hyperlink{classrfNode_a7cb8fb854d8ec90635bd7207d8b8c31e}{depth} = dep;
+28         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a6a713bccdf5e59978075b0171bdaae73}\label{classrfNode_a6a713bccdf5e59978075b0171bdaae73}} 
+\index{rf\+Node@{rf\+Node}!set\+Feature\+Value@{set\+Feature\+Value}}
+\index{set\+Feature\+Value@{set\+Feature\+Value}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{set\+Feature\+Value()}{setFeatureValue()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::set\+Feature\+Value (\begin{DoxyParamCaption}\item[{int}]{f\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 37 of file rf\+Node.\+h.
+
+
+\begin{DoxyCode}
+37                                              \{
+38             \hyperlink{classrfNode_ac8c0dd14a4e53f9b831f326f5d197e0e}{feature} = fVal;
+39         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a6a713bccdf5e59978075b0171bdaae73}\label{classrfNode_a6a713bccdf5e59978075b0171bdaae73}} 
+\index{rf\+Node@{rf\+Node}!set\+Feature\+Value@{set\+Feature\+Value}}
+\index{set\+Feature\+Value@{set\+Feature\+Value}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{set\+Feature\+Value()}{setFeatureValue()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::set\+Feature\+Value (\begin{DoxyParamCaption}\item[{int}]{f\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 37 of file small\+Sample\+Node.\+h.
+
+
+\begin{DoxyCode}
+37                                              \{
+38             \hyperlink{classrfNode_ac8c0dd14a4e53f9b831f326f5d197e0e}{feature} = fVal;
+39         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a959c72aff3d20ca0552d2369e7d88188}\label{classrfNode_a959c72aff3d20ca0552d2369e7d88188}} 
+\index{rf\+Node@{rf\+Node}!set\+Left\+Value@{set\+Left\+Value}}
+\index{set\+Left\+Value@{set\+Left\+Value}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{set\+Left\+Value()}{setLeftValue()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::set\+Left\+Value (\begin{DoxyParamCaption}\item[{int}]{L\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 62 of file rf\+Node.\+h.
+
+
+\begin{DoxyCode}
+62                                           \{
+63             \hyperlink{classrfNode_ac8e195fc3d8a9647f10a42153d76119f}{left} = LVal;    
+64         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a959c72aff3d20ca0552d2369e7d88188}\label{classrfNode_a959c72aff3d20ca0552d2369e7d88188}} 
+\index{rf\+Node@{rf\+Node}!set\+Left\+Value@{set\+Left\+Value}}
+\index{set\+Left\+Value@{set\+Left\+Value}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{set\+Left\+Value()}{setLeftValue()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::set\+Left\+Value (\begin{DoxyParamCaption}\item[{int}]{L\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 62 of file small\+Sample\+Node.\+h.
+
+
+\begin{DoxyCode}
+62                                           \{
+63             \hyperlink{classrfNode_ac8e195fc3d8a9647f10a42153d76119f}{left} = LVal;    
+64         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a473dc8da457727bc50dea408320e6993}\label{classrfNode_a473dc8da457727bc50dea408320e6993}} 
+\index{rf\+Node@{rf\+Node}!set\+Right\+Value@{set\+Right\+Value}}
+\index{set\+Right\+Value@{set\+Right\+Value}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{set\+Right\+Value()}{setRightValue()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::set\+Right\+Value (\begin{DoxyParamCaption}\item[{int}]{R\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 66 of file small\+Sample\+Node.\+h.
+
+
+\begin{DoxyCode}
+66                                            \{
+67             \hyperlink{classrfNode_a01e57d43ac8af60d16880544e99ed965}{right} = RVal;
+68         \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classrfNode_a473dc8da457727bc50dea408320e6993}\label{classrfNode_a473dc8da457727bc50dea408320e6993}} 
+\index{rf\+Node@{rf\+Node}!set\+Right\+Value@{set\+Right\+Value}}
+\index{set\+Right\+Value@{set\+Right\+Value}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{set\+Right\+Value()}{setRightValue()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::set\+Right\+Value (\begin{DoxyParamCaption}\item[{int}]{R\+Val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 66 of file rf\+Node.\+h.
+
+
+\begin{DoxyCode}
+66                                            \{
+67             \hyperlink{classrfNode_a01e57d43ac8af60d16880544e99ed965}{right} = RVal;
+68         \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classrfNode_a49b9c55f11f1f3898eb7811f78f68796}\label{classrfNode_a49b9c55f11f1f3898eb7811f78f68796}} 
+\index{rf\+Node@{rf\+Node}!cut\+Value@{cut\+Value}}
+\index{cut\+Value@{cut\+Value}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{cut\+Value}{cutValue}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::cut\+Value\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 12 of file rf\+Node.\+h.
+
+\mbox{\Hypertarget{classrfNode_a7cb8fb854d8ec90635bd7207d8b8c31e}\label{classrfNode_a7cb8fb854d8ec90635bd7207d8b8c31e}} 
+\index{rf\+Node@{rf\+Node}!depth@{depth}}
+\index{depth@{depth}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{depth}{depth}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::depth\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 14 of file rf\+Node.\+h.
+
+\mbox{\Hypertarget{classrfNode_ac8c0dd14a4e53f9b831f326f5d197e0e}\label{classrfNode_ac8c0dd14a4e53f9b831f326f5d197e0e}} 
+\index{rf\+Node@{rf\+Node}!feature@{feature}}
+\index{feature@{feature}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{feature}{feature}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::feature\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 11 of file rf\+Node.\+h.
+
+\mbox{\Hypertarget{classrfNode_ac8e195fc3d8a9647f10a42153d76119f}\label{classrfNode_ac8e195fc3d8a9647f10a42153d76119f}} 
+\index{rf\+Node@{rf\+Node}!left@{left}}
+\index{left@{left}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{left}{left}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::left\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 10 of file rf\+Node.\+h.
+
+\mbox{\Hypertarget{classrfNode_a01e57d43ac8af60d16880544e99ed965}\label{classrfNode_a01e57d43ac8af60d16880544e99ed965}} 
+\index{rf\+Node@{rf\+Node}!right@{right}}
+\index{right@{right}!rf\+Node@{rf\+Node}}
+\subsubsection{\texorpdfstring{right}{right}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classrfNode}{rf\+Node}$<$ T $>$\+::right\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 13 of file rf\+Node.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/forest\+Types/rf\+Classification/\hyperlink{rfNode_8h}{rf\+Node.\+h}\item 
+src/forest\+Types/small\+Sample/\hyperlink{smallSampleNode_8h}{small\+Sample\+Node.\+h}\end{DoxyCompactItemize}
