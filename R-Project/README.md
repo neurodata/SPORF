@@ -3,11 +3,13 @@ Randomer Forest
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+    ## Loading required package: Rcpp
+
 [![CRAN Status
 Badge](https://www.r-pkg.org/badges/version/rerf)](https://cran.r-project.org/package=rerf)
 [![arXiv
 shield](https://img.shields.io/badge/arXiv-1506.03410-red.svg?style=flat)](https://arxiv.org/abs/1506.03410)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1933344.svg)](https://doi.org/10.5281/zenodo.1933344)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2558568.svg)](https://doi.org/10.5281/zenodo.2558568)
 
   - [Randomer Forest](#randomer-forest)
       - [Repo Contents](#repo-contents)
@@ -101,10 +103,11 @@ within R-
 install.packages("devtools")
 ```
 
-Next install `rerf` from github. From within R-
+Next install `rerf` from github. From within
+R-
 
 ``` r
-devtools::install_github("neurodata/R-RerF", local = FALSE)
+devtools::install_github("neurodata/RerF", local = FALSE, subdir = "R-Project", ref="staging")
 ```
 
 -----
