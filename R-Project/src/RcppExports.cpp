@@ -66,11 +66,14 @@ BEGIN_RCPP
 END_RCPP
 }
 
+RcppExport SEXP _rcpp_module_boot_forestPackingRConversion_mod();
+
 static const R_CallMethodDef CallEntries[] = {
     {"_rerf_packForestRCPP", (DL_FUNC) &_rerf_packForestRCPP, 0},
     {"_rerf_predictRF", (DL_FUNC) &_rerf_predictRF, 2},
     {"_rerf_findSplit", (DL_FUNC) &_rerf_findSplit, 9},
     {"_rerf_findSplitSim", (DL_FUNC) &_rerf_findSplitSim, 9},
+    {"_rcpp_module_boot_forestPackingRConversion_mod", (DL_FUNC) &_rcpp_module_boot_forestPackingRConversion_mod, 0},
     {NULL, NULL, 0}
 };
 
