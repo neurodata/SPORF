@@ -61,7 +61,13 @@ should be run.}
 forest
 }
 \description{
-Creates a decision forest based on an input matrix and class vector.  This is the main function in the rerf package.
+RerF forest Generator
+}
+\details{
+Similarity Randomer Forests (SmerF) learns a function that predicts the similarity between any two points given their feature values. It is trained on an n-by-p feature matrix X and an n-by-n similarity matrix Y.
+
+This variant of Randomer Forest is carried out by setting `task =
+"similarity"` when calling the `RerF` function and supplying the
 }
 \examples{
 ### Train RerF on numeric data ###
