@@ -49,7 +49,7 @@ namespace fp{
 
 				inline void loadFirstNode(){
 					//inline void loadFirstNode(obsIndexAndClassVec& indicesHolder, std::vector<zipClassAndValue<int, T> >& zipper){
-					nodeQueue.emplace_back(0,0,randNum);
+					nodeQueue.emplace_back(0,0,-1,randNum);
 					nodeQueue.back().setupRoot(indicesHolder, zipper);
 					nodeQueue.back().processNode();
 					if(nodeQueue.back().isLeafNode()){
@@ -161,15 +161,15 @@ namespace fp{
 					if(nodeQueue.back().isLeftChildLarger()){
 						nodeQueue.pop_back();
 						//TODO: don't emplace_back if should be leaf node.
-						nodeQueue.emplace_back(1,parentNodesPosition(), randNum);
+						nodeQueue.emplace_back(1,parentNodesPosition(), returnDepthOfNode()+1, randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
-						nodeQueue.emplace_back(1,parentNodesPosition(),randNum);
+						nodeQueue.emplace_back(1,parentNodesPosition(), returnDepthOfNode()+1, randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
 					}else{
 						nodeQueue.pop_back();
-						nodeQueue.emplace_back(1,parentNodesPosition(),randNum);
+						nodeQueue.emplace_back(1,parentNodesPosition(), returnDepthOfNode()+1, randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
-						nodeQueue.emplace_back(1,parentNodesPosition(),randNum);
+						nodeQueue.emplace_back(1,parentNodesPosition(), returnDepthOfNode()+1, randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
 					}
 				}
@@ -181,15 +181,15 @@ namespace fp{
 					if(nodeQueue.back().isLeftChildLarger()){
 						nodeQueue.pop_back();
 						//TODO: don't emplace_back if should be leaf node.
-						nodeQueue.emplace_back(1,returnRootLocation(),randNum);
+						nodeQueue.emplace_back(1,returnRootLocation(), returnDepthOfNode()+1,randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
-						nodeQueue.emplace_back(1,returnRootLocation(),randNum);
+						nodeQueue.emplace_back(1,returnRootLocation(), returnDepthOfNode()+1, randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
 					}else{
 						nodeQueue.pop_back();
-						nodeQueue.emplace_back(1,returnRootLocation(),randNum);
+						nodeQueue.emplace_back(1,returnRootLocation(), returnDepthOfNode()+1,randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
-						nodeQueue.emplace_back(1,returnRootLocation(),randNum);
+						nodeQueue.emplace_back(1,returnRootLocation(), returnDepthOfNode()+1,randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
 					}
 				}
@@ -216,7 +216,7 @@ namespace fp{
 
 				inline void processNode(){
 					nodeQueue.back().processNode();
-					if (nodeQueue.back().isLeafNode() || returnDepthOfNode() + 1 >= fpSingleton::getSingleton().returnMaxDepth()) {
+					if (nodeQueue.back().isLeafNode()) {
 						processLeafNode();
 					}
 					else {

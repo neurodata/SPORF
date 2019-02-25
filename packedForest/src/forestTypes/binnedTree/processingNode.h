@@ -27,6 +27,7 @@ namespace fp{
 				int treeNum;
 				int parentNodeNumber;
 				int nodeNumber;
+				int depth;
 
 				bool isLeftNode;
 				bool isLeftNodeBigger;
@@ -264,7 +265,7 @@ namespace fp{
 
 			public:
 
-				processingNodeBin(int tr, int pN, randomNumberRerFMWC& randNumBin): treeNum(tr), parentNodeNumber(pN),propertiesOfThisNode(fpSingleton::getSingleton().returnNumClasses()), propertiesOfLeftNode(fpSingleton::getSingleton().returnNumClasses()),propertiesOfRightNode(fpSingleton::getSingleton().returnNumClasses()),nodeIndices(fpSingleton::getSingleton().returnNumClasses()){
+				processingNodeBin(int tr, int pN, int d, randomNumberRerFMWC& randNumBin): treeNum(tr), parentNodeNumber(pN), depth(d), propertiesOfThisNode(fpSingleton::getSingleton().returnNumClasses()), propertiesOfLeftNode(fpSingleton::getSingleton().returnNumClasses()),propertiesOfRightNode(fpSingleton::getSingleton().returnNumClasses()),nodeIndices(fpSingleton::getSingleton().returnNumClasses()){
 					randNum = &randNumBin;	
 				}
 
@@ -297,6 +298,9 @@ namespace fp{
 
 				inline bool leafPropertiesMet(){
 					if(propertiesOfThisNode.isNodePure()){
+						return true;
+					}
+					if (depth + 1 >= fpSingleton::getSingleton().returnMaxDepth()){
 						return true;
 					}
 					return propertiesOfThisNode.isSizeLTMinParent(fpSingleton::getSingleton().returnMinParent());
