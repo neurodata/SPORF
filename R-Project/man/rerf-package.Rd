@@ -4,29 +4,18 @@
 \name{rerf-package}
 \alias{rerf}
 \alias{rerf-package}
-\title{rerf}
+\title{rerf-package}
 \description{
-R-RerF (aka Randomer Forest (RerF) or Random Projection
-  Forests) is an algorithm developed by Tomita (2016) <arXiv:1506.03410v2>
-  which is similar to Random Forest - Random Combination (Forest-RC)
-  developed by Breiman (2001) <doi:10.1023/A:1010933404324>.  Random
-  Forests create axis-parallel, or orthogonal trees. That is, the feature
-  space is recursively split along directions parallel to the axes of the
-  feature space. Thus, in cases in which the classes seem inseparable
-  along any single dimension, Random Forests may be suboptimal.  To
-  address this, Breiman also proposed and characterized Forest-RC, which
-  uses linear combinations of coordinates rather than individual
-  coordinates, to split along.  This package, 'rerf', implements RerF
-  which is similar to Forest-RC.  The difference between the two
-  algorithms is where the random linear combinations occur: Forest-RC
-  combines features at the per tree level whereas RerF takes linear
-  combinations of coordinates at every node in the tree.
+The rerf package provides an R implementation of the randomer forest
+algorithm developed by Tomita et al.(2016) <arXiv:1506.03410v2>,
+along with variants such as Structured Randomer Forest (S-RerF) and
+Similarity Randomer Forest (SmerF).
 }
 \section{The main function \code{RerF}}{
 
 The \code{RerF} function is the primary access point to the
 algorithm. Variants of the algorithm can be controlled by specifying
-the appropriate set of parameters, explained in teh sections below.
+the appropriate set of parameters, explained in the sections below.
 }
 
 \section{RandMat*}{
@@ -37,7 +26,7 @@ projection weights used to split the data at each node.
 \describe{
   \item{RandMatBinary}{samples projection weights from \eqn{{-1,1}}.}
   \item{RandMatContinuous}{samples projection weights from \eqn{N(0,1)}}
-  \item{RandMatPoisson}{samples projection weights from a \eqn{N(0,1)} with sparsity \eqn{~l Poisson(\lambda)}}
+  \item{RandMatPoisson}{samples projection weights from a \eqn{N(0,1)} with sparsity \eqn{~ Poisson(\lambda)}}
 }
 }
 

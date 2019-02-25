@@ -1,3 +1,4 @@
+#' rerf-package
 #'
 #' The rerf package provides an R implementation of the randomer forest
 #' algorithm developed by Tomita et al.(2016) <arXiv:1506.03410v2>,
@@ -8,7 +9,7 @@
 #' @section The main function \code{RerF}:
 #' The \code{RerF} function is the primary access point to the
 #' algorithm. Variants of the algorithm can be controlled by specifying
-#' the appropriate set of parameters, explained in teh sections below.
+#' the appropriate set of parameters, explained in the sections below.
 #'
 #' @section RandMat*:
 #' The set of \code{RandMat*} functions specify the distribution of
