@@ -264,9 +264,9 @@ namespace fp{
 
 				inline int returnMaxDepth(){
 					int maxDepth=0;
-					for(auto nodes : bin){
-						if(maxDepth < nodes.returnDepth()+1){
-							maxDepth = nodes.returnDepth()+1;
+					for(auto node : bin){
+						if(maxDepth < node.returnDepth()+1){
+							maxDepth = node.returnDepth()+1;
 						}
 					}
 					return maxDepth+1;
@@ -280,13 +280,13 @@ namespace fp{
 
 				inline int returnLeafDepthSum(){
 					int leafDepthSums=0;
-					for(auto nodes : bin){
-						if(nodes.isInternalNodeFront()){
-							if(nodes.returnLeftNodeID() < fpSingleton::getSingleton().returnNumClasses()){
-								leafDepthSums += nodes.returnDepth()+1;
+					for(auto node : bin){
+						if(node.isInternalNodeFront()){
+							if(node.returnLeftNodeID() < fpSingleton::getSingleton().returnNumClasses()){
+								leafDepthSums += node.returnDepth()+1;
 							}
-							if(nodes.returnRightNodeID() < fpSingleton::getSingleton().returnNumClasses()){
-								leafDepthSums += nodes.returnDepth()+1;
+							if(node.returnRightNodeID() < fpSingleton::getSingleton().returnNumClasses()){
+								leafDepthSums += node.returnDepth()+1;
 							}
 						}
 					}
