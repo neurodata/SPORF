@@ -262,7 +262,7 @@ namespace fp{
 					if(propertiesOfThisNode.isNodePure()){
 						return true;
 					}
-					if (depth + 1 >= fpSingleton::getSingleton().returnMaxDepth()){
+					if (depth >= fpSingleton::getSingleton().returnMaxDepth()){
 						return true;
 					}
 					return propertiesOfThisNode.isSizeLTMinParent(fpSingleton::getSingleton().returnMinParent());

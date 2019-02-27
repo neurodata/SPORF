@@ -50,7 +50,7 @@ namespace fp{
 
 				inline void loadFirstNode(){
 					//inline void loadFirstNode(obsIndexAndClassVec& indicesHolder, std::vector<zipClassAndValue<int, T> >& zipper){
-					nodeQueue.emplace_back(0,0,-1,randNum);
+					nodeQueue.emplace_back(0,0,0,randNum);
 					nodeQueue.back().setupRoot(indicesHolder, zipper);
 					nodeQueue.back().processNode();
 					if(nodeQueue.back().isLeafNode()){
@@ -63,7 +63,7 @@ namespace fp{
 
 				inline void makeRootALeaf(){
 					bin[returnRootLocation()].setClass(nodeQueue.back().returnNodeClass());
-					bin[returnRootLocation()].setDepth(-1);
+					bin[returnRootLocation()].setDepth(0);
 				}
 
 				inline void setSharedVectors(obsIndexAndClassVec& indicesInNode){
@@ -160,7 +160,7 @@ namespace fp{
 				inline void createChildNodes(){
 					nodeIterators nodeIts(nodeQueue.back().returnNodeIterators());
 					zipperIterators<int,T> zipIts(nodeQueue.back().returnZipIterators());
-					int childDepth = returnDepthOfNode()+1;
+					int childDepth = returnDepthOfNode();
 					if(nodeQueue.back().isLeftChildLarger()){
 						nodeQueue.pop_back();
 						//TODO: don't emplace_back if should be leaf node.
@@ -181,7 +181,7 @@ namespace fp{
 				inline void createRootChildNodes(){
 					nodeIterators nodeIts(nodeQueue.back().returnNodeIterators());
 					zipperIterators<int,T> zipIts(nodeQueue.back().returnZipIterators());
-					int childDepth = returnDepthOfNode()+1;
+					int childDepth = returnDepthOfNode();
 					if(nodeQueue.back().isLeftChildLarger()){
 						nodeQueue.pop_back();
 						//TODO: don't emplace_back if should be leaf node.
@@ -264,12 +264,12 @@ namespace fp{
 
 				inline int returnMaxDepth(){
 					int maxDepth=0;
-					for(auto node : bin){
-						if(maxDepth < node.returnDepth()+1){
-							maxDepth = node.returnDepth()+1;
+					for(auto&& node : bin){
+						if(maxDepth < node.returnDepth()){
+							maxDepth = node.returnDepth();
 						}
 					}
-					return maxDepth+1;
+					return maxDepth;
 				}
 
 
@@ -280,13 +280,13 @@ namespace fp{
 
 				inline int returnLeafDepthSum(){
 					int leafDepthSums=0;
-					for(auto node : bin){
+					for(auto&& node : bin){
 						if(node.isInternalNodeFront()){
 							if(node.returnLeftNodeID() < fpSingleton::getSingleton().returnNumClasses()){
-								leafDepthSums += node.returnDepth()+1;
+								leafDepthSums += node.returnDepth();
 							}
 							if(node.returnRightNodeID() < fpSingleton::getSingleton().returnNumClasses()){
-								leafDepthSums += node.returnDepth()+1;
+								leafDepthSums += node.returnDepth();
 							}
 						}
 					}
