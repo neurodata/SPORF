@@ -6,6 +6,7 @@
 #include "zipClassAndValue.h"
 #include "processingNode.h"
 #include <vector>
+#include <assert.h>
 
 namespace fp{
 
@@ -111,6 +112,7 @@ namespace fp{
 
 
 				inline int returnDepthOfNode(){
+					assert(!nodeQueue.empty());
 					return bin[nodeQueue.back().returnParentNodeNumber()].returnDepth()+1;
 				}
 
@@ -158,18 +160,19 @@ namespace fp{
 				inline void createChildNodes(){
 					nodeIterators nodeIts(nodeQueue.back().returnNodeIterators());
 					zipperIterators<int,T> zipIts(nodeQueue.back().returnZipIterators());
+					int childDepth = returnDepthOfNode()+1;
 					if(nodeQueue.back().isLeftChildLarger()){
 						nodeQueue.pop_back();
 						//TODO: don't emplace_back if should be leaf node.
-						nodeQueue.emplace_back(1,parentNodesPosition(), returnDepthOfNode()+1, randNum);
+						nodeQueue.emplace_back(1,parentNodesPosition(), childDepth, randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
-						nodeQueue.emplace_back(1,parentNodesPosition(), returnDepthOfNode()+1, randNum);
+						nodeQueue.emplace_back(1,parentNodesPosition(), childDepth, randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
 					}else{
 						nodeQueue.pop_back();
-						nodeQueue.emplace_back(1,parentNodesPosition(), returnDepthOfNode()+1, randNum);
+						nodeQueue.emplace_back(1,parentNodesPosition(), childDepth, randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
-						nodeQueue.emplace_back(1,parentNodesPosition(), returnDepthOfNode()+1, randNum);
+						nodeQueue.emplace_back(1,parentNodesPosition(), childDepth, randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
 					}
 				}
@@ -178,18 +181,19 @@ namespace fp{
 				inline void createRootChildNodes(){
 					nodeIterators nodeIts(nodeQueue.back().returnNodeIterators());
 					zipperIterators<int,T> zipIts(nodeQueue.back().returnZipIterators());
+					int childDepth = returnDepthOfNode()+1;
 					if(nodeQueue.back().isLeftChildLarger()){
 						nodeQueue.pop_back();
 						//TODO: don't emplace_back if should be leaf node.
-						nodeQueue.emplace_back(1,returnRootLocation(), returnDepthOfNode()+1,randNum);
+						nodeQueue.emplace_back(1,returnRootLocation(), childDepth,randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
-						nodeQueue.emplace_back(1,returnRootLocation(), returnDepthOfNode()+1, randNum);
+						nodeQueue.emplace_back(1,returnRootLocation(), childDepth, randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
 					}else{
 						nodeQueue.pop_back();
-						nodeQueue.emplace_back(1,returnRootLocation(), returnDepthOfNode()+1,randNum);
+						nodeQueue.emplace_back(1,returnRootLocation(), childDepth,randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
-						nodeQueue.emplace_back(1,returnRootLocation(), returnDepthOfNode()+1,randNum);
+						nodeQueue.emplace_back(1,returnRootLocation(), childDepth,randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
 					}
 				}
@@ -261,8 +265,8 @@ namespace fp{
 				inline int returnMaxDepth(){
 					int maxDepth=0;
 					for(auto nodes : bin){
-						if(maxDepth < nodes.returnDepth()){
-							maxDepth = nodes.returnDepth();
+						if(maxDepth < nodes.returnDepth()+1){
+							maxDepth = nodes.returnDepth()+1;
 						}
 					}
 					return maxDepth+1;
