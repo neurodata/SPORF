@@ -24,12 +24,17 @@ elif datatype == "mnist":
     labels = X[:, 0]
 
 # forest = fastRerF(
-#     CSVFile=datafile, Ycolumn=label_col, forestType="rerf", trees=1, seed=1, numCores=cpu_count()-1
+#     CSVFile=datafile,
+#     Ycolumn=label_col,
+#     forestType="binnedBaseRerF",
+#     trees=500,
+#     seed=1,
+#     numCores=cpu_count() - 1,
 # )
 forest = fastRerF(
     X=feat_data,
     Y=labels,
-    forestType="rerf",
+    forestType="binnedBaseRerF",
     trees=500,
     seed=1,
     numCores=cpu_count() - 1,
