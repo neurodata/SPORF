@@ -1,4 +1,4 @@
-# [RerF](neurodata.io/tools)
+# [RerF](https://neurodata.io/tools)
 
 [![arXiv shield](https://img.shields.io/badge/arXiv-1506.03410-red.svg?style=flat)](https://arxiv.org/abs/1506.03410)
 [![CRAN Status Badge](https://www.r-pkg.org/badges/version/rerf)](https://cran.r-project.org/package=rerf)
