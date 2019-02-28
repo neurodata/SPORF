@@ -26,7 +26,6 @@ namespace fp{
 			protected:
 				int treeNum;
 				int parentNodeNumber;
-				//int nodeNumber;
 				int depth;
 
 				bool isLeftNode;
