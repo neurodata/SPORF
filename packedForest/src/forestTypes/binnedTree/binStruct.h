@@ -160,7 +160,7 @@ namespace fp{
 				inline void createChildNodes(){
 					nodeIterators nodeIts(nodeQueue.back().returnNodeIterators());
 					zipperIterators<int,T> zipIts(nodeQueue.back().returnZipIterators());
-					int childDepth = returnDepthOfNode();
+					int childDepth = returnDepthOfNode()+1;
 					if(nodeQueue.back().isLeftChildLarger()){
 						nodeQueue.pop_back();
 						//TODO: don't emplace_back if should be leaf node.
@@ -181,7 +181,7 @@ namespace fp{
 				inline void createRootChildNodes(){
 					nodeIterators nodeIts(nodeQueue.back().returnNodeIterators());
 					zipperIterators<int,T> zipIts(nodeQueue.back().returnZipIterators());
-					int childDepth = returnDepthOfNode();
+					int childDepth = returnDepthOfNode()+1;
 					if(nodeQueue.back().isLeftChildLarger()){
 						nodeQueue.pop_back();
 						//TODO: don't emplace_back if should be leaf node.
@@ -264,9 +264,9 @@ namespace fp{
 
 				inline int returnMaxDepth(){
 					int maxDepth=0;
-					for(auto&& node : bin){
-						if(maxDepth < node.returnDepth()){
-							maxDepth = node.returnDepth();
+					for(auto& node : bin){
+						if(maxDepth < node.returnDepth()+1){
+							maxDepth = node.returnDepth()+1;
 						}
 					}
 					return maxDepth;
@@ -274,19 +274,19 @@ namespace fp{
 
 
 				inline int returnNumLeafNodes(){
-					return (int)bin.size() - fpSingleton::getSingleton().returnNumClasses() + 1;
+					return (int)bin.size() - fpSingleton::getSingleton().returnNumClasses() + numOfTreesInBin;
 				}
 
 
 				inline int returnLeafDepthSum(){
 					int leafDepthSums=0;
-					for(auto&& node : bin){
+					for(auto& node : bin){
 						if(node.isInternalNodeFront()){
 							if(node.returnLeftNodeID() < fpSingleton::getSingleton().returnNumClasses()){
-								leafDepthSums += node.returnDepth();
+								leafDepthSums += node.returnDepth()+1;
 							}
 							if(node.returnRightNodeID() < fpSingleton::getSingleton().returnNumClasses()){
-								leafDepthSums += node.returnDepth();
+								leafDepthSums += node.returnDepth()+1;
 							}
 						}
 					}
