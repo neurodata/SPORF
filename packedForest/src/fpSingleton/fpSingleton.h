@@ -174,6 +174,10 @@ namespace fp {
 				return fpForestInfo.returnMinParent();
 			}
 
+			inline int returnMaxDepth(){
+				return fpForestInfo.returnMaxDepth();
+			}
+
 			inline int returnBinSize(){
 				return fpForestInfo.returnBinSize();
 			}

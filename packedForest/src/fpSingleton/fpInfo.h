@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <math.h>
+#include <limits>
 #include <iostream>
 #include "../baseFunctions/MWC.h"
 
@@ -61,7 +62,7 @@ namespace fp {
 				mtryMult=1;
 				columnWithY=-1;
 				numberOfNodes=0;
-				maxDepth=0;
+				maxDepth=std::numeric_limits<int>::max();
 				sumLeafNodeDepths=0;
 				fractionOfFeaturesToTest=-1.0; 
 				binSize=0;
@@ -123,7 +124,10 @@ namespace fp {
 			inline int returnMinParent() const{
 				return minParent;
 			}
-
+			inline int returnMaxDepth() const{
+				return maxDepth;
+			}
+		
 			inline int returnNumFeatures() const{
 				return numFeatures;
 			}
@@ -211,7 +215,7 @@ namespace fp {
 			fpInfo(): numTreesInForest(100),
 			minParent(1),	numClasses(-1), numObservations(-1), numFeatures(-1),
 			mtry(-1),mtryMult(1), columnWithY(-1), 
-			numberOfNodes(0), maxDepth(0),sumLeafNodeDepths(0), fractionOfFeaturesToTest(-1.0), binSize(0),binMin(0),numCores(1),double_epsilon(0.0000001), float_epsilon(0.0000001),seed(-1),numTreeBins(-1),useRowMajor(true){}
+			numberOfNodes(0), maxDepth(std::numeric_limits<int>::max()),sumLeafNodeDepths(0), fractionOfFeaturesToTest(-1.0), binSize(0),binMin(0),numCores(1),double_epsilon(0.0000001), float_epsilon(0.0000001),seed(-1),numTreeBins(-1),useRowMajor(true){}
 
 
 
@@ -231,6 +235,8 @@ namespace fp {
 					numTreesInForest = (int)parameterValue;
 				}else if(parameterName == "minParent"){
 					minParent = (int)parameterValue;
+				}else if(parameterName == "maxDepth"){
+					maxDepth = (int)parameterValue;
 				}else if(parameterName == "numClasses"){
 					numClasses = (int)parameterValue;
 				}else if(parameterName == "mtry"){
@@ -264,6 +270,8 @@ namespace fp {
 					numTreesInForest = parameterValue;
 				}else if(parameterName == "minParent"){
 					minParent = parameterValue;
+				}else if(parameterName == "maxDepth"){
+					maxDepth = parameterValue;
 				}else if(parameterName == "numClasses"){
 					numClasses = parameterValue;
 				}else if(parameterName == "mtry"){
@@ -293,6 +301,7 @@ namespace fp {
 
 			void printAllParameters(){
 				std::cout << "numTreesInForest -> " << numTreesInForest << "\n";
+				std::cout << "maxDepth -> " << maxDepth << "\n";
 				std::cout << "minParent -> " << minParent << "\n";
 				std::cout << "numClasses -> " << numClasses << "\n";
 				std::cout << "numObservations -> " << numObservations << "\n";

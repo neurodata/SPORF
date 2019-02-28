@@ -6,6 +6,7 @@
 #include "zipClassAndValue.h"
 #include "processingNode.h"
 #include <vector>
+#include <assert.h>
 
 namespace fp{
 
@@ -49,7 +50,7 @@ namespace fp{
 
 				inline void loadFirstNode(){
 					//inline void loadFirstNode(obsIndexAndClassVec& indicesHolder, std::vector<zipClassAndValue<int, T> >& zipper){
-					nodeQueue.emplace_back(0,0,randNum);
+					nodeQueue.emplace_back(0,0,0,randNum);
 					nodeQueue.back().setupRoot(indicesHolder, zipper);
 					nodeQueue.back().processNode();
 					if(nodeQueue.back().isLeafNode()){
@@ -62,7 +63,7 @@ namespace fp{
 
 				inline void makeRootALeaf(){
 					bin[returnRootLocation()].setClass(nodeQueue.back().returnNodeClass());
-					bin[returnRootLocation()].setDepth(-1);
+					bin[returnRootLocation()].setDepth(0);
 				}
 
 				inline void setSharedVectors(obsIndexAndClassVec& indicesInNode){
@@ -111,6 +112,7 @@ namespace fp{
 
 
 				inline int returnDepthOfNode(){
+					assert(!nodeQueue.empty());
 					return bin[nodeQueue.back().returnParentNodeNumber()].returnDepth()+1;
 				}
 
@@ -158,18 +160,19 @@ namespace fp{
 				inline void createChildNodes(){
 					nodeIterators nodeIts(nodeQueue.back().returnNodeIterators());
 					zipperIterators<int,T> zipIts(nodeQueue.back().returnZipIterators());
+					int childDepth = returnDepthOfNode()+1;
 					if(nodeQueue.back().isLeftChildLarger()){
 						nodeQueue.pop_back();
 						//TODO: don't emplace_back if should be leaf node.
-						nodeQueue.emplace_back(1,parentNodesPosition(), randNum);
+						nodeQueue.emplace_back(1,parentNodesPosition(), childDepth, randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
-						nodeQueue.emplace_back(1,parentNodesPosition(),randNum);
+						nodeQueue.emplace_back(1,parentNodesPosition(), childDepth, randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
 					}else{
 						nodeQueue.pop_back();
-						nodeQueue.emplace_back(1,parentNodesPosition(),randNum);
+						nodeQueue.emplace_back(1,parentNodesPosition(), childDepth, randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
-						nodeQueue.emplace_back(1,parentNodesPosition(),randNum);
+						nodeQueue.emplace_back(1,parentNodesPosition(), childDepth, randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
 					}
 				}
@@ -178,18 +181,19 @@ namespace fp{
 				inline void createRootChildNodes(){
 					nodeIterators nodeIts(nodeQueue.back().returnNodeIterators());
 					zipperIterators<int,T> zipIts(nodeQueue.back().returnZipIterators());
+					int childDepth = returnDepthOfNode()+1;
 					if(nodeQueue.back().isLeftChildLarger()){
 						nodeQueue.pop_back();
 						//TODO: don't emplace_back if should be leaf node.
-						nodeQueue.emplace_back(1,returnRootLocation(),randNum);
+						nodeQueue.emplace_back(1,returnRootLocation(), childDepth,randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
-						nodeQueue.emplace_back(1,returnRootLocation(),randNum);
+						nodeQueue.emplace_back(1,returnRootLocation(), childDepth, randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
 					}else{
 						nodeQueue.pop_back();
-						nodeQueue.emplace_back(1,returnRootLocation(),randNum);
+						nodeQueue.emplace_back(1,returnRootLocation(), childDepth,randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
-						nodeQueue.emplace_back(1,returnRootLocation(),randNum);
+						nodeQueue.emplace_back(1,returnRootLocation(), childDepth,randNum);
 						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
 					}
 				}
@@ -216,9 +220,10 @@ namespace fp{
 
 				inline void processNode(){
 					nodeQueue.back().processNode();
-					if(nodeQueue.back().isLeafNode()){
-						processLeafNode();						
-					}else{
+					if (nodeQueue.back().isLeafNode()) {
+						processLeafNode();
+					}
+					else {
 						processInternalNode();
 					}
 				}
@@ -259,29 +264,30 @@ namespace fp{
 
 				inline int returnMaxDepth(){
 					int maxDepth=0;
-					for(auto nodes : bin){
-						if(maxDepth < nodes.returnDepth()){
-							maxDepth = nodes.returnDepth();
+					for(auto& node : bin){
+						// +1 accounts for the leaf nodes which are never created (optimization that cuts memory required for a forest in half)
+						if(maxDepth < node.returnDepth()+1){
+							maxDepth = node.returnDepth()+1;
 						}
 					}
-					return maxDepth+1;
+					return maxDepth;
 				}
 
 
 				inline int returnNumLeafNodes(){
-					return (int)bin.size() - fpSingleton::getSingleton().returnNumClasses() + 1;
+					return (int)bin.size() - fpSingleton::getSingleton().returnNumClasses() + numOfTreesInBin;
 				}
 
 
 				inline int returnLeafDepthSum(){
 					int leafDepthSums=0;
-					for(auto nodes : bin){
-						if(nodes.isInternalNodeFront()){
-							if(nodes.returnLeftNodeID() < fpSingleton::getSingleton().returnNumClasses()){
-								leafDepthSums += nodes.returnDepth()+1;
+					for(auto& node : bin){
+						if(node.isInternalNodeFront()){
+							if(node.returnLeftNodeID() < fpSingleton::getSingleton().returnNumClasses()){
+								leafDepthSums += node.returnDepth()+1;
 							}
-							if(nodes.returnRightNodeID() < fpSingleton::getSingleton().returnNumClasses()){
-								leafDepthSums += nodes.returnDepth()+1;
+							if(node.returnRightNodeID() < fpSingleton::getSingleton().returnNumClasses()){
+								leafDepthSums += node.returnDepth()+1;
 							}
 						}
 					}

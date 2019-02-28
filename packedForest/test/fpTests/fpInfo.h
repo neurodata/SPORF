@@ -1,3 +1,4 @@
+#include <limits>
 #include "../../src/fpSingleton/fpInfo.h"
 
 using namespace fp;
@@ -46,4 +47,17 @@ TEST(fpInfoClass, setMtry)
     info3.setParameter("fractionOfFeaturesToTest", .4);
     info3.setMTRY(); // this should set it to .4*features
     EXPECT_EQ(info3.returnMtry(), 40);
+}
+
+TEST(fpInfoClass, setMaxDepth)
+{
+    fpInfo info;
+
+    int maxDepth = 100;
+    info.setParameter("maxDepth", maxDepth);
+    EXPECT_EQ(info.returnMaxDepth(), maxDepth);
+
+    // ensures maxDepth defaults to a high number
+    fpInfo info2;
+    EXPECT_EQ(std::numeric_limits<int>::max(), info2.returnMaxDepth());
 }
