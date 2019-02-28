@@ -94,18 +94,12 @@ install.packages("rerf")
 
 ### Development Version from Github:
 
-First install the `devtools` package if not currently installed. From
-within R-
+From terminal:
 
-``` r
-install.packages("devtools")
-```
-
-Next install `rerf` from github. From within
-R-
-
-``` r
-devtools::install_github("neurodata/RerF", local = FALSE, subdir = "R-Project", ref="staging")
+``` sh
+git clone https://github.com/neurodata/RerF.git
+cd RerF
+Rscript -e "install.packages('R-Project/', type = 'source', repos = NULL)"
 ```
 
 -----
