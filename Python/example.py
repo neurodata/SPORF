@@ -18,17 +18,16 @@ print("data loaded")
 
 if datatype == "iris":
     feat_data = X[:, 0:4]  # iris
-    labels = X[:, 4]
 elif datatype == "mnist":
     feat_data = X[:, 1:]  # mnist
-    labels = X[:, 0]
+
+labels = X[:, label_col]
 
 # forest = fastRerF(
 #     CSVFile=datafile,
 #     Ycolumn=label_col,
 #     forestType="binnedBaseRerF",
 #     trees=500,
-#     seed=1,
 #     numCores=cpu_count() - 1,
 # )
 forest = fastRerF(
@@ -36,26 +35,24 @@ forest = fastRerF(
     Y=labels,
     forestType="binnedBaseRerF",
     trees=500,
-    seed=1,
     numCores=cpu_count() - 1,
 )
 
 forest.printParameters()
 
 predictions = fastPredict(feat_data, forest)
-print(predictions)
+# print(predictions)
 
-print(
-    "Error rate",
-    sum([int(p) != int(i) for p, i in zip(predictions, X[:, label_col])]) / X.shape[0],
-)
+print("Error rate", np.mean(predictions != labels))
 
 print("loading test data...")
 
 if datatype == "iris":
-    test_X = np.genfromtxt("../packedForest/res/iris.csv", delimiter=",")  # iris
+    data_fname = "../packedForest/res/iris.csv"  # iris
 elif datatype == "mnist":
-    test_X = np.genfromtxt("../packedForest/res/mnist_test.csv", delimiter=",")  # mnist
+    data_fname = "../packedForest/res/mnist_test.csv"  # mnist
+test_X = np.genfromtxt(data_fname, delimiter=",")
+
 print("data loaded")
 
 if datatype == "iris":
@@ -65,8 +62,4 @@ elif datatype == "mnist":
 
 test_pred = fastPredict(test_data, forest)
 
-print(
-    "Error rate (test data)",
-    sum([int(p) != int(i) for p, i in zip(test_pred, test_X[:, label_col])])
-    / X.shape[0],
-)
+print("Error rate", np.mean(test_pred != test_X[:, label_col]))
