@@ -123,9 +123,8 @@ namespace fp{
 					for(int classNum = 0; classNum < fpSingleton::getSingleton().returnNumClasses(); ++classNum){
 
 						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum); ++q){
-							//fpSingleton::getSingleton().prefetchFeatureVal(currMTRY,*q);
+							fpSingleton::getSingleton().prefetchFeatureVal(currMTRY,*q);
 						}
-
 
 						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum); ++q){
 							zipIterator->setPair(classNum, fpSingleton::getSingleton().returnFeatureVal(currMTRY,*q));
@@ -143,11 +142,9 @@ namespace fp{
 
 					for(int classNum = 0; classNum < fpSingleton::getSingleton().returnNumClasses(); ++classNum){
 
-						/*
 							 for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum); ++q){
-						//fpSingleton::getSingleton().prefetchFeatureVal(currMTRY,*q);
+						fpSingleton::getSingleton().prefetchFeatureVal(currMTRY,*q);
 						}
-						*/
 
 						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum); ++q){
 							accumulator=0;

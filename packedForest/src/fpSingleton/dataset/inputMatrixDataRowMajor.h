@@ -2,6 +2,7 @@
 #define inputMatrixDataRowMajor_h
 
 #include "inputMatrixData.h"
+#include <xmmintrin.h>
 
 namespace fp
 {
@@ -23,7 +24,8 @@ class inputMatrixDataRowMajor : public inputMatrixData<T, Q>
     inline void prefetchFeatureValue(const int &featureNum,
                                      const int &observationNum)
     {
-        __builtin_prefetch(&this->inputXData[observationNum * this->numFeatures + featureNum], 0, 2);
+			_mm_prefetch(&this->inputXData[observationNum * this->numFeatures + featureNum], _MM_HINT_T0);
+			//    __builtin_prefetch(&this->inputXData[observationNum * this->numFeatures + featureNum], 0, 2);
     }
 };
 } // namespace fp

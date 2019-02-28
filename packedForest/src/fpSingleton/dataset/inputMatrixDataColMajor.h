@@ -2,6 +2,7 @@
 #define inputMatrixDataColMajor_h
 
 #include "inputMatrixData.h"
+#include <xmmintrin.h>
 
 namespace fp
 {
@@ -14,16 +15,15 @@ class inputMatrixDataColMajor : public inputMatrixData<T, Q>
 	{
 	}
 
-	inline T returnFeatureValue(const int &featureNum,
-								const int &observationNum)
+	inline T returnFeatureValue(const int &featureNum, const int &observationNum)
 	{
 		return this->inputXData[this->numObs * featureNum + observationNum];
 	}
 
-	inline void prefetchFeatureValue(const int &featureNum,
-									 const int &observationNum)
+	inline void prefetchFeatureValue(const int &featureNum, const int &observationNum)
 	{
-		__builtin_prefetch(&this->inputXData[this->numObs * featureNum + observationNum], 0, 2);
+		_mm_prefetch(&this->inputXData[this->numObs * featureNum + observationNum], _MM_HINT_T0);
+		//__builtin_prefetch(&this->inputXData[this->numObs * featureNum + observationNum], 0, 2);
 	}
 };
 

@@ -3,6 +3,7 @@
 #include <vector>
 #include "fpReadCSV.h"
 #include <string>
+#include <xmmintrin.h>
 
 
 namespace fp {
@@ -91,7 +92,8 @@ class inputXData
 		}
 
 		inline void prefetchElement(const int &feature, const int &observation){
-			__builtin_prefetch(&XData[feature][observation], 0, 2);
+			_mm_prefetch(&XData[feature][observation], _MM_HINT_T0);
+			//__builtin_prefetch(&XData[feature][observation], 0, 2);
 		}
 
 		inline void setXElement( const int &feature, const int &observation, const T &value){
@@ -127,7 +129,8 @@ class testXData
 		}
 
 		inline void prefetchElement(const int &feature,const int &observation){
-			__builtin_prefetch(XData[observation][feature], 0, 3);
+			_mm_prefetch(&XData[observation][feature], _MM_HINT_T0);
+			//	__builtin_prefetch(XData[observation][feature], 0, 3);
 		}
 
 		inline void setXElement( const int &feature, const int &observation, const T &value){
