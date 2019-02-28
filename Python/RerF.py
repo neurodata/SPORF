@@ -50,8 +50,9 @@ def fastRerF(
         forestClass.setParameter("mtry", mtry)
     if fractionOfFeaturesToTest is not None:
         forestClass.setParameter("fractionOfFeaturesToTest", fractionOfFeaturesToTest)
-    if seed is not None:
-        forestClass.setParameter("seed", seed)
+    if seed is None:
+        seed = np.random.randint(1,1000000)
+    forestClass.setParameter("seed", seed)
 
     # forestClass.setNumberOfThreads()
 
