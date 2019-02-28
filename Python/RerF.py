@@ -7,10 +7,10 @@ def fastRerF(
     Y=None,
     CSVFile=None,
     Ycolumn=None,
-    forestType="rerf",
+    forestType="binnedBaseRerF",
     trees=500,
     minParent=1,
-    maxDepth=0,
+    maxDepth=None,
     numCores=None,
     mtry=None,
     fractionOfFeaturesToTest=None,
@@ -25,10 +25,10 @@ def fastRerF(
         Ycolumn {int} -- column in data with labels (default: {None})
     
     Keyword Arguments:
-        forestType {str} -- type of forest (default: {"rerf"})
+        forestType {str} -- type of forest, options are from packedForest (default: {"binnedBaseRerF"})
         trees {int} -- number of trees in forest (default: {500})
         minParent {int} -- minParent (default: {1})
-        maxDepth {int} -- maxDepth (default: {0})
+        maxDepth {int} -- maxDepth (default: {None})
         numCores -- number of cores to use (default: {None})
         mtry {int} -- d, number of new features created from linear combinations of input features (default: {None})
         fractionOfFeaturesToTest {float} -- fractionOfFeaturesToTest, sets mtry based on a fraction of the features instead of an exact number (default: {None})
@@ -44,6 +44,8 @@ def fastRerF(
     forestClass.setParameter("numTreesInForest", trees)
     forestClass.setParameter("minParent", minParent)
 
+    if maxDepth is not None:
+        forestClass.setParameter("maxDepth", maxDepth)
     if numCores is not None:
         forestClass.setParameter("numCores", numCores)
     if mtry is not None:
