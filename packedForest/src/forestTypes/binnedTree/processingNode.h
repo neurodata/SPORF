@@ -141,8 +141,8 @@ namespace fp{
 
 					for(int classNum = 0; classNum < fpSingleton::getSingleton().returnNumClasses(); ++classNum){
 
-							 for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum); ++q){
-						fpSingleton::getSingleton().prefetchFeatureVal(currMTRY[0],*q);
+						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum); ++q){
+							fpSingleton::getSingleton().prefetchFeatureVal(currMTRY[0],*q);
 						}
 
 						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum); ++q){
@@ -165,9 +165,7 @@ namespace fp{
 
 
 				inline void sortWorkingSet(){
-					//pdqsort(zipIters.returnZipBegin(), zipIters.returnZipEnd());
 					pdqsort_branchless(zipIters.returnZipBegin(), zipIters.returnZipEnd());
-					//std::sort(zipIters.returnZipBegin(), zipIters.returnZipEnd());
 				}
 
 
