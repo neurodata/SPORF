@@ -26,7 +26,7 @@ namespace fp{
 			protected:
 				int treeNum;
 				int parentNodeNumber;
-				int nodeNumber;
+				int depth;
 
 				bool isLeftNode;
 				bool isLeftNodeBigger;
@@ -44,30 +44,6 @@ namespace fp{
 				zipperIterators<int,T> zipIters;
 
 				randomNumberRerFMWC* randNum;
-				/*
-					 inline void calcMtryForNode(std::vector<int>& featuresToTry){
-					 for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i){
-					 featuresToTry.push_back(i);
-					 }
-
-					 std::random_device rd; // obtain a random number from hardware
-					 std::mt19937 eng(rd()); // seed the generator
-
-					 int tempSwap;
-
-					 for(int locationToMove = 0; locationToMove < fpSingleton::getSingleton().returnMtry(); locationToMove++){
-					 std::uniform_int_distribution<> distr(locationToMove, fpSingleton::getSingleton().returnNumFeatures()-1);
-					 int randomPosition = distr(eng);
-
-					 tempSwap = featuresToTry[locationToMove];
-					 featuresToTry[locationToMove] = featuresToTry[randomPosition];
-					 featuresToTry[randomPosition] = tempSwap;
-					 }
-
-					 featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
-					 }
-					 */
-
 				inline void calcMtryForNode(std::vector<int>& featuresToTry){
 					for (int i=0; i<fpSingleton::getSingleton().returnNumFeatures(); ++i){
 						featuresToTry.push_back(i);
@@ -97,20 +73,6 @@ namespace fp{
 						featuresToTry[rndMtry].push_back(rndFeature);
 					}
 				}
-
-				/*
-					 inline void calcMtryForNode(std::vector<std::vector<int> >& featuresToTry){
-					 featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
-					 int rndMtry;
-					 int rndFeature;
-					 for (int i=0; i < fpSingleton::getSingleton().returnMtry(); ++i){
-					 rndMtry = std::rand() % fpSingleton::getSingleton().returnMtry();
-					 rndFeature = std::rand() % fpSingleton::getSingleton().returnNumFeatures();
-					 featuresToTry[rndMtry].push_back(rndFeature);
-					 }
-					 }
-					 */
-
 
 				inline void resetLeftNode(){
 					propertiesOfLeftNode.resetClassTotals();
@@ -264,7 +226,7 @@ namespace fp{
 
 			public:
 
-				processingNodeBin(int tr, int pN, randomNumberRerFMWC& randNumBin): treeNum(tr), parentNodeNumber(pN),propertiesOfThisNode(fpSingleton::getSingleton().returnNumClasses()), propertiesOfLeftNode(fpSingleton::getSingleton().returnNumClasses()),propertiesOfRightNode(fpSingleton::getSingleton().returnNumClasses()),nodeIndices(fpSingleton::getSingleton().returnNumClasses()){
+				processingNodeBin(int tr, int pN, int d, randomNumberRerFMWC& randNumBin): treeNum(tr), parentNodeNumber(pN), depth(d), propertiesOfThisNode(fpSingleton::getSingleton().returnNumClasses()), propertiesOfLeftNode(fpSingleton::getSingleton().returnNumClasses()),propertiesOfRightNode(fpSingleton::getSingleton().returnNumClasses()),nodeIndices(fpSingleton::getSingleton().returnNumClasses()){
 					randNum = &randNumBin;	
 				}
 
@@ -297,6 +259,9 @@ namespace fp{
 
 				inline bool leafPropertiesMet(){
 					if(propertiesOfThisNode.isNodePure()){
+						return true;
+					}
+					if (depth >= fpSingleton::getSingleton().returnMaxDepth()){
 						return true;
 					}
 					return propertiesOfThisNode.isSizeLTMinParent(fpSingleton::getSingleton().returnMinParent());

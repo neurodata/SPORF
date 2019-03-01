@@ -3,4 +3,5 @@
 *.md linguist-documentation=true
 *.Rmd linguist-documentation=true
 R/man/* linguist-generated=true
-packedForest/docs/** linguist-documentation=true
+packedForest/docs/* linguist-documentation=true
+packedForest/test/googletest/* linguist-vendored=true
