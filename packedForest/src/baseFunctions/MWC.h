@@ -9,11 +9,12 @@ class randomNumberRerFMWC{
 		unsigned int z, w;
 
 	public:
-		randomNumberRerFMWC(): z(362436069), w(521288629){}
+		randomNumberRerFMWC(): z(362436069), w(521288629){
+		}
 
 		inline void initialize(int seed){
-			z += seed;
-			w += seed;
+			z = 362436069 + seed;
+			w = 521288629 + seed;
 			if(z == 0 || w == 0){
 				z = 362436069;
 				w = 521288629;
