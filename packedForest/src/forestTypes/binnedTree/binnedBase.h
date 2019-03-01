@@ -101,7 +101,7 @@ namespace fp {
 				}
 
 				std::cout << "max depth: " << maxDepth << "\n";
-				std::cout << "avg depth: " << float(totalLeafDepth)/float(totalLeafNodes) << "\n";
+				std::cout << "avg leaf node depth: " << float(totalLeafDepth)/float(totalLeafNodes) << "\n";
 				std::cout << "num leaf nodes: " << totalLeafNodes << "\n";
 			}
 
