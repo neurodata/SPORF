@@ -102,5 +102,7 @@ RunPredictSim <-
       }
     }
 
+    ### Make output matrix symmetric
+    predictions[upper.tri(predictions)] <- t(predictions)[upper.tri(predictions)]
     return(predictions)
   }
