@@ -52,6 +52,9 @@ knitr::opts_chunk$set(
         classification:](#train-structured-rerf-s-rerf-for-image-classification)
     -   [Unsupervised classification
         (U-RerF)](#unsupervised-classification-u-rerf)
+    -   [Similarity Randomer Forest
+        (SmerF)](#similarity-randomer-forest-smerf)
+
 
 
 ## Repo Contents
@@ -308,6 +311,32 @@ table(clusters, truth = as.numeric(iris[[5]]))
 ```
 
 
+## Similarity Randomer Forest (SmerF)
+
+### Create the similarity matrix for training
+
+```{r load-dat01}
+train <- sort(c(sample(1:50, 25), sample(51:100, 25), sample(101:150, 25)))
+test <- setdiff(1:150, train)
+
+X <- iris[, -5]
+Y <- 1 - as.matrix(dist(X[train, ]))
+Ytest <- 1 - as.matrix(dist(X[test, ]))
+```
+
+### Run SmerF
+
+```{r}
+iris.forest <- RerF(X[train, ], Y, task = 'similarity', num.cores = 4L)
+Yhat <- Predict(X[test, ], iris.forest, num.cores = 4L)
+```
+
+### Frobenius norm of $Y - \hat{Y}$
+
+```{r}
+(f.iris <- norm(Ytest - Yhat, "F"))
+max(abs(Ytest - Yhat))
+```
 
 
 
