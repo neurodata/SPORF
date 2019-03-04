@@ -6,11 +6,12 @@
 #' @param Y a numeric vector of size n.  If the Y vector used to train the forest was not of type numeric then a simple call to as.numeric(Y) will suffice as input.
 #' @param csvFileName the name of a headerless csv file containing combined data and labels.
 #' @param columnWithY is the column in the headerless csv file containing class lables.
+#' @param maxDepth int the maximum allowed tree height/depth (path distance between root and leaves). (maxDepth = Inf, i.e. largest system int)
 #' @param minParent is the size of nodes that will not be split (minParent=1)
-#' @param numTreesInForest the number of trees to grow in the forest (numTreesInForest=100)
+#' @param numTreesInForest the number of trees to grow in the forest (numTreesInForest=500)
 #' @param numCores is the number of cores to use when training and predicting with the forest (numCores=1)
 #' @param numTreeBins the number of bins to store the forest.  Each bin will contain numTreesInForest/numTreeBins trees.  Only used when forestType=="binned*" (numTreeBins= numCores)
-#' @param forestType the type of forest to grow: rfBase, rerf, inPlace, inPlaceRerF, binnedBase, binnedBaseRerF (forestType="rerf")
+#' @param forestType the type of forest to grow: binnedBase, binnedBaseRerF (forestType="binnedBaseRerF")
 #' @param NodeSizeToBin the minimum node size to use stratified subsampling (NodeSizeToBin=NULL)
 #' @param NodeSizeBin the size of the stratified subsample chosen when NodeSizeToBin criteria is met (NodeSizeBin=NULL)
 #' @param forestType the type of forest to grow: rfBase, rerf, inPlace, inPlaceRerF, binnedBase, binnedBaseRerF (forestType="rerf")
@@ -25,7 +26,7 @@
 #' forest <- fpRerF(as.matrix(iris[, 1:4]), as.numeric(iris[[5L]])-1)
 #'
 fpRerF <-
-	function(X=NULL, Y=NULL,csvFileName=NULL, columnWithY=NULL,minParent=1, numTreesInForest=100, numCores=1,numTreeBins=NULL, forestType="rerf", nodeSizeToBin=NULL, nodeSizeBin=NULL,mtry=NULL, mtryMult=NULL,seed=sample(1:1000000,1)){
+	function(X=NULL, Y=NULL,csvFileName=NULL, columnWithY=NULL, maxDepth = Inf, minParent=1, numTreesInForest=500, numCores=1,numTreeBins=NULL, forestType="binnedBaseRerF", nodeSizeToBin=NULL, nodeSizeBin=NULL,mtry=NULL, mtryMult=NULL,seed=sample(1:1000000,1)){
 
 		##### Basic Checks
 		################################################
@@ -48,6 +49,9 @@ fpRerF <-
 		forest_module <- methods::new(forestPackingRConversion)
 		forest_module$setParameterString("forestType", forestType)
 		forest_module$setParameterInt("numTreesInForest", numTreesInForest)
+		if(is.finite(maxDepth) && (maxDepth > 0)){
+      forest_module$setParameterInt("maxDepth", maxDepth)
+		} 
 		forest_module$setParameterInt("minParent", minParent)
 		forest_module$setParameterInt("numCores", numCores)
 		forest_module$setParameterInt("useRowMajor",0)
