@@ -104,3 +104,16 @@ TEST(setSeed, randomGenNE)
         EXPECT_NE(randNum.gen(range), prevRandNum);
     }
 }
+
+//expect two seeded random numbers to be the same
+TEST(setSeed, randomSeqSeedEQ)
+{
+    int range = 10000;
+    long seed = -1001;
+    randomNumberRerFMWC randNum;
+    randNum.initialize(seed);
+    int r1 = randNum.gen(range);
+    randNum.initialize(seed);
+    int r2 = randNum.gen(range);
+    EXPECT_EQ(r1, r2);
+}
