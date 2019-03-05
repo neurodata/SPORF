@@ -1,0 +1,313 @@
+\hypertarget{classfp_1_1inNodeClassIndices}{}\section{fp\+:\+:in\+Node\+Class\+Indices Class Reference}
+\label{classfp_1_1inNodeClassIndices}\index{fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}}
+
+
+{\ttfamily \#include $<$in\+Node\+Class\+Indices.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classfp_1_1inNodeClassIndices_acc461b0620f39dfc6336313993c808fb}{in\+Node\+Class\+Indices} ()
+\item 
+\hyperlink{classfp_1_1inNodeClassIndices_a2b73531fc84c16ad3789af7307fb8688}{in\+Node\+Class\+Indices} (const int \&num\+Observations\+In\+Data\+Set)
+\item 
+void \hyperlink{classfp_1_1inNodeClassIndices_a152ae5e3f46bad404f5e126db9d4f816}{print\+Indices} ()
+\item 
+int \hyperlink{classfp_1_1inNodeClassIndices_a1a5f1c59beb9e9e92fa7c6ea648e9cfa}{return\+In\+Sample\+Size} ()
+\item 
+int \hyperlink{classfp_1_1inNodeClassIndices_ab7c873166d2be3b13d0f81d0fed2c57f}{return\+Out\+Sample\+Size} ()
+\item 
+int \hyperlink{classfp_1_1inNodeClassIndices_a8a6d33c7a2c2d24d8cf53493aded4541}{return\+In\+Sample} (const int num\+Sample)
+\item 
+int \hyperlink{classfp_1_1inNodeClassIndices_a19c5ff722a6fc3e1c7b8bddd6ecdb640}{sum\+Indices} ()
+\item 
+int \hyperlink{classfp_1_1inNodeClassIndices_acb8799a2eb8c48a8f74a7aaff244028e}{return\+Out\+Sample} (const int num\+Sample)
+\item 
+std\+::vector$<$ int $>$ \& \hyperlink{classfp_1_1inNodeClassIndices_a129b49f3d1b1346f60f393799741ada0}{return\+In\+Samples} ()
+\item 
+std\+::vector$<$ int $>$ \& \hyperlink{classfp_1_1inNodeClassIndices_ab360c9f6184c55a48550982aaf4b5e4a}{return\+Out\+Samples} ()
+\item 
+void \hyperlink{classfp_1_1inNodeClassIndices_afba0621732ce2df66125dfa0dbd2f3f7}{add\+Index\+To\+Out\+Samples} (int index)
+\item 
+void \hyperlink{classfp_1_1inNodeClassIndices_a37be5b697482b59dcba2ed4123464877}{add\+Index\+To\+In\+Samples} (int index)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ int $>$ \hyperlink{classfp_1_1inNodeClassIndices_ae830eec1ee5490f4fe4fb3d579ac78eb}{in\+Samples}
+\item 
+std\+::vector$<$ int $>$ \hyperlink{classfp_1_1inNodeClassIndices_afaa76dfa346ba9de197b1cbd7a1557f9}{out\+Samples}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 10 of file in\+Node\+Class\+Indices.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classfp_1_1inNodeClassIndices_acc461b0620f39dfc6336313993c808fb}\label{classfp_1_1inNodeClassIndices_acc461b0620f39dfc6336313993c808fb}} 
+\index{fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}!in\+Node\+Class\+Indices@{in\+Node\+Class\+Indices}}
+\index{in\+Node\+Class\+Indices@{in\+Node\+Class\+Indices}!fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{in\+Node\+Class\+Indices()}{inNodeClassIndices()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily fp\+::in\+Node\+Class\+Indices\+::in\+Node\+Class\+Indices (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 21 of file in\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+21 \{\}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1inNodeClassIndices_a2b73531fc84c16ad3789af7307fb8688}\label{classfp_1_1inNodeClassIndices_a2b73531fc84c16ad3789af7307fb8688}} 
+\index{fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}!in\+Node\+Class\+Indices@{in\+Node\+Class\+Indices}}
+\index{in\+Node\+Class\+Indices@{in\+Node\+Class\+Indices}!fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{in\+Node\+Class\+Indices()}{inNodeClassIndices()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily fp\+::in\+Node\+Class\+Indices\+::in\+Node\+Class\+Indices (\begin{DoxyParamCaption}\item[{const int \&}]{num\+Observations\+In\+Data\+Set }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 23 of file in\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+23                                                                    \{
+24 
+25                 std::vector<int> potentialSamples;
+26                 potentialSamples.resize(numObservationsInDataSet);
+27                 \hyperlink{classfp_1_1inNodeClassIndices_ae830eec1ee5490f4fe4fb3d579ac78eb}{inSamples}.resize(numObservationsInDataSet);
+28 
+29                 std::random\_device rd; \textcolor{comment}{// obtain a random number from hardware}
+30 
+31                 std::mt19937 eng(rd()); \textcolor{comment}{// seed the generator}
+32 
+33                 std::uniform\_int\_distribution<> distr(0, numObservationsInDataSet-1);
+34 
+35                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i < numObservationsInDataSet; ++i)\{
+36                     potentialSamples[i] = i;
+37                 \}
+38 
+39                 \textcolor{keywordtype}{int} numUnusedObs = numObservationsInDataSet;
+40                 \textcolor{keywordtype}{int} randomObsID;
+41                 \textcolor{keywordtype}{int} tempMoveObs;
+42                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} n=0; n<numObservationsInDataSet; n++)\{
+43                     randomObsID = distr(eng);
+44                     \hyperlink{classfp_1_1inNodeClassIndices_ae830eec1ee5490f4fe4fb3d579ac78eb}{inSamples}[n] = potentialSamples[randomObsID];
+45                     \textcolor{keywordflow}{if}(randomObsID < numUnusedObs)\{
+46                         --numUnusedObs;
+47                         tempMoveObs = potentialSamples[numUnusedObs];
+48                         potentialSamples[numUnusedObs] = potentialSamples[randomObsID];
+49                         potentialSamples[randomObsID] = tempMoveObs;
+50                     \}
+51                 \}
+52 
+53                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} n=0; n<numUnusedObs; ++n)\{
+54                     \hyperlink{classfp_1_1inNodeClassIndices_afaa76dfa346ba9de197b1cbd7a1557f9}{outSamples}.push\_back(potentialSamples[n]);
+55                 \}
+56             \}       
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1inNodeClassIndices_a37be5b697482b59dcba2ed4123464877}\label{classfp_1_1inNodeClassIndices_a37be5b697482b59dcba2ed4123464877}} 
+\index{fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}!add\+Index\+To\+In\+Samples@{add\+Index\+To\+In\+Samples}}
+\index{add\+Index\+To\+In\+Samples@{add\+Index\+To\+In\+Samples}!fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{add\+Index\+To\+In\+Samples()}{addIndexToInSamples()}}
+{\footnotesize\ttfamily void fp\+::in\+Node\+Class\+Indices\+::add\+Index\+To\+In\+Samples (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 144 of file in\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+144                                                       \{
+145                 \hyperlink{classfp_1_1inNodeClassIndices_ae830eec1ee5490f4fe4fb3d579ac78eb}{inSamples}.push\_back(index);
+146             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1inNodeClassIndices_afba0621732ce2df66125dfa0dbd2f3f7}\label{classfp_1_1inNodeClassIndices_afba0621732ce2df66125dfa0dbd2f3f7}} 
+\index{fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}!add\+Index\+To\+Out\+Samples@{add\+Index\+To\+Out\+Samples}}
+\index{add\+Index\+To\+Out\+Samples@{add\+Index\+To\+Out\+Samples}!fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{add\+Index\+To\+Out\+Samples()}{addIndexToOutSamples()}}
+{\footnotesize\ttfamily void fp\+::in\+Node\+Class\+Indices\+::add\+Index\+To\+Out\+Samples (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 140 of file in\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+140                                                        \{
+141                 \hyperlink{classfp_1_1inNodeClassIndices_afaa76dfa346ba9de197b1cbd7a1557f9}{outSamples}.push\_back(index);
+142             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1inNodeClassIndices_a152ae5e3f46bad404f5e126db9d4f816}\label{classfp_1_1inNodeClassIndices_a152ae5e3f46bad404f5e126db9d4f816}} 
+\index{fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}!print\+Indices@{print\+Indices}}
+\index{print\+Indices@{print\+Indices}!fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{print\+Indices()}{printIndices()}}
+{\footnotesize\ttfamily void fp\+::in\+Node\+Class\+Indices\+::print\+Indices (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 97 of file in\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+97                                \{
+98                 std::cout << \textcolor{stringliteral}{"samples in bag\(\backslash\)n"};
+99                 \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} & i : \hyperlink{classfp_1_1inNodeClassIndices_ae830eec1ee5490f4fe4fb3d579ac78eb}{inSamples})\{
+100                     std::cout << i << \textcolor{stringliteral}{"\(\backslash\)n"};
+101                 \}
+102                 std::cout << \textcolor{stringliteral}{"samples OOB\(\backslash\)n"};
+103                 \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} & i : \hyperlink{classfp_1_1inNodeClassIndices_afaa76dfa346ba9de197b1cbd7a1557f9}{outSamples})\{
+104                     std::cout << i << \textcolor{stringliteral}{"\(\backslash\)n"};
+105                 \}
+106             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1inNodeClassIndices_a8a6d33c7a2c2d24d8cf53493aded4541}\label{classfp_1_1inNodeClassIndices_a8a6d33c7a2c2d24d8cf53493aded4541}} 
+\index{fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}!return\+In\+Sample@{return\+In\+Sample}}
+\index{return\+In\+Sample@{return\+In\+Sample}!fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{return\+In\+Sample()}{returnInSample()}}
+{\footnotesize\ttfamily int fp\+::in\+Node\+Class\+Indices\+::return\+In\+Sample (\begin{DoxyParamCaption}\item[{const int}]{num\+Sample }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 116 of file in\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+116                                                           \{
+117                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1inNodeClassIndices_ae830eec1ee5490f4fe4fb3d579ac78eb}{inSamples}[numSample];
+118             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1inNodeClassIndices_a129b49f3d1b1346f60f393799741ada0}\label{classfp_1_1inNodeClassIndices_a129b49f3d1b1346f60f393799741ada0}} 
+\index{fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}!return\+In\+Samples@{return\+In\+Samples}}
+\index{return\+In\+Samples@{return\+In\+Samples}!fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{return\+In\+Samples()}{returnInSamples()}}
+{\footnotesize\ttfamily std\+::vector$<$int$>$\& fp\+::in\+Node\+Class\+Indices\+::return\+In\+Samples (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 132 of file in\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+132                                                     \{
+133                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1inNodeClassIndices_ae830eec1ee5490f4fe4fb3d579ac78eb}{inSamples};
+134             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1inNodeClassIndices_a1a5f1c59beb9e9e92fa7c6ea648e9cfa}\label{classfp_1_1inNodeClassIndices_a1a5f1c59beb9e9e92fa7c6ea648e9cfa}} 
+\index{fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}!return\+In\+Sample\+Size@{return\+In\+Sample\+Size}}
+\index{return\+In\+Sample\+Size@{return\+In\+Sample\+Size}!fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{return\+In\+Sample\+Size()}{returnInSampleSize()}}
+{\footnotesize\ttfamily int fp\+::in\+Node\+Class\+Indices\+::return\+In\+Sample\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 108 of file in\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+108                                            \{
+109                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1inNodeClassIndices_ae830eec1ee5490f4fe4fb3d579ac78eb}{inSamples}.size();
+110             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1inNodeClassIndices_acb8799a2eb8c48a8f74a7aaff244028e}\label{classfp_1_1inNodeClassIndices_acb8799a2eb8c48a8f74a7aaff244028e}} 
+\index{fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}!return\+Out\+Sample@{return\+Out\+Sample}}
+\index{return\+Out\+Sample@{return\+Out\+Sample}!fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{return\+Out\+Sample()}{returnOutSample()}}
+{\footnotesize\ttfamily int fp\+::in\+Node\+Class\+Indices\+::return\+Out\+Sample (\begin{DoxyParamCaption}\item[{const int}]{num\+Sample }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 128 of file in\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+128                                                            \{
+129                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1inNodeClassIndices_afaa76dfa346ba9de197b1cbd7a1557f9}{outSamples}[numSample];
+130             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1inNodeClassIndices_ab360c9f6184c55a48550982aaf4b5e4a}\label{classfp_1_1inNodeClassIndices_ab360c9f6184c55a48550982aaf4b5e4a}} 
+\index{fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}!return\+Out\+Samples@{return\+Out\+Samples}}
+\index{return\+Out\+Samples@{return\+Out\+Samples}!fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{return\+Out\+Samples()}{returnOutSamples()}}
+{\footnotesize\ttfamily std\+::vector$<$int$>$\& fp\+::in\+Node\+Class\+Indices\+::return\+Out\+Samples (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 136 of file in\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+136                                                      \{
+137                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1inNodeClassIndices_afaa76dfa346ba9de197b1cbd7a1557f9}{outSamples};
+138             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1inNodeClassIndices_ab7c873166d2be3b13d0f81d0fed2c57f}\label{classfp_1_1inNodeClassIndices_ab7c873166d2be3b13d0f81d0fed2c57f}} 
+\index{fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}!return\+Out\+Sample\+Size@{return\+Out\+Sample\+Size}}
+\index{return\+Out\+Sample\+Size@{return\+Out\+Sample\+Size}!fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{return\+Out\+Sample\+Size()}{returnOutSampleSize()}}
+{\footnotesize\ttfamily int fp\+::in\+Node\+Class\+Indices\+::return\+Out\+Sample\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 112 of file in\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+112                                             \{
+113                 \textcolor{keywordflow}{return} \hyperlink{classfp_1_1inNodeClassIndices_afaa76dfa346ba9de197b1cbd7a1557f9}{outSamples}.size();
+114             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1inNodeClassIndices_a19c5ff722a6fc3e1c7b8bddd6ecdb640}\label{classfp_1_1inNodeClassIndices_a19c5ff722a6fc3e1c7b8bddd6ecdb640}} 
+\index{fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}!sum\+Indices@{sum\+Indices}}
+\index{sum\+Indices@{sum\+Indices}!fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{sum\+Indices()}{sumIndices()}}
+{\footnotesize\ttfamily int fp\+::in\+Node\+Class\+Indices\+::sum\+Indices (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 120 of file in\+Node\+Class\+Indices.\+h.
+
+
+\begin{DoxyCode}
+120                                    \{
+121                 \textcolor{keywordtype}{int} total = 0;
+122                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i =0; i < \hyperlink{classfp_1_1inNodeClassIndices_ae830eec1ee5490f4fe4fb3d579ac78eb}{inSamples}.size(); i++)\{
+123                     total += \hyperlink{classfp_1_1inNodeClassIndices_ae830eec1ee5490f4fe4fb3d579ac78eb}{inSamples}[i];
+124                 \}
+125                 \textcolor{keywordflow}{return} total;
+126             \}
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1inNodeClassIndices_ae830eec1ee5490f4fe4fb3d579ac78eb}\label{classfp_1_1inNodeClassIndices_ae830eec1ee5490f4fe4fb3d579ac78eb}} 
+\index{fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}!in\+Samples@{in\+Samples}}
+\index{in\+Samples@{in\+Samples}!fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{in\+Samples}{inSamples}}
+{\footnotesize\ttfamily std\+::vector$<$int$>$ fp\+::in\+Node\+Class\+Indices\+::in\+Samples\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 16 of file in\+Node\+Class\+Indices.\+h.
+
+\mbox{\Hypertarget{classfp_1_1inNodeClassIndices_afaa76dfa346ba9de197b1cbd7a1557f9}\label{classfp_1_1inNodeClassIndices_afaa76dfa346ba9de197b1cbd7a1557f9}} 
+\index{fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}!out\+Samples@{out\+Samples}}
+\index{out\+Samples@{out\+Samples}!fp\+::in\+Node\+Class\+Indices@{fp\+::in\+Node\+Class\+Indices}}
+\subsubsection{\texorpdfstring{out\+Samples}{outSamples}}
+{\footnotesize\ttfamily std\+::vector$<$int$>$ fp\+::in\+Node\+Class\+Indices\+::out\+Samples\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 17 of file in\+Node\+Class\+Indices.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/base\+Functions/\hyperlink{inNodeClassIndices_8h}{in\+Node\+Class\+Indices.\+h}\end{DoxyCompactItemize}

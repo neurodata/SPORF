@@ -1,0 +1,387 @@
+\hypertarget{classfp_1_1fpForestClassificationBase}{}\section{fp\+:\+:fp\+Forest\+Classification\+Base$<$ T $>$ Class Template Reference}
+\label{classfp_1_1fpForestClassificationBase}\index{fp\+::fp\+Forest\+Classification\+Base$<$ T $>$@{fp\+::fp\+Forest\+Classification\+Base$<$ T $>$}}
+
+
+{\ttfamily \#include $<$fp\+Forest\+Classification\+Base.\+h$>$}
+
+
+
+Inheritance diagram for fp\+:\+:fp\+Forest\+Classification\+Base$<$ T $>$\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=206pt]{classfp_1_1fpForestClassificationBase__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for fp\+:\+:fp\+Forest\+Classification\+Base$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=298pt]{classfp_1_1fpForestClassificationBase__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classfp_1_1fpForestClassificationBase_a788f11473d1b7c86928d021617a92f2a}{fp\+Forest\+Classification\+Base} ()
+\item 
+void \hyperlink{classfp_1_1fpForestClassificationBase_a6b5243d32b468308a4f013ad5a9df2dd}{print\+Forest\+Type} ()
+\item 
+void \hyperlink{classfp_1_1fpForestClassificationBase_a696b361df0a1c9aa36687333e2d8111b}{change\+Forest\+Size} ()
+\item 
+void \hyperlink{classfp_1_1fpForestClassificationBase_aea9db2571269f0f627226aa75ec4a694}{grow\+Trees} ()
+\item 
+void \hyperlink{classfp_1_1fpForestClassificationBase_a3186e3b6471f82df3f69172f67aa7d19}{check\+Parameters} ()
+\item 
+void \hyperlink{classfp_1_1fpForestClassificationBase_a48567d379434daeccb1540c84674d286}{tree\+Stats} ()
+\item 
+void \hyperlink{classfp_1_1fpForestClassificationBase_a1989f90fbd27ac90232b7a1071c96a00}{print\+Tree0} ()
+\item 
+void \hyperlink{classfp_1_1fpForestClassificationBase_a706225fdbef8c71fb022f4c3446b388d}{grow\+Forest} ()
+\item 
+int \hyperlink{classfp_1_1fpForestClassificationBase_ad0c690fff971fab681467fbcd8762b5f}{predict\+Class} (int observation\+Number)
+\item 
+float \hyperlink{classfp_1_1fpForestClassificationBase_a3f1ad5a5cfb3633713d0a81bd1c356e8}{test\+Forest} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classfp_1_1fpDisplayProgress}{fp\+Display\+Progress} \hyperlink{classfp_1_1fpForestClassificationBase_a21148775a113092d6929e0d28e351a2c}{print\+Progress}
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \hyperlink{classfp_1_1rfTree}{rf\+Tree}$<$ T $>$ $>$ \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class fp\+::fp\+Forest\+Classification\+Base$<$ T $>$}
+
+
+
+Definition at line 16 of file fp\+Forest\+Classification\+Base.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classfp_1_1fpForestClassificationBase_a788f11473d1b7c86928d021617a92f2a}\label{classfp_1_1fpForestClassificationBase_a788f11473d1b7c86928d021617a92f2a}} 
+\index{fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}!fp\+Forest\+Classification\+Base@{fp\+Forest\+Classification\+Base}}
+\index{fp\+Forest\+Classification\+Base@{fp\+Forest\+Classification\+Base}!fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}}
+\subsubsection{\texorpdfstring{fp\+Forest\+Classification\+Base()}{fpForestClassificationBase()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classfp_1_1fpForestClassificationBase}{fp\+::fp\+Forest\+Classification\+Base}$<$ T $>$\+::\hyperlink{classfp_1_1fpForestClassificationBase}{fp\+Forest\+Classification\+Base} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 24 of file fp\+Forest\+Classification\+Base.\+h.
+
+
+\begin{DoxyCode}
+24                                         \{
+25                 std::srand(\textcolor{keywordtype}{unsigned}(std::time(0)));
+26             \}
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classfp_1_1fpForestClassificationBase_a696b361df0a1c9aa36687333e2d8111b}\label{classfp_1_1fpForestClassificationBase_a696b361df0a1c9aa36687333e2d8111b}} 
+\index{fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}!change\+Forest\+Size@{change\+Forest\+Size}}
+\index{change\+Forest\+Size@{change\+Forest\+Size}!fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}}
+\subsubsection{\texorpdfstring{change\+Forest\+Size()}{changeForestSize()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1fpForestClassificationBase}{fp\+::fp\+Forest\+Classification\+Base}$<$ T $>$\+::change\+Forest\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 32 of file fp\+Forest\+Classification\+Base.\+h.
+
+
+\begin{DoxyCode}
+32                                    \{
+33                 \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}.resize(\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().returnNumTrees());
+34             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForestClassificationBase_a696b361df0a1c9aa36687333e2d8111b_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpForestClassificationBase_a3186e3b6471f82df3f69172f67aa7d19}\label{classfp_1_1fpForestClassificationBase_a3186e3b6471f82df3f69172f67aa7d19}} 
+\index{fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}!check\+Parameters@{check\+Parameters}}
+\index{check\+Parameters@{check\+Parameters}!fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}}
+\subsubsection{\texorpdfstring{check\+Parameters()}{checkParameters()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1fpForestClassificationBase}{fp\+::fp\+Forest\+Classification\+Base}$<$ T $>$\+::check\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 45 of file fp\+Forest\+Classification\+Base.\+h.
+
+
+\begin{DoxyCode}
+45                                          \{
+46                 \textcolor{comment}{//TODO: check parameters to make sure they make sense for this forest type.}
+47                 ;
+48             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpForestClassificationBase_a706225fdbef8c71fb022f4c3446b388d}\label{classfp_1_1fpForestClassificationBase_a706225fdbef8c71fb022f4c3446b388d}} 
+\index{fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}!grow\+Forest@{grow\+Forest}}
+\index{grow\+Forest@{grow\+Forest}!fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}}
+\subsubsection{\texorpdfstring{grow\+Forest()}{growForest()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1fpForestClassificationBase}{fp\+::fp\+Forest\+Classification\+Base}$<$ T $>$\+::grow\+Forest (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classfp_1_1fpForestBase_a05b1d924a559536083ee7a8cf3ea542d}{fp\+::fp\+Forest\+Base}.
+
+
+
+Definition at line 73 of file fp\+Forest\+Classification\+Base.\+h.
+
+
+\begin{DoxyCode}
+73                              \{
+74                 \textcolor{comment}{//  checkParameters();}
+75                 \hyperlink{classfp_1_1fpForestClassificationBase_a696b361df0a1c9aa36687333e2d8111b}{changeForestSize}();
+76                 \hyperlink{classfp_1_1fpForestClassificationBase_aea9db2571269f0f627226aa75ec4a694}{growTrees}();
+77                 \hyperlink{classfp_1_1fpForestClassificationBase_a48567d379434daeccb1540c84674d286}{treeStats}();
+78             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForestClassificationBase_a706225fdbef8c71fb022f4c3446b388d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpForestClassificationBase_aea9db2571269f0f627226aa75ec4a694}\label{classfp_1_1fpForestClassificationBase_aea9db2571269f0f627226aa75ec4a694}} 
+\index{fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}!grow\+Trees@{grow\+Trees}}
+\index{grow\+Trees@{grow\+Trees}!fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}}
+\subsubsection{\texorpdfstring{grow\+Trees()}{growTrees()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1fpForestClassificationBase}{fp\+::fp\+Forest\+Classification\+Base}$<$ T $>$\+::grow\+Trees (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 36 of file fp\+Forest\+Classification\+Base.\+h.
+
+
+\begin{DoxyCode}
+36                             \{
+37 
+38                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0; i < \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}.size(); ++i)\{
+39                     \hyperlink{classfp_1_1fpForestClassificationBase_a21148775a113092d6929e0d28e351a2c}{printProgress}.\hyperlink{classfp_1_1fpDisplayProgress_adf5b2e390618d63eccb6de3b00eb857b}{displayProgress}(i);
+40                     \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}[i].growTree();
+41                 \}
+42                 std::cout << \textcolor{stringliteral}{"\(\backslash\)n"}<< std::flush;
+43             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForestClassificationBase_aea9db2571269f0f627226aa75ec4a694_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpForestClassificationBase_ad0c690fff971fab681467fbcd8762b5f}\label{classfp_1_1fpForestClassificationBase_ad0c690fff971fab681467fbcd8762b5f}} 
+\index{fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}!predict\+Class@{predict\+Class}}
+\index{predict\+Class@{predict\+Class}!fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}}
+\subsubsection{\texorpdfstring{predict\+Class()}{predictClass()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+int \hyperlink{classfp_1_1fpForestClassificationBase}{fp\+::fp\+Forest\+Classification\+Base}$<$ T $>$\+::predict\+Class (\begin{DoxyParamCaption}\item[{int}]{observation\+Number }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 80 of file fp\+Forest\+Classification\+Base.\+h.
+
+
+\begin{DoxyCode}
+80                                                    \{
+81                 std::vector<int> classTally(\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      returnNumClasses(),0);
+82                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_a8be36616345b6b77ce4c60b99cc2b91c}{returnNumTrees}(); ++i)\{
+83                     ++classTally[\hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}[i].predictObservation(observationNumber)];
+84                 \}
+85 
+86                 \textcolor{keywordtype}{int} bestClass = 0;
+87                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j = 1; j < \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_a5602580110329a6b25602b1789e4e2c2}{returnNumClasses}(); ++j)\{
+88                     \textcolor{keywordflow}{if}(classTally[bestClass] < classTally[j])\{
+89                         bestClass = j;
+90                     \}
+91                 \}
+92                 \textcolor{keywordflow}{return} bestClass;
+93             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForestClassificationBase_ad0c690fff971fab681467fbcd8762b5f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpForestClassificationBase_a6b5243d32b468308a4f013ad5a9df2dd}\label{classfp_1_1fpForestClassificationBase_a6b5243d32b468308a4f013ad5a9df2dd}} 
+\index{fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}!print\+Forest\+Type@{print\+Forest\+Type}}
+\index{print\+Forest\+Type@{print\+Forest\+Type}!fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}}
+\subsubsection{\texorpdfstring{print\+Forest\+Type()}{printForestType()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1fpForestClassificationBase}{fp\+::fp\+Forest\+Classification\+Base}$<$ T $>$\+::print\+Forest\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classfp_1_1fpForestBase_a5e200f603cca94bb5d9f357489f07e97}{fp\+::fp\+Forest\+Base}.
+
+
+
+Definition at line 28 of file fp\+Forest\+Classification\+Base.\+h.
+
+
+\begin{DoxyCode}
+28                                   \{
+29                 std::cout << \textcolor{stringliteral}{"This is a basic classification forest.\(\backslash\)n"};
+30             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpForestClassificationBase_a1989f90fbd27ac90232b7a1071c96a00}\label{classfp_1_1fpForestClassificationBase_a1989f90fbd27ac90232b7a1071c96a00}} 
+\index{fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}!print\+Tree0@{print\+Tree0}}
+\index{print\+Tree0@{print\+Tree0}!fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}}
+\subsubsection{\texorpdfstring{print\+Tree0()}{printTree0()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1fpForestClassificationBase}{fp\+::fp\+Forest\+Classification\+Base}$<$ T $>$\+::print\+Tree0 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 69 of file fp\+Forest\+Classification\+Base.\+h.
+
+
+\begin{DoxyCode}
+69                              \{
+70                 \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}[0].printTree();
+71             \}
+\end{DoxyCode}
+\mbox{\Hypertarget{classfp_1_1fpForestClassificationBase_a3f1ad5a5cfb3633713d0a81bd1c356e8}\label{classfp_1_1fpForestClassificationBase_a3f1ad5a5cfb3633713d0a81bd1c356e8}} 
+\index{fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}!test\+Forest@{test\+Forest}}
+\index{test\+Forest@{test\+Forest}!fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}}
+\subsubsection{\texorpdfstring{test\+Forest()}{testForest()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+float \hyperlink{classfp_1_1fpForestClassificationBase}{fp\+::fp\+Forest\+Classification\+Base}$<$ T $>$\+::test\+Forest (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classfp_1_1fpForestBase_af7becba028a198f650841b718d16ed16}{fp\+::fp\+Forest\+Base}.
+
+
+
+Definition at line 96 of file fp\+Forest\+Classification\+Base.\+h.
+
+
+\begin{DoxyCode}
+96                               \{
+97                 \textcolor{keywordtype}{float} numTried = 0;
+98                 \textcolor{keywordtype}{float} numWrong = 0;
+99 
+100                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i <\hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_ae0a2963feb07b809b8740218f1048b67}{returnNumObservations}();i++)\{
+101                     ++numTried;
+102                     \textcolor{keywordtype}{int} predClass = \hyperlink{classfp_1_1fpForestClassificationBase_ad0c690fff971fab681467fbcd8762b5f}{predictClass}(i);
+103 
+104                     \textcolor{keywordflow}{if}(predClass != \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().returnTestLabel(i)
+      )\{
+105                         ++numWrong;
+106                     \}
+107                 \}
+108                 std::cout << \textcolor{stringliteral}{"\(\backslash\)nnumWrong= "} << numWrong << \textcolor{stringliteral}{"\(\backslash\)n"};
+109 
+110                 \textcolor{keywordflow}{return} numWrong/numTried;
+111             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForestClassificationBase_a3f1ad5a5cfb3633713d0a81bd1c356e8_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classfp_1_1fpForestClassificationBase_a48567d379434daeccb1540c84674d286}\label{classfp_1_1fpForestClassificationBase_a48567d379434daeccb1540c84674d286}} 
+\index{fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}!tree\+Stats@{tree\+Stats}}
+\index{tree\+Stats@{tree\+Stats}!fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}}
+\subsubsection{\texorpdfstring{tree\+Stats()}{treeStats()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfp_1_1fpForestClassificationBase}{fp\+::fp\+Forest\+Classification\+Base}$<$ T $>$\+::tree\+Stats (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 50 of file fp\+Forest\+Classification\+Base.\+h.
+
+
+\begin{DoxyCode}
+50                             \{
+51                 \textcolor{keywordtype}{int} maxDepth=0;
+52                 \textcolor{keywordtype}{int} totalLeafNodes=0;
+53                 \textcolor{keywordtype}{int} totalLeafDepth=0;
+54 
+55                 \textcolor{keywordtype}{int} tempMaxDepth;
+56                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < \hyperlink{classfp_1_1fpSingleton_a8bdae77b68521003e3fc630edec2e240}{fpSingleton::getSingleton}().
+      \hyperlink{classfp_1_1fpSingleton_a8be36616345b6b77ce4c60b99cc2b91c}{returnNumTrees}(); ++i)\{
+57                     tempMaxDepth = \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}[i].returnMaxDepth();
+58                     maxDepth = ((maxDepth < tempMaxDepth) ? tempMaxDepth : maxDepth);
+59 
+60                     totalLeafNodes += \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}[i].returnNumLeafNodes();
+61                     totalLeafDepth += \hyperlink{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}{trees}[i].returnLeafDepthSum();
+62                 \}
+63 
+64                 std::cout << \textcolor{stringliteral}{"max depth: "} << maxDepth << \textcolor{stringliteral}{"\(\backslash\)n"};
+65                 std::cout << \textcolor{stringliteral}{"avg depth: "} << float(totalLeafDepth)/float(totalLeafNodes) << \textcolor{stringliteral}{"\(\backslash\)n"};
+66                 std::cout << \textcolor{stringliteral}{"num leaf nodes: "} << totalLeafNodes << \textcolor{stringliteral}{"\(\backslash\)n"};
+67             \}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfp_1_1fpForestClassificationBase_a48567d379434daeccb1540c84674d286_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classfp_1_1fpForestClassificationBase_a21148775a113092d6929e0d28e351a2c}\label{classfp_1_1fpForestClassificationBase_a21148775a113092d6929e0d28e351a2c}} 
+\index{fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}!print\+Progress@{print\+Progress}}
+\index{print\+Progress@{print\+Progress}!fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}}
+\subsubsection{\texorpdfstring{print\+Progress}{printProgress}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classfp_1_1fpDisplayProgress}{fp\+Display\+Progress} \hyperlink{classfp_1_1fpForestClassificationBase}{fp\+::fp\+Forest\+Classification\+Base}$<$ T $>$\+::print\+Progress}
+
+
+
+Definition at line 22 of file fp\+Forest\+Classification\+Base.\+h.
+
+\mbox{\Hypertarget{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}\label{classfp_1_1fpForestClassificationBase_a51482a6c95c4b3cb42627f029c2d4662}} 
+\index{fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}!trees@{trees}}
+\index{trees@{trees}!fp\+::fp\+Forest\+Classification\+Base@{fp\+::fp\+Forest\+Classification\+Base}}
+\subsubsection{\texorpdfstring{trees}{trees}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::vector$<$\hyperlink{classfp_1_1rfTree}{rf\+Tree}$<$T$>$ $>$ \hyperlink{classfp_1_1fpForestClassificationBase}{fp\+::fp\+Forest\+Classification\+Base}$<$ T $>$\+::trees\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 19 of file fp\+Forest\+Classification\+Base.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/forest\+Types/rf\+Classification/\hyperlink{fpForestClassificationBase_8h}{fp\+Forest\+Classification\+Base.\+h}\end{DoxyCompactItemize}
