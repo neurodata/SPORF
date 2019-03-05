@@ -11,10 +11,10 @@ def test_fastRerF_CSV_input():
     forest = fastRerF(
         CSVFile=datafile,
         Ycolumn=label_col,
-        forestType="rerf",
+        forestType="binnedBaseRerF",
         trees=50,
         minParent=1,
-        maxDepth=0,
+        maxDepth=None,
         numCores=1,
         mtry=2,
         seed=30,
@@ -29,7 +29,7 @@ def test_fastRerF_CSV_input():
     assert params["numCores"] == "1"
     assert params["mtry"] == "2"
     assert params["seed"] == "30"
-    assert params["Type of Forest"] == "rerf"
+    assert params["Type of Forest"] == "binnedBaseRerF"
     assert params["numClasses"] == "3"
     assert params["numObservations"] == "150"
     assert params["numFeatures"] == "4"
@@ -44,10 +44,10 @@ def test_fastRerF_X_Y_input():
     forest = fastRerF(
         X=feat_data,
         Y=Y,
-        forestType="rerf",
+        forestType="binnedBaseRerF",
         trees=50,
         minParent=1,
-        maxDepth=0,
+        maxDepth=None,
         numCores=1,
         mtry=2,
         seed=30,
@@ -60,7 +60,7 @@ def test_fastRerF_X_Y_input():
     assert params["numCores"] == "1"
     assert params["mtry"] == "2"
     assert params["seed"] == "30"
-    assert params["Type of Forest"] == "rerf"
+    assert params["Type of Forest"] == "binnedBaseRerF"
     assert params["numClasses"] == "3"
     assert params["numObservations"] == "150"
     assert params["numFeatures"] == "4"
@@ -75,23 +75,22 @@ def test_fastPredict_CSV_input():
     forest = fastRerF(
         CSVFile=datafile,
         Ycolumn=label_col,
-        forestType="rerf",
+        forestType="binnedBaseRerF",
         trees=500,
         minParent=1,
-        maxDepth=0,
+        maxDepth=None,
         numCores=1,
         mtry=2,
         seed=30,
     )
 
     pred_first = fastPredict(feat_data[0, :], forest)
-    assert pred_first == 0
-
     pred_last = fastPredict(feat_data[-1, :], forest)
-    assert pred_last == 2
-
     pred_all = fastPredict(feat_data, forest)
+
     assert len(pred_all) == 150
+    assert pred_first == 0
+    assert pred_last == 2
     assert np.array_equal(pred_all, Y)
 
 
@@ -104,10 +103,10 @@ def test_fastPredict_X_Y_input():
     forest = fastRerF(
         X=feat_data,
         Y=Y,
-        forestType="rerf",
+        forestType="binnedBaseRerF",
         trees=500,
         minParent=1,
-        maxDepth=0,
+        maxDepth=None,
         numCores=1,
         mtry=2,
         seed=30,
@@ -117,7 +116,7 @@ def test_fastPredict_X_Y_input():
     pred_last = fastPredict(feat_data[-1, :], forest)
     pred_all = fastPredict(feat_data, forest)
 
+    assert len(pred_all) == 150
     assert pred_first == 0
     assert pred_last == 2
-    assert len(pred_all) == 150
     assert np.array_equal(pred_all, Y)

@@ -13,7 +13,8 @@ def test_set_params():
     forest.setParameter("numCores", 4)
     forest.setParameter("fractionOfFeaturesToTest", 0.25)
     forest.setParameter("seed", 300)
-    forest.setParameter("forestType", "rerf")
+    forest.setParameter("forestType", "binnedBaseRerF")
+    forest.setParameter("maxDepth", 5)
 
     params = get_params(forest)
 
@@ -24,4 +25,5 @@ def test_set_params():
     assert params["numCores"] == "4"
     assert float(params["fractionOfFeaturesToTest"]) == 0.25
     assert params["seed"] == "300"
-    assert params["Type of Forest"] == "rerf"
+    assert params["Type of Forest"] == "binnedBaseRerF"
+    assert params["maxDepth"] == "5"
