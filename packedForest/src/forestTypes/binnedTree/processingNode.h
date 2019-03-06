@@ -121,12 +121,22 @@ namespace fp{
 				inline void loadWorkingSet(int currMTRY){
 					typename std::vector<zipClassAndValue<int,T> >::iterator zipIterator = zipIters.returnZipBegin();
 					for(int classNum = 0; classNum < fpSingleton::getSingleton().returnNumClasses(); ++classNum){
-
-						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum); ++q){
-							fpSingleton::getSingleton().prefetchFeatureVal(currMTRY,*q);
+						int sizeToPrefetch = nodeIndices.returnEndIterator(classNum) - nodeIndices.returnBeginIterator(classNum);
+						if(sizeToPrefetch > fpSingleton::getSingleton().returnPrefetchSize()){
+sizeToPrefetch =fpSingleton::getSingleton().returnPrefetchSize();
 						}
 
-						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum); ++q){
+						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnBeginIterator(classNum)+sizeToPrefetch; ++q){
+							fpSingleton::getSingleton().prefetchFeatureVal(currMTRY,*q, fpSingleton::getSingleton().returnPrefetchFlag());
+						}
+
+						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum)-sizeToPrefetch; ++q){
+							fpSingleton::getSingleton().prefetchFeatureVal(currMTRY,*(q+sizeToPrefetch),fpSingleton::getSingleton().returnPrefetchFlag());
+							zipIterator->setPair(classNum, fpSingleton::getSingleton().returnFeatureVal(currMTRY,*q));
+							++zipIterator;
+						}
+
+						for(std::vector<int>::iterator q=nodeIndices.returnEndIterator(classNum)-sizeToPrefetch; q!=nodeIndices.returnEndIterator(classNum); ++q){
 							zipIterator->setPair(classNum, fpSingleton::getSingleton().returnFeatureVal(currMTRY,*q));
 							++zipIterator;
 						}
@@ -310,11 +320,13 @@ namespace fp{
 				}
 
 				inline void calcBestSplitInfoForNode(std::vector<int> featureToTry){
-					loadWorkingSet(featureToTry);
-					sortWorkingSet();
-					resetRightNode();
-					resetLeftNode();
-					findBestSplit(featureToTry);
+					if(!featureToTry.empty()){
+						loadWorkingSet(featureToTry);
+						sortWorkingSet();
+						resetRightNode();
+						resetLeftNode();
+						findBestSplit(featureToTry);
+					}
 				}
 
 

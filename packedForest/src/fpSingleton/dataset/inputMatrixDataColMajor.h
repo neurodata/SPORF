@@ -22,8 +22,14 @@ class inputMatrixDataColMajor : public inputMatrixData<T, Q>
 
 	inline void prefetchFeatureValue(const int &featureNum, const int &observationNum)
 	{
-		_mm_prefetch(&this->inputXData[this->numObs * featureNum + observationNum], _MM_HINT_T0);
-		//__builtin_prefetch(&this->inputXData[this->numObs * featureNum + observationNum], 0, 2);
+		//_mm_prefetch(&this->inputXData[this->numObs * featureNum + observationNum], _MM_HINT_T0);
+		__builtin_prefetch(&this->inputXData[this->numObs * featureNum + observationNum], 0, 2);
+	}
+
+inline void prefetchFeatureValue(const int &featureNum, const int &observationNum, const int &hintNum)
+	{
+		//_mm_prefetch(&this->inputXData[this->numObs * featureNum + observationNum], hintNum);
+		__builtin_prefetch(&this->inputXData[this->numObs * featureNum + observationNum], 0, hintNum);
 	}
 };
 

@@ -103,7 +103,9 @@ namespace fp {
 				inData->prefetchFeatureValue(featureNumber, observationNumber);
 			}
 
-
+inline void prefetchFeatureVal(const int featureNumber, const int observationNumber, const int hintNum){
+				inData->prefetchFeatureValue(featureNumber, observationNumber, hintNum);
+			}
 
 			inline void setDataRelatedParameters(fpInfo& settings){
 				settings.setNumFeatures(this->returnNumFeatures());

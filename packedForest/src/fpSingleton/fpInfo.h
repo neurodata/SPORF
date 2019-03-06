@@ -49,6 +49,9 @@ namespace fp {
 			int numTreeBins;
 			bool useRowMajor;
 
+			int prefetchSize;
+			int prefetchFlag;
+
 
 		public:
 
@@ -73,9 +76,18 @@ namespace fp {
 				numTreeBins=-1;
 				forestType.clear();
 				CSVFileName.clear();
+				prefetchSize=1000;
+				prefetchFlag=1;
 				//initRandom();
 			}
 
+			inline int returnPrefetchSize(){
+				return prefetchSize;
+			}
+
+inline int returnPrefetchFlag(){
+				return prefetchFlag;
+			}
 
 			inline int returnNumTreeBins(){
 				return numTreeBins;
@@ -127,7 +139,7 @@ namespace fp {
 			inline int returnMaxDepth() const{
 				return maxDepth;
 			}
-		
+
 			inline int returnNumFeatures() const{
 				return numFeatures;
 			}
@@ -215,7 +227,7 @@ namespace fp {
 			fpInfo(): numTreesInForest(100),
 			minParent(1),	numClasses(-1), numObservations(-1), numFeatures(-1),
 			mtry(-1),mtryMult(1), columnWithY(-1), 
-			numberOfNodes(0), maxDepth(std::numeric_limits<int>::max()),sumLeafNodeDepths(0), fractionOfFeaturesToTest(-1.0), binSize(0),binMin(0),numCores(1),double_epsilon(0.0000001), float_epsilon(0.0000001),seed(-1),numTreeBins(-1),useRowMajor(true){}
+			numberOfNodes(0), maxDepth(std::numeric_limits<int>::max()),sumLeafNodeDepths(0), fractionOfFeaturesToTest(-1.0), binSize(0),binMin(0),numCores(1),double_epsilon(0.0000001), float_epsilon(0.0000001),seed(-1),numTreeBins(-1),useRowMajor(true),prefetchSize(1000),prefetchFlag(1){}
 
 
 
@@ -235,6 +247,10 @@ namespace fp {
 					numTreesInForest = (int)parameterValue;
 				}else if(parameterName == "minParent"){
 					minParent = (int)parameterValue;
+				}else if(parameterName == "prefetchSize"){
+					prefetchSize = (int)parameterValue;
+}else if(parameterName == "prefetchFlag"){
+					prefetchFlag = (int)parameterValue;
 				}else if(parameterName == "maxDepth"){
 					maxDepth = (int)parameterValue;
 				}else if(parameterName == "numClasses"){
@@ -270,6 +286,10 @@ namespace fp {
 					numTreesInForest = parameterValue;
 				}else if(parameterName == "minParent"){
 					minParent = parameterValue;
+				}else if(parameterName == "prefetchSize"){
+					prefetchSize = parameterValue;
+}else if(parameterName == "prefetchFlag"){
+					prefetchFlag = parameterValue;
 				}else if(parameterName == "maxDepth"){
 					maxDepth = parameterValue;
 				}else if(parameterName == "numClasses"){
@@ -301,6 +321,8 @@ namespace fp {
 
 			void printAllParameters(){
 				std::cout << "numTreesInForest -> " << numTreesInForest << "\n";
+				std::cout << "prefetchSize -> " << prefetchSize << "\n";
+				std::cout << "prefetchFlag -> " << prefetchFlag << "\n";
 				std::cout << "maxDepth -> " << maxDepth << "\n";
 				std::cout << "minParent -> " << minParent << "\n";
 				std::cout << "numClasses -> " << numClasses << "\n";
