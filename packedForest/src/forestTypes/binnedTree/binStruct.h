@@ -265,7 +265,6 @@ namespace fp{
 				inline int returnMaxDepth(){
 					int maxDepth=0;
 					for(auto& node : bin){
-						// +1 accounts for the leaf nodes which are never created (optimization that cuts memory required for a forest in half)
 						if(maxDepth < node.returnDepth()+1){
 							maxDepth = node.returnDepth()+1;
 						}

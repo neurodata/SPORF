@@ -28,6 +28,7 @@ labels = X[:, label_col]
 #     Ycolumn=label_col,
 #     forestType="binnedBaseRerF",
 #     trees=500,
+#     seed=1,
 #     numCores=cpu_count() - 1,
 # )
 forest = fastRerF(

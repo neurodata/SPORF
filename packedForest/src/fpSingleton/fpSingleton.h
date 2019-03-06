@@ -122,6 +122,14 @@ namespace fp {
 				return fpForestInfo.returnNumClasses();
 			}
 
+			inline int returnPrefetchSize(){
+				return fpForestInfo.returnPrefetchSize();
+			}
+
+			inline int returnPrefetchFlag(){
+				return fpForestInfo.returnPrefetchFlag();
+			}
+
 			inline int returnMtry(){
 				return fpForestInfo.returnMtry();
 			}
@@ -156,6 +164,10 @@ namespace fp {
 
 			inline void prefetchFeatureVal(const int featureNumber, const int observationNumber){
 				data.prefetchFeatureVal(featureNumber, observationNumber);
+			}
+
+inline void prefetchFeatureVal(const int featureNumber, const int observationNumber, const int hintNum){
+				data.prefetchFeatureVal(featureNumber, observationNumber, hintNum);
 			}
 
 			inline double returnTestFeatureVal(const int featureNumber, const int observationNumber){

@@ -26,6 +26,7 @@ namespace fp {
 				}
 				virtual T returnFeatureValue(const int &featureNum, const int &observationNum) = 0;
 				virtual void prefetchFeatureValue(const int &featureNum, const int &observationNum) = 0;
+				virtual void prefetchFeatureValue(const int &featureNum, const int &observationNum, const int &hintNum) = 0;
 				virtual int returnNumFeatures() = 0;
 				virtual int returnNumObservations() = 0;
 				virtual int returnNumClasses(){
