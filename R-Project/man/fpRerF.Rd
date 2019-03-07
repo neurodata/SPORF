@@ -5,7 +5,7 @@
 \title{Packs a forest and saves modified forest to disk for use by PackPredict function}
 \usage{
 fpRerF(X = NULL, Y = NULL, csvFileName = NULL, columnWithY = NULL,
-  maxDepth = Inf, minParent = 1, numTreesInForest = 100,
+  maxDepth = Inf, minParent = 1, numTreesInForest = 500,
   numCores = 1, numTreeBins = NULL, forestType = "binnedBaseRerF",
   nodeSizeToBin = NULL, nodeSizeBin = NULL, mtry = NULL,
   mtryMult = NULL, seed = sample(1:1e+06, 1))
@@ -23,7 +23,7 @@ fpRerF(X = NULL, Y = NULL, csvFileName = NULL, columnWithY = NULL,
 
 \item{minParent}{is the size of nodes that will not be split (minParent=1)}
 
-\item{numTreesInForest}{the number of trees to grow in the forest (numTreesInForest=100)}
+\item{numTreesInForest}{the number of trees to grow in the forest (numTreesInForest=500)}
 
 \item{numCores}{is the number of cores to use when training and predicting with the forest (numCores=1)}
 
