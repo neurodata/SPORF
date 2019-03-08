@@ -31,7 +31,7 @@ namespace fp{
 
 
 				~unprocessedRerFNode(){}
-				
+
 
 
 				inline std::vector<int>& returnBestFeature(){
@@ -68,12 +68,12 @@ namespace fp{
 				//basic prefetched gather operation.  Without prefetching this function
 				//would be less than half as long.
 				inline void loadFeatureHolder(){
+					int numToPrefetch=32;//testing showed anything over 10 is beneficial.
+
 					if(baseUnprocessedNode<T>::obsIndices->useBin()){
-						int numToPrefetch=50;//testing showed anything over 10 is beneficial.
 						if(baseUnprocessedNode<T>::obsIndices->returnBinnedSize() <numToPrefetch){
 							numToPrefetch = baseUnprocessedNode<T>::obsIndices->returnBinnedSize();
 						}
-
 						//load the first feature
 						for(int q=0; q<numToPrefetch; q++){
 							fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnBinnedInSample(q));
@@ -109,12 +109,9 @@ namespace fp{
 							}
 						}
 					}else{
-						int numToPrefetch=50; //testing showed anything over 10 is beneficial.
-						if(baseUnprocessedNode<T>::obsIndices->returnInSampleSize()<numToPrefetch){
+						if(baseUnprocessedNode<T>::obsIndices->returnInSampleSize() <numToPrefetch){
 							numToPrefetch = baseUnprocessedNode<T>::obsIndices->returnInSampleSize();
 						}
-
-
 						//load the first feature
 						for(int q=0; q<numToPrefetch; q++){
 							fpSingleton::getSingleton().prefetchFeatureVal(featuresToTry.back()[0],baseUnprocessedNode<T>::obsIndices->returnInSample(q));

@@ -122,8 +122,8 @@ namespace fp{
 					for(int classNum = 0; classNum < fpSingleton::getSingleton().returnNumClasses(); ++classNum){
 
 						int sizeToPrefetch = nodeIndices.returnEndIterator(classNum) - nodeIndices.returnBeginIterator(classNum);            
-						if(sizeToPrefetch > 50){ //testing showed that anything above 10 is good.
-							sizeToPrefetch =50;
+						if(sizeToPrefetch > 32){ //testing showed that anything above 10 is good.
+							sizeToPrefetch = 32;
 						}
 
 						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnBeginIterator(classNum)+sizeToPrefetch; ++q){
@@ -154,8 +154,8 @@ namespace fp{
 					for(int classNum = 0; classNum < fpSingleton::getSingleton().returnNumClasses(); ++classNum){
 
 						int sizeToPrefetch = nodeIndices.returnEndIterator(classNum) - nodeIndices.returnBeginIterator(classNum);            
-						if(sizeToPrefetch > 50){ //testing showed that anything above 10 is good.
-							sizeToPrefetch =50;
+						if(sizeToPrefetch > 32){ //testing showed that anything above 10 is good.
+							sizeToPrefetch = 32;
 						}
 
 						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnBeginIterator(classNum)+sizeToPrefetch; ++q){
