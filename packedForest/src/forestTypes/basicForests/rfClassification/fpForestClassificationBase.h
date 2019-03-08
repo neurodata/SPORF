@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <omp.h>
 #include "rfTree.h"
+#include <map>
 
 namespace fp {
 

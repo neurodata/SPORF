@@ -1,5 +1,6 @@
 #include "../../src/forestTypes/basicForests/rfClassification/fpForestClassificationBase.h"
 #include "../../src/fpSingleton/fpSingleton.h"
+#include <map>
 
 TEST(testRFBase, testMaxDepth){
   fpSingleton::getSingleton().setParameter("CSVFileName", "../res/iris.csv");

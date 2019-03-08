@@ -1,5 +1,6 @@
 #include "../../src/forestTypes/binnedTree/binnedBase.h"
 #include "../../src/fpSingleton/fpSingleton.h"
+#include <map>
 
 TEST(testBinnedBase, testBaseMaxDepth){
   fpSingleton::getSingleton().setParameter("CSVFileName", "../res/iris.csv");

@@ -1,5 +1,6 @@
 #include "../../src/forestTypes/basicForests/rerf/fpRerFBase.h"
 #include "../../src/fpSingleton/fpSingleton.h"
+#include <map>
 
 
 TEST(testRerFBase, testMaxDepth){
