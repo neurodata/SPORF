@@ -1,9 +1,9 @@
 CXX_STD = CXX11
 
-PKG_CXXFLAGS= -IforestPacking
+PKG_CXXFLAGS= -IforestPacking -fopenmp -Wall -O3 -DNDEBUG -ffast-math
 
 #PKG_CFLAGS = $(SHLIB_OPENMP_CFLAGS) -IforestPacking
-PKG_CFLAGS = -IforestPacking
+PKG_CFLAGS = -IforestPacking -fopenmp -Wall -O3 -DNDEBUG -ffast-math
 
 #PKG_LIBS = $(SHLIB_OPENMP_CFLAGS)
 

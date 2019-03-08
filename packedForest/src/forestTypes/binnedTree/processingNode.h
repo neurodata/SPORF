@@ -124,13 +124,12 @@ namespace fp{
 						if(sizeToPrefetch > fpSingleton::getSingleton().returnPrefetchSize()){
 sizeToPrefetch =fpSingleton::getSingleton().returnPrefetchSize();
 						}
-
 						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnBeginIterator(classNum)+sizeToPrefetch; ++q){
-							fpSingleton::getSingleton().prefetchFeatureVal(currMTRY,*q, fpSingleton::getSingleton().returnPrefetchFlag());
+							fpSingleton::getSingleton().prefetchFeatureVal(currMTRY,*q);
 						}
 
 						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum)-sizeToPrefetch; ++q){
-							fpSingleton::getSingleton().prefetchFeatureVal(currMTRY,*(q+sizeToPrefetch),fpSingleton::getSingleton().returnPrefetchFlag());
+							fpSingleton::getSingleton().prefetchFeatureVal(currMTRY,*(q+sizeToPrefetch));
 							zipIterator->setPair(classNum, fpSingleton::getSingleton().returnFeatureVal(currMTRY,*q));
 							++zipIterator;
 						}
@@ -151,11 +150,47 @@ sizeToPrefetch =fpSingleton::getSingleton().returnPrefetchSize();
 
 					for(int classNum = 0; classNum < fpSingleton::getSingleton().returnNumClasses(); ++classNum){
 
+						int sizeToPrefetch = nodeIndices.returnEndIterator(classNum) - nodeIndices.returnBeginIterator(classNum);
+if(sizeToPrefetch > fpSingleton::getSingleton().returnPrefetchSize()){
+sizeToPrefetch =fpSingleton::getSingleton().returnPrefetchSize();
+						}
+          /*
+						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnBeginIterator(classNum)+sizeToPrefetch; ++q){
+							fpSingleton::getSingleton().prefetchFeatureVal(currMTRY,*q);
+						}
+
+						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum)-sizeToPrefetch; ++q){
+							fpSingleton::getSingleton().prefetchFeatureVal(currMTRY,*(q+sizeToPrefetch));
+							zipIterator->setPair(classNum, fpSingleton::getSingleton().returnFeatureVal(currMTRY,*q));
+							++zipIterator;
+						}
+
+						for(std::vector<int>::iterator q=nodeIndices.returnEndIterator(classNum)-sizeToPrefetch; q!=nodeIndices.returnEndIterator(classNum); ++q){
+							zipIterator->setPair(classNum, fpSingleton::getSingleton().returnFeatureVal(currMTRY,*q));
+							++zipIterator;
+						}
 						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum); ++q){
 							fpSingleton::getSingleton().prefetchFeatureVal(currMTRY[0],*q);
 						}
+            */
 
-						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum); ++q){
+for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnBeginIterator(classNum)+sizeToPrefetch; ++q){
+							for(auto i : currMTRY){
+							fpSingleton::getSingleton().prefetchFeatureVal(i,*q);
+							}
+						}
+
+						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum)-sizeToPrefetch; ++q){
+							accumulator=0;
+							for(auto i : currMTRY){
+							fpSingleton::getSingleton().prefetchFeatureVal(i,*(q+sizeToPrefetch));
+								accumulator+=	fpSingleton::getSingleton().returnFeatureVal(i,*q);
+							}
+							zipIterator->setPair(classNum,accumulator);
+							++zipIterator;
+						}
+
+						for(std::vector<int>::iterator q=nodeIndices.returnEndIterator(classNum)-sizeToPrefetch; q!=nodeIndices.returnEndIterator(classNum); ++q){
 							accumulator=0;
 							for(auto i : currMTRY){
 								accumulator+=	fpSingleton::getSingleton().returnFeatureVal(i,*q);
@@ -163,6 +198,9 @@ sizeToPrefetch =fpSingleton::getSingleton().returnPrefetchSize();
 							zipIterator->setPair(classNum,accumulator);
 							++zipIterator;
 						}
+
+
+
 					}
 
 				}

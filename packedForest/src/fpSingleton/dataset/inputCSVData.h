@@ -104,7 +104,7 @@ namespace fp {
 			}
 
 inline void prefetchFeatureValue(const int &featureNum, const int &observationNum, const int &hintNum){
-				X.prefetchElement(featureNum, observationNum, hintNum);
+			//	X.prefetchElement(featureNum, observationNum, hintNum);
 			}
 
 			inline int returnNumFeatures(){

@@ -26,7 +26,7 @@
 #' forest <- fpRerF(as.matrix(iris[, 1:4]), as.numeric(iris[[5L]])-1)
 #'
 fpRerF <-
-	function(X=NULL, Y=NULL,csvFileName=NULL, columnWithY=NULL, maxDepth = Inf, minParent=1, numTreesInForest=500, numCores=1,numTreeBins=NULL, forestType="binnedBaseRerF", nodeSizeToBin=NULL, nodeSizeBin=NULL,mtry=NULL, mtryMult=NULL,seed=sample(1:1000000,1)){
+	function(X=NULL, Y=NULL,csvFileName=NULL, columnWithY=NULL, maxDepth = Inf, minParent=1, numTreesInForest=500, numCores=1,numTreeBins=NULL, forestType="binnedBaseRerF", nodeSizeToBin=NULL,prefetch=1000, nodeSizeBin=NULL,mtry=NULL, mtryMult=NULL,seed=sample(1:1000000,1)){
 
 		##### Basic Checks
 		################################################
@@ -56,6 +56,7 @@ fpRerF <-
 		forest_module$setParameterInt("numCores", numCores)
 		forest_module$setParameterInt("useRowMajor",0)
 		forest_module$setParameterInt("seed",seed)
+		forest_module$setParameterInt("prefetchSize",prefetch)
 
 		if(!is.null(nodeSizeToBin) & !is.null(nodeSizeBin)){
 			if(nodeSizeBin > nodeSizeToBin){
