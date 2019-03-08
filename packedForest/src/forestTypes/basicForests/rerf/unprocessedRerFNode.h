@@ -69,7 +69,7 @@ namespace fp{
 				//would be less than half as long.
 				inline void loadFeatureHolder(){
 					if(baseUnprocessedNode<T>::obsIndices->useBin()){
-						int numToPrefetch=200;
+						int numToPrefetch=50;//testing showed anything over 10 is beneficial.
 						if(baseUnprocessedNode<T>::obsIndices->returnBinnedSize() <numToPrefetch){
 							numToPrefetch = baseUnprocessedNode<T>::obsIndices->returnBinnedSize();
 						}
@@ -109,7 +109,7 @@ namespace fp{
 							}
 						}
 					}else{
-						int numToPrefetch=200;
+						int numToPrefetch=50; //testing showed anything over 10 is beneficial.
 						if(baseUnprocessedNode<T>::obsIndices->returnInSampleSize()<numToPrefetch){
 							numToPrefetch = baseUnprocessedNode<T>::obsIndices->returnInSampleSize();
 						}

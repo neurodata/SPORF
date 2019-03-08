@@ -23,7 +23,7 @@ class inputMatrixDataRowMajor : public inputMatrixData<T, Q>
     inline void prefetchFeatureValue(const int &featureNum,
                                      const int &observationNum)
     {
-        __builtin_prefetch(&this->inputXData[observationNum * this->numFeatures + featureNum], 0, 2);
+        __builtin_prefetch(&this->inputXData[observationNum * this->numFeatures + featureNum], 0, 1);
     }
 };
 } // namespace fp
