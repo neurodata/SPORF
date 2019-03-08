@@ -2,8 +2,8 @@ from RerF import fastRerF, fastPredict
 import numpy as np
 from multiprocessing import cpu_count
 
-#datatype = "iris"
-datatype = "mnist"
+datatype = "iris"
+#datatype = "mnist"
 
 if datatype == "iris":
     datafile = "../packedForest/res/iris.csv"
