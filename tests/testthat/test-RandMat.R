@@ -2,6 +2,62 @@ context("RandMat* tests")
 suppressWarnings(RNGversion("3.5.0")) ## temporary fix for R-dev
 library(rerf)
 
+
+test_that("Testing RandMat", {
+
+})
+
+
+
+test_that("Testing RandMatBinary", {
+  paramList <- list(p = 100, d = 25, sparsity = 2/10, prob = 0.5)
+  a <- do.call(RandMatBinary, paramList)
+
+  ## Check that columns are in the correct space
+  expect_true(all(a[, 1] %in% 1:paramList$p))
+  expect_true(all(a[, 2] %in% 1:paramList$d))
+
+  ## Check that weights are the correct proportions
+  bi <- binom.test(sum(a[, 3] == 1), nrow(a), paramList$prob, "two")
+
+  bi$p.value 
+  expect_true(pv >= 0.05)
+})
+
+
+test_that("Testing RandMatContinuous", {
+  paramList <- list(p = 100, d = 25, sparsity = 2/10)
+  a <- do.call(RandMatContinuous, paramList)
+
+  ## Check that columns are in the correct space
+  expect_true(all(a[, 1] %in% 1:paramList$p))
+  expect_true(all(a[, 2] %in% 1:paramList$d))
+
+  ## Check that weights are the correct proportions
+  ks <- ks.test(a[, 3], "pnorm", 0,1)
+  expect_true(ks$p.value >= 0.05)
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 test_that("Testing RandMat binary option.", {
   ## below is the output of RandMat with mat.options
   ## from commit 73b896ff053537ee23d82b9debee054171b1c41b
