@@ -85,8 +85,7 @@ namespace fp {
 				std::cout << "\n"<< std::flush;
 			}
 
-
-			inline void binStats(){
+			inline std::map<std::string, int> calcBinStats(){
 				int maxDepth=0;
 				int totalLeafNodes=0;
 				int totalLeafDepth=0;
@@ -100,9 +99,19 @@ namespace fp {
 					totalLeafDepth += bins[i].returnLeafDepthSum();
 				}
 
-				std::cout << "max depth: " << maxDepth << "\n";
-				std::cout << "avg leaf node depth: " << float(totalLeafDepth)/float(totalLeafNodes) << "\n";
-				std::cout << "num leaf nodes: " << totalLeafNodes << "\n";
+				std::map<std::string, int> binStats;
+				binStats["maxDepth"] = maxDepth;
+				binStats["totalLeafDepth"] = totalLeafDepth;
+				binStats["totalLeafNodes"] = totalLeafNodes;
+				return binStats;
+			}
+
+			inline void binStats(){
+				std::map<std::string, int> binStats = calcBinStats();
+
+				std::cout << "max depth: " << binStats["maxDepth"] << "\n";
+				std::cout << "avg leaf node depth: " << float(binStats["totalLeafDepth"])/float(binStats["totalLeafNodes"]) << "\n";
+				std::cout << "num leaf nodes: " << binStats["totalLeafNodes"] << "\n";
 			}
 
 			void printBin0(){
