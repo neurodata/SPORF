@@ -20,8 +20,7 @@ test_that("Testing RandMatBinary", {
   ## Check that weights are the correct proportions
   bi <- binom.test(sum(a[, 3] == 1), nrow(a), paramList$prob, "two")
 
-  bi$p.value 
-  expect_true(pv >= 0.05)
+  expect_true(bi$p.value >= 0.05)
 })
 
 
