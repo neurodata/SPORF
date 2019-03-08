@@ -1,4 +1,5 @@
 context("RandMat* tests")
+suppressWarnings(RNGversion("3.5.0")) ## temporary fix for R-dev
 library(rerf)
 
 test_that("Testing RandMat binary option.", {

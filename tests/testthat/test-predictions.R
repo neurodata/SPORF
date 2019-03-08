@@ -1,4 +1,5 @@
 context("Predictions and OOB Predictions")
+suppressWarnings(RNGversion("3.5.0")) ## temporary fix for R-dev
 library(rerf)
 
 set.seed(123456)
