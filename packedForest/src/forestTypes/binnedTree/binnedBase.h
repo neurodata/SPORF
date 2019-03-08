@@ -155,6 +155,17 @@ namespace fp {
 			}
 
 
+			inline std::vector<int> predictClassPost(std::vector<T>& observation){
+				std::vector<int> predictions(fpSingleton::getSingleton().returnNumClasses(),0);
+
+#pragma omp parallel for num_threads(fpSingleton::getSingleton().returnNumThreads())
+				for(int k = 0; k < numBins; ++k){
+					bins[k].predictBinObservation(observation, predictions);
+				}
+				return predictions;
+			}
+
+
 			inline int predictClass(const T* observation){
 				/*
 					 std::vector<int> predictions(fpSingleton::getSingleton().returnNumClasses(),0);

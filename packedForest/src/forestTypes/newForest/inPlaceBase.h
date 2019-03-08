@@ -154,22 +154,30 @@ namespace fp {
 				return bestClass;
 			}
 
-
-inline int predictClass(const T* observation){
-	/*
+			inline std::vector<int> predictClassPost(std::vector<T>& observation){
 				std::vector<int> classTally(fpSingleton::getSingleton().returnNumClasses(),0);
 				for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
 					++classTally[trees[i].predictObservation(observation)];
 				}
-				int bestClass = 0;
-				for(int j = 1; j < fpSingleton::getSingleton().returnNumClasses(); ++j){
-					if(classTally[bestClass] < classTally[j]){
-						bestClass = j;
-					}
-				}
-				return bestClass;
-				*/
-	return 0;
+				return classTally;
+			}
+
+
+			inline int predictClass(const T* observation){
+				/*
+					 std::vector<int> classTally(fpSingleton::getSingleton().returnNumClasses(),0);
+					 for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
+					 ++classTally[trees[i].predictObservation(observation)];
+					 }
+					 int bestClass = 0;
+					 for(int j = 1; j < fpSingleton::getSingleton().returnNumClasses(); ++j){
+					 if(classTally[bestClass] < classTally[j]){
+					 bestClass = j;
+					 }
+					 }
+					 return bestClass;
+					 */
+				return 0;
 			}
 
 
