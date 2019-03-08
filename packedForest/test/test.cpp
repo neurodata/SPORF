@@ -19,3 +19,4 @@
 #include "fpTests/RerF/unprocessedRerFNodeTest.h"
 #include "fpTests/MWC.h"
 #include "fpTests/fpInfo.h"
+#include "fpTests/fpForestTest.h"
