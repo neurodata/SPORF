@@ -2,6 +2,7 @@ from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
 import sys
 import setuptools
+import subprocess
 
 __version__ = "0.0.1"
 
@@ -84,7 +85,10 @@ class BuildExt(build_ext):
     }
 
     if sys.platform == "darwin":
-        c_opts["unix"] += ["-lomp", '-I/usr/local/opt/libomp/include', '-L/usr/local/opt/libomp/lib']
+        ompbase = subprocess.run(["brew", "--prefix", "libomp"], stdout=subprocess.PIPE)
+        omploc = ompbase.stdout.decode('utf-8').strip()
+
+        c_opts["unix"] += ["-lomp", "-I{}/include".format(omploc), "-L{}/lib".format(omploc)]
 
     def build_extensions(self):
         ct = self.compiler.compiler_type

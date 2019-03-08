@@ -3,7 +3,7 @@ import numpy as np
 from multiprocessing import cpu_count
 
 datatype = "iris"
-#datatype = "mnist"
+# datatype = "mnist"
 
 if datatype == "iris":
     datafile = "../packedForest/res/iris.csv"
