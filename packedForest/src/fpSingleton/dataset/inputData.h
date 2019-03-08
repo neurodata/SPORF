@@ -45,8 +45,8 @@ namespace fp {
 				}
 
 				void printDataStats(){
-					std::cout << "there are " << this.returnNumFeatures() << " features.\n";
-					std::cout << "there are " << this.returnNumObservations() << " observations.\n";
+					std::cout << "there are " << this->returnNumFeatures() << " features.\n";
+					std::cout << "there are " << this->returnNumObservations() << " observations.\n";
 				}
 
 				void printXValues(){
