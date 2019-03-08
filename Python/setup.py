@@ -84,7 +84,7 @@ class BuildExt(build_ext):
     }
 
     if sys.platform == "darwin":
-        c_opts["unix"] += ["-stdlib=libc++", "-mmacosx-version-min=10.7"]
+        c_opts["unix"] += ["-lomp", '-I/usr/local/opt/libomp/include', '-L/usr/local/opt/libomp/lib']
 
     def build_extensions(self):
         ct = self.compiler.compiler_type
