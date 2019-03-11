@@ -31,7 +31,7 @@ def test_set_params():
 
 def test_predict_post():
     forest = pyfp.fpForest()
-    forest.setParameter("CSVFileName", "../packedForest/res/iris.csv")
+    forest.setParameter("CSVFileName", "packedForest/res/iris.csv")
     forest.setParameter("numTreesInForest", 10)
     forest.setParameter("minParent", 1)
     forest.setParameter("columnWithY", 4)
