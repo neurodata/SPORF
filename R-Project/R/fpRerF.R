@@ -14,7 +14,7 @@
 #' @param forestType the type of forest to grow: binnedBase, binnedBaseRerF (forestType="binnedBaseRerF")
 #' @param NodeSizeToBin the minimum node size to use stratified subsampling (NodeSizeToBin=NULL)
 #' @param NodeSizeBin the size of the stratified subsample chosen when NodeSizeToBin criteria is met (NodeSizeBin=NULL)
-#' @param forestType the type of forest to grow: rfBase, rerf, inPlace, inPlaceRerF, binnedBase, binnedBaseRerF (forestType="rerf")
+#' @param forestType the type of forest to grow: binnedBase, binnedBaseRerF, rfBase, rerf (forestType="binnedBaseRerF")
 #' @param mtry the number of features to consider when splitting a node (mtry=ncol(X)^.5)
 #' @param mtryMult the average number of features combined to form a new feature when using RerF (mtryMult=1)
 #'
@@ -23,8 +23,14 @@
 #'
 #' @examples
 #' library(rerf)
-#' forest <- fpRerF(as.matrix(iris[, 1:4]), as.numeric(iris[[5L]])-1)
+#' ## setup data
+#' X <- as.matrix(iris[, 1:4])
+#' Y <- as.numeric(iris[[5]]) - 1
+#' forest <- fpRerF(X, Y, numCores = 2L)
+#' (training.error <- mean(fpPredict(forest, X) != Y))
 #'
+
+
 fpRerF <-
 	function(X=NULL, Y=NULL,csvFileName=NULL, columnWithY=NULL, maxDepth = Inf, minParent=1, numTreesInForest=500, numCores=1,numTreeBins=NULL, forestType="binnedBaseRerF", nodeSizeToBin=NULL, nodeSizeBin=NULL,mtry=NULL, mtryMult=NULL,seed=sample(1:1000000,1)){
 

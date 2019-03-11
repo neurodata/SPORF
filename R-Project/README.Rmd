@@ -3,7 +3,7 @@ title: "Randomer Forest"
 output:
   github_document:
     html_preview: false
-    toc: true
+    toc: false
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -11,7 +11,7 @@ output:
 
 ```{r, include=FALSE, eval = FALSE}
 ## run this to build the README.md file.
-## takes about 30 seconds to run.
+## takes less than 60 seconds to run.
 require(rerf)
 system.time({
   rmarkdown::render('README.Rmd')
@@ -54,6 +54,7 @@ knitr::opts_chunk$set(
         (U-RerF)](#unsupervised-classification-u-rerf)
     -   [Similarity Randomer Forest
         (SmerF)](#similarity-randomer-forest-smerf)
+    -   [Fast-RerF (fpRerF)](#forest-packing-with-fast-rerf)
 
 
 
@@ -78,6 +79,7 @@ Any machine with >= 2 GB RAM
 
 
 ## Software Dependencies
+- OpenMP (for `fpRerF`)
 - `R (>= 3.3.0)`
 - `R` packages:
   - `dummies`
@@ -104,6 +106,7 @@ From terminal:
 
 ```sh
 git clone https://github.com/neurodata/RerF.git
+## defaults to the staging branch
 cd RerF
 Rscript -e "install.packages('R-Project/', type = 'source', repos = NULL)"
 ```
@@ -334,6 +337,24 @@ Yhat <- Predict(X[test, ], iris.forest, num.cores = 4L)
 max(abs(Ytest - Yhat))
 ```
 
+## Forest Packing with fast-RerF
+
+```{r fpRerF}
+X <- mnist$Xtrain
+Y <- mnist$Ytrain
+
+
+## runs in under a minute on all of MNIST
+system.time({
+f <- fpRerF(X, Y, forestType = "binnedBaseRerF", numTreesInForest = 100, numCores = 4)
+})
+
+training.pred <- fpPredict(f, X)
+testing.pred <- fpPredict(f, mnist$Xtest)
+
+(training.error <- mean(training.pred != Y))
+(testing.error <- mean(testing.pred != mnist$Ytest))
+```
 
 
 

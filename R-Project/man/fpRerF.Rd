@@ -39,13 +39,17 @@ fpRerF(X = NULL, Y = NULL, csvFileName = NULL, columnWithY = NULL,
 
 \item{NodeSizeBin}{the size of the stratified subsample chosen when NodeSizeToBin criteria is met (NodeSizeBin=NULL)}
 
-\item{forestType}{the type of forest to grow: rfBase, rerf, inPlace, inPlaceRerF, binnedBase, binnedBaseRerF (forestType="rerf")}
+\item{forestType}{the type of forest to grow: binnedBase, binnedBaseRerF, rfBase, rerf (forestType="binnedBaseRerF")}
 }
 \description{
 Efficiently packs a forest trained with the RF option.  Two intermediate data structures are written to disk, forestPackTempFile.csv and traversalPackTempFile.csv.  The size of these data structures is proportional to a trained forest and training data respectively.  Both data structures are removed at the end of the operation.  The resulting forest is saved as forest.out.  The size of this file is similar to the size of the trained forest.
 }
 \examples{
 library(rerf)
-forest <- fpRerF(as.matrix(iris[, 1:4]), as.numeric(iris[[5L]])-1)
+## setup data
+X <- as.matrix(iris[, 1:4])
+Y <- as.numeric(iris[[5]]) - 1
+forest <- fpRerF(X, Y, numCores = 2L)
+(training.error <- mean(fpPredict(forest, X) != Y))
 
 }
