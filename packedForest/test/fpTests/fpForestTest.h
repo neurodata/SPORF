@@ -6,7 +6,7 @@ TEST(testAUCReturn, AUCReturnBinnedBase)
 {
 	fp::fpForest<double> forest;
 	forest.setParameter("forestType", "binnedBase");
-	forest.setParameter("CSVFileName", "res/iris.csv");
+	forest.setParameter("CSVFileName", "../res/iris.csv");
 	forest.setParameter("columnWithY", 4);
 	forest.setParameter("numTreesInForest", 10);
 	forest.setParameter("minParent", 1);
@@ -28,7 +28,7 @@ TEST(testAUCReturn, AUCReturnBinnedBaseRerF)
 {
 	fp::fpForest<double> forest;
 	forest.setParameter("forestType", "binnedBaseRerF");
-	forest.setParameter("CSVFileName", "res/iris.csv");
+	forest.setParameter("CSVFileName", "../res/iris.csv");
 	forest.setParameter("columnWithY", 4);
 	forest.setParameter("numTreesInForest", 10);
 	forest.setParameter("minParent", 1);
@@ -50,7 +50,7 @@ TEST(testAUCReturn, AUCReturnrfBase)
 {
 	fp::fpForest<double> forest;
 	forest.setParameter("forestType", "rfBase");
-	forest.setParameter("CSVFileName", "res/iris.csv");
+	forest.setParameter("CSVFileName", "../res/iris.csv");
 	forest.setParameter("columnWithY", 4);
 	forest.setParameter("numTreesInForest", 10);
 	forest.setParameter("minParent", 1);
@@ -72,7 +72,7 @@ TEST(testAUCReturn, AUCReturnrerf)
 {
 	fp::fpForest<double> forest;
 	forest.setParameter("forestType", "rerf");
-	forest.setParameter("CSVFileName", "res/iris.csv");
+	forest.setParameter("CSVFileName", "../res/iris.csv");
 	forest.setParameter("columnWithY", 4);
 	forest.setParameter("numTreesInForest", 10);
 	forest.setParameter("minParent", 1);
