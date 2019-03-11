@@ -208,9 +208,9 @@ RandMatPoisson <- function(p, d, lambda, catMap = NULL, ...) {
 #' Create a Random Matrix: FRC
 #'
 #'
-#' @param p the number of dimensions.
-#' @param d the number of desired columns in the projection matrix.
-#' @param nmix mupliplier to \code{d} to specify the number of non-zeros.
+#' @param p integer the number of dimensions.
+#' @param d integer the number of desired columns in the projection matrix.
+#' @param nmix integer mupliplier to \code{d} to specify the number of non-zeros.
 #' @param catMap a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature.
 #' @param ... used to handle superfluous arguments passed in using paramList.
 #'
@@ -223,7 +223,7 @@ RandMatPoisson <- function(p, d, lambda, catMap = NULL, ...) {
 #' @examples
 #'
 #' p <- 8
-#' d <- 8
+#' d <- 2
 #' nmix <- 5
 #' paramList <- list(p = p, d = d, nmix = nmix)
 #' set.seed(4)

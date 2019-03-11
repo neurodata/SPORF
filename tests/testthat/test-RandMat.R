@@ -1,5 +1,4 @@
 context("RandMat* tests")
-suppressWarnings(RNGversion("3.5.0")) ## temporary fix for R-dev
 library(rerf)
 
 
@@ -39,23 +38,85 @@ test_that("Testing RandMatContinuous", {
 
 
 
+test_that("Testing RandMatPoisson", {
+  paramList <- list(p = 100, d = 25, lambda = 5)
+  a <- do.call(RandMatPoisson, paramList)
+
+  ## Check that columns are in the correct space
+  expect_true(all(a[, 1] %in% 1:paramList$p))
+  expect_true(all(a[, 2] %in% 1:paramList$d))
+
+  ## Check that weights are the correct proportions
+  ##TODO: Not sure what to do here yet. to check for ~ Poisson
+  ## See https://github.com/neurodata/RerF/issues/208
+
+  ## Check that the weights are ~ N(0,1)
+  bi <- binom.test(sum(a[, 3] == 1), nrow(a), 0.5, "two")
+  expect_true(bi$p.value >= 0.05)
+})
+
+
+test_that("Testing RandMatFRC", {
+  paramList <- list(p = 100, d = 25, nmix = 5)
+  a <- do.call(RandMatFRC, paramList)
+
+  ## Check that columns are in the correct space
+  expect_true(all(a[, 1] %in% 1:paramList$p))
+  expect_true(all(a[, 2] %in% 1:paramList$d))
+
+  ## Check that the weights are ~ U[-1,1]
+  ks <- ks.test(x = a[, 3], y = "punif", min = -1, max = 1)
+  expect_true(ks$p.value >= 0.05)
+})
+
+
+test_that("Testing RandMatFRCN", {
+  paramList <- list(p = 100, d = 25, nmix = 5)
+  a <- do.call(RandMatFRCN, paramList)
+
+  ## Check that columns are in the correct space
+  expect_true(all(a[, 1] %in% 1:paramList$p))
+  expect_true(all(a[, 2] %in% 1:paramList$d))
+
+  ## Check that the weights are ~ N(0,1)
+  ks <- ks.test(x = a[, 3], y = "pnorm", mean = 0, sd = 1)
+  expect_true(ks$p.value >= 0.05)
+})
+
+
+test_that("Testing RandMatImagePatch", {
+  paramList <- list(p = 32^2, d = 32, ih = 32, iw = 32, pwMin = 2, pwMax = 16)
+  a <- do.call(RandMatImagePatch, paramList)
+
+  ## Check that columns are in the correct space
+  expect_true(all(a[, 1] %in% 1:paramList$p))
+  expect_true(all(a[, 2] %in% 1:paramList$d))
+
+  ## Check that the weights are all 1
+  expect_true(all(a[, 3] == 1))
+
+  ##TODO: could also check for height and width here
+})
+
+
+test_that("Testing RandMatImageControl", {
+  paramList <- list(p = 32^2, d = 32, ih = 32, iw = 32, pwMin = 2, pwMax = 16)
+  a <- do.call(RandMatImageControl, paramList)
+
+  ## Check that columns are in the correct space
+  expect_true(all(a[, 1] %in% 1:paramList$p))
+  expect_true(all(a[, 2] %in% 1:paramList$d))
+
+  ## Check that the weights are all 1
+  expect_true(all(a[, 3] == 1))
+
+  ##TODO: could also check for height and width here
+})
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## temporary fix for R-dev
+suppressWarnings(RNGversion("3.5.0"))
 
 test_that("Testing RandMat binary option.", {
   ## below is the output of RandMat with mat.options
@@ -324,7 +385,7 @@ test_that("Testing RandMat custom option.", {
 test_that("Testing RandMat makeAB for Urerf option.", {
   numFeatures <- 10
   numToTry <- 5
-  mAB <- makeAB(numFeatures, numToTry, 1 / numFeatures)
+  mAB <- rerf:::makeAB(numFeatures, numToTry, 1 / numFeatures)
 
 
   expect_true(min(mAB[, 1]) > 0)
@@ -340,7 +401,7 @@ test_that("Testing RandMat makeAB for Urerf option.", {
 test_that("Testing RandMat makeA for Urerf option.", {
   numFeatures <- 10
   numToTry <- 5
-  mAB <- makeA(numFeatures, numToTry, 1 / numFeatures)
+  mAB <- rerf:::makeA(numFeatures, numToTry, 1 / numFeatures)
 
 
   expect_true(min(mAB[, 1]) > 0)
@@ -352,3 +413,8 @@ test_that("Testing RandMat makeA for Urerf option.", {
   expect_true(nrow(mAB) == numToTry)
   expect_true(unique(mAB[, 3]) == 1)
 })
+
+## reset RNG to current version
+si <- sessionInfo()
+vstr <- paste0(si$R.version$major,".", si$R.version$minor)
+RNGversion(vstr)

@@ -1,5 +1,6 @@
 context("Predictions and OOB Predictions")
-suppressWarnings(RNGversion("3.5.0")) ## temporary fix for R-dev
+## temporary fix for R-dev
+suppressWarnings(RNGversion("3.5.0"))
 library(rerf)
 
 set.seed(123456)
@@ -107,3 +108,10 @@ test_that("Not aggregate output, probabilities should still equal 1", {
     expect_equal(rep(1, nrows), rowSums(tree.predictions))
   }
 })
+
+
+
+## reset RNG to current version
+si <- sessionInfo()
+vstr <- paste0(si$R.version$major,".", si$R.version$minor)
+RNGversion(vstr)
