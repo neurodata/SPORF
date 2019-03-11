@@ -121,9 +121,9 @@ namespace fp{
 					typename std::vector<zipClassAndValue<int,T> >::iterator zipIterator = zipIters.returnZipBegin();
 					for(int classNum = 0; classNum < fpSingleton::getSingleton().returnNumClasses(); ++classNum){
 
-						int sizeToPrefetch = nodeIndices.returnEndIterator(classNum) - nodeIndices.returnBeginIterator(classNum);            
-						if(sizeToPrefetch > 32){ //testing showed that anything above 10 is good.
-							sizeToPrefetch = 32;
+						int sizeToPrefetch = globalPrefetchSize;            
+						if(nodeIndices.returnEndIterator(classNum) - nodeIndices.returnBeginIterator(classNum) < 32){ 
+							sizeToPrefetch = nodeIndices.returnEndIterator(classNum) - nodeIndices.returnBeginIterator(classNum);
 						}
 
 						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnBeginIterator(classNum)+sizeToPrefetch; ++q){
@@ -153,9 +153,9 @@ namespace fp{
 
 					for(int classNum = 0; classNum < fpSingleton::getSingleton().returnNumClasses(); ++classNum){
 
-						int sizeToPrefetch = nodeIndices.returnEndIterator(classNum) - nodeIndices.returnBeginIterator(classNum);            
-						if(sizeToPrefetch > 32){ //testing showed that anything above 10 is good.
-							sizeToPrefetch = 32;
+						int sizeToPrefetch = globalPrefetchSize;            
+						if(nodeIndices.returnEndIterator(classNum) - nodeIndices.returnBeginIterator(classNum) < 32){ 
+							sizeToPrefetch = nodeIndices.returnEndIterator(classNum) - nodeIndices.returnBeginIterator(classNum);
 						}
 
 						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnBeginIterator(classNum)+sizeToPrefetch; ++q){

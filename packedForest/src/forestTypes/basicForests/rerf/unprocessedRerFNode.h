@@ -68,10 +68,9 @@ namespace fp{
 				//basic prefetched gather operation.  Without prefetching this function
 				//would be less than half as long.
 				inline void loadFeatureHolder(){
-					int numToPrefetch=32;//testing showed anything over 10 is beneficial.
-
+				int numToPrefetch=globalPrefetchSize;
 					if(baseUnprocessedNode<T>::obsIndices->useBin()){
-						if(baseUnprocessedNode<T>::obsIndices->returnBinnedSize() <numToPrefetch){
+						if(baseUnprocessedNode<T>::obsIndices->returnBinnedSize() < globalPrefetchSize){
 							numToPrefetch = baseUnprocessedNode<T>::obsIndices->returnBinnedSize();
 						}
 						//load the first feature
@@ -109,7 +108,7 @@ namespace fp{
 							}
 						}
 					}else{
-						if(baseUnprocessedNode<T>::obsIndices->returnInSampleSize() <numToPrefetch){
+						if(baseUnprocessedNode<T>::obsIndices->returnInSampleSize() <globalPrefetchSize){
 							numToPrefetch = baseUnprocessedNode<T>::obsIndices->returnInSampleSize();
 						}
 						//load the first feature

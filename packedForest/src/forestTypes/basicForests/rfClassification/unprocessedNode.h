@@ -64,9 +64,9 @@ namespace fp{
 
 
 				inline void loadFeatureHolder(){
-						int numToPrefetch=32; //Test show anything over 10 is beneficial.
+						int numToPrefetch=globalPrefetchSize; 
 					if(baseUnprocessedNode<T>::obsIndices->useBin()){
-						if(baseUnprocessedNode<T>::obsIndices->returnBinnedSize() <numToPrefetch){
+						if(baseUnprocessedNode<T>::obsIndices->returnBinnedSize() < globalPrefetchSize){
 							numToPrefetch = baseUnprocessedNode<T>::obsIndices->returnBinnedSize();
 						}
 
@@ -85,7 +85,7 @@ namespace fp{
 						}
 
 					}else{
-						if(baseUnprocessedNode<T>::obsIndices->returnInSampleSize() <numToPrefetch){
+						if(baseUnprocessedNode<T>::obsIndices->returnInSampleSize() < globalPrefetchSize){
 							numToPrefetch = baseUnprocessedNode<T>::obsIndices->returnInSampleSize();
 						}
 
