@@ -19,3 +19,6 @@
 #include "fpTests/MWC.h"
 #include "fpTests/fpInfo.h"
 #include "fpTests/fpForestTest.h"
+#include "fpTests/fpForestClassificationBase.h"
+#include "fpTests/fpRerFBase.h"
+#include "fpTests/binnedBase.h"
