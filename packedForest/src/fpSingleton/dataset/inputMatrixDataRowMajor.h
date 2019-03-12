@@ -2,6 +2,7 @@
 #define inputMatrixDataRowMajor_h
 
 #include "inputMatrixData.h"
+#include "../../baseFunctions/buildSpecific.h"
 
 namespace fp
 {

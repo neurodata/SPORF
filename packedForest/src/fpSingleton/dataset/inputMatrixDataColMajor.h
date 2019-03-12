@@ -2,6 +2,7 @@
 #define inputMatrixDataColMajor_h
 
 #include "inputMatrixData.h"
+#include "../../baseFunctions/buildSpecific.h"
 
 namespace fp
 {
