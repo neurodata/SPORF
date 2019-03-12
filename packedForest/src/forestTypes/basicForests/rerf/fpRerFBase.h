@@ -1,5 +1,5 @@
-#ifndef fpRerF_h
-#define fpRerf_h
+#ifndef fpRerFBase_h
+#define fpRerFBase_h
 
 #include "../../../baseFunctions/fpForestBase.h"
 #include <vector>
@@ -161,4 +161,4 @@ inline int predictClass(const T* observation){
 	};
 
 }// namespace fp
-#endif //fpForestClassification_h
+#endif //fpRerFBase_h
