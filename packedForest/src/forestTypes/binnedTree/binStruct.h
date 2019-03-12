@@ -461,10 +461,6 @@ namespace fp{
 					return bin;
 				}
 
-				inline std::vector<processingNode<T,Q> >& exposeNodeQueueTest(){
-					return nodeQueue;
-				}
-
 				void printBin(){
 					std::cout << "\n";
 					for(auto nd : bin){
