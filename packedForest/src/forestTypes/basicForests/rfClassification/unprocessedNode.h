@@ -64,9 +64,9 @@ namespace fp{
 
 
 				inline void loadFeatureHolder(){
+						int numToPrefetch=globalPrefetchSize; 
 					if(baseUnprocessedNode<T>::obsIndices->useBin()){
-						int numToPrefetch=200;
-						if(baseUnprocessedNode<T>::obsIndices->returnBinnedSize() <numToPrefetch){
+						if(baseUnprocessedNode<T>::obsIndices->returnBinnedSize() < globalPrefetchSize){
 							numToPrefetch = baseUnprocessedNode<T>::obsIndices->returnBinnedSize();
 						}
 
@@ -85,8 +85,7 @@ namespace fp{
 						}
 
 					}else{
-						int numToPrefetch=200;
-						if(baseUnprocessedNode<T>::obsIndices->returnInSampleSize() <numToPrefetch){
+						if(baseUnprocessedNode<T>::obsIndices->returnInSampleSize() < globalPrefetchSize){
 							numToPrefetch = baseUnprocessedNode<T>::obsIndices->returnInSampleSize();
 						}
 
@@ -102,7 +101,6 @@ namespace fp{
 						for(int q=baseUnprocessedNode<T>::obsIndices->returnInSampleSize()-numToPrefetch; q<baseUnprocessedNode<T>::obsIndices->returnInSampleSize(); ++q){
 							baseUnprocessedNode<T>::featureHolder[q] = fpSingleton::getSingleton().returnFeatureVal(featuresToTry.back(),baseUnprocessedNode<T>::obsIndices->returnInSample(q));
 						}
-
 
 					}
 				}
