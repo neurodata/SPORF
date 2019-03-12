@@ -1,4 +1,6 @@
 context("Predictions and OOB Predictions")
+## temporary fix for R-dev
+suppressWarnings(RNGversion("3.5.0"))
 library(rerf)
 
 set.seed(123456)
@@ -44,7 +46,7 @@ test_that("Iris OOB Predictions", {
   )
   oob.predictions <- OOBPredict(X, forest, num.cores = 1L)
   accuracy <- mean(Y == oob.predictions)
-  expect_equal(accuracy, 143 / 150)
+  expect_equal(accuracy, 144 / 150)
 
   # Limit depth of trees
   forest <- RerF(X, Y,
@@ -64,7 +66,7 @@ test_that("Iris Predictions", {
   )
   predictions <- Predict(X.test, forest, num.cores = 1L)
   accuracy <- mean(Y.test == predictions)
-  expect_equal(accuracy, 64 / 70)
+  expect_equal(accuracy, 65 / 70)
 
   # Limit depth of trees
   forest <- RerF(X.train, Y.train,
@@ -106,3 +108,10 @@ test_that("Not aggregate output, probabilities should still equal 1", {
     expect_equal(rep(1, nrows), rowSums(tree.predictions))
   }
 })
+
+
+
+## reset RNG to current version
+si <- sessionInfo()
+vstr <- paste0(si$R.version$major,".", si$R.version$minor)
+RNGversion(vstr)
