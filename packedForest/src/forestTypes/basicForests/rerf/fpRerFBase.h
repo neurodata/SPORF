@@ -8,6 +8,7 @@
 #include <chrono>
 #include <cstdlib>
 #include "rerfTree.h"
+#include <map>
 
 namespace fp {
 
@@ -46,7 +47,7 @@ namespace fp {
 				;
 			}
 
-			inline void treeStats(){
+			inline std::map<std::string, int> calcTreeStats(){
 				int maxDepth=0;
 				int totalLeafNodes=0;
 				int totalLeafDepth=0;
@@ -60,9 +61,19 @@ namespace fp {
 					totalLeafDepth += trees[i].returnLeafDepthSum();
 				}
 
-				std::cout << "max depth: " << maxDepth << "\n";
-				std::cout << "avg leaf depth: " << float(totalLeafDepth)/float(totalLeafNodes) << "\n";
-				std::cout << "num leaf nodes: " << totalLeafNodes << "\n";
+				std::map<std::string, int> treeStats;
+				treeStats["maxDepth"] = maxDepth;
+				treeStats["totalLeafDepth"] = totalLeafDepth;
+				treeStats["totalLeafNodes"] = totalLeafNodes;
+				return treeStats;
+			}
+
+			inline void treeStats(){
+				std::map<std::string, int> treeStats = calcTreeStats();
+
+				std::cout << "max depth: " << treeStats["maxDepth"] << "\n";
+				std::cout << "avg depth: " << float(treeStats["totalLeafDepth"])/float(treeStats["totalLeafNodes"]) << "\n";
+				std::cout << "num leaf nodes: " << treeStats["totalLeafNodes"] << "\n";
 			}
 
 			void printTree0(){

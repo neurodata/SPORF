@@ -31,6 +31,9 @@ namespace fp{
 					if(nodeQueue.back().returnInSampleSize() <= fpSingleton::getSingleton().returnMinParent()){
 						return false;
 					}
+					if(nodeQueue.back().returnDepth() >= fpSingleton::getSingleton().returnMaxDepth()){
+						return false;
+					}
 					return true;
 				}
 
