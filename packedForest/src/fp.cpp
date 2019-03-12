@@ -40,12 +40,6 @@ int main(int argc, char* argv[]) {
 				forest.setParameter("binSize", 100);
 				forest.setParameter("binMin", 1000);
 				break;
-			case 5:
-				forest.setParameter("forestType", "inPlace");
-				break;
-			case 6:
-				forest.setParameter("forestType", "inPlaceRerF");
-				break;
 			case 7:
 				forest.setParameter("forestType", "binnedBase");
 				forest.setParameter("numTreeBins", numCores);
