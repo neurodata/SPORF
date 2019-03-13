@@ -31,6 +31,9 @@ namespace fp{
 					if(nodeQueue.back().returnInSampleSize() <= fpSingleton::getSingleton().returnMinParent()){
 						return false;
 					}
+					if (nodeQueue.back().returnDepth()>= fpSingleton::getSingleton().returnMaxDepth()){
+						return false;
+					}
 					return true;
 				}
 
@@ -53,9 +56,9 @@ namespace fp{
 
 				inline int returnMaxDepth(){
 					int maxDepth=0;
-					for(auto nodes : tree){
-						if(maxDepth < nodes.returnDepth()){
-							maxDepth = nodes.returnDepth();
+					for(auto& node : tree){
+						if(maxDepth < node.returnDepth()){
+							maxDepth = node.returnDepth();
 						}
 					}
 					return maxDepth;
@@ -64,8 +67,8 @@ namespace fp{
 
 				inline int returnNumLeafNodes(){
 					int numLeafNodes=0;
-					for(auto nodes : tree){
-						if(!nodes.isInternalNode()){
+					for(auto& node : tree){
+						if(!node.isInternalNode()){
 							++numLeafNodes;
 						}
 					}
@@ -75,9 +78,9 @@ namespace fp{
 
 				inline int returnLeafDepthSum(){
 					int leafDepthSums=0;
-					for(auto nodes : tree){
-						if(!nodes.isInternalNode()){
-							leafDepthSums += nodes.returnDepth();
+					for(auto& node : tree){
+						if(!node.isInternalNode()){
+							leafDepthSums += node.returnDepth();
 						}
 					}
 					return leafDepthSums;
@@ -106,7 +109,7 @@ namespace fp{
 				}
 
 				void printTree(){
-					for(auto nd : tree){
+					for(auto& nd : tree){
 						nd.printNode();
 					}
 				}

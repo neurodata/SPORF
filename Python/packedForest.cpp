@@ -65,6 +65,8 @@ PYBIND11_MODULE(pyfp, m)
             return predictions;
         })
 
+        .def("predict_post", &fpForest<double>::predictPost, "Returns a vector representing the votes for each class.")
+
         .def("testAccuracy", &fpForest<double>::testAccuracy);
 }
 

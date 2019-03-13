@@ -1,5 +1,5 @@
-#ifndef fpRerF_h
-#define fpRerf_h
+#ifndef fpRerFBase_h
+#define fpRerFBase_h
 
 #include "../../../baseFunctions/fpForestBase.h"
 #include <vector>
@@ -8,6 +8,7 @@
 #include <chrono>
 #include <cstdlib>
 #include "rerfTree.h"
+#include <map>
 
 namespace fp {
 
@@ -46,7 +47,7 @@ namespace fp {
 				;
 			}
 
-			inline void treeStats(){
+			inline std::map<std::string, int> calcTreeStats(){
 				int maxDepth=0;
 				int totalLeafNodes=0;
 				int totalLeafDepth=0;
@@ -60,9 +61,19 @@ namespace fp {
 					totalLeafDepth += trees[i].returnLeafDepthSum();
 				}
 
-				std::cout << "max depth: " << maxDepth << "\n";
-				std::cout << "avg leaf depth: " << float(totalLeafDepth)/float(totalLeafNodes) << "\n";
-				std::cout << "num leaf nodes: " << totalLeafNodes << "\n";
+				std::map<std::string, int> treeStats;
+				treeStats["maxDepth"] = maxDepth;
+				treeStats["totalLeafDepth"] = totalLeafDepth;
+				treeStats["totalLeafNodes"] = totalLeafNodes;
+				return treeStats;
+			}
+
+			inline void treeStats(){
+				std::map<std::string, int> treeStats = calcTreeStats();
+
+				std::cout << "max depth: " << treeStats["maxDepth"] << "\n";
+				std::cout << "avg depth: " << float(treeStats["totalLeafDepth"])/float(treeStats["totalLeafNodes"]) << "\n";
+				std::cout << "num leaf nodes: " << treeStats["totalLeafNodes"] << "\n";
 			}
 
 			void printTree0(){
@@ -104,6 +115,15 @@ namespace fp {
 			}
 
 
+			inline std::vector<int> predictClassPost(std::vector<T>& observation){
+				std::vector<int> classTally(fpSingleton::getSingleton().returnNumClasses(),0);
+				for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
+					++classTally[trees[i].predictObservation(observation)];
+				}
+				return classTally;
+			}
+
+
 inline int predictClass(const T* observation){
 	/*
 				std::vector<int> classTally(fpSingleton::getSingleton().returnNumClasses(),0);
@@ -141,4 +161,4 @@ inline int predictClass(const T* observation){
 	};
 
 }// namespace fp
-#endif //fpForestClassification_h
+#endif //fpRerFBase_h

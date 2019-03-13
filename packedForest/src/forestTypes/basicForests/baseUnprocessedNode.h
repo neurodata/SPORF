@@ -2,6 +2,7 @@
 #define baseUnprocessedNode_h
 #include "classTotals.h"
 #include "stratifiedInNodeClassIndices.h"
+#include "../../baseFunctions/buildSpecific.h"
 #include <vector>
 
 namespace fp{
