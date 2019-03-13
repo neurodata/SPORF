@@ -50,7 +50,7 @@ test_that("Testing RandMatPoisson", {
   ##TODO: Not sure what to do here yet. to check for ~ Poisson
   ## See https://github.com/neurodata/RerF/issues/208
 
-  ## Check that the weights are ~ N(0,1)
+  ## Check that the weights are ~ Binomial(0.5)
   bi <- binom.test(sum(a[, 3] == 1), nrow(a), 0.5, "two")
   expect_true(bi$p.value >= 0.05)
 })
