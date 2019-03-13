@@ -1,7 +1,7 @@
 #ifndef forestPackingRConversion_h
 #define forestPackingRConversion_h
 
-#include "../../packedForest/src/packedForest.h"
+#include "packedForest/src/packedForest.h"
 #include <stdexcept>
 #include <Rcpp.h> 
 #include <string>
