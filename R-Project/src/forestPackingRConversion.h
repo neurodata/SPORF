@@ -7,14 +7,13 @@
 #include <string>
 #include <iostream>
 #include <vector>
+// [[Rcpp::plugins(cpp11)]]
 
 //using namespace fp;
 using namespace Rcpp;
 
 template <typename T>
 class forestPackingRConversion{
-
-	protected:
 
 	public:
 		forestPackingRConversion(){}

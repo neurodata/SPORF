@@ -1,9 +1,9 @@
 #include <iostream>
 #include <Rcpp.h> 
 #include "forestPackingRConversion.h"
+// [[Rcpp::plugins(cpp11)]]
 
 using namespace Rcpp;
-
 
 RCPP_MODULE(forestPackingRConversion_mod){
 	class_<forestPackingRConversion<double> >("forestPackingRConversion")
