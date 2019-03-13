@@ -28,7 +28,7 @@ matrix:
       - printf "Starting install and test with devtools.\n\n"
       - Rscript -e "Rcpp::compileAttributes()"
       - Rscript -e "install.packages('./', type = 'source', repos = NULL)"
-      - Rscript -e "devtools::test()"
+      - Rscript -e "devtools::test(stop_on_failure = TRUE)"
       - Rscript travisTest/test-on-prior-release.R
         ## The following won't work until we fix the ../../packedForest -> R-Project/src problem
         #- printf "Starting BUILD and CHECK --as-cran\n\n"
