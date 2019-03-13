@@ -120,6 +120,10 @@ namespace fp {
 					return forest->predictClass(observation);
 				}
 
+        inline std::vector<int> predictPost(std::vector<T>& observation){
+					return forest->predictClassPost(observation);
+				}
+
 				inline int predict(const T* observation){
 					return forest->predictClass(observation);
 				}

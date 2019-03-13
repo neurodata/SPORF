@@ -1,5 +1,5 @@
-#ifndef fpRerF_h
-#define fpRerf_h
+#ifndef fpRerFBase_h
+#define fpRerFBase_h
 
 #include "../../../baseFunctions/fpForestBase.h"
 #include <vector>
@@ -115,6 +115,15 @@ namespace fp {
 			}
 
 
+			inline std::vector<int> predictClassPost(std::vector<T>& observation){
+				std::vector<int> classTally(fpSingleton::getSingleton().returnNumClasses(),0);
+				for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
+					++classTally[trees[i].predictObservation(observation)];
+				}
+				return classTally;
+			}
+
+
 inline int predictClass(const T* observation){
 	/*
 				std::vector<int> classTally(fpSingleton::getSingleton().returnNumClasses(),0);
@@ -152,4 +161,4 @@ inline int predictClass(const T* observation){
 	};
 
 }// namespace fp
-#endif //fpForestClassification_h
+#endif //fpRerFBase_h
