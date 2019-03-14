@@ -4,9 +4,7 @@ matrix:
     sudo: false
     cache: packages
 
-    env:
-      global:
-        - WARNINGS_ARE_ERRORS=1
+    warnings_are_errors: false
 
     r:
       - release
@@ -33,7 +31,7 @@ matrix:
       ## The following won't work until we fix the ../../packedForest -> R-Project/src problem
       - printf "Starting BUILD and CHECK --as-cran\n\n"
       - R CMD build --resave-data .
-      - R CMD check --as-cran --no-manual rerf*tar.gz
+      - R CMD check --as-cran --no-manual rerf*.tar.gz
       - Rscript travisTest/test-on-prior-release.R
   
   - language: cpp
