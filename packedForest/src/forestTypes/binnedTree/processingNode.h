@@ -11,6 +11,7 @@
 #include "../../fpSingleton/fpSingleton.h"
 #include "../../baseFunctions/pdqsort.h"
 #include "../../baseFunctions/MWC.h"
+#include "../../baseFunctions/weightedFeature.h"
 
 
 #include <iostream>
@@ -72,6 +73,29 @@ namespace fp{
 						rndFeature = randNum->gen(fpSingleton::getSingleton().returnNumFeatures());
 						featuresToTry[rndMtry].push_back(rndFeature);
 					}
+				}
+
+
+				inline void calcMtryForNode(std::vector<weightedFeature>& featuresToTry){
+					//add this to fpInfo so user can set if needed.
+					int methodToUse = 1;
+					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
+					switch(methodToUse){
+						case 1:
+							int rndMtry;
+							int rndFeature;
+							int rndWeight;
+							for (int i=0; i < fpSingleton::getSingleton().returnMtry(); ++i){
+								rndMtry = randNum->gen(fpSingleton::getSingleton().returnMtry());
+								rndFeature = randNum->gen(fpSingleton::getSingleton().returnNumFeatures());
+								featuresToTry[rndMtry].returnFeatures().push_back(rndFeature);
+								rndWeight = (randNum->gen(2)%2) ? 1 : -1;
+								assert(rndWeight==1 || rndWeight==-1);
+								featuresToTry[rndMtry].returnWeights().push_back(rndWeight);
+							}
+							break;
+					}
+
 				}
 
 				inline void resetLeftNode(){
@@ -184,6 +208,50 @@ namespace fp{
 						}
 
 					}
+				}
+
+
+				inline void loadWorkingSet(weightedFeature& currMTRY){
+
+					typename std::vector<zipClassAndValue<int,T> >::iterator zipIterator = zipIters.returnZipBegin();
+					T accumulator;
+					int weightNum;
+
+					for(int classNum = 0; classNum < fpSingleton::getSingleton().returnNumClasses(); ++classNum){
+
+						int sizeToPrefetch = globalPrefetchSize;            
+						if(nodeIndices.returnEndIterator(classNum) - nodeIndices.returnBeginIterator(classNum) < 32){ 
+							sizeToPrefetch = nodeIndices.returnEndIterator(classNum) - nodeIndices.returnBeginIterator(classNum);
+						}
+
+						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnBeginIterator(classNum)+sizeToPrefetch; ++q){
+							for(auto i : currMTRY.returnFeatures()){
+								fpSingleton::getSingleton().prefetchFeatureVal(i,*q);
+							}
+						}
+
+						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum)-sizeToPrefetch; ++q){
+							accumulator=0;
+							weightNum = 0;
+							for(auto i : currMTRY.returnFeatures()){
+								fpSingleton::getSingleton().prefetchFeatureVal(i,*(q+sizeToPrefetch));
+								accumulator+= fpSingleton::getSingleton().returnFeatureVal(i,*q)*currMTRY.returnWeights()[weightNum++];
+							}
+							zipIterator->setPair(classNum,accumulator);
+							++zipIterator;
+						}
+
+						for(std::vector<int>::iterator q=nodeIndices.returnEndIterator(classNum)-sizeToPrefetch; q!=nodeIndices.returnEndIterator(classNum); ++q){
+							accumulator=0;
+							weightNum = 0;
+							for(auto i : currMTRY.returnFeatures()){
+								accumulator+= fpSingleton::getSingleton().returnFeatureVal(i,*q)*currMTRY.returnWeights()[weightNum++];
+							}
+							zipIterator->setPair(classNum,accumulator);
+							++zipIterator;
+						}
+
+					}
 
 				}
 
@@ -231,6 +299,31 @@ namespace fp{
 							aggregator = 0;
 							for(auto i : fMtry){
 								aggregator += fpSingleton::getSingleton().returnFeatureVal(i,*lowerValueIndices);
+							}
+							if(aggregator <= bestSplit.returnSplitValue()){
+								std::iter_swap(smallerNumberIndex, lowerValueIndices);
+								++smallerNumberIndex;
+							}
+						}
+						nodeIndices.loadSplitIterator(smallerNumberIndex);
+					}
+				}
+
+
+				inline void setVecOfSplitLocations(weightedFeature fMtry){
+
+					for(int i = 0; i < fpSingleton::getSingleton().returnNumClasses(); ++i){
+						std::vector<int>::iterator  lowerValueIndices = nodeIndices.returnBeginIterator(i);
+						std::vector<int>::iterator  higherValueIndices = nodeIndices.returnEndIterator(i);
+						std::vector<int>::iterator  smallerNumberIndex = nodeIndices.returnBeginIterator(i);
+
+						T aggregator;	
+						int weightNum;
+						for(; lowerValueIndices < higherValueIndices; ++lowerValueIndices){
+							aggregator = 0;
+							weightNum = 0;
+							for(auto i : fMtry.returnFeatures()){
+								aggregator += fpSingleton::getSingleton().returnFeatureVal(i,*lowerValueIndices)*fMtry.returnWeights()[weightNum++];
 							}
 							if(aggregator <= bestSplit.returnSplitValue()){
 								std::iter_swap(smallerNumberIndex, lowerValueIndices);
@@ -325,22 +418,32 @@ namespace fp{
 					return leafNode;
 				}
 
-				inline void calcBestSplitInfoForNode(int featureToTry){
-					//LIKWID_MARKER_START("loadNode");
-					loadWorkingSet(featureToTry);
-					//LIKWID_MARKER_STOP("loadNode");
-					//LIKWID_MARKER_START("sort");
-					sortWorkingSet();
-					//LIKWID_MARKER_STOP("sort");
-					resetRightNode();
-					resetLeftNode();
-					//This next function finds and sets the best split... not just finds.
-					//LIKWID_MARKER_START("split");
-					findBestSplit(featureToTry);
-					//LIKWID_MARKER_STOP("split");
+				/*
+					 inline void calcBestSplitInfoForNode(int featureToTry){
+				//LIKWID_MARKER_START("loadNode");
+				loadWorkingSet(featureToTry);
+				//LIKWID_MARKER_STOP("loadNode");
+				//LIKWID_MARKER_START("sort");
+				sortWorkingSet();
+				//LIKWID_MARKER_STOP("sort");
+				resetRightNode();
+				resetLeftNode();
+				//This next function finds and sets the best split... not just finds.
+				//LIKWID_MARKER_START("split");
+				findBestSplit(featureToTry);
+				//LIKWID_MARKER_STOP("split");
 				}
 
 				inline void calcBestSplitInfoForNode(std::vector<int> featureToTry){
+				loadWorkingSet(featureToTry);
+				sortWorkingSet();
+				resetRightNode();
+				resetLeftNode();
+				findBestSplit(featureToTry);
+				}
+				*/
+
+				inline void calcBestSplitInfoForNode(Q featureToTry){
 					loadWorkingSet(featureToTry);
 					sortWorkingSet();
 					resetRightNode();

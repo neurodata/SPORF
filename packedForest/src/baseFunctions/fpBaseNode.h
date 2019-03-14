@@ -59,7 +59,7 @@ class alignas(32) fpBaseNode
 			left = 0;
 		}
 
-inline void setSharedClass(int classNum){
+		inline void setSharedClass(int classNum){
 			right = classNum;
 			left = -1;
 			depth = -1;
@@ -77,11 +77,17 @@ inline void setSharedClass(int classNum){
 			return featureValue <= cutValue;
 		}
 
-		inline void setFeatureValue(int fVal){
-			feature = fVal;
-		}
+		/*
+			 inline void setFeatureValue(int fVal){
+			 feature = fVal;
+			 }
 
-		inline void setFeatureValue(std::vector<int> fVal){
+			 inline void setFeatureValue(std::vector<int> fVal){
+			 feature = fVal;
+			 }
+			 */
+
+		inline void setFeatureValue(F fVal){
 			feature = fVal;
 		}
 
@@ -113,17 +119,17 @@ inline void setSharedClass(int classNum){
 		}
 
 
-inline int nextNode(const T* observation){
+		inline int nextNode(const T* observation){
 			return	nextNodeHelper(observation, feature);
 		}
-inline int nextNodeHelper(const T* observation, std::vector<int>& featureVec){
+		inline int nextNodeHelper(const T* observation, std::vector<int>& featureVec){
 			T featureVal = 0;
 			for(auto featureNumber : featureVec){
 				featureVal += observation[featureNumber];
 			}
 			return (featureVal <= cutValue) ? left : right;
 		}
-inline int nextNodeHelper(const T* observation, int featureIndex){
+		inline int nextNodeHelper(const T* observation, int featureIndex){
 			return (observation[featureIndex] <= cutValue) ? left : right;
 		}
 

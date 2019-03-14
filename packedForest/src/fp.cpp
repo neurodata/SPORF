@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
 		 logTime.printGrowTime();
 		 */	
 	try{
-		fp::fpForest<double> forest;
+		fp::fpForest<float> forest;
 
 		switch(alg){
 			case 1:
@@ -58,6 +58,11 @@ int main(int argc, char* argv[]) {
 				forest.setParameter("numTreeBins", numCores);
 				forest.setParameter("maxDepth", 2);
 				break;
+case 11:
+				forest.setParameter("forestType", "binnedBaseTern");
+				forest.setParameter("numTreeBins", numCores);
+				break;
+
 			default:
 				std::cout << "unknown alg selected" << std::endl;
 				return -1;
