@@ -125,7 +125,9 @@ CXXFLAGS = -Wall -O3 -ffast-math
 ```
 
   - then `Rscript -e "install.packages('R-Project/', type = 'source',
-    repos = NULL)"` from the above instructions. \*\*\*
+    repos = NULL)"` from the above instructions.
+
+-----
 
 # Usage
 
@@ -514,7 +516,7 @@ system.time({
 f <- fpRerF(X, Y, forestType = "binnedBaseRerF", numTreesInForest = 100, numCores = 4)
 })
 #>    user  system elapsed 
-#>   7.045   0.028   1.773
+#>   6.767   0.021   1.699
 
 training.pred <- fpPredict(f, X)
 testing.pred <- fpPredict(f, mnist$Xtest)
