@@ -67,8 +67,8 @@ namespace fp {
 				fractionOfFeaturesToTest=-1.0; 
 				binSize=0;
 				numCores=1;
-				double_epsilon=0.0000001;
-				float_epsilon=0.0000001; 
+				double_epsilon=std::numeric_limits<double>::epsilon()*10;
+				float_epsilon=std::numeric_limits<float>::epsilon()*10;
 				seed=-1;
 				numTreeBins=-1;
 				forestType.clear();
@@ -201,21 +201,12 @@ namespace fp {
 				return randNum.gen(range);
 			}
 
-			///////////////////////////////////////
-			//
-			//////////////////////////////////////
 
 
-
-
-
-			//////
-			//This is from CPP.
-			/////////
 			fpInfo(): numTreesInForest(100),
 			minParent(1),	numClasses(-1), numObservations(-1), numFeatures(-1),
 			mtry(-1),mtryMult(1), columnWithY(-1), 
-			numberOfNodes(0), maxDepth(std::numeric_limits<int>::max()),sumLeafNodeDepths(0), fractionOfFeaturesToTest(-1.0), binSize(0),binMin(0),numCores(1),double_epsilon(0.0000001), float_epsilon(0.0000001),seed(-1),numTreeBins(-1),useRowMajor(true){}
+			numberOfNodes(0), maxDepth(std::numeric_limits<int>::max()),sumLeafNodeDepths(0), fractionOfFeaturesToTest(-1.0), binSize(0),binMin(0),numCores(1),double_epsilon(std::numeric_limits<double>::epsilon()*10), float_epsilon(std::numeric_limits<float>::epsilon()*10),seed(-1),numTreeBins(-1),useRowMajor(true){}
 
 
 
