@@ -93,6 +93,7 @@ Any machine with >= 2 GB RAM
 - Non-Windows users install the GNU Scientific Library (libgsl0-dev).
 - Windows users install Rtools (https://cran.r-project.org/bin/windows/Rtools/)
 
+
 ### Stable Release from CRAN:
 From within R-
 
@@ -110,6 +111,23 @@ git clone https://github.com/neurodata/RerF.git
 cd RerF
 Rscript -e "install.packages('R-Project/', type = 'source', repos = NULL)"
 ```
+
+#### Mac OS
+
+- run `brew install libomp`.
+- edit the user Makevars file ~/.R/Makevars:
+
+```sh
+omploc=$(brew --prefix libomp)
+
+SHLIB_OPENMP_CFLAGS = -Xpreprocessor -fopenmp -I$(omploc)/include
+SHLIB_OPENMP_CXXFLAGS = -Xpreprocessor -fopenmp -I$(omploc)/include
+
+CFLAGS   = -Wall -O3 -ffast-math
+CXXFLAGS = -Wall -O3 -ffast-math
+```
+
+- then `Rscript -e "install.packages('R-Project/', type = 'source', repos = NULL)"` from the above instructions.
 
 ***
 
