@@ -581,6 +581,10 @@ namespace fp{
 					setVecOfSplitLocations(fMtry);
 				}
 
+				inline void calcMtryForNodeTest(std::vector<weightedFeature>& featuresToTry){
+					calcMtryForNode(featuresToTry);
+				}
+
 
 		};
 
