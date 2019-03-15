@@ -18,7 +18,7 @@ Y.test <- Y[-trainIdx]
 
 test_that("OOB predictions fails when OOB indices not stored", {
   forest <- RerF(X, Y, seed = 1L, num.cores = 1L, store.oob = FALSE)
-  expect_error(OOBPredict(X, forest))
+  oob.predictions <- expect_error(OOBPredict(X, forest))
 })
 
 test_that("Predictions fail when training data not given for rank.transform", {
@@ -26,7 +26,7 @@ test_that("Predictions fail when training data not given for rank.transform", {
     seed = 1L, num.cores = 1L, store.oob = TRUE,
     min.parent = 1, max.depth = 0, rank.transform = TRUE
   )
-  expect_error(OOBPredict(X, forest))
+  expect_error(oob.predictions <- OOBPredict(X, forest))
 })
 
 test_that("Test fails when input is not matrix", {
@@ -46,7 +46,7 @@ test_that("Iris OOB Predictions", {
   )
   oob.predictions <- OOBPredict(X, forest, num.cores = 1L)
   accuracy <- mean(Y == oob.predictions)
-  expect_true(accuracy >= 140 / 150)
+  expect_equal(accuracy, 144 / 150)
 
   # Limit depth of trees
   forest <- RerF(X, Y,
@@ -55,7 +55,7 @@ test_that("Iris OOB Predictions", {
   )
   oob.predictions <- OOBPredict(X, forest, num.cores = 2L)
   accuracy <- mean(Y == oob.predictions)
-  expect_true(accuracy >= 130 / 150)
+  expect_equal(accuracy, 133 / 150)
 })
 
 test_that("Iris Predictions", {
@@ -66,7 +66,7 @@ test_that("Iris Predictions", {
   )
   predictions <- Predict(X.test, forest, num.cores = 1L)
   accuracy <- mean(Y.test == predictions)
-  expect_true(accuracy >= 60 / 70)
+  expect_equal(accuracy, 65 / 70)
 
   # Limit depth of trees
   forest <- RerF(X.train, Y.train,
@@ -75,7 +75,7 @@ test_that("Iris Predictions", {
   )
   predictions <- Predict(X.test, forest, num.cores = 1L)
   accuracy <- mean(Y.test == predictions)
-  expect_true(accuracy >= 60 / 70)
+  expect_equal(accuracy, 63 / 70)
 })
 
 test_that("Output probabilities should equal 1", {
