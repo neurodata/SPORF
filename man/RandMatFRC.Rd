@@ -7,11 +7,11 @@
 RandMatFRC(p, d, nmix, catMap = NULL, ...)
 }
 \arguments{
-\item{p}{the number of dimensions.}
+\item{p}{integer the number of dimensions.}
 
-\item{d}{the number of desired columns in the projection matrix.}
+\item{d}{integer the number of desired columns in the projection matrix.}
 
-\item{nmix}{mupliplier to \code{d} to specify the number of non-zeros.}
+\item{nmix}{integer mupliplier to \code{d} to specify the number of non-zeros.}
 
 \item{catMap}{a list specifying specifies which one-of-K encoded columns in X correspond to the same categorical feature.}
 
@@ -26,7 +26,7 @@ Create a Random Matrix: FRC
 \examples{
 
 p <- 8
-d <- 8
+d <- 2
 nmix <- 5
 paramList <- list(p = p, d = d, nmix = nmix)
 set.seed(4)
