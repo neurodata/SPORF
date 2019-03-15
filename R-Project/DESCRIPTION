@@ -36,3 +36,4 @@ LinkingTo: Rcpp, RcppArmadillo
 SystemRequirements: GNU make
 ByteCompile: true
 RoxygenNote: 6.1.1
+RcppModules: forestPackingRConversion
