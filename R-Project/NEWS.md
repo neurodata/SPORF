@@ -1,3 +1,13 @@
+## Changes in 2.0.4.9001:
+
+* Added the `fpRerF` and `fpPredict` functions that use a C++ backend
+  with openMP and "Forest Packing" to speed up training and prediction
+  times.
+
+## Changes in 2.0.4:
+
+* Updated tests to accomodate the new `sample()` algorithm in R 3.5.3
+
 ## Changes in 2.0.3:
 
 * The `PrintTree` function has been added to aid in viewing the
