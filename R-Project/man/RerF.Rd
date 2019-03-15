@@ -111,4 +111,21 @@ forest <- RerF(as.matrix(iris[, 1:4]), iris[[5L]],
   num.cores = 1L,
   FUN = RandMatRF, paramList = list(p = 4, d = 2), rotate = TRUE
 )
+
+### Train a SmerF forest
+
+X <- iris[, -5]
+Y <- 1 - as.matrix(dist(X))
+
+iris.forest <- RerF(X, Y, task = 'similarity', num.cores = 2L)
+Yhat <- Predict(X, iris.forest, num.cores = 2L)
+
+### Frobenius norm of $Y - \\hat{Y}$
+(f.iris <- norm(Y - Yhat, "F"))
+
+par(mfrow = c(1,3))
+image(Y - Yhat, col = gray.colors(255), main = "Y - Yhat")
+image(Yhat, col = gray.colors(255), main = "Yhat")
+image(Y, col = gray.colors(255), main = "Y")
+
 }

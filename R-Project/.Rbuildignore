@@ -11,5 +11,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.github$
-^src/packedForest$
+^src/packedForest/docs$
+^src/packedForest/test$
+^src/packedForest/bin$
+^src/packedForest/obj$
 ^src/submodule_readme.md$

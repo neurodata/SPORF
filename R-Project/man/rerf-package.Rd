@@ -33,7 +33,7 @@ projection weights used to split the data at each node.
 \section{RerF variants}{
 
 \describe{
-  \item{RF}{Use \code{FUN = RandMatRF} in the call to \codeRerF}
+  \item{RF}{Use \code{FUN = RandMatRF} in the call to \code{RerF}}
   \item{RerF}{Use \code{FUN = RandMatBinary} in the call to \code{RerF}}
   \item{S-RerF}{Use \code{FUN = RandMatImagePatch} in the call to \code{RerF}}
   \item{SmerF}{Set \code{task = "similarity"} in the call to \code{RerF}}

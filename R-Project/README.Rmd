@@ -2,7 +2,7 @@
 title: "Randomer Forest"
 output:
   github_document:
-    html_preview: true
+    html_preview: false
     toc: false
 ---
 
@@ -11,7 +11,7 @@ output:
 
 ```{r, include=FALSE, eval = FALSE}
 ## run this to build the README.md file.
-## takes about 30 seconds to run.
+## takes less than 60 seconds to run.
 require(rerf)
 system.time({
   rmarkdown::render('README.Rmd')
@@ -54,6 +54,7 @@ knitr::opts_chunk$set(
         (U-RerF)](#unsupervised-classification-u-rerf)
     -   [Similarity Randomer Forest
         (SmerF)](#similarity-randomer-forest-smerf)
+    -   [Fast-RerF (fpRerF)](#forest-packing-with-fast-rerf)
 
 
 
@@ -78,6 +79,7 @@ Any machine with >= 2 GB RAM
 
 
 ## Software Dependencies
+- OpenMP (for `fpRerF`)
 - `R (>= 3.3.0)`
 - `R` packages:
   - `dummies`
@@ -91,6 +93,7 @@ Any machine with >= 2 GB RAM
 - Non-Windows users install the GNU Scientific Library (libgsl0-dev).
 - Windows users install Rtools (https://cran.r-project.org/bin/windows/Rtools/)
 
+
 ### Stable Release from CRAN:
 From within R-
 
@@ -100,17 +103,31 @@ install.packages("rerf")
 
 
 ### Development Version from Github:
-First install the `devtools` package if not currently installed. From within R-
+From terminal:
 
-```r
-install.packages("devtools")
+```sh
+git clone https://github.com/neurodata/RerF.git
+## defaults to the staging branch
+cd RerF
+Rscript -e "install.packages('R-Project/', type = 'source', repos = NULL)"
 ```
 
-Next install `rerf` from github.  From within R-
+#### Mac OS
 
-```r
-devtools::install_github("neurodata/RerF", local = FALSE, subdir = "R-Project", ref="staging")
+- run `brew install libomp`.
+- edit the user Makevars file ~/.R/Makevars:
+
+```sh
+omploc=$(brew --prefix libomp)
+
+SHLIB_OPENMP_CFLAGS = -Xpreprocessor -fopenmp -I$(omploc)/include
+SHLIB_OPENMP_CXXFLAGS = -Xpreprocessor -fopenmp -I$(omploc)/include
+
+CFLAGS   = -Wall -O3 -ffast-math
+CXXFLAGS = -Wall -O3 -ffast-math
 ```
+
+- then `Rscript -e "install.packages('R-Project/', type = 'source', repos = NULL)"` from the above instructions.
 
 ***
 
@@ -338,6 +355,24 @@ Yhat <- Predict(X[test, ], iris.forest, num.cores = 4L)
 max(abs(Ytest - Yhat))
 ```
 
+## Forest Packing with fast-RerF
+
+```{r fpRerF}
+X <- mnist$Xtrain
+Y <- mnist$Ytrain
+
+
+## runs in under a minute on all of MNIST
+system.time({
+f <- fpRerF(X, Y, forestType = "binnedBaseRerF", numTreesInForest = 100, numCores = 4)
+})
+
+training.pred <- fpPredict(f, X)
+testing.pred <- fpPredict(f, mnist$Xtest)
+
+(training.error <- mean(training.pred != Y))
+(testing.error <- mean(testing.pred != mnist$Ytest))
+```
 
 
 

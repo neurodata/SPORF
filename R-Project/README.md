@@ -30,6 +30,7 @@ shield](https://img.shields.io/badge/arXiv-1506.03410-red.svg?style=flat)](https
         (U-RerF)](#unsupervised-classification-u-rerf)
       - [Similarity Randomer Forest
         (SmerF)](#similarity-randomer-forest-smerf)
+      - [Fast-RerF (fpRerF)](#forest-packing-with-fast-rerf)
 
 ## Repo Contents
 
@@ -71,6 +72,7 @@ Any machine with \>= 2 GB RAM
 
 ## Software Dependencies
 
+  - OpenMP (for `fpRerF`)
   - `R (>= 3.3.0)`
   - `R` packages:
       - `dummies`
@@ -96,19 +98,34 @@ install.packages("rerf")
 
 ### Development Version from Github:
 
-First install the `devtools` package if not currently installed. From
-within R-
+From terminal:
 
-``` r
-install.packages("devtools")
+``` sh
+git clone https://github.com/neurodata/RerF.git
+## defaults to the staging branch
+cd RerF
+Rscript -e "install.packages('R-Project/', type = 'source', repos = NULL)"
 ```
 
-Next install `rerf` from github. From within
-R-
+#### Mac OS
 
-``` r
-devtools::install_github("neurodata/RerF", local = FALSE, subdir = "R-Project", ref="staging")
+  - run `brew install libomp`.
+  - edit the user Makevars file \~/.R/Makevars:
+
+<!-- end list -->
+
+``` sh
+omploc=$(brew --prefix libomp)
+
+SHLIB_OPENMP_CFLAGS = -Xpreprocessor -fopenmp -I$(omploc)/include
+SHLIB_OPENMP_CXXFLAGS = -Xpreprocessor -fopenmp -I$(omploc)/include
+
+CFLAGS   = -Wall -O3 -ffast-math
+CXXFLAGS = -Wall -O3 -ffast-math
 ```
+
+  - then `Rscript -e "install.packages('R-Project/', type = 'source',
+    repos = NULL)"` from the above instructions.
 
 -----
 
@@ -139,11 +156,12 @@ forest <- RerF(X, Y, seed = 1L, num.cores = 1L)
 ``` r
 forest$trees[[1]]
 #> $treeMap
-#>  [1]   1  -1   2  -2   3   4   5  -3  -4   6   9  -5   7   8  -8  -6  -7
-#> [18]  10 -11  -9 -10
+#>  [1]   1  -1   2  -2   3   4   5  -3  -4   6  13   7  10  -5   8  -6   9
+#> [18]  -7  -8  -9  11 -10  12 -11 -12 -13 -14
 #> 
 #> $CutPoint
-#>  [1]  2.35 -3.55 -9.90  6.95  4.75 -2.55 -4.25  5.55  1.75 -2.35
+#>  [1]  2.35 -3.55 -9.90  6.95 -4.75 -5.05 -5.35  5.90  1.80 -6.50  6.05
+#> [12]  1.65 -1.65
 #> 
 #> $ClassProb
 #>       [,1] [,2] [,3]
@@ -151,20 +169,23 @@ forest$trees[[1]]
 #>  [2,]    0    0    1
 #>  [3,]    0    0    1
 #>  [4,]    0    1    0
-#>  [5,]    0    1    0
+#>  [5,]    0    0    1
 #>  [6,]    0    0    1
 #>  [7,]    0    1    0
-#>  [8,]    0    1    0
+#>  [8,]    0    0    1
 #>  [9,]    0    1    0
 #> [10,]    0    0    1
-#> [11,]    0    0    1
+#> [11,]    0    1    0
+#> [12,]    0    0    1
+#> [13,]    0    0    1
+#> [14,]    0    1    0
 #> 
 #> $matAstore
-#>  [1]  3  1  3 -1  4  1  1 -1  2 -1  1  1  3  1  2 -1  3 -1  1  1  4  1  2
-#> [24] -1
+#>  [1]  3  1  3 -1  4  1  1 -1  2 -1  1  1  3 -1  3 -1  3 -1  1  1  4  1  1
+#> [24] -1  1  1  4  1  4 -1
 #> 
 #> $matAindex
-#>  [1]  0  2  6 10 12 14 16 18 20 22 24
+#>  [1]  0  2  6 10 12 14 16 18 20 22 24 26 28 30
 #> 
 #> $ind
 #> NULL
@@ -240,7 +261,7 @@ predictions
 #>  [55] versicolor versicolor versicolor versicolor versicolor versicolor
 #>  [61] versicolor versicolor versicolor versicolor versicolor versicolor
 #>  [67] versicolor versicolor versicolor versicolor virginica  versicolor
-#>  [73] virginica  versicolor versicolor versicolor versicolor virginica 
+#>  [73] versicolor versicolor versicolor versicolor versicolor virginica 
 #>  [79] versicolor versicolor versicolor versicolor versicolor virginica 
 #>  [85] versicolor versicolor versicolor versicolor versicolor versicolor
 #>  [91] versicolor versicolor versicolor versicolor versicolor versicolor
@@ -255,7 +276,7 @@ predictions
 #> [145] virginica  virginica  virginica  virginica  virginica  virginica 
 #> Levels: setosa versicolor virginica
 oob.error
-#> [1] 0.04666667
+#> [1] 0.04
 ```
 
 ## Compute similarities:
@@ -277,18 +298,18 @@ sim.matrix <- ComputeSimilarity(X, forest, num.cores = 1L)
 
 ``` r
 sim.matrix[1, ]
-#>   [1] 1.000 0.950 0.952 0.946 1.000 0.962 0.980 0.998 0.924 0.962 0.984
-#>  [12] 0.990 0.946 0.928 0.852 0.820 0.976 1.000 0.852 0.994 0.994 0.998
-#>  [23] 0.986 0.974 0.990 0.952 0.996 1.000 0.998 0.952 0.956 0.994 0.968
-#>  [34] 0.900 0.962 0.968 0.924 0.998 0.928 0.998 1.000 0.886 0.944 0.990
-#>  [45] 0.976 0.938 0.992 0.952 0.990 0.974 0.000 0.000 0.000 0.000 0.000
-#>  [56] 0.000 0.000 0.000 0.000 0.000 0.004 0.000 0.000 0.000 0.000 0.002
+#>   [1] 1.000 0.942 0.948 0.946 1.000 0.944 0.982 0.996 0.920 0.962 0.976
+#>  [12] 0.986 0.938 0.924 0.828 0.776 0.968 1.000 0.814 1.000 0.994 0.996
+#>  [23] 0.982 0.964 0.978 0.948 0.988 0.998 0.998 0.948 0.950 0.992 0.952
+#>  [34] 0.866 0.958 0.964 0.916 1.000 0.928 1.000 0.996 0.886 0.948 0.988
+#>  [45] 0.962 0.932 0.994 0.948 0.986 0.972 0.000 0.000 0.000 0.002 0.000
+#>  [56] 0.000 0.002 0.010 0.000 0.004 0.010 0.000 0.000 0.000 0.000 0.004
 #>  [67] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
-#>  [78] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.010 0.002 0.000 0.000
-#>  [89] 0.000 0.000 0.000 0.000 0.000 0.004 0.000 0.000 0.000 0.000 0.018
-#> [100] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.002
-#> [111] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.002 0.000 0.000 0.000
-#> [122] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.002
+#>  [78] 0.000 0.000 0.000 0.002 0.002 0.000 0.000 0.008 0.004 0.000 0.000
+#>  [89] 0.000 0.002 0.002 0.000 0.000 0.008 0.000 0.000 0.000 0.000 0.014
+#> [100] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+#> [111] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+#> [122] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
 #> [133] 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
 #> [144] 0.000 0.000 0.000 0.000 0.000 0.000 0.000
 ```
@@ -314,10 +335,10 @@ scor <- StrCorr(predictions, Y[-trainIdx])
 ``` r
 scor
 #> $s
-#> [1] 0.8258
+#> [1] 0.8256333
 #> 
 #> $rho
-#> [1] 0.6898518
+#> [1] 0.6987141
 ```
 
 ### Compute feature (projection) importance (DEV version only):
@@ -356,7 +377,7 @@ feature.imp <- FeatureImportance(forest, num.cores = 1L, type = "R")
 ``` r
 feature.imp
 #> $imp
-#> [1] 23356.335 20003.158  5451.512  1163.332
+#> [1] 23248.250 20118.932  5445.032  1167.640
 #> 
 #> $features
 #> $features[[1]]
@@ -420,7 +441,7 @@ mnist.error.rate <- mean(predictions != Ytest)
 
 ``` r
 mnist.error.rate
-#> [1] 0.03732913
+#> [1] 0.03575184
 ```
 
 ## Unsupervised classification (U-RerF)
@@ -478,9 +499,32 @@ Yhat <- Predict(X[test, ], iris.forest, num.cores = 4L)
 
 ``` r
 (f.iris <- norm(Ytest - Yhat, "F"))
-#> [1] 14.99926
+#> [1] 15.58063
 max(abs(Ytest - Yhat))
-#> [1] 0.8245697
+#> [1] 0.9428222
+```
+
+## Forest Packing with fast-RerF
+
+``` r
+X <- mnist$Xtrain
+Y <- mnist$Ytrain
+
+
+## runs in under a minute on all of MNIST
+system.time({
+f <- fpRerF(X, Y, forestType = "binnedBaseRerF", numTreesInForest = 100, numCores = 4)
+})
+#>    user  system elapsed 
+#>   6.767   0.021   1.699
+
+training.pred <- fpPredict(f, X)
+testing.pred <- fpPredict(f, mnist$Xtest)
+
+(training.error <- mean(training.pred != Y))
+#> [1] 0.0015
+(testing.error <- mean(testing.pred != mnist$Ytest))
+#> [1] 0.0563
 ```
 
 <!-- calcium-spike data are not properly documented at this time, waiting on @jasonkyuyim TBD by 20180813 -->
