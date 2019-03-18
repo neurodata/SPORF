@@ -58,6 +58,12 @@ int main(int argc, char* argv[]) {
 				forest.setParameter("numTreeBins", numCores);
 				forest.setParameter("maxDepth", 2);
 				break;
+                        case 11:
+                                forest.setParameter("forestType", "urf");
+                                break;
+                        case 12:
+                                forest.setParameter("forestType", "urerf");
+                                break;
 			default:
 				std::cout << "unknown alg selected" << std::endl;
 				return -1;
@@ -98,7 +104,7 @@ int main(int argc, char* argv[]) {
 
 
 		forest.setParameter("numTreesInForest", 10);
-		forest.setParameter("minParent", 1);
+		forest.setParameter("minParent", 3);
 		forest.setParameter("numCores", numCores);
 		forest.setParameter("seed",-1661580697);
 

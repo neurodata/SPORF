@@ -1,0 +1,156 @@
+#ifndef fpURF_h
+#define fpURF_h
+
+#include "../../../baseFunctions/fpForestBase.h"
+#include <vector>
+#include <map>
+#include <algorithm>
+#include <unordered_map>
+#include <stdio.h>
+#include <ctime>
+#include <chrono>
+#include <cstdlib>
+#include "urfTree.h"
+#include <sys/time.h>
+
+namespace fp {
+                                bool sortbysec2(const std::pair<int,int> &a, const std::pair<int,int> &b)
+                                {
+                                        return (a.second > b.second);
+                                }
+
+	template <typename T>
+		class fpURFBase : public fpForestBase<T>
+	{
+		protected:
+			std::vector<urfTree<T> > trees;
+			std::map<int, std::map<int, int> > simMat;
+		public:
+
+			~fpURFBase(){}
+
+			fpDisplayProgress printProgress;
+			inline void printForestType(){
+				std::cout << "This is a urf forest.\n";
+			}
+
+			inline void changeForestSize(){
+				trees.resize(fpSingleton::getSingleton().returnNumTrees());
+			}
+
+			inline void initSimMat(){
+				auto numObs = fpSingleton::getSingleton().returnNumObservations();
+				for(auto i = 0; i < numObs; ++i) {
+					std::map<int, int> init_map;
+					simMat[i] = init_map;
+				}
+			}
+
+			inline void growTrees(){
+#pragma omp parallel for num_threads(fpSingleton::getSingleton().returnNumThreads())
+				for(int i = 0; i < (int)trees.size(); ++i){
+					trees[i].growTree();
+					trees[i].updateSimMat(simMat);
+				}
+			}
+
+			inline void checkParameters(){
+				//TODO: check parameters to make sure they make sense for this forest type.
+				;
+			}
+
+			
+                        inline double computePrecision(int k) {
+                                // show content:
+				double prec = 0;
+				int count = 0;
+				int numCorrect = 0;
+				int labelNeighbor = 0;
+                                for (auto it=simMat.begin(); it!=simMat.end(); ++it)
+                                {
+					std::map<int, int> neighbors;	
+					neighbors = it->second;
+					count+=1;
+					std::vector<std::pair<int, int> > v;
+    					copy(neighbors.begin(), neighbors.end(), back_inserter(v));
+   					sort(v.begin(), v.end(), sortbysec2);
+					auto labelCurr = fpSingleton::getSingleton().returnLabel(it->first);
+					numCorrect = 0	;
+					k = std::min(k, int(v.size() - 1));
+					if (k<=0)
+						k=1;	
+					int i = 0;
+					int counter = 0;
+					while(counter<k){
+						if(it->first == v[i].first)
+						{
+							i++;
+							continue;
+						}
+						
+                                        	labelNeighbor = fpSingleton::getSingleton().returnLabel(v[i].first);
+                                        	if (labelCurr == labelNeighbor)
+                                                	numCorrect++;
+						i++;
+						counter++;
+                                	}
+					prec+= numCorrect/(double)k;
+				}
+                                return prec/(double)(count);
+                        }
+
+
+			inline void treeStats(){
+				int maxDepth=0;
+				int totalLeafNodes=0;
+				int totalLeafDepth=0;
+
+				int tempMaxDepth;
+				for(int i = 0; i < fpSingleton::getSingleton().returnNumTrees(); ++i){
+					tempMaxDepth = trees[i].returnMaxDepth();
+					maxDepth = ((maxDepth < tempMaxDepth) ? tempMaxDepth : maxDepth);
+
+					totalLeafNodes += trees[i].returnNumLeafNodes();
+					totalLeafDepth += trees[i].returnLeafDepthSum();
+				}
+
+				std::cout << "precision@10: " << computePrecision(10)<<"\n";
+			}
+
+
+			inline std::map<int, std::map<int, int> > returnSimMat() {
+				return simMat;
+			}
+
+			void printTree0(){
+				trees[0].printTree();
+			}
+
+			void growForest(){
+				changeForestSize();
+				growTrees();
+				treeStats();
+			}
+
+			inline int predictClass(std::vector<T>& observation){
+				//TODO: Generate Error message
+				return 0;
+			}
+
+			inline int predictClass(const T* observation){
+				//TODO: Generate Error message
+        			return 0;
+                        }
+                        inline std::vector<int> predictClassPost(std::vector<T>& observation){
+                                return {};
+                        }
+
+			inline float testForest(){
+				//TODO: Generate Error message
+				return 0;
+			}
+
+	};
+
+}// namespace fp
+#endif //fpForestClassification_h
