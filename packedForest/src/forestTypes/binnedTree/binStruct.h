@@ -4,7 +4,7 @@
 #include "../../baseFunctions/MWC.h"
 #include "obsIndexAndClassVec.h"
 #include "zipClassAndValue.h"
-#include "processingNode.h"
+#include "processingNodeBin.h"
 #include <vector>
 #include <assert.h>
 
