@@ -58,7 +58,7 @@ int main(int argc, char* argv[]) {
 				forest.setParameter("numTreeBins", numCores);
 				forest.setParameter("maxDepth", 2);
 				break;
-case 11:
+			case 11:
 				forest.setParameter("forestType", "binnedBaseTern");
 				forest.setParameter("numTreeBins", numCores);
 				break;
