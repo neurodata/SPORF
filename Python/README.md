@@ -15,6 +15,10 @@ On Mac:
 - Get `brew`: [https://brew.sh/](https://brew.sh/)
 - `brew install python`
 - `brew install libomp`
+- `brew install llvm`
+- `echo ‘export PATH=“/usr/local/opt/llvm/bin:$PATH”’ >> ~/.bash_profile`
+- `export LDFLAGS=“-L/usr/local/opt/llvm/lib”`
+- `export CPPFLAGS="-I/usr/local/opt/llvm/include"`
 
 ## Environment
 
