@@ -1,4 +1,4 @@
-#include "../../../src/forestTypes/binnedTree/processingNode.h"
+#include "../../../src/forestTypes/binnedTree/processingNodeBin.h"
 
 #include <vector>
 #include <string>
@@ -8,7 +8,7 @@ using namespace fp;
 #define typeClass int
 
 
-TEST(processingBinnedNodeTest, checkWeightedMtry)
+TEST(processingNodeBinTest, checkWeightedMtry)
 {
 	std::srand(std::time(0));
 	std::string p1 = "CSVFileName";
