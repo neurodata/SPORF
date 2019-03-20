@@ -6,6 +6,12 @@
 #include <map>
 #include <assert.h>
 #include <random>
+#include <eigen3/Eigen/Dense>
+#include <eigen3/Eigen/Sparse>
+#include <eigen3/Eigen/Core>
+
+typedef Eigen::SparseMatrix<double> SpMat;
+typedef Eigen::Triplet<double> TripType;
 
 namespace fp{
 
@@ -76,7 +82,8 @@ return false;
 					return numLeafNodes;
 				}
 
-				inline void updateSimMat(std::map<int, std::map<int, int> > &simMat){
+				inline void updateSimMat(std::map<int, std::map<int, int> > &simMat, std::map<std::pair<int, int>, int> &pairMat){
+
 					for(auto nodes : leafNodes){
 						stratifiedInNodeClassIndicesUnsupervised* obsI = nodes.returnObsIndices();
 						std::vector<int> leafObs;
@@ -91,6 +98,13 @@ return false;
 								auto exists = simMat[leafObs[i]].emplace(leafObs[j], 1);
 								if(!exists.second)
 									simMat[leafObs[i]][leafObs[j]]++;
+							
+								std::pair<int, int> pair1 = std::make_pair(leafObs[i], leafObs[j]);
+								auto it = pairMat.find(pair1);
+								if(it!=pairMat.end())
+									pairMat[pair1]++;
+								else
+									pairMat.insert({pair1, 1});
 								}
 							}
 						}

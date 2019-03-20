@@ -74,7 +74,7 @@ namespace fp{
 					return numLeafNodes;
 				}
 
-				inline void updateSimMat(std::map<int, std::map<int, int> > &simMat){
+				inline void updateSimMat(std::map<int, std::map<int, int> > &simMat, std::map<std::pair<int, int>, int> &pairMat){
 					for(auto nodes : leafNodes){
 						stratifiedInNodeClassIndicesUnsupervised* obsI = nodes.returnObsIndices();
 						std::vector<int> leafObs;
@@ -89,6 +89,12 @@ namespace fp{
 								auto exists = simMat[leafObs[i]].emplace(leafObs[j], 1);
 								if(!exists.second)
 									simMat[leafObs[i]][leafObs[j]]++;
+                                                                std::pair<int, int> pair1 = std::make_pair(leafObs[i], leafObs[j]);
+                                                                auto it = pairMat.find(pair1);
+                                                                if(it!=pairMat.end())
+                                                                        pairMat[pair1]++;
+                                                                else
+                                                                        pairMat.insert({pair1, 1});
 								}
 							
 							}

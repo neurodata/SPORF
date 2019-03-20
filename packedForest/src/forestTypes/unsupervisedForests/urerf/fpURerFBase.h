@@ -24,6 +24,11 @@ namespace fp {
 		protected:
 			std::vector<urerfTree<T> > trees;
 			std::map<int, std::map<int, int> > simMat;
+                        std::map<std::pair<int, int>, int> pairMat;
+                        typedef Eigen::SparseMatrix<int> spMat;
+                        typedef Eigen::Triplet<int> TripType;
+                        std::vector<TripType> tripletList;
+                        SpMat eigenMat;
 		public:
 
 			~fpURerFBase(){}
@@ -45,12 +50,37 @@ namespace fp {
 				}
 			}
 
+                        inline void printSparseMat(){
+                                for (int k = 0; k < eigenMat.outerSize(); ++k){
+                                        for (Eigen::SparseMatrix<double>::InnerIterator it(eigenMat, k); it; ++it){
+                                                std::cout << it.row() <<"\t";
+                                                std::cout << it.col() << "\t";
+                                                std::cout << it.value() << "\n";
+                                        }
+                                }
+                        }
+
+                        inline void createSparseMat(){
+                                auto numObs = fpSingleton::getSingleton().returnNumObservations();
+                                SpMat eigenSimMat(numObs, numObs);
+                                for (auto it=pairMat.begin(); it!=pairMat.end(); ++it) {
+                                        int i = (it->first).first;
+                                        int j = (it->first).second;
+                                        int v_ij = it->second;
+                                        eigenSimMat.coeffRef(i, j) = v_ij;
+                                }
+                                eigenSimMat.makeCompressed();
+				this->eigenMat = eigenSimMat;
+                        }
+
 			inline void growTrees(){
 #pragma omp parallel for num_threads(fpSingleton::getSingleton().returnNumThreads())
 				for(int i = 0; i < (int)trees.size(); ++i){
 					trees[i].growTree();
-					trees[i].updateSimMat(simMat);
+					trees[i].updateSimMat(simMat, pairMat);
 				}
+				createSparseMat();
+				//printSparseMat();
 			}
 
 			inline void checkParameters(){
