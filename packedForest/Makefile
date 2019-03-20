@@ -21,7 +21,7 @@ OBJEXT      := o
 CFLAGS      := -fopenmp -Wall -O3 -DNDEBUG -ffast-math
 #LIB         := -fopenmp -lm -lnuma
 LIB         :=  -fopenmp -lm -O3 
-INC         := -I$(INCDIR) -I/usr/local/include 
+INC         := -I$(INCDIR) -I/usr/local/include -I/usr/local/include/eigen3
 INCDEP      := -I$(INCDIR)
 
 #---------------------------------------------------------------------------------
