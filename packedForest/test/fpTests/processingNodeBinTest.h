@@ -11,16 +11,20 @@ TEST(testProcessingNodeBin, testMtryMult)
   fpSingleton::getSingleton().setParameter("minParent", 1);
   fpSingleton::getSingleton().setParameter("numCores", 1);
   fpSingleton::getSingleton().setParameter("mtry", 2);
-  fpSingleton::getSingleton().setParameter("forestType", "binnedBaseRerF");
+  // fpSingleton::getSingleton().setParameter("forestType", "binnedBaseRerF");
 
   randomNumberRerFMWC randNum;
   randNum.initialize(-1661580697);
+  int treeNum = 1;
+  int nodeNum = 0;
+  int depth = 0;
+  processingNodeBin<double, std::vector<int>> pNodeBin(treeNum, nodeNum, depth, randNum);
 
   for (int setMtryMult = 1; setMtryMult < 10; ++setMtryMult)
   {
     fpSingleton::getSingleton().setParameter("mtryMult", setMtryMult);
-    processingNodeBin<double, std::vector<int>> pNodeBin(0, 0, 0, randNum);
-    // std::vector<std::vector<int>> mtry;
-    pNodeBin.calcMtryForNode(&pNodeBin.mtry);
+
+    std::vector<int> featuresToTry(2);
+    pNodeBin.calcMtryForNodeTest(featuresToTry);
   }
 }

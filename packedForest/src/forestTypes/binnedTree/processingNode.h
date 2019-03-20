@@ -479,6 +479,10 @@ namespace fp{
 					setVecOfSplitLocations(fMtry);
 				}
 
+				inline void calcMtryForNodeTest(Q& featuresToTry){
+					calcMtryForNode(featuresToTry);
+				}
+
 
 		};
 
