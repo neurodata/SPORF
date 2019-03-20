@@ -20,11 +20,12 @@ TEST(testProcessingNodeBin, testMtryMult)
   int depth = 0;
   processingNodeBin<double, std::vector<int>> pNodeBin(treeNum, nodeNum, depth, randNum);
 
-  for (int setMtryMult = 1; setMtryMult < 10; ++setMtryMult)
-  {
+  // for (int setMtryMult = 1; setMtryMult < 10; ++setMtryMult)
+  // {
+    int setMtryMult = 1;
     fpSingleton::getSingleton().setParameter("mtryMult", setMtryMult);
 
-    std::vector<int> featuresToTry(2);
-    pNodeBin.calcMtryForNodeTest(featuresToTry);
-  }
+    std::vector<std::vector<int>> f2Try;
+    pNodeBin.calcMtryForNodeTest(f2Try);
+  // }
 }

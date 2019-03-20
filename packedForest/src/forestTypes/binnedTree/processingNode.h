@@ -479,11 +479,10 @@ namespace fp{
 					setVecOfSplitLocations(fMtry);
 				}
 
-				inline void calcMtryForNodeTest(Q& featuresToTry){
+				inline void calcMtryForNodeTest(std::vector<Q> &featuresToTry)
+				{
 					calcMtryForNode(featuresToTry);
 				}
-
-
 		};
 
 }//namespace fp
