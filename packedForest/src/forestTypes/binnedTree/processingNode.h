@@ -51,7 +51,8 @@ namespace fp{
 
 					int tempSwap;
 
-                                        // This is a way to sample without replacement the number of features for mtry.
+                                        // This is an efficient way to shuffle the first "mtry" elements of the feature vector
+                                        // in order to sample features w/o replacement.
 					for(int locationToMove = 0; locationToMove < fpSingleton::getSingleton().returnMtry(); locationToMove++){
 						int randomPosition = randNum->gen(fpSingleton::getSingleton().returnNumFeatures()-locationToMove)+locationToMove;
 						tempSwap = featuresToTry[locationToMove];
