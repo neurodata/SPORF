@@ -13,6 +13,7 @@ def fastRerF(
     maxDepth=None,
     numCores=None,
     mtry=None,
+    mtryMult=None,
     fractionOfFeaturesToTest=None,
     seed=None,
 ):
@@ -30,7 +31,8 @@ def fastRerF(
         minParent {int} -- minParent (default: {1})
         maxDepth {int} -- maxDepth (default: {None})
         numCores -- number of cores to use (default: {None})
-        mtry {int} -- d, number of new features created from linear combinations of input features (default: {None})
+        mtry {int} -- d, the number of features to consider when splitting a node (mtry=sqrt(numFeatures), default: {None})
+        mtryMult {double} -- the average number of features combined to form a new feature when using RerF (mtryMult=1)
         fractionOfFeaturesToTest {float} -- fractionOfFeaturesToTest, sets mtry based on a fraction of the features instead of an exact number (default: {None})
         seed {int} -- random seed to use (default: {None})
     
@@ -50,10 +52,12 @@ def fastRerF(
         forestClass.setParameter("numCores", numCores)
     if mtry is not None:
         forestClass.setParameter("mtry", mtry)
+    if mtryMult is not None:
+        forestClass.setParameter("mtryMult", mtryMult)
     if fractionOfFeaturesToTest is not None:
         forestClass.setParameter("fractionOfFeaturesToTest", fractionOfFeaturesToTest)
     if seed is None:
-        seed = np.random.randint(1,1000000)
+        seed = np.random.randint(1, 1000000)
     forestClass.setParameter("seed", seed)
 
     # forestClass.setNumberOfThreads()
