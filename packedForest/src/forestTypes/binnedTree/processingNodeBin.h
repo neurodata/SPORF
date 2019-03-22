@@ -263,9 +263,7 @@ namespace fp{
 
 
 				inline void sortWorkingSet(){
-					//pdqsort(zipIters.returnZipBegin(), zipIters.returnZipEnd());
 					pdqsort_branchless(zipIters.returnZipBegin(), zipIters.returnZipEnd());
-					//std::sort(zipIters.returnZipBegin(), zipIters.returnZipEnd());
 				}
 
 
@@ -417,32 +415,6 @@ namespace fp{
 				inline bool isLeafNode(){
 					return leafNode;
 				}
-
-				/*
-					 inline void calcBestSplitInfoForNode(int featureToTry){
-				//LIKWID_MARKER_START("loadNode");
-				loadWorkingSet(featureToTry);
-				//LIKWID_MARKER_STOP("loadNode");
-				//LIKWID_MARKER_START("sort");
-				sortWorkingSet();
-				//LIKWID_MARKER_STOP("sort");
-				resetRightNode();
-				resetLeftNode();
-				//This next function finds and sets the best split... not just finds.
-				//LIKWID_MARKER_START("split");
-				findBestSplit(featureToTry);
-				//LIKWID_MARKER_STOP("split");
-				}
-
-				inline void calcBestSplitInfoForNode(std::vector<int> featureToTry){
-				loadWorkingSet(featureToTry);
-				sortWorkingSet();
-				resetRightNode();
-				resetLeftNode();
-				findBestSplit(featureToTry);
-				}
-				*/
-
 				inline void calcBestSplitInfoForNode(Q featureToTry){
 					loadWorkingSet(featureToTry);
 					sortWorkingSet();
@@ -453,9 +425,7 @@ namespace fp{
 
 
 				inline void calcBestSplit(){
-					//LIKWID_MARKER_START("mtry");
 					calcMtryForNode(mtry);
-					//LIKWID_MARKER_STOP("mtry");
 					while(!mtry.empty()){
 						calcBestSplitInfoForNode(mtry.back());
 						removeTriedMtry();
