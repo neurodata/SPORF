@@ -13,12 +13,7 @@ def fit_RerF(X,
              forest_kwargs=None
     ):
     # I assume data has been preprocessed
-    # if num_trees is None:
-    #     num_trees = 10
-    # if acorn is None:
-    #     acorn = np.random.randint(100000)
-    # np.random.seed(acorn)
-    
+
     train_idx = train_test_splits[0]
     test_idx = train_test_splits[1]
     X_train, X_test = X[train_idx], X[test_idx]
@@ -46,11 +41,6 @@ def fit_sklearn(X,
                 forest_kwargs=None
     ):
     # I assume the data has been preprocessed
-    # if num_trees is None:
-    #     num_trees = 10
-    # if acorn is None:
-    #     acorn = np.random.randint(100000)
-    # np.random.seed(acorn)
     
     train_idx = train_test_splits[0]
     test_idx = train_test_splits[1]
