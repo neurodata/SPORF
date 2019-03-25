@@ -74,94 +74,183 @@ def fit_sklearn(X,
     
     return test_accuracy, train_accuracy, train_time, predict_time
 
-def benchmark(oml_task_id=3, 
-              n_iterations=10,
-              preprocess=False,
-              train_test_splits = None,
-              rerfs=['binnedBaseRerF'], 
-              rerfs_kwargs=[None],
-              sklearns=['RandomForest'],
-              sklearns_kwargs=[None],
-              acorn=None
+def OpenML_benchmark(oml_task_id=3, 
+                  n_iterations=10,
+                  preprocess=False,
+                  train_test_splits = None,
+                  rerfs=['binnedBaseRerF'], 
+                  rerfs_kwargs=[None],
+                  rerf_param_keyword='trees',
+                  sklearns=['RandomForest'],
+                  sklearns_kwargs=[None],
+                  sklearn_param_keyword='n_estimators',
+                  param_values = range(20, 41, 20),
+                  verbose=True,
+                  acorn=None
     ):
-    # if acorn is None:
-    #     acorn = np.random.randint(100000)
-    # if num_trees is None:
-    #     num_trees = 10
-    # np.random.seed(acorn)
-    
+
     task = openml.tasks.get_task(oml_task_id)
     X, y = task.get_X_and_y()
     
     if len(rerfs) > len(rerfs_kwargs):
-    	if len(rerfs_kwargs) == 1:
-    	    rerfs_kwargs = [rerfs_kwargs[0] for model in rerfs]
-    	else:
-    	    raise ValueError('bad rerfs_kwargs')
+        if len(rerfs_kwargs) == 1:
+            rerfs_kwargs = [rerfs_kwargs[0] for model in rerfs]
+        else:
+            raise ValueError('bad rerfs_kwargs')
 
     if len(sklearns) > len(sklearns_kwargs):
-    	if len(sklearns_kwargs) == 1:
-    	    sklearns_kwargs = [sklearns_kwargs[0] for model in sklearns]
-    	else:
-    	    raise ValueError('bad sklearns_kwargs')
-
+        if len(sklearns_kwargs) == 1:
+            sklearns_kwargs = [sklearns_kwargs[0] for model in sklearns]
+        else:
+            raise ValueError('bad sklearns_kwargs')
 
     if preprocess:
         # TODO
+        # have preprocess function
+        print("preprocessing not implemented yet, going ahead with analysis on unprocessed data")
         pass
     
     if train_test_splits is None:
         train_test_splits = task.get_train_test_split_indices()
+
+    all_forests = np.concatenate((rerfs, sklearns))
+    M, F = len(param_values), len(all_forests)
+
+    data = np.zeros(shape=(M, F, 4, n_iterations))
+
+    if verbose:
+
+        for i, param_value in enumerate(tqdm(param_values)):
+            temp_rerfs_kwargs = []
+            for j, dic in enumerate(rerfs_kwargs):
+                temp_rerfs_kwargs.append(dic.copy())
+                temp_rerfs_kwargs[j][rerf_param_keyword] = param_value
+        
+            temp_sklearn_kwargs = []
+            for j, dic in enumerate(sklearns_kwargs):
+                temp_sklearn_kwargs.append(dic.copy())
+                temp_sklearn_kwargs[j][sklearn_param_keyword] = param_value
+
+            rerf_data = np.zeros(shape=(len(rerfs), 4, n_iterations))
+            
+            for j, model in enumerate(rerfs):
+                for k in range(n_iterations):
+                    rerf_data[j,:,k]=fit_RerF(X, y, train_test_splits, forest_type=model, forest_kwargs=rerfs_kwargs[j])
+                
+            sklearn_data = np.zeros(shape=(len(sklearns), 4, n_iterations))
+            for j, model in enumerate(sklearns):
+                for k in range(n_iterations):
+                    sklearn_data[j,:,k]=fit_sklearn(X, y, train_test_splits, forest_type=model, forest_kwargs=sklearns_kwargs[j])
+            
+            data[i] = np.concatenate((rerf_data, sklearn_data))
+
     else:
-        # TODO
-        pass
+        for i, param_value in enumerate(param_values):
+            temp_rerfs_kwargs = []
+            for j, dic in enumerate(rerfs_kwargs):
+                temp_rerfs_kwargs.append(dic.copy())
+                temp_rerfs_kwargs[j][rerf_param_keyword] = param_value
         
-    rerf_results = np.zeros(shape=(len(rerfs), 4, n_iterations))
-    
-    for i, model in enumerate(rerfs):
-        for j in range(n_iterations):
-            rerf_results[i,:,j]=fit_RerF(X, y, train_test_splits, forest_type=model, forest_kwargs=rerfs_kwargs[i])
-        
-    sklearn_results = np.zeros(shape=(len(rerfs), 4, n_iterations))
-    for i, model in enumerate(sklearns):
-        for j in range(n_iterations):
-            sklearn_results[i,:,j]=fit_sklearn(X, y, train_test_splits, forest_type=model, forest_kwargs=sklearns_kwargs[i])
-    
-    return np.concatenate((rerf_results, sklearn_results))
+            temp_sklearn_kwargs = []
+            for j, dic in enumerate(sklearns_kwargs):
+                temp_sklearn_kwargs.append(dic.copy())
+                temp_sklearn_kwargs[j][sklearn_param_keyword] = param_value
 
-def benchmark_plot(results, # Assumed to be an M x F x 4 x n_iterations array,
-                   all_forests = ['binnedRerF, RandomForest'],
-                   titles=['test accuracy', 'train accuracy', 'train time', 'predict time'],
-                   param='n_trees',
-                   param_values=None,
-                   task_id=-1
-    ):
-    M, F, K, n_iterations = results.shape
-    averages = np.mean(results, axis=3)
-    data = [[[] for _ in range(4)] for __ in range(F)]
+            rerf_data = np.zeros(shape=(len(rerfs), 4, n_iterations))
+            
+            for j, model in enumerate(rerfs):
+                for k in range(n_iterations):
+                    rerf_data[j,:,k]=fit_RerF(X, y, train_test_splits, forest_type=model, forest_kwargs=rerfs_kwargs[j])
+                
+            sklearn_data = np.zeros(shape=(len(sklearns), 4, n_iterations))
+            for j, model in enumerate(sklearns):
+                for k in range(n_iterations):
+                    sklearn_data[j,:,k]=fit_sklearn(X, y, train_test_splits, forest_type=model, forest_kwargs=sklearns_kwargs[j])
+            
+            data[i] = np.concatenate((rerf_data, sklearn_data))
 
+    averages = np.mean(data, axis=3)
+    averages_rearranged = [[[] for _ in range(4)] for __ in range(F)]
 
     for i in range(M):
-        for j in range(len(data)):
-            for k in range(len(data[j])):
-                data[j][k].append(averages[i][j][k])
-                
-    K = len(titles)
-    axes = [plt.subplots(1,1) for _ in range(K)]
+        for j in range(F):
+            for k in range(4):
+                averages_rearranged[j][k].append(averages[i][j][k])
 
-    if param_values is None:
-    	param_values=range(1, M + 1)
+    standard_errors = np.std(data, axis=3, ddof=1)/np.sqrt(n_iterations)
+    stds_rearranged = [[[] for _ in range(4)] for __ in range(F)]
+
+    for i in range(M):
+        for j in range(F):
+            for k in range(4):
+                stds_rearranged[j][k].append(standard_errors[i][j][k])
+
+    return np.array(averages_rearranged), np.array(stds_rearranged)
+
+def OpenML_benchmark_plot(results, # Assumed to be an M x F x 4 x n_iterations array,
+                        param_values,
+                        all_forests = ['binnedRerF, RandomForest'],
+                        titles=['test accuracy', 'train accuracy', 'train time', 'predict time'],
+                        param='parameter value',
+                        task_id=-1,
+                        save=False,
+                        filename=None
+    ):
+
+    if type(results) is not tuple and type(results) is not list:
+        avgs = results
+        std_errs = np.zeros(results.shape)
+    elif len(results) > 3:
+        raise ValueError('takes either tuple of (data, std_err) or just data')
+    else:
+        avgs, std_errs = results
     
-    for i, forest in enumerate(all_forests):
-        for j in range(len(axes)):
-            axes[j][1].plot(param_values, data[i][j], label=forest)
-        
-    for i, title in enumerate(titles):
-        axes[i][1].legend()
+    K = len(titles)
+    
+    colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'w']
+
+    for j in range(K):
+        fig, ax = plt.subplots(1,1)
+        for i, forest in enumerate(all_forests):
+            ax.plot(param_values, 
+                avgs[i][j], 
+                label=forest, 
+                c=colors[i%len(colors)]
+            )
+            ax.plot(param_values, 
+                avgs[i][j] + std_errs[i][j], 
+                c=colors[i%len(colors)], 
+                ls=':', 
+                alpha=0.5
+            )
+            ax.plot(param_values, 
+                avgs[i][j] - std_errs[i][j], 
+                c=colors[i%len(colors)], 
+                ls=':', 
+                alpha=0.5
+            )
+            ax.fill_between(param_values, 
+                avgs[i][j] + std_errs[i][j], 
+                avgs[i][j] - std_errs[i][j], 
+                where=avgs[i][j] + std_errs[i][j] >= avgs[i][j] - std_errs[i][j], 
+                facecolor=colors[i%len(colors)], 
+                alpha=0.15,
+                interpolate=True)
+            # ax.fill_between(param_values, 
+            #     avgs[i][j] + std_errs[i][j], 
+            #     avgs[i][j] - std_errs[i][j], 
+            #     where=avgs[i][j] + std_errs[i][j] <= avgs[i][j] - std_errs[i][j], 
+            #     facecolor=colors[i%len(colors)], 
+            #     interpolate=True)
+        ax.legend()
         if task_id == -1:
-            axes[i][1].set_title(title)#+ ' OpenML task %s'%(task_id))
+            ax.set_title(titles[j])
         else:
-            axes[i][1].set_title(title + ' OpenML task %s'%(task_id))
-        axes[i][1].set_xlabel(param)
-        
-    return
+            ax.set_title(titles[j] + ' OpenML task %s'%(task_id))
+        ax.set_xlabel(param)
+        if save:
+            if filename is None:
+                raise ValueError('please give a filename, keyword "filename"')
+            else:
+                plt.savefig(filename + '_' + titles[j] + '.png')
+    return results
