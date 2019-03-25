@@ -70,7 +70,8 @@ namespace fp{
 					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
 					int rndMtry;
 					int rndFeature;
-					for (int i=0; i < fpSingleton::getSingleton().returnMtry(); ++i){
+					int mtryDensity = (int)((double)fpSingleton::getSingleton().returnMtry() * fpSingleton::getSingleton().returnMtryMult());
+					for (int i = 0; i < mtryDensity; ++i){
 						rndMtry = randNum->gen(fpSingleton::getSingleton().returnMtry());
 						rndFeature = randNum->gen(fpSingleton::getSingleton().returnNumFeatures());
 						featuresToTry[rndMtry].push_back(rndFeature);
@@ -87,7 +88,8 @@ namespace fp{
 							int rndMtry;
 							int rndFeature;
 							int rndWeight;
-							for (int i=0; i < fpSingleton::getSingleton().returnMtry(); ++i){
+							int mtryDensity = (int)((double)fpSingleton::getSingleton().returnMtry() * fpSingleton::getSingleton().returnMtryMult());
+							for (int i = 0; i < mtryDensity; ++i){
 								rndMtry = randNum->gen(fpSingleton::getSingleton().returnMtry());
 								rndFeature = randNum->gen(fpSingleton::getSingleton().returnNumFeatures());
 								featuresToTry[rndMtry].returnFeatures().push_back(rndFeature);
@@ -553,12 +555,10 @@ namespace fp{
 					setVecOfSplitLocations(fMtry);
 				}
 
-				inline void calcMtryForNodeTest(std::vector<weightedFeature>& featuresToTry){
+				inline void calcMtryForNodeTest(std::vector<Q> &featuresToTry){
 					calcMtryForNode(featuresToTry);
 				}
-
-
-		};
+};
 
 }//namespace fp
 #endif //processingNodeBin_h
