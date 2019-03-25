@@ -4,7 +4,7 @@
 #include "../../baseFunctions/MWC.h"
 #include "obsIndexAndClassVec.h"
 #include "zipClassAndValue.h"
-#include "processingNode.h"
+#include "processingNodeBin.h"
 #include <vector>
 #include <assert.h>
 
@@ -307,6 +307,7 @@ namespace fp{
 				inline void predictBinObservation(std::vector<T>& observation, std::vector<int>& preds){
 					predictBinObservation(observation,preds,identity<Q>());
 				}
+
 				////////////////////////////////
 
 				//PredictForRF
@@ -383,7 +384,44 @@ namespace fp{
 				}
 
 
-				//inline int predictObservation(std::vector<T>& observation, identity<int>){
+				inline void predictBinObservation(int observationNum, std::vector<int>& preds, identity<weightedFeature>){
+					std::vector<int> currNode(numOfTreesInBin);
+					int numberNotInLeaf;
+					T featureVal;
+					int weightNum;
+					int  q;
+
+
+					for( q=0; q<numOfTreesInBin; ++q){
+						currNode[q] = q+fpSingleton::getSingleton().returnNumClasses();
+						__builtin_prefetch(&bin[currNode[q]], 0, 3);
+					}
+
+					do{
+						numberNotInLeaf = 0;
+
+						for( q=0; q<numOfTreesInBin; ++q){
+
+							if(bin[currNode[q]].isInternalNodeFront()){
+								featureVal = 0;
+								weightNum = 0;
+								for(auto i : bin[currNode[q]].returnFeatureNumber().returnFeatures()){
+									featureVal += fpSingleton::getSingleton().returnTestFeatureVal(i,observationNum)*bin[currNode[q]].returnFeatureNumber().returnWeights()[weightNum++];
+								}
+								currNode[q] = bin[currNode[q]].fpBaseNode<T, Q>::nextNode(featureVal);
+								__builtin_prefetch(&bin[currNode[q]], 0, 3);
+								++numberNotInLeaf;
+							}
+						}
+
+					}while(numberNotInLeaf);
+
+					for( q=0; q<numOfTreesInBin; q++){
+#pragma omp atomic update
+						++preds[bin[currNode[q]].returnClass()];
+					}
+				}
+
 				inline void predictBinObservation(std::vector<T>& observation, std::vector<int>& preds,identity<int> ){
 					std::vector<int> currNode(numOfTreesInBin);
 					int numberNotInLeaf;
@@ -452,6 +490,46 @@ namespace fp{
 						++preds[bin[currNode[q]].returnClass()];
 					}
 				}
+
+
+				//Prediction function for ternary sparse matrix
+				inline void predictBinObservation(std::vector<T>& observation, std::vector<int>& preds, identity<weightedFeature>){
+					std::vector<int> currNode(numOfTreesInBin);
+					int numberNotInLeaf;
+					T featureVal;
+					int weightNum;
+					int  q;
+
+
+					for( q=0; q<numOfTreesInBin; ++q){
+						currNode[q] = q+fpSingleton::getSingleton().returnNumClasses();
+						__builtin_prefetch(&bin[currNode[q]], 0, 3);
+					}
+
+					do{
+						numberNotInLeaf = 0;
+
+						for( q=0; q<numOfTreesInBin; ++q){
+
+							if(bin[currNode[q]].isInternalNodeFront()){
+								featureVal = 0;
+								weightNum = 0;
+								for(auto i : bin[currNode[q]].returnFeatureNumber().returnFeatures()){
+									featureVal +=observation[i]*bin[currNode[q]].returnFeatureNumber().returnWeights()[weightNum++];
+								}
+								currNode[q] = bin[currNode[q]].fpBaseNode<T, Q>::nextNode(featureVal);
+								__builtin_prefetch(&bin[currNode[q]], 0, 3);
+								++numberNotInLeaf;
+							}
+						}
+
+					}while(numberNotInLeaf);
+
+					for( q=0; q<numOfTreesInBin; q++){
+#pragma omp atomic update
+						++preds[bin[currNode[q]].returnClass()];
+					}
+				}
 				///////////////////////////////////
 				/// Test Functions not to be used in production
 				//////////////////////////////////
@@ -470,5 +548,5 @@ namespace fp{
 
 				};
 
-				}//fp
+		}//fp
 #endif //binStruct_h

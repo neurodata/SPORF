@@ -4,7 +4,7 @@ if [ -f error.log ]; then
 	rm error.log
 fi
 
-for i in `seq 1 8`;
+for i in 1 2 3 4 7 8;
 do
 	./bin/fp $i 1 1 > garbage.out
 	if [ $? -ne 0 ]
