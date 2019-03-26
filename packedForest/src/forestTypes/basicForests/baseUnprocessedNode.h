@@ -110,6 +110,7 @@ namespace fp{
 				inline void loadLabelHolder(){
 					if(obsIndices->useBin()){
 						for(int i =0; i < obsIndices->returnBinnedSize(); ++i){
+							//JLP
 							labelHolder[i] = fpSingleton::getSingleton().returnLabel(obsIndices->returnBinnedInSample(i));
 						}
 					}else{

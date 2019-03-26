@@ -28,11 +28,13 @@ namespace fp{
 				createInAndOutSets(numObservationsInDataSet);
 
 				for(auto inSamps : inSamples){
+					// NB: using inSamps as iterator.
 					inSampleSize += inSamps.size();
 				}
 
 				for(auto outSamps : outSamples){
-					outSampleSize += outSamples.size();
+					// NB: using outSamps as iterator.
+					outSampleSize += outSamps.size();
 				}
 
 			}
@@ -57,6 +59,7 @@ namespace fp{
 					randomObsID = distr(eng);
 					inSamples[fpSingleton::getSingleton().returnLabel(potentialSamples[randomObsID])].push_back(potentialSamples[randomObsID]);
 					inSamps.push_back(potentialSamples[randomObsID]);
+					// swap if we haven't sampled this value before.
 					if(randomObsID < numUnusedObs){
 						--numUnusedObs;
 						tempMoveObs = potentialSamples[numUnusedObs];
@@ -66,7 +69,7 @@ namespace fp{
 				}
 
 				for(int n=0; n<numUnusedObs; ++n){
-					outSamples[fpSingleton::getSingleton().returnLabel(potentialSamples[randomObsID])].push_back(potentialSamples[n]);
+					outSamples[fpSingleton::getSingleton().returnLabel(potentialSamples[n])].push_back(potentialSamples[n]);
 				}
 			}
 
@@ -191,6 +194,7 @@ inline int returnBinMin(){
 
 
 			inline void addIndexToOutSamples(int index){
+				//JLP ??
 				++outSampleSize;
 				outSamples[fpSingleton::getSingleton().returnLabel(index)].push_back(index);
 			}

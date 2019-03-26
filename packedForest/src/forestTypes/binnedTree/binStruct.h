@@ -67,6 +67,7 @@ namespace fp{
 				}
 
 				inline void setSharedVectors(obsIndexAndClassVec& indicesInNode){
+					//JLP OOB in here?
 					indicesInNode.resetVectors();
 
 					int numUnusedObs = fpSingleton::getSingleton().returnNumObservations();
@@ -78,6 +79,7 @@ namespace fp{
 
 						indicesInNode.insertIndex(nodeIndices[randomObsID], fpSingleton::getSingleton().returnLabel(nodeIndices[randomObsID]));
 
+						// JLP will need to implement OOB here somehow.
 						if(randomObsID < numUnusedObs){
 							--numUnusedObs;
 							tempMoveObs = nodeIndices[numUnusedObs];
@@ -219,11 +221,14 @@ namespace fp{
 
 
 				inline void processNode(){
+					// process the node, i.e. calculate best split, ...
 					nodeQueue.back().processNode();
 					if (nodeQueue.back().isLeafNode()) {
+						// label the processed node as a leaf.
 						processLeafNode();
 					}
 					else {
+						// label the processed node as internal.
 						processInternalNode();
 					}
 				}
