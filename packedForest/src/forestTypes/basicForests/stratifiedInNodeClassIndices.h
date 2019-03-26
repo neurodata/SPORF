@@ -27,12 +27,12 @@ namespace fp{
 
 				createInAndOutSets(numObservationsInDataSet);
 
-				for(auto inSamps : inSamples){
+				for(auto& inSamps : inSamples){
 					// NB: using inSamps as iterator.
 					inSampleSize += inSamps.size();
 				}
 
-				for(auto outSamps : outSamples){
+				for(auto& outSamps : outSamples){
 					// NB: using outSamps as iterator.
 					outSampleSize += outSamps.size();
 				}
