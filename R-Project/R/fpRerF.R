@@ -11,10 +11,9 @@
 #' @param numTreesInForest the number of trees to grow in the forest (numTreesInForest=500)
 #' @param numCores is the number of cores to use when training and predicting with the forest (numCores=1)
 #' @param numTreeBins the number of bins to store the forest.  Each bin will contain numTreesInForest/numTreeBins trees.  Only used when forestType=="binned*" (numTreeBins= numCores)
-#' @param forestType the type of forest to grow: binnedBase, binnedBaseRerF (forestType="binnedBaseRerF")
 #' @param NodeSizeToBin the minimum node size to use stratified subsampling (NodeSizeToBin=NULL)
 #' @param NodeSizeBin the size of the stratified subsample chosen when NodeSizeToBin criteria is met (NodeSizeBin=NULL)
-#' @param forestType the type of forest to grow: binnedBase, binnedBaseRerF, rfBase, rerf (forestType="binnedBaseRerF")
+#' @param forestType the type of forest to grow: binnedBase, binnedBaseRerF, binnedBaseTern, rfBase, rerf (forestType="binnedBaseRerF")
 #' @param mtry the number of features to consider when splitting a node (mtry=ncol(X)^.5)
 #' @param mtryMult the average number of features combined to form a new feature when using RerF (mtryMult=1)
 #'
