@@ -42,6 +42,11 @@ namespace fp {
 				std::cout << " done growing forest.\n"<< std::flush;
 			}
 
+			inline float reportOOB(){
+				//TODO: JLP, finish this implementation.
+				return 0;
+			}
+
 			inline void checkParameters(){
 				//TODO: check parameters to make sure they make sense for this forest type.
 				;
@@ -65,6 +70,7 @@ namespace fp {
 				treeStats["maxDepth"] = maxDepth;
 				treeStats["totalLeafDepth"] = totalLeafDepth;
 				treeStats["totalLeafNodes"] = totalLeafNodes;
+				treeStats["OOBaccuracy"] = reportOOB();
 				return treeStats;
 			}
 
@@ -74,6 +80,7 @@ namespace fp {
 				std::cout << "max depth: " << treeStats["maxDepth"] << "\n";
 				std::cout << "avg depth: " << float(treeStats["totalLeafDepth"])/float(treeStats["totalLeafNodes"]) << "\n";
 				std::cout << "num leaf nodes: " << treeStats["totalLeafNodes"] << "\n";
+				std::cout << "OOB Accuracy: " << treeStats["OOBaccuracy"] << "\n";
 			}
 
 			void printTree0(){

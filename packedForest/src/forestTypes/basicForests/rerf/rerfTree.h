@@ -95,7 +95,7 @@ namespace fp{
 
 				inline void checkOOB(){
 					totalOOB += nodeQueue.back().returnOutSampleSize();
-					correctOOB += nodeQueue.back().returnOutSampleError(tree.back().returnClass());
+					correctOOB += nodeQueue.back().returnOutSampleCorrect(tree.back().returnClass());
 				}
 
 

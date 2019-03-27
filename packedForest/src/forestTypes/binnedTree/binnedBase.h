@@ -86,6 +86,10 @@ namespace fp {
 				std::cout << "\n"<< std::flush;
 			}
 
+			inline float reportOOB(){
+				//TODO: JLP, finish this implementation.
+				return 0;
+			}
 			inline std::map<std::string, int> calcBinStats(){
 				int maxDepth=0;
 				int totalLeafNodes=0;

@@ -142,6 +142,9 @@ namespace fp{
 					 */
 			}
 
+			inline int returnOutSamplesInClass(int classNum){
+				return outSamples[classNum].size();
+			}
 
 			inline int returnOutSample(const int numSample){
 				int totalViewed = 0;
