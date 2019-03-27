@@ -28,6 +28,7 @@ Create and activate virtualenv/venv
 python3 -m venv env
 . env/bin/activate
 ```
+Anaconda Python may cause problems if not pointing to clang  version or greater 10.0.0
 
 ## Install from GitHub
 
