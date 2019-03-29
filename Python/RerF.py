@@ -1,5 +1,6 @@
 import pyfp
 import numpy as np
+import pickle
 
 
 def fastRerF(
@@ -91,6 +92,14 @@ def fastPredict(X, forest):
         predictions = forest._predict_numpy(X)
     return predictions
 
+def saveForest(fn, forest):
+    with open(fn, 'w') as save_file:
+        pickle.dump(forest, save_file, protocol=-1)
+
+def loadForest(fn):
+    with open(fn) as load_file:
+        forest = pickle.load(load_file)
+    return forest
 
 if __name__ == "__main__":
     pass

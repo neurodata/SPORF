@@ -68,6 +68,19 @@ PYBIND11_MODULE(pyfp, m)
         .def("predict_post", &fpForest<double>::predictPost, "Returns a vector representing the votes for each class.")
 
         .def("testAccuracy", &fpForest<double>::testAccuracy);
+
+        .def(py::pickle(
+            [](const fpForest<double> &f) { // __getstate__
+                return f.returnForest();
+            },
+            [](std::unique_ptr<fpForestBase<double> > t) { // __setstate__
+                
+                /* Create a new C++ instance */
+                fpForest<double> f(t);
+
+                return f;
+            }
+        ));
 }
 
 } // namespace fp

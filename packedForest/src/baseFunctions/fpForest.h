@@ -66,6 +66,8 @@ namespace fp {
 				fpSingleton::getSingleton().resetSingleton();
 				}
 
+				fpForest(std::unique_ptr<fpForestBase<T>> forest) : forest(forest){};
+
 				inline void setParameter(const std::string& parameterName, const std::string& parameterValue){
 					fpSingleton::getSingleton().setParameter(parameterName, parameterValue);	
 				}
@@ -135,6 +137,10 @@ namespace fp {
 					testError = forest->testForest();
 					deleteTestData();
 					return testError;
+				}
+
+				inline std::unique_ptr<fpForestBase<T>> returnForest(){
+					return forest;
 				}
 		}; // class fpForest
 } //namespace fp

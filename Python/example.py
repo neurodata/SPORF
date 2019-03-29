@@ -1,4 +1,4 @@
-from RerF import fastRerF, fastPredict
+from RerF import fastRerF, fastPredict, saveForest, loadForest
 import numpy as np
 from multiprocessing import cpu_count
 
@@ -39,6 +39,12 @@ forest = fastRerF(
 )
 
 forest.printParameters()
+
+forest_fn = "example_forest.p"
+saveForest(forest_fn, forest)
+
+load_forest = loadForest(forest_fn)
+
 
 predictions = fastPredict(feat_data, forest)
 # print(predictions)
