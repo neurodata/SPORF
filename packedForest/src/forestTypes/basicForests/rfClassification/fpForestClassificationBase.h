@@ -49,6 +49,7 @@ namespace fp {
 			}
 
 			inline std::map<std::string, float> calcTreeStats(){
+				// rewrite as a struct in a top level header file.
 				int maxDepth=0;
 				int totalLeafNodes=0;
 				int totalLeafDepth=0;
@@ -175,6 +176,35 @@ inline int predictClass(const T* observation){
 				}
 
 				return oobi / trees.size();
+			}
+
+			inline std::vector<int> returnOutSampleIndices(){
+				//JLP needs fixed. DEBUG
+				std::vector<int> tmp (3,0);
+
+				for (unsigned int i = 0; i < 3; i++){
+					tmp[i] = trees[i].returnOutSample();
+				}
+
+				return tmp;
+			}
+
+			inline std::vector<int> growTreesTest(){
+
+				std::vector<int> outSamples;
+
+				printProgress.displayProgress(0);
+				outSamples = trees[0].growTreeTest();
+				std::cout << "\n"<< std::flush;
+				return outSamples;
+			}
+
+			 std::vector<int> growForestTest(){
+				//	checkParameters();
+				changeForestSize();
+				std::vector<int> outSampleIndices = growTreesTest();
+				return outSampleIndices;
+				//treeStats();
 			}
 	};
 

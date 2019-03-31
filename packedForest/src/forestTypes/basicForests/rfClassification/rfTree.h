@@ -99,11 +99,21 @@ namespace fp{
 				}
 
 
+				inline std::vector<int> returnOutSample(){
+					//inline std::vector<std::vector<int> > getOutSampleIndices(){
+					//JLP testing function.
+					//JLP un-finished function.
+					//JUMP
+					return nodeQueue.front().returnOutSampleVec();
+				}
+
+
 				inline void makeWholeNodeALeaf(){
 					tree.emplace_back();
 					linkParentToChild();
 					setAsLeaf();
 					checkOOB();
+					//JLP get OOB indices here before they go away.
 					nodeQueue.back().deleteObsIndices();
 					nodeQueue.pop_back();
 				}
@@ -195,7 +205,6 @@ inline bool isRightNode(){
 					}
 				}
 
-
 				void growTree(){
 					loadFirstNode();
 					processNodes();
@@ -217,12 +226,24 @@ inline bool isRightNode(){
 
 
 				inline int predictObservation(std::vector<T>& observation){
-					int currNode = 0;
+					int currNode = 1;
 					while(tree[currNode].isInternalNode()){
 						currNode = tree[currNode].nextNode(observation);
 					}
 					return tree[currNode].returnClass();
 				}
+
+
+				std::vector<int> growTreeTest(){
+					std::vector<int> outSampleIndices; //JLP testing.
+					loadFirstNode();
+					std::cout << "\nload First Node Done. \n";
+					outSampleIndices = nodeQueue.back().returnOutSampleVec();
+					std::cout << "\noutSampleIndices gotten. \n";
+					processNodes();
+					return outSampleIndices;
+				}
+
 		};
 
 }//fp

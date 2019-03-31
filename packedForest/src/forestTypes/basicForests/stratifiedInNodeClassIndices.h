@@ -157,6 +157,18 @@ namespace fp{
 				return -1;
 			}
 
+			inline std::vector<int> returnOutSample(){
+				//JLP
+				//JLP Broken.
+				std::vector<int> outIndices;
+				for (auto i : outSamples){
+					for (auto j : i) {
+						outIndices.push_back(j);
+					}
+				}
+				return outIndices;
+			}
+
 
 			inline int returnBinSize(){
 				return fpSingleton::getSingleton().returnBinSize();

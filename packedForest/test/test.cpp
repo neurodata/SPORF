@@ -21,5 +21,6 @@
 #include "fpTests/fpForestClassificationBaseTest.h"
 #include "fpTests/fpRerFBaseTest.h"
 #include "fpTests/binnedBaseTest.h"
-#include "fpTests/fpForestTest.h"
+//#include "fpTests/fpForestTest.h"
 #include "fpTests/binnedForest/processingNodeBinTest.h"
+#include "fpTests/rfTreeTest.h"
