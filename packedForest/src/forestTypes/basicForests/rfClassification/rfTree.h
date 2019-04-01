@@ -235,11 +235,12 @@ inline bool isRightNode(){
 
 
 				std::vector<int> growTreeTest(){
-					std::vector<int> outSampleIndices; //JLP testing.
+					//JLP testing.
+					std::vector<int> outSampleIndices;
 					loadFirstNode();
-					std::cout << "\nload First Node Done. \n";
+					//std::cout << "\nload First Node Done. \n"; //DEBUG
 					outSampleIndices = nodeQueue.back().returnOutSampleVec();
-					std::cout << "\noutSampleIndices gotten. \n";
+					//std::cout << "\noutSampleIndices gotten. \n"; //DEBUG
 					processNodes();
 					return outSampleIndices;
 				}

@@ -25,7 +25,6 @@ TEST(testRFtree, testOOB){
   //  std::cout << outSamp << ",";
   //}
 
-  
   std::vector<int> outSamples = forest.growForestTest();
 
   std::cout << "Out Sample Indices are:\n";
