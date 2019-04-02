@@ -43,8 +43,13 @@ namespace fp {
 			}
 
 			inline float reportOOB(){
-				//TODO: JLP, finish this implementation.
-				return 0;
+				// for tree_i in trees sum OOB_i and normalize by the number of trees.
+				float oobi = 0;
+				for (unsigned int i = 0; i < trees.size(); ++i){
+					oobi += trees[i].returnOOB();
+				}
+
+				return oobi / trees.size();
 			}
 
 			inline void checkParameters(){

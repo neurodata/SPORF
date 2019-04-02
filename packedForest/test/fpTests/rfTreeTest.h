@@ -4,50 +4,45 @@
 #include <vector>
 
 TEST(testRFtree, testOOB){
-	//fp::fpForest<double> forest;
-  fp::fpForestClassificationBase<float> forest;
-	//forest.setParameter("forestType", "rfBase");
-  fp::fpSingleton::getSingleton().setParameter("CSVFileName", "../res/iris.csv");
-  fp::fpSingleton::getSingleton().setParameter("columnWithY", 4);
-  fp::fpSingleton::getSingleton().setParameter("numTreesInForest", 1);
-  fp::fpSingleton::getSingleton().setParameter("minParent", 1);
-  fp::fpSingleton::getSingleton().setParameter("numCores", 1);
-  fp::fpSingleton::getSingleton().setParameter("seed",-1661580697);
-  //fp::fpSingleton::getSingleton().loadData();
+  float A = 0;
+  float B = 0;
+	float totalCorrect = 0;
+  bool yay = false;
 
-  //fp::rfTree<float> tree;
+	fp::rfTree<double> tree;
 
-  //std::cout << fp::fpSingleton::getSingleton().returnNumObservations();
+	fp::fpSingleton::getSingleton().setParameter("CSVFileName", "../res/iris.csv");
+	fp::fpSingleton::getSingleton().setParameter("columnWithY", 4);
+	fp::fpSingleton::getSingleton().setParameter("numTreesInForest", 1);
+	fp::fpSingleton::getSingleton().setParameter("minParent", 1);
+	fp::fpSingleton::getSingleton().setParameter("numCores", 1);
+	fp::fpSingleton::getSingleton().setParameter("seed",-1661580692);
+	fp::fpSingleton::getSingleton().setParameter("mtry",3);
 
-  //std::vector<int> outSamples = tree.growTreeTest();
+	// needed when doing this from the tree level.
+	fp::fpSingleton::getSingleton().loadData();
+	fp::fpSingleton::getSingleton().loadTestData();
 
-  //for (auto outSamp : outSamples){
-  //  std::cout << outSamp << ",";
-  //}
+	// Must use growTreeTest or the OutSampleIndieces get deleted
+	// after processing the nodes.
+	std::vector<int> outSampleIndices = tree.growTreeTest();
 
-  std::vector<int> outSamples = forest.growForestTest();
+	std::vector<int> oobCl (outSampleIndices.size(), -1);
 
-  std::cout << "Out Sample Indices are:\n";
+	for(long unsigned int i = 0; i < outSampleIndices.size(); i++) {
+		oobCl[i] = tree.predictObservation(outSampleIndices[i]);
+		
+		if (oobCl[i] == int(outSampleIndices[i] / 50)) {
+			totalCorrect += 1;
+		}
+	}
+	
+	A = tree.returnOOB();
+	B = (totalCorrect / outSampleIndices.size());
 
-  for (auto i = 0; i < outSamples.size(); ++i){
-    std::cout << outSamples[i] << ",";
-  }
-  std::cout << "\n";
+  // compare internally computed OOB accuracy with
+  // the manually computed within tollerance of 10^-9.
+	yay = ((A - B) < 0.000000001);
 
-  //std::vector<float> testObs = { 5.1, 3.5, 1.4, 0.2 };
-
-  //std::vector<int> testObs = {};
-  //std::vector<int> outPredictions = forest.predictClass();
-  //std::cout << "Out Sample Predictions are:\n";
-  //for (auto i = 0; i < outPredictions.size(); ++i){
-  //  std::cout << outPredictions[i] << ",";
-  //}
-  //std::cout << "\n";
-
-  float oobAcc = forest.reportOOB();
-  std::cout << "Reporting OOB accuracy\n" << oobAcc << "\n";
-
-	//std::vector<int> results;
-	//std::vector<double> testCase {5.1,3.5,1.4,0.2};
-	//results = forest.predictPost(testCase);
+  EXPECT_TRUE(yay);
 }

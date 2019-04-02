@@ -78,8 +78,6 @@ namespace fp{
 				}
 
 				inline std::vector<int> returnOutSampleVec(){
-					//JLP Broken
- 					//return obsIndices->returnOutSample();
 					 std::vector<int> out; 
 					 out = obsIndices->returnOutSample();
 					 return out;

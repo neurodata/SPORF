@@ -38,7 +38,12 @@ namespace fp{
 				}
 
 				inline float returnOOB(){
-					return correctOOB/totalOOB;
+					//JLP
+					return OOBAccuracy;
+				}
+
+				inline void updateOOB(){
+					this->OOBAccuracy = correctOOB/totalOOB;
 				}
 
 				inline int returnLastNodeID(){
@@ -100,10 +105,6 @@ namespace fp{
 
 
 				inline std::vector<int> returnOutSample(){
-					//inline std::vector<std::vector<int> > getOutSampleIndices(){
-					//JLP testing function.
-					//JLP un-finished function.
-					//JUMP
 					return nodeQueue.front().returnOutSampleVec();
 				}
 
@@ -113,7 +114,6 @@ namespace fp{
 					linkParentToChild();
 					setAsLeaf();
 					checkOOB();
-					//JLP get OOB indices here before they go away.
 					nodeQueue.back().deleteObsIndices();
 					nodeQueue.pop_back();
 				}
@@ -208,6 +208,7 @@ inline bool isRightNode(){
 				void growTree(){
 					loadFirstNode();
 					processNodes();
+					updateOOB();
 				}
 
 
@@ -238,10 +239,10 @@ inline bool isRightNode(){
 					//JLP testing.
 					std::vector<int> outSampleIndices;
 					loadFirstNode();
-					//std::cout << "\nload First Node Done. \n"; //DEBUG
+					// grab outSamplesIndices before they are deleted.
 					outSampleIndices = nodeQueue.back().returnOutSampleVec();
-					//std::cout << "\noutSampleIndices gotten. \n"; //DEBUG
 					processNodes();
+					updateOOB(); // update the OOBAccuracy
 					return outSampleIndices;
 				}
 
