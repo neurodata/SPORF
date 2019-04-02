@@ -158,8 +158,6 @@ namespace fp{
 			}
 
 			inline std::vector<int> returnOutSample(){
-				//JLP
-				//JLP Broken.
 				std::vector<int> outIndices;
 				for (auto i : outSamples){
 					for (auto j : i) {

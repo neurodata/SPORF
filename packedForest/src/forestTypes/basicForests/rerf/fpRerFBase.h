@@ -45,11 +45,16 @@ namespace fp {
 			inline float reportOOB(){
 				// for tree_i in trees sum OOB_i and normalize by the number of trees.
 				float oobi = 0;
+				int treesWithOOB = 0;
 				for (unsigned int i = 0; i < trees.size(); ++i){
-					oobi += trees[i].returnOOB();
+					if (trees[i].returnTotalOOB() > 0) {
+					  oobi += trees[i].returnOOB();
+					  treesWithOOB++;
+					}
 				}
+				// need to divide by the number of trees that had non-zero OOB points.
 
-				return oobi / trees.size();
+				return oobi / (float) treesWithOOB;
 			}
 
 			inline void checkParameters(){

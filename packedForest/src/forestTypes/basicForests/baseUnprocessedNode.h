@@ -78,8 +78,8 @@ namespace fp{
 				}
 
 				inline std::vector<int> returnOutSampleVec(){
-					 std::vector<int> out; 
-					 out = obsIndices->returnOutSample();
+					 std::vector<int> out = obsIndices->returnOutSample();
+					 //out = obsIndices->returnOutSample();
 					 return out;
 				}
 

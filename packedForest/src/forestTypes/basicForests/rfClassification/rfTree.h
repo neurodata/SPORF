@@ -103,6 +103,9 @@ namespace fp{
 					correctOOB += nodeQueue.back().returnOutSampleCorrect(tree.back().returnClass());
 				}
 
+				inline int returnTotalOOB(){
+					return this->totalOOB;
+				}
 
 				inline std::vector<int> returnOutSample(){
 					return nodeQueue.front().returnOutSampleVec();

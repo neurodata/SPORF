@@ -198,10 +198,10 @@ namespace fp{
 
 
 					for (int i=0; i < baseUnprocessedNode<T>::obsIndices->returnOutSampleSize();++i){
-						if(goLeft(baseUnprocessedNode<T>::obsIndices->returnInSample(i))){
-							baseUnprocessedNode<T>::leftIndices->addIndexToOutSamples(baseUnprocessedNode<T>::obsIndices->returnInSample(i));	
+						if(goLeft(baseUnprocessedNode<T>::obsIndices->returnOutSample(i))){
+							baseUnprocessedNode<T>::leftIndices->addIndexToOutSamples(baseUnprocessedNode<T>::obsIndices->returnOutSample(i));
 						}else{
-							baseUnprocessedNode<T>::rightIndices->addIndexToOutSamples(baseUnprocessedNode<T>::obsIndices->returnInSample(i));	
+							baseUnprocessedNode<T>::rightIndices->addIndexToOutSamples(baseUnprocessedNode<T>::obsIndices->returnOutSample(i));
 						}
 					}
 					deleteObsIndices();

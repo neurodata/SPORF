@@ -171,40 +171,16 @@ inline int predictClass(const T* observation){
 			inline float reportOOB(){
 				// for tree_i in trees sum OOB_i and normalize by the number of trees.
 				float oobi = 0;
+				int treesWithOOB = 0;
 				for (unsigned int i = 0; i < trees.size(); ++i){
-					oobi += trees[i].returnOOB();
+					if (trees[i].returnTotalOOB() > 0) {
+					  oobi += trees[i].returnOOB();
+					  treesWithOOB++;
+					}
 				}
+				// need to divide by the number of trees that had non-zero OOB points.
 
-				return oobi / trees.size();
-			}
-
-			inline std::vector<int> returnOutSampleIndices(){
-				//JLP needs fixed. DEBUG
-				std::vector<int> tmp (3,0);
-
-				for (unsigned int i = 0; i < 3; i++){
-					tmp[i] = trees[i].returnOutSample();
-				}
-
-				return tmp;
-			}
-
-			inline std::vector<int> growTreesTest(){
-
-				std::vector<int> outSamples;
-
-				printProgress.displayProgress(0);
-				outSamples = trees[0].growTreeTest();
-				std::cout << "\n"<< std::flush;
-				return outSamples;
-			}
-
-			 std::vector<int> growForestTest(){
-				//	checkParameters();
-				changeForestSize();
-				std::vector<int> outSampleIndices = growTreesTest();
-				return outSampleIndices;
-				//treeStats();
+				return oobi / (float) treesWithOOB;
 			}
 	};
 
