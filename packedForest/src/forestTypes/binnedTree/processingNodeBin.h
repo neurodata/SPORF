@@ -52,8 +52,8 @@ namespace fp{
 
 					int tempSwap;
 
-                                        // This is an efficient way to shuffle the first "mtry" elements of the feature vector
-                                        // in order to sample features w/o replacement.
+                    // This is an efficient way to shuffle the first "mtry" elements of the feature vector
+                    // in order to sample features w/o replacement.
 					for(int locationToMove = 0; locationToMove < fpSingleton::getSingleton().returnMtry(); locationToMove++){
 						int randomPosition = randNum->gen(fpSingleton::getSingleton().returnNumFeatures()-locationToMove)+locationToMove;
 						tempSwap = featuresToTry[locationToMove];
@@ -358,7 +358,7 @@ namespace fp{
 
 				inline void setupRoot(obsIndexAndClassVec& indexHolder, typename std::vector<zipClassAndValue<int,T> >& zipper){
 					setRootNodeIndices(indexHolder);
-					setClassTotals();
+					setClassTotals(); // also sets the impurity.
 					setRootNodeZipIters(zipper);
 				}
 
@@ -374,7 +374,7 @@ namespace fp{
 				inline void setupNode(nodeIterators& nodeIts, zipperIterators<int,T>& zips, bool leftNode){
 					setIsLeftNode(leftNode);
 					setNodeIndices(nodeIts);
-					setClassTotals();
+					setClassTotals(); //JLP ??
 					setZipIters(zips, propertiesOfThisNode.returnNumItems());
 				}
 

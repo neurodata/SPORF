@@ -7,6 +7,8 @@
 #include "processingNodeBin.h"
 #include <vector>
 #include <assert.h>
+#include <numeric>
+
 
 namespace fp{
 
@@ -66,11 +68,25 @@ namespace fp{
 					bin[returnRootLocation()].setDepth(0);
 				}
 
+				inline float returnOOB(){
+					return OOBAccuracy;
+				}
+
+
+				inline void updateOOB(){
+					this->OOBAccuracy = correctOOB / totalOOB;
+				}
+
+				inline void checkOOB(){
+					totalOOB = 1;
+					correctOOB = 100666001;
+				}
+
 				inline void setSharedVectors(obsIndexAndClassVec& indicesInNode){
-					//JLP OOB in here?
 					indicesInNode.resetVectors();
 
 					int numUnusedObs = fpSingleton::getSingleton().returnNumObservations();
+					std::vector<int> unusedObsVec (fpSingleton::getSingleton().returnNumObservations(), 1); //JLP: to hold outSamples
 					int randomObsID;
 					int tempMoveObs;
 
@@ -79,15 +95,24 @@ namespace fp{
 
 						indicesInNode.insertIndex(nodeIndices[randomObsID], fpSingleton::getSingleton().returnLabel(nodeIndices[randomObsID]));
 
-						// JLP will need to implement OOB here somehow.
+						// JLP: we need to keep track of the un-used observation IDs.
 						if(randomObsID < numUnusedObs){
-							--numUnusedObs;
+							//--numUnusedObs;
+							unusedObsVec[randomObsID] = 0;
 							tempMoveObs = nodeIndices[numUnusedObs];
 							nodeIndices[numUnusedObs] = nodeIndices[randomObsID];
 							nodeIndices[randomObsID] = tempMoveObs;
 						}
 					}
 
+					// create a vector of length (num non-zero elements) of `unusedObsVec`.
+					std::vector<int> outSamples (std::accumulate(unusedObsVec.begin(), unusedObsVec.end(), 0), 1);
+					int tempIndexHolder = 0;
+					for(size_t i = 0; i < unusedObsVec.size(); i++) {
+						if (unusedObsVec[i] > 0) {
+							outSamples[tempIndexHolder++] = i;
+						}
+					}
 				}
 
 
@@ -245,6 +270,8 @@ namespace fp{
 							processNode();
 						}
 					}
+					//JLP
+					updateOOB();
 					removeStructures();
 				}
 
