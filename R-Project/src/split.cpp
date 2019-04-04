@@ -168,3 +168,57 @@ List findSplitSim(const NumericVector x, arma::mat y, const int & ndSize, const 
 
     return List::create(_["MaxDeltaI"] = maxdI, _["BestVar"] = bv, _["BestSplit"] = bs, _["NumBest"] = nb);
 }
+
+
+// [[Rcpp::export]]
+List findSplitReg(const NumericVector x, NumericVector y, const int & ndSize, const double & I,
+	double maxdI, IntegerVector bv, NumericVector bs, int nb, const int nzidx) {
+  double xl, xr, Il, Ir, dI, ml, mr;
+  int end, nl, nr, bsct;
+  IntegerVector bsidx(ndSize);
+
+  bsct = 0;
+  Il = 0;
+  Ir = I;
+	ml = 0;
+	mr = sum(y)/ndSize;
+
+  // iterate over split locations from left to right
+  for (int i = 0; i < ndSize - 1; ++i) {
+		xl = x[i];
+		xr = x[i+1];
+		nl = i + 1;
+		nr = ndSize - nl;
+		ml = (ml*i + y[i])/nl; // update mean of y's on left
+		mr = (mr*(nr + 1) - y[i])/nr; // update mean of y's on right
+
+		if (xl == xr) {
+			continue;
+		} else {
+			Il = sum(pow((y[Range(0, i)] - ml), 2));
+			Ir = sum(pow((y[Range(nl, ndSize-1)] - mr), 2));
+			dI = I - Il - Ir;
+	    if (dI > maxdI) {
+				// save current best split information
+				bsidx[0] = i + 1;
+				bv[0] = nzidx;
+				nb = 1;
+				maxdI = dI;
+				bsct = 1;
+	    } else if (dI == maxdI && dI > 0) {
+				bsidx[bsct] = i + 1;
+				bv[nb] = nzidx;
+				bsct += 1;
+				nb += 1;
+	    }
+		}
+  }
+
+  if (bsct != 0) {
+		for (int i = 0; i < bsct; ++i) {
+	    bs[nb-bsct+i] = (x[bsidx[i]-1] + x[bsidx[i]])/2;
+		}
+  }
+
+  return List::create(_["MaxDeltaI"] = maxdI, _["BestVar"] = bv, _["BestSplit"] = bs, _["NumBest"] = nb);
+}
