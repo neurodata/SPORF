@@ -16,8 +16,7 @@ To learn more about RerF, visit `neurodata.io/rerf`_ or `github`_.
 
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
 
 Indices and tables
 ==================
