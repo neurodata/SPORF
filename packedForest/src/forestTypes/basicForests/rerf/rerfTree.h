@@ -45,10 +45,6 @@ namespace fp{
 					this->OOBAccuracy = correctOOB/totalOOB;
 				}
 
-				inline int returnTotalOOB(){
-					return totalOOB;
-				}
-
 				inline int returnLastNodeID(){
 					return tree.size()-1;
 				}
