@@ -12,7 +12,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('../Python'))
 
 
 # -- Project information -----------------------------------------------------
@@ -29,15 +29,15 @@ authors = u"NeuroData"
 # ones.
 extensions = [   
     "sphinx.ext.autodoc",
-    "sphinx.ext.autosummary",
-    "sphinx.ext.todo",
-    "sphinx.ext.viewcode",
-    "sphinx.ext.mathjax",
-    "numpydoc",
-    "sphinx.ext.ifconfig",
-    "sphinx.ext.githubpages",
-    "sphinxcontrib.rawfiles",
-    "nbsphinx",
+    # "sphinx.ext.autosummary",
+    # "sphinx.ext.todo",
+    # "sphinx.ext.viewcode",
+    # "sphinx.ext.mathjax",
+    # "numpydoc",
+    # "sphinx.ext.ifconfig",
+    # "sphinx.ext.githubpages",
+    # "sphinxcontrib.rawfiles",
+    # "nbsphinx",
 ]
 
 # Add any paths that contain templates here, relative to this directory.

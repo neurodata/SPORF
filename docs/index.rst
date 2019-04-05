@@ -6,15 +6,18 @@
 Welcome to RerF_'s documentation!
 =================================
 
-.. _RerF: https://neurodata.io/rerf
+.. _RerF: 
 
-RerF is a forest.
+To learn more about RerF, visit `neurodata.io/rerf`_ or `github`_.
+
+.. _github: https://github.com/neurodata/RerF
+.. _`neurodata.io/rerf`: https://neurodata.io/rerf
+
+
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
-
 
 Indices and tables
 ==================
