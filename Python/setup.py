@@ -106,13 +106,15 @@ class BuildExt(build_ext):
                 ext.extra_link_args = ["-lgomp"]
         build_ext.build_extensions(self)
 
+with open('requirements.txt') as f:
+    required = f.read().splitlines()
 
 setup(
     name="pyfp",
     version=__version__,
     long_description="",
     ext_modules=ext_modules,
-    install_requires=["pybind11>=2.2"],
+    install_requires=required,
     cmdclass={"build_ext": BuildExt},
     zip_safe=False,
 )
