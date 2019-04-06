@@ -41,7 +41,8 @@ def fastRerF(
     minParent int, optional
         (default: 1)
     maxDepth : int
-        maxDepth (default: inf)
+        maxDepth (default: None).  If None, set to max system supported 
+        value
     numCores : int
         Number of cores to use (default: 1)
     mtry : int
@@ -83,9 +84,8 @@ def fastRerF(
     forestClass.setParameter("numTreesInForest", trees)
     forestClass.setParameter("minParent", minParent)
 
-    if maxDepth is None:
-        maxDepth = sys.maxsize
-    forestClass.setParameter("maxDepth", maxDepth)
+    if maxDepth is not None:
+        forestClass.setParameter("maxDepth", maxDepth)
     
     if numCores is None:
         numCores = 1
