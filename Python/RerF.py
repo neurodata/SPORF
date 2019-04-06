@@ -14,7 +14,7 @@ def fastRerF(
     trees=500,
     minParent=1,
     maxDepth=None,
-    numCores=None,
+    numCores=1,
     mtry=None,
     mtryMult=1.5,
     fractionOfFeaturesToTest=None,
@@ -44,18 +44,19 @@ def fastRerF(
         maxDepth (default: None).  If None, set to max system supported 
         value
     numCores : int
-        Number of cores to use (default: 1)
+        Number of cores to use (default: 1).
     mtry : int
         d, the number of features to consider when splitting a node 
-        (default: round(sqrt(numFeatures)))
+        (default: None).  If None, sets to ``sqrt(numFeatures)``.
     mtryMult : double
         Average number of features combined to form a new feature when
-        using RerF (default: mtryMult=1.5)
+        using RerF (default: 1.5)
     fractionOfFeaturesToTest : float
         Sets mtry based on a fraction of the features instead of an 
-        exact number
+        exact number (default: None).
     seed : int
-        Random seed to use (default: np.random.randint(1, 1000000))
+        Random seed to use (default: None).  If None, set seed to 
+        ``np.random.randint(1, 1000000)``.
 
     Returns
     -------
@@ -100,7 +101,7 @@ def fastRerF(
                 numFeatures = len(first_line.split(','))
         else:
             raise ValueError("Need either X or CSVFile as argument")
-        mtry = round(numFeatures**(1/2))
+        mtry = int(numFeatures**(1/2))
     forestClass.setParameter("mtry", mtry)
 
     forestClass.setParameter("mtryMult", mtryMult)
@@ -129,7 +130,7 @@ def fastPredict(X, forest):
     
     Parameters
     ----------
-    X : ndarray
+    X : array_like
         Numpy ndarray of data, if more than 1 row, run multiple 
         predictions.
     forest : pyfp.fpForest
@@ -139,7 +140,7 @@ def fastPredict(X, forest):
     -------
     predictions : int, list of int
         Returns the class of prediction (int) or predictions (list) 
-        depending on the input paramters.
+        depending on input parameters.
 
     Examples
     --------
