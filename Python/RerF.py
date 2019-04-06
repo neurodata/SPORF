@@ -40,21 +40,21 @@ def fastRerF(
         Number of trees in forest (default: 500)
     minParent int, optional
         (default: 1)
-    maxDepth : int
+    maxDepth : int, optional
         maxDepth (default: None).  If None, set to max system supported 
         value
-    numCores : int
+    numCores : int, optional
         Number of cores to use (default: 1).
-    mtry : int
+    mtry : int, optional
         d, the number of features to consider when splitting a node 
         (default: None).  If None, sets to ``sqrt(numFeatures)``.
-    mtryMult : double
+    mtryMult : double, optional
         Average number of features combined to form a new feature when
         using RerF (default: 1.5)
-    fractionOfFeaturesToTest : float
+    fractionOfFeaturesToTest : float, optional
         Sets mtry based on a fraction of the features instead of an 
         exact number (default: None).
-    seed : int
+    seed : int, optional
         Random seed to use (default: None).  If None, set seed to 
         ``np.random.randint(1, 1000000)``.
 
