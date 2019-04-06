@@ -57,7 +57,7 @@ def fastRerF(
     seed : int, optional
         Random seed to use (default: None).  If None, set seed to 
         ``np.random.randint(1, 1000000)``.
-
+    
     Returns
     -------
     forest : pyfp.fpForest
@@ -87,7 +87,7 @@ def fastRerF(
 
     if maxDepth is not None:
         forestClass.setParameter("maxDepth", maxDepth)
-    
+
     if numCores is None:
         numCores = 1
     forestClass.setParameter("numCores", numCores)
@@ -96,19 +96,19 @@ def fastRerF(
         if X is not None:
             numFeatures = X.shape[1]
         elif CSVFile is not None:
-            with open(CSVFile, 'r') as f:
+            with open(CSVFile, "r") as f:
                 first_line = f.readline()
-                numFeatures = len(first_line.split(','))
+                numFeatures = len(first_line.split(","))
         else:
             raise ValueError("Need either X or CSVFile as argument")
-        mtry = int(numFeatures**(1/2))
+        mtry = int(numFeatures ** (1 / 2))
     forestClass.setParameter("mtry", mtry)
 
     forestClass.setParameter("mtryMult", mtryMult)
-    
+
     if fractionOfFeaturesToTest is not None:
         forestClass.setParameter("fractionOfFeaturesToTest", fractionOfFeaturesToTest)
-    
+
     if seed is None:
         seed = np.random.randint(1, 1000000)
     forestClass.setParameter("seed", seed)

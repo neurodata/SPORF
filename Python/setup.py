@@ -86,9 +86,13 @@ class BuildExt(build_ext):
 
     if sys.platform == "darwin":
         ompbase = subprocess.run(["brew", "--prefix", "libomp"], stdout=subprocess.PIPE)
-        omploc = ompbase.stdout.decode('utf-8').strip()
+        omploc = ompbase.stdout.decode("utf-8").strip()
 
-        c_opts["unix"] += ["-lomp", "-I{}/include".format(omploc), "-L{}/lib".format(omploc)]
+        c_opts["unix"] += [
+            "-lomp",
+            "-I{}/include".format(omploc),
+            "-L{}/lib".format(omploc),
+        ]
 
     def build_extensions(self):
         ct = self.compiler.compiler_type
@@ -106,7 +110,8 @@ class BuildExt(build_ext):
                 ext.extra_link_args = ["-lgomp"]
         build_ext.build_extensions(self)
 
-with open('requirements.txt') as f:
+
+with open("requirements.txt") as f:
     required = f.read().splitlines()
 
 setup(
