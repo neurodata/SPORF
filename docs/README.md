@@ -1,6 +1,6 @@
 # Building docs
 
-We currently use Sphinx
+We currently use Sphinx to provide docs for the Python interface
 
 ## Instructions
 
@@ -8,15 +8,15 @@ We currently use Sphinx
 
 You will need to install all the dependencies as defined in `requirements.txt` file.
 
-The above can be installed by entering:
+The above can be installed by entering from a virtual environment:
 
-    pip3 install -r requirements.txt
+    pip install -r requirements.txt
 
 in the `docs/` directory.
 
 ### Pandoc dependency
 
-In addition, you need to install `pandoc` for `nbsphinx`. If you are on linux, you can enter:
+In addition, you need to install `pandoc` for `nbsphinx`. If you are on ubuntu, you can enter:
 
     sudo apt-get install pandoc
 

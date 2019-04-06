@@ -1,9 +1,3 @@
 sphinx==1.8.5
 sphinx_rtd_theme==0.4.3
 numpydoc==0.8.0
-
-# recommonmark
-# sphinxcontrib-rawfiles
-# nbsphinx
-# IPython
-# ipykernel
