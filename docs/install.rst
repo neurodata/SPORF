@@ -26,7 +26,7 @@ C++ compiler (gcc)::
 On Mac:
 
 - Get `brew`_
-- ``brew install python``
+- ``brew install python3``
 - ``brew install libomp``
 - ``brew install llvm``
 - ``echo ‘export PATH=“/usr/local/opt/llvm/bin:$PATH”’ >> ~/.bash_profile``
