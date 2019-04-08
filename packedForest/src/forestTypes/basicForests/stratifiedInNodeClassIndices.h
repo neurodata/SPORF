@@ -207,7 +207,6 @@ inline int returnBinMin(){
 
 
 			inline void addIndexToOutSamples(int index){
-				//JLP ??
 				++outSampleSize;
 				outSamples[fpSingleton::getSingleton().returnLabel(index)].push_back(index);
 			}

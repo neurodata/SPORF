@@ -87,8 +87,7 @@ namespace fp {
 			}
 
 			inline float reportOOB(){
-				//TODO: JLP, finish this implementation.
-				return 0;
+				return 12345;
 			}
 			inline std::map<std::string, int> calcBinStats(){
 				int maxDepth=0;

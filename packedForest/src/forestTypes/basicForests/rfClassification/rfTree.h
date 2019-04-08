@@ -38,7 +38,6 @@ namespace fp{
 				}
 
 				inline float returnOOB(){
-					//JLP
 					return OOBAccuracy;
 				}
 
