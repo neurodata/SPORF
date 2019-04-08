@@ -86,9 +86,13 @@ class BuildExt(build_ext):
 
     if sys.platform == "darwin":
         ompbase = subprocess.run(["brew", "--prefix", "libomp"], stdout=subprocess.PIPE)
-        omploc = ompbase.stdout.decode('utf-8').strip()
+        omploc = ompbase.stdout.decode("utf-8").strip()
 
-        c_opts["unix"] += ["-lomp", "-I{}/include".format(omploc), "-L{}/lib".format(omploc)]
+        c_opts["unix"] += [
+            "-lomp",
+            "-I{}/include".format(omploc),
+            "-L{}/lib".format(omploc),
+        ]
 
     def build_extensions(self):
         ct = self.compiler.compiler_type
@@ -107,12 +111,15 @@ class BuildExt(build_ext):
         build_ext.build_extensions(self)
 
 
+with open("requirements.txt") as f:
+    required = f.read().splitlines()
+
 setup(
     name="pyfp",
     version=__version__,
     long_description="",
     ext_modules=ext_modules,
-    install_requires=["pybind11>=2.2"],
+    install_requires=required,
     cmdclass={"build_ext": BuildExt},
     zip_safe=False,
 )

@@ -1,5 +1,6 @@
-import pyfp
 import numpy as np
+
+import pyfp
 
 
 def fastRerF(
@@ -11,33 +12,69 @@ def fastRerF(
     trees=500,
     minParent=1,
     maxDepth=None,
-    numCores=None,
+    numCores=1,
     mtry=None,
-    mtryMult=None,
+    mtryMult=1.5,
     fractionOfFeaturesToTest=None,
     seed=None,
 ):
-    """Creates a decision forest based on an input matrix and class vector.
+    """Creates a decision forest based on an input matrix and class vector
+    and grows the forest.
     
-    Arguments:
-        X {2D numpy array} -- (default: {None})
-        Y {list, 1D numpy array} -- (default: {None})
-        CSVFile {str} -- training CSV filename (default: {None})
-        Ycolumn {int} -- column in data with labels (default: {None})
+    Parameters
+    ----------
+    X : 2D numpy array, optional
+        Input data.  Rows are observations and columns are features.
+    Y : list, 1D numpy array, optional
+        Labels
+    CSVFile : str, optional
+        training CSV filename 
+    Ycolumn : int, optional
+        column in data with labels 
+    forestType : str, optional
+        the type of forest: binnedBase, binnedBaseRerF, 
+        binnedBaseTern, rfBase, rerf (default: "binnedBaseRerF")
+    trees : int, optional
+        Number of trees in forest (default: 500)
+    minParent int, optional
+        (default: 1)
+    maxDepth : int, optional
+        maxDepth (default: None).  If None, set to max system supported 
+        value
+    numCores : int, optional
+        Number of cores to use (default: 1).
+    mtry : int, optional
+        d, the number of features to consider when splitting a node 
+        (default: None).  If None, sets to ``sqrt(numFeatures)``.
+    mtryMult : double, optional
+        Average number of features combined to form a new feature when
+        using RerF (default: 1.5)
+    fractionOfFeaturesToTest : float, optional
+        Sets mtry based on a fraction of the features instead of an 
+        exact number (default: None).
+    seed : int, optional
+        Random seed to use (default: None).  If None, set seed to 
+        ``np.random.randint(1, 1000000)``.
     
-    Keyword Arguments:
-        forestType {str} -- the type of forest: binnedBase, binnedBaseRerF, binnedBaseTern, rfBase, rerf (default: {"binnedBaseRerF"})
-        trees {int} -- number of trees in forest (default: {500})
-        minParent {int} -- minParent (default: {1})
-        maxDepth {int} -- maxDepth (default: {None})
-        numCores -- number of cores to use (default: {None})
-        mtry {int} -- d, the number of features to consider when splitting a node (mtry=sqrt(numFeatures), default: {None})
-        mtryMult {double} -- the average number of features combined to form a new feature when using RerF (mtryMult=1)
-        fractionOfFeaturesToTest {float} -- fractionOfFeaturesToTest, sets mtry based on a fraction of the features instead of an exact number (default: {None})
-        seed {int} -- random seed to use (default: {None})
-    
-    Returns:
-        [pyfp.fpForest] -- forest class object
+    Returns
+    -------
+    forest : pyfp.fpForest
+        forest class object
+
+    Examples
+    --------
+    >>> from multiprocessing import cpu_count
+    >>> from sklearn.datasets import make_classification
+    >>> X, y = make_classification(n_samples=1000, n_features=4,
+    ...        n_informative=2, n_redundant=0,
+    ...        random_state=0, shuffle=False)
+    >>> forest = fastRerF(
+    ...    X=X,
+    ...    Y=Y,
+    ...    forestType="binnedBaseRerF",
+    ...    trees=500,
+    ...    numCores=cpu_count(),
+    ...    )
     """
 
     forestClass = pyfp.fpForest()
@@ -48,19 +85,31 @@ def fastRerF(
 
     if maxDepth is not None:
         forestClass.setParameter("maxDepth", maxDepth)
-    if numCores is not None:
-        forestClass.setParameter("numCores", numCores)
-    if mtry is not None:
-        forestClass.setParameter("mtry", mtry)
-    if mtryMult is not None:
-        forestClass.setParameter("mtryMult", mtryMult)
+
+    if numCores is None:
+        numCores = 1
+    forestClass.setParameter("numCores", numCores)
+
+    if mtry is None:
+        if X is not None:
+            numFeatures = X.shape[1]
+        elif CSVFile is not None:
+            with open(CSVFile, "r") as f:
+                first_line = f.readline()
+                numFeatures = len(first_line.split(","))
+        else:
+            raise ValueError("Need either X or CSVFile as argument")
+        mtry = int(numFeatures ** (1 / 2))
+    forestClass.setParameter("mtry", mtry)
+
+    forestClass.setParameter("mtryMult", mtryMult)
+
     if fractionOfFeaturesToTest is not None:
         forestClass.setParameter("fractionOfFeaturesToTest", fractionOfFeaturesToTest)
+
     if seed is None:
         seed = np.random.randint(1, 1000000)
     forestClass.setParameter("seed", seed)
-
-    # forestClass.setNumberOfThreads()
 
     if CSVFile is not None and Ycolumn is not None:
         forestClass.setParameter("CSVFileName", CSVFile)
@@ -75,14 +124,25 @@ def fastRerF(
 
 
 def fastPredict(X, forest):
-    """runs a prediction on a forest with a given set of data
+    """Runs a prediction on a forest with a given set of data.
     
-    Arguments:
-        X {ndarray} -- numpy ndarray of data, if more than 1 row, run multiple predictions
-        forest {forestClass} -- forest to run predictions on
+    Parameters
+    ----------
+    X : array_like
+        Numpy ndarray of data, if more than 1 row, run multiple 
+        predictions.
+    forest : pyfp.fpForest
+        Forest to run predictions on
 
-    Returns:
-        predictions {int, list} -- int if a single row, a list if multiple observations input
+    Returns
+    -------
+    predictions : int, list of int
+        Returns the class of prediction (int) or predictions (list) 
+        depending on input parameters.
+
+    Examples
+    --------
+    >>> fastPredict(np.array([0, 0, 0, 0]), forest)
     """
 
     if X.ndim == 1:
