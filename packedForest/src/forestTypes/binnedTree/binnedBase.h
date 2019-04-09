@@ -87,7 +87,7 @@ namespace fp {
 			}
 
 			inline float reportOOB(){
-				return 12345;
+				return -1;
 			}
 			inline std::map<std::string, int> calcBinStats(){
 				int maxDepth=0;
