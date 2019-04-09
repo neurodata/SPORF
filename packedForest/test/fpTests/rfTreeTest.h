@@ -4,10 +4,8 @@
 #include <vector>
 
 TEST(testRFtree, testOOB){
-  float A = 0;
-  float B = 0;
 	float totalCorrect = 0;
-  bool yay = false;
+	bool yay = false;
 
 	fp::rfTree<double> tree;
 
@@ -36,13 +34,13 @@ TEST(testRFtree, testOOB){
 			totalCorrect += 1;
 		}
 	}
-	
-	A = tree.returnOOB();
-	B = (totalCorrect / outSampleIndices.size());
 
-  // compare internally computed OOB accuracy with
-  // the manually computed within tollerance of 10^-9.
-	yay = ((A - B) < 0.000000001);
+	float internalResult = tree.returnOOB();
+	float manualResult = (float)totalCorrect / (float)outSampleIndices.size();
 
-  EXPECT_TRUE(yay);
+	// compare internally computed OOB accuracy with
+	// the manually computed within tollerance of 10^-9.
+	yay = ((internalResult - manualResult) < 0.000000001);
+
+	EXPECT_TRUE(yay);
 }
