@@ -103,7 +103,7 @@ namespace fp{
 				}
 
 				inline int returnTotalOOB(){
-					return this->totalOOB;
+					return totalOOB;
 				}
 
 				inline std::vector<int> returnOutSample(){
