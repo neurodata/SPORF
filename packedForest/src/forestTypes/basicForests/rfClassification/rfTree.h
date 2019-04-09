@@ -229,7 +229,7 @@ inline bool isRightNode(){
 
 
 				inline int predictObservation(std::vector<T>& observation){
-					int currNode = 1;
+					int currNode = 0;
 					while(tree[currNode].isInternalNode()){
 						currNode = tree[currNode].nextNode(observation);
 					}
