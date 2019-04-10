@@ -7,8 +7,8 @@ matrix:
     warnings_are_errors: false
 
     r:
-      - oldrel
-      #- release
+      #- oldrel
+      - release
 
     addons:
       apt:
