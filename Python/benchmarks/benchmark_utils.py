@@ -10,7 +10,8 @@ def fit_RerF(X,
              y,
              train_test_splits, 
              forest_type='binnedBaseRerF', 
-             forest_kwargs=None
+             forest_kwargs=None,
+             return_predictions=False
     ):
     # I assume data has been preprocessed
 
@@ -32,13 +33,17 @@ def fit_RerF(X,
     
     train_time = end_train - start
     predict_time = end_predict - end_train
-    return test_accuracy, train_accuracy, train_time, predict_time
 
+    if return_predictions:
+        return test_accuracy, train_accuracy, train_time, predict_time, y_test_hat
+    else:
+        return test_accuracy, train_accuracy, train_time, predict_time
 def fit_sklearn(X,
                 y,
                 train_test_splits, 
                 forest_type='RandomForest',
-                forest_kwargs=None
+                forest_kwargs=None,
+                return_predictions=False
     ):
     # I assume the data has been preprocessed
     
@@ -72,7 +77,10 @@ def fit_sklearn(X,
     train_time = end_train - start
     predict_time = end_predict - end_train
     
-    return test_accuracy, train_accuracy, train_time, predict_time
+    if return_predictions:
+        return test_accuracy, train_accuracy, train_time, predict_time, y_test_hat
+    else:
+        return test_accuracy, train_accuracy, train_time, predict_time
 
 def OpenML_benchmark(oml_task_id=3, 
                   n_iterations=10,
@@ -85,6 +93,7 @@ def OpenML_benchmark(oml_task_id=3,
                   sklearns_kwargs=[None],
                   sklearn_param_keyword='n_estimators',
                   param_values = range(20, 41, 20),
+                  return_predictions = False,
                   verbose=True,
                   acorn=None
     ):
@@ -119,7 +128,7 @@ def OpenML_benchmark(oml_task_id=3,
     data = np.zeros(shape=(M, F, 4, n_iterations))
 
     if verbose:
-
+        predictions =  [[[[] for k in range(n_iterations)] for j in range(M)] for i in range(F)]
         for i, param_value in enumerate(tqdm(param_values)):
             temp_rerfs_kwargs = []
             for j, dic in enumerate(rerfs_kwargs):
@@ -135,16 +144,28 @@ def OpenML_benchmark(oml_task_id=3,
             
             for j, model in enumerate(rerfs):
                 for k in range(n_iterations):
-                    rerf_data[j,:,k]=fit_RerF(X, y, train_test_splits, forest_type=model, forest_kwargs=rerfs_kwargs[j])
+                    temp = fit_RerF(X, y, train_test_splits, 
+                                                    forest_type=model, 
+                                                    forest_kwargs=temp_rerfs_kwargs[j], 
+                                                    return_predictions=return_predictions)
+                    rerf_data[j,:,k] = temp[:4]
+                    predictions[j,i,k] = temp[4]
                 
+            R = len(rerfs)
             sklearn_data = np.zeros(shape=(len(sklearns), 4, n_iterations))
             for j, model in enumerate(sklearns):
                 for k in range(n_iterations):
-                    sklearn_data[j,:,k]=fit_sklearn(X, y, train_test_splits, forest_type=model, forest_kwargs=sklearns_kwargs[j])
+                    temp = fit_sklearn(X, y, train_test_splits, 
+                                                    forest_type=model, 
+                                                    forest_kwargs=temp_sklearn_kwargs[j], 
+                                                    return_predictions=return_predictions)
+                    sklearn_data[j,:,k] = temp[:4]
+                    predictions[j+R,i,k] = temp[4]
             
             data[i] = np.concatenate((rerf_data, sklearn_data))
 
     else:
+        predictions =  [[[[] for k in range(n_iterations)] for j in range(M)] for i in range(F)]
         for i, param_value in enumerate(param_values):
             temp_rerfs_kwargs = []
             for j, dic in enumerate(rerfs_kwargs):
@@ -160,12 +181,23 @@ def OpenML_benchmark(oml_task_id=3,
             
             for j, model in enumerate(rerfs):
                 for k in range(n_iterations):
-                    rerf_data[j,:,k]=fit_RerF(X, y, train_test_splits, forest_type=model, forest_kwargs=rerfs_kwargs[j])
+                    temp = fit_RerF(X, y, train_test_splits, 
+                                                    forest_type=model, 
+                                                    forest_kwargs=temp_rerfs_kwargs[j], 
+                                                    return_predictions=return_predictions)
+                    rerf_data[j,:,k] = temp[:4]
+                    predictions[j][i][k] = temp[4]
                 
+            R = len(rerfs)
             sklearn_data = np.zeros(shape=(len(sklearns), 4, n_iterations))
             for j, model in enumerate(sklearns):
                 for k in range(n_iterations):
-                    sklearn_data[j,:,k]=fit_sklearn(X, y, train_test_splits, forest_type=model, forest_kwargs=sklearns_kwargs[j])
+                    temp = fit_sklearn(X, y, train_test_splits, 
+                                                    forest_type=model, 
+                                                    forest_kwargs=temp_sklearn_kwargs[j], 
+                                                    return_predictions=return_predictions)
+                    sklearn_data[j,:,k] = temp[:4]
+                    predictions[j+R][i][k] = temp[4]
             
             data[i] = np.concatenate((rerf_data, sklearn_data))
 
@@ -185,7 +217,10 @@ def OpenML_benchmark(oml_task_id=3,
             for k in range(4):
                 stds_rearranged[j][k].append(standard_errors[i][j][k])
 
-    return np.array(averages_rearranged), np.array(stds_rearranged)
+    if return_predictions:
+        return np.array(averages_rearranged), np.array(stds_rearranged), predictions
+    else:
+        return np.array(averages_rearranged), np.array(stds_rearranged)
 
 def OpenML_benchmark_plot(results, # Assumed to be an M x F x 4 x n_iterations array,
                         param_values,
