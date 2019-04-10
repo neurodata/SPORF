@@ -3,6 +3,7 @@
 
 #include <string>
 #include "fpForestBase.h"
+#include "weightedFeature.h"
 #include "../forestTypes/basicForests/rerf/fpRerFBase.h"
 #include "../forestTypes/basicForests/rfClassification/fpForestClassificationBase.h"
 #include "../forestTypes/binnedTree/binnedBase.h"
@@ -22,6 +23,8 @@ namespace fp{
 						return std::unique_ptr<fpForestBase<T> >{new binnedBase<T,int>};
 					}else if(parameterName == "binnedBaseRerF"){
 						return std::unique_ptr<fpForestBase<T> >{new binnedBase<T,std::vector<int> >};
+					}else if(parameterName == "binnedBaseTern"){
+						return std::unique_ptr<fpForestBase<T> >{new binnedBase<T,weightedFeature >};
 					}else{
 						throw std::runtime_error("Unimplemented forest type chosen." );
 						return NULL;

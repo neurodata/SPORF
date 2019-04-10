@@ -2,7 +2,7 @@
 
 ## Requirements
 
-Python bindings are made using [pybind11](https://github.com/pybind/pybind11).
+Python bindings use [pybind11](https://github.com/pybind/pybind11).
 
 C++ compiler (gcc)
 
@@ -10,60 +10,60 @@ C++ compiler (gcc)
   sudo apt-get install build-essential cmake python3-dev libomp-dev   # Ubuntu/Debian
   ```
 
+On Mac:
+
+- Get `brew`: [https://brew.sh/](https://brew.sh/)
+- `brew install python`
+- `brew install libomp`
+- `brew install llvm`
+- `echo ‘export PATH=“/usr/local/opt/llvm/bin:$PATH”’ >> ~/.bash_profile`
+- `export LDFLAGS=“-L/usr/local/opt/llvm/lib”`
+- `export CPPFLAGS="-I/usr/local/opt/llvm/include"`
+
 ## Environment
 
-Activate virtualenv
+Create and activate virtualenv/venv
 
 ```sh
 python3 -m venv env
 . env/bin/activate
 ```
 
-Install requirements
-
-```sh
-pip install pybind11
-```
-
-- Install from github
+## Install from GitHub
 
   ```sh
   pip install -e "git+https://github.com/neurodata/RerF.git@staging#egg=rerf&subdirectory=Python"
   ```
 
-- Build from source
+## Build from source
 
-  Get the source files:
-
-  ```sh
-  git clone https://github.com/neurodata/R-RerF.git
-  ```
-
-  Go to the Python directory:
+- Get the source files
 
   ```sh
-  cd R-RerF/Python
+  git clone https://github.com/neurodata/RerF.git
   ```
 
-  Then either:
-  
-  - Build the package using `setup.py`
+- Navigate to Python directory
 
-    ```sh
-    pip install -e .
-    ```
+  ```sh
+  cd RerF/Python
+  ```
 
-  - Run the following compile script
+- Clean out old installation
 
-    ```sh
-    c++ -O3 -Wall -shared -std=c++14 -fPIC `python3 -m pybind11 --includes` packedForest.cpp -o pyfp`python3-config --extension-suffix`
-    ```
+  ```sh
+  python setup.py clean --all
+  ```
 
-  Note: problems running the compile command on alternate shells (`fish`).  Make sure to use `bash` for the time being.
+- Build the package using `setup.py`
 
-## Run the example
+  ```sh
+  pip install -e .
+  ```
 
-[Example.py](example.py)
+## Example
+
+[Example.py](example.py) shows basic usage
 
 ## Tests
 

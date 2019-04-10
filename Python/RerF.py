@@ -26,7 +26,7 @@ def fastRerF(
         Ycolumn {int} -- column in data with labels (default: {None})
     
     Keyword Arguments:
-        forestType {str} -- type of forest, options are from packedForest (default: {"binnedBaseRerF"})
+        forestType {str} -- the type of forest: binnedBase, binnedBaseRerF, binnedBaseTern, rfBase, rerf (default: {"binnedBaseRerF"})
         trees {int} -- number of trees in forest (default: {500})
         minParent {int} -- minParent (default: {1})
         maxDepth {int} -- maxDepth (default: {None})

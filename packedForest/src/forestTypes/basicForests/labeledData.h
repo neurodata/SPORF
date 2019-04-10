@@ -4,9 +4,7 @@
 #include <assert.h>
 #include <iomanip>
 #include <cmath>
-
-#define FLOAT_EPSILON  .0000001
-#define DOUBLE_EPSILON .0000001
+#include "../../fpSingleton/fpSingleton.h"
 
 
 namespace fp{
@@ -42,11 +40,11 @@ namespace fp{
 				}
 
 				inline bool checkInequality(const labeledData<double>& otherData){
-					return std::abs(dataElement - otherData.dataElement) > DOUBLE_EPSILON;
+					return std::abs(dataElement - otherData.dataElement) > fpSingleton::getSingleton().returnDoubleEpsilon();
 				}
 
 				inline bool checkInequality(const labeledData<float>& otherData){
-					return std::abs(dataElement - otherData.dataElement) > FLOAT_EPSILON;
+					return std::abs(dataElement - otherData.dataElement) > fpSingleton::getSingleton().returnFloatEpsilon();
 				}
 
 				inline bool checkInequality(const labeledData<int>& otherData){
