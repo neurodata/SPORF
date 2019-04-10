@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include "rerfTree.h"
 #include <map>
+#include <limits>
 
 namespace fp {
 
@@ -54,7 +55,11 @@ namespace fp {
 				}
 				// need to divide by the number of trees that had non-zero OOB points.
 
-				return oobi / (float) treesWithOOB;
+                                if (treesWithOOB > 0) {
+				  return oobi / (float) treesWithOOB;
+                                } else {
+                                  return std::numeric_limits<double>::quiet_NaN();
+                                }
 			}
 
 			inline void checkParameters(){

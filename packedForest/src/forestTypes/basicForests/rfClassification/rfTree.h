@@ -38,7 +38,6 @@ namespace fp{
 				}
 
 				inline float returnOOB(){
-					//JLP
 					return OOBAccuracy;
 				}
 
@@ -104,7 +103,7 @@ namespace fp{
 				}
 
 				inline int returnTotalOOB(){
-					return this->totalOOB;
+					return totalOOB;
 				}
 
 				inline std::vector<int> returnOutSample(){
@@ -230,7 +229,7 @@ inline bool isRightNode(){
 
 
 				inline int predictObservation(std::vector<T>& observation){
-					int currNode = 1;
+					int currNode = 0;
 					while(tree[currNode].isInternalNode()){
 						currNode = tree[currNode].nextNode(observation);
 					}

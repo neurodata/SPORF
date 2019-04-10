@@ -3,11 +3,9 @@
 #include "../../src/fpSingleton/fpSingleton.h"
 #include <vector>
 
-TEST(testRerfTree, testOOB){
-  	float A = 0;
-  	float B = 0;
-  	int totalCorrect = 0;
-  	bool yay = false;
+TEST(testRerfTree, testOOB) {
+	float totalCorrect = 0;
+	bool yay = false;
 	fp::rerfTree<double> tree;
 
 	fp::fpSingleton::getSingleton().setParameter("CSVFileName", "../res/iris.csv");
@@ -15,10 +13,10 @@ TEST(testRerfTree, testOOB){
 	fp::fpSingleton::getSingleton().setParameter("numTreesInForest", 1);
 	fp::fpSingleton::getSingleton().setParameter("minParent", 1);
 	fp::fpSingleton::getSingleton().setParameter("numCores", 1);
-	fp::fpSingleton::getSingleton().setParameter("seed",-1661580697);
+	fp::fpSingleton::getSingleton().setParameter("seed", -1661580697);
 
 	// needed when doing this from the tree level.
-	fp::fpSingleton::getSingleton().setParameter("mtry",1);
+	fp::fpSingleton::getSingleton().setParameter("mtry", 1);
 	fp::fpSingleton::getSingleton().loadData();
 	fp::fpSingleton::getSingleton().loadTestData();
 
@@ -26,25 +24,25 @@ TEST(testRerfTree, testOOB){
 	// after processing the nodes.
 	std::vector<int> outSampleIndices = tree.growTreeTest();
 
-	std::vector<int> oobCl (outSampleIndices.size(), -1);
+	std::vector<int> predictedClass(outSampleIndices.size(), -1);
 
-	for(long unsigned int i = 0; i < outSampleIndices.size(); i++) {
-		oobCl[i] = tree.predictObservation(outSampleIndices[i]);
-		bool tmp = oobCl[i] == outSampleIndices[i] / 50;
-		//std::cout << "out sample index" << outSampleIndices[i] << "\n";
-		//std::cout << "Pred class" << oobCl[i] << "\n";
-		//std::cout << tmp << "\n";
-		if (tmp) {
-			totalCorrect++;
-		}
+	for (long unsigned int i = 0; i < outSampleIndices.size(); i++) {
+	  predictedClass[i] = tree.predictObservation(outSampleIndices[i]);
+	  bool tmp = predictedClass[i] == outSampleIndices[i] / 50;
+	  //std::cout << "out sample index" << outSampleIndices[i] << "\n";
+	  //std::cout << "Pred class" << predictedClass[i] << "\n";
+	  //std::cout << tmp << "\n";
+	  if (tmp) {
+	    totalCorrect += 1;
+	  }
 	}
 
-	A = tree.returnOOB();
-	B = ((float) totalCorrect / (float) outSampleIndices.size());
+	float internalResult = tree.returnOOB();
+	float manualResult = (float)totalCorrect / (float)outSampleIndices.size();
 
- 	// compare internally computed OOB accuracy with
- 	// the manually computed within tollerance of 10^-9.
-	yay = (A - B) < 0.000000001;
+	// compare internally computed OOB accuracy with
+	// the manually computed within tollerance of 10^-9.
+	yay = (internalResult - manualResult) < 0.000000001;
 
- 	EXPECT_TRUE(yay);
+	EXPECT_TRUE(yay);
 }

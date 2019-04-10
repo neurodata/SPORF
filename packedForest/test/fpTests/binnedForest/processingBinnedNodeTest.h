@@ -28,7 +28,7 @@ TEST(processingBinnedNodeTest, checkWeightedMtry)
 
 	pNB.calcMtryForNodeTest(wf);
 	EXPECT_EQ((int)wf.size(),fpSingleton::getSingleton().returnMtry());
-	for(auto i : wf){
+	for(auto& i : wf){
 		for(auto j : i.returnFeatures()){
 			EXPECT_GE(j,0);
 				EXPECT_LT(j,numFeatures);

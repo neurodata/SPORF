@@ -159,8 +159,8 @@ namespace fp{
 
 			inline std::vector<int> returnOutSample(){
 				std::vector<int> outIndices;
-				for (auto i : outSamples){
-					for (auto j : i) {
+				for (auto& i : outSamples){
+					for (auto& j : i) {
 						outIndices.push_back(j);
 					}
 				}
@@ -207,7 +207,6 @@ inline int returnBinMin(){
 
 
 			inline void addIndexToOutSamples(int index){
-				//JLP ??
 				++outSampleSize;
 				outSamples[fpSingleton::getSingleton().returnLabel(index)].push_back(index);
 			}
