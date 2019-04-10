@@ -219,11 +219,14 @@ namespace fp{
 
 
 				inline void processNode(){
+					// process the node, i.e. calculate best split, ...
 					nodeQueue.back().processNode();
 					if (nodeQueue.back().isLeafNode()) {
+						// label the processed node as a leaf.
 						processLeafNode();
 					}
 					else {
+						// label the processed node as internal.
 						processInternalNode();
 					}
 				}

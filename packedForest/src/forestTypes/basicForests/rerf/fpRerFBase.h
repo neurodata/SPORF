@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include "rerfTree.h"
 #include <map>
+#include <limits>
 
 namespace fp {
 
@@ -42,6 +43,25 @@ namespace fp {
 				std::cout << " done growing forest.\n"<< std::flush;
 			}
 
+			inline float reportOOB(){
+				// for tree_i in trees sum OOB_i and normalize by the number of trees.
+				float oobi = 0;
+				int treesWithOOB = 0;
+				for (unsigned int i = 0; i < trees.size(); ++i){
+					if (trees[i].returnTotalOOB() > 0) {
+					  oobi += trees[i].returnOOB();
+					  treesWithOOB++;
+					}
+				}
+				// need to divide by the number of trees that had non-zero OOB points.
+
+                                if (treesWithOOB > 0) {
+				  return oobi / (float) treesWithOOB;
+                                } else {
+                                  return std::numeric_limits<double>::quiet_NaN();
+                                }
+			}
+
 			inline void checkParameters(){
 				//TODO: check parameters to make sure they make sense for this forest type.
 				;
@@ -65,6 +85,7 @@ namespace fp {
 				treeStats["maxDepth"] = maxDepth;
 				treeStats["totalLeafDepth"] = totalLeafDepth;
 				treeStats["totalLeafNodes"] = totalLeafNodes;
+				treeStats["OOBaccuracy"] = reportOOB();
 				return treeStats;
 			}
 
@@ -74,6 +95,7 @@ namespace fp {
 				std::cout << "max depth: " << treeStats["maxDepth"] << "\n";
 				std::cout << "avg depth: " << float(treeStats["totalLeafDepth"])/float(treeStats["totalLeafNodes"]) << "\n";
 				std::cout << "num leaf nodes: " << treeStats["totalLeafNodes"] << "\n";
+				std::cout << "OOB Accuracy: " << treeStats["OOBaccuracy"] << "\n";
 			}
 
 			void printTree0(){

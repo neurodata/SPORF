@@ -134,10 +134,10 @@ namespace fp{
 					for (int i=0; i < baseUnprocessedNode<T>::obsIndices->returnInSampleSize();++i){
 						if(goLeft(baseUnprocessedNode<T>::obsIndices->returnInSample(i))){
 							++lNum;
-							baseUnprocessedNode<T>::leftIndices->addIndexToInSamples(baseUnprocessedNode<T>::obsIndices->returnInSample(i));	
+							baseUnprocessedNode<T>::leftIndices->addIndexToInSamples(baseUnprocessedNode<T>::obsIndices->returnInSample(i));
 						}else{
 							++rNum;
-							baseUnprocessedNode<T>::rightIndices->addIndexToInSamples(baseUnprocessedNode<T>::obsIndices->returnInSample(i));	
+							baseUnprocessedNode<T>::rightIndices->addIndexToInSamples(baseUnprocessedNode<T>::obsIndices->returnInSample(i));
 						}
 					}
 
@@ -149,10 +149,10 @@ namespace fp{
 					assert(rNum > 0);
 
 					for (int i=0; i < baseUnprocessedNode<T>::obsIndices->returnOutSampleSize();++i){
-						if(goLeft(baseUnprocessedNode<T>::obsIndices->returnInSample(i))){
-							baseUnprocessedNode<T>::leftIndices->addIndexToOutSamples(baseUnprocessedNode<T>::obsIndices->returnInSample(i));	
+						if(goLeft(baseUnprocessedNode<T>::obsIndices->returnOutSample(i))){
+							baseUnprocessedNode<T>::leftIndices->addIndexToOutSamples(baseUnprocessedNode<T>::obsIndices->returnOutSample(i));	
 						}else{
-							baseUnprocessedNode<T>::rightIndices->addIndexToOutSamples(baseUnprocessedNode<T>::obsIndices->returnInSample(i));	
+							baseUnprocessedNode<T>::rightIndices->addIndexToOutSamples(baseUnprocessedNode<T>::obsIndices->returnOutSample(i));	
 						}
 					}
 

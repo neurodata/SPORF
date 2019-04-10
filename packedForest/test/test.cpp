@@ -23,3 +23,5 @@
 #include "fpTests/binnedBaseTest.h"
 #include "fpTests/fpForestTest.h"
 #include "fpTests/binnedForest/processingNodeBinTest.h"
+#include "fpTests/rfTreeTest.h"
+#include "fpTests/rerfTreeTest.h"
