@@ -46,8 +46,9 @@ namespace fp{
                                         std::vector<T> errVecRight;
                                         auto pbegin = featureValsVec.begin();
 					auto pend = featureValsVec.end();
-                        		//std::sort(pbegin, pend);
-					std::sort(featureValsVec.begin(), featureValsVec.end());
+					
+					//std::sort(featureValsVec.begin(), featureValsVec.end());
+					pdqsort_branchless(featureValsVec.begin(), featureValsVec.end());
                                         pbegin = featureValsVec.begin();
 					pend = featureValsVec.end();
                                         int sizeX = featureValsVec.size();
@@ -65,10 +66,6 @@ namespace fp{
 					pbegin = featureValsVec.begin();
 					pend = featureValsVec.end();
                                         std::vector<T> errVec(pbegin, pend);
-				        //for (auto i: featureValsVec)
-					//	std::cout<<i<<" ";
-					//std::cout<<"\n";
-					//std::cout<<"************************************";
 
 					if (sizeNNZ - 1 <= 0){
 						return currSplitInfo;
@@ -86,7 +83,6 @@ namespace fp{
 					if (sizeZ) {
                                                         meanRight = sumRight / (T)sizeNNZ;
                                                         minErr = computeSampleVariance(meanRight, errVec);
-                                                        //std::cout<<"minErr222: "<<minErr222<<"\n";
 							cutPoint = featureValsVec.at(0) / 2;
                                           }
 
@@ -117,8 +113,6 @@ namespace fp{
                                                                 ++index;
                                                         }
                                           }
-						/*std::cout<<"Min Err:"<<minErr<<",  "; 
-						std::cout<<"cutpoint:"<<cutPoint<<"\n"; */
 						currSplitInfo.setImpurity(minErr);
                                           	currSplitInfo.setFeatureNums(featureNum);	
                                           	currSplitInfo.setSplitValue(cutPoint);
