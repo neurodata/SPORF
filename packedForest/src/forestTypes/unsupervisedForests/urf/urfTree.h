@@ -41,6 +41,9 @@ namespace fp{
 						
 return false;
 					}
+                if(nodeQueue.back().returnDepth() >= fpSingleton::getSingleton().returnMaxDepth()){
+                          return false;
+                      }
 					return true;
 				}
 
@@ -84,21 +87,26 @@ return false;
 
 				inline void updateSimMat(std::map<int, std::map<int, int> > &simMat, std::map<std::pair<int, int>, int> &pairMat){
 
+					//std::cout<<"num of leaf node: "<<leafNodes.size()<<"\n";
 					for(auto nodes : leafNodes){
 						stratifiedInNodeClassIndicesUnsupervised* obsI = nodes.returnObsIndices();
 						std::vector<int> leafObs;
 						leafObs = obsI->returnInSampsVec();
+						//auto siz = leafObs.size();
 						auto siz = leafObs.size();
+						/*std::cout<<"***********************************\n";
+						std::cout<<"size of leaf node: "<<nodes.returnInSampleSize()<<"\n";
+						std::cout<<"size of leaf node2: "<<siz<<"\n";
+						std::cout<<"***********************************\n";*/
 						if (siz <= 0)
 							return;
 						for(unsigned int i = 0; i < siz-1; ++i) {
 							for (unsigned int j=i+1; j<siz; ++j) {
 								#pragma omp critical
 								{
-								auto exists = simMat[leafObs[i]].emplace(leafObs[j], 1);
-								if(!exists.second)
-									simMat[leafObs[i]][leafObs[j]]++;
-							
+       auto exists = simMat[leafObs[i]].emplace(leafObs[j], 1);
+                                                                if(!exists.second)
+                                                                        simMat[leafObs[i]][leafObs[j]]++;
 								std::pair<int, int> pair1 = std::make_pair(leafObs[i], leafObs[j]);
 								auto it = pairMat.find(pair1);
 								if(it!=pairMat.end())
@@ -198,6 +206,8 @@ return false;
 
 
 				inline bool noGoodSplitFound(){
+					if(nodeQueue.back().returnBestImpurity() == -1)
+						return true;
 					return nodeQueue.back().returnBestFeature() == -1;
 				}
 
@@ -212,6 +222,7 @@ return false;
 							makeNodeInternal();
 						}
 					}else{
+						//std::cout<<"whole node is a leaf!\n";
 						makeWholeNodeALeaf();
 					}
 				}
