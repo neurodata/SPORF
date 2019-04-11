@@ -31,7 +31,7 @@ namespace fp{
 //				unprocessedURFNode(int parentID, int dep, bool isLeft): baseUnprocessedNodeUnsupervised<T>::baseUnprocessedNodeUnsupervised(parentID, dep, isLeft), featuresToTry(fpSingleton::getSingleton().returnMtry()){
 				unprocessedURFNode(int parentID, int dep, bool isLeft): baseUnprocessedNodeUnsupervised<T>::baseUnprocessedNodeUnsupervised(parentID, dep, isLeft){
 //				featuresToTry.reserve(fpSingleton::getSingleton().returnNumFeatures()); 
-				featuresToTry.reserve(fpSingleton::getSingleton().returnNumFeatures()); 
+				//featuresToTry.reserve(fpSingleton::getSingleton().returnNumFeatures()); 
 }
 
 
@@ -52,8 +52,12 @@ namespace fp{
 
 
 				inline void setBestSplit(splitURFInfo<T> tempSplit){
+					//std::cout<<"Min err prev: "<< bestSplitInfo.returnImpurity()<<"\n";
+					//std::cout<<"Min err current: "<< tempSplit.returnImpurity()<<"\n";
+					if(tempSplit.returnImpurity() >= 0){
 					if(tempSplit.returnImpurity() < bestSplitInfo.returnImpurity()){
 						bestSplitInfo = tempSplit;
+					}
 					}
 				}
 
@@ -161,15 +165,21 @@ namespace fp{
 					//TODO This needs to change to real mtry
 					//	std::vector<int> tempVec;
 					//	tempVec.push_back(0);
-					
+				        //std::cout<<"FeaturesToTry!: \n";
+					//for (auto i: featuresToTry)
+					//	std::cout<<i<<"  ";
+					//std::cout<<"\n";
+					//std::cout<<"\n&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n";	
 					while(!featuresToTry.empty()){
 						//not all featuresToTry will be populated.  This checks first.
 						if(!featuresToTry.empty()){
 							loadFeatureHolder();
 							setBestSplit(findSplit.twoMeanSplit(baseUnprocessedNodeUnsupervised<T>::featureHolder ,featuresToTry.back()));
+					  //      exit(1);	
 						}
 						removeTriedMtry();
 					}
+					//std::cout<<"\n&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n";	
 				}
 
 				inline void removeTriedMtry(){

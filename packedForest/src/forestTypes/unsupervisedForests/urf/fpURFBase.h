@@ -61,7 +61,7 @@ namespace fp {
 					trees[i].growTree();
 					trees[i].updateSimMat(simMat, pairMat);
 				}
-				createSparseMat();
+				//createSparseMat();
 			}
 
 			inline void checkParameters(){
