@@ -14,3 +14,11 @@ class rerfClassifier:
 
     def predict(self, X):
         pass
+
+    def predict_proba(self, X):
+        pass
+
+    def get_params(self):
+        pass
+
+    
