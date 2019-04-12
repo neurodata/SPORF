@@ -24,7 +24,7 @@ namespace fp {
 		protected:
 			std::vector<binStruct<T, Q> > bins;
 			int numBins;
-
+std::map<std::pair<int, int>, int> pairMat;
 			std::vector<int> binSizes;
 			std::vector<int> binSeeds;
 
@@ -199,6 +199,9 @@ return bestClass;
 			return 0;
 			}
 
+inline std::map<std::pair<int, int>, int> returnPairMat(){
+                                        return pairMat;
+                                }
 
 inline float testForest(){
 	int numTried = 0;
