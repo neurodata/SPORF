@@ -39,7 +39,6 @@ namespace fp{
                                         createData(featureVal);
 
                                         // sort feature Vals
-                                        std::vector<T> errVec;
                                         std::vector<T> errVecLeft;
                                         std::vector<T> errVecRight;
                                         auto pbegin = featureValsVec.begin();
@@ -52,26 +51,25 @@ namespace fp{
                                         int sizeNNZ = featureValsVec.size();
                                         int sizeZ = sizeX - sizeNNZ;
                                         T meanRight, sumLeft=0, meanLeft, cutPoint=0;
-                                        //T minErr = std::numeric_limits<T>::infinity();
-                                        //T minErrLeft = std::numeric_limits<T>::infinity();
-                                        //T minErrRight = std::numeric_limits<T>::infinity();
-                                        T minErr = 1000;
-                                        T minErrLeft = 1000;
-                                        T minErrRight  = 1000;
+                                        T minErr = std::numeric_limits<T>::infinity();
+                                        T minErrLeft = std::numeric_limits<T>::infinity();
+                                        T minErrRight = std::numeric_limits<T>::infinity();
 					T sumRight = std::accumulate(featureValsVec.begin(), featureValsVec.end(), 0.0);
 					pbegin = featureValsVec.begin();
 					pend = featureValsVec.end();
-
-				        currSplitInfo.setImpurity(minErr);
-                                        currSplitInfo.setSplitValue(cutPoint);
-                                        currSplitInfo.setLeftImpurity(minErrLeft);
-                                        currSplitInfo.setRightImpurity(minErrRight);
-                                        currSplitInfo.addFeatureNums(featureNums);
+					std::vector<T> errVec(pbegin, pend);
 
 					if (sizeNNZ - 1 <= 0){
 						return currSplitInfo;
 					}
-
+                                        if(featureValsVec[0] == featureValsVec[sizeX-1]){
+                                                currSplitInfo.setImpurity(-1);
+                                                currSplitInfo.addFeatureNums(featureNums);
+                                                currSplitInfo.setSplitValue(0);
+                                                currSplitInfo.setLeftImpurity(0);
+                                                currSplitInfo.setRightImpurity(0);
+                                                return currSplitInfo;
+                                        }
 
 					if (sizeZ) {
                                                         meanRight = sumRight / sizeNNZ;
