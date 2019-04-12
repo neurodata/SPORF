@@ -43,7 +43,7 @@ the third is number of cores.
 
 ##### Example `launch.json`
 
-```json
+```js
 {
     "version": "0.2.0",
     "configurations": [
@@ -73,7 +73,7 @@ the third is number of cores.
 
 ##### Example `task.json`
 
-```json
+```js
 {
     "version": "2.0.0",
     "tasks": [
@@ -104,7 +104,7 @@ the third is number of cores.
 
 ##### Example `c_cpp_properties.json`
 
-```json
+```js
 {
     "configurations": [
         {
