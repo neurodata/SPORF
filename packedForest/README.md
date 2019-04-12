@@ -17,6 +17,15 @@ succesful outcome (yours may be different.)
 - `brew install libomp`
 - `brew install llvm`
 
+#### Add the following lines to your `~/.bash_profile`
+
+Get the path to your brew install of `llvm` with the following command:
+`brew --prefix llvm` and add it to teh lines below.
+
+> \#\#brew install llvm for openmp support\
+> export LDFLAGS="-L\<path to llvm\>/lib"\
+> export CPPFLAGS="-I\<path to llvm\>/include"
+
 #### Compile and run
 
 The first number specifies the algorithm, the second the dataset, and
