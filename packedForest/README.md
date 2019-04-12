@@ -19,14 +19,18 @@ succesful outcome (yours may be different.)
 
 If you have multiple versions of gcc/g++ already you may need to edit
 the `Makefile` to use the your specific version, i.e. `g++-8`.
-#### Add the following lines to your `~/.bash_profile`
+
+#### Update path and environment variables.
 
 Get the path to your brew install of `llvm` with the following command:
-`brew --prefix llvm` and add it to teh lines below.
+`brew --prefix llvm` and add it to the lines below and run them
 
-> \#\#brew install llvm for openmp support\
-> export LDFLAGS="-L\<path to llvm\>/lib"\
-> export CPPFLAGS="-I\<path to llvm\>/include"
+```
+echo 'export PATH="\<path to llvm\>/bin:$PATH"' >> ~/.bash_profile
+echo \#\#brew install llvm for openmp support >> ~/.bash_profile
+echo export LDFLAGS="-L\<path to llvm\>/lib"  >> ~/.bash_profile
+echo export CPPFLAGS="-I\<path to llvm\>/include >> ~/.bash_profile
+```
 
 #### Compile and run
 
