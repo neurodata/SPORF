@@ -17,6 +17,8 @@ succesful outcome (yours may be different.)
 - `brew install libomp`
 - `brew install llvm`
 
+If you have multiple versions of gcc/g++ already you may need to edit
+the `Makefile` to use the your specific version, i.e. `g++-8`.
 #### Add the following lines to your `~/.bash_profile`
 
 Get the path to your brew install of `llvm` with the following command:
@@ -33,5 +35,89 @@ the third is number of cores.
 - `make`
 - `./bin/fp 8 1 1` 
 
+#### VSCode setup
+
+##### Example `launch.json`
+
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "(lldb) Launch",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${workspaceRoot}/a.out",
+        "args": ["8", "1", "1"],
+        "stopAtEntry": false,
+        "cwd": "${workspaceFolder}/packedForest",
+        "environment": [],
+        "externalConsole": true,
+        "MIMode": "lldb",
+        "miDebuggerPath": "/Applications/Xcode.app/Contents/Developer/usr/bin/lldb-mi",
+        "setupCommands": [
+          {
+            "description": "Enable pretty-printing for lldb",
+            "text": "-enable-pretty-printing",
+            "ignoreFailures": true
+          }
+        ]
+      },
+    ]
+}
+```
+
+##### Example `task.json`
+
+```json
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "build fp",
+        "type": "shell",
+        "command": "g++",
+        "args": [
+          "-g",
+          "-std=c++11",
+          // "-fopenmp",
+          "-DDEBUG=3",
+          "-Wall",
+          "-O0",
+          "-ffast-math",
+          "packedForest/src/fp.cpp"
+        ],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        }
+      }
+    ]
+  }
+```
 
 
+
+##### Example `c_cpp_properties.json`
+
+```json
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "${workspaceFolder}/packedForest/**"
+            ],
+            "defines": [],
+            "macFrameworkPath": [
+                "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks"
+            ],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
+```
