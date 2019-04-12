@@ -17,7 +17,7 @@ namespace fp {
 	{
 		protected:
 			std::vector<rerfTree<T> > trees;
-
+			std::map<std::pair<int, int>, int> pairMat;
 		public:
 
 			~fpRerFBase(){}
@@ -140,7 +140,9 @@ inline int predictClass(const T* observation){
 				*/
 	return 0;
 			}
-
+inline std::map<std::pair<int, int>, int> returnPairMat(){
+                                        return pairMat;
+                                }
 
 			inline float testForest(){
 				int numTried = 0;

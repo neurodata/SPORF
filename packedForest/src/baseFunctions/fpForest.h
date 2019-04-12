@@ -128,7 +128,9 @@ namespace fp {
 					return forest->predictClass(observation);
 				}
 
-
+                inline std::map<std::pair<int, int>, int> returnPairMat(){
+                                    return forest->returnPairMat();
+                            }
 				float testAccuracy(){
 					float testError;
 					loadTestData();

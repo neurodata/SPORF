@@ -151,6 +151,10 @@ namespace fp {
 				return simMat;
 			}
 
+inline std::map<std::pair<int, int>, int> returnPairMat(){
+                                        return pairMat;
+                                }
+
 			void printTree0(){
 				trees[0].printTree();
 			}

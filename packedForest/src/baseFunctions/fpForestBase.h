@@ -3,6 +3,7 @@
 
 #include "displayProgress.h"
 #include <vector>
+#include <map>
 #include <stdio.h>
 #include <ctime>
 #include <chrono>
@@ -27,6 +28,7 @@ namespace fp{
 				virtual int predictClass(std::vector<T>& observation) = 0;
 				virtual std::vector<int> predictClassPost(std::vector<T>& observation) = 0;
 				virtual int predictClass(const T* observation) = 0;
+				virtual std::map<std::pair<int, int>, int> returnPairMat() = 0;
 		};
 
 }//namespace fp

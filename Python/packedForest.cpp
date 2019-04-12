@@ -42,7 +42,7 @@ PYBIND11_MODULE(pyfp, m)
 
             self.growForest(Xptr, Yptr, numObs, numFeatures);
         })
-
+	.def("_return_pair_mat",  &fpForest<double>::returnPairMat)
         .def("_growForest", py::overload_cast<>(&fpForest<double>::growForest))
         .def("_predict", py::overload_cast<std::vector<double> &>(&fpForest<double>::predict))
         .def("_predict_numpy", [](fpForest<double> &self, py::array_t<double, py::array::c_style | py::array::forcecast> mat) {
