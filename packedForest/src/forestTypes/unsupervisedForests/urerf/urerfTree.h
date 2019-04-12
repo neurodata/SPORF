@@ -190,6 +190,8 @@ namespace fp{
 
 
 				inline bool noGoodSplitFound(){
+				        if(nodeQueue.back().returnBestImpurity() == -1)
+                                                return true;
 					return nodeQueue.back().returnBestFeature().empty();
 				}
 

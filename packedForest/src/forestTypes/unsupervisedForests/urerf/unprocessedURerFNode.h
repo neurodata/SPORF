@@ -49,8 +49,10 @@ namespace fp{
 
 
 				inline void setBestSplit(splitURerFInfo<T> tempSplit){
-					if(tempSplit.returnImpurity() < bestSplitInfo.returnImpurity()){
-						bestSplitInfo = tempSplit;
+					if(tempSplit.returnImpurity() >= 0){
+						if(tempSplit.returnImpurity() < bestSplitInfo.returnImpurity()){
+							bestSplitInfo = tempSplit;
+						}
 					}
 				}
 
