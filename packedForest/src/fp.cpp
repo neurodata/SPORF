@@ -22,9 +22,26 @@ int main(int argc, char* argv[]) {
 		 */	
 	if (alg == 0) {
 		// Remove and change this block for testing.
-		std::cout << "test algorithm selected without code." << std::endl;
+		//std::cout << "test algorithm selected without code." << std::endl;
 		try {
-			return 0;
+			fp::fpForest<float> forest;
+			//fp::fpForestBase<float> forest;
+			forest.setParameter("forestType", "binnedBase");
+		 	forest.setParameter("numTreeBins", numCores);
+			forest.setParameter("numTreesInForest", 1);
+			forest.setParameter("minParent", 1);
+			forest.setParameter("numCores", numCores);
+			forest.setParameter("CSVFileName", "res/iris.csv");
+			forest.setParameter("columnWithY", 4);
+			forest.setParameter("seed",-1661580697);
+
+			forest.growForest();
+			//forest.printParameters();
+			//forest.printForestType();
+
+			std::cout << "error: " << forest.testAccuracy() << "\n";
+			std::cout << "OOB Accuracy: " << forest.returnOOB() << "\n";
+			//return 0;
 		}
 		catch(const std::exception& e) {
 			std::cerr << e.what() << '\n';

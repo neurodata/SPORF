@@ -41,6 +41,7 @@ namespace fp{
 				inNodeClassTotals propertiesOfRightNode;
 
 				nodeIterators nodeIndices;
+				nodeIterators oobNodeIndices; //JLP
 
 				zipperIterators<int,T> zipIters;
 
@@ -52,8 +53,8 @@ namespace fp{
 
 					int tempSwap;
 
-                                        // This is an efficient way to shuffle the first "mtry" elements of the feature vector
-                                        // in order to sample features w/o replacement.
+                    // This is an efficient way to shuffle the first "mtry" elements of the feature vector
+                    // in order to sample features w/o replacement.
 					for(int locationToMove = 0; locationToMove < fpSingleton::getSingleton().returnMtry(); locationToMove++){
 						int randomPosition = randNum->gen(fpSingleton::getSingleton().returnNumFeatures()-locationToMove)+locationToMove;
 						tempSwap = featuresToTry[locationToMove];
@@ -136,8 +137,9 @@ namespace fp{
 				}
 
 
-				inline void setRootNodeIndices(obsIndexAndClassVec& indexHolder){
+				inline void setRootNodeIndices(obsIndexAndClassVec& indexHolder, obsIndexAndClassVec& oobIndexHolder){
 					nodeIndices.setInitialIterators(indexHolder);
+					oobNodeIndices.setInitialIterators(oobIndexHolder); //JLP
 				}
 
 				inline void setRootNodeZipIters(typename std::vector<zipClassAndValue<int,T> >& zipper){
@@ -286,6 +288,25 @@ namespace fp{
 						}
 						nodeIndices.loadSplitIterator(smallerNumberIndex);
 					}
+
+					// JLP for moving OOB points down the tree
+					for(int i = 0; i < fpSingleton::getSingleton().returnNumClasses(); ++i){
+						std::vector<int>::iterator  oobLowerValueIndices = oobNodeIndices.returnBeginIterator(i);
+						std::vector<int>::iterator  oobHigherValueIndices = oobNodeIndices.returnEndIterator(i);
+						std::vector<int>::iterator  oobSmallerNumberIndex = oobNodeIndices.returnBeginIterator(i);
+
+						// Make sure not to move if we've run out of OOB points.
+						if (oobLowerValueIndices < oobHigherValueIndices) {
+							for(; oobLowerValueIndices < oobHigherValueIndices; ++oobLowerValueIndices){
+								if(fpSingleton::getSingleton().returnFeatureVal(fMtry,*oobLowerValueIndices) <= bestSplit.returnSplitValue()){
+									std::iter_swap(oobSmallerNumberIndex, oobLowerValueIndices);
+									++oobSmallerNumberIndex;
+								}
+							}
+							oobNodeIndices.loadSplitIterator(oobSmallerNumberIndex);
+						}
+					}
+					std::cout << "\nDEBUG\n";
 				}
 
 
@@ -348,7 +369,7 @@ namespace fp{
 
 			public:
 
-				processingNodeBin(int tr, int pN, int d, randomNumberRerFMWC& randNumBin): treeNum(tr), parentNodeNumber(pN), depth(d), propertiesOfThisNode(fpSingleton::getSingleton().returnNumClasses()), propertiesOfLeftNode(fpSingleton::getSingleton().returnNumClasses()),propertiesOfRightNode(fpSingleton::getSingleton().returnNumClasses()),nodeIndices(fpSingleton::getSingleton().returnNumClasses()){
+				processingNodeBin(int tr, int pN, int d, randomNumberRerFMWC& randNumBin): treeNum(tr), parentNodeNumber(pN), depth(d), propertiesOfThisNode(fpSingleton::getSingleton().returnNumClasses()), propertiesOfLeftNode(fpSingleton::getSingleton().returnNumClasses()),propertiesOfRightNode(fpSingleton::getSingleton().returnNumClasses()),nodeIndices(fpSingleton::getSingleton().returnNumClasses()), oobNodeIndices(fpSingleton::getSingleton().returnNumClasses()){
 					randNum = &randNumBin;	
 				}
 
@@ -356,8 +377,8 @@ namespace fp{
 
 
 
-				inline void setupRoot(obsIndexAndClassVec& indexHolder, typename std::vector<zipClassAndValue<int,T> >& zipper){
-					setRootNodeIndices(indexHolder);
+				inline void setupRoot(obsIndexAndClassVec& indexHolder, obsIndexAndClassVec& oobIndexHolder, typename std::vector<zipClassAndValue<int,T> >& zipper){
+					setRootNodeIndices(indexHolder, oobIndexHolder);
 					setClassTotals();
 					setRootNodeZipIters(zipper);
 				}

@@ -26,9 +26,12 @@ namespace fp{
 				int currTree;
 
 				obsIndexAndClassVec indicesHolder;
+				obsIndexAndClassVec oobIndicesHolder; //JLP
 				std::vector<zipClassAndValue<int, T> > zipper;
+				std::vector<zipClassAndValue<int, T> > oobZipper; //JLP
 
-				std::vector<int> nodeIndices;
+				std::vector<int> nodeIndices; 
+				std::vector<int> oobNodeIndices; //JLP
 
 
 				randomNumberRerFMWC randNum;
@@ -45,13 +48,14 @@ namespace fp{
 				}
 
 			public:
-				binStruct() : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0),numberOfNodes(0),numOfTreesInBin(0),currTree(0), indicesHolder(fpSingleton::getSingleton().returnNumClasses()){	}
+				//binStruct() : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0),numberOfNodes(0),numOfTreesInBin(0),currTree(0), indicesHolder(fpSingleton::getSingleton().returnNumClasses()){	}
+				binStruct() : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0),numberOfNodes(0),numOfTreesInBin(0),currTree(0), indicesHolder(fpSingleton::getSingleton().returnNumClasses()), oobIndicesHolder(fpSingleton::getSingleton().returnNumClasses()){	}
 
 
 				inline void loadFirstNode(){
 					//inline void loadFirstNode(obsIndexAndClassVec& indicesHolder, std::vector<zipClassAndValue<int, T> >& zipper){
 					nodeQueue.emplace_back(0,0,0,randNum);
-					nodeQueue.back().setupRoot(indicesHolder, zipper);
+					nodeQueue.back().setupRoot(indicesHolder, oobIndicesHolder, zipper);
 					nodeQueue.back().processNode();
 					if(nodeQueue.back().isLeafNode()){
 						makeRootALeaf();
@@ -66,7 +70,35 @@ namespace fp{
 					bin[returnRootLocation()].setDepth(0);
 				}
 
-				inline void setSharedVectors(obsIndexAndClassVec& indicesInNode){
+				inline void setSharedVectors(obsIndexAndClassVec& indicesInNode, obsIndexAndClassVec& oobIndicesInNode){
+					indicesInNode.resetVectors();
+					oobIndicesInNode.resetVectors(); //JLP
+
+					int numUnusedObs = fpSingleton::getSingleton().returnNumObservations();
+					int randomObsID;
+					int tempMoveObs;
+
+					for(int n = 0; n < fpSingleton::getSingleton().returnNumObservations(); n++){
+						randomObsID = randNum.gen(fpSingleton::getSingleton().returnNumObservations());
+
+						indicesInNode.insertIndex(nodeIndices[randomObsID], fpSingleton::getSingleton().returnLabel(nodeIndices[randomObsID]));
+
+						if(randomObsID < numUnusedObs){
+							--numUnusedObs;
+							tempMoveObs = nodeIndices[numUnusedObs];
+							nodeIndices[numUnusedObs] = nodeIndices[randomObsID];
+							nodeIndices[randomObsID] = tempMoveObs;
+						}
+					}
+
+					for (auto i = 1; i < numUnusedObs; i++) {
+						// loading the OOB indices.
+						oobIndicesInNode.insertIndex(nodeIndices[i], fpSingleton::getSingleton().returnLabel(nodeIndices[i])); //JLP
+					}
+				}
+
+				inline void setSharedVectors(obsIndexAndClassVec& indicesInNode){ // JLP Remove when oob is working.
+					std::cout << "\nJLP: Should be removed.\n" << std::flush;
 					indicesInNode.resetVectors();
 
 					int numUnusedObs = fpSingleton::getSingleton().returnNumObservations();
@@ -86,6 +118,7 @@ namespace fp{
 						}
 					}
 
+					std::cout << "\nJLP Debug\n" << std::flush;
 				}
 
 
@@ -237,7 +270,7 @@ namespace fp{
 					randNum.initialize(randSeed);
 					initializeStructures();
 					for(; currTree < numOfTreesInBin; ++currTree){
-						setSharedVectors(indicesHolder);
+						setSharedVectors(indicesHolder, oobIndicesHolder);
 						loadFirstNode();	
 						while(!nodeQueue.empty()){
 							processNode();

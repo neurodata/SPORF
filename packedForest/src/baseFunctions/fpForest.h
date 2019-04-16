@@ -136,6 +136,11 @@ namespace fp {
 					deleteTestData();
 					return testError;
 				}
+
+				float returnOOB(){
+					return forest->reportOOB(); //JLP, not sure this is the right thing to do.
+				}
+
 		}; // class fpForest
 } //namespace fp
 #endif //fpForest.h
