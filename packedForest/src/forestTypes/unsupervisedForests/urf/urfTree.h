@@ -87,17 +87,11 @@ return false;
 
 				inline void updateSimMat(std::map<int, std::map<int, int> > &simMat, std::map<std::pair<int, int>, int> &pairMat){
 
-					//std::cout<<"num of leaf node: "<<leafNodes.size()<<"\n";
 					for(auto nodes : leafNodes){
 						stratifiedInNodeClassIndicesUnsupervised* obsI = nodes.returnObsIndices();
 						std::vector<int> leafObs;
 						leafObs = obsI->returnInSampsVec();
-						//auto siz = leafObs.size();
 						auto siz = leafObs.size();
-						/*std::cout<<"***********************************\n";
-						std::cout<<"size of leaf node: "<<nodes.returnInSampleSize()<<"\n";
-						std::cout<<"size of leaf node2: "<<siz<<"\n";
-						std::cout<<"***********************************\n";*/
 						if (siz <= 0)
 							return;
 						for(unsigned int i = 0; i < siz-1; ++i) {
@@ -222,7 +216,6 @@ return false;
 							makeNodeInternal();
 						}
 					}else{
-						//std::cout<<"whole node is a leaf!\n";
 						makeWholeNodeALeaf();
 					}
 				}
