@@ -33,7 +33,7 @@ namespace fp{
 				}
 
 			public:
-				inline splitURerFInfo<T> giniSplit(const std::vector<T>& featureVal, const std::vector<int>& featureNums){
+				inline splitURerFInfo<T> twoMeanSplit(const std::vector<T>& featureVal, const std::vector<int>& featureNums){
                                         // initialize return value
                                         splitURerFInfo<T> currSplitInfo;
                                         createData(featureVal);

@@ -178,7 +178,7 @@ namespace fp{
 						//not all featuresToTry will be populated.  This checks first.
 						if(!featuresToTry.back().empty()){
 							loadFeatureHolder();
-							setBestSplit(findSplit.giniSplit(baseUnprocessedNodeUnsupervised<T>::featureHolder ,featuresToTry.back()));
+							setBestSplit(findSplit.twoMeanSplit(baseUnprocessedNodeUnsupervised<T>::featureHolder ,featuresToTry.back()));
 						}
 						removeTriedMtry();
 					}
