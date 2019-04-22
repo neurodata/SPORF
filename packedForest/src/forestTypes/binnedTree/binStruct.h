@@ -95,6 +95,7 @@ namespace fp{
 						// loading the OOB indices.
 						oobIndicesInNode.insertIndex(nodeIndices[i], fpSingleton::getSingleton().returnLabel(nodeIndices[i])); //JLP
 					}
+					oobIndicesHolder.sortVectors(); //JLP needed??
 				}
 
 				inline void setSharedVectors(obsIndexAndClassVec& indicesInNode){ // JLP Remove when oob is working.
@@ -192,43 +193,47 @@ namespace fp{
 
 				inline void createChildNodes(){
 					nodeIterators nodeIts(nodeQueue.back().returnNodeIterators());
+					nodeIterators oobNodeIts(nodeQueue.back().returnOobNodeIterators()); //JLP
+
 					zipperIterators<int,T> zipIts(nodeQueue.back().returnZipIterators());
 					int childDepth = returnDepthOfNode()+1;
 					if(nodeQueue.back().isLeftChildLarger()){
 						nodeQueue.pop_back();
 						//TODO: don't emplace_back if should be leaf node.
 						nodeQueue.emplace_back(1,parentNodesPosition(), childDepth, randNum);
-						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
+						nodeQueue.back().setupNode(nodeIts, oobNodeIts, zipIts, rightNode());
 						nodeQueue.emplace_back(1,parentNodesPosition(), childDepth, randNum);
-						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
+						nodeQueue.back().setupNode(nodeIts, oobNodeIts, zipIts, leftNode());
 					}else{
 						nodeQueue.pop_back();
 						nodeQueue.emplace_back(1,parentNodesPosition(), childDepth, randNum);
-						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
+						nodeQueue.back().setupNode(nodeIts, oobNodeIts, zipIts, leftNode());
 						nodeQueue.emplace_back(1,parentNodesPosition(), childDepth, randNum);
-						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
+						nodeQueue.back().setupNode(nodeIts, oobNodeIts, zipIts, rightNode());
 					}
 				}
 
 
 				inline void createRootChildNodes(){
 					nodeIterators nodeIts(nodeQueue.back().returnNodeIterators());
+					nodeIterators oobNodeIts(nodeQueue.back().returnOobNodeIterators()); //JLP
+
 					zipperIterators<int,T> zipIts(nodeQueue.back().returnZipIterators());
 					int childDepth = returnDepthOfNode()+1;
 					if(nodeQueue.back().isLeftChildLarger()){
 						nodeQueue.pop_back();
 						//TODO: don't emplace_back if should be leaf node.
 						nodeQueue.emplace_back(1,returnRootLocation(), childDepth,randNum);
-						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
+						nodeQueue.back().setupNode(nodeIts, oobNodeIts, zipIts, rightNode());
 						nodeQueue.emplace_back(1,returnRootLocation(), childDepth, randNum);
-						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
+						nodeQueue.back().setupNode(nodeIts, oobNodeIts, zipIts, leftNode());
 					}else{
 						nodeQueue.pop_back();
 						nodeQueue.emplace_back(1,returnRootLocation(), childDepth,randNum);
-						nodeQueue.back().setupNode(nodeIts, zipIts, leftNode());
+						nodeQueue.back().setupNode(nodeIts, oobNodeIts, zipIts, leftNode());
 						nodeQueue.emplace_back(1,returnRootLocation(), childDepth,randNum);
-						nodeQueue.back().setupNode(nodeIts, zipIts, rightNode());
-					}
+						nodeQueue.back().setupNode(nodeIts, oobNodeIts, zipIts, rightNode());
+					 }
 				}
 
 				inline void processLeafNode(){

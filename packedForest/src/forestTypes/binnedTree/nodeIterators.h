@@ -70,6 +70,12 @@ namespace fp{
 
 			inline void loadSplitIterator(std::vector<int>::iterator nextIterator){
 				iteratorHolderSplit.push_back(nextIterator);
+
+				// JLP DEBUG
+				//int tmp = (iteratorHolderSplit.back() - iteratorHolderBegin[iteratorHolderSplit.size()-1]); //JLP
+				//std::cout << "tmp: " << tmp << std::flush; //JLP
+				// JLP DEBUG
+
 				assert(iteratorHolderSplit.back() - iteratorHolderBegin[iteratorHolderSplit.size()-1] >= 0);
 				assert( iteratorHolderEnd[iteratorHolderSplit.size()-1] - iteratorHolderSplit.back() >= 0);
 			}

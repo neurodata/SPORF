@@ -78,6 +78,7 @@ namespace fp {
 				calcBinSizes();
 
 				fpDisplayProgress printProgress;
+				std::cout << "\n" << std::flush; //JLP
 				bins.resize(numBins);
 #pragma omp parallel for num_threads(fpSingleton::getSingleton().returnNumThreads())
 				for(int j = 0; j < numBins; ++j){
@@ -87,8 +88,15 @@ namespace fp {
 			}
 
 			inline float reportOOB(){
+				// Possibly change name to calcOobForBin ?? JLP
 				return -1;
+//#pragma omp parallel for num_threads(fpSingleton::getSingleton().returnNumThreads())
+				//for(int j = 0; j < numBins; ++j){
+				//	bins[j].createBin(binSizes[j], binSeeds[j]);
+				//}
+				//std::cout << "\n"<< std::flush;
 			}
+
 			inline std::map<std::string, int> calcBinStats(){
 				int maxDepth=0;
 				int totalLeafNodes=0;

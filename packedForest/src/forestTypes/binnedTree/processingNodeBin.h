@@ -295,18 +295,22 @@ namespace fp{
 						std::vector<int>::iterator  oobHigherValueIndices = oobNodeIndices.returnEndIterator(i);
 						std::vector<int>::iterator  oobSmallerNumberIndex = oobNodeIndices.returnBeginIterator(i);
 
-						// Make sure not to move if we've run out of OOB points.
-						if (oobLowerValueIndices < oobHigherValueIndices) {
-							for(; oobLowerValueIndices < oobHigherValueIndices; ++oobLowerValueIndices){
-								if(fpSingleton::getSingleton().returnFeatureVal(fMtry,*oobLowerValueIndices) <= bestSplit.returnSplitValue()){
-									std::iter_swap(oobSmallerNumberIndex, oobLowerValueIndices);
-									++oobSmallerNumberIndex;
-								}
-							}
-							oobNodeIndices.loadSplitIterator(oobSmallerNumberIndex);
+
+						for (std::vector<int>::iterator temp = oobLowerValueIndices; temp < oobHigherValueIndices; temp++){
+							std::cout << *temp << "," << std::flush; //JLP DEBUG
 						}
+							
+						std::cout << "\n" << std::flush; //JLP DEBUG
+
+						// Make sure not to move if we've run out of OOB points.
+						for(std::vector<int>::iterator k = oobLowerValueIndices; k < oobHigherValueIndices; ++k){
+							if(fpSingleton::getSingleton().returnFeatureVal(fMtry,*k) <= bestSplit.returnSplitValue()){
+								std::iter_swap(oobSmallerNumberIndex, oobLowerValueIndices);
+								++oobSmallerNumberIndex;
+							}
+						}
+						oobNodeIndices.loadSplitIterator(oobSmallerNumberIndex); //JLP DEBUG
 					}
-					std::cout << "\nDEBUG\n";
 				}
 
 
@@ -358,8 +362,9 @@ namespace fp{
 				}
 
 
-				inline void setNodeIndices(nodeIterators& nodeIters){
+				inline void setNodeIndices(nodeIterators& nodeIters, nodeIterators& oobNodeIters){
 					nodeIndices.setNodeIterators(nodeIters, isLeftNode);
+					oobNodeIndices.setNodeIterators(oobNodeIters, isLeftNode); //JLP
 				}
 
 
@@ -386,15 +391,15 @@ namespace fp{
 
 				inline void setupNode(processingNodeBin& parentNode, bool leftNode){
 					setIsLeftNode(leftNode);
-					setNodeIndices(parentNode.nodeIndices);
+					setNodeIndices(parentNode.nodeIndices, parentNode.oobNodeIndices); //JLP
 					setClassTotals();
 					setZipIters(parentNode.zipIters, propertiesOfThisNode.returnNumItems());
 				}
 
 
-				inline void setupNode(nodeIterators& nodeIts, zipperIterators<int,T>& zips, bool leftNode){
+				inline void setupNode(nodeIterators& nodeIts, nodeIterators& oobNodeIts, zipperIterators<int,T>& zips, bool leftNode){
 					setIsLeftNode(leftNode);
-					setNodeIndices(nodeIts);
+					setNodeIndices(nodeIts, oobNodeIts); //JLP
 					setClassTotals();
 					setZipIters(zips, propertiesOfThisNode.returnNumItems());
 				}
@@ -495,6 +500,10 @@ namespace fp{
 
 				inline nodeIterators& returnNodeIterators(){
 					return nodeIndices;
+				}
+
+				inline nodeIterators& returnOobNodeIterators(){
+					return oobNodeIndices; //JLP
 				}
 
 				inline zipperIterators<int,T>& returnZipIterators(){
