@@ -31,7 +31,7 @@ namespace fp{
 				std::vector<zipClassAndValue<int, T> > oobZipper; //JLP
 
 				std::vector<int> nodeIndices; 
-				std::vector<int> oobNodeIndices; //JLP
+				std::vector<int> oobNodeIndices; //JLP Needed?
 
 
 				randomNumberRerFMWC randNum;
@@ -95,7 +95,8 @@ namespace fp{
 						// loading the OOB indices.
 						oobIndicesInNode.insertIndex(nodeIndices[i], fpSingleton::getSingleton().returnLabel(nodeIndices[i])); //JLP
 					}
-					oobIndicesHolder.sortVectors(); //JLP needed??
+					//oobIndicesHolder.sortVectors(); //JLP needed??
+					//oobIndicesInNode.sortVectors(); //JLP needed??
 				}
 
 				inline void setSharedVectors(obsIndexAndClassVec& indicesInNode){ // JLP Remove when oob is working.
