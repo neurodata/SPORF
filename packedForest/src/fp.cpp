@@ -20,104 +20,115 @@ int main(int argc, char* argv[]) {
 
 		 logTime.printGrowTime();
 		 */	
-	try{
-		fp::fpForest<float> forest;
-
-		switch(alg){
-			case 1:
-				forest.setParameter("forestType", "rerf");
-				break;
-			case 2:
-				forest.setParameter("forestType", "rfBase");
-				break;
-			case 3:
-				forest.setParameter("forestType", "rerf");
-				forest.setParameter("binSize", 1000);
-				forest.setParameter("binMin", 1000);
-				break;
-			case 4:
-				forest.setParameter("forestType", "rfBase");
-				forest.setParameter("binSize", 100);
-				forest.setParameter("binMin", 1000);
-				break;
-			case 7:
-				forest.setParameter("forestType", "binnedBase");
-				forest.setParameter("numTreeBins", numCores);
-				break;
-			case 8:
-				forest.setParameter("forestType", "binnedBaseRerF");
-				forest.setParameter("numTreeBins", numCores);
-				break;
-			case 9:
-				forest.setParameter("forestType", "binnedBase");
-				forest.setParameter("numTreeBins", numCores);
-				forest.setParameter("maxDepth", 2);
-				break;
-			case 10:
-				forest.setParameter("forestType", "binnedBaseRerF");
-				forest.setParameter("numTreeBins", numCores);
-				forest.setParameter("maxDepth", 2);
-				break;
-			case 11:
-				forest.setParameter("forestType", "binnedBaseTern");
-				forest.setParameter("numTreeBins", numCores);
-				break;
-
-			default:
-				std::cout << "unknown alg selected" << std::endl;
-				return -1;
-				break;
+	if (alg == 0) {
+		// Remove and change this block for testing.
+		std::cout << "test algorithm selected without code." << std::endl;
+		try {
+			return 0;
 		}
-
-
-		switch(dataSet){
-			case 1: 
-				forest.setParameter("CSVFileName", "res/iris.csv");
-				forest.setParameter("columnWithY", 4);
-				break;
-			case 2:
-				forest.setParameter("CSVFileName", "res/higgs2.csv");
-				forest.setParameter("columnWithY", 0);
-				break;
-			case 3:
-				forest.setParameter("CSVFileName", "res/mnist.csv");
-				forest.setParameter("columnWithY", 0);
-				break;
-			case 4:
-				forest.setParameter("CSVFileName", "res/HIGGS.csv");
-				forest.setParameter("columnWithY", 0);
-				break;
-			case 5:
-				forest.setParameter("CSVFileName", "../experiments/res/higgsData.csv");
-				forest.setParameter("columnWithY", 0);
-				break;
-			case 6:
-				forest.setParameter("CSVFileName", "../experiments/res/p53.csv");
-				forest.setParameter("columnWithY", 5408);
-				break;
-			default:
-				std::cout << "unknown dataset selected" << std::endl;
-				return -1;
-				break;
+		catch(const std::exception& e) {
+			std::cerr << e.what() << '\n';
 		}
+	} else {
+		try{
+			fp::fpForest<float> forest;
+
+			switch(alg){
+				case 1:
+					forest.setParameter("forestType", "rerf");
+					break;
+				case 2:
+					forest.setParameter("forestType", "rfBase");
+					break;
+				case 3:
+					forest.setParameter("forestType", "rerf");
+					forest.setParameter("binSize", 1000);
+					forest.setParameter("binMin", 1000);
+					break;
+				case 4:
+					forest.setParameter("forestType", "rfBase");
+					forest.setParameter("binSize", 100);
+					forest.setParameter("binMin", 1000);
+					break;
+				case 7:
+					forest.setParameter("forestType", "binnedBase");
+					forest.setParameter("numTreeBins", numCores);
+					break;
+				case 8:
+					forest.setParameter("forestType", "binnedBaseRerF");
+					forest.setParameter("numTreeBins", numCores);
+					break;
+				case 9:
+					forest.setParameter("forestType", "binnedBase");
+					forest.setParameter("numTreeBins", numCores);
+					forest.setParameter("maxDepth", 2);
+					break;
+				case 10:
+					forest.setParameter("forestType", "binnedBaseRerF");
+					forest.setParameter("numTreeBins", numCores);
+					forest.setParameter("maxDepth", 2);
+					break;
+				case 11:
+					forest.setParameter("forestType", "binnedBaseTern");
+					forest.setParameter("numTreeBins", numCores);
+					break;
+
+				default:
+					std::cout << "unknown alg selected" << std::endl;
+					return -1;
+					break;
+			}
 
 
-		forest.setParameter("numTreesInForest", 10);
-		forest.setParameter("minParent", 1);
-		forest.setParameter("numCores", numCores);
-		forest.setParameter("seed",-1661580697);
+			switch(dataSet){
+				case 1:
+					forest.setParameter("CSVFileName", "res/iris.csv");
+					forest.setParameter("columnWithY", 4);
+					break;
+				case 2:
+					forest.setParameter("CSVFileName", "res/higgs2.csv");
+					forest.setParameter("columnWithY", 0);
+					break;
+				case 3:
+					forest.setParameter("CSVFileName", "res/mnist.csv");
+					forest.setParameter("columnWithY", 0);
+					break;
+				case 4:
+					forest.setParameter("CSVFileName", "res/HIGGS.csv");
+					forest.setParameter("columnWithY", 0);
+					break;
+				case 5:
+					forest.setParameter("CSVFileName", "../experiments/res/higgsData.csv");
+					forest.setParameter("columnWithY", 0);
+					break;
+				case 6:
+					forest.setParameter("CSVFileName", "../experiments/res/p53.csv");
+					forest.setParameter("columnWithY", 5408);
+					break;
+				default:
+					std::cout << "unknown dataset selected" << std::endl;
+					return -1;
+					break;
+			}
 
-		//logTime.startFindSplitTimer();
-		forest.growForest();
-		//logTime.stopFindSplitTimer();
-		//logTime.printGrowTime();
 
-		forest.printParameters();
-		forest.printForestType();
+			forest.setParameter("numTreesInForest", 10);
+			forest.setParameter("minParent", 1);
+			forest.setParameter("numCores", numCores);
+			forest.setParameter("seed",-1661580697);
 
-		std::cout << "error: " << forest.testAccuracy() << "\n";
+			//logTime.startFindSplitTimer();
+			forest.growForest();
+			//logTime.stopFindSplitTimer();
+			//logTime.printGrowTime();
 
-	}catch(std::exception& e){
-		std::cout << "standard error: " << e.what() << std::endl;
+			forest.printParameters();
+			forest.printForestType();
+
+			std::cout << "error: " << forest.testAccuracy() << "\n";
+
+		}catch(std::exception& e){
+			std::cout << "standard error: " << e.what() << std::endl;
+		}
 	}
 }

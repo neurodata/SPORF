@@ -27,6 +27,7 @@ namespace fp{
 				virtual int predictClass(std::vector<T>& observation) = 0;
 				virtual std::vector<int> predictClassPost(std::vector<T>& observation) = 0;
 				virtual int predictClass(const T* observation) = 0;
+				virtual float reportOOB() = 0; //TODO: JLP, finish this implementation.
 		};
 
 }//namespace fp

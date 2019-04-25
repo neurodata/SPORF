@@ -44,7 +44,7 @@ def test_predict_post():
 
     results = forest.predict_post(test_case)
 
-    assert(len(results) == 3)
-    assert(results[0] == 10)
-    assert(results[1] == 0)
-    assert(results[2] == 0)
+    assert len(results) == 3
+    assert results[0] == 10
+    assert results[1] == 0
+    assert results[2] == 0

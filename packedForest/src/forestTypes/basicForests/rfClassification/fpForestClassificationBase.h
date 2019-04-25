@@ -48,7 +48,8 @@ namespace fp {
 				;
 			}
 
-			inline std::map<std::string, int> calcTreeStats(){
+			inline std::map<std::string, float> calcTreeStats(){
+				// rewrite as a struct in a top level header file.
 				int maxDepth=0;
 				int totalLeafNodes=0;
 				int totalLeafDepth=0;
@@ -62,19 +63,21 @@ namespace fp {
 					totalLeafDepth += trees[i].returnLeafDepthSum();
 				}
 
-				std::map<std::string, int> treeStats;
-				treeStats["maxDepth"] = maxDepth;
-				treeStats["totalLeafDepth"] = totalLeafDepth;
-				treeStats["totalLeafNodes"] = totalLeafNodes;
+				std::map<std::string, float> treeStats;
+				treeStats["maxDepth"] = (float) maxDepth;
+				treeStats["totalLeafDepth"] = (float) totalLeafDepth;
+				treeStats["totalLeafNodes"] = (float) totalLeafNodes;
+				treeStats["OOBaccuracy"] = reportOOB();
 				return treeStats;
 			}
 
 			inline void treeStats(){
-				std::map<std::string, int> treeStats = calcTreeStats();
+				std::map<std::string, float> treeStats = calcTreeStats();
 
 				std::cout << "max depth: " << treeStats["maxDepth"] << "\n";
 				std::cout << "avg depth: " << float(treeStats["totalLeafDepth"])/float(treeStats["totalLeafNodes"]) << "\n";
 				std::cout << "num leaf nodes: " << treeStats["totalLeafNodes"] << "\n";
+				std::cout << "OOB Accuracy: " << treeStats["OOBaccuracy"] << "\n";
 			}
 
 			void printTree0(){
@@ -163,6 +166,21 @@ inline int predictClass(const T* observation){
 				std::cout << "\nnumWrong= " << numWrong << "\n";
 
 				return (float)numWrong/(float)numTried;
+			}
+
+			inline float reportOOB(){
+				// for tree_i in trees sum OOB_i and normalize by the number of trees.
+				float oobi = 0;
+				int treesWithOOB = 0;
+				for (unsigned int i = 0; i < trees.size(); ++i){
+					if (trees[i].returnTotalOOB() > 0) {
+					  oobi += trees[i].returnOOB();
+					  treesWithOOB++;
+					}
+				}
+				// need to divide by the number of trees that had non-zero OOB points.
+
+				return oobi / (float) treesWithOOB;
 			}
 	};
 

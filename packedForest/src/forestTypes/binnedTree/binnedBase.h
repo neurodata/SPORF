@@ -86,6 +86,9 @@ namespace fp {
 				std::cout << "\n"<< std::flush;
 			}
 
+			inline float reportOOB(){
+				return -1;
+			}
 			inline std::map<std::string, int> calcBinStats(){
 				int maxDepth=0;
 				int totalLeafNodes=0;

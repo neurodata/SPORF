@@ -38,8 +38,17 @@ namespace fp{
 				}
 
 				inline float returnOOB(){
-					return correctOOB/totalOOB;
+					return OOBAccuracy;
 				}
+
+				inline void updateOOB(){
+					this->OOBAccuracy = correctOOB/totalOOB;
+				}
+
+				inline int returnTotalOOB(){
+					return totalOOB;
+				}
+
 
 				inline int returnLastNodeID(){
 					return tree.size()-1;
@@ -95,7 +104,7 @@ namespace fp{
 
 				inline void checkOOB(){
 					totalOOB += nodeQueue.back().returnOutSampleSize();
-					correctOOB += nodeQueue.back().returnOutSampleError(tree.back().returnClass());
+					correctOOB += nodeQueue.back().returnOutSampleCorrect(tree.back().returnClass());
 				}
 
 
@@ -229,6 +238,19 @@ inline int predictObservation(const T* observation){
 					}
 					return tree[currNode].returnClass();
 				}
+
+				std::vector<int> growTreeTest(){
+					//JLP testing.
+					std::vector<int> outSampleIndices;
+					loadFirstNode();
+					// grab outSamplesIndices before they are deleted.
+					outSampleIndices = nodeQueue.back().returnOutSampleVec();
+					processNodes();
+					updateOOB(); // update the OOBAccuracy
+					return outSampleIndices;
+				}
+
+
 		};
 
 }//fp
