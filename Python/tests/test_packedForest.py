@@ -65,16 +65,9 @@ def test_predict_post_numpy():
     forest.setParameter("maxDepth", 5)
     forest._growForest()
 
-    # load in 10 obs into a numpy array
+    # load in 20 obs into a numpy array
     nobs = 20
-    obs = np.ndarray((nobs, 5))
-    with open("packedForest/res/iris.csv", "r") as f:
-        line_iter = csv.reader(f, delimiter=",")
-        for i in range(10):
-            obs[i, :] = next(line_iter)
-
-    # remove the labels
-    obs = np.delete(obs, 4, 1)
+    obs = np.random.rand(nobs, 4) * 5
 
     # returns a list of lists
     posts = forest._predict_post_array(obs)
