@@ -27,12 +27,15 @@ namespace fp{
 				}
 
 				inline bool shouldProcessNode(){
-					if(nodeQueue.back().returnNodeImpurity()==0){
+					if(nodeQueue.back().returnNodeImpurity()<=0){
 						return false;
 					}
 					if(nodeQueue.back().returnInSampleSize() <= fpSingleton::getSingleton().returnMinParent()){
 						return false;
 					}
+                if(nodeQueue.back().returnDepth() >= fpSingleton::getSingleton().returnMaxDepth()){
+                          return false;
+                      }
 					return true;
 				}
 
@@ -80,6 +83,7 @@ namespace fp{
 						std::vector<int> leafObs;
 						leafObs = obsI->returnInSampsVec();
 						auto siz = leafObs.size();
+						std::cout<<"SIZ: "<<siz<<"\n";
 						if (siz <= 0)
 							return;
 						for(unsigned int i = 0; i < siz-1; ++i) {
@@ -192,6 +196,15 @@ namespace fp{
 				inline bool noGoodSplitFound(){
 				        if(nodeQueue.back().returnBestImpurity() == -1)
                                                 return true;
+			
+					int flag = 0;
+					for (auto d: nodeQueue.back().returnBestFeature())
+					{
+						if(d != -1)
+							flag = 1;
+					}
+					if (flag == 0)
+						return true;
 					return nodeQueue.back().returnBestFeature().empty();
 				}
 

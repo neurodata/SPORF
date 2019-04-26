@@ -121,7 +121,6 @@ namespace fp{
 					for(auto j : bestSplitInfo.returnFeatureNum()){
 						featureVal += fpSingleton::getSingleton().returnFeatureVal(j,index);
 					}
-
 					if(featureVal <= bestSplitInfo.returnSplitValue()){
 						return true;
 					}else{
@@ -150,7 +149,6 @@ namespace fp{
 							baseUnprocessedNodeUnsupervised<T>::rightIndices->addIndexToInSamples(baseUnprocessedNodeUnsupervised<T>::obsIndices->returnInSample(i));	
 						}
 					}
-
 
 					assert(lNum > 0);
 					assert(rNum > 0);
