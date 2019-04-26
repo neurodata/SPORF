@@ -64,6 +64,24 @@ class rerfClassifier:
     
     Examples
     --------
+    >>> from rerfClassifier import rerfClassifier
+    >>> from sklearn.datasets import make_classification
+
+    >>> X, y = make_classification(
+    ...    n_samples=1000,
+    ...    n_features=4,
+    ...    n_informative=2,
+    ...    n_redundant=0,
+    ...    random_state=0,
+    ...    shuffle=False,
+    ... )
+
+    >>> clf = rerfClassifier(n_estimators=100, max_depth=2, random_state=0)
+    >>> clf.fit(X, y)
+
+    >>> print(clf.predict([0, 0, 0, 0]))
+    >>> print(clf.predict_proba([0, 0, 0, 0]))
+    >>> print(clf)
 
     Notes
     -----
@@ -202,13 +220,26 @@ class rerfClassifier:
         X = np.asarray(X)
 
         if X.ndim == 1:
-            y = forest._predict_post(X.tolist())
+            y = self.forest._predict_post(X.tolist())
             y_prob = [p / sum(y) for p in y]
         else:
-            y = forest._predict_post_array(X)
+            y = self.forest._predict_post_array(X)
             y_arr = np.asarray(y)
             y_prob = y_arr / y_arr.sum(1)[:, None]
         return y_prob
 
     def get_params(self):
-        pass
+        return (
+            str(self.__class__)
+            + "\n"
+            + "\n".join(
+                ("{} = {}".format(item, self.__dict__[item]) for item in self.__dict__)
+            )
+        )
+
+    def __str__(self):
+        return self.get_params()
+
+    def __repr__(self):
+        return self.get_params()
+
