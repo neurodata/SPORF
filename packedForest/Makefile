@@ -19,6 +19,7 @@ OBJEXT      := o
 #Flags, Libraries and Includes
 #CFLAGS      := -Wall -O3 -DNDEBUG -ffast-math 
 CFLAGS      := -fopenmp -Wall -O3 -DNDEBUG -ffast-math
+CFLAGS      := -fopenmp -Wall -O3 -ffast-math
 #LIB         := -fopenmp -lm -lnuma
 LIB         :=  -fopenmp -lm -O3 
 INC         := -I$(INCDIR) -I/usr/local/include -I/usr/local/include/eigen3

@@ -22,7 +22,11 @@
 #include "fpTests/fpRerFBaseTest.h"
 #include "fpTests/binnedBaseTest.h"
 #include "fpTests/fpForestTest.h"
+<<<<<<< HEAD
 #include "fpTests/binnedForest/processingNodeBinTest.h"
 #include "fpTests/rfTreeTest.h"
 #include "fpTests/rerfTreeTest.h"
 #include "fpTests/fpSingletonTest.h"
+=======
+#include "fpTests/fpTwoMeanSplitTest.h"
+>>>>>>> int to float
