@@ -1,4 +1,4 @@
-from RerF import fastRerF, fastPredict
+from RerF import fastRerF, fastPredict, fastPredictPost
 import numpy as np
 from multiprocessing import cpu_count
 
@@ -40,8 +40,13 @@ forest = fastRerF(
 
 forest.printParameters()
 
+# training predictions
 predictions = fastPredict(feat_data, forest)
 # print(predictions)
+
+# training posterior predictions probabilities
+post_pred = fastPredictPost(feat_data, forest)
+# print(post_pred)
 
 print("Error rate", np.mean(predictions != labels))
 

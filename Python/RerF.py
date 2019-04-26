@@ -145,11 +145,47 @@ def fastPredict(X, forest):
     >>> fastPredict(np.array([0, 0, 0, 0]), forest)
     """
 
+    X = np.asarray(X)
+
     if X.ndim == 1:
         predictions = forest._predict(X.tolist())
     else:
         predictions = forest._predict_numpy(X)
     return predictions
+
+
+def fastPredictPost(X, forest):
+    """Runs a prediction on a forest with a given set of data.
+    
+    Parameters
+    ----------
+    X : array_like
+        Numpy ndarray of data, if more than 1 row, run multiple 
+        predictions.
+    forest : pyfp.fpForest
+        Forest to run predictions on
+
+    Returns
+    -------
+    posterior_probabilites : list of int, shape = [n_classes] or array, shape = [n_samples, n_classes]
+        Returns the class of prediction (int) or predictions (list) 
+        depending on input parameters.
+
+    Examples
+    --------
+    >>> fastPredictPost(np.array([0, 0, 0, 0]), forest)
+    """
+
+    X = np.asarray(X)
+
+    if X.ndim == 1:
+        y = forest._predict_post(X.tolist())
+        y_prob = [p / sum(y) for p in y]
+    else:
+        y = forest._predict_post_array(X)
+        y_arr = np.asarray(y)
+        y_prob = y_arr / y_arr.sum(1)[:, None]
+    return y_prob
 
 
 if __name__ == "__main__":
