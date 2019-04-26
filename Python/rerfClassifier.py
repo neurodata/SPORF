@@ -5,7 +5,10 @@ import numpy as np
 import pyfp
 
 
-class rerfClassifier:
+from sklearn.base import BaseEstimator, ClassifierMixin
+
+
+class rerfClassifier(BaseEstimator, ClassifierMixin):
     """A random forest classifier.
 
     Supports both Random Forest, developed by Breiman (2001) [#Breiman]_, as well as 
@@ -124,7 +127,7 @@ class rerfClassifier:
         """
 
         # setup the forest's parameters
-        self.forest = pyfp.fpForest()
+        self.forest_ = pyfp.fpForest()
 
         if self.projection_matrix == "RerF":
             forestType = "binnedBaseTern"
@@ -132,50 +135,52 @@ class rerfClassifier:
             forestType = "binnedBase"
         else:
             raise ValueError("Incorrect projection matrix")
-        self.forest.setParameter("forestType", forestType)
+        self.forest_.setParameter("forestType", forestType)
 
-        self.forest.setParameter("numTreesInForest", self.n_estimators)
+        self.forest_.setParameter("numTreesInForest", self.n_estimators)
 
         # if max_depth is not set, C++ sets to maximum integer size
         if self.max_depth is not None:
-            self.forest.setParameter("maxDepth", self.max_depth)
+            self.forest_.setParameter("maxDepth", self.max_depth)
 
-        self.forest.setParameter("minParent", self.min_parent)
+        self.forest_.setParameter("minParent", self.min_parent)
 
-        self.forest.setParameter("mtryMult", self.feature_combinations)
+        self.forest_.setParameter("mtryMult", self.feature_combinations)
 
         if self.n_jobs is None:
-            self.n_jobs = 1
+            self.n_jobs_ = 1
         elif self.n_jobs == -1:
-            self.n_jobs = multiprocessing.cpu_count()
-        self.forest.setParameter("numCores", self.n_jobs)
+            self.n_jobs_ = multiprocessing.cpu_count()
+        self.forest_.setParameter("numCores", self.n_jobs_)
 
         if self.random_state is None:
-            self.random_state = np.random.randint(1, 1000000)
-        self.forest.setParameter("seed", self.random_state)
+            self.random_state_ = np.random.randint(1, 1000000)
+        else:
+            self.random_state_ = self.random_state
+        self.forest_.setParameter("seed", self.random_state_)
 
         num_obs = len(y)
         num_features = X.shape[1]
 
         # need to set mtry here (using max_features and calc num_features):
         if self.max_features in ("auto", "sqrt"):
-            self.max_features = int(num_features ** (1 / 2))
+            self.mtry_ = int(num_features ** (1 / 2))
         elif self.max_features is None:
-            self.max_features = num_features
+            self.mtry_ = num_features
         elif self.max_features == "log2":
-            self.max_features = int(np.log2(num_features))
+            self.mtry_ = int(np.log2(num_features))
         elif isinstance(self.max_features, int):
-            self.max_features = self.max_features
+            self.mtry_ = self.max_features
         elif isinstance(self.max_features, float) and 0 <= self.max_features <= 1:
-            self.max_features = int(self.max_features * num_features)
+            self.mtry_ = int(self.max_features * num_features)
         else:
             raise ValueError("max_features has unexpected value")
-        self.forest.setParameter("mtry", self.max_features)
+        self.forest_.setParameter("mtry", self.mtry_)
 
         # Explicitly setting for numpy input
-        self.forest.setParameter("useRowMajor", 1)
+        self.forest_.setParameter("useRowMajor", 1)
 
-        self.forest._growForestnumpy(X, y, num_obs, num_features)
+        self.forest_._growForestnumpy(X, y, num_obs, num_features)
 
         return self
 
@@ -196,9 +201,9 @@ class rerfClassifier:
         X = np.asarray(X)
 
         if X.ndim == 1:
-            predictions = self.forest._predict(X.tolist())
+            predictions = self.forest_._predict(X.tolist())
         else:
-            predictions = self.forest._predict_numpy(X)
+            predictions = self.forest_._predict_numpy(X)
         return predictions
 
     def predict_proba(self, X):
@@ -220,26 +225,11 @@ class rerfClassifier:
         X = np.asarray(X)
 
         if X.ndim == 1:
-            y = self.forest._predict_post(X.tolist())
+            y = self.forest_._predict_post(X.tolist())
             y_prob = [p / sum(y) for p in y]
         else:
-            y = self.forest._predict_post_array(X)
+            y = self.forest_._predict_post_array(X)
             y_arr = np.asarray(y)
             y_prob = y_arr / y_arr.sum(1)[:, None]
         return y_prob
-
-    def get_params(self):
-        return (
-            str(self.__class__)
-            + "\n"
-            + "\n".join(
-                ("{} = {}".format(item, self.__dict__[item]) for item in self.__dict__)
-            )
-        )
-
-    def __str__(self):
-        return self.get_params()
-
-    def __repr__(self):
-        return self.get_params()
 

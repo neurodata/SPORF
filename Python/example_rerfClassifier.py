@@ -16,3 +16,7 @@ clf.fit(X, y)
 print(clf.predict([0, 0, 0, 0]))
 print(clf.predict_proba([0, 0, 0, 0]))
 print(clf)
+
+from sklearn.utils.estimator_checks import check_estimator
+
+check_estimator(rerfClassifier)
