@@ -128,7 +128,11 @@ def fastRerF(
 
 
 def fastPredict(X, forest):
-    """Runs a prediction on a forest with a given set of data.
+    """Predict class for X.
+
+    The predicted class of an input sample is the majority vote by the 
+    trees in the forest where each vote is the majority class of each 
+    tree's leaf node.
     
     Parameters
     ----------
@@ -146,7 +150,7 @@ def fastPredict(X, forest):
 
     Examples
     --------
-    >>> fastPredict(np.array([0, 0, 0, 0]), forest)
+    >>> fastPredict([0, 1, 2, 3], forest)
     """
 
     X = np.asarray(X)
@@ -159,7 +163,10 @@ def fastPredict(X, forest):
 
 
 def fastPredictPost(X, forest):
-    """Runs a prediction on a forest with a given set of data.
+    """Predict class probabilities for X.
+
+    The predicted class probabilities of an input sample are computed as 
+    the normalized votes of each tree in the forest.  
     
     Parameters
     ----------
@@ -171,13 +178,14 @@ def fastPredictPost(X, forest):
 
     Returns
     -------
-    posterior_probabilites : list of int, shape = [n_classes] or array, shape = [n_samples, n_classes]
-        Returns the class of prediction (int) or predictions (list) 
-        depending on input parameters.
+    posterior_probabilities : list of ints, shape = [n_classes] or array, shape = [n_samples, n_classes]
+        Returns the class probabilities for a single observation (list) or 
+        numpy array of class probabilities for each observation depending 
+        on input parameters.
 
     Examples
     --------
-    >>> fastPredictPost(np.array([0, 0, 0, 0]), forest)
+    >>> fastPredictPost([0, 1, 2, 3], forest)
     """
 
     X = np.asarray(X)
