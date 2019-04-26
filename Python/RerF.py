@@ -112,10 +112,14 @@ def fastRerF(
     forestClass.setParameter("seed", seed)
 
     if CSVFile is not None and Ycolumn is not None:
+        forestClass.setParameter("useRowMajor", 0)
         forestClass.setParameter("CSVFileName", CSVFile)
         forestClass.setParameter("columnWithY", Ycolumn)
         forestClass._growForest()
     elif X is not None and Y is not None:
+        # explicitly say we are using rowMajor
+        forestClass.setParameter("useRowMajor", 1)
+
         num_obs = len(Y)
         num_features = X.shape[1]
         forestClass._growForestnumpy(X, Y, num_obs, num_features)
