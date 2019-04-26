@@ -147,7 +147,7 @@ namespace fp {
 					totalLeafDepth += trees[i].returnLeafDepthSum();
 				}
 
-				std::cout << "precision@10: " << computePrecision(10)<<"\n";
+				//std::cout << "precision@10: " << computePrecision(10)<<"\n";
 			}
 
 

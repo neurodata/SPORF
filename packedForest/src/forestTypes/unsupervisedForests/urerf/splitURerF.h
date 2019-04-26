@@ -5,6 +5,7 @@
 #include "../../../baseFunctions/pdqsort.h"
 #include <iostream>
 #include <vector>
+#include <cmath>
 #include <algorithm>
 #include <limits>
 #include <assert.h>
@@ -29,12 +30,13 @@ namespace fp{
 					for(unsigned int i=0; i<siz_vec; ++i){
 						featureValsVec.push_back(featureVals.at(i));
 					}
-					std::sort(featureValsVec.begin(), featureValsVec.end());
+					//std::sort(featureValsVec.begin(), featureValsVec.end());
 				}
 
 			public:
 				inline splitURerFInfo<T> twoMeanSplit(const std::vector<T>& featureVal, const std::vector<int>& featureNums){
-                                        // initialize return value
+                                        
+					// initialize return value
                                         splitURerFInfo<T> currSplitInfo;
                                         createData(featureVal);
 
@@ -43,7 +45,7 @@ namespace fp{
                                         std::vector<T> errVecRight;
                                         auto pbegin = featureValsVec.begin();
 					auto pend = featureValsVec.end();
-                        		std::sort(pbegin, pend);
+                        		std::sort(featureValsVec.begin(), featureValsVec.end());
                                         pbegin = featureValsVec.begin();
 					pend = featureValsVec.end();
                                         int sizeX = featureValsVec.size();
@@ -51,6 +53,7 @@ namespace fp{
                                         int sizeNNZ = featureValsVec.size();
                                         int sizeZ = sizeX - sizeNNZ;
                                         T meanRight, sumLeft=0, meanLeft, cutPoint=0;
+					T errCurr = 0;
                                         T minErr = std::numeric_limits<T>::infinity();
                                         T minErrLeft = std::numeric_limits<T>::infinity();
                                         T minErrRight = std::numeric_limits<T>::infinity();
@@ -58,12 +61,17 @@ namespace fp{
 					pbegin = featureValsVec.begin();
 					pend = featureValsVec.end();
 					std::vector<T> errVec(pbegin, pend);
-
+					
 					if (sizeNNZ - 1 <= 0){
+                                                currSplitInfo.setImpurity(-1);
+                                                currSplitInfo.addFeatureNums(featureNums);
+                                                currSplitInfo.setSplitValue(0);
+                                                currSplitInfo.setLeftImpurity(0);
+                                                currSplitInfo.setRightImpurity(0);
 						return currSplitInfo;
 					}
-                                        if(featureValsVec[0] == featureValsVec[sizeX-1]){
-                                                currSplitInfo.setImpurity(-1);
+                                        if( fabs(featureValsVec[0] - featureValsVec[sizeX-1])<0.00001){
+						currSplitInfo.setImpurity(-1);
                                                 currSplitInfo.addFeatureNums(featureNums);
                                                 currSplitInfo.setSplitValue(0);
                                                 currSplitInfo.setLeftImpurity(0);
@@ -72,7 +80,7 @@ namespace fp{
                                         }
 
 					if (sizeZ) {
-                                                        meanRight = sumRight / sizeNNZ;
+                                                        meanRight = sumRight / (T)sizeNNZ;
                                                         minErr = computeSampleVariance(meanRight, errVec);
                                                         cutPoint = featureValsVec.at(0) / 2;
                                           }
@@ -86,15 +94,15 @@ namespace fp{
                                                                 int rightSize = sizeNNZ - index;
                                                                 sumLeft = sumLeft + featureValsVec[iter];
                                                                 sumRight = sumRight - featureValsVec[iter];
-                                                                meanLeft = sumLeft / leftSize;
-                                                                meanRight = sumRight / rightSize;
+                                                                meanLeft = sumLeft / (double)leftSize;
+                                                                meanRight = sumRight / (double)rightSize;
 								auto last = pbegin;
 								std::advance(last, index);
 								std::vector<T> newVec(pbegin, last);
 								auto errLeft = computeSampleVariance(meanLeft, newVec) + (sizeZ * meanLeft * meanLeft);
 								std::vector<T> newVec2(last, pend);
 								auto errRight = computeSampleVariance(meanRight, newVec2);
-                                                        	auto errCurr = errLeft + errRight;
+                                                        	errCurr = errLeft + errRight;
 
                                                                 if (errCurr < minErr) {
                                                                         cutPoint = (featureValsVec[iter] + featureValsVec[iter+1]) / 2;

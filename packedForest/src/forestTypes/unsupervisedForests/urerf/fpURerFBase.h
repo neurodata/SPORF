@@ -86,7 +86,7 @@ namespace fp {
 					trees[i].growTree();
 					trees[i].updateSimMat(simMat, pairMat);
 				}
-				normalizeByNTrees();
+				//normalizeByNTrees();
 			}
 
 
@@ -149,6 +149,7 @@ namespace fp {
 					totalLeafNodes += trees[i].returnNumLeafNodes();
 					totalLeafDepth += trees[i].returnLeafDepthSum();
 				}
+				//std::cout<<"precision @10: "<<computePrecision(10)<<"\n";
 			}
 
 
