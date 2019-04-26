@@ -24,7 +24,7 @@ namespace fp {
 		protected:
 			std::vector<urerfTree<T> > trees;
 			std::map<int, std::map<int, int> > simMat;
-                        std::map<std::pair<int, int>, int> pairMat;
+                        std::map<std::pair<int, int>, double> pairMat;
                         typedef Eigen::SparseMatrix<int> spMat;
                         typedef Eigen::Triplet<int> TripType;
                         std::vector<TripType> tripletList;
@@ -73,13 +73,22 @@ namespace fp {
 				this->eigenMat = eigenSimMat;
                         }
 
+			inline void normalizeByNTrees(){
+				double treesize = (double)trees.size();
+				for (auto it=pairMat.begin(); it!=pairMat.end(); ++it) {
+					it->second = it->second / treesize;
+				}
+				
+			}
 			inline void growTrees(){
 #pragma omp parallel for num_threads(fpSingleton::getSingleton().returnNumThreads())
 				for(int i = 0; i < (int)trees.size(); ++i){
 					trees[i].growTree();
 					trees[i].updateSimMat(simMat, pairMat);
 				}
+				normalizeByNTrees();
 			}
+
 
 			inline void checkParameters(){
 				//TODO: check parameters to make sure they make sense for this forest type.
@@ -147,7 +156,7 @@ namespace fp {
 				return simMat;
 			}
 
-inline std::map<std::pair<int, int>, int> returnPairMat(){
+inline std::map<std::pair<int, int>, double> returnPairMat(){
                                         return pairMat;
                                 }
 

@@ -29,7 +29,7 @@ namespace fp {
 		protected:
 			std::vector<urfTree<T> > trees;
 			std::map<int, std::map<int, int> > simMat;
-			std::map<std::pair<int, int>, int> pairMat;	
+			std::map<std::pair<int, int>, double> pairMat;	
 			typedef Eigen::SparseMatrix<int> spMat;
 			typedef Eigen::Triplet<int> TripType;
 			std::vector<TripType> tripletList;
@@ -155,7 +155,7 @@ namespace fp {
 				return simMat;
 			}
 
-inline std::map<std::pair<int, int>, int> returnPairMat(){
+inline std::map<std::pair<int, int>, double> returnPairMat(){
                                         return pairMat;
                                 }
 

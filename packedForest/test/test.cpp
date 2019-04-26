@@ -22,3 +22,4 @@
 #include "fpTests/fpRerFBaseTest.h"
 #include "fpTests/binnedBaseTest.h"
 #include "fpTests/fpForestTest.h"
+#include "fpTests/fpTwoMeanSplitTest.h"

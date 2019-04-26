@@ -60,6 +60,8 @@ int main(int argc, char* argv[]) {
 				break;
                         case 11:
                                 forest.setParameter("forestType", "urf");
+				forest.setParameter("binSize", 1000);
+				forest.setParameter("binMin", 1000);
                                 break;
                         case 12:
                                 forest.setParameter("forestType", "urerf");
@@ -104,7 +106,7 @@ int main(int argc, char* argv[]) {
 
 
 		forest.setParameter("numTreesInForest", 10);
-		forest.setParameter("minParent", 3);
+		forest.setParameter("minParent", 100);
 		forest.setParameter("numCores", numCores);
 		forest.setParameter("seed",-1661580697);
 

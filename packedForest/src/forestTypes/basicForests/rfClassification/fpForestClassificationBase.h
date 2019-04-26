@@ -18,7 +18,7 @@ namespace fp {
 	{
 		protected:
 			std::vector<rfTree<T> > trees;
-			std::map<std::pair<int, int>, int> pairMat;
+			std::map<std::pair<int, int>, double> pairMat;
 		public:
 			fpDisplayProgress printProgress;
 
@@ -103,7 +103,7 @@ namespace fp {
 				return bestClass;
 			}
 
-inline std::map<std::pair<int, int>, int> returnPairMat(){
+inline std::map<std::pair<int, int>, double> returnPairMat(){
                                         return pairMat;
                                 }
 

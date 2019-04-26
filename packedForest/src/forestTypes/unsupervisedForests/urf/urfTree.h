@@ -85,7 +85,7 @@ return false;
 					return numLeafNodes;
 				}
 
-				inline void updateSimMat(std::map<int, std::map<int, int> > &simMat, std::map<std::pair<int, int>, int> &pairMat){
+				inline void updateSimMat(std::map<int, std::map<int, int> > &simMat, std::map<std::pair<int, int>, double> &pairMat){
 
 					for(auto nodes : leafNodes){
 						stratifiedInNodeClassIndicesUnsupervised* obsI = nodes.returnObsIndices();

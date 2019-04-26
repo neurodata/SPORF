@@ -28,7 +28,7 @@ namespace fp{
 				virtual int predictClass(std::vector<T>& observation) = 0;
 				virtual std::vector<int> predictClassPost(std::vector<T>& observation) = 0;
 				virtual int predictClass(const T* observation) = 0;
-				virtual std::map<std::pair<int, int>, int> returnPairMat() = 0;
+				virtual std::map<std::pair<int, int>, double> returnPairMat() = 0;
 		};
 
 }//namespace fp
