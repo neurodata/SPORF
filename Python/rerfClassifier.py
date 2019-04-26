@@ -33,10 +33,12 @@ class rerfClassifier:
         Number of trees in forest.
     max_depth : int or None, optional (default=None)
         The maximum depth of the tree. If None, then nodes are expanded 
-        until all leaves are pure or until all leaves contain less than min_samples_split samples.
+        until all leaves are pure or until all leaves contain less than 
+        min_samples_split samples.
     min_samples_split : int, optional (default: 1)
         The minimum splittable node size.  A node size < ``min_samples_split`` 
-        will be a leaf node.  Note: also called `min.parent` or `minParent`
+        will be a leaf node.  Note: other implementations called `min.parent`
+        or `minParent`
     max_features : int, float, string, or None, optional (default="auto")
         The number of features or feature combinations to consider when 
         looking for the best split.  Note: also called `mtry` or `d`.
@@ -79,35 +81,6 @@ class rerfClassifier:
         n_jobs=None,
         random_state=None,
     ):
-        # setup the forest's parameters
-        self.forest = pyfp.fpForest()
-
-        if projection_matrix == "RerF":
-            forestType = "binnedBaseTern"
-        elif projection_matrix == "Base":
-            forestType = "binnedBase"
-        self.forest.setParameter("forestType", forestType)
-
-        self.forest.setParameter("numTreesInForest", n_estimators)
-
-        # if max_depth is not set, C++ sets to maximum integer size
-        if max_depth is not None:
-            self.forest.setParameter("maxDepth", max_depth)
-
-        self.forest.setParameter("minParent", min_parent)
-
-        self.forest.setParameter("mtryMult", feature_combinations)
-
-        if n_jobs is None:
-            n_jobs = 1
-        elif n_jobs == -1:
-            n_jobs = multiprocessing.cpu_count()
-        self.forest.setParameter("numCores", n_jobs)
-
-        if random_state is None:
-            random_state = np.random.randint(1, 1000000)
-        self.forest.setParameter("seed", random_state)
-
         self.projection_matrix = projection_matrix
         self.n_estimators = n_estimators
         self.max_depth = max_depth
@@ -119,7 +92,6 @@ class rerfClassifier:
 
     def fit(self, X, y):
         """Fit estimator.
-
         Parameters
         ----------
         X : array-like, shape=(n_samples, n_features)
@@ -133,32 +105,110 @@ class rerfClassifier:
         
         """
 
+        # setup the forest's parameters
+        self.forest = pyfp.fpForest()
+
+        if self.projection_matrix == "RerF":
+            forestType = "binnedBaseTern"
+        elif self.projection_matrix == "Base":
+            forestType = "binnedBase"
+        else:
+            raise ValueError("Incorrect projection matrix")
+        self.forest.setParameter("forestType", forestType)
+
+        self.forest.setParameter("numTreesInForest", self.n_estimators)
+
+        # if max_depth is not set, C++ sets to maximum integer size
+        if self.max_depth is not None:
+            self.forest.setParameter("maxDepth", self.max_depth)
+
+        self.forest.setParameter("minParent", self.min_parent)
+
+        self.forest.setParameter("mtryMult", self.feature_combinations)
+
+        if self.n_jobs is None:
+            self.n_jobs = 1
+        elif self.n_jobs == -1:
+            self.n_jobs = multiprocessing.cpu_count()
+        self.forest.setParameter("numCores", self.n_jobs)
+
+        if self.random_state is None:
+            self.random_state = np.random.randint(1, 1000000)
+        self.forest.setParameter("seed", self.random_state)
+
         num_obs = len(y)
         num_features = X.shape[1]
 
-        # need to set mtry here (using self.max_features and calc num_features):
+        # need to set mtry here (using max_features and calc num_features):
         if self.max_features in ("auto", "sqrt"):
-            mtry = int(num_features ** (1 / 2))
+            self.max_features = int(num_features ** (1 / 2))
         elif self.max_features is None:
-            mtry = num_features
+            self.max_features = num_features
         elif self.max_features == "log2":
-            mtry = int(np.log2(num_features))
+            self.max_features = int(np.log2(num_features))
         elif isinstance(self.max_features, int):
-            mtry = self.max_features
+            self.max_features = self.max_features
         elif isinstance(self.max_features, float) and 0 <= self.max_features <= 1:
-            mtry = int(self.max_features * num_features)
+            self.max_features = int(self.max_features * num_features)
         else:
             raise ValueError("max_features has unexpected value")
-        self.forest.setParameter("mtry", mtry)
+        self.forest.setParameter("mtry", self.max_features)
+
+        # Explicitly setting for numpy input
+        self.forest.setParameter("useRowMajor", 1)
 
         self.forest._growForestnumpy(X, y, num_obs, num_features)
+
         return self
 
     def predict(self, X):
-        pass
+        """Predict class for X.
+        
+        Parameters
+        ----------
+        X : array_like of shape [nsamples, n_features]
+            The input samples.  If more than 1 row, run multiple predictions.
+        Returns
+        -------
+        y : int, list of int
+            Returns the class of prediction (int) or predictions (list) 
+            depending on input parameters.
+        """
+
+        X = np.asarray(X)
+
+        if X.ndim == 1:
+            predictions = self.forest._predict(X.tolist())
+        else:
+            predictions = self.forest._predict_numpy(X)
+        return predictions
 
     def predict_proba(self, X):
-        pass
+        """Predict class probabilities for X.
+        The predicted class probabilities of an input sample are computed as
+        the mean predicted class of the trees in the forest.
+        
+        Parameters
+        ----------
+        X : array_like of shape [nsamples, n_features]
+            The input samples.  If more than 1 row, run multiple predictions.
+        Returns
+        -------
+        p : array of shape = [n_samples, n_classes]
+            The class probabilities of the input samples. The order of the
+            classes corresponds to that in the attribute `classes_`.
+        """
+
+        X = np.asarray(X)
+
+        if X.ndim == 1:
+            y = forest._predict_post(X.tolist())
+            y_prob = [p / sum(y) for p in y]
+        else:
+            y = forest._predict_post_array(X)
+            y_arr = np.asarray(y)
+            y_prob = y_arr / y_arr.sum(1)[:, None]
+        return y_prob
 
     def get_params(self):
         pass
