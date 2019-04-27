@@ -117,7 +117,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         ----------
         X : array-like, shape=(n_samples, n_features)
             Input data.  Rows are observations and columns are features.
-        y : list, 1D numpy array
+        y : array-like, 1D numpy array
             Labels
         
         Returns
@@ -125,6 +125,12 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         self : object
         
         """
+
+        # validation
+        X = np.asarray(X)
+        y = np.asarray(y)
+        if X.shape[0] != y.shape[0]:
+            raise ValueError("X and y need to have the same number of rows")
 
         # setup the forest's parameters
         self.forest_ = pyfp.fpForest()
@@ -180,7 +186,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         # Explicitly setting for numpy input
         self.forest_.setParameter("useRowMajor", 1)
 
-        self.forest_._growForestnumpy(X, y, num_obs, num_features)
+        self.forest_._growForestnumpy(X, y.tolist(), num_obs, num_features)
 
         return self
 
