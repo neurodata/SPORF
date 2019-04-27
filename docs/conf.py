@@ -14,7 +14,8 @@
 #
 import os
 import sys
-# sys.path.insert(0, os.path.abspath('.'))
+
+sys.path.insert(0, os.path.abspath("../Python"))
 sys.path.insert(0, os.path.abspath("sphinxext"))
 from github_link import make_linkcode_resolve
 
@@ -40,7 +41,7 @@ release = ""
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["sphinx.ext.autodoc", "numpydoc", "sphinx.ext.linkcode"]
+extensions = ["sphinx.ext.autodoc", "sphinx.ext.napoleon", "sphinx.ext.linkcode"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -193,8 +194,13 @@ html_context = {
 
 linkcode_resolve = make_linkcode_resolve(
     "RerF",
-    u"https://github.com/neurodata/"
-    "RerF/blob/{revision}/"
-    "Python/{path}#L{lineno}",
+    u"https://github.com/neurodata/" "RerF/blob/{revision}/" "Python/{path}#L{lineno}",
 )
+
+napoleon_numpy_docstring = True
+
+
+def setup(app):
+    # to hide/show the prompt in code examples:
+    app.add_javascript("js/copybutton.js")
 
