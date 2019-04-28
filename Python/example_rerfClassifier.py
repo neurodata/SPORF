@@ -1,22 +1,59 @@
+# this example is from https://www.datacamp.com/community/tutorials/random-forests-classifier-python
+# except with rerfClassifier instead of sklearn's RandomForestClassifier
+
 from rerfClassifier import rerfClassifier
-from sklearn.datasets import make_classification
 
-X, y = make_classification(
-    n_samples=1000,
-    n_features=4,
-    n_informative=2,
-    n_redundant=0,
-    random_state=0,
-    shuffle=False,
+# Import scikit-learn dataset library
+from sklearn import datasets
+
+# Load dataset
+iris = datasets.load_iris()
+
+
+# print the label species(setosa, versicolor,virginica)
+print(iris.target_names)
+
+# print the names of the four features
+print(iris.feature_names)
+
+# Creating a DataFrame of given iris dataset.
+import pandas as pd
+
+data = pd.DataFrame(
+    {
+        "sepal length": iris.data[:, 0],
+        "sepal width": iris.data[:, 1],
+        "petal length": iris.data[:, 2],
+        "petal width": iris.data[:, 3],
+        "species": iris.target,
+    }
 )
+print(data.head())
 
-clf = rerfClassifier(n_estimators=100, max_depth=2, random_state=0)
-clf.fit(X, y)
+# Import train_test_split function
+from sklearn.model_selection import train_test_split
 
-print(clf.predict([0, 0, 0, 0]))
-print(clf.predict_proba([0, 0, 0, 0]))
+X = data[["sepal length", "sepal width", "petal length", "petal width"]]  # Features
+y = data["species"]  # Labels
+
+# Split dataset into training set and test set
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3
+)  # 70% training and 30% test
+
+
+# Create a Gaussian Classifier
+clf = rerfClassifier(n_estimators=100)
+
 print(clf)
 
-from sklearn.utils.estimator_checks import check_estimator
+# Train the model using the training sets y_pred=clf.predict(X_test)
+clf.fit(X_train, y_train)
 
-check_estimator(rerfClassifier)
+y_pred = clf.predict(X_test)
+
+# Import scikit-learn metrics module for accuracy calculation
+from sklearn import metrics
+
+# Model Accuracy, how often is the classifier correct?
+print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
