@@ -17,13 +17,20 @@ def data():
 def test_template_classifier(data):
     X, y = data
     clf = rerfClassifier()
+    assert clf.projection_matrix == "RerF"
     assert clf.n_estimators == 500
+    assert clf.max_depth == None
+    assert clf.min_parent == 1
+    assert clf.max_features == "auto"
+    assert clf.feature_combinations == 1.5
+    assert clf.n_jobs == None
+    assert clf.random_state == None
 
     clf.fit(X, y)
     assert hasattr(clf, "classes_")
     assert hasattr(clf, "X_")
     assert hasattr(clf, "y_")
 
-    y_pred = clf.predict(X, y)
+    y_pred = clf.predict(X)
 
-    assert y_pred.shape == (X.shape[0],)
+    assert len(y_pred) == X.shape[0]

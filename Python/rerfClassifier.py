@@ -1,11 +1,11 @@
 import multiprocessing
 
 import numpy as np
+from sklearn.base import BaseEstimator, ClassifierMixin
+from sklearn.utils.multiclass import unique_labels
+from sklearn.utils.validation import check_array, check_is_fitted, check_X_y
 
 import pyfp
-
-
-from sklearn.base import BaseEstimator, ClassifierMixin
 
 
 class rerfClassifier(BaseEstimator, ClassifierMixin):
@@ -126,11 +126,8 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         
         """
 
-        # validation
-        X = np.asarray(X)
-        y = np.asarray(y)
-        if X.shape[0] != y.shape[0]:
-            raise ValueError("X and y need to have the same number of rows")
+        # Check that X and y have correct shape
+        X, y = check_X_y(X, y)
 
         # setup the forest's parameters
         self.forest_ = pyfp.fpForest()
@@ -188,6 +185,11 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
 
         self.forest_._growForestnumpy(X, y.tolist(), num_obs, num_features)
 
+        # Store the classes seen during fit
+        self.classes_ = unique_labels(y)
+
+        self.X_ = X
+        self.y_ = y
         return self
 
     def predict(self, X):
@@ -204,7 +206,11 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
             depending on input parameters.
         """
 
-        X = np.asarray(X)
+        # Check is fit had been called
+        check_is_fitted(self, ["X_", "y_"])
+
+        # Input validation
+        X = check_array(X)
 
         if X.ndim == 1:
             predictions = self.forest_._predict(X.tolist())
@@ -228,7 +234,11 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
             classes corresponds to that in the attribute `classes_`.
         """
 
-        X = np.asarray(X)
+        # Check is fit had been called
+        check_is_fitted(self, ["X_", "y_"])
+
+        # Input validation
+        X = check_array(X)
 
         if X.ndim == 1:
             y = self.forest_._predict_post(X.tolist())
@@ -238,4 +248,3 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
             y_arr = np.asarray(y)
             y_prob = y_arr / y_arr.sum(1)[:, None]
         return y_prob
-
