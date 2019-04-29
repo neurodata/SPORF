@@ -112,10 +112,14 @@ def fastRerF(
     forestClass.setParameter("seed", seed)
 
     if CSVFile is not None and Ycolumn is not None:
+        forestClass.setParameter("useRowMajor", 0)
         forestClass.setParameter("CSVFileName", CSVFile)
         forestClass.setParameter("columnWithY", Ycolumn)
         forestClass._growForest()
     elif X is not None and Y is not None:
+        # explicitly say we are using rowMajor
+        forestClass.setParameter("useRowMajor", 1)
+
         num_obs = len(Y)
         num_features = X.shape[1]
         forestClass._growForestnumpy(X, Y, num_obs, num_features)
@@ -124,7 +128,11 @@ def fastRerF(
 
 
 def fastPredict(X, forest):
-    """Runs a prediction on a forest with a given set of data.
+    """Predict class for X.
+
+    The predicted class of an input sample is the majority vote by the 
+    trees in the forest where each vote is the majority class of each 
+    tree's leaf node.
     
     Parameters
     ----------
@@ -142,14 +150,54 @@ def fastPredict(X, forest):
 
     Examples
     --------
-    >>> fastPredict(np.array([0, 0, 0, 0]), forest)
+    >>> fastPredict([0, 1, 2, 3], forest)
     """
+
+    X = np.asarray(X)
 
     if X.ndim == 1:
         predictions = forest._predict(X.tolist())
     else:
         predictions = forest._predict_numpy(X)
     return predictions
+
+
+def fastPredictPost(X, forest):
+    """Predict class probabilities for X.
+
+    The predicted class probabilities of an input sample are computed as 
+    the normalized votes of each tree in the forest.  
+    
+    Parameters
+    ----------
+    X : array_like
+        Numpy ndarray of data, if more than 1 row, run multiple 
+        predictions.
+    forest : pyfp.fpForest
+        Forest to run predictions on
+
+    Returns
+    -------
+    posterior_probabilities : list of ints, shape = [n_classes] or array, shape = [n_samples, n_classes]
+        Returns the class probabilities for a single observation (list) or 
+        numpy array of class probabilities for each observation depending 
+        on input parameters.
+
+    Examples
+    --------
+    >>> fastPredictPost([0, 1, 2, 3], forest)
+    """
+
+    X = np.asarray(X)
+
+    if X.ndim == 1:
+        y = forest._predict_post(X.tolist())
+        y_prob = [p / sum(y) for p in y]
+    else:
+        y = forest._predict_post_array(X)
+        y_arr = np.asarray(y)
+        y_prob = y_arr / y_arr.sum(1)[:, None]
+    return y_prob
 
 
 if __name__ == "__main__":
