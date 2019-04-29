@@ -78,13 +78,19 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
     ...    random_state=0,
     ...    shuffle=False,
     ... )
-
     >>> clf = rerfClassifier(n_estimators=100, max_depth=2, random_state=0)
     >>> clf.fit(X, y)
-
-    >>> print(clf.predict([0, 0, 0, 0]))
-    >>> print(clf.predict_proba([0, 0, 0, 0]))
-    >>> print(clf)
+    starting tree 1
+    max depth: 2
+    avg leaf node depth: 1.9899
+    num leaf nodes: 396
+    rerfClassifier(feature_combinations=1.5, max_depth=2, max_features='auto',
+            min_parent=1, n_estimators=100, n_jobs=None,
+            projection_matrix='RerF', random_state=0)
+    >>> print(clf.predict([[0, 0, 0, 0]]))
+    [1]
+    >>> print(clf.predict_proba([[0, 0, 0, 0]]))
+    [[0.2 0.8]]
 
     Notes
     -----
