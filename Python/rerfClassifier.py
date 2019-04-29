@@ -1,4 +1,5 @@
 import multiprocessing
+from warnings import warn
 
 import numpy as np
 from sklearn.base import BaseEstimator, ClassifierMixin
@@ -135,6 +136,23 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         # Check that X and y have correct shape
         X, y = check_X_y(X, y)
 
+        y = np.atleast_1d(y)
+        if y.ndim == 2 and y.shape[1] == 1:
+            warn(
+                "A column-vector y was passed when a 1d array was"
+                " expected. Please change the shape of y to "
+                "(n_samples,), for example using ravel().",
+                DataConversionWarning,
+                stacklevel=2,
+            )
+
+        if y.ndim == 1:
+            # reshape is necessary to preserve the data contiguity against vs
+            # [:, np.newaxis] that does not.
+            y = np.reshape(y, (-1, 1))
+
+        self.n_outputs_ = y.shape[1]
+
         # setup the forest's parameters
         self.forest_ = pyfp.fpForest()
 
@@ -254,3 +272,31 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
             y_arr = np.asarray(y)
             y_prob = y_arr / y_arr.sum(1)[:, None]
         return y_prob
+
+    def predict_log_proba(self, X):
+        """Predict class log-probabilities for X.
+        The predicted class log-probabilities of an input sample is computed as
+        the log of the mean predicted class probabilities of the trees in the
+        forest.
+        Parameters
+        ----------
+        X : array-like or sparse matrix of shape = [n_samples, n_features]
+            The input samples. Internally, its dtype will be converted to
+            ``dtype=np.float32``.
+        Returns
+        -------
+        p : array of shape = [n_samples, n_classes], or a list of n_outputs
+            such arrays if n_outputs > 1.
+            The class probabilities of the input samples. The order of the
+            classes corresponds to that in the attribute `classes_`.
+        """
+        proba = self.predict_proba(X)
+
+        if self.n_outputs_ == 1:
+            return np.log(proba)
+
+        else:
+            for k in range(self.n_outputs_):
+                proba[k] = np.log(proba[k])
+
+            return proba
