@@ -19,7 +19,14 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
     The difference between the two algorithms is where the random linear 
     combinations occur: Random Forest combines features at the tree level 
     whereas RerF combines features at the node level.
+
+    There are two new parameters to be aware of:
+        
+        - ``projection_matrix``
+        - ``feature_combinations``
     
+    For more information, see :ref:`Parameters <rerfClassifier_params>`.
+
     References
     ----------
     .. [#Breiman] Breiman (2001).
@@ -28,13 +35,16 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
     .. [#Tomita] Tomita et al. (2016).
         https://arxiv.org/abs/1506.03410
 
+    .. _`rerfClassifier_params`:
     Parameters
     ----------
     projection_matrix : str, optional (default: "RerF")
-        The type of random combination of features to use: "RerF", "Base"
-        See Tomita et al. (2016) [#Tomita]_ for further details. 
+        The type of random combination of features to use: either "RerF" or
+        "Base".  See Tomita et al. (2016) [#Tomita]_ for further details. 
     n_estimators : int, optional (default: 500)
         Number of trees in forest.
+
+        Note: This differs from scikit-learn's default of 100.
     max_depth : int or None, optional (default=None)
         The maximum depth of the tree. If None, then nodes are expanded 
         until all leaves are pure or until all leaves contain less than 
@@ -278,11 +288,13 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         The predicted class log-probabilities of an input sample is computed as
         the log of the mean predicted class probabilities of the trees in the
         forest.
+
         Parameters
         ----------
         X : array-like or sparse matrix of shape = [n_samples, n_features]
             The input samples. Internally, its dtype will be converted to
             ``dtype=np.float32``.
+        
         Returns
         -------
         p : array of shape = [n_samples, n_classes], or a list of n_outputs
