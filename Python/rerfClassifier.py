@@ -5,6 +5,7 @@ import numpy as np
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.utils.multiclass import unique_labels
 from sklearn.utils.validation import check_array, check_is_fitted, check_X_y
+from sklearn.exceptions import DataConversionWarning
 
 import pyfp
 
@@ -161,8 +162,6 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
             # [:, np.newaxis] that does not.
             y = np.reshape(y, (-1, 1))
 
-        self.n_outputs_ = y.shape[1]
-
         # setup the forest's parameters
         self.forest_ = pyfp.fpForest()
 
@@ -217,7 +216,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         # Explicitly setting for numpy input
         self.forest_.setParameter("useRowMajor", 1)
 
-        self.forest_._growForestnumpy(X, y.tolist(), num_obs, num_features)
+        self.forest_._growForestnumpy(X, y, num_obs, num_features)
 
         # Store the classes seen during fit
         self.classes_ = unique_labels(y)
@@ -304,11 +303,4 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         """
         proba = self.predict_proba(X)
 
-        if self.n_outputs_ == 1:
-            return np.log(proba)
-
-        else:
-            for k in range(self.n_outputs_):
-                proba[k] = np.log(proba[k])
-
-            return proba
+        return np.log(proba)
