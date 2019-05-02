@@ -52,8 +52,8 @@ namespace fp{
 
 					int tempSwap;
 
-                                        // This is an efficient way to shuffle the first "mtry" elements of the feature vector
-                                        // in order to sample features w/o replacement.
+                    // This is an efficient way to shuffle the first "mtry" elements of the feature vector
+                    // in order to sample features w/o replacement.
 					for(int locationToMove = 0; locationToMove < fpSingleton::getSingleton().returnMtry(); locationToMove++){
 						int randomPosition = randNum->gen(fpSingleton::getSingleton().returnNumFeatures()-locationToMove)+locationToMove;
 						tempSwap = featuresToTry[locationToMove];
@@ -81,11 +81,13 @@ namespace fp{
 
 				inline void calcMtryForNode(std::vector<weightedFeature>& featuresToTry){
 					//add this to fpInfo so user can set if needed.
-					int methodToUse = 1;
+					int methodToUse = 2;
 					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
 					switch(methodToUse){
-						case 1:
-							int rndMtry;
+                        // We're creating the random
+                        // weights here
+						int rndMtry;
+						case 1: {
 							int rndFeature;
 							int rndWeight;
 							int mtryDensity = (int)((double)fpSingleton::getSingleton().returnMtry() * fpSingleton::getSingleton().returnMtryMult());
@@ -98,8 +100,58 @@ namespace fp{
 								featuresToTry[rndMtry].returnWeights().push_back(rndWeight);
 							}
 							break;
-					}
+						}
+                        case 2: { // JLP WORKING BLOCK
+							int patchWidthMax = 10; // need to transfer to fpInfo.
+							int patchWidthMin =  3; // need to transfer to fpInfo.
+							int patchHeightMax = 10; // need to transfer to fpInfo.
+							int patchHeightMin = 3; // need to transfer to fpInfo.
 
+                            int imageHeight = 28; // Image dimension hard coded for now, should be updated in fpInfo.
+                            int imageWidth = 28;  // Image dimension hard coded for now, should be updated in fpInfo.
+
+							int rndWeight;
+							int rndHeight;
+							int rndWidth;
+							int deltaH;
+							int deltaW;
+
+                            int topLeftSeed;
+                            int topLeft;
+							int pixelIndex;
+							//int mtryDensity = (int)((double)fpSingleton::getSingleton().returnMtry() * fpSingleton::getSingleton().returnMtryMult());
+
+							// Check that parameters are set peroperly.
+							assert(patchHeightMax >= patchHeightMin);
+							assert(patchWidthMax >= patchWidthMin);
+
+							for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); ++k){
+								rndHeight = randNum->gen(patchHeightMax - patchHeightMin + 1) + patchHeightMin; //sample from [patchHeightMin, patchHeightMax]
+								rndWidth  = randNum->gen(patchWidthMax - patchWidthMin + 1) + patchWidthMin;    //sample from [patchWidthMin, patchWidthMax]
+								rndWeight = 1; //Hard-coded for now.
+								deltaH = imageHeight - rndHeight + 1;
+							    deltaW = imageWidth - rndWidth + 1;
+								// Using the above, 1-pixel patches are possible ... [JLP]
+
+								// Sample the seed for the top left pixel of the current random patch from available pixels in the buffered region.
+								topLeftSeed = randNum->gen(deltaH * deltaW);
+								// Convert the seed value to it's appropriate index in the full space.
+ 								topLeft = (topLeftSeed % deltaW) + (imageWidth * floor(topLeftSeed / deltaW));
+ 								assert(topLeft < imageHeight * imageWidth);
+
+
+								for (int j = 0; j < rndHeight; j++) {
+									for (int i = 0; i < rndWidth; i++) {
+										pixelIndex = topLeft + i + (imageWidth * j);
+										assert(pixelIndex < (imageWidth*imageHeight) & pixelIndex >= 0);
+										featuresToTry[k].returnFeatures().push_back(pixelIndex);
+										featuresToTry[k].returnWeights().push_back(rndWeight);
+										}
+								} // Could possibly turn this into one for-loop somehow later. [JLP]
+							}
+							break;
+						}
+					}
 				}
 
 				inline void resetLeftNode(){
