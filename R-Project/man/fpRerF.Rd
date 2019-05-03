@@ -8,7 +8,10 @@ fpRerF(X = NULL, Y = NULL, csvFileName = NULL, columnWithY = NULL,
   maxDepth = Inf, minParent = 1, numTreesInForest = 500,
   numCores = 1, numTreeBins = NULL, forestType = "binnedBaseRerF",
   nodeSizeToBin = NULL, nodeSizeBin = NULL, mtry = NULL,
-  mtryMult = NULL, seed = sample(1:1e+06, 1))
+  mtryMult = NULL, seed = sample(1:1e+06, 1), methodToUse = 0,
+  imageHeight = 0, imageWidth = 0, patchHeightMax = imageHeight - 1,
+  patchHeightMin = 1, patchWidthMax = imageWidth - 1,
+  patchWidthMin = 1)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame used to train the forest.}
@@ -29,17 +32,29 @@ fpRerF(X = NULL, Y = NULL, csvFileName = NULL, columnWithY = NULL,
 
 \item{numTreeBins}{the number of bins to store the forest.  Each bin will contain numTreesInForest/numTreeBins trees.  Only used when forestType=="binned*" (numTreeBins= numCores)}
 
-\item{forestType}{the type of forest to grow: binnedBase, binnedBaseRerF (forestType="binnedBaseRerF")}
+\item{forestType}{the type of forest to grow: binnedBase, binnedBaseRerF, binnedBaseTern, rfBase, rerf (forestType="binnedBaseRerF")}
 
 \item{mtry}{the number of features to consider when splitting a node (mtry=ncol(X)^.5)}
 
 \item{mtryMult}{the average number of features combined to form a new feature when using RerF (mtryMult=1)}
 
+\item{methodToUse}{int to pass in when using \code{forestType = "binnedBaseTern"}. 1 = Ternary, 2 = Structured-RerF.}
+
+\item{imageHeight}{int for use in Structured-RerF.}
+
+\item{imageWidth}{int for use in Structured-RerF.}
+
+\item{patchHeightMax}{int  for use in Structured-RerF.}
+
+\item{patchHeightMin}{int for use in Structured-RerF.}
+
+\item{patchWidthMax}{int for use in Structured-RerF.}
+
+\item{patchWidthMin}{int for use in Structured-RerF.}
+
 \item{NodeSizeToBin}{the minimum node size to use stratified subsampling (NodeSizeToBin=NULL)}
 
 \item{NodeSizeBin}{the size of the stratified subsample chosen when NodeSizeToBin criteria is met (NodeSizeBin=NULL)}
-
-\item{forestType}{the type of forest to grow: binnedBase, binnedBaseRerF, rfBase, rerf (forestType="binnedBaseRerF")}
 }
 \description{
 Efficiently packs a forest trained with the RF option.  Two intermediate data structures are written to disk, forestPackTempFile.csv and traversalPackTempFile.csv.  The size of these data structures is proportional to a trained forest and training data respectively.  Both data structures are removed at the end of the operation.  The resulting forest is saved as forest.out.  The size of this file is similar to the size of the trained forest.
