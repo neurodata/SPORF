@@ -72,6 +72,20 @@ int main(int argc, char* argv[]) {
 					forest.setParameter("forestType", "binnedBaseTern");
 					forest.setParameter("numTreeBins", numCores);
 					break;
+				case 12:
+					forest.setParameter("forestType", "binnedBaseTern");
+					forest.setParameter("numTreeBins", numCores);
+					forest.setParameter("methodToUse", 2);
+					forest.setParameter("imageHeight", 28);
+					forest.setParameter("imageWidth", 28);
+					forest.setParameter("patchHeightMax", 20);
+					forest.setParameter("patchHeightMin", 1);
+					forest.setParameter("patchWidthMax", 20);
+					forest.setParameter("patchWidthMin", 1);
+					std::cout << "\nForcing dataset to be MNIST:\n";
+					dataSet = 3;
+					break;
+
 
 				default:
 					std::cout << "unknown alg selected" << std::endl;
@@ -125,7 +139,8 @@ int main(int argc, char* argv[]) {
 			forest.printParameters();
 			forest.printForestType();
 
-			std::cout << "error: " << forest.testAccuracy() << "\n";
+			std::cout << "training error: " << forest.testAccuracy() << "\n";
+
 
 		}catch(std::exception& e){
 			std::cout << "standard error: " << e.what() << std::endl;

@@ -81,7 +81,7 @@ namespace fp{
 
 				inline void calcMtryForNode(std::vector<weightedFeature>& featuresToTry){
 					//add this to fpInfo so user can set if needed.
-					int methodToUse = 2;
+					const int &methodToUse = fpSingleton::getSingleton().returnMethodToUse();
 					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
 					switch(methodToUse){
                         // We're creating the random
@@ -102,15 +102,23 @@ namespace fp{
 							break;
 						}
                         case 2: { // JLP WORKING BLOCK
-							int patchWidthMax = 10; // need to transfer to fpInfo.
-							int patchWidthMin =  3; // need to transfer to fpInfo.
-							int patchHeightMax = 10; // need to transfer to fpInfo.
-							int patchHeightMin = 3; // need to transfer to fpInfo.
 
-                            int imageHeight = 28; // Image dimension hard coded for now, should be updated in fpInfo.
-                            int imageWidth = 28;  // Image dimension hard coded for now, should be updated in fpInfo.
+							// Preset parameters
+							const int& imageHeight = fpSingleton::getSingleton().returnImageHeight();
+							const int& imageWidth = fpSingleton::getSingleton().returnImageWidth();
 
+							const int& patchHeightMax = fpSingleton::getSingleton().returnPatchHeightMax();
+							const int& patchHeightMin = fpSingleton::getSingleton().returnPatchHeightMin();
+							const int& patchWidthMax  = fpSingleton::getSingleton().returnPatchWidthMax();
+							const int& patchWidthMin  = fpSingleton::getSingleton().returnPatchWidthMin();
+
+							// Check that parameters are set peroperly.
+							assert(patchHeightMax >= patchHeightMin);
+							assert(patchWidthMax >= patchWidthMin);
+
+							// Variables for use in the loops.
 							int rndWeight;
+
 							int rndHeight;
 							int rndWidth;
 							int deltaH;
@@ -119,22 +127,23 @@ namespace fp{
                             int topLeftSeed;
                             int topLeft;
 							int pixelIndex;
-							//int mtryDensity = (int)((double)fpSingleton::getSingleton().returnMtry() * fpSingleton::getSingleton().returnMtryMult());
 
-							// Check that parameters are set peroperly.
-							assert(patchHeightMax >= patchHeightMin);
-							assert(patchWidthMax >= patchWidthMin);
 
 							for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); ++k){
 								rndHeight = randNum->gen(patchHeightMax - patchHeightMin + 1) + patchHeightMin; //sample from [patchHeightMin, patchHeightMax]
-								rndWidth  = randNum->gen(patchWidthMax - patchWidthMin + 1) + patchWidthMin;    //sample from [patchWidthMin, patchWidthMax]
-								rndWeight = 1; //Hard-coded for now.
-								deltaH = imageHeight - rndHeight + 1;
-							    deltaW = imageWidth - rndWidth + 1;
+								rndWidth  = randNum->gen(patchWidthMax - patchWidthMin + 1) +  patchWidthMin;    //sample from [patchWidthMin, patchWidthMax]
 								// Using the above, 1-pixel patches are possible ... [JLP]
 
-								// Sample the seed for the top left pixel of the current random patch from available pixels in the buffered region.
+								// The weight is currently hard-coded to 1.
+								rndWeight = 1;
+
+								// compute the difference between the image dimensions and the current random patch dimensions for sampling
+								deltaH = imageHeight - rndHeight + 1;
+							    deltaW = imageWidth - rndWidth + 1;
+
+								// Sample the top left pixel from the available pixels (due to buffering).
 								topLeftSeed = randNum->gen(deltaH * deltaW);
+
 								// Convert the seed value to it's appropriate index in the full space.
  								topLeft = (topLeftSeed % deltaW) + (imageWidth * floor(topLeftSeed / deltaW));
  								assert(topLeft < imageHeight * imageWidth);
