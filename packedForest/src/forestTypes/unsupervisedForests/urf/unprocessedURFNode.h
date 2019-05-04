@@ -28,13 +28,6 @@ namespace fp{
 				unprocessedURFNode(int numObsForRoot): baseUnprocessedNodeUnsupervised<T>::baseUnprocessedNodeUnsupervised(numObsForRoot), featuresToTry(fpSingleton::getSingleton().returnMtry()){}
 
 
-//				unprocessedURFNode(int parentID, int dep, bool isLeft): baseUnprocessedNodeUnsupervised<T>::baseUnprocessedNodeUnsupervised(parentID, dep, isLeft), featuresToTry(fpSingleton::getSingleton().returnMtry()){
-				unprocessedURFNode(int parentID, int dep, bool isLeft): baseUnprocessedNodeUnsupervised<T>::baseUnprocessedNodeUnsupervised(parentID, dep, isLeft){
-//				featuresToTry.reserve(fpSingleton::getSingleton().returnNumFeatures()); 
-				//featuresToTry.reserve(fpSingleton::getSingleton().returnNumFeatures()); 
-}
-
-
 				~unprocessedURFNode(){}
 				
 
@@ -147,10 +140,10 @@ namespace fp{
 
 
 					for (int i=0; i < baseUnprocessedNodeUnsupervised<T>::obsIndices->returnOutSampleSize();++i){
-						if(goLeft(baseUnprocessedNodeUnsupervised<T>::obsIndices->returnInSample(i))){
-							baseUnprocessedNodeUnsupervised<T>::leftIndices->addIndexToOutSamples(baseUnprocessedNodeUnsupervised<T>::obsIndices->returnInSample(i));	
+						if(goLeft(baseUnprocessedNodeUnsupervised<T>::obsIndices->returnOutSample(i))){
+							baseUnprocessedNodeUnsupervised<T>::leftIndices->addIndexToOutSamples(baseUnprocessedNodeUnsupervised<T>::obsIndices->returnOutSample(i));	
 						}else{
-							baseUnprocessedNodeUnsupervised<T>::rightIndices->addIndexToOutSamples(baseUnprocessedNodeUnsupervised<T>::obsIndices->returnInSample(i));	
+							baseUnprocessedNodeUnsupervised<T>::rightIndices->addIndexToOutSamples(baseUnprocessedNodeUnsupervised<T>::obsIndices->returnOutSample(i));	
 						}
 					}
 					deleteObsIndices();

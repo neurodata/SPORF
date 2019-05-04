@@ -8,12 +8,12 @@
 
 namespace fp{
 
-	//class stratifiedInNodeClassIndicesUnsupervised : public stratifiedInNodeClassIndices
 	class stratifiedInNodeClassIndicesUnsupervised : public stratifiedInNodeClassIndices
 	{
 		private:
 			std::vector<std::vector<int> > inSamples;
 			std::vector<int> inSamps;
+			std::vector<int> outSamps;
 			std::vector<std::vector<int> > outSamples;
 			std::vector<int> binSamples;
 			int inSampleSize;
@@ -26,16 +26,14 @@ namespace fp{
 
 			stratifiedInNodeClassIndicesUnsupervised(const int &numObservationsInDataSet): inSamples(fpSingleton::getSingleton().returnNumClasses()), outSamples(fpSingleton::getSingleton().returnNumClasses()), inSampleSize(0), outSampleSize(0){
 
-				createInAndOutSets(numObservationsInDataSet);
-
-				for(auto inSamps : inSamples){
-					inSampleSize += inSamps.size();
+				createInAndOutSetsBagging(numObservationsInDataSet, 0.2);
+				for(auto inSamps1 : inSamples){
+					inSampleSize += inSamps1.size();
 				}
 
-				for(auto outSamps : outSamples){
-					outSampleSize += outSamples.size();
+				for(auto outSamps1 : outSamples){
+					outSampleSize += outSamps1.size();
 				}
-
 			}
 
 
@@ -68,7 +66,45 @@ namespace fp{
 
 				for(int n=0; n<numUnusedObs; ++n){
 					outSamples[fpSingleton::getSingleton().returnLabel(potentialSamples[randomObsID])].push_back(potentialSamples[n]);
+				
+					outSamps.push_back(potentialSamples[n]);
+					}
+				
+			}
+
+			inline void createInAndOutSetsBagging(const int &numObs, float bagging){
+                                //TODO: We might want to refactor this when we move this over to the binned version.
+				std::vector<int> random_indices(numObs);
+				std::vector<int> random_indices2;
+				std::vector<int> random_indices3;
+
+				for(int i=0; i < numObs; ++i){
+					random_indices[i] = i;
 				}
+				std::random_shuffle(random_indices.begin(), random_indices.end());
+				int indx = (int) ((1-bagging)*(float)numObs);
+				int counter = 0;
+				for(auto i : random_indices)
+				{
+					if(counter < indx)
+						random_indices2.push_back(i);
+					else
+						random_indices3.push_back(i);
+					counter++;
+				}
+				
+				for(auto randomObsID : random_indices2)
+				{
+					inSamples[fpSingleton::getSingleton().returnLabel(randomObsID)].push_back(randomObsID);
+                                        inSamps.push_back(randomObsID);
+				}
+				//std::cout<<"random_indices3 size: "<<random_indices3.size()<<"\n";
+				for(auto randomObsID2 : random_indices3)
+				{
+					outSamples[fpSingleton::getSingleton().returnLabel(randomObsID2)].push_back(randomObsID2);
+					outSamps.push_back(randomObsID2);
+				}
+				
 			}
 
 
@@ -114,6 +150,10 @@ namespace fp{
 				return inSamps;
 			} 
 
+			inline std::vector<int> returnOutSampsVec(){
+				return outSamps;
+			} 
+
 			inline int returnInSampleSize(){
 				return inSampleSize;
 			}
@@ -146,8 +186,10 @@ namespace fp{
 					 */
 			}
 
-
 			inline int returnOutSample(const int numSample){
+				return outSamps[numSample];
+			}
+			/*inline int returnOutSample(const int numSample){
 				int totalViewed = 0;
 				for(unsigned int i = 0; i < outSamples.size(); ++i){
 					if(numSample < totalViewed+int(outSamples[i].size())){
@@ -156,7 +198,7 @@ namespace fp{
 					totalViewed += outSamples[i].size();
 				}
 				return -1;
-			}
+			}*/
 
 
 			inline int returnBinSize(){
@@ -196,11 +238,11 @@ namespace fp{
 			inline void addIndexToOutSamples(int index){
 				++outSampleSize;
 				outSamples[fpSingleton::getSingleton().returnLabel(index)].push_back(index);
+				outSamps.push_back(index);
 			}
 
 			inline void addIndexToInSamples(int index){
 				++inSampleSize;
-				
 				inSamples[fpSingleton::getSingleton().returnLabel(index)].push_back(index);
 				inSamps.push_back(index);
 			}
