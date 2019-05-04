@@ -25,8 +25,11 @@ namespace fp{
 				//Example: auto random_integer = uni(rng);
 
 			public:
-				unprocessedURFNode(int numObsForRoot): baseUnprocessedNodeUnsupervised<T>::baseUnprocessedNodeUnsupervised(numObsForRoot), featuresToTry(fpSingleton::getSingleton().returnMtry()){}
+                                unprocessedURFNode(int numObsForRoot): baseUnprocessedNodeUnsupervised<T>::baseUnprocessedNodeUnsupervised(numObsForRoot), featuresToTry(fpSingleton::getSingleton().returnMtry()){}
 
+
+                                unprocessedURFNode(int parentID, int dep, bool isLeft): baseUnprocessedNodeUnsupervised<T>::baseUnprocessedNodeUnsupervised(parentID, dep, isLeft){
+}
 
 				~unprocessedURFNode(){}
 				
