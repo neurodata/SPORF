@@ -28,11 +28,8 @@ namespace fp{
 					featureValsVec.clear();
 					auto siz_vec = featureVals.size();
 					for(unsigned int i=0; i<siz_vec; ++i){
-						//std::cout<<featureVals.at(i)<<"  ";
 						featureValsVec.push_back(featureVals.at(i));
 					}
-					//pqd_branchless(featureValsVec.begin(), featureValsVec.end());
-					//std::sort(featureValsVec.begin(), featureValsVec.end());
 				}
 
 			public:
@@ -48,11 +45,19 @@ namespace fp{
 					auto pend = featureValsVec.end();
 					
 					//std::sort(featureValsVec.begin(), featureValsVec.end());
+                                        int sizeX = featureValsVec.size();
 					pdqsort_branchless(featureValsVec.begin(), featureValsVec.end());
+				        if(featureValsVec[0] == featureValsVec[sizeX-1]){
+						currSplitInfo.setImpurity(-1);
+				                currSplitInfo.setFeatureNums(featureNum);
+                                                currSplitInfo.setSplitValue(0);
+                                                currSplitInfo.setLeftImpurity(0);
+                                                currSplitInfo.setRightImpurity(0);
+						return currSplitInfo;
+					}
                                         pbegin = featureValsVec.begin();
 					pend = featureValsVec.end();
-                                        int sizeX = featureValsVec.size();
-					featureValsVec.erase(std::remove(pbegin, pend, 0), pend);
+					featureValsVec.erase(std::remove(featureValsVec.begin(), featureValsVec.end(), 0), featureValsVec.end());
                                         int sizeNNZ = featureValsVec.size();
                                         int sizeZ = sizeX - sizeNNZ;
 					int leftSize;
@@ -68,14 +73,6 @@ namespace fp{
                                         std::vector<T> errVec(pbegin, pend);
 
 					if (sizeNNZ - 1 <= 0){
-						return currSplitInfo;
-					}
-				        if(featureValsVec[0] == featureValsVec[sizeX-1]){
-						currSplitInfo.setImpurity(-1);
-				                currSplitInfo.setFeatureNums(featureNum);
-                                                currSplitInfo.setSplitValue(0);
-                                                currSplitInfo.setLeftImpurity(0);
-                                                currSplitInfo.setRightImpurity(0);
 						return currSplitInfo;
 					}
 

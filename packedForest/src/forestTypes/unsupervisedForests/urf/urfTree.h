@@ -34,7 +34,7 @@ namespace fp{
 				}
 
 				inline bool shouldProcessNode(){
-					if(nodeQueue.back().returnNodeImpurity()==0){
+					if(nodeQueue.back().returnNodeImpurity()<=0){
 						return false;
 					}
 					if(nodeQueue.back().returnInSampleSize() <= fpSingleton::getSingleton().returnMinParent()){
@@ -67,6 +67,7 @@ return false;
 				inline int returnMaxDepth(){
 					int maxDepth=0;
 					for(auto nodes : tree){
+						//maxDepth++;
 						if(maxDepth < nodes.returnDepth()){
 							maxDepth = nodes.returnDepth();
 						}
@@ -86,22 +87,50 @@ return false;
 				}
 
 				inline void updateSimMat(std::map<int, std::map<int, int> > &simMat, std::map<std::pair<int, int>, double> &pairMat){
-
 					for(auto nodes : leafNodes){
 						stratifiedInNodeClassIndicesUnsupervised* obsI = nodes.returnObsIndices();
 						std::vector<int> leafObs;
+						std::vector<int> leafObsOut;
 						leafObs = obsI->returnInSampsVec();
+						leafObsOut = obsI->returnOutSampsVec();
 						auto siz = leafObs.size();
 						if (siz <= 0)
-							return;
-						for(unsigned int i = 0; i < siz-1; ++i) {
-							for (unsigned int j=i+1; j<siz; ++j) {
+							continue;
+						for(unsigned int i = 0; i < siz; ++i) {
+							for (unsigned int j=0; j<=i; ++j) {
+								std::pair<int, int> pair1 = std::make_pair(leafObs[i], leafObs[j]);
+								
+									if(pairMat.count(pair1) > 0){
+										#pragma omp critical
+										{
+											pairMat[pair1]++;
+										}
+									}
+									else{
+										#pragma omp critical
+										{
+											pairMat.insert({pair1, 1});
+										}
+									}
+								}
+							}
+						}
+					}
+				inline void updateSimMatOut(std::map<int, std::map<int, int> > &simMat, std::map<std::pair<int, int>, double> &pairMat){
+					for(auto nodes : leafNodes){
+						stratifiedInNodeClassIndicesUnsupervised* obsI = nodes.returnObsIndices();
+						std::vector<int> leafObs;
+
+						leafObs = obsI->returnOutSampsVec();
+						auto siz = leafObs.size();
+						if (siz <= 0)
+							continue;
+
+						for(unsigned int i = 0; i < siz; ++i) {
+							for (unsigned int j=0; j<=i; ++j) {
+								std::pair<int, int> pair1 = std::make_pair(leafObs[i], leafObs[j]);
 								#pragma omp critical
 								{
-       auto exists = simMat[leafObs[i]].emplace(leafObs[j], 1);
-                                                                if(!exists.second)
-                                                                        simMat[leafObs[i]][leafObs[j]]++;
-								std::pair<int, int> pair1 = std::make_pair(leafObs[i], leafObs[j]);
 								auto it = pairMat.find(pair1);
 								if(it!=pairMat.end())
 									pairMat[pair1]++;
@@ -128,6 +157,7 @@ return false;
 					tree.back().setClass(nodeQueue.back().returnMaxClass());
 					tree.back().setDepth(nodeQueue.back().returnDepth());
 				}
+
 
 
 				inline void checkOOB(){
