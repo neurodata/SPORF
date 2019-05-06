@@ -52,8 +52,8 @@ namespace fp{
 
 					int tempSwap;
 
-                    // This is an efficient way to shuffle the first "mtry" elements of the feature vector
-                    // in order to sample features w/o replacement.
+					// This is an efficient way to shuffle the first "mtry" elements of the feature vector
+					// in order to sample features w/o replacement.
 					for(int locationToMove = 0; locationToMove < fpSingleton::getSingleton().returnMtry(); locationToMove++){
 						int randomPosition = randNum->gen(fpSingleton::getSingleton().returnNumFeatures()-locationToMove)+locationToMove;
 						tempSwap = featuresToTry[locationToMove];
@@ -84,8 +84,8 @@ namespace fp{
 					const int &methodToUse = fpSingleton::getSingleton().returnMethodToUse();
 					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
 					switch(methodToUse){
-                        // We're creating the random
-                        // weights here
+					// We're creating the random
+					// weights here
 						int rndMtry;
 						case 1: {
 							int rndFeature;
@@ -145,8 +145,8 @@ namespace fp{
 								topLeftSeed = randNum->gen(deltaH * deltaW);
 
 								// Convert the seed value to it's appropriate index in the full space.
- 								topLeft = (topLeftSeed % deltaW) + (imageWidth * floor(topLeftSeed / deltaW));
- 								assert(topLeft < imageHeight * imageWidth);
+								topLeft = (topLeftSeed % deltaW) + (imageWidth * floor(topLeftSeed / deltaW));
+								assert(topLeft < imageHeight * imageWidth);
 
 
 								for (int j = 0; j < rndHeight; j++) {
