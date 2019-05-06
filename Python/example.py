@@ -28,14 +28,10 @@ labels = X[:, label_col]
 #     Ycolumn=label_col,
 #     forestType="binnedBaseRerF",
 #     trees=500,
-#     numCores=cpu_count() - 1,
+#     numCores=cpu_count(),
 # )
 forest = fastRerF(
-    X=feat_data,
-    Y=labels,
-    forestType="binnedBaseRerF",
-    trees=500,
-    numCores=cpu_count() - 1,
+    X=feat_data, Y=labels, forestType="binnedBaseRerF", trees=500, numCores=cpu_count()
 )
 
 forest.printParameters()

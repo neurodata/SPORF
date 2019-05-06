@@ -1,10 +1,24 @@
-from setuptools import setup, Extension
+from setuptools import setup, Extension, find_packages
 from setuptools.command.build_ext import build_ext
 import sys
-import setuptools
+from distutils.errors import CompileError
 import subprocess
 
 __version__ = "0.0.1"
+
+PACKAGE_NAME = "rerf"
+DESCRIPTION = "Randomer Forest (RerF) Python Package"
+with open("../README.md", "r") as f:
+    LONG_DESCRIPTION = f.read()
+URL = "https://github.com/neurodata/RerF"
+AUTHOR_EMAIL = "falk.ben@jhu.edu"
+MINIMUM_PYTHON_VERSION = 3, 6  # Minimum of Python 3.6
+
+
+def check_python_version():
+    """Exit when the Python version is too low."""
+    if sys.version_info < MINIMUM_PYTHON_VERSION:
+        sys.exit("Python {}.{}+ is required.".format(*MINIMUM_PYTHON_VERSION))
 
 
 class get_pybind_include(object):
@@ -49,7 +63,7 @@ def has_flag(compiler, flagname):
         f.write("int main (int argc, char **argv) { return 0; }")
         try:
             compiler.compile([f.name], extra_postargs=[flagname])
-        except setuptools.distutils.errors.CompileError:
+        except CompileError:
             return False
     return True
 
@@ -111,15 +125,22 @@ class BuildExt(build_ext):
         build_ext.build_extensions(self)
 
 
+check_python_version()
+
 with open("requirements.txt") as f:
     required = f.read().splitlines()
 
 setup(
-    name="pyfp",
+    name=PACKAGE_NAME,
     version=__version__,
-    long_description="",
+    description=DESCRIPTION,
+    long_description=LONG_DESCRIPTION,
+    auther_email=AUTHOR_EMAIL,
     ext_modules=ext_modules,
     install_requires=required,
     cmdclass={"build_ext": BuildExt},
     zip_safe=False,
+    url=URL,
+    license="Apache License 2.0",
+    packages=find_packages(),
 )
