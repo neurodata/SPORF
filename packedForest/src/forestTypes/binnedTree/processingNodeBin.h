@@ -101,7 +101,7 @@ namespace fp{
 							}
 							break;
 						}
-                        case 2: { // JLP WORKING BLOCK
+						case 2: { // JLP WORKING BLOCK
 
 							// Preset parameters
 							const int& imageHeight = fpSingleton::getSingleton().returnImageHeight();
