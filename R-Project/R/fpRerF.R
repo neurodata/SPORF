@@ -62,8 +62,8 @@ fpRerF <-
 		forest_module$setParameterString("forestType", forestType)
 		forest_module$setParameterInt("numTreesInForest", numTreesInForest)
 		if(is.finite(maxDepth) && (maxDepth > 0)){
-      forest_module$setParameterInt("maxDepth", maxDepth)
-		} 
+		    forest_module$setParameterInt("maxDepth", maxDepth)
+		}
 		forest_module$setParameterInt("minParent", minParent)
 		forest_module$setParameterInt("numCores", numCores)
 		forest_module$setParameterInt("useRowMajor",0)
