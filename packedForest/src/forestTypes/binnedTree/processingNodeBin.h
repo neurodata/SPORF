@@ -139,7 +139,7 @@ namespace fp{
 
 								// compute the difference between the image dimensions and the current random patch dimensions for sampling
 								deltaH = imageHeight - rndHeight + 1;
-							    deltaW = imageWidth - rndWidth + 1;
+								deltaW = imageWidth - rndWidth + 1;
 
 								// Sample the top left pixel from the available pixels (due to buffering).
 								topLeftSeed = randNum->gen(deltaH * deltaW);
