@@ -124,8 +124,8 @@ namespace fp{
 							int deltaH;
 							int deltaW;
 
-                            int topLeftSeed;
-                            int topLeft;
+							int topLeftSeed;
+							int topLeft;
 							int pixelIndex;
 
 
