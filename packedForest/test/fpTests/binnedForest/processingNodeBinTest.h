@@ -99,3 +99,68 @@ TEST(testProcessingNodeBin, testMtryMult)
 		// }
 	}
 }
+
+
+TEST(processingNodeBinTest, checkStructuredRerF_2d)
+{
+	std::srand(std::time(0));
+	std::string p1 = "CSVFileName";
+	std::string p2 = "../res/mnist.csv";
+	fpSingleton::getSingleton().setParameter(p1, p2);
+	fpSingleton::getSingleton().setParameter("methodToUse", 2);
+	fpSingleton::getSingleton().setParameter("imageHeight", 28);
+	fpSingleton::getSingleton().setParameter("imageWidth", 28);
+	fpSingleton::getSingleton().setParameter("patchHeightMax", 20);
+	fpSingleton::getSingleton().setParameter("patchHeightMin", 2);
+	fpSingleton::getSingleton().setParameter("patchWidthMax", 20);
+	fpSingleton::getSingleton().setParameter("patchWidthMin", 2);
+	fpSingleton::getSingleton().loadData();
+	fpSingleton::getSingleton().setDataDependentParameters();
+
+	int numClasses = fpSingleton::getSingleton().returnNumClasses();
+	int testSize = fpSingleton::getSingleton().returnNumObservations();
+	int numFeatures = fpSingleton::getSingleton().returnNumFeatures();
+
+	std::vector<weightedFeature> wf;
+	randomNumberRerFMWC randNumGen;
+	processingNodeBin<double, weightedFeature> pNB(1, 1, 1, randNumGen);
+
+	std::vector<int> v(fpSingleton::getSingleton().returnImageWidth());
+
+	pNB.calcMtryForNodeTest(wf);
+	EXPECT_EQ((int)wf.size(), fpSingleton::getSingleton().returnMtry());
+	for (auto i : wf)
+	{
+		std::fill(v.begin(), v.end(), 0);
+		for (auto j : i.returnFeatures())
+		{
+			// Get the pixel indices modulo the width
+			++v[j % fpSingleton::getSingleton().returnImageWidth()];
+		}
+		for (auto j : i.returnWeights())
+		{
+			// Expect the weights to all be 1.
+			EXPECT_TRUE(j == 1);
+		}
+
+		std::sort(v.begin(), v.end());
+		
+		std::vector<int> tmp;
+		for (auto k : v)
+		{
+			if (k != 0)
+			{
+				tmp.push_back(k);
+			}
+		}
+
+		int k1 = tmp[0];
+		for (auto k : tmp)
+		{
+			// Expect the table of pixles modulo the width to all be
+			// equal.  i.e. they "line up" in the image.
+			EXPECT_TRUE(k == k1);
+		}
+	}
+}
+
