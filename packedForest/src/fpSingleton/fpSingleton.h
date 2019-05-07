@@ -197,6 +197,37 @@ namespace fp {
 			}
 
 
+			// For the method in teh switch statement
+			inline int returnMethodToUse(){
+			  return fpForestInfo.returnMethodToUse();
+			}
+
+			// For Structured RerF
+			inline int returnImageHeight(){
+			  return fpForestInfo.returnImageHeight();
+			}
+
+			inline int returnImageWidth(){
+			  return fpForestInfo.returnImageWidth();
+			}
+
+			inline int returnPatchHeightMax(){
+			  return fpForestInfo.returnPatchHeightMax();
+			}
+
+			inline int returnPatchHeightMin(){
+			  return fpForestInfo.returnPatchHeightMin();
+			}
+
+			inline int returnPatchWidthMax(){
+			  return fpForestInfo.returnPatchWidthMax();
+			}
+
+			inline int returnPatchWidthMin(){
+			  return fpForestInfo.returnPatchWidthMin();
+			}
+
+
 		private: //These are singleton specific methods
 			fpSingleton(){}
 			//~fpSingleton();

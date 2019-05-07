@@ -27,6 +27,17 @@ namespace fp {
 			double mtryMult;
 			int columnWithY;
 
+			// For use when picking a RandMat implementation
+			int methodToUse;
+
+			// For Structured-RerF
+			int imageHeight;
+			int imageWidth;
+			int patchHeightMin;
+			int patchHeightMax;
+			int patchWidthMin;
+			int patchWidthMax;
+
 			int numberOfNodes;
 			int maxDepth;
 			int sumLeafNodeDepths;
@@ -71,6 +82,13 @@ namespace fp {
 				float_epsilon=std::numeric_limits<float>::epsilon()*10;
 				seed=-1;
 				numTreeBins=-1;
+				methodToUse = 1; // Should this default to 1?
+				imageHeight = 0;
+				imageWidth = 0;
+				patchHeightMin = 0;
+				patchHeightMax = 0;
+				patchWidthMin = 0;
+				patchWidthMax = 0;
 				forestType.clear();
 				CSVFileName.clear();
 				//initRandom();
@@ -186,6 +204,37 @@ namespace fp {
 				}
 			}
 
+
+			inline int returnMethodToUse(){
+			  return methodToUse;
+			}
+
+			// For Structured RerF
+			inline int returnImageHeight(){
+			  return imageHeight;
+			}
+
+			inline int returnImageWidth(){
+			  return imageWidth;
+			}
+
+			inline int returnPatchHeightMax(){
+			  return patchHeightMax;
+			}
+
+			inline int returnPatchHeightMin(){
+			  return patchHeightMin;
+			}
+
+			inline int returnPatchWidthMax(){
+			  return patchWidthMax;
+			}
+
+			inline int returnPatchWidthMin(){
+			  return patchWidthMin;
+			}
+
+
 			////////////////////////////////////////
 			//Random Number Generator
 			///////////////////////////////////////
@@ -285,6 +334,20 @@ namespace fp {
 					numTreeBins = parameterValue;
 				}else if(parameterName == "useRowMajor"){
 					useRowMajor = (bool)parameterValue;
+				}else if(parameterName == "methodToUse"){
+					methodToUse = parameterValue;
+				}else if(parameterName == "imageHeight"){
+					imageHeight = parameterValue;
+				}else if(parameterName == "imageWidth"){
+					imageWidth = parameterValue;
+				}else if(parameterName == "patchHeightMax"){
+					patchHeightMax = parameterValue;
+				}else if(parameterName == "patchHeightMin"){
+					patchHeightMin = parameterValue;
+				}else if(parameterName == "patchWidthMax"){
+					patchWidthMax = parameterValue;
+				}else if(parameterName == "patchWidthMin"){
+					patchWidthMin = parameterValue;
 				}else {
 					throw std::runtime_error("Unknown parameter type.(int)");
 				}
@@ -308,6 +371,15 @@ namespace fp {
 				std::cout << "numCores -> " << numCores << "\n";
 				std::cout << "seed -> " << seed << "\n";
 				std::cout << "numTreeBins -> " << numTreeBins << "\n";
+
+				if(methodToUse == 2){
+					std::cout << "imageHeight -> " << imageHeight << "\n";
+					std::cout << "imageWidth -> " << imageWidth << "\n";
+					std::cout << "patchHeightMax -> " << patchHeightMax << "\n";
+					std::cout << "patchHeightMin -> " << patchHeightMin << "\n";
+					std::cout << "patchWidthMax -> " << patchWidthMax << "\n";
+					std::cout << "patchWidthMin -> " << patchWidthMin << "\n";
+				}
 			}
 
 
