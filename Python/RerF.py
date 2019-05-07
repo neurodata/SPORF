@@ -36,7 +36,7 @@ def fastRerF(
         binnedBaseTern, rfBase, rerf (default: "binnedBaseRerF")
     trees : int, optional
         Number of trees in forest (default: 500)
-    minParent int, optional
+    minParent : int, optional
         (default: 1)
     maxDepth : int, optional
         maxDepth (default: None).  If None, set to max system supported 
