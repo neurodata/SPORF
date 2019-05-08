@@ -17,6 +17,13 @@ def fastRerF(
     mtryMult=1.5,
     fractionOfFeaturesToTest=None,
     seed=None,
+    methodToUse=1,
+    imageHeight=0,
+    imageWidth=0,
+    patchHeightMax=0,
+    patchHeightMin=0,
+    patchWidthMax=0,
+    patchWidthMin=0,
 ):
     """Creates a decision forest based on an input matrix and class vector
     and grows the forest.
@@ -55,6 +62,11 @@ def fastRerF(
     seed : int, optional
         Random seed to use (default: None).  If None, set seed to 
         ``np.random.randint(1, 1000000)``.
+    methodToUse : int
+        Sets the random projection matrix used in creating new features
+        (default: 1).
+        1 = Ternary weighting, i.e. {-1,0,1},
+        2 = Structured-RerF.
     
     Returns
     -------
@@ -110,6 +122,20 @@ def fastRerF(
     if seed is None:
         seed = np.random.randint(1, 1000000)
     forestClass.setParameter("seed", seed)
+
+    if methodToUse == 1 or methodToUse == 2:
+        if forestType == "binnedBaseTern" and methodToUse == 1:
+            forestClass.setParameter("methodToUse", methodToUse)
+        if forestType == "binnedBaseTern" and methodToUse == 2:
+            forestClass.setParameter("methodToUse", methodToUse)
+            forestClass.setParameter("imageHeight", imageHeight)
+            forestClass.setParameter("imageWidth", imageWidth)
+            forestClass.setParameter("patchHeightMax", patchHeightMax)
+            forestClass.setParameter("patchHeightMin", patchHeightMin)
+            forestClass.setParameter("patchWidthMax", patchWidthMax)
+            forestClass.setParameter("patchWidthMin", patchWidthMin)
+
+
 
     if CSVFile is not None and Ycolumn is not None:
         forestClass.setParameter("useRowMajor", 0)
