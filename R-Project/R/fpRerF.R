@@ -16,6 +16,13 @@
 #' @param forestType the type of forest to grow: binnedBase, binnedBaseRerF, binnedBaseTern, rfBase, rerf (forestType="binnedBaseRerF")
 #' @param mtry the number of features to consider when splitting a node (mtry=ncol(X)^.5)
 #' @param mtryMult the average number of features combined to form a new feature when using RerF (mtryMult=1)
+#' @param methodToUse int to pass in when using \code{forestType = "binnedBaseTern"}. 1 = Ternary, 2 = Structured-RerF. (methodToUse = 1)
+#' @param imageHeight int for use in Structured-RerF. (NULL)
+#' @param imageWidth int for use in Structured-RerF. (NULL)
+#' @param patchHeightMax int  for use in Structured-RerF. (NULL)
+#' @param patchHeightMin int for use in Structured-RerF. (NULL)
+#' @param patchWidthMax int for use in Structured-RerF. (NULL)
+#' @param patchWidthMin int for use in Structured-RerF. (NULL)
 #'
 #'
 #' @export
@@ -31,7 +38,7 @@
 
 
 fpRerF <-
-	function(X=NULL, Y=NULL,csvFileName=NULL, columnWithY=NULL, maxDepth = Inf, minParent=1, numTreesInForest=500, numCores=1,numTreeBins=NULL, forestType="binnedBaseRerF", nodeSizeToBin=NULL, nodeSizeBin=NULL,mtry=NULL, mtryMult=NULL,seed=sample(1:1000000,1)){
+	function(X=NULL, Y=NULL,csvFileName=NULL, columnWithY=NULL, maxDepth = Inf, minParent=1, numTreesInForest=500, numCores=1,numTreeBins=NULL, forestType="binnedBaseRerF", nodeSizeToBin=NULL, nodeSizeBin=NULL,mtry=NULL, mtryMult=NULL,seed=sample(1:1000000,1), methodToUse = 1, imageHeight = NULL, imageWidth = NULL, patchHeightMax = NULL, patchHeightMin = NULL, patchWidthMax = NULL, patchWidthMin = NULL){
 
 		##### Basic Checks
 		################################################
@@ -76,6 +83,25 @@ fpRerF <-
 		}
 		if(!is.null(mtryMult)){
 		forest_module$setParameterDouble("mtryMult",mtryMult)
+		}
+
+		if(forestType == "binnedBaseTern"){
+			if(any(sapply(c(imageHeight, imageWidth, patchHeightMax, patchHeightMin, patchWidthMax, patchWidthMin), is.null))){
+				stop("image parameters have not been set properly.")
+			}
+			switch(methodToUse,
+				   '1' = forest_module$setParameterInt("methodToUse", 1),
+				   '2' = {
+						  forest_module$setParameterInt("methodToUse", 2)
+						  forest_module$setParameterInt("imageHeight", imageHeight)
+						  forest_module$setParameterInt("imageWidth", imageWidth)
+						  forest_module$setParameterInt("patchHeightMax", patchHeightMax)
+						  forest_module$setParameterInt("patchHeightMin", patchHeightMin)
+						  forest_module$setParameterInt("patchWidthMax", patchWidthMax)
+						  forest_module$setParameterInt("patchWidthMin", patchWidthMin)
+						 },
+					forest_module$setParameterInt("methodToUse", 1)
+					)
 		}
 
 		##### Check X and Y inputs
