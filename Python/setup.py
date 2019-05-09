@@ -135,7 +135,7 @@ setup(
     version=__version__,
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
-    auther_email=AUTHOR_EMAIL,
+    author_email=AUTHOR_EMAIL,
     ext_modules=ext_modules,
     install_requires=required,
     cmdclass={"build_ext": BuildExt},
