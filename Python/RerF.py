@@ -90,7 +90,7 @@ def fastPredict(X, forest):
 
  
 def retSimMat(forest):
-        return forest._return_pair_mat()
+    return forest._return_pair_mat()
 
 if __name__ == "__main__":
     pass

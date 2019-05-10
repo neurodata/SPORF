@@ -66,8 +66,7 @@ return false;
 
 				inline int returnMaxDepth(){
 					int maxDepth=0;
-					for(auto nodes : tree){
-						//maxDepth++;
+					for(auto &nodes : tree){
 						if(maxDepth < nodes.returnDepth()){
 							maxDepth = nodes.returnDepth();
 						}

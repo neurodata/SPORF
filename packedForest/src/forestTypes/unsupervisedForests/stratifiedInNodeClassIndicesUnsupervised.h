@@ -1,5 +1,5 @@
-#ifndef stratifiedInNodeClassIndices2_h
-#define stratifiedInNodeClassIndices2_h
+#ifndef stratifiedInNodeClassIndicesUnsupervised_h
+#define stratifiedInNodeClassIndicesUnsupervised_h
 
 #include <iostream>
 #include <random>
@@ -27,8 +27,8 @@ namespace fp{
 			stratifiedInNodeClassIndicesUnsupervised(const int &numObservationsInDataSet): inSamples(fpSingleton::getSingleton().returnNumClasses()), outSamples(fpSingleton::getSingleton().returnNumClasses()), inSampleSize(0), outSampleSize(0){
 
 				createInAndOutSetsBagging(numObservationsInDataSet, 0.2);
-				for(auto inSamps1 : inSamples){
-					inSampleSize += inSamps1.size();
+				for(auto inSampsClass : inSamples){
+					inSampleSize += inSampsClass.size();
 				}
 
 				for(auto outSamps1 : outSamples){
@@ -98,7 +98,6 @@ namespace fp{
 					inSamples[fpSingleton::getSingleton().returnLabel(randomObsID)].push_back(randomObsID);
                                         inSamps.push_back(randomObsID);
 				}
-				//std::cout<<"random_indices3 size: "<<random_indices3.size()<<"\n";
 				for(auto randomObsID2 : random_indices3)
 				{
 					outSamples[fpSingleton::getSingleton().returnLabel(randomObsID2)].push_back(randomObsID2);
@@ -189,24 +188,13 @@ namespace fp{
 			inline int returnOutSample(const int numSample){
 				return outSamps[numSample];
 			}
-			/*inline int returnOutSample(const int numSample){
-				int totalViewed = 0;
-				for(unsigned int i = 0; i < outSamples.size(); ++i){
-					if(numSample < totalViewed+int(outSamples[i].size())){
-						return outSamples[i][numSample-totalViewed];
-					}
-					totalViewed += outSamples[i].size();
-				}
-				return -1;
-			}*/
-
 
 			inline int returnBinSize(){
 				return fpSingleton::getSingleton().returnBinSize();
 			}
 
 			inline bool useBin(){
-				return fpSingleton::getSingleton().returnUseBinning() && (inSampleSize > 5*returnBinSize());
+				return fpSingleton::getSingleton().returnUseBinning() && (inSampleSize > returnBinSize());
 			}
 
 			inline void initializeBinnedSamples(){

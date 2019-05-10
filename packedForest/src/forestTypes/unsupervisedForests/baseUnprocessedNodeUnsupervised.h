@@ -100,7 +100,7 @@ namespace fp{
 				}
 
 				inline int returnMaxClass(){
-					return 1;
+					return 0;
 				}
 
 
