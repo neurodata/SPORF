@@ -52,7 +52,7 @@ namespace fp {
 			}
 			inline void growTrees(){
 #pragma omp parallel for num_threads(fpSingleton::getSingleton().returnNumThreads())
-				for(int i = 0; i < (int)trees.size(); ++i){
+				for(unsigned int i = 0; i < (int)trees.size(); ++i){
 					trees[i].growTree();
 					trees[i].updateSimMat(simMat, pairMat);
 					trees[i].updateSimMatOut(simMat, pairMat);

@@ -21,7 +21,7 @@ namespace fp{
 						return std::unique_ptr<fpForestBase<T> >{new fpForestClassificationBase<T>};
 					}else if(parameterName == "rerf"){
 						return std::unique_ptr<fpForestBase<T> >{new fpRerFBase<T>};
-                                        }else if(parameterName == "urf"){
+					}else if(parameterName == "urf"){
                                                 return std::unique_ptr<fpForestBase<T> >{new fpURFBase<T>};
                                         }else if(parameterName == "urerf"){
                                                 return std::unique_ptr<fpForestBase<T> >{new fpURerFBase<T>};
