@@ -7,7 +7,7 @@ from sklearn import datasets
 from sklearn.utils.testing import assert_allclose, assert_array_equal
 from sklearn.utils.validation import check_random_state
 
-from rerfClassifier import rerfClassifier
+from rerf.rerfClassifier import rerfClassifier
 
 
 # toy sample

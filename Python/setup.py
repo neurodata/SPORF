@@ -4,14 +4,15 @@ import sys
 from distutils.errors import CompileError
 import subprocess
 
-__version__ = "0.0.1"
+import rerf  # for version info
 
 PACKAGE_NAME = "rerf"
 DESCRIPTION = "Randomer Forest (RerF) Python Package"
 with open("../README.md", "r") as f:
     LONG_DESCRIPTION = f.read()
 URL = "https://github.com/neurodata/RerF"
-AUTHOR_EMAIL = "falk.ben@jhu.edu"
+AUTHOR = "NeuroData"
+AUTHOR_EMAIL = "software@neurodata.io"
 MINIMUM_PYTHON_VERSION = 3, 6  # Minimum of Python 3.6
 
 
@@ -40,7 +41,7 @@ class get_pybind_include(object):
 ext_modules = [
     Extension(
         "pyfp",
-        ["packedForest.cpp"],
+        ["src/packedForest.cpp"],
         include_dirs=[
             # Path to pybind11 headers
             get_pybind_include(),
@@ -140,9 +141,10 @@ with open("requirements.txt") as f:
 
 setup(
     name=PACKAGE_NAME,
-    version=__version__,
+    version=rerf.__version__,
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
+    author=AUTHOR,
     author_email=AUTHOR_EMAIL,
     ext_modules=ext_modules,
     install_requires=required,
@@ -150,5 +152,5 @@ setup(
     zip_safe=False,
     url=URL,
     license="Apache License 2.0",
-    packages=find_packages(),
+    packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
 )
