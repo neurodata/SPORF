@@ -1,7 +1,11 @@
-# this example is from https://www.datacamp.com/community/tutorials/random-forests-classifier-python
-# except with rerfClassifier instead of sklearn's RandomForestClassifier
+"""
+Example shows usage of rerfClassifier class.
 
-from rerfClassifier import rerfClassifier
+Based on https://www.datacamp.com/community/tutorials/random-forests-classifier-python
+with rerfClassifier swapped out instead of sklearn's RandomForestClassifier
+"""
+
+from rerf.rerfClassifier import rerfClassifier
 
 # Import scikit-learn dataset library
 from sklearn import datasets

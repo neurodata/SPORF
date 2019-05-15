@@ -1,17 +1,29 @@
-from setuptools import setup, Extension, find_packages
-from setuptools.command.build_ext import build_ext
+import subprocess
 import sys
 from distutils.errors import CompileError
-import subprocess
+from os import path
 
-__version__ = "0.0.1"
+from setuptools import Extension, find_packages, setup
+from setuptools.command.build_ext import build_ext
+
+from rerf import __version__
+
+"""
+To upload to pypi see PUBLISH.md
+"""
+
+here = path.abspath(path.dirname(__file__))
+
+with open(path.join(here, "requirements.txt"), encoding="utf-8") as f:
+    required = f.read().splitlines()
+
 
 PACKAGE_NAME = "rerf"
 DESCRIPTION = "Randomer Forest (RerF) Python Package"
-with open("../README.md", "r") as f:
-    LONG_DESCRIPTION = f.read()
+LONG_DESCRIPTION = "Randomer Forest combines sparse random projections with the random forest algorithm to achieve high accuracy on a variety of datasets."
 URL = "https://github.com/neurodata/RerF"
-AUTHOR_EMAIL = "falk.ben@jhu.edu"
+AUTHOR = "NeuroData"
+AUTHOR_EMAIL = "software@neurodata.io"
 MINIMUM_PYTHON_VERSION = 3, 6  # Minimum of Python 3.6
 
 
@@ -40,11 +52,12 @@ class get_pybind_include(object):
 ext_modules = [
     Extension(
         "pyfp",
-        ["packedForest.cpp"],
+        ["src/packedForest.cpp"],
         include_dirs=[
             # Path to pybind11 headers
             get_pybind_include(),
             get_pybind_include(user=True),
+            "src/src/",
         ],
         language="c++",
     )
@@ -135,14 +148,12 @@ class BuildExt(build_ext):
 
 check_python_version()
 
-with open("requirements.txt") as f:
-    required = f.read().splitlines()
-
 setup(
     name=PACKAGE_NAME,
     version=__version__,
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
+    author=AUTHOR,
     author_email=AUTHOR_EMAIL,
     ext_modules=ext_modules,
     install_requires=required,
@@ -150,5 +161,6 @@ setup(
     zip_safe=False,
     url=URL,
     license="Apache License 2.0",
-    packages=find_packages(),
+    packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
+    include_package_data=True,
 )

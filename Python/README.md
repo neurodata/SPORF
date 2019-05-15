@@ -23,3 +23,7 @@ Run the tests from command line at the root of the repo (`RerF/`).
 ```sh
 python -m pytest
 ```
+
+## Publish new version
+
+To upload to [PyPi](https://pypi.org) see [PUBLISH.md](PUBLISH.md)

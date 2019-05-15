@@ -11,15 +11,28 @@ Make sure you have the latest version of ``pip`` (the Python package manager)
 installed. If you do not, refer to the `Pip documentation
 <https://pip.pypa.io/en/stable/installing/>`_ and install ``pip`` first.
 
-Requirements
-------------
-
 Currently *RerF* is available on :ref:`Linux <linux>` and :ref:`MacOS <mac>`.
+
+From PyPI
+---------
+
+::
+
+  pip install rerf
+
+https://pypi.org/project/rerf
+
+From source
+-----------
+
+
+Requirements
+````````````
 
 .. _linux:
 
 Linux
-`````
+'''''
 
 Make sure you have the appropriate build tools
 
@@ -30,7 +43,7 @@ Make sure you have the appropriate build tools
 .. _mac:
 
 Mac
-```
+'''
 
 - Install the SDK headers (Mojave update removes SDK headers)
 
@@ -74,17 +87,17 @@ Mac
 
 
 Install
--------
+```````
 
 From GitHub
-```````````
+'''''''''''
 
 ::
 
   pip install -e "git+https://github.com/neurodata/RerF.git@staging#egg=rerf&subdirectory=Python"
 
 Build from source
-`````````````````
+'''''''''''''''''
 
 - Get the source files
 
