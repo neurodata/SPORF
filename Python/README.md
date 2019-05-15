@@ -26,27 +26,4 @@ python -m pytest
 
 ## Publish new version
 
-Increment the version number in `rerf/__init__.py`
-
-create a ~/.pypirc file with the following content:
-
-```ini
-[distutils]
-index-servers =
-  pypi
-
-[pypi]
-username=xxxx
-password=xxxx
-```
-
-Upload to PyPi
-
-```bash
-pip install --upgrade setuptools wheel
-pip install --upgrade twine
-python setup.py sdist bdist_wheel
-twine upload dist/*
-```
-
-Pin version on GitHub releases
+To upload to [PyPi](https://pypi.org) see [PUBLISH.md](PUBLISH.md)

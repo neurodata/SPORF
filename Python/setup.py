@@ -1,15 +1,26 @@
-from setuptools import setup, Extension, find_packages
-from setuptools.command.build_ext import build_ext
+import subprocess
 import sys
 from distutils.errors import CompileError
-import subprocess
+from os import path
 
-import rerf  # for version info
+from setuptools import Extension, find_packages, setup
+from setuptools.command.build_ext import build_ext
+
+from rerf import __version__
+
+"""
+To upload to pypi see PUBLISH.md
+"""
+
+here = path.abspath(path.dirname(__file__))
+
+with open(path.join(here, "requirements.txt"), encoding="utf-8") as f:
+    required = f.read().splitlines()
+
 
 PACKAGE_NAME = "rerf"
 DESCRIPTION = "Randomer Forest (RerF) Python Package"
-with open("../README.md", "r") as f:
-    LONG_DESCRIPTION = f.read()
+LONG_DESCRIPTION = "Randomer Forest combines sparse random projections with the random forest algorithm to achieve high accuracy on a variety of datasets."
 URL = "https://github.com/neurodata/RerF"
 AUTHOR = "NeuroData"
 AUTHOR_EMAIL = "software@neurodata.io"
@@ -46,6 +57,7 @@ ext_modules = [
             # Path to pybind11 headers
             get_pybind_include(),
             get_pybind_include(user=True),
+            "src/src/",
         ],
         language="c++",
     )
@@ -136,12 +148,9 @@ class BuildExt(build_ext):
 
 check_python_version()
 
-with open("requirements.txt") as f:
-    required = f.read().splitlines()
-
 setup(
     name=PACKAGE_NAME,
-    version=rerf.__version__,
+    version=__version__,
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
     author=AUTHOR,
@@ -153,4 +162,5 @@ setup(
     url=URL,
     license="Apache License 2.0",
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
+    include_package_data=True,
 )
