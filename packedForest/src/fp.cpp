@@ -79,10 +79,10 @@ int main(int argc, char* argv[]) {
 					forest.setParameter("methodToUse", 2);
 					forest.setParameter("imageHeight", 28);
 					forest.setParameter("imageWidth", 28);
-					forest.setParameter("patchHeightMax", 20);
-					forest.setParameter("patchHeightMin", 1);
-					forest.setParameter("patchWidthMax", 20);
-					forest.setParameter("patchWidthMin", 1);
+					forest.setParameter("patchHeightMax", 5);
+					forest.setParameter("patchHeightMin", 5);
+					forest.setParameter("patchWidthMax", 5);
+					forest.setParameter("patchWidthMin", 5);
 					std::cout << "\nForcing dataset to be MNIST:\n";
 					dataSet = 3;
 					break;
