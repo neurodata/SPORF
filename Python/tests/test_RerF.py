@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 from .helper import get_params
-from ..RerF import fastPredict, fastRerF, fastPredictPost
+from rerf.RerF import fastPredict, fastRerF, fastPredictPost
 
 
 def test_fastRerF_CSV_input():

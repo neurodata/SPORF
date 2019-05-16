@@ -193,7 +193,7 @@ html_context = {
 }
 
 linkcode_resolve = make_linkcode_resolve(
-    "RerF",
+    "rerf",
     u"https://github.com/neurodata/" "RerF/blob/{revision}/" "Python/{path}#L{lineno}",
 )
 

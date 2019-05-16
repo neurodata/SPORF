@@ -1,6 +1,14 @@
-from RerF import fastRerF, fastPredict, fastPredictPost
-import numpy as np
+"""
+Example usage of RerF module.  
+
+Paths to dataset are relative from "Python" source directory.
+"""
+
 from multiprocessing import cpu_count
+
+import numpy as np
+
+from rerf.RerF import fastPredict, fastPredictPost, fastRerF
 
 datatype = "iris"
 # datatype = "mnist"
