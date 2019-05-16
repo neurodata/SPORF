@@ -200,7 +200,9 @@ html_context = {
 
 linkcode_resolve = make_linkcode_resolve(
     "rerf",
-    u"https://github.com/neurodata/" "RerF/blob/{revision}/" "Python/{path}#L{lineno}",
+    u"https://github.com/neurodata/"
+    "RerF/blob/{revision}/"
+    "Python/{package}/{path}#L{lineno}",
 )
 
 napoleon_numpy_docstring = True
