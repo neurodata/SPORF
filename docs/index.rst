@@ -19,6 +19,15 @@ To learn more about RerF, visit `neurodata.io/rerf`_ or `github`_.
    
    install
    reference
+   demos
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Useful Links
+
+   RerF @ GitHub <http://www.github.com/neurodata/RerF/>
+   RerF @ PyPI <https://pypi.org/project/rerf/>
+   Issue Tracker <https://github.com/neurodata/rerf/issues>
 
 Indices and tables
 ==================

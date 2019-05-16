@@ -86,8 +86,15 @@ Mac
 .. _brew : https://brew.sh/
 
 
-Install
-```````
+Install (from source)
+`````````````````````
+
+From PyPI
+'''''''''
+
+::
+
+  pip install --no-binary rerf rerf
 
 From GitHub
 '''''''''''
