@@ -58,6 +58,9 @@ namespace fp {
 					fpSingleton::getSingleton().setDataDependentParameters();
 				}
 
+				inline void checkDataDependentParameters(){
+					fpSingleton::getSingleton().checkDataDependentParameters();
+				}
 
 			public:
 
@@ -101,6 +104,7 @@ namespace fp {
 				inline void growForest(const T* Xmat, const int* Yvec, int numObs, int numFeatures){
 					loadData(Xmat,Yvec,numObs,numFeatures);
 					setDataDependentParameters();
+					checkDataDependentParameters();
 					initializeForestType();
 					forest->growForest();
 					deleteData();
@@ -110,6 +114,7 @@ namespace fp {
 				inline void growForest(){
 					loadData();
 					setDataDependentParameters();
+					checkDataDependentParameters();
 					initializeForestType();
 					forest->growForest();
 					deleteData();

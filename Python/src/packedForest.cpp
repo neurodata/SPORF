@@ -1,4 +1,4 @@
-#include "../packedForest/src/packedForest.h"
+#include "src/packedForest.h"
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>

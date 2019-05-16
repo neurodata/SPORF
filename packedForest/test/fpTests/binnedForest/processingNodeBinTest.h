@@ -107,15 +107,17 @@ TEST(processingNodeBinTest, checkStructuredRerF_2d)
 	std::string p1 = "CSVFileName";
 	std::string p2 = "../res/mnist.csv";
 	fpSingleton::getSingleton().setParameter(p1, p2);
+	fpSingleton::getSingleton().setParameter("mtry", 1);
 	fpSingleton::getSingleton().setParameter("methodToUse", 2);
 	fpSingleton::getSingleton().setParameter("imageHeight", 28);
 	fpSingleton::getSingleton().setParameter("imageWidth", 28);
-	fpSingleton::getSingleton().setParameter("patchHeightMax", 20);
-	fpSingleton::getSingleton().setParameter("patchHeightMin", 2);
-	fpSingleton::getSingleton().setParameter("patchWidthMax", 20);
-	fpSingleton::getSingleton().setParameter("patchWidthMin", 2);
+	fpSingleton::getSingleton().setParameter("patchHeightMax", 28);
+	fpSingleton::getSingleton().setParameter("patchHeightMin", 1);
+	fpSingleton::getSingleton().setParameter("patchWidthMax", 28);
+	fpSingleton::getSingleton().setParameter("patchWidthMin", 1);
 	fpSingleton::getSingleton().loadData();
 	fpSingleton::getSingleton().setDataDependentParameters();
+	fpSingleton::getSingleton().checkDataDependentParameters();
 
 	int numClasses = fpSingleton::getSingleton().returnNumClasses();
 	int testSize = fpSingleton::getSingleton().returnNumObservations();
@@ -125,41 +127,36 @@ TEST(processingNodeBinTest, checkStructuredRerF_2d)
 	randomNumberRerFMWC randNumGen;
 	processingNodeBin<double, weightedFeature> pNB(1, 1, 1, randNumGen);
 
-	std::vector<int> v(fpSingleton::getSingleton().returnImageWidth());
-
-	pNB.calcMtryForNodeTest(wf);
+	// Get the 28x28 patch at the top left and make sure we don't fall
+	// off the edge.
+	wf.resize(fpSingleton::getSingleton().returnMtry());
 	EXPECT_EQ((int)wf.size(), fpSingleton::getSingleton().returnMtry());
-	for (auto i : wf)
-	{
-		std::fill(v.begin(), v.end(), 0);
-		for (auto j : i.returnFeatures())
-		{
-			// Get the pixel indices modulo the width
-			++v[j % fpSingleton::getSingleton().returnImageWidth()];
-		}
-		for (auto j : i.returnWeights())
-		{
-			// Expect the weights to all be 1.
-			EXPECT_TRUE(j == 1);
-		}
 
-		std::sort(v.begin(), v.end());
-		
-		std::vector<int> tmp;
-		for (auto k : v)
-		{
-			if (k != 0)
-			{
-				tmp.push_back(k);
-			}
-		}
+	std::vector<int> patchParams = {28, 28, 0};
+	pNB.randMatImagePatchTest(wf, patchParams);
 
-		int k1 = tmp[0];
-		for (auto k : tmp)
-		{
-			// Expect the table of pixles modulo the width to all be
-			// equal.  i.e. they "line up" in the image.
-			EXPECT_TRUE(k == k1);
+	for (auto i : wf) {
+		for (auto j : i.returnFeatures()) {
+			EXPECT_GE(j, 0);
+			EXPECT_LT(j, numFeatures);
+		}
+	}
+
+	// Get the 5x5 patch on the lower right edge of the image.
+	// check that we don't fall off the edge.
+	std::vector<weightedFeature> wf2;
+	wf2.resize(fpSingleton::getSingleton().returnMtry());
+	patchParams = {5, 5, 667};
+	pNB.randMatImagePatchTest(wf2, patchParams);
+
+	std::vector<int> groundTruth {667, 668, 669, 670, 671, 695, 696,
+			697, 698, 699, 723, 724, 725, 726, 727, 751, 752, 753, 754,
+			755, 779, 780, 781, 782, 783};
+
+	int count = 0;
+	for (auto i : wf2) {
+		for (auto j : i.returnFeatures()) {
+			EXPECT_EQ(j, groundTruth[count++]);
 		}
 	}
 }
