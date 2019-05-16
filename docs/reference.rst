@@ -2,8 +2,11 @@
 Reference
 *********
 
-.. automodule:: rerfClassifier
+.. automodule:: rerf.rerfClassifier
   :members:
 
-.. automodule:: RerF
+.. automodule:: rerf.RerF
+  :members:
+
+.. automodule:: rerf
   :members:

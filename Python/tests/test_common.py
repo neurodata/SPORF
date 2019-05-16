@@ -2,7 +2,7 @@ import pytest
 
 from sklearn.utils.estimator_checks import check_estimator
 
-from rerfClassifier import rerfClassifier
+from rerf.rerfClassifier import rerfClassifier
 
 
 @pytest.mark.xfail
