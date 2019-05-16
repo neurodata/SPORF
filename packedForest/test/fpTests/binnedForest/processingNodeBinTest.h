@@ -149,10 +149,14 @@ TEST(processingNodeBinTest, checkStructuredRerF_2d)
 	patchParams = {5, 5, 667};
 	pNB.randMatImagePatchTest(wf2, patchParams);
 
+	std::vector<int> groundTruth {667, 668, 669, 670, 671, 695, 696,
+			697, 698, 699, 723, 724, 725, 726, 727, 751, 752, 753, 754,
+			755, 779, 780, 781, 782, 783};
+
+	int count = 0;
 	for (auto i : wf2) {
 		for (auto j : i.returnFeatures()) {
-			EXPECT_GE(j, 667);
-			EXPECT_LT(j, numFeatures);
+			EXPECT_EQ(j, groundTruth[count++]);
 		}
 	}
 }
