@@ -20,7 +20,9 @@ with open(path.join(here, "requirements.txt"), encoding="utf-8") as f:
 
 PACKAGE_NAME = "rerf"
 DESCRIPTION = "Randomer Forest (RerF) Python Package"
-LONG_DESCRIPTION = "Randomer Forest combines sparse random projections with the random forest algorithm to achieve high accuracy on a variety of datasets."
+
+with open(path.join(here, "README.md"), encoding="utf-8") as f:
+    LONG_DESCRIPTION = f.read()
 URL = "https://github.com/neurodata/RerF"
 AUTHOR = "NeuroData"
 AUTHOR_EMAIL = "software@neurodata.io"
@@ -153,10 +155,12 @@ setup(
     version=__version__,
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
+    long_description_content_type="text/markdown",
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
     ext_modules=ext_modules,
     install_requires=required,
+    setup_requires=["pybind11>=2.2"],
     cmdclass={"build_ext": BuildExt},
     zip_safe=False,
     url=URL,
