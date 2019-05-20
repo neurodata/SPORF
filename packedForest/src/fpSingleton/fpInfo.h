@@ -336,6 +336,9 @@ namespace fp {
 					useRowMajor = (bool)parameterValue;
 				}else if(parameterName == "methodToUse"){
 					methodToUse = parameterValue;
+					if(!(methodToUse == 1 || methodToUse == 2)){
+						throw std::runtime_error("methodToUse outside allowable parameters {1,2}.");
+					}
 				}else if(parameterName == "imageHeight"){
 					imageHeight = parameterValue;
 				}else if(parameterName == "imageWidth"){
