@@ -93,12 +93,7 @@ namespace fp{
 							randMatImagePatch(featuresToTry, patchPositions);
 							break;
 							}
-						default:{
-							randMatTernary(featuresToTry);
-							break;
-							}
 					}
-
 				}
 
 
