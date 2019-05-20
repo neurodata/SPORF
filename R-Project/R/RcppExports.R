@@ -17,3 +17,7 @@ findSplitSim <- function(x, y, ndSize, I, maxdI, bv, bs, nb, nzidx) {
     .Call('_rerf_findSplitSim', PACKAGE = 'rerf', x, y, ndSize, I, maxdI, bv, bs, nb, nzidx)
 }
 
+findSplitReg <- function(x, y, ndSize, I, maxdI, bv, bs, nb, nzidx) {
+    .Call('_rerf_findSplitReg', PACKAGE = 'rerf', x, y, ndSize, I, maxdI, bv, bs, nb, nzidx)
+}
+
