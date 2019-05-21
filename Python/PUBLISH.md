@@ -1,5 +1,7 @@
 # To publish new version
 
+## PyPI
+
 This is to upload source to pypi.  To upload linux wheel binaries, see [manylinux](https://github.com/pypa/manylinux). 
 
 1. Increment the version number in `rerf/__init__.py`
@@ -70,3 +72,11 @@ This is to upload source to pypi.  To upload linux wheel binaries, see [manylinu
     ```
 
 1. Create new release on GitHub (tag)
+
+## Docker
+
+```bash
+cd docker
+docker build -t neurodata/rerf .
+docker push -t neurodata/rerf
+```
