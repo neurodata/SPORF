@@ -196,6 +196,68 @@ namespace fp {
 				initializeRandomNumberGenerator();
 			}
 
+			inline void checkDataDependentParameters(){
+				// For Structured RerF
+				if(fpForestInfo.returnMethodToUse() == 2){
+					if((fpSingleton::getSingleton().returnNumFeatures() % fpSingleton::getSingleton().returnImageHeight()) != 0){
+						throw std::runtime_error("Specified image height is not a multiple of the number of features." );
+					}
+					if((fpSingleton::getSingleton().returnNumFeatures() % fpSingleton::getSingleton().returnImageWidth()) != 0){
+						throw std::runtime_error("Specified image width is not a multiple of the number of features." );
+					}
+					if(fpSingleton::getSingleton().returnPatchHeightMax() < fpSingleton::getSingleton().returnPatchHeightMin()){
+						throw std::runtime_error("Specified patchHeightMax is less than patchHeightMin." );
+					}
+					if(fpSingleton::getSingleton().returnPatchWidthMax() < fpSingleton::getSingleton().returnPatchWidthMin()){
+						throw std::runtime_error("Specified patchWidthMax is less than patchWidthMin." );
+					}
+					if(fpSingleton::getSingleton().returnPatchHeightMax() > fpSingleton::getSingleton().returnImageHeight()){
+						throw std::runtime_error("Specified patchHeightMax is greater than the image height." );
+					}
+					if(fpSingleton::getSingleton().returnPatchWidthMax() > fpSingleton::getSingleton().returnImageWidth()){
+						throw std::runtime_error("Specified patchWidthMax is greater than the image width." );
+					}
+					if(fpSingleton::getSingleton().returnPatchHeightMin() <= 0){
+						throw std::runtime_error("Specified patchHeightMin <= 0." );
+					}
+					if(fpSingleton::getSingleton().returnPatchWidthMin() <= 0){
+						throw std::runtime_error("Specified patchWidthMin is <= 0." );
+					}
+				}
+			}
+
+
+
+			// For the method in the switch statement
+			inline int returnMethodToUse(){
+			  return fpForestInfo.returnMethodToUse();
+			}
+
+			// For Structured RerF
+			inline int returnImageHeight(){
+			  return fpForestInfo.returnImageHeight();
+			}
+
+			inline int returnImageWidth(){
+			  return fpForestInfo.returnImageWidth();
+			}
+
+			inline int returnPatchHeightMax(){
+			  return fpForestInfo.returnPatchHeightMax();
+			}
+
+			inline int returnPatchHeightMin(){
+			  return fpForestInfo.returnPatchHeightMin();
+			}
+
+			inline int returnPatchWidthMax(){
+			  return fpForestInfo.returnPatchWidthMax();
+			}
+
+			inline int returnPatchWidthMin(){
+			  return fpForestInfo.returnPatchWidthMin();
+			}
+
 
 		private: //These are singleton specific methods
 			fpSingleton(){}

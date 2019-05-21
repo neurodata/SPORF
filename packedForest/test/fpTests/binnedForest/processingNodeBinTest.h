@@ -99,3 +99,119 @@ TEST(testProcessingNodeBin, testMtryMult)
 		// }
 	}
 }
+
+
+TEST(processingNodeBinTest, checkStructuredRerF_2d)
+{
+	std::srand(std::time(0));
+	std::string p1 = "CSVFileName";
+	std::string p2 = "../res/mnist.csv";
+	fpSingleton::getSingleton().setParameter(p1, p2);
+	fpSingleton::getSingleton().setParameter("mtry", 1);
+	fpSingleton::getSingleton().setParameter("methodToUse", 2);
+	fpSingleton::getSingleton().setParameter("imageHeight", 28);
+	fpSingleton::getSingleton().setParameter("imageWidth", 28);
+	fpSingleton::getSingleton().setParameter("patchHeightMax", 28);
+	fpSingleton::getSingleton().setParameter("patchHeightMin", 1);
+	fpSingleton::getSingleton().setParameter("patchWidthMax", 28);
+	fpSingleton::getSingleton().setParameter("patchWidthMin", 1);
+	std::cout << "Loading MNIST data: " << std::endl;
+	fpSingleton::getSingleton().loadData();
+	fpSingleton::getSingleton().setDataDependentParameters();
+	fpSingleton::getSingleton().checkDataDependentParameters();
+
+	int numFeatures = fpSingleton::getSingleton().returnNumFeatures();
+
+	std::vector<weightedFeature> wf;
+	randomNumberRerFMWC randNumGen;
+	processingNodeBin<double, weightedFeature> procNB(1, 1, 1, randNumGen);
+
+	// Get the 28x28 patch at the top left and make sure we don't fall
+	// off the edge.
+	wf.resize(fpSingleton::getSingleton().returnMtry());
+	EXPECT_EQ((int)wf.size(), fpSingleton::getSingleton().returnMtry());
+
+	const std::vector<std::vector<int> > patchParams { {28}, {28}, {0} } ;
+	procNB.randMatImagePatchTest(wf, patchParams);
+
+	int groundTruthPixelIndex = 0;
+	for (auto i : wf) {
+		for (auto j : i.returnFeatures()) {
+			EXPECT_EQ(j, groundTruthPixelIndex++);
+		}
+	}
+
+	// Get the 5x5 patch on the lower right edge of the image.
+	// check that we don't fall off the edge.
+	std::vector<weightedFeature> wf2;
+	wf2.resize(fpSingleton::getSingleton().returnMtry());
+	const std::vector<std::vector<int> > patchParams2 { {5}, {5}, {667} };
+	procNB.randMatImagePatchTest(wf2, patchParams2);
+
+	std::vector<int> groundTruth {667, 668, 669, 670, 671, 695, 696,
+			697, 698, 699, 723, 724, 725, 726, 727, 751, 752, 753, 754,
+			755, 779, 780, 781, 782, 783};
+
+	int count = 0;
+	for (auto i : wf2) {
+		for (auto j : i.returnFeatures()) {
+			EXPECT_EQ(j, groundTruth[count++]);
+		}
+	}
+}
+
+
+TEST(processingNodeBinTest, paramRandMatImagePatch_Test)
+{
+	std::srand(std::time(0));
+	fpSingleton::getSingleton().setParameter("mtry", 1);
+	fpSingleton::getSingleton().setParameter("methodToUse", 2);
+	fpSingleton::getSingleton().setParameter("imageHeight", 28);
+	fpSingleton::getSingleton().setParameter("imageWidth", 28);
+	fpSingleton::getSingleton().setParameter("patchHeightMax", 28);
+	fpSingleton::getSingleton().setParameter("patchHeightMin", 28);
+	fpSingleton::getSingleton().setParameter("patchWidthMax", 28);
+	fpSingleton::getSingleton().setParameter("patchWidthMin", 28);
+
+	std::vector<weightedFeature> wf;
+	randomNumberRerFMWC randNumGen;
+	processingNodeBin<double, weightedFeature> pNB(1, 1, 1, randNumGen);
+
+	// Get the 28x28 patch at the top left and make sure we don't fall
+	// off the edge.
+	wf.resize(fpSingleton::getSingleton().returnMtry());
+
+	std::vector<std::vector<int> > testVec = pNB.paramsRandMatImagePatchTest();
+
+	// test that when patch params equal image dimensions the only
+	// option is top-left = 0.
+	EXPECT_EQ(testVec[2][0], 0);
+
+	// Reset params for differently sized patches where the top-left
+	// pixels should be {0, 1, 28, 29, 56, 57}.
+	fpSingleton::getSingleton().setParameter("mtry", 100);
+	fpSingleton::getSingleton().setParameter("patchHeightMax", 28);
+	fpSingleton::getSingleton().setParameter("patchHeightMin", 26);
+	fpSingleton::getSingleton().setParameter("patchWidthMax", 28);
+	fpSingleton::getSingleton().setParameter("patchWidthMin", 27);
+
+	std::vector<weightedFeature> wfA;
+	randomNumberRerFMWC randNumGenA;
+	processingNodeBin<double, weightedFeature> pNBA(1, 1, 1, randNumGenA);
+
+	wfA.resize(fpSingleton::getSingleton().returnMtry());
+	std::vector<std::vector<int> > testVecA = pNBA.paramsRandMatImagePatchTest();
+
+	// Check that the unique pixles sampled are {0, 1, 28, 29, 56, 57}.
+	for (auto y : testVecA[2]){
+		//std::cout << y << std::endl;
+		EXPECT_TRUE(
+				y == 0 ||
+				y == 1 ||
+				y == 28 ||
+				y == 29 ||
+				y == 56 ||
+				y == 57
+				);
+	}
+}

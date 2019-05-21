@@ -25,3 +25,4 @@
 #include "fpTests/binnedForest/processingNodeBinTest.h"
 #include "fpTests/rfTreeTest.h"
 #include "fpTests/rerfTreeTest.h"
+#include "fpTests/fpSingletonTest.h"
