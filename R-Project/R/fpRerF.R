@@ -87,7 +87,7 @@ fpRerF <-
 
 		if(forestType == "binnedBaseTern"){
 			if(any(sapply(c(imageHeight, imageWidth, patchHeightMax, patchHeightMin, patchWidthMax, patchWidthMin), is.null))){
-				stop("image parameters have not been set properly.")
+				stop("\nimage parameters have not been set.\n")
 			}
 			switch(methodToUse,
 				   '1' = forest_module$setParameterInt("methodToUse", 1),
@@ -99,8 +99,7 @@ fpRerF <-
 						  forest_module$setParameterInt("patchHeightMin", patchHeightMin)
 						  forest_module$setParameterInt("patchWidthMax", patchWidthMax)
 						  forest_module$setParameterInt("patchWidthMin", patchWidthMin)
-						 },
-					forest_module$setParameterInt("methodToUse", 1)
+						 }
 					)
 		}
 
