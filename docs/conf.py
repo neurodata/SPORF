@@ -19,6 +19,7 @@ sys.path.insert(0, os.path.abspath("../Python"))
 sys.path.insert(0, os.path.abspath("sphinxext"))
 from github_link import make_linkcode_resolve
 
+from rerf import __version__
 
 # -- Project information -----------------------------------------------------
 
@@ -27,9 +28,9 @@ copyright = "2019, NeuroData"
 author = "NeuroData"
 
 # The short X.Y version
-version = ""
+version = __version__
 # The full version, including alpha/beta/rc tags
-release = ""
+release = __version__
 
 
 # -- General configuration ---------------------------------------------------
@@ -41,7 +42,12 @@ release = ""
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["sphinx.ext.autodoc", "sphinx.ext.napoleon", "sphinx.ext.linkcode"]
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.linkcode",
+    "nbsphinx",
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -194,7 +200,9 @@ html_context = {
 
 linkcode_resolve = make_linkcode_resolve(
     "rerf",
-    u"https://github.com/neurodata/" "RerF/blob/{revision}/" "Python/{path}#L{lineno}",
+    u"https://github.com/neurodata/"
+    "RerF/blob/{revision}/"
+    "Python/{package}/{path}#L{lineno}",
 )
 
 napoleon_numpy_docstring = True

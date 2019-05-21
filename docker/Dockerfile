@@ -22,9 +22,8 @@ RUN apt-get update \
 
 # Install python3
 RUN apt-get install -y python3-venv python3-pip python3-dev build-essential cmake
-RUN cp /usr/bin/python3 /usr/bin/python; cp /usr/bin/pip3 /usr/bin/pip;
-RUN pip install --upgrade pip
-RUN pip install pandas
+RUN python3 -m pip install --upgrade pip setuptools wheel
+RUN pip3 install pandas
 
 
 # Install R
@@ -64,7 +63,7 @@ RUN apt-get update \
 # Install RerF in various flavors
 
 ## Py-RerF
-RUN pip install -e "git+https://github.com/neurodata/RerF.git@staging#egg=rerf&subdirectory=Python"
+RUN pip3 install --no-binary rerf rerf
 
 
 
