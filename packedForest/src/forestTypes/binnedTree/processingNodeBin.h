@@ -89,8 +89,7 @@ namespace fp{
 							break;
 							}
 						case 2:{
-							std::vector<int> patchPositions = paramsRandMatImagePatch();
-							randMatImagePatch(featuresToTry, patchPositions);
+							randMatImagePatch(featuresToTry, paramsRandMatImagePatch());
 							break;
 							}
 					}
@@ -113,7 +112,7 @@ namespace fp{
 				}
 
 
-				inline std::vector<int> paramsRandMatImagePatch(){
+				inline std::vector<std::vector<int> > paramsRandMatImagePatch(){
 					// Preset parameters
 					const int& imageHeight = fpSingleton::getSingleton().returnImageHeight();
 					const int& imageWidth = fpSingleton::getSingleton().returnImageWidth();
@@ -123,7 +122,9 @@ namespace fp{
 					const int& patchWidthMax  = fpSingleton::getSingleton().returnPatchWidthMax();
 					const int& patchWidthMin  = fpSingleton::getSingleton().returnPatchWidthMin();
 
-					std::vector<int > heightWidthTop(3 * fpSingleton::getSingleton().returnMtry());
+					// A vector of vectors that specifies the parameters
+					// for each patch: < <Height>, <Width>, <TopLeft> >
+					std::vector<std::vector<int> > heightWidthTop(3, std::vector<int>(fpSingleton::getSingleton().returnMtry()));
 
 					int deltaH;
 					int deltaW;
@@ -132,42 +133,43 @@ namespace fp{
 
 					// Loop over mtry to load random patch dimensions
 					// and top left position.
-					for (int k = 0; k < (3*fpSingleton::getSingleton().returnMtry()); k += 3){
+					for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++){
 
-						heightWidthTop[k] = randNum->gen(patchHeightMax - patchHeightMin + 1) + patchHeightMin; //sample from [patchHeightMin, patchHeightMax]
-						heightWidthTop[k + 1] = randNum->gen(patchWidthMax - patchWidthMin + 1) +  patchWidthMin;    //sample from [patchWidthMin, patchWidthMax]
+						heightWidthTop[0][k] = randNum->gen(patchHeightMax - patchHeightMin + 1) + patchHeightMin; //sample from [patchHeightMin, patchHeightMax]
+						heightWidthTop[1][k] = randNum->gen(patchWidthMax - patchWidthMin + 1) +  patchWidthMin;    //sample from [patchWidthMin, patchWidthMax]
 						// Using the above, 1-pixel patches are possible ... [JLP]
 
 						// compute the difference between the image dimensions and the current random patch dimensions for sampling
-						deltaH = imageHeight - heightWidthTop[k] + 1;
-						deltaW = imageWidth - heightWidthTop[k + 1] + 1;
+						deltaH = imageHeight - heightWidthTop[0][k] + 1;
+						deltaW = imageWidth  - heightWidthTop[1][k] + 1;
 
 						// Sample the top left pixel from the available pixels (due to buffering).
 						topLeftSeed = randNum->gen(deltaH * deltaW);
 
 						// Convert the top-left-seed value to it's appropriate index in the full image.
-						heightWidthTop[k + 2] = (topLeftSeed % deltaW) + (imageWidth * floor(topLeftSeed / deltaW));
-						assert(heightWidthTop[k] < (imageHeight * imageWidth));
+						heightWidthTop[2][k] = (topLeftSeed % deltaW) + (imageWidth * floor(topLeftSeed / deltaW));
+
+						assert((heightWidthTop[2][k] % imageWidth) < deltaW); // check that TopLeft pixel is in the correct column.
+						assert((int)(heightWidthTop[2][k] / imageWidth) < deltaH); // check that TopLeft pixel is in the correct row.
 					}
 
 					return(heightWidthTop);
 				} // End paramsRandMatImagePatch
 
 
-				inline void randMatImagePatch(std::vector<weightedFeature>& featuresToTry, std::vector<int> patchPositions){
-					assert(int (patchPositions.size()) == (3*fpSingleton::getSingleton().returnMtry()));
+				inline void randMatImagePatch(std::vector<weightedFeature>& featuresToTry, std::vector<std::vector<int> > patchPositions){
+					assert((int)(patchPositions[0].size()) == fpSingleton::getSingleton().returnMtry());
 
 					// Preset parameters
-					//const int& imageHeight = fpSingleton::getSingleton().returnImageHeight();
 					const int& imageWidth = fpSingleton::getSingleton().returnImageWidth();
 
 					int pixelIndex = -1;
-					for (int k = 0; k < (3*fpSingleton::getSingleton().returnMtry()); k += 3){
-						for (int j = 0; j < patchPositions[k]; j++) {
-							for (int i = 0; i < patchPositions[k + 1]; i++) {
-								pixelIndex = patchPositions[k + 2] + i + (imageWidth * j);
-								featuresToTry[(k / 3)].returnFeatures().push_back(pixelIndex);
-								featuresToTry[(k / 3)].returnWeights().push_back(1); // weight hard-coded to 1.
+					for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++){
+						for (int row = 0; row < patchPositions[0][k]; row++) {
+							for (int col = 0; col < patchPositions[1][k]; col++) {
+								pixelIndex = patchPositions[2][k] + col + (imageWidth * row);
+								featuresToTry[k].returnFeatures().push_back(pixelIndex);
+								featuresToTry[k].returnWeights().push_back(1); // weight hard-coded to 1.
 								}
 						} // Could possibly turn this into one for-loop somehow later. [JLP]
 					}
@@ -631,11 +633,11 @@ namespace fp{
 					calcMtryForNode(featuresToTry);
 				}
 
-				inline std::vector<int> paramsRandMatImagePatchTest(){
+				inline std::vector<std::vector<int> > paramsRandMatImagePatchTest(){
 					return(paramsRandMatImagePatch());
 				}
 
-				inline void randMatImagePatchTest(std::vector<weightedFeature>& featuresToTry, std::vector<int> patchPositions){
+				inline void randMatImagePatchTest(std::vector<weightedFeature>& featuresToTry, std::vector<std::vector<int> > patchPositions){
 					return(randMatImagePatch(featuresToTry, patchPositions));
 				}
 };
