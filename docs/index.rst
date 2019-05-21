@@ -27,6 +27,7 @@ To learn more about RerF, visit `neurodata.io/rerf`_ or `github`_.
 
    RerF @ GitHub <http://www.github.com/neurodata/RerF/>
    RerF @ PyPI <https://pypi.org/project/rerf/>
+   RerF @ Gigantum <https://gigantum.com/neurodata/rerf>
    Issue Tracker <https://github.com/neurodata/rerf/issues>
 
 Indices and tables
