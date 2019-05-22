@@ -187,6 +187,8 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
             self.n_jobs_ = 1
         elif self.n_jobs == -1:
             self.n_jobs_ = multiprocessing.cpu_count()
+        else:
+            self.n_jobs_ = self.n_jobs
         self.forest_.setParameter("numCores", self.n_jobs_)
 
         if self.random_state is None:
