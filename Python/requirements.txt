@@ -1,4 +1,4 @@
 pybind11>=2.2.4
 numpy>=1.16.3
 scikit-learn>=0.21.0
-requests==2.21.0
+requests>=2.22.0
