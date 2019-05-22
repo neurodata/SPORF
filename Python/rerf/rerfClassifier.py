@@ -40,8 +40,11 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
     Parameters
     ----------
     projection_matrix : str, optional (default: "RerF")
-        The type of random combination of features to use: either "RerF" or
-        "Base".  See Tomita et al. (2016) [#Tomita]_ for further details. 
+        The random combination of features to use: either "RerF", "Base", or
+        "S-RerF".  "RerF" randomly combines features for each `mtry`. Base 
+        is our implementation of Random Forest. "S-RerF" is structured RerF,
+        combining multiple features together in random patches.
+        See Tomita et al. (2016) [#Tomita]_ for further details. 
     n_estimators : int, optional (default: 500)
         Number of trees in forest.
 
@@ -73,6 +76,21 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         ``None`` means 1. ``-1`` means use all processors. 
     random_state : int or None, optional (default=None)
         Random seed to use. If None, set seed to ``np.random.randint(1, 1000000)``.
+    
+    image_height : int, optional (default=None)
+        S-RerF required parameter. Image height of each observation.
+    image_width : int, optional (default=None)
+        S-RerF required parameter. Width of each observation.
+    patch_height_max : int, optional (default=None)
+        S-RerF parameter. Maximum image patch height to randomly select from.
+        If None, set to ``image_height``.
+    patch_height_min : int, optional (default=1)
+        S-RerF parameter. Minimum image patch height to randomly select from.
+    patch_width_max : int, optional (default=None)
+        S-RerF parameter. Maximum image patch width to randomly select from.
+        If None, set to ``image_width``.
+    patch_width_min : int, optional (default=1)
+        S-RerF parameter. Minimum image patch height to randomly select from.
 
     Returns
     -------
@@ -119,6 +137,12 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         feature_combinations=1.5,
         n_jobs=None,
         random_state=None,
+        image_height=None,
+        image_width=None,
+        patch_height_max=None,
+        patch_height_min=1,
+        patch_width_max=None,
+        patch_width_min=1,
     ):
         self.projection_matrix = projection_matrix
         self.n_estimators = n_estimators
@@ -128,6 +152,14 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         self.feature_combinations = feature_combinations
         self.n_jobs = n_jobs
         self.random_state = random_state
+
+        # s-rerf params
+        self.image_height = image_height
+        self.image_width = image_width
+        self.patch_height_max = patch_height_max
+        self.patch_height_min = patch_height_min
+        self.patch_width_max = patch_width_max
+        self.patch_width_min = patch_width_min
 
     def fit(self, X, y):
         """Fit estimator.
@@ -167,11 +199,34 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
 
         if self.projection_matrix == "RerF":
             forestType = "binnedBaseTern"
+            self.method_to_use_ = 1
         elif self.projection_matrix == "Base":
             forestType = "binnedBase"
+            self.method_to_use_ = 0
+        elif self.projection_matrix == "S-RerF":
+            forestType = "binnedBaseTern"  # this should change
+            self.method_to_use_ = 2
+
+            self.forest_.setParameter("imageHeight", self.image_height)
+            self.forest_.setParameter("imageWidth", self.image_width)
+            if self.patch_height_max is not None:
+                self.patch_height_max_ = self.patch_height_max
+            else:
+                self.patch_height_max_ = self.image_height
+            if self.patch_width_max is not None:
+                self.patch_width_max_ = self.patch_width_max
+            else:
+                self.patch_width_max_ = self.image_width
+
+            self.forest_.setParameter("patchHeightMax", self.patch_height_max_)
+            self.forest_.setParameter("patchHeightMin", self.patch_height_min)
+            self.forest_.setParameter("patchWidthMax", self.patch_width_max_)
+            self.forest_.setParameter("patchWidthMin", self.patch_width_min)
         else:
             raise ValueError("Incorrect projection matrix")
         self.forest_.setParameter("forestType", forestType)
+        if self.projection_matrix == "S-RerF" or self.projection_matrix == "RerF":
+            self.forest_.setParameter("methodToUse", self.method_to_use_)
 
         self.forest_.setParameter("numTreesInForest", self.n_estimators)
 

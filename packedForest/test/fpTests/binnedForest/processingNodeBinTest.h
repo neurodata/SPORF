@@ -214,4 +214,17 @@ TEST(processingNodeBinTest, paramRandMatImagePatch_Test)
 				y == 57
 				);
 	}
+
+	fpSingleton::getSingleton().setParameter("patchHeightMax", 28);
+	fpSingleton::getSingleton().setParameter("patchHeightMin", 1);
+	fpSingleton::getSingleton().setParameter("patchWidthMax", 28);
+	fpSingleton::getSingleton().setParameter("patchWidthMin", 1);
+
+	std::vector<std::vector<int> > testVecA1 = pNBA.paramsRandMatImagePatchTest();
+
+	for (auto y : testVecA1){
+		std::cout << "height " << y[0] << ", ";
+		std::cout << "width " << y[1] << "\n";
+		// assert that at the testVecA1 has a unique set of values == to the range between min/max for width/height?
+	}
 }
