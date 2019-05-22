@@ -1,4 +1,5 @@
 import numpy as np
+import warnings
 
 import pyfp
 
@@ -16,6 +17,8 @@ def fastRerF(
     mtry=None,
     mtryMult=1.5,
     fractionOfFeaturesToTest=None,
+    binMin=0,
+    binSize=0,
     seed=None,
 ):
     """Creates a decision forest based on an input matrix and class vector
@@ -52,6 +55,11 @@ def fastRerF(
     fractionOfFeaturesToTest : float, optional
         Sets mtry based on a fraction of the features instead of an 
         exact number (default: None).
+    binMin : int, optional
+        If set to greater than 0, this is used as the minimum number of
+        samples in the node for which to use subsampled points.
+    binSize : int, to be used with binMin
+        The number of subsampled points in the binning strategy.
     seed : int, optional
         Random seed to use (default: None).  If None, set seed to 
         ``np.random.randint(1, 1000000)``.
@@ -82,6 +90,14 @@ def fastRerF(
     forestClass.setParameter("forestType", forestType)
     forestClass.setParameter("numTreesInForest", trees)
     forestClass.setParameter("minParent", minParent)
+
+    if binMin > 0:
+        forestClass.setParameter("binMin", binMin)
+        forestClass.setParameter("binSize", binSize)
+        if not(forestType == "rerf" or forestType == "rfBase"):
+            warnings.warn("binMin and binSize are only implemented for 'rerf' and 'rfBase' forestTypes.")
+
+
 
     if maxDepth is not None:
         forestClass.setParameter("maxDepth", maxDepth)
