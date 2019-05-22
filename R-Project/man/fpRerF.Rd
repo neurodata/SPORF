@@ -8,9 +8,9 @@ fpRerF(X = NULL, Y = NULL, csvFileName = NULL, columnWithY = NULL,
   maxDepth = Inf, minParent = 1, numTreesInForest = 500,
   numCores = 1, numTreeBins = NULL, forestType = "binnedBaseRerF",
   nodeSizeToBin = NULL, nodeSizeBin = NULL, mtry = NULL,
-  mtryMult = NULL, seed = sample(1:1e+06, 1), methodToUse = 1,
-  imageHeight = NULL, imageWidth = NULL, patchHeightMax = NULL,
-  patchHeightMin = NULL, patchWidthMax = NULL, patchWidthMin = NULL)
+  mtryMult = NULL, seed = sample(1:1e+06, 1), imageHeight = NULL,
+  imageWidth = NULL, patchHeightMax = imageHeight,
+  patchHeightMin = 1, patchWidthMax = imageWidth, patchWidthMin = 1)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame used to train the forest.}
@@ -31,13 +31,20 @@ fpRerF(X = NULL, Y = NULL, csvFileName = NULL, columnWithY = NULL,
 
 \item{numTreeBins}{the number of bins to store the forest.  Each bin will contain numTreesInForest/numTreeBins trees.  Only used when forestType=="binned*" (numTreeBins= numCores)}
 
-\item{forestType}{the type of forest to grow: binnedBase, binnedBaseRerF, binnedBaseTern, rfBase, rerf (forestType="binnedBaseRerF")}
+\item{forestType}{the type of forest to grow:
+\itemize{
+    \item rfBase: The RF algorithm.
+    \item rerf: The Randomer Forest algorithm.
+    \item binnedBaseRerF: Randomer Forest with forest packing and projection weights sampled from {0,1}.
+    \item binnedBase: RF with forest packing.
+    \item binnedBaseTern: Randomer Forest with forest packing and projection weights sampled from {-1,0,1}.
+    \item S-RerF: The Structured Randomer Forest algorithm (for 2d
+    images) with forest packing, weight = 1.
+}}
 
 \item{mtry}{the number of features to consider when splitting a node (mtry=ncol(X)^.5)}
 
 \item{mtryMult}{the average number of features combined to form a new feature when using RerF (mtryMult=1)}
-
-\item{methodToUse}{int to pass in when using \code{forestType = "binnedBaseTern"}. 1 = Ternary, 2 = Structured-RerF. (methodToUse = 1)}
 
 \item{imageHeight}{int for use in Structured-RerF. (NULL)}
 

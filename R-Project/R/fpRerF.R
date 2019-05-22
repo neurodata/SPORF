@@ -13,10 +13,18 @@
 #' @param numTreeBins the number of bins to store the forest.  Each bin will contain numTreesInForest/numTreeBins trees.  Only used when forestType=="binned*" (numTreeBins= numCores)
 #' @param NodeSizeToBin the minimum node size to use stratified subsampling (NodeSizeToBin=NULL)
 #' @param NodeSizeBin the size of the stratified subsample chosen when NodeSizeToBin criteria is met (NodeSizeBin=NULL)
-#' @param forestType the type of forest to grow: binnedBase, binnedBaseRerF, binnedBaseTern, rfBase, rerf (forestType="binnedBaseRerF")
+#' @param forestType the type of forest to grow:
+#' \itemize{
+#'		\item rfBase: The RF algorithm.
+#'		\item rerf: The Randomer Forest algorithm.
+#'		\item binnedBaseRerF: Randomer Forest with forest packing and projection weights sampled from {0,1}.
+#'		\item binnedBase: RF with forest packing.
+#'		\item binnedBaseTern: Randomer Forest with forest packing and projection weights sampled from {-1,0,1}.
+#'		\item S-RerF: The Structured Randomer Forest algorithm (for 2d
+#'		images) with forest packing, weight = 1.
+#' }
 #' @param mtry the number of features to consider when splitting a node (mtry=ncol(X)^.5)
 #' @param mtryMult the average number of features combined to form a new feature when using RerF (mtryMult=1)
-#' @param methodToUse int to pass in when using \code{forestType = "binnedBaseTern"}. 1 = Ternary, 2 = Structured-RerF. (methodToUse = 1)
 #' @param imageHeight int for use in Structured-RerF. (NULL)
 #' @param imageWidth int for use in Structured-RerF. (NULL)
 #' @param patchHeightMax int  for use in Structured-RerF. (NULL)
@@ -38,7 +46,7 @@
 
 
 fpRerF <-
-	function(X=NULL, Y=NULL,csvFileName=NULL, columnWithY=NULL, maxDepth = Inf, minParent=1, numTreesInForest=500, numCores=1,numTreeBins=NULL, forestType="binnedBaseRerF", nodeSizeToBin=NULL, nodeSizeBin=NULL,mtry=NULL, mtryMult=NULL,seed=sample(1:1000000,1), methodToUse = 1, imageHeight = NULL, imageWidth = NULL, patchHeightMax = NULL, patchHeightMin = NULL, patchWidthMax = NULL, patchWidthMin = NULL){
+	function(X=NULL, Y=NULL,csvFileName=NULL, columnWithY=NULL, maxDepth = Inf, minParent=1, numTreesInForest=500, numCores=1,numTreeBins=NULL, forestType="binnedBaseRerF", nodeSizeToBin=NULL, nodeSizeBin=NULL,mtry=NULL, mtryMult=NULL,seed=sample(1:1000000,1), imageHeight = NULL, imageWidth = NULL, patchHeightMax = imageHeight, patchHeightMin = 1, patchWidthMax = imageWidth, patchWidthMin = 1){
 
 		##### Basic Checks
 		################################################
@@ -51,19 +59,50 @@ fpRerF <-
 		if(numTreesInForest < 1){
 			stop("at least one tree must be used.")
 		}
-		if(!(forestType %in% c('rfBase', 'rerf', 'binnedBase', 'binnedBaseRerF'))){
-			stop("must pick a forest type from the following:\n rfBase, rerf, inPlace, inPlaceRerF, binnedBase, binnedBaseRerF")
-		}
+
 		if(is.null(numTreeBins)){
 			numTreeBins <- numCores
 		}
 
 		forest_module <- methods::new(forestPackingRConversion)
-		forest_module$setParameterString("forestType", forestType)
+
+		switch(as.character(forestType),
+				'rfBase' = {
+					forest_module$setParameterString("forestType", "rfBase")
+				},
+				'rerf'= {
+					forest_module$setParameterString("forestType", "rerf")
+				},
+				'binnedBase' = {
+					forest_module$setParameterString("forestType", "binnedBase")
+				},
+				'binnedBaseRerF' = {
+					forest_module$setParameterString("forestType", "binnedBaseRerF")
+				},
+				'binnedBaseTern' = {
+					forest_module$setParameterString("forestType", "binnedBaseTern")
+					forest_module$setParameterInt("methodToUse", 1)
+				},
+				'S-RerF' = {
+					forest_module$setParameterString("forestType", "binnedBaseTern")
+					forest_module$setParameterInt("methodToUse", 2)
+					forest_module$setParameterInt("imageHeight", imageHeight)
+					forest_module$setParameterInt("imageWidth", imageWidth)
+					forest_module$setParameterInt("patchHeightMax", patchHeightMax)
+					forest_module$setParameterInt("patchHeightMin", patchHeightMin)
+					forest_module$setParameterInt("patchWidthMax", patchWidthMax)
+					forest_module$setParameterInt("patchWidthMin", patchWidthMin)
+				},
+				{
+					warning(sprintf("Using non-standard forestType %s.", forestType))
+					forest_module$setParameterString("forestType", forestType)
+				}
+		)
+
 		forest_module$setParameterInt("numTreesInForest", numTreesInForest)
 		if(is.finite(maxDepth) && (maxDepth > 0)){
-      forest_module$setParameterInt("maxDepth", maxDepth)
-		} 
+			forest_module$setParameterInt("maxDepth", maxDepth)
+		}
 		forest_module$setParameterInt("minParent", minParent)
 		forest_module$setParameterInt("numCores", numCores)
 		forest_module$setParameterInt("useRowMajor",0)
@@ -85,23 +124,6 @@ fpRerF <-
 		forest_module$setParameterDouble("mtryMult",mtryMult)
 		}
 
-		if(forestType == "binnedBaseTern"){
-			if(any(sapply(c(imageHeight, imageWidth, patchHeightMax, patchHeightMin, patchWidthMax, patchWidthMin), is.null))){
-				stop("\nimage parameters have not been set.\n")
-			}
-			switch(methodToUse,
-				   '1' = forest_module$setParameterInt("methodToUse", 1),
-				   '2' = {
-						  forest_module$setParameterInt("methodToUse", 2)
-						  forest_module$setParameterInt("imageHeight", imageHeight)
-						  forest_module$setParameterInt("imageWidth", imageWidth)
-						  forest_module$setParameterInt("patchHeightMax", patchHeightMax)
-						  forest_module$setParameterInt("patchHeightMin", patchHeightMin)
-						  forest_module$setParameterInt("patchWidthMax", patchWidthMax)
-						  forest_module$setParameterInt("patchWidthMin", patchWidthMin)
-						 }
-					)
-		}
 
 		##### Check X and Y inputs
 		################################################
