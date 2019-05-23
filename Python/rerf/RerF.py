@@ -57,9 +57,9 @@ def fastRerF(
         exact number (default: None).
     binMin : int, optional
         If set to greater than 0, this is used as the minimum number of
-        samples in the node for which to use subsampled points.
+        samples in the node for which to use binning.
     binSize : int, to be used with binMin
-        The number of subsampled points in the binning strategy.
+        The number of subsampled points in each bin.
     seed : int, optional
         Random seed to use (default: None).  If None, set seed to 
         ``np.random.randint(1, 1000000)``.
@@ -92,10 +92,10 @@ def fastRerF(
     forestClass.setParameter("minParent", minParent)
 
     if binMin > 0:
-        forestClass.setParameter("binMin", binMin)
-        forestClass.setParameter("binSize", binSize)
         if not(forestType == "rerf" or forestType == "rfBase"):
             warnings.warn("binMin and binSize are only implemented for 'rerf' and 'rfBase' forestTypes.")
+        forestClass.setParameter("binMin", binMin)
+        forestClass.setParameter("binSize", binSize)
 
 
 
