@@ -4,8 +4,8 @@
 \alias{Predict}
 \title{Compute class predictions for each observation in X}
 \usage{
-Predict(X, forest, num.cores = 0L, Xtrain = NULL, aggregate.output = TRUE,
-  output.scores = FALSE)
+Predict(X, forest, num.cores = 0L, Xtrain = NULL,
+  aggregate.output = TRUE, output.scores = FALSE)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features of a test set, which should be different from the training set.}

@@ -4,14 +4,14 @@
 \alias{RerF}
 \title{RerF forest Generator}
 \usage{
-RerF(X, Y, min.parent = 6L, trees = 100L, max.depth = 0L, bagging = 0.2,
-  replacement = TRUE, stratify = FALSE, fun = NULL, mat.options = list(p
-  = ifelse(is.null(cat.map), ncol(X), length(cat.map)), d =
-  ceiling(sqrt(ncol(X))), random.matrix = "binary", rho =
-  ifelse(is.null(cat.map), 1/ncol(X), 1/length(cat.map))),
-  rank.transform = FALSE, store.oob = FALSE, store.impurity = FALSE,
-  progress = FALSE, rotate = F, num.cores = 0L, seed = 1L,
-  cat.map = NULL)
+RerF(X, Y, min.parent = 6L, trees = 100L, max.depth = 0L,
+  bagging = 0.2, replacement = TRUE, stratify = FALSE, fun = NULL,
+  mat.options = list(p = ifelse(is.null(cat.map), ncol(X),
+  length(cat.map)), d = ceiling(sqrt(ncol(X))), random.matrix = "binary",
+  rho = ifelse(is.null(cat.map), 1/ncol(X), 1/length(cat.map)), prob =
+  0.5), rank.transform = FALSE, store.oob = FALSE,
+  store.impurity = FALSE, progress = FALSE, rotate = F,
+  num.cores = 0L, seed = 1L, cat.map = NULL)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}
@@ -49,6 +49,8 @@ RerF(X, Y, min.parent = 6L, trees = 100L, max.depth = 0L, bagging = 0.2,
 \item{seed}{the seed to use for training the forest. (seed=1)}
 
 \item{cat.map}{a list specifying which columns in X correspond to the same one-of-K encoded feature. Each element of cat.map is a numeric vector specifying the K column indices of X corresponding to the same categorical feature after one-of-K encoding. All one-of-K encoded features in X must come after the numeric features. The K encoded columns corresponding to the same categorical feature must be placed contiguously within X. The reason for specifying cat.map is to adjust for the fact that one-of-K encoding cateogorical features results in a dilution of numeric features, since a single categorical feature is expanded to K binary features. If cat.map = NULL, then RerF assumes all features are numeric (i.e. none of the features have been one-of-K encoded).}
+
+\item{prob}{the probability of sampling +1 in the default random matrix function}
 }
 \value{
 forest

@@ -5,8 +5,8 @@
 \title{RerF Tree Generator}
 \usage{
 BuildTree(X, Y, min.parent, max.depth, bagging, replacement, stratify,
-  class.ind, class.ct, fun, mat.options, store.oob, store.impurity, progress,
-  rotate)
+  class.ind, class.ct, fun, mat.options, store.oob, store.impurity,
+  progress, rotate)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}
