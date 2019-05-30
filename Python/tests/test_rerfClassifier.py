@@ -3,7 +3,7 @@
 
 import numpy as np
 import pytest
-from sklearn import datasets
+from sklearn import datasets, metrics
 from sklearn.utils.testing import assert_allclose, assert_array_equal
 from sklearn.utils.validation import check_random_state
 
@@ -100,3 +100,15 @@ def check_iris_criterion(projection_matrix):
 @pytest.mark.parametrize("projection_matrix", ("RerF", "Base"))
 def test_iris(projection_matrix):
     check_iris_criterion(projection_matrix)
+
+
+@pytest.mark.parametrize("projection_matrix", ("RerF", "Base"))
+def test_iris_perfect_train(projection_matrix):
+    iris_full = datasets.load_iris()
+    y_train_acc_list = []
+    clf = rerfClassifier(n_estimators=100, projection_matrix=projection_matrix)
+    for i in range(100):
+        clf.fit(iris_full.data, iris_full.target)
+        y_pred_train = clf.predict(iris_full.data)
+        y_train_acc_list.append(metrics.accuracy_score(iris_full.target, y_pred_train))
+    assert all([yt == 1 for yt in y_train_acc_list])
