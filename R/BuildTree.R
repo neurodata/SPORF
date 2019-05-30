@@ -5,13 +5,13 @@
 #' @param X an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.
 #' @param Y an n length vector of class labels.  Class labels must be integer or numeric and be within the range 1 to the number of classes.
 #' @param min.parent the minimum splittable node size.  A node size < min.parent will be a leaf node. (min.parent = 6)
-#' @param max.depth the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=0, the tree will be allowed to grow without bound.  (max.depth=0)  
-#' @param bagging a non-zero value means a random sample of X will be used during tree creation.  If replacement = FALSE the bagging value determines the percentage of samples to leave out-of-bag.  If replacement = TRUE the non-zero bagging value is ignored. (bagging=.2) 
+#' @param max.depth the longest allowable distance from the root of a tree to a leaf node (i.e. the maximum allowed height for a tree).  If max.depth=0, the tree will be allowed to grow without bound.  (max.depth=0)
+#' @param bagging a non-zero value means a random sample of X will be used during tree creation.  If replacement = FALSE the bagging value determines the percentage of samples to leave out-of-bag.  If replacement = TRUE the non-zero bagging value is ignored. (bagging=.2)
 #' @param replacement if TRUE then n samples are chosen, with replacement, from X. (replacement=TRUE)
 #' @param stratify if TRUE then class sample proportions are maintained during the random sampling.  Ignored if replacement = FALSE. (stratify = FALSE).
 #' @param class.ind a vector of lists.  Each list holds the indexes of its respective class (e.g. list 1 contains the index of each class 1 sample).
-#' @param class.ct a cumulative sum of class counts.  
-#' @param fun a function that creates the random projection matrix. (fun=NULL) 
+#' @param class.ct a cumulative sum of class counts.
+#' @param fun a function that creates the random projection matrix. (fun=NULL)
 #' @param mat.options a list of parameters to be used by fun. (mat.options=c(ncol(X), round(ncol(X)^.5),1L, 1/ncol(X)))
 #' @param store.oob if TRUE then the samples omitted during the creation of a tree are stored as part of the tree.  This is required to run OOBPredict(). (store.oob=FALSE)
 #' @param store.impurity if TRUE then the reduction in Gini impurity is stored for every split. This is required to run FeatureImportance() (store.impurity=FALSE)
@@ -25,32 +25,32 @@ BuildTree <-
     function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind, class.ct, fun, mat.options, store.oob, store.impurity, progress, rotate){
         #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         # rfr builds a randomer classification forest structure made up of a list
-        # of trees.  This forest is randomer because each node is rotated before 
+        # of trees.  This forest is randomer because each node is rotated before
         # being split (as described by Tyler Tomita).  The tree is grown depth first.
-        # The returned tree has a minimum of five vectors: a tree map, a probability 
+        # The returned tree has a minimum of five vectors: a tree map, a probability
         # matrix, cutpoint vector, and two vectors needed to rotate data.
-        # 
+        #
         #  INPUT:
         #
         # X is an n-by-p matrix, where rows represent observations and columns
         # represent features
         #
-        # Y is an n-by-1 array of integer class labels. 
+        # Y is an n-by-1 array of integer class labels.
         #
         # min.parent is an integer specifying the minimum number of samples
         # a node must have in order for an attempt to split to be made.  Lower
         # values may lead to overtraining and increased training time.
         #
         # max.depth is the maximum depth that a tree can grow to.  If set to "0"
-        # then there is no maximum depth.  
+        # then there is no maximum depth.
         #
         # bagging is the percentage of training data to withhold during each
         # training iteration.  If set to 0 then the entire training set is used
         # during every iteration.  The withheld portion of the training data
         # is used to calculate OOB error for the tree.
         #
-        # class.ct is the number of different classes in Y.  It is calculated 
-        # in the calling function to prevent recalculation by each forked function 
+        # class.ct is the number of different classes in Y.  It is calculated
+        # in the calling function to prevent recalculation by each forked function
         # when in parallel.
         #
         # fun is the function used to create the projection matrix.  The matrix
@@ -68,18 +68,18 @@ BuildTree <-
         # dimensions will be rotated and the others will be left alone
         #
         # store.oob is a boolean that determines whether or not OOB error is calculated.
-        # If bagging equals zero then store.oob is ignored.  If bagging does not equal 
+        # If bagging equals zero then store.oob is ignored.  If bagging does not equal
         # zero and store.oob is TRUE then OOB is calculated and printed to the screen.
-        # 
+        #
         # store.impurity is a boolean that specifies whether to store the reduction in impurity of each
         # split.
         #
-        # progress is a boolean.  When true a progress marker is printed to the 
+        # progress is a boolean.  When true a progress marker is printed to the
         # screen every time a tree is grown.  This is useful for large input.
         #
         # OUTPUT:
         #
-        # A forest construct made up of trees.  This forest can be used to make 
+        # A forest construct made up of trees.  This forest can be used to make
         # predictions on new inputs.  When store.oob=TRUE then the output is a list
         # containing $forest and $OOBmat.  $forest is the forest structure and
         # OOBmat is the OOB error for each tree.
@@ -90,22 +90,21 @@ BuildTree <-
         # Predefine variables to prevent recreation during loops
         #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         nClasses <- length(class.ct)
-        ret <- list(MaxDeltaI = 0, BestVar = 0L, BestSplit = 0)
         currIN <- 0L # keep track of internal nodes for treemap
         currLN <- 0L # keep track of leaf nodes for treemap
         w <- nrow(X)
         p <- ncol(X)
         perBag <- (1-bagging)*w
         Xnode<-double(w) # allocate space to store the current projection
-        SortIdx<-integer(w) 
+        SortIdx<-integer(w)
         x <- double(w)
         y <- integer(w)
 
         # Calculate the Max Depth and the max number of possible nodes
         if (max.depth == 0L){
-            MaxNumNodes <- 2L*w 
+            MaxNumNodes <- 2L*w
         }else{
-            MaxNumNodes <- min(2L*w, 2L^(max.depth+1L)) 
+            MaxNumNodes <- min(2L*w, 2L^(max.depth+1L))
         }
 
         maxIN <- ceiling(MaxNumNodes/2)
@@ -117,20 +116,22 @@ BuildTree <-
           delta.impurity <- double(maxIN)
         }
         NDepth <- integer(MaxNumNodes)
-        Assigned2Node<- vector("list",MaxNumNodes) 
+        Assigned2Node<- vector("list",MaxNumNodes)
         ind <- double(w)
         #Matrix A storage variables
         matAindex <- integer(maxIN)
         matAsize <- ceiling(w/2)
 
-        if (mat.options[[3]] != "frc" && 
-            mat.options[[3]] != "continuous" && 
+        if (mat.options[[3]] != "frc" &&
+            mat.options[[3]] != "continuous" &&
             mat.options[[3]] != "frcn") {
             matAstore <- integer(matAsize)
         } else {
             matAstore <- double(matAsize)
         }
         matAindex[1L] <- 0L
+
+        ret <- list(MaxDeltaI = 0, BestVar = rep(0L, w), BestSplit = rep(0, w), NumBest = 0L)
         #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
         #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -156,7 +157,7 @@ BuildTree <-
         NextUnusedNode <- 2L
         NodeStack <- 1L
         ind[] <- 0L
-        # Determine bagging set 
+        # Determine bagging set
         # Assigned2Node is the set of row indices of X assigned to current node
         if(bagging != 0){
             if(replacement){
@@ -180,10 +181,10 @@ BuildTree <-
                 Assigned2Node[[1L]] <- ind
             } else {
                 ind[1:perBag] <- sample(1:w, perBag, replace = FALSE)
-                Assigned2Node[[1L]] <- ind[1:perBag]        
+                Assigned2Node[[1L]] <- ind[1:perBag]
             }
         } else {
-            Assigned2Node[[1L]] <- 1:w        
+            Assigned2Node[[1L]] <- 1:w
         }
 
         # main loop over nodes.  This loop ends when the node stack is empty.
@@ -195,8 +196,8 @@ BuildTree <-
             # compute impurity for current node
             I <- sum(ClassCounts*(1 - ClProb))
             # check to see if node split should be attempted
-            if (NdSize < min.parent || 
-                I <= 0 || 
+            if (NdSize < min.parent ||
+                I <= 0 ||
                 NDepth[CurrentNode]==max.depth){
                 # store tree map data (negative value means this is a leaf node
                 treeMap[CurrentNode] <- currLN <- currLN - 1L
@@ -207,7 +208,7 @@ BuildTree <-
                 if(is.na(CurrentNode)){
                     break
                 }
-                next 
+                next
             }
 
             # create projection matrix (sparseM) by calling the custom function fun
@@ -244,14 +245,15 @@ BuildTree <-
                 ##################################################################
                 # calculate deltaI for this rotation and return the best current deltaI
                 # find split is an Rcpp call.
-                ret[] <- findSplit(x = x[1:NdSize], 
-                                   y = y[1:NdSize], 
-                                   ndSize = NdSize, 
+                ret[] <- findSplit(x = x[1:NdSize],
+                                   y = y[1:NdSize],
+                                   ndSize = NdSize,
                                    I = I,
-                                   maxdI = ret$MaxDeltaI, 
-                                   bv = ret$BestVar, 
-                                   bs = ret$BestSplit, 
-                                   nzidx = nz.idx, 
+                                   maxdI = ret$MaxDeltaI,
+                                   bv = ret$BestVar,
+                                   bs = ret$BestSplit,
+                                   nb = ret$NumBest,
+                                   nzidx = nz.idx,
                                    cc = ClassCounts)
 
                 nz.idx <- nz.idx + feature.nnz
@@ -271,21 +273,28 @@ BuildTree <-
                 next
             }
 
+            # if more than one best split was found, then randomly select one
+            if (ret$NumBest > 1L) {
+              bsidx <- sample.int(ret$NumBest, 1L)
+            } else {
+              bsidx <- 1L
+            }
+
             # Recalculate the best projection and reproject the data
-            feature.idx <- sparseM[ret$BestVar, 2L]
+            feature.idx <- sparseM[ret$BestVar[bsidx], 2L]
             feature.nnz <- 0L
-            while(sparseM[ret$BestVar + feature.nnz, 2L] == feature.idx) {
+            while(sparseM[ret$BestVar[bsidx] + feature.nnz, 2L] == feature.idx) {
                 feature.nnz <- feature.nnz + 1L
-                if (ret$BestVar + feature.nnz > nnz) {
+                if (ret$BestVar[bsidx] + feature.nnz > nnz) {
                     break
                 }
             }
-            lrows <- ret$BestVar:(ret$BestVar + feature.nnz - 1L)
+            lrows <- ret$BestVar[bsidx]:(ret$BestVar[bsidx] + feature.nnz - 1L)
             Xnode[1:NdSize]<-X[Assigned2Node[[CurrentNode]],sparseM[lrows,1L], drop=FALSE]%*%sparseM[lrows,3L, drop=FALSE]
 
             # find which child node each sample will go to and move
             # them accordingly
-            MoveLeft <- Xnode[1L:NdSize]  <= ret$BestSplit
+            MoveLeft <- Xnode[1L:NdSize]  <= ret$BestSplit[bsidx]
 
             # Move samples left or right based on split
             Assigned2Node[[NextUnusedNode]] <- Assigned2Node[[CurrentNode]][MoveLeft]
@@ -307,15 +316,15 @@ BuildTree <-
                 matAsize <- matAsize*2L
                 matAstore[matAsize] <- 0L
             }
-            if (mat.options[[3L]] != "frc" && 
-                mat.options[[3L]] != "continuous" && 
+            if (mat.options[[3L]] != "frc" &&
+                mat.options[[3L]] != "continuous" &&
                 mat.options[[3]] != "frcn") {
                 matAstore[(matAindex[currIN]+1L):(matAindex[currIN]+currMatAlength)] <- as.integer(t(sparseM[lrows,c(1L,3L)]))
             } else {
                 matAstore[(matAindex[currIN]+1L):(matAindex[currIN]+currMatAlength)] <- t(sparseM[lrows,c(1L,3L)])
             }
-            matAindex[currIN+1] <- matAindex[currIN]+currMatAlength 
-            CutPoint[currIN] <- ret$BestSplit # store best cutpoint for this node
+            matAindex[currIN+1] <- matAindex[currIN]+currMatAlength
+            CutPoint[currIN] <- ret$BestSplit[bsidx] # store best cutpoint for this node
             if (store.impurity) {
               delta.impurity[currIN] <- ret$MaxDeltaI # store decrease in impurity for this node
             }
