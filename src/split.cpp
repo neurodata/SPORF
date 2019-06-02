@@ -5,7 +5,7 @@ using namespace Rcpp;
 
 // [[Rcpp::export]]
 List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize, const double & I,
-	double maxdI, IntegerVector bv, NumericVector bs, int nb, const int nzidx, arma::vec cc) {
+	double maxdI, IntegerVector bv, NumericVector bs, int nb, int mb, const int nzidx, arma::vec cc) {
 
 	double xl, xr, dI;
 	int yl, yr, cons, potsplit, bsct;
@@ -45,7 +45,7 @@ List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize,
 							nb = 1;
 							maxdI = dI;
 							bsct = 1;
-						} else if (dI == maxdI && dI > 0) {
+						} else if (dI == maxdI && dI > 0 && nb < mb) {
 							bsidx[bsct] = potsplit;
 							bv[nb] = nzidx;
 							bsct += 1;
@@ -77,7 +77,7 @@ List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize,
 							nb = 1;
 							maxdI = dI;
 							bsct = 1;
-						} else if (dI == maxdI && dI > 0) {
+						} else if (dI == maxdI && dI > 0 && nb < mb) {
 							bsidx[bsct] = potsplit;
 							bv[nb] = nzidx;
 							bsct += 1;
@@ -109,7 +109,7 @@ List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize,
 						nb = 1;
 						maxdI = dI;
 						bsct = 1;
-			    } else if (dI == maxdI && dI > 0) {
+			    } else if (dI == maxdI && dI > 0 && nb < mb) {
 						bsidx[bsct] = i + 1;
 						bv[nb] = nzidx;
 						bsct += 1;
@@ -131,7 +131,7 @@ List findSplit(const NumericVector x, const IntegerVector y, const int & ndSize,
 					nb = 1;
 					maxdI = dI;
 					bsct = 1;
-				} else if (dI == maxdI && dI > 0) {
+				} else if (dI == maxdI && dI > 0 && nb < mb) {
 					bsidx[bsct] = i + 1;
 					bv[nb] = nzidx;
 					bsct += 1;

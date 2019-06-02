@@ -17,12 +17,13 @@
 #' @param store.impurity if TRUE then the reduction in Gini impurity is stored for every split. This is required to run FeatureImportance() (store.impurity=FALSE)
 #' @param progress if true a pipe is printed after each tree is created.  This is useful for large datasets. (progress=FALSE)
 #' @param rotate if TRUE then the data matrix X is uniformly randomly rotated. (rotate=FALSE)
+#' @param max.best the max number of best splits to store if several splits are equally good. (max.best=nrow(X))
 #'
 #' @return Tree
 #'
 
 BuildTree <-
-    function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind, class.ct, fun, mat.options, store.oob, store.impurity, progress, rotate){
+    function(X, Y, min.parent, max.depth, bagging, replacement, stratify, class.ind, class.ct, fun, mat.options, store.oob, store.impurity, progress, rotate, max.best){
         #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         # rfr builds a randomer classification forest structure made up of a list
         # of trees.  This forest is randomer because each node is rotated before
@@ -253,6 +254,7 @@ BuildTree <-
                                    bv = ret$BestVar,
                                    bs = ret$BestSplit,
                                    nb = ret$NumBest,
+                                   mb = max.best,
                                    nzidx = nz.idx,
                                    cc = ClassCounts)
 
