@@ -164,3 +164,69 @@ def test_fastPredictPost_X_Y_input():
     # pred class should equal the max prob in posteriors
     assert np.array_equal(pred_all.argmax(axis=1), fastPredict(feat_data, forest))
 
+
+
+def test_S_RerF():
+
+    data_fname = "packedForest/res/mnist.csv"  # mnist
+    train_X = np.genfromtxt(data_fname, delimiter=",")
+    label_col = 0
+
+    feat_data = train_X[:, 1:]  # mnist
+    labels = train_X[:, label_col]
+
+    ## Subset the data to for time.
+    y35 = (labels == 3) | (labels == 5)
+
+    feat_data = train_X[y35, 1:]  # mnist
+    labels = (labels[y35] != 3).astype(int)
+
+
+    forest = fastRerF(
+        X=feat_data,
+        Y=labels,
+        forestType="S-RerF",
+        trees=500,
+        minParent=1,
+        maxDepth=None,
+        numCores=1,
+        mtry=28,
+        seed=30,
+        imageHeight=28,
+        imageWidth=28,
+        patchHeightMin=1,
+        patchHeightMax=4,
+        patchWidthMin=1,
+        patchWidthMax=4,
+    )
+
+    params = get_params(forest)
+
+    assert params["imageHeight"] == '28'
+    assert params["imageWidth"] == '28'
+    assert params["patchHeightMin"] == '1'
+    assert params["patchHeightMax"] == '4'
+    assert params["patchWidthMin"] == '1'
+    assert params["patchWidthMax"] == '4'
+
+
+    train_pred = [[3,5][i] for i in fastPredict(feat_data, forest)]
+
+    print("Trianing Error:", np.mean(train_pred != train_X[y35, label_col]))
+
+    test_fname = "packedForest/res/mnist_test.csv"  # mnist
+    test_data = np.genfromtxt(test_fname, delimiter=",")
+
+    ## Subset the data to for time.
+    test_y35 = (test_data[:, 0] == 3) | (test_data[:, 0] == 5)
+
+    test_X = test_data[test_y35, 1:]
+    test_Y = test_data[test_y35, 0]
+
+    test_pred = [[3,5][i] for i in fastPredict(test_X, forest)]
+
+    test_error = np.mean(test_pred != test_Y)
+
+    print(f"Testing Error rate: {test_error:2.9f}")
+    assert(test_error < 0.2)
+    

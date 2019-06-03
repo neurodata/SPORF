@@ -2,9 +2,11 @@
 #include "../../../src/fpSingleton/fpSingleton.h"
 #include "../../../src/baseFunctions/MWC.h"
 
+#include <algorithm>
 #include <vector>
 #include <string>
 #include <cstdlib>
+#include <iostream>
 
 using namespace fp;
 #define typeClass int
@@ -215,6 +217,7 @@ TEST(processingNodeBinTest, paramRandMatImagePatch_Test)
 				);
 	}
 
+	fpSingleton::getSingleton().setParameter("mtry", 2800);
 	fpSingleton::getSingleton().setParameter("patchHeightMax", 28);
 	fpSingleton::getSingleton().setParameter("patchHeightMin", 1);
 	fpSingleton::getSingleton().setParameter("patchWidthMax", 28);
@@ -222,9 +225,45 @@ TEST(processingNodeBinTest, paramRandMatImagePatch_Test)
 
 	std::vector<std::vector<int> > testVecA1 = pNBA.paramsRandMatImagePatchTest();
 
-	for (auto y : testVecA1){
-		std::cout << "height " << y[0] << ", ";
-		std::cout << "width " << y[1] << "\n";
-		// assert that at the testVecA1 has a unique set of values == to the range between min/max for width/height?
+
+	/*
+	// Write out the top left values to check in R if they are approximately uniform.
+	//
+	// The first two files can then be tested in R using `wilcox.test` with y = c(100).
+	// The last file can be tested conditioned on (H,W). [JLP: not sure
+	// how to do this yet].
+
+	std::ofstream outFile0("heights.csv");
+	for (const auto &e : testVecA1[0]){
+		outFile0 << e << std::endl;
+	}
+
+	std::ofstream outFile1("widths.csv");
+	for (const auto &e : testVecA1[1]){
+		outFile1 << e << std::endl;
+	}
+
+	std::ofstream outFile2("topLeftVec.csv");
+	for (const auto &e : testVecA1[2]){
+		outFile2 << e << std::endl;
+	}
+	*/
+
+	std::vector<std::vector<int> > uniques(testVecA1.size(), std::vector<int>(1000));
+
+
+	for (int y = 0; y < testVecA1.size(); y++){
+		std::sort(testVecA1[y].begin(), testVecA1[y].end());
+		std::vector<int>::iterator it = std::unique_copy(testVecA1[y].begin(), testVecA1[y].end(), uniques[y].begin());
+		uniques[y].resize(std::distance(uniques[y].begin(), it));
+	}
+
+
+	// Checks that the unique (heights, widths) fill out the grid [28]\times[28]
+	for (int ji = 0; ji < uniques.size() - 1; ji++){
+		for(int k = 1; k < uniques[ji].size() + 1; k++){
+			//std::cout << k << std::endl;
+			EXPECT_EQ(uniques[ji][k-1], k);
+		}
 	}
 }
