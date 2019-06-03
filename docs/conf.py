@@ -21,6 +21,8 @@ from github_link import make_linkcode_resolve
 
 from rerf import __version__
 
+from recommonmark.parser import CommonMarkParser
+
 # -- Project information -----------------------------------------------------
 
 project = "RerF"
@@ -55,8 +57,9 @@ templates_path = ["_templates"]
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
-# source_suffix = ['.rst', '.md']
-source_suffix = ".rst"
+source_parsers = {".md": CommonMarkParser}
+source_suffix = [".rst", ".md"]
+# source_suffix = ".rst"
 
 # The master toctree document.
 master_doc = "index"
