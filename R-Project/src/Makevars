@@ -4,11 +4,11 @@
 
 CXX_STD = CXX11
 
-PKG_CXXFLAGS= $(SHLIB_OPENMP_CFLAGS) -IforestPacking -Xpreprocessor -fopenmp -Wall -O3 -DNDEBUG -ffast-math
+PKG_CXXFLAGS= $(SHLIB_OPENMP_CFLAGS) -IforestPacking -Xpreprocessor -fopenmp -Wall -O3 -DNDEBUG -ffast-math -ggdb
 #PKG_CXXFLAGS= $(SHLIB_OPENMP_CXXFLAGS) -IforestPacking -DNDEBUG
 
 #PKG_CFLAGS = $(SHLIB_OPENMP_CFLAGS) -IforestPacking
-PKG_CFLAGS = $(SHLIB_OPENMP_CFLAGS) -IforestPacking -Xpreprocessor -fopenmp -Wall -O3 -DNDEBUG -ffast-math
+PKG_CFLAGS = $(SHLIB_OPENMP_CFLAGS) -IforestPacking -Xpreprocessor -fopenmp -Wall -O3 -DNDEBUG -ffast-math -ggdb
 
 #PKG_CFLAGS = $(SHLIB_OPENMP_CFLAGS) -IforestPacking -DNDEBUG
 PKG_LIBS = $(SHLIB_OPENMP_CFLAGS) -lm
