@@ -85,6 +85,7 @@ def fastRerF(
 
     forestClass = pyfp.fpForest()
 
+    # Set forestType with additional parameters specific to that type
     if forestType == "binnedBaseTern":
         forestClass.setParameter("methodToUse", 1)
     elif forestType == "S-RerF":
