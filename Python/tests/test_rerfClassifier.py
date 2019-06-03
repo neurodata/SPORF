@@ -1,14 +1,15 @@
 # from the template test in sklearn:
 # https://github.com/scikit-learn-contrib/project-template/blob/master/skltemplate/tests/test_template.py
 
+import math
+
 import numpy as np
 import pytest
-from sklearn import datasets
+from sklearn import datasets, metrics
 from sklearn.utils.testing import assert_allclose, assert_array_equal
 from sklearn.utils.validation import check_random_state
 
 from rerf.rerfClassifier import rerfClassifier
-
 
 # toy sample
 X = [[-2, -1], [-1, -1], [-1, -2], [1, 1], [1, 2], [2, 1]]
@@ -166,3 +167,29 @@ def check_iris_criterion(projection_matrix):
 @pytest.mark.parametrize("projection_matrix", ("RerF", "Base"))
 def test_iris(projection_matrix):
     check_iris_criterion(projection_matrix)
+
+
+@pytest.mark.parametrize("projection_matrix", ("RerF", "Base"))
+def test_iris_perfect_train(projection_matrix):
+    iris_full = datasets.load_iris()
+    y_train_acc_list = []
+    clf = rerfClassifier(n_estimators=100, projection_matrix=projection_matrix)
+
+    n_forests_to_try = 100
+    for i in range(n_forests_to_try):
+        clf.fit(iris_full.data, iris_full.target)
+        y_pred_train = clf.predict(iris_full.data)
+        y_train_acc_list.append(metrics.accuracy_score(iris_full.target, y_pred_train))
+
+    correct_list = [math.isclose(yt, 1) for yt in y_train_acc_list]
+    if projection_matrix == "RerF":
+        # assert that we get it 100% correct all the time for RerF
+        # actual accuracy was 9998 / 10K runs (5/30/2019)
+        assert all(correct_list)
+    elif projection_matrix == "Base":
+        # assert that we get it 100% correct most of the time for RF
+        # actual accuracy was 9998 / 10K runs (5/30/2019)
+        assert sum(correct_list) >= 0.99 * n_forests_to_try
+
+        # want to make sure that if any are not giving 100% acc, it's only 1 obs that's wrong
+        assert min(y_train_acc_list) >= (1 - 1 / len(iris_full.target))

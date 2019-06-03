@@ -7,5 +7,4 @@ Demos
 
    demos/basic_usage
    demos/sklearn_classifier_comparison
-   demos/plot_digits_classification
-   demos/MNIST_classification_using_structured_RerF
+   demos/iris_perfect_test
