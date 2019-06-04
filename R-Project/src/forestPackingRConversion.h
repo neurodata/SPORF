@@ -43,13 +43,6 @@ class forestPackingRConversion{
 
 		//inline void growForestGivenX(const void* mat, const void* yvec){
 		inline void growForestGivenX(const NumericMatrix x, const IntegerVector y){
-			/*
-				 double* x = (double*)mat + 5;
-				 int* y = (int*)yvec+10;
-
-				 int numObs = ((int*)yvec)[8];
-				 int numFeatures = ((int*)mat)[8]/numObs;
-				 */
 			int numObs = x.nrow();
 			int numFeatures = x.ncol();
 
