@@ -1,20 +1,3 @@
----
-title: "RerF: Python and R comparisons (on 12 threads)."
-author: "Jesse L. Patsolic"
-date: '2019-06-04'
-output:
-  html_document:
-    keep_md: true
-    fig_caption: yes
-    fig_height: 14
-    fig_width: 10 
-    highlight: pygments
-    number_sections: yes
-    theme: cerulean
-    toc: yes
-    toc_depth: 1
----
-
 
 
 Download the notebook [here](https://raw.githubusercontent.com/neurodata/RerF/staging/docs/demos/python_R_compare.Rmd)
