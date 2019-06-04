@@ -84,7 +84,7 @@ his 1979 PAMI paper.
 
     pairs(Ztrain[, 2:6], col = scales::alpha(Ztrain[, 1] + 1, 0.1), cex = 0.1, pch = 19, main = "pairs plot on first 5 features")
 
-![](python_R_compare_files/figure-markdown_strict/r-look-at-it-1.png)
+<img src="python_R_compare_files/figure-markdown_strict/r-look-at-it-1.png" width="960" />
 
 ### Python and R runs
 
@@ -315,11 +315,11 @@ Loop over the classifiers.
                  p3 + scale_y_log10() + ggtitle("log2(x) & log10(y)"), 
                  layout_matrix = matrix(1:9, 3,3))
 
-![](python_R_compare_files/figure-markdown_strict/unnamed-chunk-4-1.png)
+<img src="python_R_compare_files/figure-markdown_strict/unnamed-chunk-4-1.png" width="1680" />
 
     show(grid.arrange(p01,p02,p03))
 
-![](python_R_compare_files/figure-markdown_strict/unnamed-chunk-5-1.png)
+<img src="python_R_compare_files/figure-markdown_strict/unnamed-chunk-5-1.png" width="960" />
 
     ## TableGrob (3 x 1) "arrange": 3 grobs
     ##   z     cells    name           grob
@@ -329,31 +329,31 @@ Loop over the classifiers.
 
     grid.arrange(p1,p2,p3)
 
-![](python_R_compare_files/figure-markdown_strict/unnamed-chunk-6-1.png)
+<img src="python_R_compare_files/figure-markdown_strict/unnamed-chunk-6-1.png" width="960" />
 
     grid.arrange(p1 + scale_y_log10(),
                  p2 + scale_y_log10(),
                  p3 + scale_y_log10())
 
-![](python_R_compare_files/figure-markdown_strict/unnamed-chunk-7-1.png)
+<img src="python_R_compare_files/figure-markdown_strict/unnamed-chunk-7-1.png" width="960" />
 
     grid.arrange(p01 + ggtitle("raw"), 
                  p02 + ggtitle("raw"), 
                  p03 + ggtitle("raw")
                  )
 
-![](python_R_compare_files/figure-markdown_strict/unnamed-chunk-8-1.png)
+<img src="python_R_compare_files/figure-markdown_strict/unnamed-chunk-8-1.png" width="960" />
 
     grid.arrange(p1 + ggtitle("log2(x)"), 
                  p2 + ggtitle("log2(x)"), 
                  p3 + ggtitle("log2(x)"))
 
-![](python_R_compare_files/figure-markdown_strict/unnamed-chunk-9-1.png)
+<img src="python_R_compare_files/figure-markdown_strict/unnamed-chunk-9-1.png" width="960" />
 
     grid.arrange(p1 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
                  p2 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
                  p3 + scale_y_log10() + ggtitle("log2(x) & log10(y)"))
 
-![](python_R_compare_files/figure-markdown_strict/unnamed-chunk-10-1.png)
+<img src="python_R_compare_files/figure-markdown_strict/unnamed-chunk-10-1.png" width="960" />
 
 ------------------------------------------------------------------------

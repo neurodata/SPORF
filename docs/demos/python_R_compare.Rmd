@@ -16,9 +16,15 @@ PLOTS <- TRUE
 library(reticulate)
 library(rmarkdown)
 library(knitr)
+knitr::opts_chunk$set(
+					  fig.retina = 2,
+					  dpi = 120,
+					  warning = FALSE,
+					  message = FALSE,
+					  #dev = "CairoPNG",
+					  cache = FALSE)
 
 ##Sys.setenv("DISPLAY"=":0.0")
-##knitr::opts_chunk$set(warning = FALSE, message = FALSE, dev = "CairoPNG", cache = FALSE)
 
 ## below required to run python chunks.  Set to your python virtual env.
 use_python("~/env/bin/python", required = TRUE)
@@ -119,7 +125,7 @@ testY <- as.factor(Ztest[, 1])
 
 #### Look at it
 
-```{r r-look-at-it}
+```{r r-look-at-it, fig.height = 8, fig.width = 8, dpi = 120, fig.retina= 2, eval = PLOTS}
 pairs(Ztrain[, 2:6], col = scales::alpha(Ztrain[, 1] + 1, 0.1), cex = 0.1, pch = 19, main = "pairs plot on first 5 features")
 ```
 
@@ -381,7 +387,7 @@ p3 <- ggplot(dA, aes(x = log2(n), y = testTime, group = interaction(variable, it
 
 ```
 
-```{r, fig.height = 8, fig.width = 14, eval = PLOTS}
+```{r, fig.height = 8, fig.width = 14, dpi = 120, fig.retina= 2, eval = PLOTS}
 grid.arrange(p01 + ggtitle("raw"), 
 			 p02 + ggtitle("raw"), 
 			 p03 + ggtitle("raw"),
@@ -396,35 +402,35 @@ grid.arrange(p01 + ggtitle("raw"),
 
 
 
-```{r, eval = PLOTS}
+```{r, fig.height = 8, fig.width = 8, dpi = 120, fig.retina= 2, eval = PLOTS}
 show(grid.arrange(p01,p02,p03))
 ```
 
-```{r, eval = PLOTS}
+```{r, fig.height = 8, fig.width = 8, dpi = 120, fig.retina= 2, eval = PLOTS}
 grid.arrange(p1,p2,p3)
 ```
 
-```{r, eval = PLOTS}
+```{r, fig.height = 8, fig.width = 8, dpi = 120, fig.retina= 2, eval = PLOTS}
 grid.arrange(p1 + scale_y_log10(),
 			 p2 + scale_y_log10(),
 			 p3 + scale_y_log10())
 ```
 
-```{r, fig.height = 8, fig.width = 8, eval = PLOTS}
+```{r, fig.height = 8, fig.width = 8, dpi = 120, fig.retina= 2, eval = PLOTS}
 grid.arrange(p01 + ggtitle("raw"), 
 			 p02 + ggtitle("raw"), 
 			 p03 + ggtitle("raw")
 			 )
 ```
 
-```{r, fig.height = 8, fig.width = 8, eval = PLOTS}
+```{r, fig.height = 8, fig.width = 8, dpi = 120, fig.retina= 2, eval = PLOTS}
 grid.arrange(p1 + ggtitle("log2(x)"), 
 			 p2 + ggtitle("log2(x)"), 
 			 p3 + ggtitle("log2(x)"))
 ```
 
 
-```{r, fig.height = 8, fig.width = 8, eval = PLOTS}
+```{r, fig.height = 8, fig.width = 8, dpi = 120, fig.retina= 2, eval = PLOTS}
 grid.arrange(p1 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
 			 p2 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
 			 p3 + scale_y_log10() + ggtitle("log2(x) & log10(y)"))
