@@ -1,9 +1,18 @@
 ---
 title: "RerF: Python and R comparisons (on 12 threads)."
 author: "Jesse L. Patsolic"
-rate: '`r Sys.Date()`'
+date: '`r Sys.Date()`'
 output:
-  md_document
+  html_document:
+    keep_md: true
+    fig_caption: yes
+    fig_height: 14
+    fig_width: 10 
+    highlight: pygments
+    number_sections: yes
+    theme: cerulean
+    toc: yes
+    toc_depth: 1
 ---
 
 ```{r, include=FALSE, eval=FALSE}
