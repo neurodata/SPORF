@@ -2,6 +2,7 @@ import multiprocessing
 from warnings import warn
 
 import numpy as np
+from math import sqrt, floor
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.utils.multiclass import unique_labels
 from sklearn.utils.validation import check_array, check_is_fitted, check_X_y
@@ -81,14 +82,14 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         S-RerF required parameter. Image height of each observation.
     image_width : int, optional (default=None)
         S-RerF required parameter. Width of each observation.
-    patch_height_max : int, optional (default=None)
+    patch_height_max : int, optional (default=max(2, floor(sqrt(image_height))))
         S-RerF parameter. Maximum image patch height to randomly select from.
-        If None, set to ``image_height``.
+        If None, set to ``max(2, floor(sqrt(image_height)))``.
     patch_height_min : int, optional (default=1)
         S-RerF parameter. Minimum image patch height to randomly select from.
-    patch_width_max : int, optional (default=None)
+    patch_width_max : int, optional (default=max(2, floor(sqrt(image_width))))
         S-RerF parameter. Maximum image patch width to randomly select from.
-        If None, set to ``image_width``.
+        If None, set to ``max(2, floor(sqrt(image_width)))``.
     patch_width_min : int, optional (default=1)
         S-RerF parameter. Minimum image patch height to randomly select from.
 
@@ -178,6 +179,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
 
         # Check that X and y have correct shape
         X, y = check_X_y(X, y)
+        num_features = X.shape[1]
 
         y = np.atleast_1d(y)
         if y.ndim == 2 and y.shape[1] == 1:
@@ -194,38 +196,57 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
             # [:, np.newaxis] that does not.
             y = np.reshape(y, (-1, 1))
 
+        num_obs = len(y)
+
         # setup the forest's parameters
         self.forest_ = pyfp.fpForest()
 
-        if self.projection_matrix == "RerF":
+        if self.projection_matrix == "Base":
+            forestType = "binnedBase"
+            self.method_to_use_ = None
+        elif self.projection_matrix == "RerF":
             forestType = "binnedBaseTern"
             self.method_to_use_ = 1
-        elif self.projection_matrix == "Base":
-            forestType = "binnedBase"
-            self.method_to_use_ = 0
         elif self.projection_matrix == "S-RerF":
             forestType = "binnedBaseTern"  # this should change
             self.method_to_use_ = 2
-
-            self.forest_.setParameter("imageHeight", self.image_height)
-            self.forest_.setParameter("imageWidth", self.image_width)
-            if self.patch_height_max is not None:
-                self.patch_height_max_ = self.patch_height_max
+            # Check that image_height and image_width are divisors of
+            # the num_features.  This is the most we can do to
+            # prevent an invalid value being passed in.
+            if (num_features % self.image_height) != 0:
+                raise ValueError("Incorrect image_height given:")
             else:
-                self.patch_height_max_ = self.image_height
-            if self.patch_width_max is not None:
-                self.patch_width_max_ = self.patch_width_max
+                self.image_height_ = self.image_height
+            self.forest_.setParameter("imageHeight", self.image_height_)
+            if (num_features % self.image_width) != 0:
+                raise ValueError("Incorrect image_width given:")
             else:
-                self.patch_width_max_ = self.image_width
-
+                self.image_width_ = self.image_width
+            self.forest_.setParameter("imageWidth", self.image_width_)
+            # If patch_height_{min, max} and patch_width_{min, max} are
+            # not set by teh user, set them to defaults.
+            if self.patch_height_max is None:
+                self.patch_height_max_ = max(2, floor(sqrt(self.image_height_)))
+            if self.patch_width_max is None:
+                self.patch_width_max_ = max(2, floor(sqrt(self.image_width_)))
+            if 1 <= self.patch_height_min <= self.patch_height_max_:
+                self.patch_height_min_ = self.patch_height_min
+            else:
+                raise ValueError("Incorrect patch_height_min")
+            if 1 <= self.patch_width_min <= self.patch_width_max_:
+                self.patch_width_min_ = self.patch_width_min
+            else:
+                raise ValueError("Incorrect patch_width_min")
             self.forest_.setParameter("patchHeightMax", self.patch_height_max_)
-            self.forest_.setParameter("patchHeightMin", self.patch_height_min)
+            self.forest_.setParameter("patchHeightMin", self.patch_height_min_)
             self.forest_.setParameter("patchWidthMax", self.patch_width_max_)
-            self.forest_.setParameter("patchWidthMin", self.patch_width_min)
+            self.forest_.setParameter("patchWidthMin", self.patch_width_min_)
         else:
             raise ValueError("Incorrect projection matrix")
+
         self.forest_.setParameter("forestType", forestType)
-        if self.projection_matrix == "S-RerF" or self.projection_matrix == "RerF":
+
+        if self.method_to_use_ is not None:
             self.forest_.setParameter("methodToUse", self.method_to_use_)
 
         self.forest_.setParameter("numTreesInForest", self.n_estimators)
@@ -252,8 +273,9 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
             self.random_state_ = self.random_state
         self.forest_.setParameter("seed", self.random_state_)
 
-        num_obs = len(y)
-        num_features = X.shape[1]
+        ''' moved up by JLP '''
+        #num_obs = len(y)
+        #num_features = X.shape[1]
 
         # need to set mtry here (using max_features and calc num_features):
         if self.max_features in ("auto", "sqrt"):

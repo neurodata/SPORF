@@ -130,17 +130,17 @@ def test_s_rerf():
 
     assert hasattr(clf, "image_height")
     assert hasattr(clf, "image_width")
-    assert hasattr(clf, "patch_width_max_")
+    assert hasattr(clf, "patch_width_max")
     assert hasattr(clf, "patch_width_min")
-    assert hasattr(clf, "patch_height_max_")
+    assert hasattr(clf, "patch_height_max")
     assert hasattr(clf, "patch_height_min")
 
     assert clf.image_height == 8
     assert clf.image_width == 8
-    assert clf.patch_width_max_ == 8
-    assert clf.patch_width_min == 1
-    assert clf.patch_height_max_ == 8
-    assert clf.patch_height_min == 1
+    assert clf.patch_width_max_ == math.floor(math.sqrt(8))
+    assert clf.patch_width_min_ == 1
+    assert clf.patch_height_max_ == math.floor(math.sqrt(8))
+    assert clf.patch_height_min_ == 1
 
 
 def check_iris_criterion(projection_matrix):

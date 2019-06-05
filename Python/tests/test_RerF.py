@@ -175,7 +175,7 @@ def test_S_RerF():
     feat_data = train_X[:, 1:]  # mnist
     labels = train_X[:, label_col]
 
-    ## Subset the data to for time.
+    ## Take the {3,5} subset of MNIST so the test doesn't take too long.
     y35 = (labels == 3) | (labels == 5)
 
     feat_data = train_X[y35, 1:]  # mnist
@@ -217,7 +217,6 @@ def test_S_RerF():
     test_fname = "packedForest/res/mnist_test.csv"  # mnist
     test_data = np.genfromtxt(test_fname, delimiter=",")
 
-    ## Subset the data to for time.
     test_y35 = (test_data[:, 0] == 3) | (test_data[:, 0] == 5)
 
     test_X = test_data[test_y35, 1:]
