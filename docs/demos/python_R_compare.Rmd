@@ -5,8 +5,8 @@ date: '`r Sys.Date()`'
 output:
   md_document:
     variant: commonmark
-    fig_height: 16
-    fig_width: 28
+    fig_height: 14
+    fig_width: 14
 ---
 
 ```{r, include=FALSE, eval=FALSE}
@@ -33,9 +33,10 @@ knitr::opts_chunk$set(
 use_python("~/env/bin/python", required = TRUE)
 
 rmarkdown::render('python_R_compare.Rmd')
+#system('pandoc -s -t rst python_R_compare.md -o python_R_compare.rst')
 ```
 
-Download the notebook here](https://raw.githubusercontent.com/neurodata/RerF/staging/docs/demos/python_R_compare.Rmd)
+[Download the notebook here](https://raw.githubusercontent.com/neurodata/RerF/staging/docs/demos/python_R_compare.Rmd)
 
 ```{r shared-params}
 ncpu <- parallel::detectCores()
@@ -390,7 +391,7 @@ p3 <- ggplot(dA, aes(x = log2(n), y = testTime, group = interaction(variable, it
 
 ```
 
-```{r, fig.width = 28, fig.height = 16, eval = PLOTS}
+```{r, fig.width = 8, fig.height = 8, eval = FALSE}
 grid.arrange(p01 + ggtitle("raw"),
 			 p02 + ggtitle("raw"),
 			 p03 + ggtitle("raw"),
@@ -409,31 +410,31 @@ grid.arrange(p01 + ggtitle("raw"),
 show(grid.arrange(p01,p02,p03))
 ```
 
-```{r,  eval = PLOTS}
+```{r, fig.height = 8, fig.width = 8, eval = PLOTS}
 grid.arrange(p1,p2,p3)
 ```
 
-```{r, eval = PLOTS}
+```{r, fig.height = 8, fig.width = 8, eval = PLOTS}
 grid.arrange(p1 + scale_y_log10(),
 			 p2 + scale_y_log10(),
 			 p3 + scale_y_log10())
 ```
 
-```{r, eval = PLOTS}
+```{r, fig.height = 8, fig.width = 8, eval = PLOTS}
 grid.arrange(p01 + ggtitle("raw"), 
 			 p02 + ggtitle("raw"), 
 			 p03 + ggtitle("raw")
 			 )
 ```
 
-```{r, eval = PLOTS}
+```{r, fig.height = 8, fig.width = 8, eval = PLOTS}
 grid.arrange(p1 + ggtitle("log2(x)"), 
 			 p2 + ggtitle("log2(x)"), 
 			 p3 + ggtitle("log2(x)"))
 ```
 
 
-```{r, eval = PLOTS}
+```{r, fig.height = 8, fig.width = 8, eval = PLOTS}
 grid.arrange(p1 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
 			 p2 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
 			 p3 + scale_y_log10() + ggtitle("log2(x) & log10(y)"))
@@ -441,7 +442,6 @@ grid.arrange(p1 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
 ```
 
 
----
 
 ```{r, include = FALSE, eval = FALSE}
 if(FALSE){

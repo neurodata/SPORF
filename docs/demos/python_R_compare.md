@@ -1,5 +1,5 @@
-Download the notebook
-here\](<https://raw.githubusercontent.com/neurodata/RerF/staging/docs/demos/python_R_compare.Rmd>)
+[Download the notebook
+here](https://raw.githubusercontent.com/neurodata/RerF/staging/docs/demos/python_R_compare.Rmd)
 
 ``` r
 ncpu <- parallel::detectCores()
@@ -338,13 +338,11 @@ grid.arrange(p01 + ggtitle("raw"),
              layout_matrix = matrix(1:9, 3,3))
 ```
 
-![](python_R_compare_files/figure-commonmark/unnamed-chunk-4-1.png)<!-- -->
-
 ``` r
 show(grid.arrange(p01,p02,p03))
 ```
 
-<img src="python_R_compare_files/figure-commonmark/unnamed-chunk-5-1.png" width="960" />
+![](python_R_compare_files/figure-commonmark/unnamed-chunk-5-1.png)<!-- -->
 
     ## TableGrob (3 x 1) "arrange": 3 grobs
     ##   z     cells    name           grob
@@ -390,5 +388,3 @@ grid.arrange(p1 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
 ```
 
 ![](python_R_compare_files/figure-commonmark/unnamed-chunk-10-1.png)<!-- -->
-
------
