@@ -1,17 +1,13 @@
+Download the notebook
+here\](<https://raw.githubusercontent.com/neurodata/RerF/staging/docs/demos/python_R_compare.Rmd>)
 
-
-Download the notebook [here](https://raw.githubusercontent.com/neurodata/RerF/staging/docs/demos/python_R_compare.Rmd)
-
-
-```r
+``` r
 ncpu <- parallel::detectCores()
 NT <- 500L ## Number of trees
 MC <- 5L ## MonteCarlo Iterations
 ```
 
-
-
-```r
+``` r
 require(data.table)
 require(rerf)
 require(RColorBrewer)
@@ -33,23 +29,21 @@ require(Rborist)
 #}
 ```
 
-## Trunk's Example: The Curse of Dimensionality
+## Trunk’s Example: The Curse of Dimensionality
 
 Consider the two-class classification problem as explained by Trunk in
 his 1979 PAMI paper.
 
 ### Goal:
 
-- Using Trunk's example dataset with `p = 1000` and `n = (10, ..., 10k)`
-  compare our `RF` and `RerF` implementations in R and Python to
-  `ranger`, `Rborist` in R and scikit-learn's `RF` and `Extremely RF`
-  implementations.
-
+  - Using Trunk’s example dataset with `p = 1000` and `n = (10,
+    ..., 10k)` compare our `RF` and `RerF` implementations in R and
+    Python to `ranger`, `Rborist` in R and scikit-learn’s `RF` and
+    `Extremely RF` implementations.
 
 #### Generate Data
 
-
-```r
+``` r
 #### parameters
 p <- 1000
 k <- 4:13
@@ -67,9 +61,7 @@ mu1 <-  mu
 mu2 <- -mu
 ```
 
-
-
-```r
+``` r
 #### Training Data
 set.seed(317)
 X1train <- rmvnorm(rev(n)[1]/2, mean = mu1, sigma = diag(length(mu1)))
@@ -97,12 +89,11 @@ testY <- as.factor(Ztest[, 1])
 
 #### Look at it
 
-
-```r
+``` r
 pairs(Ztrain[, 2:6], col = scales::alpha(Ztrain[, 1] + 1, 0.1), cex = 0.1, pch = 19, main = "pairs plot on first 5 features")
 ```
 
-<img src="python_R_compare_files/figure-html/r-look-at-it-1.png" width="960" />
+![](python_R_compare_files/figure-commonmark/r-look-at-it-1.png)<!-- -->
 
 ### Python and R runs
 
@@ -110,8 +101,7 @@ pairs(Ztrain[, 2:6], col = scales::alpha(Ztrain[, 1] + 1, 0.1), cex = 0.1, pch =
 
 Load and setup required libraries and data.
 
-
-```python
+``` python
 ##%%
 import pandas
 import time, multiprocessing
@@ -159,11 +149,9 @@ f = open('python_runs.csv', 'w+')
 f.write("variable,n,Lhat,trainTime,testTime,iterate\n")
 ```
 
-
 Loop over the classifiers.
 
-
-```python
+``` python
 ##%%
 #### Iterate over n
 for iterate in range(1, int(r.MC) + 1):
@@ -187,41 +175,38 @@ for iterate in range(1, int(r.MC) + 1):
 f.close()
 ```
 
-
-
 #### R
 
-
-```r
+``` r
 setParams <- function(classifier, train){
-	switch(classifier,
-	       "breimanRF" = {
-		       list(x = as.matrix(train[, -1]), y = train$Y)
-	       },
-	       "ndRF" = {
-		       list(X = as.matrix(train[, -1]), Y = as.numeric(train$Y) - 1, forestType = "binnedBase", numCores = ncpu)
-	       },
-	       "ndRerF" = {
-		       list(X = as.matrix(train[, -1]), Y = as.numeric(train$Y) - 1, forestType = "binnedBaseTern", numCores = ncpu)
-	       },
-	       "ranger" = {
-		       list(formula = Y ~ ., data = train, num.threads = ncpu)
-	       },
-	       "rangerX" = {
-		       list(formula = Y ~ ., data = train, splitrule = "extratrees", num.threads = ncpu)
-	       },
-	       "Rborist" = {
-			list(x = as.data.frame(train[, -1]), y = train[, 1][[1]], nThread = ncpu)
-	       },
-	       )
+    switch(classifier,
+           "breimanRF" = {
+               list(x = as.matrix(train[, -1]), y = train$Y)
+           },
+           "ndRF" = {
+               list(X = as.matrix(train[, -1]), Y = as.numeric(train$Y) - 1, forestType = "binnedBase", numCores = ncpu)
+           },
+           "ndRerF" = {
+               list(X = as.matrix(train[, -1]), Y = as.numeric(train$Y) - 1, forestType = "binnedBaseTern", numCores = ncpu)
+           },
+           "ranger" = {
+               list(formula = Y ~ ., data = train, num.threads = ncpu)
+           },
+           "rangerX" = {
+               list(formula = Y ~ ., data = train, splitrule = "extratrees", num.threads = ncpu)
+           },
+           "Rborist" = {
+            list(x = as.data.frame(train[, -1]), y = train[, 1][[1]], nThread = ncpu)
+           },
+           )
 }
-	
+    
 
 algPred <- function(fun, obj, dat){
   switch(fun,
-	     "breimanRF" = {
+         "breimanRF" = {
            predict(obj, dat)$predictions
-	     },
+         },
          "ndRF" = {
            fpPredict(obj, dat)
          },
@@ -241,8 +226,7 @@ algPred <- function(fun, obj, dat){
 }
 ```
 
-
-```r
+``` r
 ndRF <- match.fun(fpRerF)
 ndRerF <- match.fun(fpRerF)
 rangerX <- match.fun(ranger)
@@ -252,9 +236,7 @@ FUN <- list("ranger", "rangerX", "ndRF", "ndRerF")
 runList <- list(fun = FUN, ind = ind)
 ```
 
-
-
-```r
+``` r
 gc()
 outFile <- paste0("R_runs.csv")
 con <- file(outFile, "w+")
@@ -298,11 +280,9 @@ for(i in runList$ind){
 close(con)
 ```
 
-
 ### Plots
 
-
-```r
+``` r
 d1 <- fread("python_runs.csv")
 d2 <- fread("R_runs.csv")
 
@@ -313,9 +293,9 @@ d0 <- rbind(d1, d2)
 d0$variable <- factor(d0$variable, levels = c("ndRF", "ND-Py-RF", "ndRerF", "ND-Py-RerF", "ranger", "rangerX", "Rborist", "skl-RF", "skl-Xtra"))
 
 dA <- rbind(d0, d0[, .(iterate = max(d0$iterate) + 1, 
-					   Lhat = mean(Lhat),
-					   trainTime = mean(trainTime), 
-					   testTime = mean(testTime)), by = .(variable, n)])
+                       Lhat = mean(Lhat),
+                       trainTime = mean(trainTime), 
+                       testTime = mean(testTime)), by = .(variable, n)])
 
 alpha <- c(rep(0.25, 5), 1)
 size <- c(rep(0.5, 5), 1)
@@ -324,109 +304,91 @@ lty <- c(rep(1,5), 2)
 ex <- scale_colour_brewer(type = 'qual', palette = "Set1")
 
 p01 <- ggplot(dA, aes(x = n, y = Lhat, group = interaction(variable, iterate), color = variable)) + 
-	geom_line(linetype = lty[dA$iterate], size = size[dA$iterate], alpha = alpha[dA$iterate]) + ex
+    geom_line(linetype = lty[dA$iterate], size = size[dA$iterate], alpha = alpha[dA$iterate]) + ex
 
 p1 <- ggplot(dA, aes(x = log2(n), y = Lhat, group = interaction(variable, iterate), color = variable)) + 
-	geom_line(linetype = lty[dA$iterate], size = size[dA$iterate], alpha = alpha[dA$iterate]) + 
-	scale_x_continuous(trans = 'log2', breaks = c(3:14)) + ex
+    geom_line(linetype = lty[dA$iterate], size = size[dA$iterate], alpha = alpha[dA$iterate]) + 
+    scale_x_continuous(trans = 'log2', breaks = c(3:14)) + ex
 
 p02 <- ggplot(dA, aes(x = n, y = trainTime, group = interaction(variable, iterate), color = variable)) + 
-	geom_line(linetype = lty[dA$iterate], size = size[dA$iterate], alpha = alpha[dA$iterate]) + ex
+    geom_line(linetype = lty[dA$iterate], size = size[dA$iterate], alpha = alpha[dA$iterate]) + ex
 
 p2 <- ggplot(dA, aes(x = log2(n), y = trainTime, group = interaction(variable, iterate), color = variable)) + 
-	geom_line(linetype = lty[dA$iterate], size = size[dA$iterate], alpha = alpha[dA$iterate]) +
-	scale_x_continuous(trans = 'log2', breaks = c(3:14))  + ex
+    geom_line(linetype = lty[dA$iterate], size = size[dA$iterate], alpha = alpha[dA$iterate]) +
+    scale_x_continuous(trans = 'log2', breaks = c(3:14))  + ex
 
 p03 <- ggplot(dA, aes(x = n, y = testTime, group = interaction(variable, iterate), color = variable)) + 
-	geom_line(linetype = lty[dA$iterate], size = size[dA$iterate], alpha = alpha[dA$iterate]) + ex
+    geom_line(linetype = lty[dA$iterate], size = size[dA$iterate], alpha = alpha[dA$iterate]) + ex
 
 p3 <- ggplot(dA, aes(x = log2(n), y = testTime, group = interaction(variable, iterate), color = variable)) + 
-	geom_line(linetype = lty[dA$iterate], size = size[dA$iterate], alpha = alpha[dA$iterate]) +
-	scale_x_continuous(trans = 'log2', breaks = c(3:14)) + ex
+    geom_line(linetype = lty[dA$iterate], size = size[dA$iterate], alpha = alpha[dA$iterate]) +
+    scale_x_continuous(trans = 'log2', breaks = c(3:14)) + ex
 ```
 
-
-```r
-grid.arrange(p01 + ggtitle("raw"), 
-			 p02 + ggtitle("raw"), 
-			 p03 + ggtitle("raw"),
-			 p1 + ggtitle("log2(x)"), 
-			 p2 + ggtitle("log2(x)"), 
-			 p3 + ggtitle("log2(x)"), 
-			 p1 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
-			 p2 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
-			 p3 + scale_y_log10() + ggtitle("log2(x) & log10(y)"), 
-			 layout_matrix = matrix(1:9, 3,3))
+``` r
+grid.arrange(p01 + ggtitle("raw"),
+             p02 + ggtitle("raw"),
+             p03 + ggtitle("raw"),
+             p1 + ggtitle("log2(x)"),
+             p2 + ggtitle("log2(x)"),
+             p3 + ggtitle("log2(x)"),
+             p1 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
+             p2 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
+             p3 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
+             layout_matrix = matrix(1:9, 3,3))
 ```
 
-<img src="python_R_compare_files/figure-html/unnamed-chunk-4-1.png" width="1680" />
+![](python_R_compare_files/figure-commonmark/unnamed-chunk-4-1.png)<!-- -->
 
-
-
-
-```r
+``` r
 show(grid.arrange(p01,p02,p03))
 ```
 
-<img src="python_R_compare_files/figure-html/unnamed-chunk-5-1.png" width="960" />
+<img src="python_R_compare_files/figure-commonmark/unnamed-chunk-5-1.png" width="960" />
 
-```
-## TableGrob (3 x 1) "arrange": 3 grobs
-##   z     cells    name           grob
-## 1 1 (1-1,1-1) arrange gtable[layout]
-## 2 2 (2-2,1-1) arrange gtable[layout]
-## 3 3 (3-3,1-1) arrange gtable[layout]
-```
+    ## TableGrob (3 x 1) "arrange": 3 grobs
+    ##   z     cells    name           grob
+    ## 1 1 (1-1,1-1) arrange gtable[layout]
+    ## 2 2 (2-2,1-1) arrange gtable[layout]
+    ## 3 3 (3-3,1-1) arrange gtable[layout]
 
-
-```r
+``` r
 grid.arrange(p1,p2,p3)
 ```
 
-<img src="python_R_compare_files/figure-html/unnamed-chunk-6-1.png" width="960" />
+![](python_R_compare_files/figure-commonmark/unnamed-chunk-6-1.png)<!-- -->
 
-
-```r
+``` r
 grid.arrange(p1 + scale_y_log10(),
-			 p2 + scale_y_log10(),
-			 p3 + scale_y_log10())
+             p2 + scale_y_log10(),
+             p3 + scale_y_log10())
 ```
 
-<img src="python_R_compare_files/figure-html/unnamed-chunk-7-1.png" width="960" />
+![](python_R_compare_files/figure-commonmark/unnamed-chunk-7-1.png)<!-- -->
 
-
-```r
+``` r
 grid.arrange(p01 + ggtitle("raw"), 
-			 p02 + ggtitle("raw"), 
-			 p03 + ggtitle("raw")
-			 )
+             p02 + ggtitle("raw"), 
+             p03 + ggtitle("raw")
+             )
 ```
 
-<img src="python_R_compare_files/figure-html/unnamed-chunk-8-1.png" width="960" />
+![](python_R_compare_files/figure-commonmark/unnamed-chunk-8-1.png)<!-- -->
 
-
-```r
+``` r
 grid.arrange(p1 + ggtitle("log2(x)"), 
-			 p2 + ggtitle("log2(x)"), 
-			 p3 + ggtitle("log2(x)"))
+             p2 + ggtitle("log2(x)"), 
+             p3 + ggtitle("log2(x)"))
 ```
 
-<img src="python_R_compare_files/figure-html/unnamed-chunk-9-1.png" width="960" />
+![](python_R_compare_files/figure-commonmark/unnamed-chunk-9-1.png)<!-- -->
 
-
-
-```r
+``` r
 grid.arrange(p1 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
-			 p2 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
-			 p3 + scale_y_log10() + ggtitle("log2(x) & log10(y)"))
+             p2 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
+             p3 + scale_y_log10() + ggtitle("log2(x) & log10(y)"))
 ```
 
-<img src="python_R_compare_files/figure-html/unnamed-chunk-10-1.png" width="960" />
+![](python_R_compare_files/figure-commonmark/unnamed-chunk-10-1.png)<!-- -->
 
-
----
-
-
-
-
-
+-----

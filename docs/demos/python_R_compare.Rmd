@@ -3,16 +3,10 @@ title: "RerF: Python and R comparisons (on 12 threads)."
 author: "Jesse L. Patsolic"
 date: '`r Sys.Date()`'
 output:
-  html_document:
-    keep_md: true
-    fig_caption: yes
-    fig_height: 14
-    fig_width: 10 
-    highlight: pygments
-    number_sections: yes
-    theme: cerulean
-    toc: yes
-    toc_depth: 1
+  md_document:
+    variant: commonmark
+    fig_height: 16
+    fig_width: 28
 ---
 
 ```{r, include=FALSE, eval=FALSE}
@@ -26,8 +20,8 @@ library(reticulate)
 library(rmarkdown)
 library(knitr)
 knitr::opts_chunk$set(
-					  fig.retina = 2,
-					  dpi = 120,
+					  #fig.retina = 2,
+					  #dpi = 120,
 					  warning = FALSE,
 					  message = FALSE,
 					  #dev = "CairoPNG",
@@ -41,7 +35,7 @@ use_python("~/env/bin/python", required = TRUE)
 rmarkdown::render('python_R_compare.Rmd')
 ```
 
-Download the notebook [here](https://raw.githubusercontent.com/neurodata/RerF/staging/docs/demos/python_R_compare.Rmd)
+Download the notebook here](https://raw.githubusercontent.com/neurodata/RerF/staging/docs/demos/python_R_compare.Rmd)
 
 ```{r shared-params}
 ncpu <- parallel::detectCores()
@@ -134,7 +128,7 @@ testY <- as.factor(Ztest[, 1])
 
 #### Look at it
 
-```{r r-look-at-it, fig.height = 8, fig.width = 8, dpi = 120, fig.retina= 2, eval = PLOTS}
+```{r r-look-at-it, fig.width = 8, fig.height = 8, eval = PLOTS}
 pairs(Ztrain[, 2:6], col = scales::alpha(Ztrain[, 1] + 1, 0.1), cex = 0.1, pch = 19, main = "pairs plot on first 5 features")
 ```
 
@@ -396,50 +390,50 @@ p3 <- ggplot(dA, aes(x = log2(n), y = testTime, group = interaction(variable, it
 
 ```
 
-```{r, fig.height = 8, fig.width = 14, dpi = 120, fig.retina= 2, eval = PLOTS}
-grid.arrange(p01 + ggtitle("raw"), 
-			 p02 + ggtitle("raw"), 
+```{r, fig.width = 28, fig.height = 16, eval = PLOTS}
+grid.arrange(p01 + ggtitle("raw"),
+			 p02 + ggtitle("raw"),
 			 p03 + ggtitle("raw"),
-			 p1 + ggtitle("log2(x)"), 
-			 p2 + ggtitle("log2(x)"), 
-			 p3 + ggtitle("log2(x)"), 
+			 p1 + ggtitle("log2(x)"),
+			 p2 + ggtitle("log2(x)"),
+			 p3 + ggtitle("log2(x)"),
 			 p1 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
 			 p2 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
-			 p3 + scale_y_log10() + ggtitle("log2(x) & log10(y)"), 
+			 p3 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
 			 layout_matrix = matrix(1:9, 3,3))
 ```
 
 
 
-```{r, fig.height = 8, fig.width = 8, dpi = 120, fig.retina= 2, eval = PLOTS}
+```{r, fig.height = 8, fig.width = 8, eval = PLOTS}
 show(grid.arrange(p01,p02,p03))
 ```
 
-```{r, fig.height = 8, fig.width = 8, dpi = 120, fig.retina= 2, eval = PLOTS}
+```{r,  eval = PLOTS}
 grid.arrange(p1,p2,p3)
 ```
 
-```{r, fig.height = 8, fig.width = 8, dpi = 120, fig.retina= 2, eval = PLOTS}
+```{r, eval = PLOTS}
 grid.arrange(p1 + scale_y_log10(),
 			 p2 + scale_y_log10(),
 			 p3 + scale_y_log10())
 ```
 
-```{r, fig.height = 8, fig.width = 8, dpi = 120, fig.retina= 2, eval = PLOTS}
+```{r, eval = PLOTS}
 grid.arrange(p01 + ggtitle("raw"), 
 			 p02 + ggtitle("raw"), 
 			 p03 + ggtitle("raw")
 			 )
 ```
 
-```{r, fig.height = 8, fig.width = 8, dpi = 120, fig.retina= 2, eval = PLOTS}
+```{r, eval = PLOTS}
 grid.arrange(p1 + ggtitle("log2(x)"), 
 			 p2 + ggtitle("log2(x)"), 
 			 p3 + ggtitle("log2(x)"))
 ```
 
 
-```{r, fig.height = 8, fig.width = 8, dpi = 120, fig.retina= 2, eval = PLOTS}
+```{r, eval = PLOTS}
 grid.arrange(p1 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
 			 p2 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
 			 p3 + scale_y_log10() + ggtitle("log2(x) & log10(y)"))
