@@ -175,10 +175,12 @@ def test_S_RerF():
     feat_data = train_X[:, 1:]  # mnist
     labels = train_X[:, label_col]
 
-    ## Take the {3,5} subset of MNIST so the test doesn't take too long.
+    # Take the {3,5} subset of MNIST so the test doesn't take too long.
     y35 = (labels == 3) | (labels == 5)
 
     feat_data = train_X[y35, 1:]  # mnist
+
+    # Convert labels (3,5) --> (0,1)
     labels = (labels[y35] != 3).astype(int)
 
 
@@ -210,11 +212,12 @@ def test_S_RerF():
     assert params["patchWidthMax"] == '4'
 
 
+    # Map output labels (0,1) --> (3,5)
     train_pred = [[3,5][i] for i in fastPredict(feat_data, forest)]
 
     print("Trianing Error:", np.mean(train_pred != train_X[y35, label_col]))
 
-    test_fname = "packedForest/res/mnist_test.csv"  # mnist
+    test_fname = "packedForest/res/mnist_test.csv"
     test_data = np.genfromtxt(test_fname, delimiter=",")
 
     test_y35 = (test_data[:, 0] == 3) | (test_data[:, 0] == 5)
@@ -222,6 +225,7 @@ def test_S_RerF():
     test_X = test_data[test_y35, 1:]
     test_Y = test_data[test_y35, 0]
 
+    # Map output labels (0,1) --> (3,5)
     test_pred = [[3,5][i] for i in fastPredict(test_X, forest)]
 
     test_error = np.mean(test_pred != test_Y)

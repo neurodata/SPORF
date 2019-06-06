@@ -273,9 +273,6 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
             self.random_state_ = self.random_state
         self.forest_.setParameter("seed", self.random_state_)
 
-        ''' moved up by JLP '''
-        #num_obs = len(y)
-        #num_features = X.shape[1]
 
         # need to set mtry here (using max_features and calc num_features):
         if self.max_features in ("auto", "sqrt"):
