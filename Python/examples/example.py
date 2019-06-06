@@ -38,17 +38,9 @@ labels = X[:, label_col]
 #     trees=500,
 #     numCores=cpu_count(),
 # )
-#
-# forest = fastRerF(
-#     X=feat_data, Y=labels, forestType="binnedBaseTern", trees=100,
-#     numCores=cpu_count(), methodToUse = 2, imageWidth=28,
-#     imageHeight=28, patchHeightMax = 7, patchHeightMin = 1,
-#     patchWidthMax = 7, patchWidthMin=1
-# )
 forest = fastRerF(
     X=feat_data, Y=labels, forestType="binnedBaseRerF", trees=500, numCores=cpu_count()
 )
-
 
 forest.printParameters()
 
