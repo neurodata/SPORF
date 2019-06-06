@@ -65,6 +65,8 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         - If "log2", then ``max_features=log2(n_features)``.
         - If None, then ``max_features=n_features``.
 
+    oob_score : bool (default=False)
+        Whether to use out-of-bag samples to estimate the generalization accuracy.
     feature_combinations : float, optional (default: 1.5)
         Average number of features combined to form a new feature when
         using "RerF."  Otherwise, ignored.
@@ -117,6 +119,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         min_parent=1,
         max_features="auto",
         feature_combinations=1.5,
+        oob_score=False,
         n_jobs=None,
         random_state=None,
     ):
@@ -126,6 +129,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         self.min_parent = min_parent
         self.max_features = max_features
         self.feature_combinations = feature_combinations
+        self.oob_score = oob_score
         self.n_jobs = n_jobs
         self.random_state = random_state
 
@@ -166,9 +170,15 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         self.forest_ = pyfp.fpForest()
 
         if self.projection_matrix == "RerF":
-            forestType = "binnedBaseTern"
+            if self.oob_score:
+                forestType = "rerf"
+            else:
+                forestType = "binnedBaseTern"
         elif self.projection_matrix == "Base":
-            forestType = "binnedBase"
+            if self.oob_score:
+                forestType = "rfBase"
+            else:
+                forestType = "binnedBase"
         else:
             raise ValueError("Incorrect projection matrix")
         self.forest_.setParameter("forestType", forestType)
@@ -225,6 +235,10 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
 
         self.X_ = X
         self.y_ = y
+
+        if self.oob_score:
+            self.oob_score_ = 1 - self.forest_._report_OOB()
+
         return self
 
     def predict(self, X):

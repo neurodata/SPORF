@@ -133,6 +133,10 @@ namespace fp {
 					return forest->predictClass(observation);
 				}
 
+				inline float reportOOB(){
+					return forest->reportOOB();
+				}
+
 
 				float testAccuracy(){
 					float testError;
