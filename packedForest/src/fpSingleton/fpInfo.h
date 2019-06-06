@@ -78,8 +78,8 @@ namespace fp {
 				fractionOfFeaturesToTest=-1.0; 
 				binSize=0;
 				numCores=1;
-				double_epsilon=std::numeric_limits<double>::epsilon()*1000;
-				float_epsilon=std::numeric_limits<float>::epsilon()*1000;
+				double_epsilon=std::numeric_limits<double>::epsilon();
+				float_epsilon=std::numeric_limits<float>::epsilon();
 				seed=-1;
 				numTreeBins=-1;
 				methodToUse = 1; // Should this default to 1?
