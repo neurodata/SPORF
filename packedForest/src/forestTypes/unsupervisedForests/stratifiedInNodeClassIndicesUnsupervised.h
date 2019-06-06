@@ -26,7 +26,7 @@ namespace fp{
 
 			stratifiedInNodeClassIndicesUnsupervised(const int &numObservationsInDataSet): inSamples(fpSingleton::getSingleton().returnNumClasses()), outSamples(fpSingleton::getSingleton().returnNumClasses()), inSampleSize(0), outSampleSize(0){
 
-				createInAndOutSetsBagging(numObservationsInDataSet, 0.2);
+				createInAndOutSets(numObservationsInDataSet);
 				for(auto inSampsClass : inSamples){
 					inSampleSize += inSampsClass.size();
 				}
@@ -69,40 +69,6 @@ namespace fp{
 				
 					outSamps.push_back(potentialSamples[n]);
 					}
-				
-			}
-
-			inline void createInAndOutSetsBagging(const int &numObs, float bagging){
-                                //TODO: We might want to refactor this when we move this over to the binned version.
-				std::vector<int> random_indices(numObs);
-				std::vector<int> random_indices2;
-				std::vector<int> random_indices3;
-
-				for(int i=0; i < numObs; ++i){
-					random_indices[i] = i;
-				}
-				std::random_shuffle(random_indices.begin(), random_indices.end());
-				int indx = (int) ((1-bagging)*(float)numObs);
-				int counter = 0;
-				for(auto i : random_indices)
-				{
-					if(counter < indx)
-						random_indices2.push_back(i);
-					else
-						random_indices3.push_back(i);
-					counter++;
-				}
-				
-				for(auto randomObsID : random_indices2)
-				{
-					inSamples[fpSingleton::getSingleton().returnLabel(randomObsID)].push_back(randomObsID);
-                                        inSamps.push_back(randomObsID);
-				}
-				for(auto randomObsID2 : random_indices3)
-				{
-					outSamples[fpSingleton::getSingleton().returnLabel(randomObsID2)].push_back(randomObsID2);
-					outSamps.push_back(randomObsID2);
-				}
 				
 			}
 
