@@ -65,11 +65,13 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         - If "log2", then ``max_features=log2(n_features)``.
         - If None, then ``max_features=n_features``.
 
-    oob_score : bool (default=False)
-        Whether to use out-of-bag samples to estimate the generalization accuracy.
     feature_combinations : float, optional (default: 1.5)
         Average number of features combined to form a new feature when
         using "RerF."  Otherwise, ignored.
+    oob_score : bool (default=False)
+        Whether to use out-of-bag samples to estimate the generalization accuracy.
+        Note, setting to True currently runs our non-binned implementation 
+        which has slower prediction times.
     n_jobs : int or None, optional (default=None)
         The number of jobs to run in parallel for both `fit` and `predict`.
         ``None`` means 1. ``-1`` means use all processors. 
