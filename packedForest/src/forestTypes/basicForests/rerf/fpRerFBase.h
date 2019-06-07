@@ -67,7 +67,7 @@ namespace fp {
 				;
 			}
 
-			inline std::map<std::string, int> calcTreeStats(){
+			inline std::map<std::string, float> calcTreeStats(){
 				int maxDepth=0;
 				int totalLeafNodes=0;
 				int totalLeafDepth=0;
@@ -81,16 +81,16 @@ namespace fp {
 					totalLeafDepth += trees[i].returnLeafDepthSum();
 				}
 
-				std::map<std::string, int> treeStats;
-				treeStats["maxDepth"] = maxDepth;
-				treeStats["totalLeafDepth"] = totalLeafDepth;
-				treeStats["totalLeafNodes"] = totalLeafNodes;
+				std::map<std::string, float> treeStats;
+				treeStats["maxDepth"] = (float) maxDepth;
+				treeStats["totalLeafDepth"] = (float) totalLeafDepth;
+				treeStats["totalLeafNodes"] = (float) totalLeafNodes;
 				treeStats["OOBaccuracy"] = reportOOB();
 				return treeStats;
 			}
 
 			inline void treeStats(){
-				std::map<std::string, int> treeStats = calcTreeStats();
+				std::map<std::string, float> treeStats = calcTreeStats();
 
 				std::cout << "max depth: " << treeStats["maxDepth"] << "\n";
 				std::cout << "avg depth: " << float(treeStats["totalLeafDepth"])/float(treeStats["totalLeafNodes"]) << "\n";
