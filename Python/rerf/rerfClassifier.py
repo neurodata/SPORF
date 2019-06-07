@@ -237,7 +237,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         self.y_ = y
 
         if self.oob_score:
-            self.oob_score_ = 1 - self.forest_._report_OOB()
+            self.oob_score_ = self.forest_._report_OOB()
 
         return self
 
