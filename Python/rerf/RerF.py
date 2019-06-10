@@ -20,6 +20,12 @@ def fastRerF(
     binMin=0,
     binSize=0,
     seed=None,
+    imageHeight=0,
+    imageWidth=0,
+    patchHeightMax=0,
+    patchHeightMin=0,
+    patchWidthMax=0,
+    patchWidthMin=0,
 ):
     """Creates a decision forest based on an input matrix and class vector
     and grows the forest.
@@ -36,7 +42,7 @@ def fastRerF(
         column in data with labels 
     forestType : str, optional
         the type of forest: binnedBase, binnedBaseRerF, 
-        binnedBaseTern, rfBase, rerf (default: "binnedBaseRerF")
+        binnedBaseTern, S-RerF (structured for 2-d images), rfBase, rerf (default: "binnedBaseRerF")
     trees : int, optional
         Number of trees in forest (default: 500)
     minParent : int, optional
@@ -87,7 +93,21 @@ def fastRerF(
 
     forestClass = pyfp.fpForest()
 
-    forestClass.setParameter("forestType", forestType)
+    # Set forestType with additional parameters specific to that type
+    if forestType == "binnedBaseTern":
+        forestClass.setParameter("methodToUse", 1)
+    elif forestType == "S-RerF":
+        forestClass.setParameter("forestType", "binnedBaseTern")
+        forestClass.setParameter("methodToUse", 2)
+        forestClass.setParameter("imageHeight", imageHeight)
+        forestClass.setParameter("imageWidth", imageWidth)
+        forestClass.setParameter("patchHeightMax", patchHeightMax)
+        forestClass.setParameter("patchHeightMin", patchHeightMin)
+        forestClass.setParameter("patchWidthMax", patchWidthMax)
+        forestClass.setParameter("patchWidthMin", patchWidthMin)
+    else:
+        forestClass.setParameter("forestType", forestType)
+
     forestClass.setParameter("numTreesInForest", trees)
     forestClass.setParameter("minParent", minParent)
 
@@ -126,6 +146,7 @@ def fastRerF(
     if seed is None:
         seed = np.random.randint(1, 1000000)
     forestClass.setParameter("seed", seed)
+
 
     if CSVFile is not None and Ycolumn is not None:
         forestClass.setParameter("useRowMajor", 0)
