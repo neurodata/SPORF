@@ -188,7 +188,7 @@ def test_S_RerF():
         X=feat_data,
         Y=labels,
         forestType="S-RerF",
-        trees=500,
+        trees=10,
         minParent=1,
         maxDepth=None,
         numCores=1,
@@ -215,8 +215,6 @@ def test_S_RerF():
     # Map output labels (0,1) --> (3,5)
     train_pred = [[3,5][i] for i in fastPredict(feat_data, forest)]
 
-    print("Trianing Error:", np.mean(train_pred != train_X[y35, label_col]))
-
     test_fname = "packedForest/res/mnist_test.csv"
     test_data = np.genfromtxt(test_fname, delimiter=",")
 
@@ -228,8 +226,7 @@ def test_S_RerF():
     # Map output labels (0,1) --> (3,5)
     test_pred = [[3,5][i] for i in fastPredict(test_X, forest)]
 
-    test_error = np.mean(test_pred != test_Y)
+    test_error = np.mean((test_pred != test_Y).astype(int))
 
-    print(f"Testing Error rate: {test_error:2.9f}")
-    assert(test_error < 0.2)
+    assert(test_error < 0.05) ## JLP to change this
     

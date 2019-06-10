@@ -224,11 +224,15 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
                 self.image_width_ = self.image_width
             self.forest_.setParameter("imageWidth", self.image_width_)
             # If patch_height_{min, max} and patch_width_{min, max} are
-            # not set by teh user, set them to defaults.
+            # not set by the user, set them to defaults.
             if self.patch_height_max is None:
                 self.patch_height_max_ = max(2, floor(sqrt(self.image_height_)))
+            else:
+                self.patch_height_max_ = self.patch_height_max
             if self.patch_width_max is None:
                 self.patch_width_max_ = max(2, floor(sqrt(self.image_width_)))
+            else:
+                self.patch_width_max_ = self.patch_width_max
             if 1 <= self.patch_height_min <= self.patch_height_max_:
                 self.patch_height_min_ = self.patch_height_min
             else:
