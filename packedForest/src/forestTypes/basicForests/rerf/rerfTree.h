@@ -206,6 +206,7 @@ namespace fp{
 				inline void growTree(){
 					loadFirstNode();
 					processNodes();
+					updateOOB(); // update the OOBAccuracy
 				}
 
 
