@@ -45,6 +45,10 @@ namespace fp{
 					this->OOBAccuracy = correctOOB/totalOOB;
 				}
 
+				inline int returnTotalOOB(){
+					return totalOOB;
+				}
+
 				inline int returnLastNodeID(){
 					return tree.size()-1;
 				}
@@ -100,10 +104,6 @@ namespace fp{
 				inline void checkOOB(){
 					totalOOB += nodeQueue.back().returnOutSampleSize();
 					correctOOB += nodeQueue.back().returnOutSampleCorrect(tree.back().returnClass());
-				}
-
-				inline int returnTotalOOB(){
-					return totalOOB;
 				}
 
 				inline std::vector<int> returnOutSample(){
