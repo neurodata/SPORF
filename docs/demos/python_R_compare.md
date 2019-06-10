@@ -297,94 +297,40 @@ dA <- rbind(d0, d0[, .(iterate = max(d0$iterate) + 1,
                        trainTime = mean(trainTime), 
                        testTime = mean(testTime)), by = .(variable, n)])
 
-alpha <- c(rep(0.25, 5), 1)
-size <- c(rep(0.5, 5), 1)
-lty <- c(rep(1,5), 2)
+dA$algorithm <- factor(c("RF", "RF", "RerF", "RerF", "RF", "Xtra", "RF", "RF", "Xtra")[as.numeric(dA$var)])
 
-ex <- scale_colour_brewer(type = 'qual', palette = "Set1")
+dA$developer <- factor(c("NeuroData", "NeuroData", "NeuroData", "NeuroData", "Ranger", "Ranger", "Rborist", "SK-L", "SK-L")[as.numeric(dA$var)])
 
-p01 <- ggplot(dA, aes(x = n, y = Lhat, group = interaction(variable, iterate), color = variable)) + 
-    geom_line(linetype = lty[dA$iterate], size = size[dA$iterate], alpha = alpha[dA$iterate]) + ex
+alpha <- c(rep(0.25, 5), 0.8)
+size <- c(rep(0.45, 5), 0.65)
 
-p1 <- ggplot(dA, aes(x = log2(n), y = Lhat, group = interaction(variable, iterate), color = variable)) + 
-    geom_line(linetype = lty[dA$iterate], size = size[dA$iterate], alpha = alpha[dA$iterate]) + 
-    scale_x_continuous(trans = 'log2', breaks = c(3:14)) + ex
+#ex <- scale_colour_brewer(type = 'qual', palette = "Set1")
+p1 <- ggplot(dA, aes(x = log2(n), y = Lhat, group = interaction(variable, iterate), color = variable, linetype = developer)) + 
+    geom_line(size = size[dA$iterate], alpha = alpha[dA$iterate]) + 
+    scale_x_continuous(trans = 'log2', breaks = c(3:14)) + 
+    guides(legend.position = "bottom")
 
-p02 <- ggplot(dA, aes(x = n, y = trainTime, group = interaction(variable, iterate), color = variable)) + 
-    geom_line(linetype = lty[dA$iterate], size = size[dA$iterate], alpha = alpha[dA$iterate]) + ex
+p2 <- ggplot(dA, aes(x = log2(n), y = trainTime, group = interaction(variable, iterate), 
+                     color = variable, linetype = developer)) +
+    geom_line(size = size[dA$iterate], alpha = alpha[dA$iterate]) +
+    scale_x_continuous(trans = 'log2', breaks = c(3:14))
 
-p2 <- ggplot(dA, aes(x = log2(n), y = trainTime, group = interaction(variable, iterate), color = variable)) + 
-    geom_line(linetype = lty[dA$iterate], size = size[dA$iterate], alpha = alpha[dA$iterate]) +
-    scale_x_continuous(trans = 'log2', breaks = c(3:14))  + ex
-
-p03 <- ggplot(dA, aes(x = n, y = testTime, group = interaction(variable, iterate), color = variable)) + 
-    geom_line(linetype = lty[dA$iterate], size = size[dA$iterate], alpha = alpha[dA$iterate]) + ex
-
-p3 <- ggplot(dA, aes(x = log2(n), y = testTime, group = interaction(variable, iterate), color = variable)) + 
-    geom_line(linetype = lty[dA$iterate], size = size[dA$iterate], alpha = alpha[dA$iterate]) +
-    scale_x_continuous(trans = 'log2', breaks = c(3:14)) + ex
+p3 <- ggplot(dA, aes(x = log2(n), y = testTime, group = interaction(variable, iterate), 
+                     color = variable, linetype = developer)) + 
+    geom_line(size = size[dA$iterate], alpha = alpha[dA$iterate]) +
+    scale_x_continuous(trans = 'log2', breaks = c(3:14))
 ```
 
 ``` r
-grid.arrange(p01 + ggtitle("raw"),
-             p02 + ggtitle("raw"),
-             p03 + ggtitle("raw"),
-             p1 + ggtitle("log2(x)"),
-             p2 + ggtitle("log2(x)"),
-             p3 + ggtitle("log2(x)"),
-             p1 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
-             p2 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
-             p3 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
-             layout_matrix = matrix(1:9, 3,3))
+c1 <- brewer.pal(8, "Set1")
+c1 <- c1[c(1, 1, 2, 2, 1, 4, 1, 4)]
+
+ex <- scale_colour_manual(values = c1) 
+th <- theme(text = element_text(size = 20))
+
+grid.arrange(p1 + ex + scale_y_log10() + ggtitle("log2(x) & log10(y)") + th,
+             p2 + ex + scale_y_log10() + ggtitle("log2(x) & log10(y)") + th,
+             p3 + ex + scale_y_log10() + ggtitle("log2(x) & log10(y)") + th)
 ```
 
-``` r
-show(grid.arrange(p01,p02,p03))
-```
-
-![](python_R_compare_files/figure-commonmark/unnamed-chunk-5-1.png)<!-- -->
-
-    ## TableGrob (3 x 1) "arrange": 3 grobs
-    ##   z     cells    name           grob
-    ## 1 1 (1-1,1-1) arrange gtable[layout]
-    ## 2 2 (2-2,1-1) arrange gtable[layout]
-    ## 3 3 (3-3,1-1) arrange gtable[layout]
-
-``` r
-grid.arrange(p1,p2,p3)
-```
-
-![](python_R_compare_files/figure-commonmark/unnamed-chunk-6-1.png)<!-- -->
-
-``` r
-grid.arrange(p1 + scale_y_log10(),
-             p2 + scale_y_log10(),
-             p3 + scale_y_log10())
-```
-
-![](python_R_compare_files/figure-commonmark/unnamed-chunk-7-1.png)<!-- -->
-
-``` r
-grid.arrange(p01 + ggtitle("raw"), 
-             p02 + ggtitle("raw"), 
-             p03 + ggtitle("raw")
-             )
-```
-
-![](python_R_compare_files/figure-commonmark/unnamed-chunk-8-1.png)<!-- -->
-
-``` r
-grid.arrange(p1 + ggtitle("log2(x)"), 
-             p2 + ggtitle("log2(x)"), 
-             p3 + ggtitle("log2(x)"))
-```
-
-![](python_R_compare_files/figure-commonmark/unnamed-chunk-9-1.png)<!-- -->
-
-``` r
-grid.arrange(p1 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
-             p2 + scale_y_log10() + ggtitle("log2(x) & log10(y)"),
-             p3 + scale_y_log10() + ggtitle("log2(x) & log10(y)"))
-```
-
-![](python_R_compare_files/figure-commonmark/unnamed-chunk-10-1.png)<!-- -->
+![](python_R_compare_files/figure-commonmark/lhat-trainTime-testTime-plot-1.png)<!-- -->

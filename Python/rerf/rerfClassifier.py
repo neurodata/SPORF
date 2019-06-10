@@ -72,6 +72,10 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
     feature_combinations : float, optional (default: 1.5)
         Average number of features combined to form a new feature when
         using "RerF."  Otherwise, ignored.
+    oob_score : bool (default=False)
+        Whether to use out-of-bag samples to estimate the generalization accuracy.
+        Note, setting to True currently runs our non-binned implementation 
+        which has slower prediction times.
     n_jobs : int or None, optional (default=None)
         The number of jobs to run in parallel for both `fit` and `predict`.
         ``None`` means 1. ``-1`` means use all processors. 
@@ -136,6 +140,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         min_parent=1,
         max_features="auto",
         feature_combinations=1.5,
+        oob_score=False,
         n_jobs=None,
         random_state=None,
         image_height=None,
@@ -151,6 +156,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         self.min_parent = min_parent
         self.max_features = max_features
         self.feature_combinations = feature_combinations
+        self.oob_score = oob_score
         self.n_jobs = n_jobs
         self.random_state = random_state
 
@@ -247,7 +253,6 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
             self.forest_.setParameter("patchWidthMin", self.patch_width_min_)
         else:
             raise ValueError("Incorrect projection matrix")
-
         self.forest_.setParameter("forestType", forestType)
 
         if self.method_to_use_ is not None:
@@ -303,6 +308,10 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
 
         self.X_ = X
         self.y_ = y
+
+        if self.oob_score:
+            self.oob_score_ = self.forest_._report_OOB()
+
         return self
 
     def predict(self, X):
