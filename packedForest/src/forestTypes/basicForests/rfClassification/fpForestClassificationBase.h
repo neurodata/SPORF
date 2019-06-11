@@ -67,7 +67,7 @@ namespace fp {
 				treeStats["maxDepth"] = (float) maxDepth;
 				treeStats["totalLeafDepth"] = (float) totalLeafDepth;
 				treeStats["totalLeafNodes"] = (float) totalLeafNodes;
-				treeStats["OOBaccuracy"] = reportOOB();
+				treeStats["OOBaccuracy"] = (float) reportOOB();
 				return treeStats;
 			}
 
@@ -77,7 +77,7 @@ namespace fp {
 				std::cout << "max depth: " << treeStats["maxDepth"] << "\n";
 				std::cout << "avg depth: " << float(treeStats["totalLeafDepth"])/float(treeStats["totalLeafNodes"]) << "\n";
 				std::cout << "num leaf nodes: " << treeStats["totalLeafNodes"] << "\n";
-				std::cout << "OOB Accuracy: " << treeStats["OOBaccuracy"] << "\n";
+				std::cout << "OOB Accuracy: " << float(treeStats["OOBaccuracy"]) << "\n";
 			}
 
 			void printTree0(){
@@ -169,18 +169,115 @@ inline int predictClass(const T* observation){
 			}
 
 			inline float reportOOB(){
-				// for tree_i in trees sum OOB_i and normalize by the number of trees.
-				float oobi = 0;
-				int treesWithOOB = 0;
-				for (unsigned int i = 0; i < trees.size(); ++i){
-					if (trees[i].returnTotalOOB() > 0) {
-					  oobi += trees[i].returnOOB();
-					  treesWithOOB++;
+				int numCorrect = 0;
+				int numOOB = 0;
+				float oobAccuracy = 0;
+
+				std::map<int, int> oobBestClass;
+				// A vector of vectors (numObs X numClasses) for storing
+				// the class tallies.
+			    std::vector<std::vector<int>> oobClassVotes(fpSingleton::getSingleton().returnNumObservations(), std::vector<int>(fpSingleton::getSingleton().returnNumClasses(), 0));
+
+				// Iterate over trees to get oob points and add up their
+				// class votes.
+				for (unsigned int i = 0; i < trees.size(); i++){
+					for (auto j : trees[i].returnOOBvotes()){
+						oobClassVotes[j[0]][j[1]] += 1;
 					}
 				}
-				// need to divide by the number of trees that had non-zero OOB points.
 
-				return oobi / (float) treesWithOOB;
+				// Iterate over "rows" and calculate the bestClass.
+				for (unsigned int i = 0; i < oobClassVotes.size(); i++){
+					if(!std::all_of(oobClassVotes[i].begin(), oobClassVotes[i].end(), [](int i) {return i==0;})){
+						// This will pick the lower class value if there
+						// is a tie. (same as in the predict methods).
+						// TODO: flip a coin for tie-breaking.
+						oobBestClass[i] = std::distance(oobClassVotes[i].begin(), std::max_element(oobClassVotes[i].begin(), oobClassVotes[i].end()));
+						numOOB++;
+					}
+				}
+
+
+				for (auto& i : oobBestClass){
+					if(fpSingleton::getSingleton().returnLabel(i.first) == i.second){
+						numCorrect++;
+					}
+				}
+
+				oobAccuracy = (float) numCorrect / (float) numOOB;
+
+				return oobAccuracy;
+			}
+
+			/*
+			 * testing functions -- not to be used in production
+			 */
+
+			inline std::vector<std::vector<T> > testOneTreeOOB(){
+				std::vector<std::vector<T> > dataValues;
+
+				std::vector<int> oobIndices;
+				std::map<int, int> oobBestClass;
+				// A vector of vectors (numObs X numClasses) for storing
+				// the class tallies.
+			    std::vector<std::vector<int>> oobClassVotes(fpSingleton::getSingleton().returnNumObservations(), std::vector<int>(fpSingleton::getSingleton().returnNumClasses(), 0));
+
+				// Iterate over trees to get oob points and add up their
+				// class votes.
+				for (unsigned int i = 0; i < trees.size(); i++){
+					for (auto j : trees[i].returnOOBvotes()){
+						oobClassVotes[j[0]][j[1]] += 1;
+					}
+				}
+
+				// Iterate over "rows" and calculate the bestClass.
+				for (unsigned int i = 0; i < oobClassVotes.size(); i++){
+					if(!std::all_of(oobClassVotes[i].begin(), oobClassVotes[i].end(), [](int i) {return i==0;})){
+						// This will pick the lower class value if there
+						// is a tie. (same as in the predict methods).
+						// TODO: flip a coin for tie-breaking.
+						oobIndices.push_back(i);
+					}
+				}
+
+
+				for(int i = 0; i < oobIndices.size(); i++){
+					std::vector<T> tmp;
+					for(int j = 0; j < fpSingleton::getSingleton().returnNumFeatures(); j++){
+						tmp.push_back(fpSingleton::getSingleton().returnFeatureVal(j, i));
+					}
+					dataValues.push_back(tmp);
+				}
+				return dataValues;
+			}
+
+			inline std::vector<int> testOneTreeOOBind(){
+
+				std::vector<int> oobIndices;
+				std::map<int, int> oobBestClass;
+				// A vector of vectors (numObs X numClasses) for storing
+				// the class tallies.
+			    std::vector<std::vector<int>> oobClassVotes(fpSingleton::getSingleton().returnNumObservations(), std::vector<int>(fpSingleton::getSingleton().returnNumClasses(), 0));
+
+				// Iterate over trees to get oob points and add up their
+				// class votes.
+				for (unsigned int i = 0; i < trees.size(); i++){
+					for (auto j : trees[i].returnOOBvotes()){
+						oobClassVotes[j[0]][j[1]] += 1;
+					}
+				}
+
+				// Iterate over "rows" and calculate the bestClass.
+				for (unsigned int i = 0; i < oobClassVotes.size(); i++){
+					if(!std::all_of(oobClassVotes[i].begin(), oobClassVotes[i].end(), [](int i) {return i==0;})){
+						// This will pick the lower class value if there
+						// is a tie. (same as in the predict methods).
+						// TODO: flip a coin for tie-breaking.
+						oobIndices.push_back(i);
+					}
+				}
+
+				return oobIndices;
 			}
 	};
 

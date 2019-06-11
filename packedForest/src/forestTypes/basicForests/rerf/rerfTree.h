@@ -11,14 +11,16 @@ namespace fp{
 		class rerfTree
 		{
 			protected:
-				float OOBAccuracy;
-				float correctOOB;
+				//float OOBAccuracy;
+				//float correctOOB;
 				float totalOOB;
+				std::vector<std::vector<int> > indexAndVote;
 				std::vector< fpBaseNode<T, std::vector<int> > > tree;
 				std::vector< unprocessedRerFNode<T> > nodeQueue;
 
 			public:
-				rerfTree() : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0){}
+				rerfTree() : totalOOB(0){}
+				//rerfTree() : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0){}
 
 				void loadFirstNode(){
 					nodeQueue.emplace_back(fpSingleton::getSingleton().returnNumObservations());
@@ -37,6 +39,7 @@ namespace fp{
 					return true;
 				}
 
+				/* // Removed while fixing oob [JLP]
 				inline float returnOOB(){
 					return OOBAccuracy;
 				}
@@ -48,7 +51,11 @@ namespace fp{
 				inline int returnTotalOOB(){
 					return totalOOB;
 				}
+				*/
 
+				inline std::vector<std::vector<int> > returnOOBvotes(){
+					return indexAndVote;
+				}
 
 				inline int returnLastNodeID(){
 					return tree.size()-1;
@@ -104,9 +111,15 @@ namespace fp{
 
 				inline void checkOOB(){
 					totalOOB += nodeQueue.back().returnOutSampleSize();
-					correctOOB += nodeQueue.back().returnOutSampleCorrect(tree.back().returnClass());
+					//correctOOB += nodeQueue.back().returnOutSampleCorrect(tree.back().returnClass());
+					for(auto &j : nodeQueue.back().returnOutSampleVec()){
+						indexAndVote.push_back(std::vector<int>{j, tree.back().returnClass()});
+					}
 				}
 
+				inline std::vector<int> returnOutSample(){
+					return nodeQueue.front().returnOutSampleVec();
+				}
 
 				inline void makeWholeNodeALeaf(){
 					tree.emplace_back();
@@ -206,7 +219,6 @@ namespace fp{
 				inline void growTree(){
 					loadFirstNode();
 					processNodes();
-					updateOOB(); // update the OOBAccuracy
 				}
 
 
@@ -247,12 +259,10 @@ inline int predictObservation(const T* observation){
 					// grab outSamplesIndices before they are deleted.
 					outSampleIndices = nodeQueue.back().returnOutSampleVec();
 					processNodes();
-					updateOOB(); // update the OOBAccuracy
+					checkOOB();
 					return outSampleIndices;
 				}
-
-
 		};
 
 }//fp
-#endif //rfTree_h
+#endif //rerfTree_h
