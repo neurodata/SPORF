@@ -195,7 +195,8 @@ def test_iris_perfect_train(projection_matrix):
         assert min(y_train_acc_list) >= (1 - 1 / len(iris_full.target))
 
 
-def test_iris_OOB(projection_matrix="RerF"):
+@pytest.mark.parametrize("projection_matrix", ("RerF", "Base"))
+def test_iris_OOB(projection_matrix):
     iris_full = datasets.load_iris()
     y_train_acc_list = []
     clf = rerfClassifier(
@@ -204,5 +205,5 @@ def test_iris_OOB(projection_matrix="RerF"):
 
     clf.fit(iris_full.data, iris_full.target)
 
-    assert 0 <= clf.oob_score_ < 0.2
+    assert 0.9 <= clf.oob_score_ < 1
 
