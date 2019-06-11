@@ -208,10 +208,16 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         self.forest_ = pyfp.fpForest()
 
         if self.projection_matrix == "Base":
-            forestType = "binnedBase"
+            if self.oob_score:
+                forestType = "rfBase"
+            else:
+                forestType = "binnedBase"
             self.method_to_use_ = None
         elif self.projection_matrix == "RerF":
-            forestType = "binnedBaseTern"
+            if self.oob_score:
+                forestType = "rerf"
+            else:
+                forestType = "binnedBaseTern"
             self.method_to_use_ = 1
         elif self.projection_matrix == "S-RerF":
             forestType = "binnedBaseTern"  # this should change
@@ -281,7 +287,6 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         else:
             self.random_state_ = self.random_state
         self.forest_.setParameter("seed", self.random_state_)
-
 
         # need to set mtry here (using max_features and calc num_features):
         if self.max_features in ("auto", "sqrt"):
