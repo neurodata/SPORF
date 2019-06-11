@@ -67,7 +67,7 @@ namespace fp {
 				treeStats["maxDepth"] = (float) maxDepth;
 				treeStats["totalLeafDepth"] = (float) totalLeafDepth;
 				treeStats["totalLeafNodes"] = (float) totalLeafNodes;
-				treeStats["OOBaccuracy"] = (float) reportOOB();
+				treeStats["OOBaccuracy"] = reportOOB();
 				return treeStats;
 			}
 
@@ -77,7 +77,7 @@ namespace fp {
 				std::cout << "max depth: " << treeStats["maxDepth"] << "\n";
 				std::cout << "avg depth: " << float(treeStats["totalLeafDepth"])/float(treeStats["totalLeafNodes"]) << "\n";
 				std::cout << "num leaf nodes: " << treeStats["totalLeafNodes"] << "\n";
-				std::cout << "OOB Accuracy: " << float(treeStats["OOBaccuracy"]) << "\n";
+				std::cout << "OOB Accuracy: " << treeStats["OOBaccuracy"] << "\n";
 			}
 
 			void printTree0(){
@@ -179,9 +179,12 @@ inline int predictClass(const T* observation){
 			    std::vector<std::vector<int>> oobClassVotes(fpSingleton::getSingleton().returnNumObservations(), std::vector<int>(fpSingleton::getSingleton().returnNumClasses(), 0));
 
 				// Iterate over trees to get oob points and add up their
-				// class votes.
-				for (unsigned int i = 0; i < trees.size(); i++){
-					for (auto j : trees[i].returnOOBvotes()){
+				// class votes. returnOOBvotes is an n x 2 vector with
+				// <(oobID, treeVote)>.
+				for (auto& ti : trees){
+					for (auto j : ti.returnOOBvotes()){
+						// increment the vote for class j[1] for
+						// oob_point j[0].
 						oobClassVotes[j[0]][j[1]] += 1;
 					}
 				}
@@ -194,6 +197,9 @@ inline int predictClass(const T* observation){
 						// TODO: flip a coin for tie-breaking.
 						oobBestClass[i] = std::distance(oobClassVotes[i].begin(), std::max_element(oobClassVotes[i].begin(), oobClassVotes[i].end()));
 						numOOB++;
+						// using distance is a way to get the index of
+						// the max value in the vector.
+						// http://www.cplusplus.com/forum/beginner/212806/#msg994102
 					}
 				}
 

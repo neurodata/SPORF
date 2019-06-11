@@ -11,8 +11,6 @@ namespace fp{
 		class rerfTree
 		{
 			protected:
-				//float OOBAccuracy;
-				//float correctOOB;
 				float totalOOB;
 				std::vector<std::vector<int> > indexAndVote;
 				std::vector< fpBaseNode<T, std::vector<int> > > tree;
@@ -20,7 +18,6 @@ namespace fp{
 
 			public:
 				rerfTree() : totalOOB(0){}
-				//rerfTree() : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0){}
 
 				void loadFirstNode(){
 					nodeQueue.emplace_back(fpSingleton::getSingleton().returnNumObservations());
@@ -39,19 +36,6 @@ namespace fp{
 					return true;
 				}
 
-				/* // Removed while fixing oob [JLP]
-				inline float returnOOB(){
-					return OOBAccuracy;
-				}
-
-				inline void updateOOB(){
-					this->OOBAccuracy = correctOOB/totalOOB;
-				}
-
-				inline int returnTotalOOB(){
-					return totalOOB;
-				}
-				*/
 
 				inline std::vector<std::vector<int> > returnOOBvotes(){
 					return indexAndVote;
@@ -111,14 +95,16 @@ namespace fp{
 
 				inline void checkOOB(){
 					totalOOB += nodeQueue.back().returnOutSampleSize();
-					//correctOOB += nodeQueue.back().returnOutSampleCorrect(tree.back().returnClass());
-					for(auto &j : nodeQueue.back().returnOutSampleVec()){
+					// Get oob_indices and vote from leaf node as
+					// <(oob_id, vote)> and push back onto the
+					// indexAndVote object.
+					for(auto &j : nodeQueue.back().returnOutSampleIdsFromLeaf()){
 						indexAndVote.push_back(std::vector<int>{j, tree.back().returnClass()});
 					}
 				}
 
 				inline std::vector<int> returnOutSample(){
-					return nodeQueue.front().returnOutSampleVec();
+					return nodeQueue.front().returnOutSampleIdsFromLeaf();
 				}
 
 				inline void makeWholeNodeALeaf(){
@@ -257,7 +243,7 @@ inline int predictObservation(const T* observation){
 					std::vector<int> outSampleIndices;
 					loadFirstNode();
 					// grab outSamplesIndices before they are deleted.
-					outSampleIndices = nodeQueue.back().returnOutSampleVec();
+					outSampleIndices = nodeQueue.back().returnOutSampleIdsFromLeaf();
 					processNodes();
 					checkOOB();
 					return outSampleIndices;

@@ -77,7 +77,7 @@ namespace fp{
  					return obsIndices->returnOutSamplesInClass(classNum);
 				}
 
-				inline std::vector<int> returnOutSampleVec(){
+				inline std::vector<int> returnOutSampleIdsFromLeaf(){
 					 return obsIndices->returnOutSample();
 				}
 

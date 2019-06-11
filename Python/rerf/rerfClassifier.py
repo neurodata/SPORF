@@ -220,6 +220,15 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
                 forestType = "binnedBaseTern"
             self.method_to_use_ = 1
         elif self.projection_matrix == "S-RerF":
+            if oob_score = True:
+                warn(
+                    "OOB is not currently implemented for the S-RerF"
+                    " algorithm.  Continuing with oob_score = False.",
+                    RuntimeWarning,
+                    stacklevel=2,
+                )
+                self.oob_score = False
+
             forestType = "binnedBaseTern"  # this should change
             self.method_to_use_ = 2
             # Check that image_height and image_width are divisors of
