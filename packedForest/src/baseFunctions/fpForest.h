@@ -108,6 +108,8 @@ namespace fp {
 					checkDataDependentParameters();
 					initializeForestType();
 					forest->growForest();
+					updateOOB();
+					
 					deleteData();
 				}
 
