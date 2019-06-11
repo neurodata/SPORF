@@ -204,5 +204,5 @@ def test_iris_OOB(projection_matrix="RerF"):
 
     clf.fit(iris_full.data, iris_full.target)
 
-    assert clf.oob_score_ < 0.2
+    assert 0 <= clf.oob_score_ < 0.2
 
