@@ -78,5 +78,5 @@ This is to upload source to pypi.  To upload linux wheel binaries, see [manylinu
 ```bash
 cd docker
 docker build -t neurodata/rerf .
-docker push -t neurodata/rerf
+docker push neurodata/rerf
 ```
