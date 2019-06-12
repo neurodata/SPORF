@@ -5,15 +5,14 @@
 
 TEST(testRerFtree, testOOB){
 
-	bool DEBUG = true;
-    fp::fpRerFBase<double> forest;
+	fp::fpRerFBase<double> forest;
 	fp::fpSingleton::getSingleton().setParameter("CSVFileName", "../res/iris.csv");
 	fp::fpSingleton::getSingleton().setParameter("columnWithY", 4);
 	fp::fpSingleton::getSingleton().setParameter("numTreesInForest", 1);
 	fp::fpSingleton::getSingleton().setParameter("minParent", 1);
 	fp::fpSingleton::getSingleton().setParameter("numCores", 1);
 	fp::fpSingleton::getSingleton().setParameter("seed",-1661580692);
-	fp::fpSingleton::getSingleton().setParameter("mtry",1);
+	fp::fpSingleton::getSingleton().setParameter("mtry",3);
 
     forest.growForest();
 	std::vector<std::vector<double> > dataVec = forest.testOneTreeOOB();
@@ -30,15 +29,7 @@ TEST(testRerFtree, testOOB){
 		}
 	}
 
-	float manualResult = (float) 1 - ((float) countCorrect / (float) dataInd.size());
-
-	if(DEBUG){
-		std::cout << "count correct " << countCorrect << std::endl; //DEBUG
-		std::cout << "data Ind" << dataInd.size() << std::endl; //DEBUG
-		std::cout << "manual " << manualResult << std::endl; //DEBUG
-		std::cout << "internal " << internalResult << std::endl; //DEBUG
-	}
+	float manualResult = ((float) countCorrect / (float) dataInd.size());
 
 	EXPECT_EQ(manualResult, internalResult);
-
 }

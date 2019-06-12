@@ -5,8 +5,7 @@
 
 TEST(testRFtree, testOOB){
 
-	bool DEBUG = true;
-    fp::fpForestClassificationBase<double> forest;
+	fp::fpForestClassificationBase<double> forest;
 	fp::fpSingleton::getSingleton().setParameter("CSVFileName", "../res/iris.csv");
 	fp::fpSingleton::getSingleton().setParameter("columnWithY", 4);
 	fp::fpSingleton::getSingleton().setParameter("numTreesInForest", 1);
@@ -30,15 +29,7 @@ TEST(testRFtree, testOOB){
 		}
 	}
 
-	float manualResult = (float) 1 - ((float) countCorrect / (float) dataInd.size());
-
-	if(DEBUG){
-		std::cout << "count correct " << countCorrect << std::endl; //DEBUG
-		std::cout << "data Ind" << dataInd.size() << std::endl; //DEBUG
-		std::cout << "manual " << manualResult << std::endl; //DEBUG
-		std::cout << "internal " << internalResult << std::endl; //DEBUG
-	}
-
+	float manualResult = ((float) countCorrect / (float) dataInd.size());
 
 	EXPECT_EQ(manualResult, internalResult);
 }

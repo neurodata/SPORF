@@ -256,7 +256,7 @@ inline int predictClass(const T* observation){
 				}
 
 
-				for(unsigned int i = 0; i < oobIndices.size(); i++){
+				for(auto& i : oobIndices){
 					std::vector<T> tmp;
 					for(int j = 0; j < fpSingleton::getSingleton().returnNumFeatures(); j++){
 						tmp.push_back(fpSingleton::getSingleton().returnFeatureVal(j, i));
