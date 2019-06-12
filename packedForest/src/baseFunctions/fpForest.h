@@ -23,6 +23,7 @@ namespace fp {
 
 			protected:
 				std::unique_ptr<fpForestBase<T> > forest;
+				float OOBaccuracy = 0;
 
 				void loadData(){
 					fpSingleton::getSingleton().loadData();
@@ -107,6 +108,8 @@ namespace fp {
 					checkDataDependentParameters();
 					initializeForestType();
 					forest->growForest();
+					updateOOB();
+					
 					deleteData();
 				}
 
@@ -117,6 +120,8 @@ namespace fp {
 					checkDataDependentParameters();
 					initializeForestType();
 					forest->growForest();
+					updateOOB();
+
 					deleteData();
 				}
 
@@ -133,10 +138,13 @@ namespace fp {
 					return forest->predictClass(observation);
 				}
 
-				inline float reportOOB(){
-					return forest->reportOOB();
+				inline void updateOOB(){
+					OOBaccuracy = forest->reportOOB();
 				}
 
+				inline float reportOOB(){
+					return OOBaccuracy;
+				}
 
 				float testAccuracy(){
 					float testError;
