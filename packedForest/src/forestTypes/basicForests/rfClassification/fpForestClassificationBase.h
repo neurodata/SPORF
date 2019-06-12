@@ -208,6 +208,9 @@ inline int predictClass(const T* observation){
 
 
 				for (auto& i : oobBestClass){
+					// Tally the number of correct predictions.
+					// i.first is the observation index.
+					// i.second is the predicted class.
 					if(fpSingleton::getSingleton().returnLabel(i.first) == i.second){
 						numCorrect++;
 					}
