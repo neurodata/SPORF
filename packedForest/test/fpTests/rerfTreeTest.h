@@ -12,7 +12,7 @@ TEST(testRerFtree, testOOB){
 	fp::fpSingleton::getSingleton().setParameter("minParent", 1);
 	fp::fpSingleton::getSingleton().setParameter("numCores", 1);
 	fp::fpSingleton::getSingleton().setParameter("seed",-1661580692);
-	fp::fpSingleton::getSingleton().setParameter("mtry",3);
+	fp::fpSingleton::getSingleton().setParameter("mtry",1);
 
     forest.growForest();
 	std::vector<std::vector<double> > dataVec = forest.testOneTreeOOB();
