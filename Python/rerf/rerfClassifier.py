@@ -220,7 +220,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
                 forestType = "binnedBaseTern"
             self.method_to_use_ = 1
         elif self.projection_matrix == "S-RerF":
-            if oob_score = True:
+            if self.oob_score:
                 warn(
                     "OOB is not currently implemented for the S-RerF"
                     " algorithm.  Continuing with oob_score = False.",

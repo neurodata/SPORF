@@ -18,6 +18,8 @@ namespace fp {
 	{
 		protected:
 			std::vector<rerfTree<T> > trees;
+			int numCorrect = 0;
+			int numOOB = 0;
 
 		public:
 
@@ -241,7 +243,7 @@ inline int predictClass(const T* observation){
 				}
 
 
-				for(int i = 0; i < oobIndices.size(); i++){
+				for(unsigned int i = 0; i < oobIndices.size(); i++){
 					std::vector<T> tmp;
 					for(int j = 0; j < fpSingleton::getSingleton().returnNumFeatures(); j++){
 						tmp.push_back(fpSingleton::getSingleton().returnFeatureVal(j, i));
@@ -278,6 +280,13 @@ inline int predictClass(const T* observation){
 				}
 
 				return oobIndices;
+			}
+
+			inline std::map<std::string, int> testReturnNumCorrectAndNumOOB(){
+				std::map<std::string, int> retVal;
+				retVal["numCorrect"] = numCorrect;
+				retVal["numOOB"] = numOOB;
+				return retVal;
 			}
 	};
 

@@ -18,8 +18,11 @@ namespace fp {
 	{
 		protected:
 			std::vector<rfTree<T> > trees;
+			int numCorrect = 0;
+			int numOOB = 0;
 
 		public:
+
 			fpDisplayProgress printProgress;
 
 			//			using fpForestBase<T>::fpForestBase;
@@ -210,6 +213,9 @@ inline int predictClass(const T* observation){
 					}
 				}
 
+				this->numCorrect = numCorrect;
+				this->numOOB = numOOB;
+
 				oobAccuracy = (float) numCorrect / (float) numOOB;
 
 				return oobAccuracy;
@@ -247,7 +253,7 @@ inline int predictClass(const T* observation){
 				}
 
 
-				for(int i = 0; i < oobIndices.size(); i++){
+				for(unsigned int i = 0; i < oobIndices.size(); i++){
 					std::vector<T> tmp;
 					for(int j = 0; j < fpSingleton::getSingleton().returnNumFeatures(); j++){
 						tmp.push_back(fpSingleton::getSingleton().returnFeatureVal(j, i));
@@ -284,6 +290,14 @@ inline int predictClass(const T* observation){
 				}
 
 				return oobIndices;
+			}
+
+
+			inline std::map<std::string, int> testReturnNumCorrectAndNumOOB(){
+				std::map<std::string, int> retVal;
+				retVal["numCorrect"] = numCorrect;
+				retVal["numOOB"] = numOOB;
+				return retVal;
 			}
 	};
 

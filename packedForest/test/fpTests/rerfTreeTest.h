@@ -5,6 +5,7 @@
 
 TEST(testRerFtree, testOOB){
 
+	bool DEBUG = true;
     fp::fpRerFBase<double> forest;
 	fp::fpSingleton::getSingleton().setParameter("CSVFileName", "../res/iris.csv");
 	fp::fpSingleton::getSingleton().setParameter("columnWithY", 4);
@@ -19,6 +20,7 @@ TEST(testRerFtree, testOOB){
 	std::vector<int> dataInd = forest.testOneTreeOOBind();
 
 	float internalResult = forest.reportOOB();
+	std::map<std::string, int> nn = forest.testReturnNumCorrectAndNumOOB();
 
 	int countCorrect = 0;
 
@@ -28,6 +30,15 @@ TEST(testRerFtree, testOOB){
 		}
 	}
 
-	float manualResult = (float) 1 - (float) countCorrect / (float) dataInd.size();
+	float manualResult = (float) 1 - ((float) countCorrect / (float) dataInd.size());
+
+	if(DEBUG){
+		std::cout << "count correct " << countCorrect << std::endl; //DEBUG
+		std::cout << "data Ind" << dataInd.size() << std::endl; //DEBUG
+		std::cout << "manual " << manualResult << std::endl; //DEBUG
+		std::cout << "internal " << internalResult << std::endl; //DEBUG
+	}
+
+	EXPECT_EQ(manualResult, internalResult);
 
 }
