@@ -102,10 +102,6 @@ namespace fp{
 					}
 				}
 
-				inline std::vector<int> returnOutSample(){
-					return nodeQueue.front().returnOutSampleIdsFromLeaf();
-				}
-
 
 				inline void makeWholeNodeALeaf(){
 					tree.emplace_back();

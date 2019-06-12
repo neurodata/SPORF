@@ -194,7 +194,7 @@ inline int predictClass(const T* observation){
 
 				// Iterate over "rows" and calculate the bestClass.
 				for (unsigned int i = 0; i < oobClassVotes.size(); i++){
-					if(!std::all_of(oobClassVotes[i].begin(), oobClassVotes[i].end(), [](int i) {return i==0;})){
+					if(std::any_of(oobClassVotes[i].begin(), oobClassVotes[i].end(), [](int i) {return i>0;})){
 						// This will pick the lower class value if there
 						// is a tie. (same as in the predict methods).
 						// TODO: flip a coin for tie-breaking.
