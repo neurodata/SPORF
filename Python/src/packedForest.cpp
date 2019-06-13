@@ -88,6 +88,8 @@ PYBIND11_MODULE(pyfp, m)
         },
              "Returns a vector of vectors representing the votes for each class for each observation")
 
+        .def("_report_OOB", &fpForest<double>::reportOOB, "Returns the out of bag score on the forest.")
+
         .def("testAccuracy", &fpForest<double>::testAccuracy);
 }
 
