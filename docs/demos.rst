@@ -4,7 +4,6 @@ Demos
 
 .. toctree::
    :maxdepth: 1
+   :glob:
 
-   demos/basic_usage
-   demos/sklearn_classifier_comparison
-   demos/iris_perfect_test
+   demos/*
