@@ -44,7 +44,7 @@ fpRerF <-
 		if(numTreesInForest < 1){
 			stop("at least one tree must be used.")
 		}
-		if(!(forestType %in% c('rfBase', 'rerf', 'binnedBase', 'binnedBaseRerF'))){
+		if(!(forestType %in% c('rfBase', 'rerf', 'binnedBase', 'binnedBaseRerF', 'binnedBaseTern'))){
 			stop("must pick a forest type from the following:\n rfBase, rerf, inPlace, inPlaceRerF, binnedBase, binnedBaseRerF")
 		}
 		if(is.null(numTreeBins)){
