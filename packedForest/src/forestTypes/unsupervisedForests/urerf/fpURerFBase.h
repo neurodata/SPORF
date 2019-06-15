@@ -46,17 +46,6 @@ namespace fp {
 				}
 			}
 
-                        inline void printSparseMat(){
-				//Not in use now. TODO: Remove entirely?
-                                for (int k = 0; k < eigenMat.outerSize(); ++k){
-                                        for (Eigen::SparseMatrix<double>::InnerIterator it(eigenMat, k); it; ++it){
-                                                std::cout << it.row() <<"\t";
-                                                std::cout << it.col() << "\t";
-                                                std::cout << it.value() << "\n";
-                                        }
-                                }
-                        }
-
                         inline void createSparseMat(){
 				//Not in use now. TODO: Remove entirely?
                                 auto numObs = fpSingleton::getSingleton().returnNumObservations();
