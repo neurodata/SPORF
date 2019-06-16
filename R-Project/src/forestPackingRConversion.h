@@ -41,14 +41,12 @@ class forestPackingRConversion{
 		}
 
 
-		inline void growForestGivenX(const void* mat, const void* yvec){
-			double* x = (double*)mat + 5;
-			int* y = (int*)yvec+10;
+		//inline void growForestGivenX(const void* mat, const void* yvec){
+		inline void growForestGivenX(const NumericMatrix x, const IntegerVector y){
+			int numObs = x.nrow();
+			int numFeatures = x.ncol();
 
-			int numObs = ((int*)yvec)[8];
-			int numFeatures = ((int*)mat)[8]/numObs;
-			
-			forest.growForest(x,y,numObs,numFeatures);
+			forest.growForest(x.begin(),y.begin(),numObs,numFeatures);
 		}
 
 
@@ -67,12 +65,12 @@ class forestPackingRConversion{
 		}
 
 
-		inline Rcpp::NumericVector predict(const NumericMatrix mat){
+		inline Rcpp::IntegerVector predict(const NumericMatrix mat){
 			int numObservations = mat.nrow();
 			int numFeatures = mat.ncol();
 
 			std::vector<double> currObs(numFeatures);
-			Rcpp::NumericVector predictions(numObservations);
+			Rcpp::IntegerVector predictions(numObservations);
 
 			for(int i = 0; i < numObservations; i++){
 				for(int j = 0; j < numFeatures; j++){

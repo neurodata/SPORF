@@ -128,7 +128,7 @@ fpRerF <-
 		##### Check X and Y inputs
 		################################################
 		if(xor(is.null(X), is.null(Y))){
-			stop("X and Y must be set or both must be blank.")
+			stop("X and Y must be set or both must be NULL.")
 		}
 
 		if(!is.null(X)){
