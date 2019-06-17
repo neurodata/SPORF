@@ -193,3 +193,17 @@ def test_iris_perfect_train(projection_matrix):
 
         # want to make sure that if any are not giving 100% acc, it's only 1 obs that's wrong
         assert min(y_train_acc_list) >= (1 - 1 / len(iris_full.target))
+
+
+@pytest.mark.parametrize("projection_matrix", ("RerF", "Base"))
+def test_iris_OOB(projection_matrix):
+    iris_full = datasets.load_iris()
+    y_train_acc_list = []
+    clf = rerfClassifier(
+        n_estimators=50, projection_matrix=projection_matrix, oob_score=True
+    )
+
+    clf.fit(iris_full.data, iris_full.target)
+
+    assert 0.9 <= clf.oob_score_ < 1
+
