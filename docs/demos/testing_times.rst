@@ -1,13 +1,14 @@
 `Download the code
 here <https://raw.githubusercontent.com/neurodata/RerF/staging/docs/demos/testing_times.py>`__
 
-Data
-====
+Testing Times on Iris, MNIST, HIGGS, and P53 datasets.
+======================================================
 
 The datasets used for this experiment were obtained from the following
 links.
 
--  Iris: A standard machine learning dataset included in
+Iris: A standard machine learning dataset included in
+-----------------------------------------------------
 
 .. code:: python
 
@@ -26,7 +27,8 @@ The Higgs dataset was used as described on the UCI website. The first
 10,500,000 rows were used for training and the remaining 500,000 for
 testing.
 
-###\ `p53 <https://archive.ics.uci.edu/ml/datasets/p53+Mutants>`__
+`P53 <https://archive.ics.uci.edu/ml/datasets/p53+Mutants>`__
+-------------------------------------------------------------
 
 The p53 dataset required removal of rows containing “?”’s. The ``old``
 data were used to train and the ``new`` were used to test.
