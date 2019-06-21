@@ -30,95 +30,94 @@ namespace fp{
 					for(unsigned int i=0; i<siz_vec; ++i){
 						featureValsVec.push_back(featureVals.at(i));
 					}
-					//std::sort(featureValsVec.begin(), featureValsVec.end());
 				}
 
 			public:
 				inline splitURerFInfo<T> twoMeanSplit(const std::vector<T>& featureVal, const std::vector<int>& featureNums){
                                         
 					// initialize return value
-                                        splitURerFInfo<T> currSplitInfo;
-                                        createData(featureVal);
+					splitURerFInfo<T> currSplitInfo;
+					createData(featureVal);
 
-                                        // sort feature Vals
-                                        std::vector<T> errVecLeft;
-                                        std::vector<T> errVecRight;
-                                        auto pbegin = featureValsVec.begin();
+					// sort feature Vals
+					std::vector<T> errVecLeft;
+					std::vector<T> errVecRight;
+					auto pbegin = featureValsVec.begin();
 					auto pend = featureValsVec.end();
-                        		std::sort(featureValsVec.begin(), featureValsVec.end());
-                                        pbegin = featureValsVec.begin();
+					std::sort(featureValsVec.begin(), featureValsVec.end());
+					pbegin = featureValsVec.begin();
 					pend = featureValsVec.end();
-                                        int sizeX = featureValsVec.size();
+					int sizeX = featureValsVec.size();
 					featureValsVec.erase(std::remove(pbegin, pend, 0), pend);
-                                        int sizeNNZ = featureValsVec.size();
-                                        int sizeZ = sizeX - sizeNNZ;
-                                        T meanRight, sumLeft=0, meanLeft, cutPoint=0;
+					int sizeNNZ = featureValsVec.size();
+					int sizeZ = sizeX - sizeNNZ;
+					T meanRight, sumLeft=0, meanLeft, cutPoint=0;
 					T errCurr = 0;
-                                        T minErr = std::numeric_limits<T>::infinity();
-                                        T minErrLeft = std::numeric_limits<T>::infinity();
-                                        T minErrRight = std::numeric_limits<T>::infinity();
+					T minErr = std::numeric_limits<T>::infinity();
+					T minErrLeft = std::numeric_limits<T>::infinity();
+					T minErrRight = std::numeric_limits<T>::infinity();
 					T sumRight = std::accumulate(featureValsVec.begin(), featureValsVec.end(), 0.0);
 					pbegin = featureValsVec.begin();
 					pend = featureValsVec.end();
 					std::vector<T> errVec(pbegin, pend);
 					
 					if (sizeNNZ - 1 <= 0){
-                                                currSplitInfo.setImpurity(-1);
-                                                currSplitInfo.addFeatureNums(featureNums);
-                                                currSplitInfo.setSplitValue(0);
-                                                currSplitInfo.setLeftImpurity(0);
+						currSplitInfo.setImpurity(-1);
+						currSplitInfo.addFeatureNums(featureNums);
+						currSplitInfo.setSplitValue(0);
+						currSplitInfo.setLeftImpurity(0);
                                                 currSplitInfo.setRightImpurity(0);
 						return currSplitInfo;
 					}
-                                        if( fabs(featureValsVec[0] - featureValsVec[sizeX-1])<0.00001){
+					if( fabs(featureValsVec[0] - featureValsVec[sizeX-1])<0.00001){
 						currSplitInfo.setImpurity(-1);
-                                                currSplitInfo.addFeatureNums(featureNums);
-                                                currSplitInfo.setSplitValue(0);
-                                                currSplitInfo.setLeftImpurity(0);
-                                                currSplitInfo.setRightImpurity(0);
-                                                return currSplitInfo;
-                                        }
+						currSplitInfo.addFeatureNums(featureNums);
+						currSplitInfo.setSplitValue(0);
+						currSplitInfo.setLeftImpurity(0);
+						currSplitInfo.setRightImpurity(0);
+						return currSplitInfo;
+					}
 
 					if (sizeZ) {
-                                                        meanRight = sumRight / (T)sizeNNZ;
-                                                        minErr = computeSampleVariance(meanRight, errVec);
-                                                        cutPoint = featureValsVec.at(0) / 2;
-                                          }
+						meanRight = sumRight / (T)sizeNNZ;
+						minErr = computeSampleVariance(meanRight, errVec);
+						cutPoint = featureValsVec.at(0) / 2;
+					}
 
 
-                                          if (sizeNNZ - 1) {
-                                                        int index = 1;
-							int sizeIt = featureValsVec.size()-1;
-                                                        for(int iter = 0; iter < sizeIt; ++iter) {
-                                                                int leftSize = sizeZ + index;
-                                                                int rightSize = sizeNNZ - index;
-                                                                sumLeft = sumLeft + featureValsVec[iter];
-                                                                sumRight = sumRight - featureValsVec[iter];
-                                                                meanLeft = sumLeft / (double)leftSize;
-                                                                meanRight = sumRight / (double)rightSize;
-								auto last = pbegin;
-								std::advance(last, index);
-								std::vector<T> newVec(pbegin, last);
-								auto errLeft = computeSampleVariance(meanLeft, newVec) + (sizeZ * meanLeft * meanLeft);
-								std::vector<T> newVec2(last, pend);
-								auto errRight = computeSampleVariance(meanRight, newVec2);
-                                                        	errCurr = errLeft + errRight;
+					if (sizeNNZ - 1) {
+						int index = 1;
+						int sizeIt = featureValsVec.size()-1;
+						for(int iter = 0; iter < sizeIt; ++iter) {
+							int leftSize = sizeZ + index;
+							int rightSize = sizeNNZ - index;
+							sumLeft = sumLeft + featureValsVec[iter];
+							sumRight = sumRight - featureValsVec[iter];
+							meanLeft = sumLeft / (double)leftSize;
+							meanRight = sumRight / (double)rightSize;
+							auto last = pbegin;
+							std::advance(last, index);
+							std::vector<T> newVec(pbegin, last);
+							auto errLeft = computeSampleVariance(meanLeft, newVec) + (sizeZ * meanLeft * meanLeft);
+							std::vector<T> newVec2(last, pend);
+							auto errRight = computeSampleVariance(meanRight, newVec2);
+                                                        errCurr = errLeft + errRight;
 
-                                                                if (errCurr < minErr) {
-                                                                        cutPoint = (featureValsVec[iter] + featureValsVec[iter+1]) / 2;
-                                                                        minErrLeft = errLeft;
-                                                                        minErrRight = errRight;
-                                                                        minErr = errCurr;
-                                                                }
-                                                                ++index;
-                                                        }
-                                          }
-					  currSplitInfo.setImpurity(minErr);
-                                          currSplitInfo.setSplitValue(cutPoint);
-                                          currSplitInfo.setLeftImpurity(minErrLeft);
-                                          currSplitInfo.setRightImpurity(minErrRight);
-                                          currSplitInfo.addFeatureNums(featureNums);	
-					 return currSplitInfo;
+							if (errCurr < minErr) {
+								cutPoint = (featureValsVec[iter] + featureValsVec[iter+1]) / 2;
+								minErrLeft = errLeft;
+								minErrRight = errRight;
+								minErr = errCurr;
+							}
+							++index;
+						}
+					}
+					currSplitInfo.setImpurity(minErr);
+					currSplitInfo.setSplitValue(cutPoint);
+					currSplitInfo.setLeftImpurity(minErrLeft);
+					currSplitInfo.setRightImpurity(minErrRight);
+					currSplitInfo.addFeatureNums(featureNums);	
+					return currSplitInfo;
 				}
 		};
 

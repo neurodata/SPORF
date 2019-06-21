@@ -47,6 +47,10 @@ namespace fp{
 					return parentID;
 				}
 
+				inline int returnMaxClass(){
+					std::cout<<"Not applicable for unsupervised random forests\n";
+					return 0;	
+				}
 				inline int returnDepth(){
 					return depth;
 				}
@@ -74,12 +78,6 @@ namespace fp{
 					return obsIndices->returnOutSampleSize();
 				}
 
-				inline int returnOutSampleError(int classNum){
-					int totalRight=0;
-					return totalRight;
-				}
-
-
 				inline void setHolderSizes(){
 					obsIndices->initializeBinnedSamples();
 					if(obsIndices->useBin()){
@@ -98,11 +96,6 @@ namespace fp{
 				inline void loadIndices(stratifiedInNodeClassIndicesUnsupervised* indices){
 					obsIndices = indices;
 				}
-
-				inline int returnMaxClass(){
-					return 0;
-				}
-
 
 
 		}; //unprocessedNode.h

@@ -46,7 +46,10 @@ namespace fp{
 					return bestSplitInfo.returnSplitValue();
 				}
 
-
+				inline int returnMaxClass(){
+					std::cout<<"Not applicable for unsupervised random forests. \n";
+					return 0;
+				}
 				inline void setBestSplit(splitURFInfo<T> tempSplit){
 					if(tempSplit.returnImpurity() >= 0){
 						if(tempSplit.returnImpurity() < bestSplitInfo.returnImpurity()){

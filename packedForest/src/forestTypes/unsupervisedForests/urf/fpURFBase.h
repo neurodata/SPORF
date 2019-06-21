@@ -125,27 +125,29 @@ namespace fp {
 			}
 
 			inline int predictClass(std::vector<T>& observation){
-				//TODO: Generate Error message
+				std::cout<<"Not defined for unsupervised random forests. \n";
 				return 0;
 			}
 
 			inline int predictClass(const T* observation){
-				//TODO: Generate Error message
+				std::cout<<"Not defined for unsupervised random forests. \n";
         			return 0;
                         }
                         inline std::vector<int> predictClassPost(std::vector<T>& observation){
+				std::cout<<"Not defined for unsupervised random forests. \n";
                                 return {};
                         }
 
 			inline float reportOOB(){
+				std::cout<<"Not defined for unsupervised random forests. \n";
 				return 0;
 			}
 			inline float testForest(){
-				//TODO: Generate Error message
+				std::cout<<"Not defined for unsupervised random forests. \n";
 				return 0;
 			}
 
 	};
 
 }// namespace fp
-#endif //fpForestClassification_h
+#endif h

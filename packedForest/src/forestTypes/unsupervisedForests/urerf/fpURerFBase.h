@@ -48,17 +48,17 @@ namespace fp {
 
                         inline void createSparseMat(){
 				//Not in use now. TODO: Remove entirely?
-                                auto numObs = fpSingleton::getSingleton().returnNumObservations();
-                                SpMat eigenSimMat(numObs, numObs);
-                                for (auto it=pairMat.begin(); it!=pairMat.end(); ++it) {
-                                        int i = (it->first).first;
-                                        int j = (it->first).second;
-                                        int v_ij = it->second;
-                                        eigenSimMat.coeffRef(i, j) = v_ij;
-                                }
-                                eigenSimMat.makeCompressed();
+				auto numObs = fpSingleton::getSingleton().returnNumObservations();
+				SpMat eigenSimMat(numObs, numObs);
+				for (auto it=pairMat.begin(); it!=pairMat.end(); ++it) {
+					int i = (it->first).first;
+					int j = (it->first).second;
+					int v_ij = it->second;
+					eigenSimMat.coeffRef(i, j) = v_ij;
+				}
+				eigenSimMat.makeCompressed();
 				this->eigenMat = eigenSimMat;
-                        }
+			}
 
 			inline void growTrees(){
 #pragma omp parallel for num_threads(fpSingleton::getSingleton().returnNumThreads())
@@ -110,24 +110,26 @@ namespace fp {
 			}
 
 			inline int predictClass(std::vector<T>& observation){
-				//TODO: Generate Error message
+				std::cout<<"Not implemented for unsupervised forests\n";
 				return 0;
 			}
 
 			inline int predictClass(const T* observation){
-				//TODO: Generate Error message
+				std::cout<<"Not implemented for unsupervised forests\n";
         			return 0;
                         }
 
 			inline float reportOOB(){
+				std::cout<<"Not implemented for unsupervised forests\n";
 				return 0;
 			}
                         inline std::vector<int> predictClassPost(std::vector<T>& observation){
+				std::cout<<"Not implemented for unsupervised forests\n";
                                 return {};
                         }
 
 			inline float testForest(){
-				//TODO: Generate Error message
+				std::cout<<"Not implemented for unsupervised forests\n";
 				return 0;
 			}
 

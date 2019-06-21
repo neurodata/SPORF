@@ -75,6 +75,11 @@ return false;
 				}
 
 
+				inline int returnMaxClass(){
+					std::cout<<"Not applicable for unsupervised random forests.\n";
+					return 0;
+				}
+
 				inline int returnNumLeafNodes(){
 					int numLeafNodes=0;
 					for(auto nodes : tree){
@@ -160,8 +165,7 @@ return false;
 
 
 				inline void checkOOB(){
-					totalOOB += nodeQueue.back().returnOutSampleSize();
-					correctOOB += nodeQueue.back().returnOutSampleError(tree.back().returnClass());
+					std::cout<<"Not applicable for unsupervised random forests.\n";
 				}
 
 
