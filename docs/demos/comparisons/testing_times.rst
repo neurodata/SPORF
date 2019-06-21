@@ -1,6 +1,15 @@
 Testing Times on Iris, MNIST, HIGGS, and p53
 ============================================
 
+Download the notebook `here <https://raw.githubusercontent.com/neurodata/RerF/staging/docs/demos/comparison/testing_times.Rmd>`__
+---------------------------------------------------------------------------------------------------------------------------------
+
+Download the python script `here <https://raw.githubusercontent.com/neurodata/RerF/staging/docs/demos/comparison/testing_times.py>`__
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Download the output data `here <https://raw.githubusercontent.com/neurodata/RerF/staging/docs/demos/comparison/testing_times_DATA.csv>`__
+-----------------------------------------------------------------------------------------------------------------------------------------
+
 .. code:: r
 
    require(data.table)
