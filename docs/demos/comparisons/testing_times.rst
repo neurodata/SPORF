@@ -26,6 +26,7 @@ Download the output data `here <https://raw.githubusercontent.com/neurodata/RerF
 
 .. code:: python
 
+   ##%%
    import pandas as pd
    import time, multiprocessing
    import numpy as np
@@ -33,14 +34,25 @@ Download the output data `here <https://raw.githubusercontent.com/neurodata/RerF
    from rerf.RerF import fastPredict, fastPredictPost, fastRerF
    from rerf.rerfClassifier import rerfClassifier
 
-   import numpy as np
-   import matplotlib.pyplot as plt
-   from matplotlib.colors import ListedColormap
-
    from sklearn import datasets
    from sklearn.ensemble import ExtraTreesClassifier
    from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+   import numpy as np
+   import matplotlib.pyplot as plt
+   from matplotlib.colors import ListedColormap
    from sklearn.model_selection import train_test_split
+   from sklearn.preprocessing import StandardScaler
+   from sklearn.datasets import make_moons, make_circles, make_classification
+   from sklearn.neural_network import MLPClassifier
+   from sklearn.neighbors import KNeighborsClassifier
+   from sklearn.svm import SVC
+   from sklearn.gaussian_process import GaussianProcessClassifier
+   from sklearn.gaussian_process.kernels import RBF
+   from sklearn.tree import DecisionTreeClassifier
+   from sklearn.ensemble import ExtraTreesClassifier
+   from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+   from sklearn.naive_bayes import GaussianNB
+   from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 
 
    ##%%
@@ -48,15 +60,10 @@ Download the output data `here <https://raw.githubusercontent.com/neurodata/RerF
        if name == "iris":
            print('loading ' + name)
            iris = datasets.load_iris()
-           rng = check_random_state(0)
-           perm = rng.permutation(iris.target.size)
-           iris.data = iris.data[perm]
-           iris.target = iris.target[perm]
-
-           Xtrain = iris.data[0:100, :]
-           Ytrain = iris.target[0:100]
-           Xtest = iris.data[100::, :]
-           Ytest = iris.target[100::]
+           Xtrain = iris.data
+           Ytrain = iris.target
+           Xtest = iris.data
+           Ytest = iris.target
            print("DONE")
 
 
@@ -83,7 +90,6 @@ Download the output data `here <https://raw.githubusercontent.com/neurodata/RerF
            Ytest = np.int8(Xtest[0])
            Xtest = np.asarray(Xtest.drop([0], axis=1))
            print("DONE")
-
 
        if name == "p53":
            print('loading ' + name)
@@ -150,12 +156,12 @@ Download the output data `here <https://raw.githubusercontent.com/neurodata/RerF
 
    if __name__ == "__main__":
        NTREES = 500
-       NCPU = [1, 2, 4, 8, 16, 24, 32, 48, 56]
+       NCPU = [1, 2, 4, 8, 16, 32, 48, 56]
        NCPU.reverse()
 
        NRUNS = 3
        
-       names = ['iris', 'mnist', 'higgs', 'p53']
+       names = ['iris', 'mnist', 'p53', 'higgs']
 
        for ni in names:
            pythonFile = "testing_times_python_" + ni + ".csv"
@@ -178,7 +184,7 @@ Read in measurements and plot (in R)
    dA$developer <- factor(c("NeuroData", "NeuroData", "SKL", "SKL")[as.numeric(dA$classifier)])
 
 
-   lineSize <- c(rep(1,3), 1)
+   lineSize <- c(rep(2,3), 1)
    lineAlpha <- c(rep(0.45, 3), 0.2)
 
    ex <- scale_colour_brewer(type = 'qual', palette = "Set1") 

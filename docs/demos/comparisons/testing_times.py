@@ -1,4 +1,17 @@
 
+'''
+Neurodata 2019
+
+Author: Jesse Patsolic
+
+Description:
+    RerF demo script for measuring testing times between Neurodata-RF,
+    Neurodata-RerF, SK-learn-RF, and SK-learn-XtraTrees classifiers on 4
+    datasets.  NB: It takes between 12-25 hours on 1 core to train the Higgs
+    dataset (for one run  of one classifier).
+'''
+
+
 ##%%
 import pandas as pd
 import time, multiprocessing
@@ -134,7 +147,7 @@ if __name__ == "__main__":
 
     NRUNS = 3
     
-    names = ['iris', 'mnist', 'higgs', 'p53']
+    names = ['iris', 'mnist', 'p53', 'higgs']
 
     for ni in names:
         pythonFile = "testing_times_python_" + ni + ".csv"
