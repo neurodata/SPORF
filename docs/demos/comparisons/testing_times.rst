@@ -177,12 +177,12 @@ Read in measurements and plot (in R)
 .. code:: r
 
    dA <- fread("testing_times_DATA.csv")
+
+   ## Add factor variables
    dA$classifier <- factor(dA$classifier, levels = c("ND-pyRerF", "ND-pyRF", "Sk-Xtra", "Sk-RF"))
-
    dA$dataset <- factor(dA$dataset, levels = c("higgs","iris", "mnist", "p53"))
-   dA$algorithm <- factor(c("RerF", "RF", "RF", "Xtra")[as.numeric(dA$classifier)])
+   dA$algorithm <- factor(c("RerF", "RF", "Xtra", "RF")[as.numeric(dA$classifier)])
    dA$developer <- factor(c("NeuroData", "NeuroData", "SKL", "SKL")[as.numeric(dA$classifier)])
-
 
    lineSize <- c(rep(2,3), 1)
    lineAlpha <- c(rep(0.45, 3), 0.2)
