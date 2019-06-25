@@ -110,14 +110,6 @@ namespace fp {
 				fpForestInfo.setNumClasses(numC);
 			}
 
-			inline float returnFloatEpsilon(){
-				return fpForestInfo.returnFloatEpsilon();
-			}
-
-			inline double returnDoubleEpsilon(){
-				return fpForestInfo.returnDoubleEpsilon();
-			}
-
 			inline int returnNumClasses(){
 				return fpForestInfo.returnNumClasses();
 			}
