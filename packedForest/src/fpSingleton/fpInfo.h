@@ -48,9 +48,6 @@ namespace fp {
 			int binMin;
 			int numCores;
 
-			double double_epsilon;
-			float float_epsilon;
-
 			std::string forestType;
 			std::string CSVFileName;
 
@@ -78,8 +75,6 @@ namespace fp {
 				fractionOfFeaturesToTest=-1.0; 
 				binSize=0;
 				numCores=1;
-				double_epsilon=std::numeric_limits<double>::epsilon()*10;
-				float_epsilon=std::numeric_limits<float>::epsilon()*10;
 				seed=-1;
 				numTreeBins=-1;
 				methodToUse = 1; // Should this default to 1?
@@ -101,14 +96,6 @@ namespace fp {
 
 			inline void setNumTreeBins(int numTB){
 				numTreeBins = numTB;
-			}
-
-			inline float returnFloatEpsilon(){
-				return float_epsilon;
-			}
-
-			inline double returnDoubleEpsilon(){
-				return double_epsilon;
 			}
 
 			inline bool returnUseBinning(){
@@ -256,7 +243,7 @@ namespace fp {
 			minParent(1),	numClasses(-1), numObservations(-1), numFeatures(-1),
 			mtry(-1),mtryMult(1), columnWithY(-1),
 			methodToUse(1), imageHeight(0), imageWidth(0), patchHeightMin(0), patchHeightMax(0), patchWidthMin(0), patchWidthMax(0),
-			numberOfNodes(0), maxDepth(std::numeric_limits<int>::max()),sumLeafNodeDepths(0), fractionOfFeaturesToTest(-1.0), binSize(0),binMin(0),numCores(1),double_epsilon(std::numeric_limits<double>::epsilon()*10), float_epsilon(std::numeric_limits<float>::epsilon()*10),seed(-1),numTreeBins(-1),  useRowMajor(true){}
+			numberOfNodes(0), maxDepth(std::numeric_limits<int>::max()),sumLeafNodeDepths(0), fractionOfFeaturesToTest(-1.0), binSize(0),binMin(0),numCores(1),seed(-1),numTreeBins(-1),  useRowMajor(true){}
 
 
 

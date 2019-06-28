@@ -38,11 +38,11 @@ namespace fp{
 				}
 
 				inline bool checkInequality(const zipClassAndValue<int,double>& otherData){
-					return std::abs(featureVal - otherData.featureVal) > fpSingleton::getSingleton().returnDoubleEpsilon();
+					return std::abs(featureVal - otherData.featureVal) > std::numeric_limits<double>::epsilon() * 4 * std::abs(featureVal + otherData.featureVal);
 				}
 
 				inline bool checkInequality(const zipClassAndValue<int,float>& otherData){
-					return std::abs(featureVal - otherData.featureVal) > fpSingleton::getSingleton().returnFloatEpsilon();
+					return std::abs(featureVal - otherData.featureVal) > std::numeric_limits<float>::epsilon() * 4 * std::abs(featureVal + otherData.featureVal);
 				}
 
 				inline bool checkInequality(const zipClassAndValue<int,int>& otherData){
