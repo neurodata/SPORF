@@ -115,6 +115,7 @@ namespace fp {
 
 				std::cout << "max depth: " << binStats["maxDepth"] << "\n";
 				std::cout << "avg leaf node depth: " << float(binStats["totalLeafDepth"])/float(binStats["totalLeafNodes"]) << "\n";
+				std::cout << "avg num leaf nodes per tree: " << binStats["totalLeafNodes"]/fpSingleton::getSingleton().returnNumTrees() << "\n";
 				std::cout << "num leaf nodes: " << binStats["totalLeafNodes"] << "\n";
 			}
 

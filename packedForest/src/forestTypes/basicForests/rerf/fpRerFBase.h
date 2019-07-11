@@ -127,6 +127,7 @@ namespace fp {
 
 				std::cout << "max depth: " << treeStats["maxDepth"] << "\n";
 				std::cout << "avg depth: " << float(treeStats["totalLeafDepth"])/float(treeStats["totalLeafNodes"]) << "\n";
+				std::cout << "avg num leaf nodes per tree: " << treeStats["totalLeafNodes"]/fpSingleton::getSingleton().returnNumTrees() << "\n";
 				std::cout << "num leaf nodes: " << treeStats["totalLeafNodes"] << "\n";
 				std::cout << "OOB Accuracy: " << treeStats["OOBaccuracy"] << "\n";
 			}
