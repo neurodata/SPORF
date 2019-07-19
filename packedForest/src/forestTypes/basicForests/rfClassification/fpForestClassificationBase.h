@@ -20,7 +20,7 @@ namespace fp {
 			std::vector<rfTree<T> > trees;
 			int numCorrect = 0;
 			int numOOB = 0;
-
+			std::map<std::pair<int, int>, double> pairMat;
 		public:
 
 			fpDisplayProgress printProgress;
@@ -110,6 +110,9 @@ namespace fp {
 				return bestClass;
 			}
 
+inline std::map<std::pair<int, int>, double> returnPairMat(){
+                                        return pairMat;
+                                }
 
 inline int predictClass(const T* observation){
 	/*

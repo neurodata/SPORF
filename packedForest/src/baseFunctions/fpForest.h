@@ -146,6 +146,9 @@ namespace fp {
 					return OOBaccuracy;
 				}
 
+                inline std::map<std::pair<int, int>, double> returnPairMat(){
+                                    return forest->returnPairMat();
+                            }
 				float testAccuracy(){
 					float testError;
 					loadTestData();

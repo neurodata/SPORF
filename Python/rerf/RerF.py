@@ -1,3 +1,7 @@
+import pyfp
+import numpy as np
+
+
 import numpy as np
 
 import pyfp
@@ -220,6 +224,6 @@ def fastPredictPost(X, forest):
         y_prob = y_arr / y_arr.sum(1)[:, None]
     return y_prob
 
-
-if __name__ == "__main__":
-    pass
+ 
+def retSimMat(forest):
+    return forest._return_pair_mat()
