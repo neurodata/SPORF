@@ -86,6 +86,12 @@ int main(int argc, char* argv[]) {
 					std::cout << "\nForcing dataset to be MNIST:\n";
 					dataSet = 3;
 					break;
+                        	case 13:
+                                	forest.setParameter("forestType", "urf");
+                                	break;
+                        	case 14:
+                                	forest.setParameter("forestType", "urerf");
+                                	break;
 
 				default:
 					std::cout << "unknown alg selected" << std::endl;
@@ -125,11 +131,11 @@ int main(int argc, char* argv[]) {
 					break;
 			}
 
+		forest.setParameter("numTreesInForest", 10);
+		forest.setParameter("minParent", 1);
+		forest.setParameter("numCores", numCores);
+		forest.setParameter("seed",-1661580697);
 
-			forest.setParameter("numTreesInForest", 10);
-			forest.setParameter("minParent", 1);
-			forest.setParameter("numCores", numCores);
-			forest.setParameter("seed",-1661580697);
 
 			//logTime.startFindSplitTimer();
 			forest.growForest();
@@ -146,3 +152,4 @@ int main(int argc, char* argv[]) {
 		}
 	}
 }
+
