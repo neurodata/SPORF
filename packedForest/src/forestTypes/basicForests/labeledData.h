@@ -40,11 +40,11 @@ namespace fp{
 				}
 
 				inline bool checkInequality(const labeledData<double>& otherData){
-					return std::abs(dataElement - otherData.dataElement) > fpSingleton::getSingleton().returnDoubleEpsilon();
+					return std::abs(dataElement - otherData.dataElement) > std::numeric_limits<double>::epsilon() * 4 * std::abs(dataElement + otherData.dataElement);
 				}
 
 				inline bool checkInequality(const labeledData<float>& otherData){
-					return std::abs(dataElement - otherData.dataElement) > fpSingleton::getSingleton().returnFloatEpsilon();
+					return std::abs(dataElement - otherData.dataElement) > std::numeric_limits<float>::epsilon() * 4 * std::abs(dataElement + otherData.dataElement);
 				}
 
 				inline bool checkInequality(const labeledData<int>& otherData){
