@@ -11,7 +11,7 @@
   publish = "docs/_build/html/"
 
   # Default build command.
-  command = "mkdir Python/inc; cd ~; wget -c http://bitbucket.org/eigen/eigen/get/3.3.7.tar.bz2 -O ~/eigen.tar.bz2; mkdir ~/eigen3; tar -C ~/eigen3 -jxf ~/eigen.tar.bz2 --strip-components 1; mkdir ~/eigen3/build; cd ~/eigen3/build; cmake .. -DCMAKE_INSTALL_PREFIX=/opt/build/repo/Python/inc; make; make install; cd /opt/build/repo/Python; pip install -e .; cd ../docs; pip install -r requirements.txt; make html;"
+  command = "mkdir Python/inc; cd ~; wget -c http://bitbucket.org/eigen/eigen/get/3.3.7.tar.bz2 -O ~/eigen.tar.bz2; mkdir ~/eigen3; tar -C ~/eigen3 -jxf ~/eigen.tar.bz2 --strip-components 1; mkdir ~/eigen3/build; cd ~/eigen3/build; cmake .. -DINCLUDE_INSTALL_DIR=/opt/build/repo/Python/inc/eigen3; make; make install; cd /opt/build/repo/Python; pip install -e .; cd ../docs; pip install -r requirements.txt; make html"
 
   # Directory with the serverless Lambda functions to deploy to AWS.
   # functions = "project/functions/"
