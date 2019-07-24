@@ -14,19 +14,19 @@ import pyfp
 class rerfClassifier(BaseEstimator, ClassifierMixin):
     """A random forest classifier.
 
-    Supports both Random Forest, developed by Breiman (2001) [#Breiman]_, as well as 
-    Randomer Forest or Random Projection Forests (RerF) developed by 
+    Supports both Random Forest, developed by Breiman (2001) [#Breiman]_, as well as
+    Randomer Forest or Random Projection Forests (RerF) developed by
     Tomita et al. (2016) [#Tomita]_.
 
-    The difference between the two algorithms is where the random linear 
-    combinations occur: Random Forest combines features at the tree level 
+    The difference between the two algorithms is where the random linear
+    combinations occur: Random Forest combines features at the tree level
     whereas RerF combines features at the node level.
 
     There are two new parameters to be aware of:
-        
+
         - ``projection_matrix``
         - ``feature_combinations``
-    
+
     For more information, see :ref:`Parameters <rerfClassifier_params>`.
 
     References
@@ -42,24 +42,24 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
     ----------
     projection_matrix : str, optional (default: "RerF")
         The random combination of features to use: either "RerF", "Base", or
-        "S-RerF".  "RerF" randomly combines features for each `mtry`. Base 
+        "S-RerF".  "RerF" randomly combines features for each `mtry`. Base
         is our implementation of Random Forest. "S-RerF" is structured RerF,
         combining multiple features together in random patches.
-        See Tomita et al. (2016) [#Tomita]_ for further details. 
+        See Tomita et al. (2016) [#Tomita]_ for further details.
     n_estimators : int, optional (default: 500)
         Number of trees in forest.
 
         Note: This differs from scikit-learn's default of 100.
     max_depth : int or None, optional (default=None)
-        The maximum depth of the tree. If None, then nodes are expanded 
-        until all leaves are pure or until all leaves contain less than 
+        The maximum depth of the tree. If None, then nodes are expanded
+        until all leaves are pure or until all leaves contain less than
         min_samples_split samples.
     min_samples_split : int, optional (default: 1)
-        The minimum splittable node size.  A node size < ``min_samples_split`` 
+        The minimum splittable node size.  A node size < ``min_samples_split``
         will be a leaf node.  Note: other implementations called `min.parent`
         or `minParent`
     max_features : int, float, string, or None, optional (default="auto")
-        The number of features or feature combinations to consider when 
+        The number of features or feature combinations to consider when
         looking for the best split.  Note: also called `mtry` or `d`.
 
         - If int, then consider ``max_features`` features or feature combinations at each split.
@@ -74,14 +74,14 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         using "RerF."  Otherwise, ignored.
     oob_score : bool (default=False)
         Whether to use out-of-bag samples to estimate the generalization accuracy.
-        Note, setting to True currently runs our non-binned implementation 
+        Note, setting to True currently runs our non-binned implementation
         which has slower prediction times.
     n_jobs : int or None, optional (default=None)
         The number of jobs to run in parallel for both `fit` and `predict`.
-        ``None`` means 1. ``-1`` means use all processors. 
+        ``None`` means 1. ``-1`` means use all processors.
     random_state : int or None, optional (default=None)
         Random seed to use. If None, set seed to ``np.random.randint(1, 1000000)``.
-    
+
     image_height : int, optional (default=None)
         S-RerF required parameter. Image height of each observation.
     image_width : int, optional (default=None)
@@ -99,7 +99,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
 
     Returns
     -------
-    
+
     Examples
     --------
     >>> from rerfClassifier import rerfClassifier
@@ -176,11 +176,11 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
             Input data.  Rows are observations and columns are features.
         y : array-like, 1D numpy array
             Labels
-        
+
         Returns
         -------
         self : object
-        
+
         """
 
         # Check that X and y have correct shape
@@ -330,7 +330,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
 
     def predict(self, X):
         """Predict class for X.
-        
+
         Parameters
         ----------
         X : array_like of shape [nsamples, n_features]
@@ -338,7 +338,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         Returns
         -------
         y : int, list of int
-            Returns the class of prediction (int) or predictions (list) 
+            Returns the class of prediction (int) or predictions (list)
             depending on input parameters.
         """
 
@@ -358,7 +358,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         """Predict class probabilities for X.
         The predicted class probabilities of an input sample are computed as
         the mean predicted class of the trees in the forest.
-        
+
         Parameters
         ----------
         X : array_like of shape [nsamples, n_features]
@@ -396,7 +396,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         X : array-like or sparse matrix of shape = [n_samples, n_features]
             The input samples. Internally, its dtype will be converted to
             ``dtype=np.float32``.
-        
+
         Returns
         -------
         p : array of shape = [n_samples, n_classes], or a list of n_outputs
