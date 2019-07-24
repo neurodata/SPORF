@@ -101,7 +101,7 @@ def cpp_flag(compiler):
 class BuildExt(build_ext):
     """A custom build extension for adding compiler-specific options."""
 
-    extra_include = "inc"
+    extra_include = "include"
 
     c_opts = {
         "msvc": ["/EHsc", "/openmp"],
