@@ -123,10 +123,13 @@ class BuildExt(build_ext):
         ompbase = subprocess.run(["brew", "--prefix", "libomp"], stdout=subprocess.PIPE)
         omploc = ompbase.stdout.decode("utf-8").strip()
 
+        extra_include = "inc"
+
         c_opts["unix"] += [
             "-lomp",
             "-I{}/include".format(omploc),
             "-L{}/lib".format(omploc),
+            "-I{}".format(extra_include),
         ]
 
     def build_extensions(self):
