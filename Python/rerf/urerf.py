@@ -6,6 +6,8 @@ from sklearn.base import BaseEstimator
 from sklearn.utils import check_array
 from sklearn.utils.validation import check_is_fitted
 
+from scipy.sparse import csr_matrix
+
 import pyfp
 
 
@@ -220,7 +222,7 @@ class UnsupervisedRandomForest(BaseEstimator):
 
         return self
 
-    def transform(self):
+    def transform(self, return_sparse=False):
         """Transform dataset into an affinity matrix / similarity matrix.
 
         Parameters
@@ -232,4 +234,21 @@ class UnsupervisedRandomForest(BaseEstimator):
         """
 
         check_is_fitted(self, "forest_")
-        return self.forest_._return_pair_mat()
+
+        pair_mat = self.forest_._return_pair_mat()
+
+        sparse_mat = pair_mat_to_sparse(pair_mat, self.X_.shape[0], self.n_estimators)
+
+        if return_sparse:
+            return sparse_mat
+        else:
+            return sparse_mat.toarray()
+
+
+def pair_mat_to_sparse(pair_mat, n_obs, n_estimators):
+    i = [ij[1] for ij in pair_mat.keys()]
+    j = [ij[0] for ij in pair_mat.keys()]
+    data = [d / n_estimators for d in pair_mat.values()]
+    sparse_mat = csr_matrix((data, (i, j)), shape=(n_obs, n_obs), dtype=float)
+
+    return sparse_mat

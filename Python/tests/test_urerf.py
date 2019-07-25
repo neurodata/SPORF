@@ -1,10 +1,22 @@
+import numpy as np
 from scipy.sparse import csc_matrix
 from sklearn.cluster import AgglomerativeClustering
 
 # from sklearn.datasets import make_classification
 from sklearn.datasets.samples_generator import make_blobs
 
-from rerf.urerf import UnsupervisedRandomForest
+from rerf.urerf import UnsupervisedRandomForest, pair_mat_to_sparse
+
+
+def test_pair_mat_to_sparse():
+    n_est = 3
+    pair_mat_data = {(0, 0): 1, (0, 1): 2, (1, 0): 2, (1, 1): 3}
+    sparse_mat = pair_mat_to_sparse(pair_mat_data, 2, n_est)
+    dense_mat = sparse_mat.toarray()
+
+    expect_mat = np.array([[1, 2], [2, 3]], dtype=float) / n_est
+
+    assert np.array_equal(dense_mat, expect_mat)
 
 
 def test_urerf():
@@ -27,8 +39,4 @@ def test_urerf():
     clf.fit(X)
     sim_mat = clf.transform()
 
-    i = [ij[0] for ij in sim_mat.keys()]
-    j = [ij[1] for ij in sim_mat.keys()]
-    sim_mat_full = csc_matrix((list(sim_mat.values()), (i, j))).toarray()
-
-    clustering = AgglomerativeClustering(n_clusters=n_classes).fit(sim_mat_full)
+    clustering = AgglomerativeClustering(n_clusters=n_classes).fit(sim_mat)
