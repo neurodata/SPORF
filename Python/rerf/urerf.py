@@ -74,7 +74,7 @@ class UnsupervisedRandomForest(BaseEstimator):
 
         - If int or float, then ``feature_combinations`` is average number
         of features to combine for each ``max_features`` to try.
-        - If "auto", then ``feature_combinations=sqrt(n_features)``.
+        - If "auto", then ``feature_combinations=n_features``.
         - If "sqrt", then ``feature_combinations=sqrt(n_features)`` (same as "auto").
         - If "log2", then ``feature_combinations=log2(n_features)``.
         - If None, then ``feature_combinations=n_features``.
@@ -181,7 +181,7 @@ class UnsupervisedRandomForest(BaseEstimator):
         self.forest_.setParameter("seed", self.random_state_)
 
         if self.feature_combinations == "auto":
-            self.feature_combinations_ = num_features ** 2
+            self.feature_combinations_ = num_features
         elif self.feature_combinations == "sqrt":
             self.feature_combinations_ = num_features ** (1 / 2)
         elif self.feature_combinations is None:
@@ -213,7 +213,7 @@ class UnsupervisedRandomForest(BaseEstimator):
         self.forest_.setParameter("useRowMajor", 1)
 
         # y will be ignored
-        y = np.empty([num_obs, 1])
+        y = np.zeros((num_obs, 1))
         self.forest_._growForestnumpy(X, y, num_obs, num_features)
 
         self.X_ = X
