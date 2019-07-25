@@ -3,9 +3,7 @@
 
 #include <assert.h>
 #include <cmath>
-
-#define FLOAT_EPSILON  .0000001
-#define DOUBLE_EPSILON .0000001
+#include "../../fpSingleton/fpSingleton.h"
 
 namespace fp{
 
@@ -35,16 +33,16 @@ namespace fp{
 				{
 					assert(featureVal != otherData.featureVal);
 					assert(featureVal != (featureVal +otherData.featureVal )/2.0);
-					assert(otherData.featureVal != (featureVal+featureVal)/2.0);
+					assert(otherData.featureVal != (featureVal+otherData.featureVal)/2.0);
 					return (featureVal + otherData.featureVal)/2.0;
 				}
 
 				inline bool checkInequality(const zipClassAndValue<int,double>& otherData){
-					return std::abs(featureVal - otherData.featureVal) > DOUBLE_EPSILON;
+					return std::abs(featureVal - otherData.featureVal) > std::numeric_limits<double>::epsilon() * 4 * std::abs(featureVal + otherData.featureVal);
 				}
 
 				inline bool checkInequality(const zipClassAndValue<int,float>& otherData){
-					return std::abs(featureVal - otherData.featureVal) > FLOAT_EPSILON;
+					return std::abs(featureVal - otherData.featureVal) > std::numeric_limits<float>::epsilon() * 4 * std::abs(featureVal + otherData.featureVal);
 				}
 
 				inline bool checkInequality(const zipClassAndValue<int,int>& otherData){

@@ -1,4 +1,4 @@
-#include "../packedForest/src/packedForest.h"
+#include "src/packedForest.h"
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -65,7 +65,30 @@ PYBIND11_MODULE(pyfp, m)
             return predictions;
         })
 
-        .def("predict_post", &fpForest<double>::predictPost, "Returns a vector representing the votes for each class.")
+        .def("_predict_post", &fpForest<double>::predictPost, "Returns a vector representing the votes for each class.")
+
+        .def("_predict_post_array", [](fpForest<double> &self, py::array_t<double, py::array::c_style | py::array::forcecast> mat) {
+            py::buffer_info buf = mat.request();
+            double *ptr = (double *)buf.ptr;
+            int numObservations = buf.shape[0];
+            int numFeatures = buf.shape[1];
+
+            std::vector<double> currObs(numFeatures);
+            std::vector<std::vector<int>> predict_posts(numObservations);
+
+            for (int i = 0; i < numObservations; i++)
+            {
+                for (int j = 0; j < numFeatures; j++)
+                {
+                    currObs[j] = ptr[i * numFeatures + j];
+                }
+                predict_posts[i] = self.predictPost(currObs);
+            }
+            return predict_posts;
+        },
+             "Returns a vector of vectors representing the votes for each class for each observation")
+
+        .def("_report_OOB", &fpForest<double>::reportOOB, "Returns the out of bag score on the forest.")
 
         .def("testAccuracy", &fpForest<double>::testAccuracy);
 }

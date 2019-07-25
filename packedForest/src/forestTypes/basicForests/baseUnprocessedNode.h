@@ -73,9 +73,12 @@ namespace fp{
 					return obsIndices->returnOutSampleSize();
 				}
 
-				inline int returnOutSampleError(int classNum){
-					int totalRight=0;
-					return totalRight;
+				inline int returnOutSampleCorrect(int classNum){
+ 					return obsIndices->returnOutSamplesInClass(classNum);
+				}
+
+				inline std::vector<int> returnOutSampleIdsFromLeaf(){
+					 return obsIndices->returnOutSample();
 				}
 
 

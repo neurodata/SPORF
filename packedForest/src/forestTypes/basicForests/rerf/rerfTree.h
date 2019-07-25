@@ -11,14 +11,13 @@ namespace fp{
 		class rerfTree
 		{
 			protected:
-				float OOBAccuracy;
-				float correctOOB;
 				float totalOOB;
+				std::vector<std::vector<int> > indexAndVote;
 				std::vector< fpBaseNode<T, std::vector<int> > > tree;
 				std::vector< unprocessedRerFNode<T> > nodeQueue;
 
 			public:
-				rerfTree() : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0){}
+				rerfTree() : totalOOB(0){}
 
 				void loadFirstNode(){
 					nodeQueue.emplace_back(fpSingleton::getSingleton().returnNumObservations());
@@ -37,8 +36,9 @@ namespace fp{
 					return true;
 				}
 
-				inline float returnOOB(){
-					return correctOOB/totalOOB;
+
+				inline std::vector<std::vector<int> > returnOOBvotes(){
+					return indexAndVote;
 				}
 
 				inline int returnLastNodeID(){
@@ -95,7 +95,12 @@ namespace fp{
 
 				inline void checkOOB(){
 					totalOOB += nodeQueue.back().returnOutSampleSize();
-					correctOOB += nodeQueue.back().returnOutSampleError(tree.back().returnClass());
+					// Get oob_indices and vote from leaf node as
+					// <(oob_id, vote)> and push back onto the
+					// indexAndVote object.
+					for(auto &j : nodeQueue.back().returnOutSampleIdsFromLeaf()){
+						indexAndVote.push_back(std::vector<int>{j, tree.back().returnClass()});
+					}
 				}
 
 
@@ -229,7 +234,18 @@ inline int predictObservation(const T* observation){
 					}
 					return tree[currNode].returnClass();
 				}
+
+				std::vector<int> growTreeTest(){
+					//JLP testing.
+					std::vector<int> outSampleIndices;
+					loadFirstNode();
+					// grab outSamplesIndices before they are deleted.
+					outSampleIndices = nodeQueue.back().returnOutSampleIdsFromLeaf();
+					processNodes();
+					checkOOB();
+					return outSampleIndices;
+				}
 		};
 
 }//fp
-#endif //rfTree_h
+#endif //rerfTree_h

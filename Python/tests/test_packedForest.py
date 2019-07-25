@@ -1,7 +1,9 @@
+import numpy as np
 import pytest
 
-from .helper import get_params
 import pyfp
+
+from .helper import get_params
 
 
 def test_set_params():
@@ -42,9 +44,38 @@ def test_predict_post():
 
     test_case = [5.1, 3.5, 1.4, 0.2]
 
-    results = forest.predict_post(test_case)
+    results = forest._predict_post(test_case)
 
-    assert(len(results) == 3)
-    assert(results[0] == 10)
-    assert(results[1] == 0)
-    assert(results[2] == 0)
+    assert len(results) == 3
+    assert results[0] == 10
+    assert results[1] == 0
+    assert results[2] == 0
+
+
+def test_predict_post_numpy():
+    forest = pyfp.fpForest()
+    forest.setParameter("CSVFileName", "packedForest/res/iris.csv")
+    forest.setParameter("numTreesInForest", 10)
+    forest.setParameter("minParent", 1)
+    forest.setParameter("columnWithY", 4)
+    forest.setParameter("seed", -1661580697)
+    forest.setParameter("forestType", "binnedBase")
+    forest.setParameter("maxDepth", 5)
+    forest._growForest()
+
+    # load in 20 obs into a numpy array
+    nobs = 20
+    obs = np.random.rand(nobs, 4) * 5
+
+    # returns a list of lists
+    posts = forest._predict_post_array(obs)
+
+    # length should be number of nobs
+    assert len(posts) == nobs
+
+    # sum should be nobs * numTrees
+    assert sum([sum(l) for l in posts]) == 10 * nobs
+
+    # sum should be number of trees for each obs
+    for p in posts:
+        assert sum(p) == 10

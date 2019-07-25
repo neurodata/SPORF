@@ -1,6 +1,14 @@
-from RerF import fastRerF, fastPredict
-import numpy as np
+"""
+Example usage of RerF module.  
+
+Paths to dataset are relative from "Python" source directory.
+"""
+
 from multiprocessing import cpu_count
+
+import numpy as np
+
+from rerf.RerF import fastPredict, fastPredictPost, fastRerF
 
 datatype = "iris"
 # datatype = "mnist"
@@ -28,20 +36,21 @@ labels = X[:, label_col]
 #     Ycolumn=label_col,
 #     forestType="binnedBaseRerF",
 #     trees=500,
-#     numCores=cpu_count() - 1,
+#     numCores=cpu_count(),
 # )
 forest = fastRerF(
-    X=feat_data,
-    Y=labels,
-    forestType="binnedBaseRerF",
-    trees=500,
-    numCores=cpu_count() - 1,
+    X=feat_data, Y=labels, forestType="binnedBaseRerF", trees=500, numCores=cpu_count()
 )
 
 forest.printParameters()
 
+# training predictions
 predictions = fastPredict(feat_data, forest)
 # print(predictions)
+
+# training posterior predictions probabilities
+post_pred = fastPredictPost(feat_data, forest)
+# print(post_pred)
 
 print("Error rate", np.mean(predictions != labels))
 

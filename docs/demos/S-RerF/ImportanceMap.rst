@@ -1,0 +1,179 @@
+.. raw:: html
+
+   <!--
+   ### ### INITIAL COMMENTS HERE ###
+   ###
+   ### Jesse Leigh Patsolic
+   ### 2019
+   ### S.D.G
+   #
+   -->
+
+.. raw:: html
+
+   <style type="text/css">
+   .table {
+       width: 40%;
+   }
+   tr:hover {background-color:#f5f5f5;}
+   </style>
+
+Feature Importance on MNIST with feature counts
+===============================================
+
+Select a subset of 3's and 5's from MNIST
+-----------------------------------------
+
+Here we train a forest using ``RerF`` with the ``RandMatImagePatch``
+option with ``patch.min = 1`` and ``patch.max = 5``.
+
+.. code:: r
+
+    ## Get a random subsample, 100 each of 3's and 5's
+    threes <- which(mnist$Ytrain %in% 3)
+    fives  <- which(mnist$Ytrain %in% 5)
+    numsub <- c(threes, fives)
+
+    Ytrain <- mnist$Ytrain[numsub]
+    Xtrain <- mnist$Xtrain[numsub,]
+    Ytest <- mnist$Ytest[mnist$Ytest %in% c(3,5)]
+    Xtest <- mnist$Xtest[mnist$Ytest %in% c(3,5),]
+
+.. code:: r
+
+    # p is number of dimensions, d is the number of random features to evaluate, iw is image width, ih is image height, patch.min is min width of square patch to sample pixels from, and patch.max is the max width of square patch
+    p <- ncol(Xtrain)
+    d <- ceiling(sqrt(p))
+    iw <- sqrt(p)
+    ih <- iw
+    patch.min <- 1L
+    patch.max <- 5L
+
+    forestS <- RerF(Xtrain, Ytrain, num.cores = numCores, FUN = RandMatImagePatch,
+                   paramList = list(p = p, d = d, iw = iw, ih = ih,
+                                    pwMin = patch.min, pwMax = patch.max), max.depth = 8)
+
+    predS <- Predict(Xtest, forestS, num.cores = numCores)
+    (mnist.error.rate <- mean(predS != Ytest))
+
+::
+
+    ## [1] 0.01892744
+
+.. code:: r
+
+    forestRerF <- RerF(Xtrain, Ytrain, num.cores = numCores, FUN = RandMatBinary,
+                   paramList = list(p = p, d = d), max.depth = 8)
+
+
+    predRerF <- Predict(Xtest, forestRerF, num.cores = numCores)
+    (mnist.error.rate <- mean(predRerF != Ytest))
+
+::
+
+    ## [1] 0.02208202
+
+.. code:: r
+
+    system.time({
+    FeatImpS <- FeatureImportance(forestS, num.cores = numCores, type = "C")
+    })
+
+::
+
+    ## Message: Computing feature importance as counts of unique feature combinations.
+
+    ##    user  system elapsed 
+    ## 888.566   4.288 132.800
+
+.. code:: r
+
+    ni <- matrix(0, length(FeatImpS$features), ncol(Xtrain))
+
+    for(i in 1:length(FeatImpS$features)){
+      ni[i, FeatImpS$features[[i]]] <- FeatImpS$imp[i]
+    }
+
+    NN <- matrix(apply(ni, 2, sum) / nrow(ni), 28, 28, byrow = FALSE)
+    saveRDS(NN, file = "NNsrerf.rds")
+
+    system.time({
+    FeatImpRerF <- FeatureImportance(forestRerF, num.cores = numCores, type = "C")
+    })
+
+::
+
+    ## Message: Computing feature importance as counts of unique feature combinations.
+
+    ##    user  system elapsed 
+    ## 1287.25    4.28  166.17
+
+.. code:: r
+
+    nir <- matrix(0, length(FeatImpRerF$features), ncol(Xtrain))
+
+    for(i in 1:length(FeatImpRerF$features)){
+      nir[i, FeatImpRerF$features[[i]]] <- FeatImpRerF$imp[i]
+    }
+
+    NNr <- matrix(apply(nir, 2, sum) / nrow(nir), 28, 28, byrow = FALSE)
+    saveRDS(NNr, file = "NNrerf.rds")
+
+plot the average 3 and 5 from the training set
+----------------------------------------------
+
+.. code:: r
+
+    the3s <- Xtrain[Ytrain == 3, ]
+    the5s <- Xtrain[Ytrain == 5, ]
+
+    sum3 <- matrix(apply(the3s, 2, sum) / sum(Ytrain == 3), 28, 28, byrow = FALSE)
+    sum5 <- matrix(apply(the5s, 2, sum) / sum(Ytrain == 5), 28, 28, byrow = FALSE)
+
+    par(mfrow = c(1, 2))
+    plot(raster(sum3), col = viridis(255), main = "avg 3", axes = FALSE, legend = FALSE)
+    plot(raster(sum5), col = viridis(255), main = "avg 5", axes = FALSE, legend = FALSE)
+
+|image0|\ 
+
+.. code:: r
+
+    par(mfrow = c(1, 1))
+
+Feature heatmap
+---------------
+
+These are the features that S-RerF and RerF used, plotted as averaged
+heatmaps.
+
+.. code:: r
+
+    g <- expand.grid(x = 1:28, y = 1:28)
+    gg <- rbind(g, g)
+
+    nn <- as.vector(t(NN[28:1, ]))
+    nnrerf <- as.vector(t(NNr[28:1, ]))
+
+    Z <- data.frame(g, z = c(nn, nnrerf * 5), Alg =  rep(c("S-RerF", "RerF"), each = length(nn)))
+
+    sc <- scale_fill_gradientn(colours = inferno(255))
+
+    p1 <- ggplot(data = Z[ Z$Alg == "S-RerF", ], aes(x = x, y = y, fill = z)) + geom_raster() + theme_void() + guides(fill = FALSE) + sc + ggtitle("S-RerF")
+
+    p2 <- ggplot(data = Z[ Z$Alg == "RerF", ], aes(x = x, y = y, fill = z)) + geom_raster() + theme_void() + guides(fill = FALSE) + sc + ggtitle("RerF")
+
+    grid.arrange(p1, p2, ncol=2)
+
+|image1|\ 
+
+.. raw:: html
+
+   <!--
+   #   Time:
+   ##  Working status:
+   ### Comments:
+   ####Soli Deo Gloria
+   -->
+
+.. |image0| image:: ImportanceMap_files/figure-commonmark/avg3_5-1.png
+.. |image1| image:: ImportanceMap_files/figure-commonmark/featureImportanceMap-1.png

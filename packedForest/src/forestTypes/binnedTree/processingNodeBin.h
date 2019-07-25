@@ -11,6 +11,7 @@
 #include "../../fpSingleton/fpSingleton.h"
 #include "../../baseFunctions/pdqsort.h"
 #include "../../baseFunctions/MWC.h"
+#include "../../baseFunctions/weightedFeature.h"
 
 
 #include <iostream>
@@ -51,6 +52,8 @@ namespace fp{
 
 					int tempSwap;
 
+					// This is an efficient way to shuffle the first "mtry" elements of the feature vector
+					// in order to sample features w/o replacement.
 					for(int locationToMove = 0; locationToMove < fpSingleton::getSingleton().returnMtry(); locationToMove++){
 						int randomPosition = randNum->gen(fpSingleton::getSingleton().returnNumFeatures()-locationToMove)+locationToMove;
 						tempSwap = featuresToTry[locationToMove];
@@ -62,17 +65,116 @@ namespace fp{
 				}
 
 
-
 				inline void calcMtryForNode(std::vector<std::vector<int> >& featuresToTry){
 					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
 					int rndMtry;
 					int rndFeature;
-					for (int i=0; i < fpSingleton::getSingleton().returnMtry(); ++i){
+					int mtryDensity = (int)((double)fpSingleton::getSingleton().returnMtry() * fpSingleton::getSingleton().returnMtryMult());
+					for (int i = 0; i < mtryDensity; ++i){
 						rndMtry = randNum->gen(fpSingleton::getSingleton().returnMtry());
 						rndFeature = randNum->gen(fpSingleton::getSingleton().returnNumFeatures());
 						featuresToTry[rndMtry].push_back(rndFeature);
 					}
 				}
+
+
+				inline void calcMtryForNode(std::vector<weightedFeature>& featuresToTry){
+					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
+					int methodToUse = fpSingleton::getSingleton().returnMethodToUse();
+					assert(methodToUse == 1 || methodToUse == 2);
+
+					switch(methodToUse){
+						case 1:{
+							randMatTernary(featuresToTry);
+							break;
+							}
+						case 2:{
+							randMatImagePatch(featuresToTry, paramsRandMatImagePatch());
+							break;
+							}
+					}
+				}
+
+
+				inline void randMatTernary(std::vector<weightedFeature>& featuresToTry){
+					int rndMtry;
+					int rndFeature;
+					int rndWeight;
+					int mtryDensity = (int)((double)fpSingleton::getSingleton().returnMtry() * fpSingleton::getSingleton().returnMtryMult());
+					for (int i = 0; i < mtryDensity; ++i){
+						rndMtry = randNum->gen(fpSingleton::getSingleton().returnMtry());
+						rndFeature = randNum->gen(fpSingleton::getSingleton().returnNumFeatures());
+						featuresToTry[rndMtry].returnFeatures().push_back(rndFeature);
+						rndWeight = (randNum->gen(2)%2) ? 1 : -1;
+						assert(rndWeight==1 || rndWeight==-1);
+						featuresToTry[rndMtry].returnWeights().push_back(rndWeight);
+					}
+				}
+
+
+				inline std::vector<std::vector<int> > paramsRandMatImagePatch(){
+					// Preset parameters
+					const int& imageHeight = fpSingleton::getSingleton().returnImageHeight();
+					const int& imageWidth = fpSingleton::getSingleton().returnImageWidth();
+
+					const int& patchHeightMax = fpSingleton::getSingleton().returnPatchHeightMax();
+					const int& patchHeightMin = fpSingleton::getSingleton().returnPatchHeightMin();
+					const int& patchWidthMax  = fpSingleton::getSingleton().returnPatchWidthMax();
+					const int& patchWidthMin  = fpSingleton::getSingleton().returnPatchWidthMin();
+
+					// A vector of vectors that specifies the parameters
+					// for each patch: < <Height>, <Width>, <TopLeft> >
+					std::vector<std::vector<int> > heightWidthTop(3, std::vector<int>(fpSingleton::getSingleton().returnMtry()));
+
+					int deltaH;
+					int deltaW;
+					int topLeftSeed;
+					// The weight is currently hard-coded to 1.
+
+					// Loop over mtry to load random patch dimensions
+					// and top left position.
+					for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++){
+
+						heightWidthTop[0][k] = randNum->gen(patchHeightMax - patchHeightMin + 1) + patchHeightMin; //sample from [patchHeightMin, patchHeightMax]
+						heightWidthTop[1][k] = randNum->gen(patchWidthMax - patchWidthMin + 1) +  patchWidthMin;    //sample from [patchWidthMin, patchWidthMax]
+						// Using the above, 1-pixel patches are possible ... [JLP]
+
+						// compute the difference between the image dimensions and the current random patch dimensions for sampling
+						deltaH = imageHeight - heightWidthTop[0][k] + 1;
+						deltaW = imageWidth  - heightWidthTop[1][k] + 1;
+
+						// Sample the top left pixel from the available pixels (due to buffering).
+						topLeftSeed = randNum->gen(deltaH * deltaW);
+
+						// Convert the top-left-seed value to it's appropriate index in the full image.
+						heightWidthTop[2][k] = (topLeftSeed % deltaW) + (imageWidth * floor(topLeftSeed / deltaW));
+
+						assert((heightWidthTop[2][k] % imageWidth) < deltaW); // check that TopLeft pixel is in the correct column.
+						assert((int)(heightWidthTop[2][k] / imageWidth) < deltaH); // check that TopLeft pixel is in the correct row.
+					}
+
+					return(heightWidthTop);
+				} // End paramsRandMatImagePatch
+
+
+				inline void randMatImagePatch(std::vector<weightedFeature>& featuresToTry, std::vector<std::vector<int> > patchPositions){
+					assert((int)(patchPositions[0].size()) == fpSingleton::getSingleton().returnMtry());
+
+					// Preset parameters
+					const int& imageWidth = fpSingleton::getSingleton().returnImageWidth();
+
+					int pixelIndex = -1;
+					for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++){
+						for (int row = 0; row < patchPositions[0][k]; row++) {
+							for (int col = 0; col < patchPositions[1][k]; col++) {
+								pixelIndex = patchPositions[2][k] + col + (imageWidth * row);
+								featuresToTry[k].returnFeatures().push_back(pixelIndex);
+								featuresToTry[k].returnWeights().push_back(1); // weight hard-coded to 1.
+								}
+						} // Could possibly turn this into one for-loop somehow later. [JLP]
+					}
+				} // END randMatStructured
+
 
 				inline void resetLeftNode(){
 					propertiesOfLeftNode.resetClassTotals();
@@ -184,6 +286,50 @@ namespace fp{
 						}
 
 					}
+				}
+
+
+				inline void loadWorkingSet(weightedFeature& currMTRY){
+
+					typename std::vector<zipClassAndValue<int,T> >::iterator zipIterator = zipIters.returnZipBegin();
+					T accumulator;
+					int weightNum;
+
+					for(int classNum = 0; classNum < fpSingleton::getSingleton().returnNumClasses(); ++classNum){
+
+						int sizeToPrefetch = globalPrefetchSize;            
+						if(nodeIndices.returnEndIterator(classNum) - nodeIndices.returnBeginIterator(classNum) < 32){ 
+							sizeToPrefetch = nodeIndices.returnEndIterator(classNum) - nodeIndices.returnBeginIterator(classNum);
+						}
+
+						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnBeginIterator(classNum)+sizeToPrefetch; ++q){
+							for(auto i : currMTRY.returnFeatures()){
+								fpSingleton::getSingleton().prefetchFeatureVal(i,*q);
+							}
+						}
+
+						for(std::vector<int>::iterator q=nodeIndices.returnBeginIterator(classNum); q!=nodeIndices.returnEndIterator(classNum)-sizeToPrefetch; ++q){
+							accumulator=0;
+							weightNum = 0;
+							for(auto i : currMTRY.returnFeatures()){
+								fpSingleton::getSingleton().prefetchFeatureVal(i,*(q+sizeToPrefetch));
+								accumulator+= fpSingleton::getSingleton().returnFeatureVal(i,*q)*currMTRY.returnWeights()[weightNum++];
+							}
+							zipIterator->setPair(classNum,accumulator);
+							++zipIterator;
+						}
+
+						for(std::vector<int>::iterator q=nodeIndices.returnEndIterator(classNum)-sizeToPrefetch; q!=nodeIndices.returnEndIterator(classNum); ++q){
+							accumulator=0;
+							weightNum = 0;
+							for(auto i : currMTRY.returnFeatures()){
+								accumulator+= fpSingleton::getSingleton().returnFeatureVal(i,*q)*currMTRY.returnWeights()[weightNum++];
+							}
+							zipIterator->setPair(classNum,accumulator);
+							++zipIterator;
+						}
+
+					}
 
 				}
 
@@ -195,9 +341,7 @@ namespace fp{
 
 
 				inline void sortWorkingSet(){
-					//pdqsort(zipIters.returnZipBegin(), zipIters.returnZipEnd());
 					pdqsort_branchless(zipIters.returnZipBegin(), zipIters.returnZipEnd());
-					//std::sort(zipIters.returnZipBegin(), zipIters.returnZipEnd());
 				}
 
 
@@ -231,6 +375,31 @@ namespace fp{
 							aggregator = 0;
 							for(auto i : fMtry){
 								aggregator += fpSingleton::getSingleton().returnFeatureVal(i,*lowerValueIndices);
+							}
+							if(aggregator <= bestSplit.returnSplitValue()){
+								std::iter_swap(smallerNumberIndex, lowerValueIndices);
+								++smallerNumberIndex;
+							}
+						}
+						nodeIndices.loadSplitIterator(smallerNumberIndex);
+					}
+				}
+
+
+				inline void setVecOfSplitLocations(weightedFeature fMtry){
+
+					for(int i = 0; i < fpSingleton::getSingleton().returnNumClasses(); ++i){
+						std::vector<int>::iterator  lowerValueIndices = nodeIndices.returnBeginIterator(i);
+						std::vector<int>::iterator  higherValueIndices = nodeIndices.returnEndIterator(i);
+						std::vector<int>::iterator  smallerNumberIndex = nodeIndices.returnBeginIterator(i);
+
+						T aggregator;	
+						int weightNum;
+						for(; lowerValueIndices < higherValueIndices; ++lowerValueIndices){
+							aggregator = 0;
+							weightNum = 0;
+							for(auto i : fMtry.returnFeatures()){
+								aggregator += fpSingleton::getSingleton().returnFeatureVal(i,*lowerValueIndices)*fMtry.returnWeights()[weightNum++];
 							}
 							if(aggregator <= bestSplit.returnSplitValue()){
 								std::iter_swap(smallerNumberIndex, lowerValueIndices);
@@ -324,23 +493,7 @@ namespace fp{
 				inline bool isLeafNode(){
 					return leafNode;
 				}
-
-				inline void calcBestSplitInfoForNode(int featureToTry){
-					//LIKWID_MARKER_START("loadNode");
-					loadWorkingSet(featureToTry);
-					//LIKWID_MARKER_STOP("loadNode");
-					//LIKWID_MARKER_START("sort");
-					sortWorkingSet();
-					//LIKWID_MARKER_STOP("sort");
-					resetRightNode();
-					resetLeftNode();
-					//This next function finds and sets the best split... not just finds.
-					//LIKWID_MARKER_START("split");
-					findBestSplit(featureToTry);
-					//LIKWID_MARKER_STOP("split");
-				}
-
-				inline void calcBestSplitInfoForNode(std::vector<int> featureToTry){
+				inline void calcBestSplitInfoForNode(Q featureToTry){
 					loadWorkingSet(featureToTry);
 					sortWorkingSet();
 					resetRightNode();
@@ -350,9 +503,7 @@ namespace fp{
 
 
 				inline void calcBestSplit(){
-					//LIKWID_MARKER_START("mtry");
 					calcMtryForNode(mtry);
-					//LIKWID_MARKER_STOP("mtry");
 					while(!mtry.empty()){
 						calcBestSplitInfoForNode(mtry.back());
 						removeTriedMtry();
@@ -478,8 +629,18 @@ namespace fp{
 					setVecOfSplitLocations(fMtry);
 				}
 
+				inline void calcMtryForNodeTest(std::vector<Q> &featuresToTry){
+					calcMtryForNode(featuresToTry);
+				}
 
-		};
+				inline std::vector<std::vector<int> > paramsRandMatImagePatchTest(){
+					return(paramsRandMatImagePatch());
+				}
+
+				inline void randMatImagePatchTest(std::vector<weightedFeature>& featuresToTry, std::vector<std::vector<int> > patchPositions){
+					return(randMatImagePatch(featuresToTry, patchPositions));
+				}
+};
 
 }//namespace fp
 #endif //processingNodeBin_h

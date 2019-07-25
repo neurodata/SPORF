@@ -46,7 +46,6 @@ namespace fp{
 					return bestSplitInfo.returnSplitValue();
 				}
 
-
 				inline void setBestSplit(splitURFInfo<T> tempSplit){
 					if(tempSplit.returnImpurity() >= 0){
 						if(tempSplit.returnImpurity() < bestSplitInfo.returnImpurity()){

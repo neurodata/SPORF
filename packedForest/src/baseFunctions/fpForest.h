@@ -23,6 +23,7 @@ namespace fp {
 
 			protected:
 				std::unique_ptr<fpForestBase<T> > forest;
+				float OOBaccuracy = 0;
 
 				void loadData(){
 					fpSingleton::getSingleton().loadData();
@@ -58,6 +59,9 @@ namespace fp {
 					fpSingleton::getSingleton().setDataDependentParameters();
 				}
 
+				inline void checkDataDependentParameters(){
+					fpSingleton::getSingleton().checkDataDependentParameters();
+				}
 
 			public:
 
@@ -101,8 +105,11 @@ namespace fp {
 				inline void growForest(const T* Xmat, const int* Yvec, int numObs, int numFeatures){
 					loadData(Xmat,Yvec,numObs,numFeatures);
 					setDataDependentParameters();
+					checkDataDependentParameters();
 					initializeForestType();
 					forest->growForest();
+					updateOOB();
+					
 					deleteData();
 				}
 
@@ -110,8 +117,11 @@ namespace fp {
 				inline void growForest(){
 					loadData();
 					setDataDependentParameters();
+					checkDataDependentParameters();
 					initializeForestType();
 					forest->growForest();
+					updateOOB();
+
 					deleteData();
 				}
 

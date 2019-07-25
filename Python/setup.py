@@ -1,10 +1,38 @@
-from setuptools import setup, Extension
-from setuptools.command.build_ext import build_ext
-import sys
-import setuptools
 import subprocess
+import sys
+from distutils.errors import CompileError
+from os import path
 
-__version__ = "0.0.1"
+from setuptools import Extension, find_packages, setup
+from setuptools.command.build_ext import build_ext
+
+from rerf import __version__
+
+"""
+To upload to pypi see PUBLISH.md
+"""
+
+here = path.abspath(path.dirname(__file__))
+
+with open(path.join(here, "requirements.txt"), encoding="utf-8") as f:
+    required = f.read().splitlines()
+
+
+PACKAGE_NAME = "rerf"
+DESCRIPTION = "Randomer Forest (RerF) Python Package"
+
+with open(path.join(here, "README.md"), encoding="utf-8") as f:
+    LONG_DESCRIPTION = f.read()
+URL = "https://github.com/neurodata/RerF"
+AUTHOR = "NeuroData"
+AUTHOR_EMAIL = "software@neurodata.io"
+MINIMUM_PYTHON_VERSION = 3, 6  # Minimum of Python 3.6
+
+
+def check_python_version():
+    """Exit when the Python version is too low."""
+    if sys.version_info < MINIMUM_PYTHON_VERSION:
+        sys.exit("Python {}.{}+ is required.".format(*MINIMUM_PYTHON_VERSION))
 
 
 class get_pybind_include(object):
@@ -26,11 +54,12 @@ class get_pybind_include(object):
 ext_modules = [
     Extension(
         "pyfp",
-        ["packedForest.cpp"],
+        ["src/packedForest.cpp"],
         include_dirs=[
             # Path to pybind11 headers
             get_pybind_include(),
             get_pybind_include(user=True),
+            "src/src/",
         ],
         language="c++",
     )
@@ -49,7 +78,7 @@ def has_flag(compiler, flagname):
         f.write("int main (int argc, char **argv) { return 0; }")
         try:
             compiler.compile([f.name], extra_postargs=[flagname])
-        except setuptools.distutils.errors.CompileError:
+        except CompileError:
             return False
     return True
 
@@ -72,6 +101,8 @@ def cpp_flag(compiler):
 class BuildExt(build_ext):
     """A custom build extension for adding compiler-specific options."""
 
+    extra_include = "include"
+
     c_opts = {
         "msvc": ["/EHsc", "/openmp"],
         "unix": [
@@ -81,18 +112,30 @@ class BuildExt(build_ext):
             "-O3",
             "-DNDEBUG",
             "-ffast-math",
+            "-I{}".format(extra_include),
         ],
     }
 
-    if sys.platform == "darwin":
-        ompbase = subprocess.run(["brew", "--prefix", "libomp"], stdout=subprocess.PIPE)
-        omploc = ompbase.stdout.decode('utf-8').strip()
+    l_opts = {"msvc": [], "unix": []}
 
-        c_opts["unix"] += ["-lomp", "-I{}/include".format(omploc), "-L{}/lib".format(omploc)]
+    if sys.platform == "darwin":
+        darwin_opts = ["-stdlib=libc++", "-mmacosx-version-min=10.7"]
+        c_opts["unix"] += darwin_opts
+        l_opts["unix"] += darwin_opts
+
+        ompbase = subprocess.run(["brew", "--prefix", "libomp"], stdout=subprocess.PIPE)
+        omploc = ompbase.stdout.decode("utf-8").strip()
+
+        c_opts["unix"] += [
+            "-lomp",
+            "-I{}/include".format(omploc),
+            "-L{}/lib".format(omploc),
+        ]
 
     def build_extensions(self):
         ct = self.compiler.compiler_type
         opts = self.c_opts.get(ct, [])
+        link_opts = self.l_opts.get(ct, [])
         if ct == "unix":
             opts.append('-DVERSION_INFO="%s"' % self.distribution.get_version())
             opts.append(cpp_flag(self.compiler))
@@ -102,17 +145,29 @@ class BuildExt(build_ext):
             opts.append('/DVERSION_INFO=\\"%s\\"' % self.distribution.get_version())
         for ext in self.extensions:
             ext.extra_compile_args = opts
+            ext.extra_link_args = link_opts
             if ct == "unix":
                 ext.extra_link_args = ["-lgomp"]
         build_ext.build_extensions(self)
 
 
+check_python_version()
+
 setup(
-    name="pyfp",
+    name=PACKAGE_NAME,
     version=__version__,
-    long_description="",
+    description=DESCRIPTION,
+    long_description=LONG_DESCRIPTION,
+    long_description_content_type="text/markdown",
+    author=AUTHOR,
+    author_email=AUTHOR_EMAIL,
     ext_modules=ext_modules,
-    install_requires=["pybind11>=2.2"],
+    install_requires=required,
+    setup_requires=["pybind11>=2.2"],
     cmdclass={"build_ext": BuildExt},
     zip_safe=False,
+    url=URL,
+    license="Apache License 2.0",
+    packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
+    include_package_data=True,
 )

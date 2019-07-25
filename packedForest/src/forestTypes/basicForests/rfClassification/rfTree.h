@@ -11,14 +11,13 @@ namespace fp{
 		class rfTree
 		{
 			protected:
-				float OOBAccuracy;
-				float correctOOB;
 				float totalOOB;
+				std::vector<std::vector<int> > indexAndVote;
 				std::vector< fpBaseNode<T, int> > tree;
 				std::vector< unprocessedNode<T> > nodeQueue;
 
 			public:
-				rfTree() : OOBAccuracy(-1.0),correctOOB(0),totalOOB(0){}
+				rfTree() : totalOOB(0){}
 
 				void loadFirstNode(){
 					nodeQueue.emplace_back(fpSingleton::getSingleton().returnNumObservations());
@@ -37,8 +36,8 @@ namespace fp{
 					return true;
 				}
 
-				inline float returnOOB(){
-					return correctOOB/totalOOB;
+				inline std::vector<std::vector<int> > returnOOBvotes(){
+					return indexAndVote;
 				}
 
 				inline int returnLastNodeID(){
@@ -95,7 +94,12 @@ namespace fp{
 
 				inline void checkOOB(){
 					totalOOB += nodeQueue.back().returnOutSampleSize();
-					correctOOB += nodeQueue.back().returnOutSampleError(tree.back().returnClass());
+					// Get oob_indices and vote from leaf node as
+					// <(oob_id, vote)> and push back onto the
+					// indexAndVote object.
+					for(auto &j : nodeQueue.back().returnOutSampleIdsFromLeaf()){
+						indexAndVote.push_back(std::vector<int>{j, tree.back().returnClass()});
+					}
 				}
 
 
@@ -133,7 +137,7 @@ namespace fp{
 					return true;
 				}
 
-inline bool isRightNode(){
+				inline bool isRightNode(){
 					return false;
 				}
 
@@ -195,7 +199,6 @@ inline bool isRightNode(){
 					}
 				}
 
-
 				void growTree(){
 					loadFirstNode();
 					processNodes();
@@ -223,6 +226,19 @@ inline bool isRightNode(){
 					}
 					return tree[currNode].returnClass();
 				}
+
+
+				std::vector<int> growTreeTest(){
+					//JLP testing.
+					std::vector<int> outSampleIndices;
+					loadFirstNode();
+					// grab outSamplesIndices before they are deleted.
+					outSampleIndices = nodeQueue.back().returnOutSampleIdsFromLeaf();
+					processNodes();
+					checkOOB();
+					return outSampleIndices;
+				}
+
 		};
 
 }//fp

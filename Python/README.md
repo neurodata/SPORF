@@ -1,76 +1,33 @@
-# Randomer Forest (rerf) Python Package
+# Randomer Forest (RerF) Python Package
 
-## Requirements
+[![PyPI version](https://badge.fury.io/py/rerf.svg)](https://badge.fury.io/py/rerf)
 
-Python bindings are made using [pybind11](https://github.com/pybind/pybind11).
+Randomer Forest combines sparse random projections with the random forest algorithm to achieve high accuracy on a variety of datasets.
 
-C++ compiler (gcc)
+Documentation for RerF Python module can be found at [rerf.neurodata.io](https://rerf.neurodata.io).
 
-  ```sh
-  sudo apt-get install build-essential cmake python3-dev libomp-dev   # Ubuntu/Debian
-  ```
+## Install
 
-## Environment
+See install [instructions](https://rerf.neurodata.io/install.html).
 
-Activate virtualenv
+## Example
 
-```sh
-python3 -m venv env
-. env/bin/activate
-```
+See [example](https://github.com/neurodata/RerF/blob/staging/Python/examples/example_rerfClassifier.py) for basic usage.
 
-Install requirements
+## Reference
 
-```sh
-pip install pybind11
-```
-
-- Install from github
-
-  ```sh
-  pip install -e "git+https://github.com/neurodata/RerF.git@staging#egg=rerf&subdirectory=Python"
-  ```
-
-- Build from source
-
-  Get the source files:
-
-  ```sh
-  git clone https://github.com/neurodata/R-RerF.git
-  ```
-
-  Go to the Python directory:
-
-  ```sh
-  cd R-RerF/Python
-  ```
-
-  Then either:
-  
-  - Build the package using `setup.py`
-
-    ```sh
-    pip install -e .
-    ```
-
-  - Run the following compile script
-
-    ```sh
-    c++ -O3 -Wall -shared -std=c++14 -fPIC `python3 -m pybind11 --includes` packedForest.cpp -o pyfp`python3-config --extension-suffix`
-    ```
-
-  Note: problems running the compile command on alternate shells (`fish`).  Make sure to use `bash` for the time being.
-
-## Run the example
-
-[Example.py](example.py)
+Function references can be found in our [docs](https://rerf.neurodata.io/reference.html).
 
 ## Tests
 
-We use pytest for Python testing
+We use [pytest](https://docs.pytest.org/en/latest/) for Python testing.
 
-Run the tests from command line at the root of the repo (`RerF/`)
+Run the tests from command line at the root of the repo (`RerF/`).
 
-  ```sh
-  python -m pytest
-  ```
+```sh
+python -m pytest
+```
+
+## Publish new version
+
+To upload to [PyPi](https://pypi.org) see [PUBLISH.md](PUBLISH.md)
