@@ -89,7 +89,7 @@ namespace fp{
 
 
 				inline float calculateNodeImpurity(){
-					return obsIndices->returnImpurity();
+					return nodeImpurity;
 				}
 
 
