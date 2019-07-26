@@ -94,9 +94,7 @@ return false;
 					for(auto nodes : leafNodes){
 						stratifiedInNodeClassIndicesUnsupervised* obsI = nodes.returnObsIndices();
 						std::vector<int> leafObs;
-						std::vector<int> leafObsOut;
 						leafObs = obsI->returnInSampsVec();
-						leafObsOut = obsI->returnOutSampsVec();
 						auto siz = leafObs.size();
 						if (siz <= 0)
 							continue;

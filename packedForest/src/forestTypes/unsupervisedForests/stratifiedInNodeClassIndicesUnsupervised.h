@@ -65,7 +65,7 @@ namespace fp{
 				}
 
 				for(int n=0; n<numUnusedObs; ++n){
-					outSamples[fpSingleton::getSingleton().returnLabel(potentialSamples[randomObsID])].push_back(potentialSamples[n]);
+					outSamples[fpSingleton::getSingleton().returnLabel(potentialSamples[n])].push_back(potentialSamples[n]);
 				
 					outSamps.push_back(potentialSamples[n]);
 					}
