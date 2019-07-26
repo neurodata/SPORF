@@ -34,7 +34,7 @@ namespace fp{
 				}
 
 				inline bool shouldProcessNode(){
-					if(nodeQueue.back().returnNodeImpurity()<=0){
+					if(nodeQueue.back().returnNodeImpurity()<=0.0001){
 						return false;
 					}
 					if(nodeQueue.back().returnInSampleSize() <= fpSingleton::getSingleton().returnMinParent()){

@@ -16,6 +16,7 @@ namespace fp{
 			std::vector<int> binSamples;
 			int inSampleSize;
 			int outSampleSize;
+			double impurity;
 
 			//TODO: the following functions would benefit from Vitter's Sequential Random Sampling
 		public:
@@ -23,13 +24,10 @@ namespace fp{
 
 
 			stratifiedInNodeClassIndicesUnsupervised(const int &numObservationsInDataSet): inSampleSize(0), outSampleSize(0){
-
-				createInAndOutSetsBagging(numObservationsInDataSet, 0.2);
-				for(auto inSampsClass : inSamps)
-					inSampleSize++;
-
-				for(auto outSamps1 : outSamps)
-					outSampleSize++;
+				impurity = 10;
+				createInAndOutSetsBagging(numObservationsInDataSet, 0.01);
+				inSampleSize = inSamps.size();
+				outSampleSize = outSamps.size();
 			}
 
 
@@ -60,7 +58,7 @@ namespace fp{
 				}
 
 				for(int n=0; n<numUnusedObs; ++n){
-				
+					outSamples[fpSingleton::getSingleton().returnLabel(potentialSamples[n])].push_back(potentialSamples[n]);
 					outSamps.push_back(potentialSamples[n]);
 					}
 				
@@ -88,13 +86,43 @@ namespace fp{
 				}
 				
 				for(auto randomObsID : random_indices2)
+				{
+					//inSamples[fpSingleton::getSingleton().returnLabel(randomObsID)].push_back(randomObsID);
                                         inSamps.push_back(randomObsID);
 				
 				for(auto randomObsID2 : random_indices3)
+				{
+					//outSamples[fpSingleton::getSingleton().returnLabel(randomObsID2)].push_back(randomObsID2);
 					outSamps.push_back(randomObsID2);
 				
 			}
 
+			inline void setNodeImpurity(double nodeImp){
+				if(nodeImp < 0.00001)
+					nodeImp = 0;
+				impurity = nodeImp;
+			}
+			inline double returnImpurity(){
+				return impurity;
+			/*	if(false){
+					unsigned int sumClassTotalsSquared = 0;
+					for(auto i : inSamples){
+						sumClassTotalsSquared+=i.size()*i.size();
+					}
+					std::cout<<"Impurity: "<<1-double(sumClassTotalsSquared)/(inSampleSize*inSampleSize)<<"\n";
+					return 1-double(sumClassTotalsSquared)/(inSampleSize*inSampleSize);
+				}else{
+					double impSum = 0;
+					double classPercent;
+					for(auto i : inSamples){
+						classPercent = double(i.size())/double(inSampleSize);
+
+						impSum += double(i.size())*(1.0-classPercent);
+					}
+					std::cout<<"impSum: "<<impSum<<"\n";
+					return impSum;
+				}*/
+			}
 
 			inline void printIndices(){
 				std::cout << "samples in bag\n";
@@ -153,7 +181,7 @@ namespace fp{
 			}
 
 			inline void initializeBinnedSamples(){
-			/*	if(useBin()){
+				/*if(useBin()){
 					int numInClass;
 					std::random_device random_device;
 					std::mt19937 engine{random_device()};
