@@ -101,6 +101,8 @@ def cpp_flag(compiler):
 class BuildExt(build_ext):
     """A custom build extension for adding compiler-specific options."""
 
+    extra_include = "include"
+
     c_opts = {
         "msvc": ["/EHsc", "/openmp"],
         "unix": [
@@ -110,6 +112,8 @@ class BuildExt(build_ext):
             "-O3",
             "-DNDEBUG",
             "-ffast-math",
+            "-I{}".format(extra_include),
+            "-I/usr/local/include",
         ],
     }
 
