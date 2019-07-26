@@ -152,6 +152,8 @@ namespace fp{
 							baseUnprocessedNodeUnsupervised<T>::rightIndices->addIndexToOutSamples(baseUnprocessedNodeUnsupervised<T>::obsIndices->returnOutSample(i));	
 						}
 					}
+					baseUnprocessedNodeUnsupervised<T>::leftIndices->setNodeImpurity(bestSplitInfo.returnImpurity());
+					baseUnprocessedNodeUnsupervised<T>::rightIndices->setNodeImpurity(bestSplitInfo.returnImpurity());
 					deleteObsIndices();
 				}
 
@@ -170,6 +172,7 @@ namespace fp{
 						}
 						removeTriedMtry();
 					}
+					
 				}
 
 				inline void removeTriedMtry(){

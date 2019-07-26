@@ -8,7 +8,7 @@
 
 namespace fp{
 
-	class stratifiedInNodeClassIndicesUnsupervised : public stratifiedInNodeClassIndices
+	class stratifiedInNodeClassIndicesUnsupervised
 	{
 		private:
 			std::vector<std::vector<int> > inSamples;
@@ -18,22 +18,18 @@ namespace fp{
 			std::vector<int> binSamples;
 			int inSampleSize;
 			int outSampleSize;
+			double impurity;
 
 			//TODO: the following functions would benefit from Vitter's Sequential Random Sampling
 		public:
-			stratifiedInNodeClassIndicesUnsupervised(): inSamples(fpSingleton::getSingleton().returnNumClasses()), outSamples(fpSingleton::getSingleton().returnNumClasses()), inSampleSize(0), outSampleSize(0){}
+			stratifiedInNodeClassIndicesUnsupervised(): inSampleSize(0), outSampleSize(0){}
 
 
-			stratifiedInNodeClassIndicesUnsupervised(const int &numObservationsInDataSet): inSamples(fpSingleton::getSingleton().returnNumClasses()), outSamples(fpSingleton::getSingleton().returnNumClasses()), inSampleSize(0), outSampleSize(0){
-
-				createInAndOutSetsBagging(numObservationsInDataSet, 0.2);
-				for(auto inSampsClass : inSamples){
-					inSampleSize += inSampsClass.size();
-				}
-
-				for(auto outSamps1 : outSamples){
-					outSampleSize += outSamps1.size();
-				}
+			stratifiedInNodeClassIndicesUnsupervised(const int &numObservationsInDataSet): inSampleSize(0), outSampleSize(0){
+				impurity = 10;
+				createInAndOutSetsBagging(numObservationsInDataSet, 0.01);
+				inSampleSize = inSamps.size();
+				outSampleSize = outSamps.size();
 			}
 
 
@@ -66,7 +62,6 @@ namespace fp{
 
 				for(int n=0; n<numUnusedObs; ++n){
 					outSamples[fpSingleton::getSingleton().returnLabel(potentialSamples[randomObsID])].push_back(potentialSamples[n]);
-				
 					outSamps.push_back(potentialSamples[n]);
 					}
 				
@@ -95,24 +90,30 @@ namespace fp{
 				
 				for(auto randomObsID : random_indices2)
 				{
-					inSamples[fpSingleton::getSingleton().returnLabel(randomObsID)].push_back(randomObsID);
+					//inSamples[fpSingleton::getSingleton().returnLabel(randomObsID)].push_back(randomObsID);
                                         inSamps.push_back(randomObsID);
 				}
 				for(auto randomObsID2 : random_indices3)
 				{
-					outSamples[fpSingleton::getSingleton().returnLabel(randomObsID2)].push_back(randomObsID2);
+					//outSamples[fpSingleton::getSingleton().returnLabel(randomObsID2)].push_back(randomObsID2);
 					outSamps.push_back(randomObsID2);
 				}
 				
 			}
 
-
+			inline void setNodeImpurity(double nodeImp){
+				if(nodeImp < 0.00001)
+					nodeImp = 0;
+				impurity = nodeImp;
+			}
 			inline double returnImpurity(){
-				if(false){
+				return impurity;
+			/*	if(false){
 					unsigned int sumClassTotalsSquared = 0;
 					for(auto i : inSamples){
 						sumClassTotalsSquared+=i.size()*i.size();
 					}
+					std::cout<<"Impurity: "<<1-double(sumClassTotalsSquared)/(inSampleSize*inSampleSize)<<"\n";
 					return 1-double(sumClassTotalsSquared)/(inSampleSize*inSampleSize);
 				}else{
 					double impSum = 0;
@@ -122,8 +123,9 @@ namespace fp{
 
 						impSum += double(i.size())*(1.0-classPercent);
 					}
+					std::cout<<"impSum: "<<impSum<<"\n";
 					return impSum;
-				}
+				}*/
 			}
 
 			inline void printIndices(){
@@ -198,7 +200,7 @@ namespace fp{
 			}
 
 			inline void initializeBinnedSamples(){
-				if(useBin()){
+				/*if(useBin()){
 					int numInClass;
 					std::random_device random_device;
 					std::mt19937 engine{random_device()};
@@ -209,7 +211,7 @@ namespace fp{
 							binSamples.push_back(inSamples[i][dist(engine)]);
 						}
 					}
-				}
+				}*/
 			}
 
 
@@ -225,13 +227,13 @@ namespace fp{
 
 			inline void addIndexToOutSamples(int index){
 				++outSampleSize;
-				outSamples[fpSingleton::getSingleton().returnLabel(index)].push_back(index);
+				//outSamples[fpSingleton::getSingleton().returnLabel(index)].push_back(index);
 				outSamps.push_back(index);
 			}
 
 			inline void addIndexToInSamples(int index){
 				++inSampleSize;
-				inSamples[fpSingleton::getSingleton().returnLabel(index)].push_back(index);
+				//inSamples[fpSingleton::getSingleton().returnLabel(index)].push_back(index);
 				inSamps.push_back(index);
 			}
 	};//class stratifiedInNodeClassIndices
