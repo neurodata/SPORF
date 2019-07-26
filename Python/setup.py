@@ -113,6 +113,7 @@ class BuildExt(build_ext):
             "-DNDEBUG",
             "-ffast-math",
             "-I{}".format(extra_include),
+            "-I/usr/local/include",
         ],
     }
 
