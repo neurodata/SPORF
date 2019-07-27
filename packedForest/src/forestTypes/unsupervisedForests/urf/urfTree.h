@@ -34,16 +34,12 @@ namespace fp{
 				}
 
 				inline bool shouldProcessNode(){
-					if(nodeQueue.back().returnNodeImpurity()<=0.0001){
+					if(nodeQueue.back().returnNodeImpurity() < std::numeric_limits<T>::epsilon())
 						return false;
-					}
-					if(nodeQueue.back().returnInSampleSize() <= fpSingleton::getSingleton().returnMinParent()){
-						
-return false;
-					}
-                if(nodeQueue.back().returnDepth() >= fpSingleton::getSingleton().returnMaxDepth()){
-                          return false;
-                      }
+					if(nodeQueue.back().returnInSampleSize() <= fpSingleton::getSingleton().returnMinParent())
+						return false;
+                			if(nodeQueue.back().returnDepth() >= fpSingleton::getSingleton().returnMaxDepth())
+                          			return false;
 					return true;
 				}
 
