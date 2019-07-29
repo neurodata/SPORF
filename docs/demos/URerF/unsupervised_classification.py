@@ -15,14 +15,13 @@ X = iris.data
 
 
 #%%
-clf = UnsupervisedRandomForest(
-    projection_matrix="Base", n_estimators=100, min_parent=10
-)
+clf = UnsupervisedRandomForest(projection_matrix="Base", n_estimators=100, min_parent=1)
 
 
 #%%
 clf.fit(X)
 sim_mat = clf.transform()
+print(sim_mat)
 
 
 #%%
@@ -30,9 +29,11 @@ plt.imshow(sim_mat)
 plt.savefig("iris_heatmap.png")
 sim_mat
 
+
 #%%
 cluster = AgglomerativeClustering(n_clusters=3, affinity="euclidean", linkage="ward")
 cluster.fit_predict(sim_mat)
+
 
 #%%
 iris.target

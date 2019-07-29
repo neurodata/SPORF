@@ -1,12 +1,10 @@
 import multiprocessing
 
 import numpy as np
+from scipy.sparse import csr_matrix
 from sklearn.base import BaseEstimator
-
 from sklearn.utils import check_array
 from sklearn.utils.validation import check_is_fitted
-
-from scipy.sparse import csr_matrix
 
 import pyfp
 
@@ -215,7 +213,7 @@ class UnsupervisedRandomForest(BaseEstimator):
         self.forest_.setParameter("useRowMajor", 1)
 
         # y will be ignored
-        y = np.zeros((num_obs, 1))
+        y = np.zeros(num_obs)
         self.forest_._growForestnumpy(X, y, num_obs, num_features)
 
         self.X_ = X
@@ -246,9 +244,24 @@ class UnsupervisedRandomForest(BaseEstimator):
 
 
 def pair_mat_to_sparse(pair_mat, n_obs, n_estimators):
-    i = [ij[1] for ij in pair_mat.keys()]
-    j = [ij[0] for ij in pair_mat.keys()]
-    data = [d / n_estimators for d in pair_mat.values()]
-    sparse_mat = csr_matrix((data, (i, j)), shape=(n_obs, n_obs), dtype=float)
+    # i = [ij[1] for ij in pair_mat.keys()]
+    # j = [ij[0] for ij in pair_mat.keys()]
+    # data = [d / n_estimators for d in pair_mat.values()]
+    # sparse_mat = csr_matrix((data, (i, j)), shape=(n_obs, n_obs), dtype=float)
+
+    tupList = []
+    dataCounts = []
+    for key, value in pair_mat.items():
+        tupList.append(key)
+        dataCounts.append(value)
+
+    row = []
+    col = []
+    for tup in tupList:
+        row.append(tup[0])
+        col.append(tup[1])
+
+    sparse_mat = csr_matrix((dataCounts, (row, col)), shape=(n_obs, n_obs))
+    sparse_mat = sparse_mat.astype(float)
 
     return sparse_mat
