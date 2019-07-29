@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <assert.h>
+#include <limits>
 
 namespace fp{
 
@@ -27,18 +28,15 @@ namespace fp{
 				}
 
 				inline bool shouldProcessNode(){
-					if(nodeQueue.back().returnNodeImpurity()<=0){
-						return false;
-					}
-					if(nodeQueue.back().returnInSampleSize() <= fpSingleton::getSingleton().returnMinParent()){
-						return false;
-					}
-                if(nodeQueue.back().returnDepth() >= fpSingleton::getSingleton().returnMaxDepth()){
-                          return false;
-                      }
-					return true;
+                                        if(nodeQueue.back().returnNodeImpurity() < std::numeric_limits<T>::epsilon())
+                                                return false;
+                                        if(nodeQueue.back().returnInSampleSize() <= fpSingleton::getSingleton().returnMinParent())
+                                                return false;
+                                        if(nodeQueue.back().returnDepth() >= fpSingleton::getSingleton().returnMaxDepth())
+                                                return false;
+                                        return true;
 				}
-				
+	
 				inline std::vector<std::vector<int> > returnOOBvotes(){
 					return indexAndVote;
 				}

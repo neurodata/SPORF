@@ -87,13 +87,9 @@ namespace fp{
 					}
 				}
 
-
 				inline float calculateNodeImpurity(){
-					std::cout<<"Node impurity!: "<<obsIndices->returnImpurity()<<"\n";
-					//return nodeImpurity;
 					return obsIndices->returnImpurity();
 				}
-
 
 				inline void loadIndices(stratifiedInNodeClassIndicesUnsupervised* indices){
 					obsIndices = indices;
