@@ -1,7 +1,3 @@
-import pyfp
-import numpy as np
-
-
 import numpy as np
 
 import pyfp
@@ -30,7 +26,7 @@ def fastRerF(
 ):
     """Creates a decision forest based on an input matrix and class vector
     and grows the forest.
-    
+
     Parameters
     ----------
     X : 2D numpy array, optional
@@ -38,34 +34,34 @@ def fastRerF(
     Y : list, 1D numpy array, optional
         Labels
     CSVFile : str, optional
-        training CSV filename 
+        training CSV filename
     Ycolumn : int, optional
-        column in data with labels 
+        column in data with labels
     forestType : str, optional
-        the type of forest: binnedBase, binnedBaseRerF, 
+        the type of forest: binnedBase, binnedBaseRerF,
         binnedBaseTern, S-RerF (structured for 2-d images), rfBase, rerf (default: "binnedBaseRerF")
     trees : int, optional
         Number of trees in forest (default: 500)
     minParent : int, optional
         (default: 1)
     maxDepth : int, optional
-        maxDepth (default: None).  If None, set to max system supported 
+        maxDepth (default: None).  If None, set to max system supported
         value
     numCores : int, optional
         Number of cores to use (default: 1).
     mtry : int, optional
-        d, the number of features to consider when splitting a node 
+        d, the number of features to consider when splitting a node
         (default: None).  If None, sets to ``sqrt(numFeatures)``.
     mtryMult : double, optional
         Average number of features combined to form a new feature when
         using RerF (default: 1.5)
     fractionOfFeaturesToTest : float, optional
-        Sets mtry based on a fraction of the features instead of an 
+        Sets mtry based on a fraction of the features instead of an
         exact number (default: None).
     seed : int, optional
-        Random seed to use (default: None).  If None, set seed to 
+        Random seed to use (default: None).  If None, set seed to
         ``np.random.randint(1, 1000000)``.
-    
+
     Returns
     -------
     forest : pyfp.fpForest
@@ -135,7 +131,6 @@ def fastRerF(
         seed = np.random.randint(1, 1000000)
     forestClass.setParameter("seed", seed)
 
-
     if CSVFile is not None and Ycolumn is not None:
         forestClass.setParameter("useRowMajor", 0)
         forestClass.setParameter("CSVFileName", CSVFile)
@@ -155,14 +150,14 @@ def fastRerF(
 def fastPredict(X, forest):
     """Predict class for X.
 
-    The predicted class of an input sample is the majority vote by the 
-    trees in the forest where each vote is the majority class of each 
+    The predicted class of an input sample is the majority vote by the
+    trees in the forest where each vote is the majority class of each
     tree's leaf node.
-    
+
     Parameters
     ----------
     X : array_like
-        Numpy ndarray of data, if more than 1 row, run multiple 
+        Numpy ndarray of data, if more than 1 row, run multiple
         predictions.
     forest : pyfp.fpForest
         Forest to run predictions on
@@ -170,7 +165,7 @@ def fastPredict(X, forest):
     Returns
     -------
     predictions : int, list of int
-        Returns the class of prediction (int) or predictions (list) 
+        Returns the class of prediction (int) or predictions (list)
         depending on input parameters.
 
     Examples
@@ -190,13 +185,13 @@ def fastPredict(X, forest):
 def fastPredictPost(X, forest):
     """Predict class probabilities for X.
 
-    The predicted class probabilities of an input sample are computed as 
-    the normalized votes of each tree in the forest.  
-    
+    The predicted class probabilities of an input sample are computed as
+    the normalized votes of each tree in the forest.
+
     Parameters
     ----------
     X : array_like
-        Numpy ndarray of data, if more than 1 row, run multiple 
+        Numpy ndarray of data, if more than 1 row, run multiple
         predictions.
     forest : pyfp.fpForest
         Forest to run predictions on
@@ -204,8 +199,8 @@ def fastPredictPost(X, forest):
     Returns
     -------
     posterior_probabilities : list of ints, shape = [n_classes] or array, shape = [n_samples, n_classes]
-        Returns the class probabilities for a single observation (list) or 
-        numpy array of class probabilities for each observation depending 
+        Returns the class probabilities for a single observation (list) or
+        numpy array of class probabilities for each observation depending
         on input parameters.
 
     Examples
@@ -224,6 +219,6 @@ def fastPredictPost(X, forest):
         y_prob = y_arr / y_arr.sum(1)[:, None]
     return y_prob
 
- 
+
 def retSimMat(forest):
     return forest._return_pair_mat()
