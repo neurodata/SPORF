@@ -120,7 +120,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
     avg leaf node depth: 1.9899
     num leaf nodes: 396
     rerfClassifier(feature_combinations=1.5, max_depth=2, max_features='auto',
-            min_parent=1, n_estimators=100, n_jobs=None,
+            min_samples_split=1, n_estimators=100, n_jobs=None,
             projection_matrix='RerF', random_state=0)
     >>> print(clf.predict([[0, 0, 0, 0]]))
     [1]
@@ -137,7 +137,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         projection_matrix="RerF",
         n_estimators=500,
         max_depth=None,
-        min_parent=1,
+        min_samples_split=1,
         max_features="auto",
         feature_combinations=1.5,
         oob_score=False,
@@ -153,7 +153,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         self.projection_matrix = projection_matrix
         self.n_estimators = n_estimators
         self.max_depth = max_depth
-        self.min_parent = min_parent
+        self.min_samples_split = min_samples_split
         self.max_features = max_features
         self.feature_combinations = feature_combinations
         self.oob_score = oob_score
@@ -279,7 +279,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         if self.max_depth is not None:
             self.forest_.setParameter("maxDepth", self.max_depth)
 
-        self.forest_.setParameter("minParent", self.min_parent)
+        self.forest_.setParameter("minParent", self.min_samples_split)
 
         self.forest_.setParameter("mtryMult", self.feature_combinations)
 

@@ -10,7 +10,7 @@ import pyfp
 
 
 class UnsupervisedRandomForest(BaseEstimator):
-    """Unsupervised forest
+    """Unsupervised random(er) forest
 
     Supports both Random Forest, developed by Breiman (2001) [#Breiman]_, as well as
     Randomer Forest or Random Projection Forests (RerF) developed by
@@ -41,14 +41,12 @@ class UnsupervisedRandomForest(BaseEstimator):
     ----------
     projection_matrix : str, optional (default: "RerF")
         The random combination of features to use: either "RerF", "Base".
-        "RerF" randomly combines features for each `mtry`. Base is our 
-        implementation of Random Forest. "S-RerF" is structured RerF, 
+        "RerF" randomly combines features for each `mtry`. Base is our
+        implementation of Random Forest. "S-RerF" is structured RerF,
         combining multiple features together in random patches.
         See Tomita et al. (2016) [#Tomita]_ for further details.
-    n_estimators : int, optional (default: 500)
+    n_estimators : int, optional (default: 100)
         Number of trees in forest.
-
-        Note: This differs from scikit-learn's default of 100.
     max_depth : int or None, optional (default=None)
         The maximum depth of the tree. If None, then nodes are expanded
         until all leaves are pure or until all leaves contain less than
@@ -112,9 +110,9 @@ class UnsupervisedRandomForest(BaseEstimator):
     def __init__(
         self,
         projection_matrix="RerF",
-        n_estimators=500,
+        n_estimators=100,
         max_depth=None,
-        min_parent=1,
+        min_samples_split="auto",
         max_features="auto",
         feature_combinations="auto",
         n_jobs=None,
@@ -123,7 +121,7 @@ class UnsupervisedRandomForest(BaseEstimator):
         self.projection_matrix = projection_matrix
         self.n_estimators = n_estimators
         self.max_depth = max_depth
-        self.min_parent = min_parent
+        self.min_samples_split = min_samples_split
         self.max_features = max_features
         self.feature_combinations = feature_combinations
         self.n_jobs = n_jobs
@@ -164,7 +162,11 @@ class UnsupervisedRandomForest(BaseEstimator):
         if self.max_depth is not None:
             self.forest_.setParameter("maxDepth", self.max_depth)
 
-        self.forest_.setParameter("minParent", self.min_parent)
+        if self.min_samples_split == "auto":
+            self.min_samples_split_ = round(num_obs ** (1 / 2))
+        else:
+            self.min_samples_split_ = self.min_samples_split
+        self.forest_.setParameter("minParent", self.min_samples_split_)
 
         if self.n_jobs is None:
             self.n_jobs_ = 1
@@ -180,20 +182,6 @@ class UnsupervisedRandomForest(BaseEstimator):
             self.random_state_ = self.random_state
         self.forest_.setParameter("seed", self.random_state_)
 
-        if self.feature_combinations == "auto":
-            self.feature_combinations_ = num_features
-        elif self.feature_combinations == "sqrt":
-            self.feature_combinations_ = num_features ** (1 / 2)
-        elif self.feature_combinations is None:
-            self.feature_combinations_ = num_features
-        elif self.feature_combinations == "log2":
-            self.feature_combinations_ = np.log2(num_features)
-        elif isinstance(self.feature_combinations, (int, float)):
-            self.feature_combinations_ = self.feature_combinations
-        else:
-            raise ValueError("feature_combinations_ has unexpected value")
-        self.forest_.setParameter("mtryMult", self.feature_combinations_)
-
         # need to set mtry here (using max_features and calc num_features):
         if self.max_features in ("auto", "sqrt"):
             self.mtry_ = int(num_features ** (1 / 2))
@@ -208,6 +196,20 @@ class UnsupervisedRandomForest(BaseEstimator):
         else:
             raise ValueError("max_features has unexpected value")
         self.forest_.setParameter("mtry", self.mtry_)
+
+        if self.feature_combinations == "auto":
+            self.feature_combinations_ = num_features
+        elif self.feature_combinations == "sqrt":
+            self.feature_combinations_ = num_features ** (1 / 2)
+        elif self.feature_combinations is None:
+            self.feature_combinations_ = num_features
+        elif self.feature_combinations == "log2":
+            self.feature_combinations_ = np.log2(num_features)
+        elif isinstance(self.feature_combinations, (int, float)):
+            self.feature_combinations_ = self.feature_combinations
+        else:
+            raise ValueError("feature_combinations_ has unexpected value")
+        self.forest_.setParameter("mtryMult", self.feature_combinations_)
 
         # Explicitly setting for numpy input
         self.forest_.setParameter("useRowMajor", 1)
@@ -244,24 +246,9 @@ class UnsupervisedRandomForest(BaseEstimator):
 
 
 def pair_mat_to_sparse(pair_mat, n_obs, n_estimators):
-    # i = [ij[1] for ij in pair_mat.keys()]
-    # j = [ij[0] for ij in pair_mat.keys()]
-    # data = [d / n_estimators for d in pair_mat.values()]
-    # sparse_mat = csr_matrix((data, (i, j)), shape=(n_obs, n_obs), dtype=float)
-
-    tupList = []
-    dataCounts = []
-    for key, value in pair_mat.items():
-        tupList.append(key)
-        dataCounts.append(value)
-
-    row = []
-    col = []
-    for tup in tupList:
-        row.append(tup[0])
-        col.append(tup[1])
-
-    sparse_mat = csr_matrix((dataCounts, (row, col)), shape=(n_obs, n_obs))
-    sparse_mat = sparse_mat.astype(float)
+    i = [ij[0] for ij in pair_mat.keys()]
+    j = [ij[1] for ij in pair_mat.keys()]
+    data = [d / n_estimators for d in pair_mat.values()]
+    sparse_mat = csr_matrix((data, (i, j)), shape=(n_obs, n_obs), dtype=float)
 
     return sparse_mat
