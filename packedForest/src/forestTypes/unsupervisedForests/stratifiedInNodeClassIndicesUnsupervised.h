@@ -28,7 +28,7 @@ namespace fp{
 
 			stratifiedInNodeClassIndicesUnsupervised(const int &numObservationsInDataSet): inSampleSize(0), outSampleSize(0){
 				impurity = 10; //initialize to an arbitrary non zero value
-				createInAndOutSetsBagging(numObservationsInDataSet, 0.01);
+				createInAndOutSetsBagging(numObservationsInDataSet, 0);
 				inSampleSize = inSamps.size();
 				outSampleSize = outSamps.size();
 			}
