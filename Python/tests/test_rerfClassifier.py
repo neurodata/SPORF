@@ -6,7 +6,6 @@ import math
 import numpy as np
 import pytest
 from sklearn import datasets, metrics
-from sklearn.utils.testing import assert_allclose, assert_array_equal
 from sklearn.utils.validation import check_random_state
 
 from rerf.rerfClassifier import rerfClassifier
@@ -57,12 +56,12 @@ def test_attributes():
     clf = rerfClassifier()
     assert clf.projection_matrix == "RerF"
     assert clf.n_estimators == 500
-    assert clf.max_depth == None
-    assert clf.min_parent == 1
+    assert clf.max_depth is None
+    assert clf.min_samples_split == 1
     assert clf.max_features == "auto"
     assert clf.feature_combinations == 1.5
-    assert clf.n_jobs == None
-    assert clf.random_state == None
+    assert clf.n_jobs is None
+    assert clf.random_state is None
 
     clf.fit(iris.data, iris.target)
     assert hasattr(clf, "classes_")
@@ -91,7 +90,6 @@ def test_alt_attributes():
 
 
 def prep_digit_data():
-    from sklearn import datasets, metrics
 
     digits = datasets.load_digits()
     # The data that we are interested in is made of 8x8 images of digits, let's
@@ -198,7 +196,7 @@ def test_iris_perfect_train(projection_matrix):
 @pytest.mark.parametrize("projection_matrix", ("RerF", "Base"))
 def test_iris_OOB(projection_matrix):
     iris_full = datasets.load_iris()
-    y_train_acc_list = []
+
     clf = rerfClassifier(
         n_estimators=50, projection_matrix=projection_matrix, oob_score=True
     )
@@ -206,4 +204,3 @@ def test_iris_OOB(projection_matrix):
     clf.fit(iris_full.data, iris_full.target)
 
     assert 0.9 <= clf.oob_score_ < 1
-
