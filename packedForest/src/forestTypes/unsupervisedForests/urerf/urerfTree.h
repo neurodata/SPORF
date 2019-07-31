@@ -143,25 +143,15 @@ namespace fp{
 					return leafDepthSums;
 				}
 
-
 				inline void setAsLeaf(){
-					tree.back().setClass(nodeQueue.back().returnMaxClass());
 					tree.back().setDepth(nodeQueue.back().returnDepth());
 				}
-
-
-				inline void checkOOB(){
-					std::cout<<"Not applicable for unsupervised random forests.\n";
-				}
-
 
 				inline void makeWholeNodeALeaf(){
 					tree.emplace_back();
 					linkParentToChild();
 					setAsLeaf();
-					checkOOB();
 					leafNodes.emplace_back(nodeQueue.back());
-					//nodeQueue.back().deleteObsIndices();
 					nodeQueue.pop_back();
 				}
 

@@ -70,12 +70,6 @@ namespace fp{
 					return maxDepth;
 				}
 
-
-				inline int returnMaxClass(){
-					std::cout<<"Not applicable for unsupervised random forests.\n";
-					return 0;
-				}
-
 				inline int returnNumLeafNodes(){
 					int numLeafNodes=0;
 					for(auto nodes : tree){
@@ -154,14 +148,7 @@ namespace fp{
 
 
 				inline void setAsLeaf(){
-					tree.back().setClass(nodeQueue.back().returnMaxClass());
 					tree.back().setDepth(nodeQueue.back().returnDepth());
-				}
-
-
-
-				inline void checkOOB(){
-					std::cout<<"Not applicable for unsupervised random forests.\n";
 				}
 
 
@@ -169,7 +156,6 @@ namespace fp{
 					tree.emplace_back();
 					linkParentToChild();
 					setAsLeaf();
-					checkOOB();
 					leafNodes.emplace_back(nodeQueue.back());
 					nodeQueue.pop_back();
 				}
