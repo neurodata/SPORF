@@ -28,3 +28,13 @@ ___________
    :glob:
 
    demos/comparisons/*
+
+
+Unsupervised RerF
+_________________
+
+.. toctree::
+   :maxdepth: 1
+   :glob:
+
+   demos/URerF/*

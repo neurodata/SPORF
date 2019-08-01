@@ -26,17 +26,6 @@ class UnsupervisedRandomForest(BaseEstimator):
         - ``projection_matrix``
         - ``feature_combinations``
 
-    For more information, see :ref:`Parameters <UnsupervisedRandomForest_params>`.
-
-    References
-    ----------
-    .. [#Breiman] Breiman (2001).
-        https://doi.org/10.1023/A:1010933404324
-
-    .. [#Tomita] Tomita et al. (2016).
-        https://arxiv.org/abs/1506.03410
-
-    .. _`UnsupervisedRandomForest_params`:
     Parameters
     ----------
     projection_matrix : str, optional (default: "RerF")
@@ -70,8 +59,7 @@ class UnsupervisedRandomForest(BaseEstimator):
         Average number of features combined to form a new feature when
         using "RerF." Otherwise, ignored.
 
-        - If int or float, then ``feature_combinations`` is average number
-        of features to combine for each ``max_features`` to try.
+        - If int or float, then ``feature_combinations`` is average number of features to combine for each ``max_features`` to try.
         - If "auto", then ``feature_combinations=n_features``.
         - If "sqrt", then ``feature_combinations=sqrt(n_features)`` (same as "auto").
         - If "log2", then ``feature_combinations=log2(n_features)``.
