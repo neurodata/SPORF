@@ -76,8 +76,11 @@ class UnsupervisedRandomForest(BaseEstimator):
 
     Examples
     --------
-    >>> from urerf import UnsupervisedRandomForest
+    >>> from matplotlib import pyplot as plt
+    >>> from sklearn.cluster import AgglomerativeClustering
     >>> from sklearn.datasets import make_classification
+    >>> from sklearn.metrics import adjusted_rand_score
+    >>> from rerf.urerf import UnsupervisedRandomForest
 
     >>> X, y = make_classification(
     ...    n_samples=1000,
@@ -87,8 +90,15 @@ class UnsupervisedRandomForest(BaseEstimator):
     ...    random_state=0,
     ...    shuffle=False,
     ... )
-    >>> clf = UnsupervisedRandomForest(n_estimators=100, max_depth=2, random_state=0)
+    >>> clf = UnsupervisedRandomForest(n_estimators=100, random_state=0)
     >>> clf.fit(X)
+    >>> sim_mat = clf.transform()
+    >>> plt.imshow(sim_mat)
+    >>> cluster = AgglomerativeClustering(n_clusters=2)
+    >>> predict_labels = cluster.fit_predict(sim_mat)
+    >>> score = adjusted_rand_score(y, predict_labels)
+    >>> print(score)
+    0.7601439767776818
 
     Notes
     -----
