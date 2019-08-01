@@ -22,7 +22,7 @@ namespace fp{
 				std::vector<T> featureHolder;
 				
 			public:
-				baseUnprocessedNodeUnsupervised(int numObsForRoot):  parentID(0), depth(0), isLeftNode(true){ 
+				baseUnprocessedNodeUnsupervised(int numObsForRoot):  parentID(0), depth(0), isLeftNode(true){
 					obsIndices = new stratifiedInNodeClassIndicesUnsupervised(numObsForRoot);
 				}
 
