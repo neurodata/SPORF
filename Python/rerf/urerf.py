@@ -40,10 +40,14 @@ class UnsupervisedRandomForest(BaseEstimator):
         The maximum depth of the tree. If None, then nodes are expanded
         until all leaves are pure or until all leaves contain less than
         min_samples_split samples.
-    min_samples_split : int, optional (default: 1)
+    min_samples_split : int, optional (default: "auto")
         The minimum splittable node size.  A node size < ``min_samples_split``
         will be a leaf node.  Note: other implementations called `min.parent`
         or `minParent`
+
+        - If "auto", then ``min_samples_split=sqrt(num_obs)``
+        - If int, then consider ``min_samples_split`` at each split.
+
     max_features : int, float, string, or None, optional (default="auto")
         The number of features or feature combinations to consider when
         looking for the best split.  Note: also called `mtry` or `d`.
