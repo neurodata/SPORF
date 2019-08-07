@@ -109,30 +109,33 @@ namespace fp {
 				treeStats();
 			}
 
-			inline int predictClass(std::vector<T>& observation){
-				std::cout<<"Not implemented for unsupervised forests\n";
+			inline int predictClass(std::vector<T> &observation)
+			{
+				std::cout << "Not implemented for unsupervised forests\n";
 				return 0;
 			}
 
-			inline int predictClass(const T* observation){
-				std::cout<<"Not implemented for unsupervised forests\n";
-        			return 0;
-                        }
-
-			inline float reportOOB(){
-				std::cout<<"Not implemented for unsupervised forests\n";
-				return 0;
-			}
-                        inline std::vector<int> predictClassPost(std::vector<T>& observation){
-				std::cout<<"Not implemented for unsupervised forests\n";
-                                return {};
-                        }
-
-			inline float testForest(){
-				std::cout<<"Not implemented for unsupervised forests\n";
+			inline int predictClass(const T *observation)
+			{
+				std::cout << "Not implemented for unsupervised forests\n";
 				return 0;
 			}
 
+			inline float reportOOB()
+			{
+				return 0;
+			}
+			
+			inline std::vector<int> predictClassPost(std::vector<T> &observation)
+			{
+				std::cout << "Not implemented for unsupervised forests\n";
+				return {};
+			}
+
+			inline float testForest()
+			{
+				return 0;
+			}
 	};
 
 }// namespace fp

@@ -46,10 +46,6 @@ namespace fp{
 					return bestSplitInfo.returnSplitValue();
 				}
 
-				inline int returnMaxClass(){
-					std::cout<<"Not applicable for unsupervised random forests. \n";
-					return 0;
-				}
 				inline void setBestSplit(splitURFInfo<T> tempSplit){
 					if(tempSplit.returnImpurity() >= 0){
 						if(tempSplit.returnImpurity() < bestSplitInfo.returnImpurity()){
@@ -152,6 +148,8 @@ namespace fp{
 							baseUnprocessedNodeUnsupervised<T>::rightIndices->addIndexToOutSamples(baseUnprocessedNodeUnsupervised<T>::obsIndices->returnOutSample(i));	
 						}
 					}
+					baseUnprocessedNodeUnsupervised<T>::leftIndices->setNodeImpurity(bestSplitInfo.returnImpurity());
+					baseUnprocessedNodeUnsupervised<T>::rightIndices->setNodeImpurity(bestSplitInfo.returnImpurity());
 					deleteObsIndices();
 				}
 
@@ -170,6 +168,7 @@ namespace fp{
 						}
 						removeTriedMtry();
 					}
+					
 				}
 
 				inline void removeTriedMtry(){

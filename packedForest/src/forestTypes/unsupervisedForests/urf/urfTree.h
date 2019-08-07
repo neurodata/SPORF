@@ -34,16 +34,12 @@ namespace fp{
 				}
 
 				inline bool shouldProcessNode(){
-					if(nodeQueue.back().returnNodeImpurity()<=0){
+					if(nodeQueue.back().returnNodeImpurity() < std::numeric_limits<T>::epsilon())
 						return false;
-					}
-					if(nodeQueue.back().returnInSampleSize() <= fpSingleton::getSingleton().returnMinParent()){
-						
-return false;
-					}
-                if(nodeQueue.back().returnDepth() >= fpSingleton::getSingleton().returnMaxDepth()){
-                          return false;
-                      }
+					if(nodeQueue.back().returnInSampleSize() <= fpSingleton::getSingleton().returnMinParent())
+						return false;
+                			if(nodeQueue.back().returnDepth() >= fpSingleton::getSingleton().returnMaxDepth())
+                          			return false;
 					return true;
 				}
 
@@ -72,12 +68,6 @@ return false;
 						}
 					}
 					return maxDepth;
-				}
-
-
-				inline int returnMaxClass(){
-					std::cout<<"Not applicable for unsupervised random forests.\n";
-					return 0;
 				}
 
 				inline int returnNumLeafNodes(){
@@ -158,14 +148,7 @@ return false;
 
 
 				inline void setAsLeaf(){
-					tree.back().setClass(nodeQueue.back().returnMaxClass());
 					tree.back().setDepth(nodeQueue.back().returnDepth());
-				}
-
-
-
-				inline void checkOOB(){
-					std::cout<<"Not applicable for unsupervised random forests.\n";
 				}
 
 
@@ -173,7 +156,6 @@ return false;
 					tree.emplace_back();
 					linkParentToChild();
 					setAsLeaf();
-					checkOOB();
 					leafNodes.emplace_back(nodeQueue.back());
 					nodeQueue.pop_back();
 				}

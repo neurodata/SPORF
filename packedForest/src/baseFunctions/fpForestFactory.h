@@ -22,9 +22,9 @@ namespace fp{
 					}else if(parameterName == "rerf"){
 						return std::unique_ptr<fpForestBase<T> >{new fpRerFBase<T>};
 					}else if(parameterName == "urf"){
-                                                return std::unique_ptr<fpForestBase<T> >{new fpURFBase<T>};
-                                        }else if(parameterName == "urerf"){
-                                                return std::unique_ptr<fpForestBase<T> >{new fpURerFBase<T>};
+						return std::unique_ptr<fpForestBase<T> >{new fpURFBase<T>};
+					}else if(parameterName == "urerf"){
+						return std::unique_ptr<fpForestBase<T> >{new fpURerFBase<T>};
 					}else if(parameterName == "binnedBase"){
 						return std::unique_ptr<fpForestBase<T> >{new binnedBase<T,int>};
 					}else if(parameterName == "binnedBaseRerF"){
