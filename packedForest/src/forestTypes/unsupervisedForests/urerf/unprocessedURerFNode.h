@@ -161,6 +161,8 @@ namespace fp{
 							baseUnprocessedNodeUnsupervised<T>::rightIndices->addIndexToOutSamples(baseUnprocessedNodeUnsupervised<T>::obsIndices->returnInSample(i));	
 						}
 					}
+					 baseUnprocessedNodeUnsupervised<T>::leftIndices->setNodeImpurity(bestSplitInfo.returnImpurity());
+                                        baseUnprocessedNodeUnsupervised<T>::rightIndices->setNodeImpurity(bestSplitInfo.returnImpurity());
 					deleteObsIndices();
 				}
 

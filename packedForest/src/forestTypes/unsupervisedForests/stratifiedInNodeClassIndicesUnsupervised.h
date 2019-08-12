@@ -5,10 +5,11 @@
 #include <random>
 #include <vector>
 #include <algorithm>
+#include <limits>
 
 namespace fp{
 
-	class stratifiedInNodeClassIndicesUnsupervised : public stratifiedInNodeClassIndices
+	class stratifiedInNodeClassIndicesUnsupervised
 	{
 		private:
 			std::vector<std::vector<int> > inSamples;
@@ -18,22 +19,18 @@ namespace fp{
 			std::vector<int> binSamples;
 			int inSampleSize;
 			int outSampleSize;
+			double impurity;
 
 			//TODO: the following functions would benefit from Vitter's Sequential Random Sampling
 		public:
-			stratifiedInNodeClassIndicesUnsupervised(): inSamples(fpSingleton::getSingleton().returnNumClasses()), outSamples(fpSingleton::getSingleton().returnNumClasses()), inSampleSize(0), outSampleSize(0){}
+			stratifiedInNodeClassIndicesUnsupervised(): inSampleSize(0), outSampleSize(0){}
 
 
-			stratifiedInNodeClassIndicesUnsupervised(const int &numObservationsInDataSet): inSamples(fpSingleton::getSingleton().returnNumClasses()), outSamples(fpSingleton::getSingleton().returnNumClasses()), inSampleSize(0), outSampleSize(0){
-
-				createInAndOutSets(numObservationsInDataSet);
-				for(auto inSampsClass : inSamples){
-					inSampleSize += inSampsClass.size();
-				}
-
-				for(auto outSamps1 : outSamples){
-					outSampleSize += outSamps1.size();
-				}
+			stratifiedInNodeClassIndicesUnsupervised(const int &numObservationsInDataSet): inSampleSize(0), outSampleSize(0){
+				impurity = 10; //initialize to an arbitrary non zero value
+				createInAndOutSetsBagging(numObservationsInDataSet, 0);
+				inSampleSize = inSamps.size();
+				outSampleSize = outSamps.size();
 			}
 
 
@@ -66,30 +63,45 @@ namespace fp{
 
 				for(int n=0; n<numUnusedObs; ++n){
 					outSamples[fpSingleton::getSingleton().returnLabel(potentialSamples[randomObsID])].push_back(potentialSamples[n]);
-				
 					outSamps.push_back(potentialSamples[n]);
 					}
 				
 			}
 
+			inline void createInAndOutSetsBagging(const int &numObs, float bagging){
+                                //TODO: We might want to refactor this when we move this over to the binned version.
+				std::vector<int> random_indices(numObs);
+				std::vector<int> random_indices2;
+				std::vector<int> random_indices3;
 
-			inline double returnImpurity(){
-				if(false){
-					unsigned int sumClassTotalsSquared = 0;
-					for(auto i : inSamples){
-						sumClassTotalsSquared+=i.size()*i.size();
-					}
-					return 1-double(sumClassTotalsSquared)/(inSampleSize*inSampleSize);
-				}else{
-					double impSum = 0;
-					double classPercent;
-					for(auto i : inSamples){
-						classPercent = double(i.size())/double(inSampleSize);
-
-						impSum += double(i.size())*(1.0-classPercent);
-					}
-					return impSum;
+				for(int i=0; i < numObs; ++i){
+					random_indices[i] = i;
 				}
+				std::random_shuffle(random_indices.begin(), random_indices.end());
+				int indx = (int) ((1-bagging)*(float)numObs);
+				int counter = 0;
+				for(auto i : random_indices)
+				{
+					if(counter < indx)
+						random_indices2.push_back(i);
+					else
+						random_indices3.push_back(i);
+					counter++;
+				}
+				
+				for(auto randomObsID : random_indices2)
+                                        inSamps.push_back(randomObsID);
+				for(auto randomObsID2 : random_indices3)
+					outSamps.push_back(randomObsID2);
+			}
+
+			inline void setNodeImpurity(double nodeImp){
+				if(nodeImp < std::numeric_limits<double>::epsilon())
+					nodeImp = 0;
+				impurity = nodeImp;
+			}
+			inline double returnImpurity(){
+				return impurity;
 			}
 
 			inline void printIndices(){
@@ -164,7 +176,7 @@ namespace fp{
 			}
 
 			inline void initializeBinnedSamples(){
-				if(useBin()){
+				/*if(useBin()){
 					int numInClass;
 					std::random_device random_device;
 					std::mt19937 engine{random_device()};
@@ -175,7 +187,7 @@ namespace fp{
 							binSamples.push_back(inSamples[i][dist(engine)]);
 						}
 					}
-				}
+				}*/
 			}
 
 
@@ -191,13 +203,11 @@ namespace fp{
 
 			inline void addIndexToOutSamples(int index){
 				++outSampleSize;
-				outSamples[fpSingleton::getSingleton().returnLabel(index)].push_back(index);
 				outSamps.push_back(index);
 			}
 
 			inline void addIndexToInSamples(int index){
 				++inSampleSize;
-				inSamples[fpSingleton::getSingleton().returnLabel(index)].push_back(index);
 				inSamps.push_back(index);
 			}
 	};//class stratifiedInNodeClassIndices

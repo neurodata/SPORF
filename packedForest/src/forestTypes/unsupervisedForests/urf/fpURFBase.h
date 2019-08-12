@@ -129,24 +129,25 @@ namespace fp {
 				return 0;
 			}
 
-			inline int predictClass(const T* observation){
-				std::cout<<"Not defined for unsupervised random forests. \n";
-        			return 0;
-                        }
-                        inline std::vector<int> predictClassPost(std::vector<T>& observation){
-				std::cout<<"Not defined for unsupervised random forests. \n";
-                                return {};
-                        }
-
-			inline float reportOOB(){
-				std::cout<<"Not defined for unsupervised random forests. \n";
+			inline int predictClass(const T *observation)
+			{
+				std::cout << "Not defined for unsupervised random forests. \n";
 				return 0;
 			}
-			inline float testForest(){
-				std::cout<<"Not defined for unsupervised random forests. \n";
-				return 0;
+			inline std::vector<int> predictClassPost(std::vector<T> &observation)
+			{
+				std::cout << "Not defined for unsupervised random forests. \n";
+				return {};
 			}
 
+			inline float reportOOB()
+			{
+				return 0;
+			}
+			inline float testForest()
+			{
+				return 0;
+			}
 	};
 
 }// namespace fp
