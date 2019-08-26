@@ -47,7 +47,7 @@ data(mnist)
 set.seed(317)
 
 invisible(compiler::enableJIT(3))
-numCores <- 8L#parallel::detectCores()
+numCores <- 4L#parallel::detectCores()
 ```
 
 ### Select a subset of 3's and 5's from MNIST
@@ -94,6 +94,15 @@ predRerF <- Predict(Xtest, forestRerF, num.cores = numCores)
 (mnist.error.rate <- mean(predRerF != Ytest))
 ```
 
+```{r trainRF, cache = TRUE}
+forestRF <- RerF(Xtrain, Ytrain, num.cores = numCores, FUN = RandMatRF,
+               paramList = list(p = p, d = d), max.depth = 8)
+
+
+predRF <- Predict(Xtest, forestRF, num.cores = numCores)
+(mnist.error.rate <- mean(predRF != Ytest))
+```
+
 ```{r featureImportance, cache = TRUE}
 system.time({
 FeatImpS <- FeatureImportance(forestS, num.cores = numCores, type = "C")
@@ -120,6 +129,19 @@ for(i in 1:length(FeatImpRerF$features)){
 
 NNr <- matrix(apply(nir, 2, sum) / nrow(nir), 28, 28, byrow = FALSE)
 saveRDS(NNr, file = "NNrerf.rds")
+
+system.time({
+FeatImpRF <- FeatureImportance(forestRF, num.cores = numCores, type = "C")
+})
+
+nirf <- matrix(0, length(FeatImpRF$features), ncol(Xtrain))
+
+for(i in 1:length(FeatImpRF$features)){
+  nirf[i, FeatImpRF$features[[i]]] <- FeatImpRF$imp[i]
+}
+
+NNrf <- matrix(apply(nirf, 2, sum) / nrow(nirf), 28, 28, byrow = FALSE)
+saveRDS(NNrf, file = "NNrf.rds")
 ```
 
 ### plot the average 3 and 5 from the training set
@@ -131,10 +153,25 @@ the5s <- Xtrain[Ytrain == 5, ]
 sum3 <- matrix(apply(the3s, 2, sum) / sum(Ytrain == 3), 28, 28, byrow = FALSE)
 sum5 <- matrix(apply(the5s, 2, sum) / sum(Ytrain == 5), 28, 28, byrow = FALSE)
 
-par(mfrow = c(1, 2))
-plot(raster(sum3), col = viridis(255), main = "avg 3", axes = FALSE, legend = FALSE)
-plot(raster(sum5), col = viridis(255), main = "avg 5", axes = FALSE, legend = FALSE)
-par(mfrow = c(1, 1))
+g <- expand.grid(x = 1:28, y = 1:28)
+gg <- rbind(g, g)
+
+nn <- as.vector(t(NN[28:1, ]))
+nnrerf <- as.vector(t(NNr[28:1, ]))
+nnrf <- as.vector(t(NNrf[28:1, ]))
+
+s3 <- as.vector(t(sum3[28:1,]))
+s5 <- as.vector(t(sum5[28:1,]))
+
+Z <- data.frame(g, z = c(nn, nnrerf, nnrf, s3, s5), Alg =  rep(c("MF", "Sporf", "RF", "Average 3", "Average 5"), each = length(nn)))
+
+sc0 <- scale_fill_gradientn(colours = viridis(255))
+sc1 <- scale_fill_gradientn(colours = inferno(255))
+
+a1 <- ggplot(data = Z[ Z$Alg == "Average 3",    ], aes(x = x, y = y, fill = z)) + geom_raster() + theme_void() + guides(fill = FALSE) + sc1 + ggtitle("Average 3")
+a2 <- ggplot(data = Z[ Z$Alg == "Average 5", ], aes(x = x, y = y, fill = z)) + geom_raster() + theme_void() + guides(fill = FALSE) + sc1 + ggtitle("Average 5")
+
+grid.arrange(a1, a2, ncol=2)
 ```
 
 
@@ -143,23 +180,24 @@ par(mfrow = c(1, 1))
 These are the features that S-RerF and RerF used, plotted as averaged heatmaps.
 
 ```{r featureImportanceMap, fig.width = 10, fig.height = 5}
-g <- expand.grid(x = 1:28, y = 1:28)
-gg <- rbind(g, g)
+p1 <- ggplot(data = Z[ Z$Alg == "MF",    ], aes(x = x, y = y, fill = z)) + geom_raster() + theme_void() + guides(fill = FALSE) + sc1+ ggtitle("MF")
+p2 <- ggplot(data = Z[ Z$Alg == "Sporf", ], aes(x = x, y = y, fill = z)) + geom_raster() + theme_void() + guides(fill = FALSE) + sc1+ ggtitle("Sporf")
+p3 <- ggplot(data = Z[ Z$Alg == "RF",    ], aes(x = x, y = y, fill = z)) + geom_raster() + theme_void() + guides(fill = FALSE) + sc1+ ggtitle("RF")
 
-nn <- as.vector(t(NN[28:1, ]))
-nnrerf <- as.vector(t(NNr[28:1, ]))
-
-Z <- data.frame(g, z = c(nn, nnrerf * 5), Alg =  rep(c("S-RerF", "RerF"), each = length(nn)))
-
-sc <- scale_fill_gradientn(colours = inferno(255))
-
-p1 <- ggplot(data = Z[ Z$Alg == "S-RerF", ], aes(x = x, y = y, fill = z)) + geom_raster() + theme_void() + guides(fill = FALSE) + sc + ggtitle("S-RerF")
-
-p2 <- ggplot(data = Z[ Z$Alg == "RerF", ], aes(x = x, y = y, fill = z)) + geom_raster() + theme_void() + guides(fill = FALSE) + sc + ggtitle("RerF")
-
-grid.arrange(p1, p2, ncol=2)
+grid.arrange(p1, p2, p3, ncol=3)
 ```
 
+
+```{r, echo = FALSE, include = FALSE}
+pdf(file = "feature_importances.pdf", w = 15, h = 5)
+grid.arrange(p1, p2, p3, ncol=3)
+dev.off()
+
+pdf(file = "Averages3_5.pdf", w = 10, h = 5)
+grid.arrange(a1, a2, ncol=2)
+dev.off()
+#ggslackr(grid.arrange(p1, p2, p3, ncol=3), channels="#manifold-forest")
+```
 
 <!--
 #   Time:
