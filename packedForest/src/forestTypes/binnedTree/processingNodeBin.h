@@ -227,6 +227,7 @@ namespace fp{
 
                         int tempSwap;
 
+                        // Sample w/o replacement numNodes number of times
                         for (int locationToMove = 0; locationToMove < numNodes[k]; locationToMove++)
                         {
                             int randomPosition = randNum->gen(imageWidth - locationToMove) + locationToMove;
@@ -237,8 +238,11 @@ namespace fp{
 
                         for (int i = 0; i < numNodes[k]; i++) {
                             // index magic here
-                            featuresToTry[k].returnFeatures().push_back();
-                            featuresToTry[k].returnWeights().push_back(1);
+                            for (int j = i + 1; j < numNodes[k]; j++) {
+                                int featureIndex = subsample[i] * imageWidth + subsample[j];
+                                featuresToTry[k].returnFeatures().push_back(featureIndex);
+                                featuresToTry[k].returnWeights().push_back(1);
+                            }
                         }
                 } // END randMatStructured
 
