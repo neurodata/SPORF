@@ -211,7 +211,7 @@ namespace fp{
 
                 inline void randMatGraphPatch(std::vector<weightedFeature> &featuresToTry, std::vector<int> numNodes)
                 {
-                    assert((int)(patchPositions[0].size()) == fpSingleton::getSingleton().returnMtry());
+                    assert((int)(numNodes.size()) == fpSingleton::getSingleton().returnMtry());
 
                     // Preset parameters
                     const int &imageWidth = fpSingleton::getSingleton().returnImageWidth();
@@ -244,6 +244,7 @@ namespace fp{
                                 featuresToTry[k].returnWeights().push_back(1);
                             }
                         }
+					}
                 } // END randMatStructured
 
                 inline void resetLeftNode(){
