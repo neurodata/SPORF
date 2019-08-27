@@ -72,6 +72,8 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
     feature_combinations : float, optional (default: 1.5)
         Average number of features combined to form a new feature when
         using "RerF."  Otherwise, ignored.
+        Each feature is independently included with probability
+        feature_combination / n_features.
     oob_score : bool (default=False)
         Whether to use out-of-bag samples to estimate the generalization accuracy.
         Note, setting to True currently runs our non-binned implementation
