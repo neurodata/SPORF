@@ -1,6 +1,6 @@
 #Compiler and Linker
 #CC          := g++-mp-4.7
-CC          := g++-8 -std=c++11
+CC          := g++ -std=c++11
 #CC          := g++-6 -std=c++11
 
 #The Target Binary Program
