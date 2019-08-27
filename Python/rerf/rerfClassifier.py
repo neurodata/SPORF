@@ -219,7 +219,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
             else:
                 forestType = "binnedBaseTern"
             self.method_to_use_ = 1
-        elif self.projection_matrix.isin(["S-RerF", "Graph-RerF"]):
+        elif self.projection_matrix in ["S-RerF", "Graph-RerF"]:
             if self.oob_score:
                 warn(
                     "OOB is not currently implemented for the S-RerF"
