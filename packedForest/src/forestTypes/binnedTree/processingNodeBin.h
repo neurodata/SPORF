@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <limits>
 #include <random>
+#include <numeric>
 
 namespace fp{
 
@@ -81,7 +82,7 @@ namespace fp{
 				inline void calcMtryForNode(std::vector<weightedFeature>& featuresToTry){
 					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
 					int methodToUse = fpSingleton::getSingleton().returnMethodToUse();
-					assert(methodToUse == 1 || methodToUse == 2);
+					assert(methodToUse == 1 || methodToUse == 2 || methodToUse == 3);
 
 					switch(methodToUse){
 						case 1:{
@@ -92,6 +93,9 @@ namespace fp{
 							randMatImagePatch(featuresToTry, paramsRandMatImagePatch());
 							break;
 							}
+                        case 3:{
+                            randMatGraphPatch(featuresToTry, paramsRandMatGraphPatch());
+                        }
 					}
 				}
 
@@ -175,8 +179,70 @@ namespace fp{
 					}
 				} // END randMatStructured
 
+				inline std::vector<int> paramsRandMatGraphPatch()
+				{
+					// Preset parameters
+					const int &imageHeight = fpSingleton::getSingleton().returnImageHeight();
+					const int &imageWidth = fpSingleton::getSingleton().returnImageWidth();
 
-				inline void resetLeftNode(){
+                    // Use height as placeholder for number of nodes to sample
+					const int &patchHeightMax = fpSingleton::getSingleton().returnPatchHeightMax();
+					const int &patchHeightMin = fpSingleton::getSingleton().returnPatchHeightMin();
+
+					// A vector of vectors that specifies the parameters
+					// for each patch: < <Height>, <Width>, <TopLeft> >
+					// std::vector<std::vector<int>> heightWidthTop(3, std::vector<int>(fpSingleton::getSingleton().returnMtry()));
+
+                    // A vector for sampling how many nodes to sample
+                    std::vector<int> numNodes(fpSingleton::getSingleton().returnMtry());
+
+                    // The weight is currently hard-coded to 1.
+
+					// Loop over mtry to load random node sizes
+					for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++)
+					{
+                        numNodes[k] = randNum->gen(patchHeightMax - patchHeightMin + 1) + patchHeightMin;
+                        //sample from [patchHeightMin, patchHeightMax]
+						// Using the above, 1-node patches are possible ... [J1C]
+					}
+
+                    return (numNodes);
+                } // End paramsRandMatGraphPatch
+
+                inline void randMatGraphPatch(std::vector<weightedFeature> &featuresToTry, std::vector<int> numNodes)
+                {
+                    assert((int)(patchPositions[0].size()) == fpSingleton::getSingleton().returnMtry());
+
+                    // Preset parameters
+                    const int &imageWidth = fpSingleton::getSingleton().returnImageWidth();
+
+                    for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++)
+                    {
+                        // for each element in numNodes
+                        // sample w/o replacement
+                        // add the index to featuresToTry matrix?
+                        // add 1 to the weights
+                        std::vector<int> subsample(imageWidth);
+                        std::iota(std::begin(subsample), std::end(subsample), 0);
+
+                        int tempSwap;
+
+                        for (int locationToMove = 0; locationToMove < numNodes[k]; locationToMove++)
+                        {
+                            int randomPosition = randNum->gen(imageWidth - locationToMove) + locationToMove;
+                            tempSwap = subsample[locationToMove];
+                            subsample[locationToMove] = subsample[randomPosition];
+                            subsample[randomPosition] = tempSwap;
+                        }
+
+                        for (int i = 0; i < numNodes[k]; i++) {
+                            // index magic here
+                            featuresToTry[k].returnFeatures().push_back();
+                            featuresToTry[k].returnWeights().push_back(1);
+                        }
+                } // END randMatStructured
+
+                inline void resetLeftNode(){
 					propertiesOfLeftNode.resetClassTotals();
 				}
 
