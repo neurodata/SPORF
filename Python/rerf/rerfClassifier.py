@@ -219,7 +219,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
             else:
                 forestType = "binnedBaseTern"
             self.method_to_use_ = 1
-        elif self.projection_matrix in ["S-RerF", "Graph-RerF"]:
+        elif self.projection_matrix in ["S-RerF", "Graph-Node-RerF", "Graph-Edge-RerF"]:
             if self.oob_score:
                 warn(
                     "OOB is not currently implemented for the S-RerF"
@@ -232,8 +232,10 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
             forestType = "binnedBaseTern"  # this should change
             if self.projection_matrix == "S-RerF":
                 self.method_to_use_ = 2
-            else:
+            elif self.projection_matrix == "Graph-Node-RerF":
                 self.method_to_use_ = 3
+            else:
+                self.method_to_use_ = 4
 
             # Check that image_height and image_width are divisors of
             # the num_features.  This is the most we can do to
