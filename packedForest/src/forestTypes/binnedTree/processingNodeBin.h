@@ -312,7 +312,7 @@ namespace fp{
 
                         for (int i = 0; i < nodeNumEdges[1][k]; i++)
                         {
-                            int featureIndex = nodeNumEdges[0][k] * imageWidth + subsample[j];
+                            int featureIndex = nodeNumEdges[0][k] * imageWidth + subsample[i];
                             featuresToTry[k].returnFeatures().push_back(featureIndex);
                             featuresToTry[k].returnWeights().push_back(1);
                         }
