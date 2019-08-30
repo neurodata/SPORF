@@ -234,7 +234,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
                 self.method_to_use_ = 2
             elif self.projection_matrix == "Graph-Node-RerF":
                 self.method_to_use_ = 3
-            else:
+            elif self.projection_matrix == "Graph-Edge-RerF":
                 self.method_to_use_ = 4
 
             # Check that image_height and image_width are divisors of
