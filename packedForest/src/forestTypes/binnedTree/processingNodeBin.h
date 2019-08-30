@@ -82,7 +82,7 @@ namespace fp{
 				inline void calcMtryForNode(std::vector<weightedFeature>& featuresToTry){
 					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
 					int methodToUse = fpSingleton::getSingleton().returnMethodToUse();
-					assert(methodToUse == 1 || methodToUse == 2 || methodToUse == 3);
+					assert(methodToUse == 1 || methodToUse == 2 || methodToUse == 3 || methodToUse == 4);
 
 					switch(methodToUse){
 						case 1:{
@@ -94,7 +94,12 @@ namespace fp{
 							break;
 							}
                         case 3:{
-                            randMatGraphPatch(featuresToTry, paramsRandMatGraphPatch());
+                            randMatGraphNodePatch(featuresToTry, paramsRandMatGraphPatch());
+                            break;
+                        }
+                        case 4:{
+                            randMatGraphEdgePatch(featuresToTry, paramsRandMatGraphEdgePatch());
+                            break;
                         }
 					}
 				}
@@ -179,7 +184,7 @@ namespace fp{
 					}
 				} // END randMatStructured
 
-				inline std::vector<int> paramsRandMatGraphPatch()
+				inline std::vector<int> paramsRandMatGraphNodePatch()
 				{
 					// Preset parameters
 					const int &imageHeight = fpSingleton::getSingleton().returnImageHeight();
@@ -209,7 +214,7 @@ namespace fp{
                     return (numNodes);
                 } // End paramsRandMatGraphPatch
 
-                inline void randMatGraphPatch(std::vector<weightedFeature> &featuresToTry, std::vector<int> numNodes)
+                inline void randMatGraphNodePatch(std::vector<weightedFeature> &featuresToTry, std::vector<int> numNodes)
                 {
                     assert((int)(numNodes.size()) == fpSingleton::getSingleton().returnMtry());
 
@@ -269,7 +274,7 @@ namespace fp{
                     // Loop over mtry to load random node sizes
                     for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++)
                     {
-                        nodeNumEdges[0][k] = randNum->gen(imageHeight)
+                        nodeNumEdges[0][k] = randNum->gen(imageHeight);
                         nodeNumEdges[1][k] = randNum->gen(patchHeightMax - patchHeightMin + 1) + patchHeightMin;
                         //sample from [patchHeightMin, patchHeightMax]
                         // Using the above, 1-node patches are possible ... [J1C]
@@ -278,7 +283,7 @@ namespace fp{
                     return (nodeNumEdges);
                 } // End paramsRandMatGraphEdgePatch
 
-                inline void randMatEdgePatch(std::vector<weightedFeature> &featuresToTry, std::vector<std::vector<int>> nodeNumEdges)
+                inline void randMatGraphEdgePatch(std::vector<weightedFeature> &featuresToTry, std::vector<std::vector<int>> nodeNumEdges)
                 {
                     assert((int)(nodeNumEdges.size()) == fpSingleton::getSingleton().returnMtry());
 
