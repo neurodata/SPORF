@@ -94,7 +94,7 @@ namespace fp{
 							break;
 							}
                         case 3:{
-                            randMatGraphNodePatch(featuresToTry, paramsRandMatGraphPatch());
+                            randMatGraphNodePatch(featuresToTry, paramsRandMatGraphNodePatch());
                             break;
                         }
                         case 4:{
