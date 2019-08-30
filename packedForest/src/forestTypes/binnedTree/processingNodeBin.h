@@ -247,6 +247,73 @@ namespace fp{
 					}
                 } // END randMatStructured
 
+                inline std::vector<std::vector<int>> paramsRandMatGraphEdgePatch()
+                {
+                    // Preset parameters
+                    const int &imageHeight = fpSingleton::getSingleton().returnImageHeight();
+                    const int &imageWidth = fpSingleton::getSingleton().returnImageWidth();
+
+                    // Use height as placeholder for number of nodes to sample
+                    const int &patchHeightMax = fpSingleton::getSingleton().returnPatchHeightMax();
+                    const int &patchHeightMin = fpSingleton::getSingleton().returnPatchHeightMin();
+
+                    // A vector of vectors that specifies the parameters
+                    // for each patch: < <Height>, <Width>, <TopLeft> >
+                    // std::vector<std::vector<int>> heightWidthTop(3, std::vector<int>(fpSingleton::getSingleton().returnMtry()));
+
+                    // for each patch: < <whichNode>, <numEdges> >
+                    std::vector<std::vector<int>> nodeNumEdges(2, std::vector<int>(fpSingleton::getSingleton().returnMtry()));
+
+                    // The weight is currently hard-coded to 1.
+
+                    // Loop over mtry to load random node sizes
+                    for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++)
+                    {
+                        nodeNumEdges[0][k] = randNum->gen(imageHeight)
+                        nodeNumEdges[1][k] = randNum->gen(patchHeightMax - patchHeightMin + 1) + patchHeightMin;
+                        //sample from [patchHeightMin, patchHeightMax]
+                        // Using the above, 1-node patches are possible ... [J1C]
+                    }
+
+                    return (nodeNumEdges);
+                } // End paramsRandMatGraphEdgePatch
+
+                inline void randMatEdgePatch(std::vector<weightedFeature> &featuresToTry, std::vector<std::vector<int>> nodeNumEdges)
+                {
+                    assert((int)(nodeNumEdges.size()) == fpSingleton::getSingleton().returnMtry());
+
+                    // Preset parameters
+                    const int &imageWidth = fpSingleton::getSingleton().returnImageWidth();
+
+                    for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++)
+                    {
+                        // for each element in numEdges
+                        // sample w/o replacement from 1..imageWidth
+                        // add the index to featuresToTry matrix?
+                        // add 1 to the weights
+                        std::vector<int> subsample(imageWidth);
+                        std::iota(std::begin(subsample), std::end(subsample), 0);
+
+                        int tempSwap;
+
+                        // Sample w/o replacement numEdges number of times
+                        for (int locationToMove = 0; locationToMove < nodeNumEdges[1][k]; locationToMove++)
+                        {
+                            int randomPosition = randNum->gen(imageWidth - locationToMove) + locationToMove;
+                            tempSwap = subsample[locationToMove];
+                            subsample[locationToMove] = subsample[randomPosition];
+                            subsample[randomPosition] = tempSwap;
+                        }
+
+                        for (int i = 0; i < nodeNumEdges[1][k]; i++)
+                        {
+                            int featureIndex = nodeNumEdges[0][k] * imageWidth + subsample[j];
+                            featuresToTry[k].returnFeatures().push_back(featureIndex);
+                            featuresToTry[k].returnWeights().push_back(1);
+                        }
+                    }
+                } // END randMatStructured
+
                 inline void resetLeftNode(){
 					propertiesOfLeftNode.resetClassTotals();
 				}
