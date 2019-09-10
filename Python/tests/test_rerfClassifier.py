@@ -2,6 +2,7 @@
 # https://github.com/scikit-learn-contrib/project-template/blob/master/skltemplate/tests/test_template.py
 
 import math
+import re
 
 import numpy as np
 import pytest
@@ -227,5 +228,7 @@ def test_labels():
         clf.fit(X, y)
 
     y[-1] = 10
-    with pytest.raises(ValueError, match="Labels must not contain missing values"):
+    with pytest.raises(
+        ValueError, match=re.escape("Labels must be contiguous from [0, k-1]")
+    ):
         clf.fit(X, y)

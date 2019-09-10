@@ -196,7 +196,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         # Check that labels are an inclusive range
         y_set = set(y)
         if len(y_set) - 1 < max(y_set):
-            raise ValueError("Labels must not contain missing values")
+            raise ValueError("Labels must be contiguous from [0, k-1]")
 
         y = np.atleast_1d(y)
         if y.ndim == 2 and y.shape[1] == 1:
