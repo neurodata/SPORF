@@ -2,6 +2,7 @@
 # https://github.com/scikit-learn-contrib/project-template/blob/master/skltemplate/tests/test_template.py
 
 import math
+import re
 
 import numpy as np
 import pytest
@@ -204,3 +205,30 @@ def test_iris_OOB(projection_matrix):
     clf.fit(iris_full.data, iris_full.target)
 
     assert 0.9 <= clf.oob_score_ < 1
+
+
+def test_labels():
+    """Test to make sure our label validation works"""
+
+    clf = rerfClassifier(n_estimators=5)
+
+    n_obs = 100
+    n_features = 2
+    X = np.random.rand(n_obs, n_features)
+    y = np.zeros(100)
+
+    # just to make sure we can fit and predict
+    y[-1] = 1
+    clf.fit(X, y)
+    y_pred = clf.predict(X)
+    assert len(y_pred) == n_obs
+
+    y[-1] = -1
+    with pytest.raises(ValueError, match="Labels must start from 0"):
+        clf.fit(X, y)
+
+    y[-1] = 10
+    with pytest.raises(
+        ValueError, match=re.escape("Labels must be contiguous from [0, k-1]")
+    ):
+        clf.fit(X, y)
