@@ -38,7 +38,7 @@ Make sure you have the appropriate build tools
 
 ::
 
-    sudo apt-get install build-essential cmake python3-dev libomp-dev   # Ubuntu/Debian
+    sudo apt-get install build-essential cmake python3-dev libomp-dev libeigen3-dev   # Ubuntu/Debian
 
 .. _mac:
 
@@ -71,6 +71,12 @@ Mac
   ::
 
       brew install llvm
+- Get eigen
+
+  ::
+  
+      brew install eigen
+
 - Set up paths to use llvm's ``clang``
 
   ::
