@@ -174,18 +174,24 @@ plot the average 3 and 5 from the training set
 
    s3 <- as.vector(t(sum3[28:1,]))
    s5 <- as.vector(t(sum5[28:1,]))
+   s3m5 <- abs(s3 - s5)
 
-   Z <- data.frame(g, z = c(nn, nnrerf, nnrf, s3, s5), Alg =  rep(c("MF", "Sporf", "RF", "Average 3", "Average 5"), each = length(nn)))
+   Z <- data.frame(g, weight = c(nn, nnrerf, nnrf, s3, s5, s3m5), Alg =  rep(c("MF", "Sporf", "RF", "Average 3", "Average 5", "x3m5"), each = length(nn)))
 
    sc0 <- scale_fill_gradientn(colours = viridis(255))
    sc1 <- scale_fill_gradientn(colours = inferno(255))
 
-   a1 <- ggplot(data = Z[ Z$Alg == "Average 3",    ], aes(x = x, y = y, fill = z)) + geom_raster() + theme_void() + guides(fill = FALSE) + sc1 + ggtitle("Average 3")
-   a2 <- ggplot(data = Z[ Z$Alg == "Average 5", ], aes(x = x, y = y, fill = z)) + geom_raster() + theme_void() + guides(fill = FALSE) + sc1 + ggtitle("Average 5")
+   a1 <- ggplot(data = Z[ Z$Alg == "Average 3",    ], aes(x = x, y = y, fill = weight)) + geom_raster() + theme_void() + guides(fill = FALSE) + sc1 + ggtitle("Average 3")
+   a2 <- ggplot(data = Z[ Z$Alg == "Average 5", ], aes(x = x, y = y, fill = weight)) + geom_raster() + theme_void() + guides(fill = FALSE) + sc1 + ggtitle("Average 5")
+   a3 <- ggplot(data = Z[ Z$Alg == "x3m5", ], aes(x = x, y = y, fill = weight)) + geom_raster() + theme_void() + guides(fill = FALSE) + sc1 + ggtitle("abs(avg(3) - avg(5))")
 
-   grid.arrange(a1, a2, ncol=2)
+   grid.arrange(a1, a2, a3, ncol=3)
 
 |image0|\ 
+
+.. code:: r
+
+   #ggslackr(grid.arrange(a1, a2, a3, ncol=3), channels="#manifold-forest")
 
 Feature heatmap
 ---------------
@@ -195,9 +201,9 @@ heatmaps.
 
 .. code:: r
 
-   p1 <- ggplot(data = Z[ Z$Alg == "MF",    ], aes(x = x, y = y, fill = z)) + geom_raster() + theme_void() + guides(fill = FALSE) + sc1+ ggtitle("MF")
-   p2 <- ggplot(data = Z[ Z$Alg == "Sporf", ], aes(x = x, y = y, fill = z)) + geom_raster() + theme_void() + guides(fill = FALSE) + sc1+ ggtitle("Sporf")
-   p3 <- ggplot(data = Z[ Z$Alg == "RF",    ], aes(x = x, y = y, fill = z)) + geom_raster() + theme_void() + guides(fill = FALSE) + sc1+ ggtitle("RF")
+   p1 <- ggplot(data = Z[ Z$Alg == "MF",    ], aes(x = x, y = y, fill = weight)) + geom_raster() + theme_void() + sc1 + ggtitle("MF")
+   p2 <- ggplot(data = Z[ Z$Alg == "Sporf", ], aes(x = x, y = y, fill = weight)) + geom_raster() + theme_void() + sc1 + ggtitle("Sporf")
+   p3 <- ggplot(data = Z[ Z$Alg == "RF",    ], aes(x = x, y = y, fill = weight)) + geom_raster() + theme_void() + sc1 + ggtitle("RF")
 
    grid.arrange(p1, p2, p3, ncol=3)
 
