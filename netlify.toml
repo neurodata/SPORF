@@ -19,3 +19,4 @@
 [[redirects]]
   from = "https://rerf.neurodata.io/*"
   to = "https://sporf.neurodata.io/*"
+  force = true 
