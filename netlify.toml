@@ -15,3 +15,7 @@
 
   # Directory with the serverless Lambda functions to deploy to AWS.
   # functions = "project/functions/"
+
+[[redirects]]
+  from = "https://rerf.neurodata.io/*"
+  to = "https://sporf.neurodata.io/*"
