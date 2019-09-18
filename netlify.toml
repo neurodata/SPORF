@@ -19,3 +19,5 @@
 [[redirects]]
   from = "https://rerf.neurodata.io/*"
   to = "https://sporf.neurodata.io/*"
+  status = 301
+  force = true 
