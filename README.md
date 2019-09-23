@@ -11,7 +11,7 @@
 
 SPORF -- sparse projection oblique randomer forests (aka RerF, Randomer Forest or Random Projection Forests) -- is an algorithm developed by [Tomita et al. (2016)](https://arxiv.org/abs/1506.03410) which is similar to Random Forest-Random Combination (Forest-RC) developed by [Breiman (2001)](https://doi.org/10.1023/A:1010933404324).
 
-The difference between the two algorithms is where the random linear combinations occur: Forest-RC combines features at the tree level whereas RerF combines features at the node level.
+The difference between the two algorithms is where the random linear combinations occur: Forest-RC combines features at the tree level whereas SPORF combines features at the node level.
 
 
 # Packages 
