@@ -22,5 +22,5 @@ The difference between the two algorithms is where the random linear combination
 ### [Py-RerF](Python/README.md)
 - Python bindings to packedForest.
 
-## [R-RerF](R-Project/README.md)
-- The R and C++ implemetation of RerF.
+## [R-SPORF](R-Project/README.md)
+- The R and C++ implemetation of SPORF.
