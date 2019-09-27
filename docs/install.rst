@@ -2,7 +2,7 @@ Install
 =======
 
 Below we assume you have the default Python environment already configured on
-your computer and you intend to install *RerF* inside of it.  We strongly 
+your computer and you intend to install *SPORF* inside of it.  We strongly 
 encourage the use of Python virtual environments, please follow instructions
 on `venv <https://docs.python.org/3/library/venv.html>`_ and `virtual
 environments <http://docs.python-guide.org/en/latest/dev/virtualenvs/>`_.
@@ -11,7 +11,7 @@ Make sure you have the latest version of ``pip`` (the Python package manager)
 installed. If you do not, refer to the `Pip documentation
 <https://pip.pypa.io/en/stable/installing/>`_ and install ``pip`` first.
 
-Currently *RerF* is available on :ref:`Linux <linux>` and :ref:`MacOS <mac>`.
+Currently *SPORF* is available on :ref:`Linux <linux>` and :ref:`MacOS <mac>`.
 
 From PyPI
 ---------
