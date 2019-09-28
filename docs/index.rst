@@ -6,12 +6,12 @@
 Welcome to RerF_'s documentation!
 =================================
 
-.. _RerF: https://neurodata.io/rerf
+.. _RerF: https://neurodata.io/sporf
 
-To learn more about RerF, visit `neurodata.io/rerf`_ or `github`_.
+To learn more about RerF, visit `neurodata.io/sporf`_ or `github`_.
 
 .. _github: https://github.com/neurodata/RerF
-.. _`neurodata.io/rerf`: https://neurodata.io/rerf
+.. _`neurodata.io/sporf`: https://neurodata.io/sporf
 
 
 .. toctree::
