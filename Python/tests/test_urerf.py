@@ -36,3 +36,12 @@ def test_urerf(projection_matrix):
     predict_labels = cluster.fit_predict(sim_mat)
     score = adjusted_rand_score(y, predict_labels)
     assert score > 0.9
+    
+    // adding K-Means Clustering for comparison.
+    cluster = KMeans(n_clusters= i)
+    predict_labels = cluster.fit_predict(sim_mat)
+    score = adjusted_rand_score(Y, predict_labels)
+    assert score > 0.9
+    
+    
+    
