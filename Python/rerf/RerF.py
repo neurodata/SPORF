@@ -138,10 +138,8 @@ def fastRerF(
     elif X is not None and Y is not None:
         # explicitly say we are using rowMajor
         forestClass.setParameter("useRowMajor", 1)
-
-        num_obs = len(Y)
-        num_features = X.shape[1]
-        forestClass._growForestnumpy(X, Y, num_obs, num_features)
+        
+        forestClass._growForestnumpy(X, Y, len(Y), X.shape[1])
 
     return forestClass
 
