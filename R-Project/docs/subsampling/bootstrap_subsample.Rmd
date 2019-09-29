@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
 # Random Forest Bootstrap vs Subsampling
-Consider the usual Random Forest/RerF algorithm where samples are bagged in order to reduce variance. This experiment compares the performance of RF/RerF algorithm when samples are bagged and subsampled (no bagging). When subsampling, we consider $1 - \frac{1}{e} \approx 0.632$ number of samples.
+Consider the usual Random Forest/RerF(SPORF) algorithm where samples are bagged in order to reduce variance. This experiment compares the performance of RF/RerF(SPORF) algorithm when samples are bagged and subsampled (no bagging). When subsampling, we consider $1 - \frac{1}{e} \approx 0.632$ number of samples.
 
 # Running RF
 Variables swept over:
