@@ -13,11 +13,15 @@ from rerf.RerF import fastPredict, fastPredictPost, fastRerF
 datatype = "iris"
 # datatype = "mnist"
 
+# To find your "RerF" directory and your username (i.e. "mailinux") in Linux, type: 
+# sudo find / -type d -name "RerF"
+# in the Ubuntu Terminal
+# Change the code 'mailinux' to your username
 if datatype == "iris":
-    datafile = "../packedForest/res/iris.csv"
+    datafile = "../../../../../home/mailinux/RerF/packedForest/res/iris.csv"
     label_col = 4
 elif datatype == "mnist":
-    datafile = "../packedForest/res/mnist.csv"
+    datafile = "../../../../../home/mailinux/RerF/packedForest/res/mnist.csv" 
     label_col = 0
 
 print("loading data...")
@@ -57,9 +61,9 @@ print("Error rate", np.mean(predictions != labels))
 print("loading test data...")
 
 if datatype == "iris":
-    data_fname = "../packedForest/res/iris.csv"  # iris
+    data_fname = "../../../../../home/mailinux/RerF/packedForest/res/iris.csv"  # iris
 elif datatype == "mnist":
-    data_fname = "../packedForest/res/mnist_test.csv"  # mnist
+    data_fname = "../../../../../home/mailinux/RerF/packedForest/res/mnist_test.csv"  # mnist
 test_X = np.genfromtxt(data_fname, delimiter=",")
 
 print("data loaded")
