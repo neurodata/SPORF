@@ -45,8 +45,7 @@ def fastRerF(
     minParent : int, optional
         (default: 1)
     maxDepth : int, optional
-        maxDepth (default: None).  If None, set to max system supported
-        value
+        maxDepth (default: None).  If None, set to the value supported by max system
     numCores : int, optional
         Number of cores to use (default: 1).
     mtry : int, optional
