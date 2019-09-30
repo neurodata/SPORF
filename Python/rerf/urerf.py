@@ -115,7 +115,7 @@ class UnsupervisedRandomForest(BaseEstimator):
         n_estimators=100,
         max_depth=None,
         min_samples_split="auto",
-        max_features="auto",
+        mtry="auto",
         feature_combinations="auto",
         n_jobs=None,
         random_state=None,
@@ -124,7 +124,7 @@ class UnsupervisedRandomForest(BaseEstimator):
         self.n_estimators = n_estimators
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
-        self.max_features = max_features
+        self.mtry = mtry
         self.feature_combinations = feature_combinations
         self.n_jobs = n_jobs
         self.random_state = random_state
@@ -185,16 +185,16 @@ class UnsupervisedRandomForest(BaseEstimator):
         self.forest_.setParameter("seed", self.random_state_)
 
         # need to set mtry here (using max_features and calc num_features):
-        if self.max_features in ("auto", "sqrt"):
+        if self.mtry in ("auto", "sqrt"):
             self.mtry_ = int(num_features ** (1 / 2))
-        elif self.max_features is None:
+        elif self.mtry is None:
             self.mtry_ = num_features
-        elif self.max_features == "log2":
+        elif self.mtry == "log2":
             self.mtry_ = int(np.log2(num_features))
-        elif isinstance(self.max_features, int):
-            self.mtry_ = self.max_features
-        elif isinstance(self.max_features, float) and 0 <= self.max_features <= 1:
-            self.mtry_ = int(self.max_features * num_features)
+        elif isinstance(self.mtry, int):
+            self.mtry_ = self.mtry
+        elif isinstance(self.mtry, float) and 0 <= self.mtry <= 1:
+            self.mtry_ = int(self.mtry * num_features)
         else:
             raise ValueError("max_features has unexpected value")
         self.forest_.setParameter("mtry", self.mtry_)
