@@ -73,6 +73,8 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
     feature_combinations : float, optional (default: 1.5)
         Average number of features combined to form a new feature when
         using "RerF."  Otherwise, ignored.
+        Each feature is independently included with probability
+        feature_combination / n_features.
     oob_score : bool (default=False)
         Whether to use out-of-bag samples to estimate the generalization accuracy.
         Note, setting to True currently runs our non-binned implementation
@@ -187,6 +189,15 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         # Check that X and y have correct shape
         X, y = check_X_y(X, y)
         num_features = X.shape[1]
+
+        # Check that labels are starting from 0
+        if min(y) != 0:
+            raise ValueError("Labels must start from 0")
+
+        # Check that labels are an inclusive range
+        y_set = set(y)
+        if len(y_set) - 1 < max(y_set):
+            raise ValueError("Labels must be contiguous from [0, k-1]")
 
         y = np.atleast_1d(y)
         if y.ndim == 2 and y.shape[1] == 1:

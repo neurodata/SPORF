@@ -5,6 +5,7 @@
 [![CRAN Status Badge](https://www.r-pkg.org/badges/version/rerf)](https://cran.r-project.org/package=rerf)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2595524.svg)](https://doi.org/10.5281/zenodo.2595524)
 [![dockerhub](https://img.shields.io/badge/Hub.Docker-NeuroData%3ARerF-%232181E7.svg)](https://hub.docker.com/r/neurodata/rerf)
+[![Gigantum](https://img.shields.io/badge/Gigantum-View%20Project-593C5E?link=https://gigantum.com&link=https://gigantum.com/neurodata/sporf-demo)](https://gigantum.com/neurodata/sporf-demo)
 ![Downloads shield](https://img.shields.io/pypi/dm/rerf.svg)
 
 
