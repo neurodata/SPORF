@@ -44,7 +44,8 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         The random combination of features to use: either "RerF", "Base", or
         "S-RerF".  "RerF" randomly combines features for each `mtry`. Base
         is our implementation of Random Forest. "S-RerF" is structured RerF,
-        combining multiple features together in random patches.
+        combining multiple features together in random patches. "Graph-Node-MORF" 
+        and "Graph-Edge-MORF" is MORF for graph valued data.
         See Tomita et al. (2016) [#Tomita]_ for further details.
     n_estimators : int, optional (default: 500)
         Number of trees in forest.
@@ -219,7 +220,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
             else:
                 forestType = "binnedBaseTern"
             self.method_to_use_ = 1
-        elif self.projection_matrix in ["S-RerF", "Graph-Node-RerF", "Graph-Edge-RerF"]:
+        elif self.projection_matrix in ["S-RerF", "Graph-Node-MORF", "Graph-Edge-MORF"]:
             if self.oob_score:
                 warn(
                     "OOB is not currently implemented for the S-RerF"
@@ -232,9 +233,9 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
             forestType = "binnedBaseTern"  # this should change
             if self.projection_matrix == "S-RerF":
                 self.method_to_use_ = 2
-            elif self.projection_matrix == "Graph-Node-RerF":
+            elif self.projection_matrix == "Graph-Node-MORF":
                 self.method_to_use_ = 3
-            elif self.projection_matrix == "Graph-Edge-RerF":
+            elif self.projection_matrix == "Graph-Edge-MORF":
                 self.method_to_use_ = 4
 
             # Check that image_height and image_width are divisors of
