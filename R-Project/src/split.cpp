@@ -129,21 +129,21 @@ List findSplitSim(const NumericVector x, arma::mat y, const int & ndSize, const 
 
     bsct = 0;
     yl = 0;
-    yr = I*(ndSize*(ndSize-1)/(float)2 + ndSize);
+    yr = I*ndSize*ndSize/(float)2;
 
     // iterate over split locations from left to right
     for (int i = 0; i < ndSize - 1; ++i) {
 			xl = x[i];
 			xr = x[i+1];
-			yl += arma::accu(y(arma::span(0,i),i));
-			yr -= arma::accu(y(arma::span(i,ndSize-1),i));
+			yl += (arma::accu(y(arma::span(0,i-1),i)) + 1/float(2));
+			yr += -(arma::accu(y(arma::span(i+1,ndSize-1),i)) + 1/float(2));
 
 			if (xl == xr) {
 		    continue;
 			} else {
 		    nl = i + 1;
 		    nr = ndSize - nl;
-		    dI = yl/(ndSize*((nl-1)/(float)2 + 1)) + yr/(ndSize*((nr-1)/(float)2 + 1)) - I;
+		    dI = yl/(ndSize*nl/(float)2) + yr/(ndSize*nr/(float)2) - I;
 		    if (dI > maxdI) {
 					// save current best split information
 					bsidx[0] = i + 1;

@@ -187,7 +187,7 @@ BuildSimTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, r
   while (CurrentNode < NextUnusedNode) {
     NdSize <- length(Assigned2Node[[CurrentNode]]) # determine node size
     # compute impurity for current node
-    I <- mean(Y[Assigned2Node[[CurrentNode]], Assigned2Node[[CurrentNode]]][lower.tri(Y[Assigned2Node[[CurrentNode]], Assigned2Node[[CurrentNode]]], diag = TRUE)])
+    I <- (NdSize/2 + sum(Y[Assigned2Node[[CurrentNode]], Assigned2Node[[CurrentNode]]][lower.tri(Y[Assigned2Node[[CurrentNode]], Assigned2Node[[CurrentNode]]])]))/(NdSize^2/2)
     # check to see if we should continue with a node split or just make a leaf node
     if (NdSize < min.parent ||
       I >= (1 - eps) ||
