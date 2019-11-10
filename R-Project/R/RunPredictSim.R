@@ -102,9 +102,9 @@ RunPredictSim <-
       }
     }
 
-    ### If square, make output matrix symmetric
+    ### If similarities are made within the same set, make output matrix symmetric
     ### TODO: this could be made into a class similar to base::dist
-    if (dim(predictions)[1] == dim(predictions)[2]) {
+    if (is.null(Xtrain)) {
       predictions[upper.tri(predictions)] <- t(predictions)[upper.tri(predictions)]
     }
     return(predictions)
