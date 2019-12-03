@@ -317,7 +317,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
             self.mtry_ = int(np.log2(num_features))
         elif isinstance(self.max_features, int):
             self.mtry_ = self.max_features
-        elif isinstance(self.max_features, float) and 0 <= self.max_features <= 1:
+        elif isinstance(self.max_features, float) and self.max_features > 0:
             self.mtry_ = int(self.max_features * num_features)
         else:
             raise ValueError("max_features has unexpected value")
