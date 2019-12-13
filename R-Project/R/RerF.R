@@ -24,6 +24,7 @@
 #' @param task string specifies whether 'classification', 'regression', or 'similarity' should be run (task='classification').
 #' @param rfPack boolean flag to determine whether to pack a random forest in order to improve prediction speed.  This flag is only applicable when training a forest with the "rf" option.  (rfPack = FALSE)
 #' @param eps a scalar between 0 and 1. A leaf node is designated if the mean node similarity is at least 1 - eps. Only used if task is 'similarity' (eps=0.05)
+#' @param honesty if TRUE then OOB samples will be used for local leaf node estimates (honesty=FALSE).
 #'
 #' @return forest
 #'
@@ -114,7 +115,7 @@ RerF <-
              rotate = FALSE, num.cores = 0L,
              seed = sample(0:100000000, 1),
              cat.map = NULL, rfPack = FALSE,
-             task = "classification", eps = 0.05) {
+             task = "classification", eps = 0.05, honesty = FALSE) {
 
     # The below 'na.action' was removed from the parameter list of RerF because the CRAN check did not accept it and because it will potentially change the X and Y input by the user.
     # na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] },
@@ -221,7 +222,8 @@ RerF <-
           store.oob = store.oob,
           store.impurity = store.impurity,
           progress = progress,
-          rotate = rotate
+          rotate = rotate,
+          honesty = honesty
         )
       } else if (task == "similarity") {
         BuildSimTree(
@@ -238,7 +240,8 @@ RerF <-
           store.impurity = store.impurity,
           progress = progress,
           rotate = rotate,
-          eps = eps
+          eps = eps,
+          honesty = honesty
         )
       } else if (task == "regression") {
         stratify <- NULL # not applicable to regression
@@ -254,7 +257,8 @@ RerF <-
           store.oob = store.oob,
           store.impurity = store.impurity,
           progress = progress,
-          rotate = rotate
+          rotate = rotate,
+          honesty = honesty
         )
       }
     }
@@ -275,7 +279,8 @@ RerF <-
       task = task,
       eps = if (task == "similarity") {
         eps
-      }
+      },
+      honesty = honesty
     )
 
     if (num.cores != 1L) {

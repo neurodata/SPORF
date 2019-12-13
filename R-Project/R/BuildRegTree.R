@@ -14,12 +14,14 @@
 #' @param store.impurity if TRUE then the increase in information gain is stored for every split. This is required to run FeatureImportance() (store.impurity=FALSE)
 #' @param progress if true a pipe is printed after each tree is created.  This is useful for large datasets. (progress=FALSE)
 #' @param rotate if TRUE then the data matrix X is uniformly randomly rotated. (rotate=FALSE)
+#' @param honesty if TRUE then OOB samples will be used for local leaf node estimates.
 #'
 #' @return Tree
 #'
 
-BuildRegTree <-
-    function(X, Y, FUN, paramList, min.parent, max.depth, bagging, replacement, store.oob, store.impurity, progress, rotate){
+BuildRegTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging,
+                         replacement, store.oob, store.impurity, progress, rotate,
+                         honesty){
         #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         # rfr builds a randomer regression forest structure made up of a list
         # of trees.  This forest is randomer because each node is rotated before
@@ -173,6 +175,10 @@ BuildRegTree <-
         } else {
             Assigned2Node[[1L]] <- 1:w
         }
+        if (honesty) {
+          Assigned2Node.oob <- vector("list", MaxNumNodes)
+          Assigned2Node.oob[[1L]] <- which(!(1L:w %in% ind))
+        }
 
         # main loop over nodes.  This loop ends when the node stack is empty.
         while (CurrentNode < NextUnusedNode) {
@@ -185,6 +191,10 @@ BuildRegTree <-
             if (NdSize < min.parent ||
                 NDepth[CurrentNode]==max.depth){
                 treeMap[CurrentNode] <- currLN <- currLN - 1L
+                if (honesty) {
+                  mu <- mean(Y[c(Assigned2Node[[CurrentNode]], Assigned2Node.oob[[CurrentNode]])])
+                  Assigned2Node.oob[[CurrentNode]] <- NA
+                }
                 leafPred[currLN*-1L] <- mu
                 NodeStack <- NodeStack[-1L] # pop node off stack
                 Assigned2Node[[CurrentNode]]<-NA #remove saved indexes
@@ -247,6 +257,10 @@ BuildRegTree <-
             if (ret$MaxDeltaI == 0) {
                 # store tree map data (negative value means this is a leaf node
                 treeMap[CurrentNode] <- currLN <- currLN - 1L
+                if (honesty) {
+                  mu <- mean(Y[c(Assigned2Node[[CurrentNode]], Assigned2Node.oob[[CurrentNode]])])
+                  Assigned2Node.oob[[CurrentNode]] <- NA
+                }
                 leafPred[currLN*-1L] <- mu
                 NodeStack <- NodeStack[-1L] # pop current node off stack
                 Assigned2Node[[CurrentNode]]<-NA #remove saved indexes
@@ -273,6 +287,7 @@ BuildRegTree <-
                 }
             }
             lrows <- ret$BestVar[bsidx]:(ret$BestVar[bsidx] + feature.nnz - 1L)
+
             Xnode[1L:NdSize]<-X[Assigned2Node[[CurrentNode]],sparseM[lrows,1L], drop=FALSE]%*%sparseM[lrows,3L, drop=FALSE]
 
             # find which child node each sample will go to and move
@@ -282,6 +297,25 @@ BuildRegTree <-
             # Move samples left or right based on split
             Assigned2Node[[NextUnusedNode]] <- Assigned2Node[[CurrentNode]][MoveLeft[1:NdSize]]
             Assigned2Node[[NextUnusedNode+1L]] <- Assigned2Node[[CurrentNode]][!MoveLeft[1:NdSize]]
+
+            # move oob observations along as well if they will be used for honest leaf node estimation
+            if (honesty) {
+              NdSize.oob <- length(Assigned2Node.oob[[CurrentNode]])
+              if (NdSize.oob > 0L) {
+                Xnode[1:NdSize.oob] <- X[Assigned2Node.oob[[CurrentNode]], sparseM[lrows, 1L], drop = FALSE] %*% sparseM[lrows, 3L, drop = FALSE]
+
+                # find which child node each sample will go to and move
+                # them accordingly
+                MoveLeft <- Xnode[1L:NdSize.oob] <= ret$BestSplit[bsidx]
+
+                Assigned2Node.oob[[NextUnusedNode]] <- Assigned2Node.oob[[CurrentNode]][MoveLeft]
+                Assigned2Node.oob[[NextUnusedNode + 1L]] <- Assigned2Node.oob[[CurrentNode]][!MoveLeft]
+              } else {
+                Assigned2Node.oob[[NextUnusedNode]] <- integer(0)
+                Assigned2Node.oob[[NextUnusedNode + 1L]] <- integer(0)
+              }
+              Assigned2Node.oob[[CurrentNode]] <- NA
+            }
 
             # store tree map data (positive value means this is an internal node)
             treeMap[CurrentNode] <- currIN <- currIN + 1L

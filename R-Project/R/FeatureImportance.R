@@ -7,6 +7,7 @@
 #' @param type character string specifying which method to use in
 #' @param X the n-by-p training matrix
 #' @param Y the n-length vector of training responses
+#' @param OOB if FALSE and type == "P", then X and Y are held out data rather than training data (OOB = TRUE)
 #' calculating feature importance.
 #' \describe{
 #'   \item{'C'}{specifies that unique combinations of features
@@ -42,7 +43,7 @@
 #' @importFrom parallel detectCores makeCluster clusterExport parSapply stopCluster
 #' @importFrom utils object.size
 
-FeatureImportance <- function(forest, num.cores = 0L, type = NULL, X = NULL, Y = NULL) {
+FeatureImportance <- function(forest, num.cores = 0L, type = NULL, X = NULL, Y = NULL, OOB = TRUE) {
 
   ## choose method to use for calculating feature importance
   if (is.null(type)) {
@@ -150,7 +151,7 @@ FeatureImportance <- function(forest, num.cores = 0L, type = NULL, X = NULL, Y =
     return(feature.imp <- list(imp = feature.imp, features = unique.projections, type = type))
   } else {
     if (is.null(X) || is.null(Y)) {
-      stop("Permutation OOB Error method was specified but training data X and Y were not provided.")
+      stop("Permutation Error method was specified but X and Y were not provided.")
     }
 
     n <- dim(X)[1L]
@@ -158,7 +159,7 @@ FeatureImportance <- function(forest, num.cores = 0L, type = NULL, X = NULL, Y =
 
     # compute baseline Error
     # predictions <- OOBPredict(X, forest, num.cores = num.cores)
-    predictions <- Predict(X, forest, OOB = TRUE, num.cores = num.cores)
+    predictions <- Predict(X, forest, OOB = OOB, num.cores = num.cores)
     if (forest$params$task == "classification") {
       baseline.error <- mean(predictions != Y)
     } else if (forest$params$task == "regression") {
@@ -171,7 +172,7 @@ FeatureImportance <- function(forest, num.cores = 0L, type = NULL, X = NULL, Y =
       unshuffled.feature <- X[, j]
       X[, j] <- sample(X[, j])
       # predictions <- OOBPredict(X, forest, num.cores = num.cores)
-      predictions <- Predict(X, forest, OOB = TRUE, num.cores = num.cores)
+      predictions <- Predict(X, forest, OOB = OOB, num.cores = num.cores)
       if (forest$params$task == "classification") {
         permuted.error[j] <- mean(predictions != Y)
       } else if (forest$params$task == "regression") {

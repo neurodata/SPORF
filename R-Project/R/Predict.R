@@ -121,7 +121,7 @@ Predict <- function(X, forest, OOB = FALSE, num.cores = 0L, Xtrain = NULL, aggre
         return(proba)
       } else {
         predictions <- max.col(proba, ties.method = "random") # Randomly break ties
-        predictions <- factor(predictions, labels = labels)
+        predictions <- factor(predictions, levels = 1:length(labels), labels = labels)
       }
     }
   } else if (forest$params$task == "similarity") {

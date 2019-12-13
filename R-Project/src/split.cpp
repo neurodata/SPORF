@@ -136,6 +136,13 @@ List findSplitSim(const NumericVector x, arma::mat y, const int & ndSize, const 
 			xl = x[i];
 			xr = x[i+1];
 
+			// below is example for summing with NA values excluded
+			// arma::vec xc = x(arma::span(1, n-1), j);
+			//
+		  // arma::uvec ind = find_finite(xc);
+			//
+		  // double sum = arma::accu(xc(ind));
+			//
 			if (i == 0) {
 				yl += 1/float(2);
 			} else {
