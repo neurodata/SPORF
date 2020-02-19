@@ -111,8 +111,23 @@ namespace fp{
 					}
 				}
 
+				std::vector<int> nChooseK(int N, int k) {
+					//Choose k numbers without replacement from N
+					std::random_device rd;
+					std::mt19937 gen(rd());
 
-				inline std::vector<std::vector<int> > paramsRandMatImagePatch(){
+					std::unordered_set<int> elems = pickSet(N, k, gen);
+
+					// ok, now we have a set of k elements. but now
+					// it's in a [unknown] deterministic order.
+					// so we have to shuffle it:
+
+					std::vector<int> result(elems.begin(), elems.end());
+					std::shuffle(result.begin(), result.end(), gen);
+					return result;
+				}
+
+				inline std::vector<std::pair<int, std::vector<int> > > paramsRandMatImagePatch(){
 					// Preset parameters
 					const int& imageHeight = fpSingleton::getSingleton().returnImageHeight();
 					const int& imageWidth = fpSingleton::getSingleton().returnImageWidth();
@@ -123,34 +138,40 @@ namespace fp{
 					const int& patchWidthMin  = fpSingleton::getSingleton().returnPatchWidthMin();
 
 					// A vector of vectors that specifies the parameters
-					// for each patch: < <Height>, <Width>, <TopLeft> >
-					std::vector<std::vector<int> > heightWidthTop(3, std::vector<int>(fpSingleton::getSingleton().returnMtry()));
+					// for each patch: < <Width>, <col coords>>
+					std::vector<std::vector<int> > widthCoords(2, std::vector<int>(fpSingleton::getSingleton().returnMtry()));
 
-					int deltaH;
 					int deltaW;
-					int topLeftSeed;
+					int topLeftXSeed;
 					// The weight is currently hard-coded to 1.
 
 					// Loop over mtry to load random patch dimensions
 					// and top left position.
 					for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++){
 
-						heightWidthTop[0][k] = randNum->gen(patchHeightMax - patchHeightMin + 1) + patchHeightMin; //sample from [patchHeightMin, patchHeightMax]
-						heightWidthTop[1][k] = randNum->gen(patchWidthMax - patchWidthMin + 1) +  patchWidthMin;    //sample from [patchWidthMin, patchWidthMax]
+						widthCoords[0][k] = randNum->gen(patchWidthMax - patchWidthMin + 1) +  patchWidthMin;    //sample from [patchWidthMin, patchWidthMax]
 						// Using the above, 1-pixel patches are possible ... [JLP]
 
 						// compute the difference between the image dimensions and the current random patch dimensions for sampling
-						deltaH = imageHeight - heightWidthTop[0][k] + 1;
-						deltaW = imageWidth  - heightWidthTop[1][k] + 1;
+						deltaW = imageWidth - widthCoords[0][k] + 1;
 
-						// Sample the top left pixel from the available pixels (due to buffering).
-						topLeftSeed = randNum->gen(deltaH * deltaW);
+						height = randNum->gen(patchHeightMax - patchHeightMin + 1) + patchHeightMin; //sample from [patchHeightMin, patchHeightMax]
+						rows = nChooseK(imageHeight, height);// Select height # of rows to use. Vector of row indices
+
+						// Sample the top left column coordinate (due to buffering).
+						startColumn = randNum->gen(deltaW);
+
+						// Convert rows and start column to indices in image
+						std::vector<int> indices(height);
+						for (int i = 0; i < height; i++){
+							indices[i] = startColumn + imageWidth * rows[i];
+						}
 
 						// Convert the top-left-seed value to it's appropriate index in the full image.
-						heightWidthTop[2][k] = (topLeftSeed % deltaW) + (imageWidth * floor(topLeftSeed / deltaW));
+						widthCoords[1][k] = indices;
 
-						assert((heightWidthTop[2][k] % imageWidth) < deltaW); // check that TopLeft pixel is in the correct column.
-						assert((int)(heightWidthTop[2][k] / imageWidth) < deltaH); // check that TopLeft pixel is in the correct row.
+						//assert((heightWidthTop[2][k] % imageWidth) < deltaW); // check that TopLeft pixel is in the correct column.
+						//assert((int)(heightWidthTop[2][k] / imageWidth) < deltaH); // check that TopLeft pixel is in the correct row.
 					}
 
 					return(heightWidthTop);
