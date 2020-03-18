@@ -81,7 +81,7 @@ namespace fp{
 				inline void calcMtryForNode(std::vector<weightedFeature>& featuresToTry){
 					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
 					int methodToUse = fpSingleton::getSingleton().returnMethodToUse();
-					assert(methodToUse == 1 || methodToUse == 2);
+					assert(methodToUse == 1 || methodToUse == 2 || methodToUse == 3);
 
 					switch(methodToUse){
 						case 1:{
@@ -92,6 +92,10 @@ namespace fp{
 							randMatImagePatch(featuresToTry, paramsRandMatImagePatch());
 							break;
 							}
+						case 3:{
+							randMatMultivariateTimePatch(featuresToTry, paramsRandMatImagePatch());
+							break;
+						}
 					}
 				}
 
@@ -157,7 +161,7 @@ namespace fp{
 				} // End paramsRandMatImagePatch
 
 
-				inline void randMatImagePatch(std::vector<weightedFeature>& featuresToTry, std::vector<std::vector<int> > patchPositions){
+				inline void randMatImagePatch(std::vector<weightedFeature>& featuresToTry, std::vector<std::vector<int> > patchPositions) {
 					assert((int)(patchPositions[0].size()) == fpSingleton::getSingleton().returnMtry());
 
 					// Preset parameters
@@ -168,6 +172,44 @@ namespace fp{
 						for (int row = 0; row < patchPositions[0][k]; row++) {
 							for (int col = 0; col < patchPositions[1][k]; col++) {
 								pixelIndex = patchPositions[2][k] + col + (imageWidth * row);
+								featuresToTry[k].returnFeatures().push_back(pixelIndex);
+								featuresToTry[k].returnWeights().push_back(1); // weight hard-coded to 1.
+								}
+						} // Could possibly turn this into one for-loop somehow later. [JLP]
+					}
+				} // END randMatStructured
+
+
+				inline void randMatMultivariateTimePatch(std::vector<weightedFeature>& featuresToTry, std::vector<std::vector<int> > patchPositions) {
+					assert((int)(patchPositions[0].size()) == fpSingleton::getSingleton().returnMtry());
+
+					// Preset parameters
+					const int& imageHeight = fpSingleton::getSingleton().returnImageHeight();
+					const int& imageWidth = fpSingleton::getSingleton().returnImageWidth();
+
+					int pixelIndex = -1;
+					for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++) {
+						const int& numRowsInPatch = patchPositions[0][k];
+
+						// fill with values 0, 1, ..., imageHeight - 1
+						std::vector<int> rowInds(imageHeight);
+						std::iota(std::begin(rowInds), std::end(rowInds), 0);
+
+						// shuffle indices
+						std::random_device rd;
+    					std::mt19937 g(rd());
+						std::shuffle(rowInds.begin(), rowInds.end(), g);
+
+						// pick first numRowsInPatch entries
+						std::vector<int>::const_iterator first = rowInds.begin();
+						std::vector<int>::const_iterator last = rowInds.begin() + numRowsInPatch;
+						std::vector<int> selectedRows(first, last);
+
+						assert((int) selectedRows.size() == numRowsInPatch);
+
+						for (int row = 0; row < numRowsInPatch; row++) {
+							for (int col = 0; col < patchPositions[1][k]; col++) {
+								pixelIndex = (patchPositions[2][k] % imageWidth) + col + (selectedRows[row] * imageWidth);
 								featuresToTry[k].returnFeatures().push_back(pixelIndex);
 								featuresToTry[k].returnWeights().push_back(1); // weight hard-coded to 1.
 								}
