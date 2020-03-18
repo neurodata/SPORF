@@ -190,7 +190,7 @@ namespace fp {
 
 			inline void checkDataDependentParameters(){
 				// For Structured RerF
-				if(fpForestInfo.returnMethodToUse() == 2 || fpForestInfo.returnMethodToUse() == 3){
+				if(fpForestInfo.returnMethodToUse() == 2){
 					if((fpSingleton::getSingleton().returnNumFeatures() % fpSingleton::getSingleton().returnImageHeight()) != 0){
 						throw std::runtime_error("Specified image height is not a multiple of the number of features." );
 					}
