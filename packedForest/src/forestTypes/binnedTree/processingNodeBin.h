@@ -161,7 +161,7 @@ namespace fp{
 				} // End paramsRandMatImagePatch
 
 
-				inline void randMatImagePatch(std::vector<weightedFeature>& featuresToTry, std::vector<std::vector<int> > patchPositions) {
+				inline void randMatImagePatch(std::vector<weightedFeature>& featuresToTry, std::vector<std::vector<int> > patchPositions){
 					assert((int)(patchPositions[0].size()) == fpSingleton::getSingleton().returnMtry());
 
 					// Preset parameters
@@ -180,7 +180,7 @@ namespace fp{
 				} // END randMatStructured
 
 
-				inline void randMatMultivariateTimePatch(std::vector<weightedFeature>& featuresToTry, std::vector<std::vector<int> > patchPositions) {
+				inline void randMatMultivariateTimePatch(std::vector<weightedFeature>& featuresToTry, std::vector<std::vector<int> > patchPositions){
 					assert((int)(patchPositions[0].size()) == fpSingleton::getSingleton().returnMtry());
 
 					// Preset parameters
@@ -196,8 +196,8 @@ namespace fp{
 						std::iota(std::begin(rowInds), std::end(rowInds), 0);
 
 						// shuffle indices
-						std::random_device rd;
-    					std::mt19937 g(rd());
+						std::random_device rd;  // create random-seed
+    					std::mt19937 g(rd());  // PRG of 32-bit
 						std::shuffle(rowInds.begin(), rowInds.end(), g);
 
 						// pick first numRowsInPatch entries
