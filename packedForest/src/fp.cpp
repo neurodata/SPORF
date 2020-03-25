@@ -86,12 +86,25 @@ int main(int argc, char* argv[]) {
 					std::cout << "\nForcing dataset to be MNIST:\n";
 					dataSet = 3;
 					break;
-				case 13:
-						forest.setParameter("forestType", "urf");
-						break;
-				case 14:
-						forest.setParameter("forestType", "urerf");
-						break;
+                        	case 13:
+                                	forest.setParameter("forestType", "urf");
+                                	break;
+                        	case 14:
+                                	forest.setParameter("forestType", "urerf");
+                                	break;
+				case 15:
+					forest.setParameter("forestType", "binnedBaseTern");
+					forest.setParameter("numTreeBins", numCores);
+					forest.setParameter("methodToUse", 3);
+					forest.setParameter("imageHeight", 28);
+					forest.setParameter("imageWidth", 28);
+					forest.setParameter("patchHeightMax", 5);
+					forest.setParameter("patchHeightMin", 5);
+					forest.setParameter("patchWidthMax", 5);
+					forest.setParameter("patchWidthMin", 5);
+					std::cout << "\nForcing dataset to be MNIST:\n";
+					dataSet = 3;
+					break;
 
 				default:
 					std::cout << "unknown alg selected" << std::endl;
@@ -152,4 +165,3 @@ int main(int argc, char* argv[]) {
 		}
 	}
 }
-
