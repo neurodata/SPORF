@@ -28,7 +28,7 @@ print(rerf.__file__)
 
 
 ## Paths
-base_dir = Path('/mnt/ssd3/ronan/grasp-and-lift-eeg-detection')
+base_dir = Path('/data/ronan/grasp-and-lift-eeg-detection')
 load_dir = base_dir / 'processed'
 
 # Columns name for labels
@@ -40,8 +40,8 @@ cols = ['HandStart','FirstDigitTouch',
 subjects = range(1,13)
 
 # data path
-prelag = 500
-postlag = 500
+prelag = 150
+postlag = 300
 
 
 # ## Helper functions
@@ -108,7 +108,7 @@ X,y = load_data(load_dir, [prelag, postlag], subjects)
 
 # Parameters
 n_est = 500
-ncores = 25
+ncores = 1
 max_features = int(math.sqrt(X.shape[1])/4)
 HEIGHT = 32
 hmax = 6
@@ -175,64 +175,3 @@ for clf,name,parameters in tqdm(zip(classifiers, names, parameters)):
     print(f'Best {name} parameters:')
     print(f'{gscv.best_params_}')
     print(f'With score {gscv.best_score_}')
-
-    #best_classifiers.append(gscv.best_estimator_)
-
-
-# ### Accuracy vs. number of training samples
-
-# In[25]:
-
-
-# # cross-validation train & test splits preserving class percentages
-# k = 2
-# test_fraction = 0.1
-# sss = StratifiedShuffleSplit(n_splits=k, test_size=test_fraction, random_state=0)
-
-# # Number of training samples
-# ns = np.linspace(2,np.log10(math.floor(len(y)*(1-test_fraction))),5)
-# ns = np.power(10,ns).astype(int)
-
-
-# In[ ]:
-
-
-# # Train & Test
-# timestamp = '{%m-%d-%H:%M:%S}'.format(datetime.datetime.now())
-# f = open(f'EEG_results_{timestamp}.csv', 'w+')
-# f.write("classifier,n,Lhat,trainTime,testTime,iterate\n")
-# f.flush()
-
-# runList = [(n, clf, name) for n in ns\
-#            for clf,name in zip(classifiers, [name for name in names])]
-
-
-# for i, (train_index, test_index) in enumerate(sss.split(X, y)):
-#     print(f'Fold {i}')
-#     bal_index = sort_keep_balance(y[train_idx],ns)
-    
-#     for n, clf, name in tqdm(runList)
-    
-    
-
-
-# In[ ]:
-
-
-# clf = rerfClassifier(n_estimators = n_est, projection_matrix = "RerF",
-#             max_features = 28, n_jobs = ncores)
-
-# logpath = Path('/home/rflperry/mf_sims')
-
-# logging.basicConfig(filename=logpath / 'fashionmnist_mf_logging.log',
-#                         format='%(asctime)s:%(levelname)s:%(message)s',
-#                         level=logging.DEBUG
-#                         )
-# logging.info('NEW MF FashionMnist RUN')
-
-# for n in ns:
-#     logging.info(f'Test size: {n}')
-#     clf.fit(X_train[0:n,::], y_train[0:n])
-#     yhat_test = clf.predict(X_test)
-#     logging.info(f'Accuracy {np.mean(y_test == yhat_test)}')
-

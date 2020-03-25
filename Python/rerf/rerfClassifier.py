@@ -230,7 +230,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
             else:
                 forestType = "binnedBaseTern"
             self.method_to_use_ = 1
-        elif self.projection_matrix == "S-RerF":
+        elif self.projection_matrix in ["S-RerF", "MT-MORF"]:
             if self.oob_score:
                 warn(
                     "OOB is not currently implemented for the S-RerF"
@@ -241,7 +241,12 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
                 self.oob_score = False
 
             forestType = "binnedBaseTern"  # this should change
-            self.method_to_use_ = 2
+            
+            if self.projection_matrix == 'S-RerF':
+                self.method_to_use_ = 2
+            elif self.projection_matrix == 'MT-MORF':
+                self.method_to_use_ = 3
+                
             # Check that image_height and image_width are divisors of
             # the num_features.  This is the most we can do to
             # prevent an invalid value being passed in.
