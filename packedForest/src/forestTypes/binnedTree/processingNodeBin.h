@@ -81,7 +81,7 @@ namespace fp{
 				inline void calcMtryForNode(std::vector<weightedFeature>& featuresToTry){
 					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
 					int methodToUse = fpSingleton::getSingleton().returnMethodToUse();
-					assert(methodToUse == 1 || methodToUse == 2 || methodToUse == 3);
+					assert(methodToUse == 1 || methodToUse == 2 || methodToUse == 3 || methodToUse == 4);
 
 					switch(methodToUse){
 						case 1:{
@@ -95,6 +95,9 @@ namespace fp{
 						case 3:{
 							randMatMultivariateTimePatch(featuresToTry, paramsRandMatImagePatch());
 							break;
+						case 4:{
+							randMatMultivariateTimePatchv2(featuresToTry, paramsRandMatImagePatch());
+						}
 						}
 					}
 				}
@@ -217,6 +220,50 @@ namespace fp{
 					}
 				} // END randMatStructured
 
+
+				inline void randMatMultivariateTimePatchv2(std::vector<weightedFeature>& featuresToTry, std::vector<std::vector<int> > patchPositions){
+					assert((int)(patchPositions[0].size()) == fpSingleton::getSingleton().returnMtry());
+
+					// Preset parameters
+					const int& imageHeight = fpSingleton::getSingleton().returnImageHeight();
+					const int& imageWidth = fpSingleton::getSingleton().returnImageWidth();
+
+					int pixelIndex = -1;
+					for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++) {
+						const int& numRowsInPatch = patchPositions[0][k];
+						const int& numColsInPatch = patchPositions[1][k];
+
+						// fill with values 0, 1, ..., imageHeight - 1
+						std::vector<int> rowInds(imageHeight);
+						std::iota(std::begin(rowInds), std::end(rowInds), 0);
+
+						// fill with values 0, 1, ..., imageWidth - 1
+						std::vector<int> colInds(imageWidth);
+						std::iota(std::begin(colInds), std::end(colInds), 0);
+
+						// shuffle indices
+						std::random_device rd;  // create random-seed
+    					std::mt19937 g(rd());  // PRG of 32-bit
+						std::shuffle(rowInds.begin(), rowInds.end(), g);
+						std::shuffle(colInds.begin(), colInds.end(), g);
+
+						// pick first numRowsInPatch entries
+						std::vector<int>::const_iterator first = rowInds.begin();
+						std::vector<int>::const_iterator last = rowInds.begin() + numRowsInPatch;
+						std::vector<int> selectedRows(first, last);
+						std::vector<int> selectedCols(colInds.begin(), colInds.begin() + numColsInPatch)
+
+						assert((int) selectedRows.size() == numRowsInPatch);
+
+						for (int row = 0; row < numRowsInPatch; row++) {
+							for (int col = 0; col < numColsInPatch; col++) {
+								pixelIndex = (patchPositions[2][k] % imageWidth) + (selectedCols[col] * imageHeight) + (selectedRows[row] * imageWidth);
+								featuresToTry[k].returnFeatures().push_back(pixelIndex);
+								featuresToTry[k].returnWeights().push_back(1); // weight hard-coded to 1.
+								}
+						} // Could possibly turn this into one for-loop somehow later. [JLP]
+					}
+				} // END randMatStructured
 
 				inline void resetLeftNode(){
 					propertiesOfLeftNode.resetClassTotals();
