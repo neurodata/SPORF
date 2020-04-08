@@ -76,10 +76,7 @@ def _get_trial_length_by_kwarg(events_tsv, start_trial_type, stop_trial_type):
     return max_trial_len
 
 
-def read_trial(bids_fname, bids_root, trial_id):
-    """Read Raw from specific trial id."""
-    raw = read_raw_bids(bids_fname, bids_root)
-
+def _get_bad_chs(bids_fname, bids_root):
     # get the channel anat dict
     ch_anat_dict = _read_ch_anat(bids_fname, bids_root)
 
@@ -91,6 +88,14 @@ def read_trial(bids_fname, bids_root, trial_id):
             or "ventricle" in anat
         ):
             bads.append(ch_name)
+    return bads
+
+
+def read_trial(bids_fname, bids_root, trial_id):
+    """Read Raw from specific trial id."""
+    raw = read_raw_bids(bids_fname, bids_root)
+
+    bads = _get_bad_chs(bids_fname, bids_root)
     raw.info["bads"].extend(bads)
     good_chs = [ch for ch in raw.ch_names if ch not in raw.info["bads"]]
 
@@ -165,16 +170,8 @@ def read_dataset(bids_fname, bids_root):
     # get trial information
     _, events_tsv = get_trial_info(bids_fname, bids_root)
 
-    # get the channel anat dict
-    ch_anat_dict = _read_ch_anat(bids_fname, bids_root)
-    # get bad channels from anatomy
-    bads = []
-    for ch_name, anat in ch_anat_dict.items():
-        if (
-            anat in ["out", "white matter", "cerebrospinal fluid"]
-            or "ventricle" in anat
-        ):
-            bads.append(ch_name)
+    # get bad channels
+    bads = _get_bad_chs(bids_fname, bids_root)
     raw.info["bads"].extend(bads)
     good_chs = [ch for ch in raw.ch_names if ch not in raw.info["bads"]]
 
