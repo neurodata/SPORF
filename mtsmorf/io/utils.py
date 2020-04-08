@@ -61,7 +61,7 @@ def add_montage(raw, bids_fname, bids_root):
 
 
 def append_original_fname_to_scans(
-        orig_fname: str, bids_root: Union[str, Path], bids_fname: str
+    orig_fname: str, bids_root: Union[str, Path], bids_fname: str
 ):
     """
     Append the original filename to scans.tsv in BIDS data structure.

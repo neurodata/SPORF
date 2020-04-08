@@ -11,21 +11,23 @@ from mne_bids import make_bids_basename, write_raw_bids
 from natsort import natsorted
 from tqdm import tqdm
 
-from mtsmorf.io.bids_conversion import _convert_mat_to_raw, _convert_trial_info_war, _create_electrodes_tsv, \
-    _convert_trial_info_move
-from mtsmorf.io.utils import (
-    append_original_fname_to_scans,
+from mtsmorf.io.bids_conversion import (
+    _convert_mat_to_raw,
+    _convert_trial_info_war,
+    _create_electrodes_tsv,
+    _convert_trial_info_move,
 )
+from mtsmorf.io.utils import append_original_fname_to_scans
 
 logger = logging.getLogger(__name__)
 
 
 def convert_mat_to_bids(
-        bids_root: Union[str, os.PathLike],
-        bids_basename: str,
-        source_fpath: Union[str, os.PathLike],
-        overwrite=True,
-        verbose=False,
+    bids_root: Union[str, os.PathLike],
+    bids_basename: str,
+    source_fpath: Union[str, os.PathLike],
+    overwrite=True,
+    verbose=False,
 ) -> str:
     """Run Bids conversion pipeline given filepaths."""
     print("Converting ", source_fpath, "to ", bids_basename)
@@ -34,9 +36,9 @@ def convert_mat_to_bids(
     raw = _convert_mat_to_raw(source_fpath)
     # raw = None
     # add trial info and save it
-    if task == 'war':
+    if task == "war":
         raw = _convert_trial_info_war(source_fpath, bids_basename, bids_root, raw)
-    elif task == 'move':
+    elif task == "move":
         raw = _convert_trial_info_move(source_fpath, bids_basename, bids_root, raw)
 
     # create electrodes tsv file with anatomy
@@ -69,7 +71,7 @@ def convert_mat_to_bids(
 
 
 def _main(
-        bids_root, source_path, subject_ids, acquisition, task, session
+    bids_root, source_path, subject_ids, acquisition, task, session
 ):  # pragma: no cover
     """Run Bids Conversion script to be updated.
 
@@ -87,11 +89,13 @@ def _main(
     for subject in subject_ids:
         # get specific files
         subj_dir = Path(source_path / subject)
-        rawfiles = [x for x in subj_dir.glob(f"*.{ext}")
-                    if task in x.name.lower()
-                    if "raw" in x.name.lower()
-                    if not x.name.startswith(".")  # make sure not a cached hidden file
-                    ]
+        rawfiles = [
+            x
+            for x in subj_dir.glob(f"*.{ext}")
+            if task in x.name.lower()
+            if "raw" in x.name.lower()
+            if not x.name.startswith(".")  # make sure not a cached hidden file
+        ]
 
         # make subject an efri number
         subject = subject.replace("SUBJECT", "efri")
