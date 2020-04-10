@@ -16,6 +16,7 @@ from mtsmorf.io.bids_conversion import (
     _convert_trial_info_war,
     _create_electrodes_tsv,
     _convert_trial_info_move,
+    _append_anat_to_channels,
 )
 from mtsmorf.io.utils import append_original_fname_to_scans
 
@@ -33,39 +34,42 @@ def convert_mat_to_bids(
     print("Converting ", source_fpath, "to ", bids_basename)
 
     # handle conversion to raw Array
-    raw = _convert_mat_to_raw(source_fpath)
+    # raw = _convert_mat_to_raw(source_fpath)
     # raw = None
     # add trial info and save it
-    if task == "war":
-        raw = _convert_trial_info_war(source_fpath, bids_basename, bids_root, raw)
-    elif task == "move":
-        raw = _convert_trial_info_move(source_fpath, bids_basename, bids_root, raw)
+    # if task == "war":
+    #     raw = _convert_trial_info_war(source_fpath, bids_basename, bids_root, raw)
+    # elif task == "move":
+    #     raw = _convert_trial_info_move(source_fpath, bids_basename, bids_root, raw)
 
     # create electrodes tsv file with anatomy
-    _create_electrodes_tsv(source_fpath, bids_basename, bids_root)
+    # _create_electrodes_tsv(source_fpath, bids_basename, bids_root)
 
     # get events
-    events, events_id = mne.events_from_annotations(raw)
+    # events, events_id = mne.events_from_annotations(raw)
+    #
+    # with tempfile.TemporaryDirectory() as tmproot:
+    #     tmpfpath = os.path.join(tmproot, "tmp_raw.fif")
+    #     raw.save(tmpfpath)
+    #     raw = mne.io.read_raw_fif(tmpfpath)
+    #
+    #     # Get acceptable range of days back and pick random one
+    #     daysback = 0
+    #
+    #     # write to BIDS
+    #     bids_root = write_raw_bids(
+    #         raw,
+    #         bids_basename,
+    #         bids_root=str(bids_root),
+    #         overwrite=overwrite,
+    #         anonymize=dict(daysback=daysback, keep_his=False),
+    #         events_data=events,
+    #         event_id=events_id,
+    #         verbose=verbose,
+    #     )
 
-    with tempfile.TemporaryDirectory() as tmproot:
-        tmpfpath = os.path.join(tmproot, "tmp_raw.fif")
-        raw.save(tmpfpath)
-        raw = mne.io.read_raw_fif(tmpfpath)
-
-        # Get acceptable range of days back and pick random one
-        daysback = 0
-
-        # write to BIDS
-        bids_root = write_raw_bids(
-            raw,
-            bids_basename,
-            bids_root=str(bids_root),
-            overwrite=overwrite,
-            anonymize=dict(daysback=daysback, keep_his=False),
-            events_data=events,
-            event_id=events_id,
-            verbose=verbose,
-        )
+    # append data to channels.tsv
+    _append_anat_to_channels(source_fpath, bids_basename, bids_root)
 
     return bids_root
 

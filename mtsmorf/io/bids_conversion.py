@@ -11,8 +11,8 @@ import numpy as np
 import pandas as pd
 import scipy.io
 from mne_bids import make_bids_folders
-from mne_bids.tsv_handler import _to_tsv
-from mne_bids.utils import _parse_bids_filename
+from mne_bids.tsv_handler import _to_tsv, _from_tsv
+from mne_bids.utils import _parse_bids_filename, _write_json, _find_matching_sidecar
 
 
 class MatReader:
@@ -283,6 +283,15 @@ def _create_behavior_json(fname, keys, desciptions):
     return fname
 
 
+def _create_coordsystem_json(fname, coordsystem_name, unit="mm"):
+    fid_json = {
+        "iEEGCoordinateSystem": coordsystem_name,  # MRI, Pixels, or ACPC
+        "iEEGCoordinateUnits": unit,  # m (MNE), mm, cm , or pixels
+    }
+
+    _write_json(fname, fid_json, True, True)
+
+
 def _create_electrodes_tsv(source_fpath, bids_basename, bids_root):
     # load in setup.mat via scipy
     try:
@@ -332,6 +341,39 @@ def _create_electrodes_tsv(source_fpath, bids_basename, bids_root):
     )
 
     _to_tsv(data, electrodes_fpath)
+
+    # create accompanying coord system
+    fname = electrodes_fpath.replace("electrodes", "coordsystem").replace("tsv", "json")
+    coordsystem_name = "ras"
+    _create_coordsystem_json(fname, coordsystem_name, unit="mm")
+
+
+def _append_anat_to_channels(source_fpath, bids_basename, bids_root):
+    # load in setup.mat via scipy
+    try:
+        setup_dict = scipy.io.loadmat(_get_setup_fname(source_fpath))
+    except:
+        print("Using hdf to read...")
+        loader = MatReader()
+        setup_dict = loader.loadmat(_get_setup_fname(source_fpath))
+
+    # lambda function to flatten out matlab structureees
+    flatten = lambda l: np.array([item for sublist in l for item in sublist]).squeeze()
+
+    # extract names
+    ch_names = flatten(setup_dict["elec_name"])
+    ch_anat = flatten(setup_dict["elec_area"])
+
+    print("channels names: ", ch_names[0:5])
+    print("channel anatomy: ", ch_anat[0:5])
+
+    # append anatomy to channels tsv
+    channels_fpath = _find_matching_sidecar(
+        bids_basename, bids_root, suffix="channels.tsv"
+    )
+    channels_tsv = _from_tsv(channels_fpath)
+    channels_tsv["anat"] = ch_anat
+    _to_tsv(channels_tsv, channels_fpath)
 
 
 def _convert_mat_to_raw(source_fpath) -> mne.io.BaseRaw:
