@@ -43,6 +43,8 @@ subjects = range(1,13)
 prelag = 150
 postlag = 300
 
+# Tag
+TAG = ''
 
 # ## Helper functions
 
@@ -83,7 +85,7 @@ def load_data(data_dir, lags, subjects):
     X = []
     y = []
     for subject in subjects:
-        h5 = h5py.File(data_dir / f'subj{subject}_prelag={lags[0]}_postlag={lags[1]}_Xy.hdf5','r')
+        h5 = h5py.File(data_dir / f'subj{subject}_prelag={prelag}_postlag={lags[1]}_{TAG}_Xy.hdf5','r')
         X.append(h5['X'][:])
         y.append(h5['y'][:])
         h5.close()
@@ -108,7 +110,7 @@ X,y = load_data(load_dir, [prelag, postlag], subjects)
 
 # Parameters
 n_est = 500
-ncores = 1
+ncores = 25
 max_features = int(math.sqrt(X.shape[1])/4)
 HEIGHT = 32
 hmax = 6
@@ -125,7 +127,7 @@ wmin = 4
 names = {"TORF":"red"}
 
 classifiers = [rerfClassifier(
-                projection_matrix="S-RerF", 
+                projection_matrix="MT-MORF", 
                 max_features=max_features,
                 n_estimators=n_est,
                 n_jobs=ncores,
@@ -154,8 +156,8 @@ f.flush()
 
 
 # Grid search each classifier and write to file
-parameters = [{'patch_height_max':np.arange(4,13,2), 'patch_height_min':[1],
-               'patch_width_max':[50,100,200,400], 'patch_width_min':[25]}]
+parameters = [{'patch_height_max':[1,2,3,4], 'patch_height_min':[1],
+               'patch_width_max':[8,12,15,20,25], 'patch_width_min':[2,5]}]
 best_classifiers = []
 
 for clf,name,parameters in tqdm(zip(classifiers, names, parameters)):

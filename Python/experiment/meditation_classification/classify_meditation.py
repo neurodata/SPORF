@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Evaluate Timeseries Rerf Performance
+# # Evaluate Timeseries Rerf Performance on meditation data
 
 # In[1]:
 
-
+from utils import load_Xy
 import numpy as np
 from pathlib import Path
 import h5py
@@ -21,32 +21,18 @@ from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
 
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import LinearSVC
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.neighbors import KNeighborsClassifier
+
 import rerf
 from rerf.rerfClassifier import rerfClassifier
 print(rerf.__file__)
 
-# In[2]:
-
-
-## Paths
-base_dir = Path('/data/ronan/grasp-and-lift-eeg-detection')
-load_dir = base_dir / 'processed'
-TAG = ''
-
-# Columns name for labels
-cols = ['HandStart','FirstDigitTouch',
-        'BothStartLoadPhase','LiftOff',
-        'Replace','BothReleased']
-
-# Number of subjects
-subjects = range(1,13)
-
-# data path
-prelag = 150
-postlag = 300
-
-
-# ## Helper functions
 
 # In[3]:
 
@@ -78,43 +64,26 @@ def sort_keep_balance(y,block_lengths):
     
     return(sort_idxs)
 
-def load_data(data_dir, lags, subjects):
-    """
-    Loads processed X,y data
-    """
-    X = []
-    y = []
-    for subject in subjects:
-        h5 = h5py.File(data_dir / f'subj{subject}_prelag={lags[0]}_postlag={lags[1]}_{TAG}_Xy.hdf5','r')
-        X.append(h5['X'][:])
-        y.append(h5['y'][:])
-        h5.close()
-    X = np.concatenate(X, axis=0)
-    y = np.concatenate(y)
-    y = (y > 0).astype(int)
-    return(X,y)
-
-
 # ## Train & Test
 
 # In[4]:
 
 
 # Load subject(s) concatenated together
-subjects = [1]
-X,y = load_data(load_dir, [prelag, postlag], subjects)
-
+X,y = load_Xy()
+y = (y/3).astype(int)
+print(len(set(y)))
 
 # In[5]:
 
 
 # Parameters
 n_est = 500
-ncores = 20
-max_features = 'auto'#int(math.sqrt(X.shape[1])/2)
-HEIGHT = 32
-hmin = 1
-hmax = 4
+ncores = 10
+max_features = 50#int(math.sqrt(X.shape[1])/2)
+HEIGHT = 18715
+hmin = 10
+hmax = 200
 WIDTH = int(X.shape[1] / HEIGHT)
 wmax = 25
 wmin = 5
@@ -124,9 +93,12 @@ wmin = 5
 
 
 # Define classifier(s)
-# names = {"RF":"#f86000", "TORF":"red", "MORF": "orange"}
-names = {"TORF":"red"}
-classifiers = [RandomForestClassifier(n_estimators=n_est, max_features='auto', n_jobs=ncores),
+# "Log. Reg": "blue",
+names = {"RF":"#f86000", "TORF":"red", "MORF": "orange"}
+#names = {"TORF":"red", "Lin. SVM":"firebrick",}
+#LinearSVC(),
+                #LogisticRegression(random_state=0, n_jobs=ncores, solver='liblinear'),
+classifiers = [ RandomForestClassifier(n_estimators=n_est, max_features='auto', n_jobs=ncores),
                 rerfClassifier(
                     projection_matrix="MT-MORF", 
                     max_features=max_features,
@@ -146,46 +118,51 @@ classifiers = [RandomForestClassifier(n_estimators=n_est, max_features='auto', n
                     n_jobs=ncores,
                     image_height=HEIGHT, 
                     image_width=WIDTH, 
-                    patch_height_max=hmax,
-                    patch_height_min=hmin,
+                    patch_height_max=1,
+                    patch_height_min=1,
                     patch_width_max=wmax,
                     patch_width_min=wmin
                 )
             ]
 
-classifiers = [classifiers[1]]
+#classifiers = [classifiers[0], classifiers[2]]
 
 ### Accuracy vs. number of training samples
 
 # cross-validation train & test splits preserving class percentages
-k = 5
+k = 10
 test_fraction = 0.1
 sss = StratifiedShuffleSplit(n_splits=k, test_size=test_fraction, random_state=0)
 
 # Number of training samples
-ns = np.linspace(2,np.log10(math.floor(len(y)*(1-test_fraction))),5)
-ns = np.power(10,ns).astype(int)
+# ns = np.linspace(2,np.log10(math.floor(len(y)*(1-test_fraction))),5)
+# ns = np.power(10,ns).astype(int)
+ns = [18,50,100,-1]
 
 # Train & Test
+# timestamp = datetime.now().strftime('%m-%d-%H:%M')
 timestamp = datetime.now().strftime('%m-%d-%H:%M')
-f = open(f'EEG_classifier_results_{TAG}_{timestamp}.csv', 'w+')
+f = open(f'classification_results_meditation_{timestamp}.csv', 'w+')
 f.write("classifier,n,Lhat,trainTime,testTime,iterate\n")
 f.flush()
+g = open(f'raw_predictions_meditation_{timestamp}.csv', 'w+')
+g.flush()
 
 runList = [(n, clf, name) for n in ns\
            for clf,name in zip(classifiers, [name for name in names])]
 
-predictions = []
-
 
 for i, (train_index, test_index) in enumerate(sss.split(X, y)):
     print(f'Fold {i}')
-    bal_index = sort_keep_balance(y[train_index],ns)
+    #bal_index = sort_keep_balance(y[train_index],ns)
 
-    predictions.append([i, -1] + list(y[test_index]))
+    g.write(f"{'Truth'}, {'-1'}, {i}, {','.join(map(str, list(y[test_index]))) }\n")
+    g.flush()
     
     for n, clf, name in tqdm(runList):
-        nIndex = train_index[bal_index[:n]]
+        if n == -1:
+            n = len(train_index)
+        nIndex = train_index[:n]
         
         trainStartTime = time.time()
         clf.fit(X[nIndex], y[nIndex])
@@ -197,14 +174,14 @@ for i, (train_index, test_index) in enumerate(sss.split(X, y)):
         testEndTime = time.time()
         testTime = testEndTime - testStartTime
 
-        predictions.append([i, n] + list(yhat))
+        g.write(f"{name}, {n}, {i}, {','.join(map(str, list(yhat))) }\n")
+        g.flush()
 
         lhat = np.mean(np.not_equal(yhat, y[test_index]).astype(int))
 
-        ####("variable,Lhat,trainTime,testTime,iterate")
+        #### ("variable,Lhat,trainTime,testTime,iterate")
         f.write(f"{name}, {n}, {lhat:2.9f}, {trainTime:2.9f}, {testTime:2.9f}, {i}\n")
         f.flush()
 
 f.close()
-
-np.savetxt(f'Predictions_{TAG}_{timestamp}.csv', predictions, delimiter=',')
+g.close()
