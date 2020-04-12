@@ -81,7 +81,7 @@ namespace fp{
 				inline void calcMtryForNode(std::vector<weightedFeature>& featuresToTry){
 					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
 					int methodToUse = fpSingleton::getSingleton().returnMethodToUse();
-					assert(methodToUse == 1 || methodToUse == 2);
+					assert(methodToUse == 1 || methodToUse == 2 || methodToUse == 3 || methodToUse == 4);
 
 					switch(methodToUse){
 						case 1:{
@@ -92,6 +92,14 @@ namespace fp{
 							randMatImagePatch(featuresToTry, paramsRandMatImagePatch());
 							break;
 							}
+						case 3:{
+							randMatMultivariateTimePatch(featuresToTry, paramsRandMatImagePatch());
+							break;
+						}
+						case 4:{
+							randMatGraphPatch(featuresToTry, paramsRandMatGraphPatch());
+							break;
+						}
 					}
 				}
 
@@ -157,6 +165,31 @@ namespace fp{
 				} // End paramsRandMatImagePatch
 
 
+				inline std::vector<std::vector<int> > paramsRandMatGraphPatch(){
+					// Preset parameters
+					const int& imageWidth = fpSingleton::getSingleton().returnImageWidth();
+					//Adjacency matrices are square
+					assert(imageWidth == fpSingleton::getSingleton().returnImageHeight());
+
+					const int& patchWidthMax  = fpSingleton::getSingleton().returnPatchWidthMax();
+					const int& patchWidthMin  = fpSingleton::getSingleton().returnPatchWidthMin();
+
+					// A vector of vectors that specifies the parameters
+					// for each patch: < <Height>, <Width>, <TopLeft> >
+					std::vector<std::vector<int> > edgesNode(2, std::vector<int>(fpSingleton::getSingleton().returnMtry()));
+
+					// The weight is currently hard-coded to 1.
+					// Loop over mtry to load random nodes and width
+					for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++){
+						edgesNode[0][k] = randNum->gen(patchWidthMax - patchWidthMin + 1) +  patchWidthMin;    //sample from [patchWidthMin, patchWidthMax]
+						// Convert the top-left-seed value to it's appropriate index in the full image.
+						edgesNode[1][k] = randNum->gen(imageWidth);
+					}
+
+					return(edgesNode);
+				} // End paramsRandMatImagePatch
+
+
 				inline void randMatImagePatch(std::vector<weightedFeature>& featuresToTry, std::vector<std::vector<int> > patchPositions){
 					assert((int)(patchPositions[0].size()) == fpSingleton::getSingleton().returnMtry());
 
@@ -174,6 +207,80 @@ namespace fp{
 						} // Could possibly turn this into one for-loop somehow later. [JLP]
 					}
 				} // END randMatStructured
+
+
+				inline void randMatMultivariateTimePatch(std::vector<weightedFeature>& featuresToTry, std::vector<std::vector<int> > patchPositions){
+					assert((int)(patchPositions[0].size()) == fpSingleton::getSingleton().returnMtry());
+
+					// Preset parameters
+					const int& imageHeight = fpSingleton::getSingleton().returnImageHeight();
+					const int& imageWidth = fpSingleton::getSingleton().returnImageWidth();
+
+					int pixelIndex = -1;
+					for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++) {
+						const int& numRowsInPatch = patchPositions[0][k];
+
+						// fill with values 0, 1, ..., imageHeight - 1
+						std::vector<int> rowInds(imageHeight);
+						std::iota(std::begin(rowInds), std::end(rowInds), 0);
+
+						// shuffle indices
+						std::random_device rd;  // create random-seed
+    					std::mt19937 g(rd());  // PRG of 32-bit
+						std::shuffle(rowInds.begin(), rowInds.end(), g);
+
+						// pick first numRowsInPatch entries
+						std::vector<int>::const_iterator first = rowInds.begin();
+						std::vector<int>::const_iterator last = rowInds.begin() + numRowsInPatch;
+						std::vector<int> selectedRows(first, last);
+
+						assert((int) selectedRows.size() == numRowsInPatch);
+
+						for (int row = 0; row < numRowsInPatch; row++) {
+							for (int col = 0; col < patchPositions[1][k]; col++) {
+								pixelIndex = (patchPositions[2][k] % imageWidth) + col + (selectedRows[row] * imageWidth);
+								featuresToTry[k].returnFeatures().push_back(pixelIndex);
+								featuresToTry[k].returnWeights().push_back(1); // weight hard-coded to 1.
+								}
+						} // Could possibly turn this into one for-loop somehow later. [JLP]
+					}
+				} // END randMatStructured
+
+
+				inline void randMatGraphPatch(std::vector<weightedFeature>& featuresToTry, std::vector<std::vector<int> > patchPositions){
+					assert((int)(patchPositions[0].size()) == fpSingleton::getSingleton().returnMtry());
+
+					// Preset parameters
+					const int& imageWidth = fpSingleton::getSingleton().returnImageWidth();
+
+					int pixelIndex = -1;
+					for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++) {
+						const int& numEdgesInPatch = patchPositions[0][k];
+
+						// fill with values 0, 1, ..., imageWidth - 1
+						std::vector<int> edgeInds(imageWidth);
+						std::iota(std::begin(edgeInds), std::end(edgeInds), 0);
+
+						// shuffle indices
+						std::random_device rd;  // create random-seed
+    					std::mt19937 g(rd());  // PRG of 32-bit
+						std::shuffle(edgeInds.begin(), edgeInds.end(), g);
+
+						// pick first numEdgesInPatch entries
+						std::vector<int>::const_iterator first = edgeInds.begin();
+						std::vector<int>::const_iterator last = edgeInds.begin() + numEdgesInPatch;
+						std::vector<int> selectedEdges(first, last);
+
+						assert((int) selectedEdges.size() == numEdgesInPatch);
+
+						const int& nodeFeatureInd = patchPositions[1][k] * imageWidth;
+						for (int edgeInd = 0; edgeInd < numEdgesInPatch; edgeInd++) {
+							pixelIndex = nodeFeatureInd + selectedEdges[edgeInd];
+							featuresToTry[k].returnFeatures().push_back(pixelIndex);
+							featuresToTry[k].returnWeights().push_back(1); // weight hard-coded to 1.
+						}
+					}
+				} // END randMatGraphPatch
 
 
 				inline void resetLeftNode(){
