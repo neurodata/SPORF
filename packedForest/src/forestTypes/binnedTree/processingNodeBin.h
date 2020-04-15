@@ -195,15 +195,26 @@ namespace fp{
 
 					// Preset parameters
 					const int& imageWidth = fpSingleton::getSingleton().returnImageWidth();
+					const int& imageHeight = fpSingleton::getSingleton().returnImageHeight();
+					const int& numFeatures = fpSingleton::getSingleton().returnNumFeatures();
+					const int& fullPatchSize = imageHeight * imageWidth;
+					const int& depth = (int)(numFeatures / fullPatchSize);
 
 					int pixelIndex = -1;
+					//int rndWeight;
+					int weight;
+					int channelIndex;
 					for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++){
+						channelIndex = randNum->gen(depth) * fullPatchSize;
 						for (int row = 0; row < patchPositions[0][k]; row++) {
 							for (int col = 0; col < patchPositions[1][k]; col++) {
-								pixelIndex = patchPositions[2][k] + col + (imageWidth * row);
+								pixelIndex = channelIndex + patchPositions[2][k] + col + (imageWidth * row);
 								featuresToTry[k].returnFeatures().push_back(pixelIndex);
-								featuresToTry[k].returnWeights().push_back(1); // weight hard-coded to 1.
-								}
+								weight = (col==0||row==0||col==(patchPositions[1][k]-1)||row==(patchPositions[0][k]-1)) ? -1 : 1;
+								//rndWeight = (randNum->gen(2)%2) ? 1 : -1;
+								assert(weight==1 || weight==-1);
+								featuresToTry[k].returnWeights().push_back(weight);
+							}
 						} // Could possibly turn this into one for-loop somehow later. [JLP]
 					}
 				} // END randMatStructured
