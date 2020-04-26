@@ -4,14 +4,27 @@
 \alias{FeatureImportance}
 \title{Compute Feature Importance of a RerF model}
 \usage{
-FeatureImportance(forest, num.cores = 0L, type = NULL)
+FeatureImportance(
+  forest,
+  num.cores = 0L,
+  type = NULL,
+  X = NULL,
+  Y = NULL,
+  OOB = TRUE
+)
 }
 \arguments{
 \item{forest}{a forest trained using the RerF function with argument store.impurity = TRUE}
 
 \item{num.cores}{number of cores to use. If num.cores = 0, then 1 less than the number of cores reported by the OS are used. (num.cores = 0)}
 
-\item{type}{character string specifying which method to use in
+\item{type}{character string specifying which method to use in}
+
+\item{X}{the n-by-p training matrix}
+
+\item{Y}{the n-length vector of training responses}
+
+\item{OOB}{if FALSE and type == "P", then X and Y are held out data rather than training data (OOB = TRUE)
 calculating feature importance.
 \describe{
   \item{'C'}{specifies that unique combinations of features

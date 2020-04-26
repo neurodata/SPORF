@@ -129,21 +129,26 @@ List findSplitSim(const NumericVector x, arma::mat y, const int & ndSize, const 
 
     bsct = 0;
     yl = 0;
-    yr = I*(ndSize*(ndSize-1)/(float)2 + ndSize);
+    yr = I*ndSize*ndSize/(float)2;
 
     // iterate over split locations from left to right
     for (int i = 0; i < ndSize - 1; ++i) {
 			xl = x[i];
 			xr = x[i+1];
-			yl += arma::accu(y(arma::span(0,i),i));
-			yr -= arma::accu(y(arma::span(i,ndSize-1),i));
+
+			if (i == 0) {
+				yl += 1/float(2);
+			} else {
+				yl += (arma::accu(y(arma::span(0,i-1),i)) + 1/float(2));
+			}
+			yr += -(arma::accu(y(arma::span(i+1,ndSize-1),i)) + 1/float(2));
 
 			if (xl == xr) {
 		    continue;
 			} else {
 		    nl = i + 1;
 		    nr = ndSize - nl;
-		    dI = yl/(ndSize*((nl-1)/(float)2 + 1)) + yr/(ndSize*((nr-1)/(float)2 + 1)) - I;
+		    dI = yl/(ndSize*nl/(float)2) + yr/(ndSize*nr/(float)2) - I;
 		    if (dI > maxdI) {
 					// save current best split information
 					bsidx[0] = i + 1;
@@ -167,4 +172,58 @@ List findSplitSim(const NumericVector x, arma::mat y, const int & ndSize, const 
     }
 
     return List::create(_["MaxDeltaI"] = maxdI, _["BestVar"] = bv, _["BestSplit"] = bs, _["NumBest"] = nb);
+}
+
+
+// [[Rcpp::export]]
+List findSplitReg(const NumericVector x, NumericVector y, const int & ndSize, const double & I,
+	double maxdI, IntegerVector bv, NumericVector bs, int nb, const int nzidx) {
+  double xl, xr, Il, Ir, dI, ml, mr;
+  int end, nl, nr, bsct;
+  IntegerVector bsidx(ndSize);
+
+  bsct = 0;
+  Il = 0;
+  Ir = I;
+	ml = 0;
+	mr = sum(y)/ndSize;
+
+  // iterate over split locations from left to right
+  for (int i = 0; i < ndSize - 1; ++i) {
+		xl = x[i];
+		xr = x[i+1];
+		nl = i + 1;
+		nr = ndSize - nl;
+		ml = (ml*i + y[i])/nl; // update mean of y's on left
+		mr = (mr*(nr + 1) - y[i])/nr; // update mean of y's on right
+
+		if (xl == xr) {
+			continue;
+		} else {
+			Il = sum(pow((y[Range(0, i)] - ml), 2));
+			Ir = sum(pow((y[Range(nl, ndSize-1)] - mr), 2));
+			dI = I - Il - Ir;
+	    if (dI > maxdI) {
+				// save current best split information
+				bsidx[0] = i + 1;
+				bv[0] = nzidx;
+				nb = 1;
+				maxdI = dI;
+				bsct = 1;
+	    } else if (dI == maxdI && dI > 0) {
+				bsidx[bsct] = i + 1;
+				bv[nb] = nzidx;
+				bsct += 1;
+				nb += 1;
+	    }
+		}
+  }
+
+  if (bsct != 0) {
+		for (int i = 0; i < bsct; ++i) {
+	    bs[nb-bsct+i] = (x[bsidx[i]-1] + x[bsidx[i]])/2;
+		}
+  }
+
+  return List::create(_["MaxDeltaI"] = maxdI, _["BestVar"] = bv, _["BestSplit"] = bs, _["NumBest"] = nb);
 }

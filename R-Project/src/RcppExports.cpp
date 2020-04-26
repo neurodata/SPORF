@@ -6,27 +6,6 @@
 
 using namespace Rcpp;
 
-// packForestRCPP
-void packForestRCPP();
-RcppExport SEXP _rerf_packForestRCPP() {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    packForestRCPP();
-    return R_NilValue;
-END_RCPP
-}
-// predictRF
-Rcpp::NumericVector predictRF(const NumericMatrix mat, const int numCores);
-RcppExport SEXP _rerf_predictRF(SEXP matSEXP, SEXP numCoresSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const NumericMatrix >::type mat(matSEXP);
-    Rcpp::traits::input_parameter< const int >::type numCores(numCoresSEXP);
-    rcpp_result_gen = Rcpp::wrap(predictRF(mat, numCores));
-    return rcpp_result_gen;
-END_RCPP
-}
 // findSplit
 List findSplit(const NumericVector x, const IntegerVector y, const int& ndSize, const double& I, double maxdI, int bv, double bs, const int nzidx, arma::vec cc);
 RcppExport SEXP _rerf_findSplit(SEXP xSEXP, SEXP ySEXP, SEXP ndSizeSEXP, SEXP ISEXP, SEXP maxdISEXP, SEXP bvSEXP, SEXP bsSEXP, SEXP nzidxSEXP, SEXP ccSEXP) {
@@ -65,15 +44,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-
-RcppExport SEXP _rcpp_module_boot_forestPackingRConversion_mod();
+// findSplitReg
+List findSplitReg(const NumericVector x, NumericVector y, const int& ndSize, const double& I, double maxdI, IntegerVector bv, NumericVector bs, int nb, const int nzidx);
+RcppExport SEXP _rerf_findSplitReg(SEXP xSEXP, SEXP ySEXP, SEXP ndSizeSEXP, SEXP ISEXP, SEXP maxdISEXP, SEXP bvSEXP, SEXP bsSEXP, SEXP nbSEXP, SEXP nzidxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const int& >::type ndSize(ndSizeSEXP);
+    Rcpp::traits::input_parameter< const double& >::type I(ISEXP);
+    Rcpp::traits::input_parameter< double >::type maxdI(maxdISEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type bv(bvSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type bs(bsSEXP);
+    Rcpp::traits::input_parameter< int >::type nb(nbSEXP);
+    Rcpp::traits::input_parameter< const int >::type nzidx(nzidxSEXP);
+    rcpp_result_gen = Rcpp::wrap(findSplitReg(x, y, ndSize, I, maxdI, bv, bs, nb, nzidx));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_rerf_packForestRCPP", (DL_FUNC) &_rerf_packForestRCPP, 0},
-    {"_rerf_predictRF", (DL_FUNC) &_rerf_predictRF, 2},
     {"_rerf_findSplit", (DL_FUNC) &_rerf_findSplit, 9},
     {"_rerf_findSplitSim", (DL_FUNC) &_rerf_findSplitSim, 9},
-    {"_rcpp_module_boot_forestPackingRConversion_mod", (DL_FUNC) &_rcpp_module_boot_forestPackingRConversion_mod, 0},
+    {"_rerf_findSplitReg", (DL_FUNC) &_rerf_findSplitReg, 9},
     {NULL, NULL, 0}
 };
 

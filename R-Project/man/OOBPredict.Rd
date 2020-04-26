@@ -4,8 +4,7 @@
 \alias{OOBPredict}
 \title{Compute out-of-bag predictions}
 \usage{
-OOBPredict(X, forest, num.cores = 0L, Xtrain = NULL,
-  output.scores = FALSE)
+OOBPredict(X, forest, num.cores = 0L, Xtrain = NULL, output.scores = FALSE)
 }
 \arguments{
 \item{X}{an n sample by d feature matrix (preferable) or data frame which was used to train the provided forest.}

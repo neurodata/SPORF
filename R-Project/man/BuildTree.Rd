@@ -4,9 +4,24 @@
 \alias{BuildTree}
 \title{RerF Tree Generator}
 \usage{
-BuildTree(X, Y, FUN, paramList, min.parent, max.depth, bagging,
-  replacement, stratify, class.ind, class.ct, store.oob, store.impurity,
-  progress, rotate)
+BuildTree(
+  X,
+  Y,
+  FUN,
+  paramList,
+  min.parent,
+  max.depth,
+  bagging,
+  replacement,
+  stratify,
+  class.ind,
+  class.ct,
+  store.oob,
+  store.impurity,
+  progress,
+  rotate,
+  honesty
+)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}
@@ -39,6 +54,8 @@ default values will be populated, see \code{\link[rerf]{defaults}} for details.}
 \item{progress}{if true a pipe is printed after each tree is created.  This is useful for large datasets.}
 
 \item{rotate}{if TRUE then the data matrix X is uniformly randomly rotated.}
+
+\item{honesty}{if TRUE then OOB samples will be used for local leaf node estimates.}
 }
 \value{
 Tree

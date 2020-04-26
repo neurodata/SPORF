@@ -4,13 +4,29 @@
 \alias{RerF}
 \title{RerF forest Generator}
 \usage{
-RerF(X, Y, FUN = RandMatBinary, paramList = list(p = NA, d = NA,
-  sparsity = NA, prob = NA), min.parent = 1L, trees = 500L,
-  max.depth = 0, bagging = 0.2, replacement = TRUE,
-  stratify = TRUE, rank.transform = FALSE, store.oob = FALSE,
-  store.impurity = FALSE, progress = FALSE, rotate = FALSE,
-  num.cores = 0L, seed = sample(0:1e+08, 1), cat.map = NULL,
-  rfPack = FALSE, task = "classification", eps = 0.05)
+RerF(
+  X,
+  Y,
+  FUN = RandMatBinary,
+  paramList = list(p = NA, d = NA, sparsity = NA, prob = NA),
+  min.parent = 1L,
+  trees = 500L,
+  max.depth = 0,
+  bagging = 0.2,
+  replacement = TRUE,
+  stratify = TRUE,
+  rank.transform = FALSE,
+  store.oob = FALSE,
+  store.impurity = FALSE,
+  progress = FALSE,
+  rotate = FALSE,
+  num.cores = 0L,
+  seed = sample(0:1e+08, 1),
+  cat.map = NULL,
+  task = "classification",
+  eps = 0.05,
+  honesty = FALSE
+)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}
@@ -50,12 +66,11 @@ default values will be populated, see \code{\link[rerf]{defaults}} for details.}
 
 \item{cat.map}{a list specifying which columns in X correspond to the same one-of-K encoded feature. Each element of cat.map is a numeric vector specifying the K column indices of X corresponding to the same categorical feature after one-of-K encoding. All one-of-K encoded features in X must come after the numeric features. The K encoded columns corresponding to the same categorical feature must be placed contiguously within X. The reason for specifying cat.map is to adjust for the fact that one-of-K encoding cateogorical features results in a dilution of numeric features, since a single categorical feature is expanded to K binary features. If cat.map = NULL, then RerF assumes all features are numeric (i.e. none of the features have been one-of-K encoded).}
 
-\item{rfPack}{boolean flag to determine whether to pack a random forest in order to improve prediction speed.  This flag is only applicable when training a forest with the "rf" option.  (rfPack = FALSE)}
-
-\item{task}{string specifies whether 'classification' or 'similarity'
-should be run.}
+\item{task}{string specifies whether 'classification', 'regression', or 'similarity' should be run (task='classification').}
 
 \item{eps}{a scalar between 0 and 1. A leaf node is designated if the mean node similarity is at least 1 - eps. Only used if task is 'similarity' (eps=0.05)}
+
+\item{honesty}{if TRUE then OOB samples will be used for local leaf node estimates (honesty=FALSE).}
 }
 \value{
 forest
@@ -120,7 +135,7 @@ Y <- 1 - as.matrix(dist(X))
 iris.forest <- RerF(X, Y, task = 'similarity', num.cores = 2L)
 Yhat <- Predict(X, iris.forest, num.cores = 2L)
 
-### Frobenius norm of $Y - \\hat{Y}$
+### Frobenius norm of $Y - \hat{Y}$
 (f.iris <- norm(Y - Yhat, "F"))
 
 par(mfrow = c(1,3))

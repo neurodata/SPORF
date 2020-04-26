@@ -4,8 +4,23 @@
 \alias{BuildSimTree}
 \title{RerF Similarity Tree Generator}
 \usage{
-BuildSimTree(X, Y, FUN, paramList, min.parent, max.depth, bagging,
-  replacement, stratify, store.oob, store.impurity, progress, rotate, eps)
+BuildSimTree(
+  X,
+  Y,
+  FUN,
+  paramList,
+  min.parent,
+  max.depth,
+  bagging,
+  replacement,
+  stratify,
+  store.oob,
+  store.impurity,
+  progress,
+  rotate,
+  eps,
+  honesty
+)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}
@@ -35,7 +50,9 @@ default values will be populated, see \code{\link[rerf]{defaults}} for details.}
 
 \item{rotate}{if TRUE then the data matrix X is uniformly randomly rotated.}
 
-\item{eps}{a scalar between 0 and 1. A leaf node is designated if the mean node similarity is at least 1 - eps (eps=0.05)}
+\item{eps}{a scalar between 0 and 1. A leaf node is designated if the mean node similarity is at least 1 - eps.}
+
+\item{honesty}{if TRUE then OOB samples will be used for local leaf node estimates.}
 }
 \value{
 Tree

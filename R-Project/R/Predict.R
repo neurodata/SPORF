@@ -121,7 +121,7 @@ Predict <- function(X, forest, OOB = FALSE, num.cores = 0L, Xtrain = NULL, aggre
         return(proba)
       } else {
         predictions <- max.col(proba, ties.method = "random") # Randomly break ties
-        predictions <- factor(predictions, labels = labels)
+        predictions <- factor(predictions, levels = 1:length(labels), labels = labels)
       }
     }
   } else if (forest$params$task == "similarity") {
@@ -176,6 +176,53 @@ Predict <- function(X, forest, OOB = FALSE, num.cores = 0L, Xtrain = NULL, aggre
 
     if (aggregate.output) {
       predictions <- apply(predictions, c(1, 2), mean, na.rm = TRUE)
+    }
+  } else if (forest$params$task == "regression") {
+    if (OOB) {
+      CompPredictCaller <- function(tree, ...) RunOOBReg(X = X, tree = tree)
+    } else {
+      CompPredictCaller <- function(tree, ...) RunPredictReg(X = X, tree = tree)
+    }
+
+    f_size <- length(forest$trees)
+    if (num.cores != 1L) {
+      if (num.cores == 0L) {
+        # Use all but 1 core if num.cores=0.
+        num.cores <- parallel::detectCores() - 1L
+      }
+      num.cores <- min(num.cores, f_size)
+      gc()
+      if ((utils::object.size(forest) > 2e+09) | (utils::object.size(X) > 2e+09) |
+        .Platform$OS.type == "windows") {
+        cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
+        parallel::clusterExport(cl = cl, varlist = c("X", "RunPredictReg"), envir = environment())
+        Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
+      } else {
+        cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
+        Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
+      }
+      parallel::stopCluster(cl)
+    } else {
+      # Use just one core.
+      Yhats <- lapply(forest$trees, FUN = CompPredictCaller)
+    }
+
+    if (!aggregate.output) {
+      predictions <- matrix(unlist(Yhats), nrow = nrow(X), ncol = f_size)
+      return(predictions)
+    } else {
+      # Count how many time each observations are out-of-bag
+      if (OOB) {
+        oob.counts <- integer(nrow(X))
+        for (i in 1:f_size) {
+          idx <- !is.na(Yhats[[i]])
+          oob.counts[idx] <- oob.counts[idx] + 1
+        }
+        # Element wise mean of list of matrices
+        predictions <- rowSums(matrix(unlist(Yhats), nrow=nrow(X)), na.rm=TRUE) / oob.counts
+      } else {
+        predictions <- Reduce("+", Yhats) / length(Yhats)
+      }
     }
   }
   return(predictions)

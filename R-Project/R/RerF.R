@@ -21,10 +21,9 @@
 #' @param num.cores the number of cores to use while training. If num.cores=0 then 1 less than the number of cores reported by the OS are used. (num.cores=0)
 #' @param seed the seed to use for training the forest.  For two runs to match you must use the same seed for each run AND you must also use the same number of cores for each run. (seed=sample((0:100000000,1)))
 #' @param cat.map a list specifying which columns in X correspond to the same one-of-K encoded feature. Each element of cat.map is a numeric vector specifying the K column indices of X corresponding to the same categorical feature after one-of-K encoding. All one-of-K encoded features in X must come after the numeric features. The K encoded columns corresponding to the same categorical feature must be placed contiguously within X. The reason for specifying cat.map is to adjust for the fact that one-of-K encoding cateogorical features results in a dilution of numeric features, since a single categorical feature is expanded to K binary features. If cat.map = NULL, then RerF assumes all features are numeric (i.e. none of the features have been one-of-K encoded).
-#' @param task string specifies whether 'classification' or 'similarity'
-#' should be run.
-#' @param rfPack boolean flag to determine whether to pack a random forest in order to improve prediction speed.  This flag is only applicable when training a forest with the "rf" option.  (rfPack = FALSE)
+#' @param task string specifies whether 'classification', 'regression', or 'similarity' should be run (task='classification').
 #' @param eps a scalar between 0 and 1. A leaf node is designated if the mean node similarity is at least 1 - eps. Only used if task is 'similarity' (eps=0.05)
+#' @param honesty if TRUE then OOB samples will be used for local leaf node estimates (honesty=FALSE).
 #'
 #' @return forest
 #'
@@ -114,8 +113,8 @@ RerF <-
              store.impurity = FALSE, progress = FALSE,
              rotate = FALSE, num.cores = 0L,
              seed = sample(0:100000000, 1),
-             cat.map = NULL, rfPack = FALSE,
-             task = "classification", eps = 0.05) {
+             cat.map = NULL, task = "classification", eps = 0.05,
+             honesty = FALSE) {
 
     # The below 'na.action' was removed from the parameter list of RerF because the CRAN check did not accept it and because it will potentially change the X and Y input by the user.
     # na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] },
@@ -182,6 +181,17 @@ RerF <-
           stop("Incompatible data type. Y must be a symmetric numeric matrix.")
         }
       }
+    } else if (task == "regression") {
+      if (is.matrix(Y)) {
+        if ((dim(Y)[1L] == 1L) || (dim(Y)[2L] == 1L)) {
+          Y <- as.vector(Y)
+        } else {
+          stop("Incompatible data type. Y must be a vector or 1D matrix")
+        }
+      }
+      if (!is.numeric(Y[1L])) {
+        stop("Incompatible data type. Y must a numeric vector.")
+      }
     }
 
     # address na values.
@@ -211,7 +221,8 @@ RerF <-
           store.oob = store.oob,
           store.impurity = store.impurity,
           progress = progress,
-          rotate = rotate
+          rotate = rotate,
+          honesty = honesty
         )
       } else if (task == "similarity") {
         BuildSimTree(
@@ -228,7 +239,25 @@ RerF <-
           store.impurity = store.impurity,
           progress = progress,
           rotate = rotate,
-          eps = eps
+          eps = eps,
+          honesty = honesty
+        )
+      } else if (task == "regression") {
+        stratify <- NULL # not applicable to regression
+        BuildRegTree(
+          X = X,
+          Y = Y,
+          FUN = FUN,
+          paramList = paramList,
+          min.parent = min.parent,
+          max.depth = max.depth,
+          bagging = bagging,
+          replacement = replacement,
+          store.oob = store.oob,
+          store.impurity = store.impurity,
+          progress = progress,
+          rotate = rotate,
+          honesty = honesty
         )
       }
     }
@@ -249,7 +278,8 @@ RerF <-
       task = task,
       eps = if (task == "similarity") {
         eps
-      }
+      },
+      honesty = honesty
     )
 
     if (num.cores != 1L) {
@@ -274,9 +304,6 @@ RerF <-
       # Use just one core.
       set.seed(seed)
       forest$trees <- lapply(1:trees, mcrun)
-    }
-    if (identical(FUN, rerf::RandMatRF) & rfPack) {
-      PackForest(X, Y, forest)
     }
     return(forest)
   }

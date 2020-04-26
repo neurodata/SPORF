@@ -16,7 +16,8 @@
 #' @param store.impurity if TRUE then the reduction in Gini impurity is stored for every split. This is required to run FeatureImportance().
 #' @param progress if true a pipe is printed after each tree is created.  This is useful for large datasets.
 #' @param rotate if TRUE then the data matrix X is uniformly randomly rotated.
-#' @param eps a scalar between 0 and 1. A leaf node is designated if the mean node similarity is at least 1 - eps (eps=0.05)
+#' @param eps a scalar between 0 and 1. A leaf node is designated if the mean node similarity is at least 1 - eps.
+#' @param honesty if TRUE then OOB samples will be used for local leaf node estimates.
 #'
 #' @return Tree
 #'
@@ -27,7 +28,7 @@
 #' # BuildSimTree(x, y, RandMatBinary, p = 1L, d = 1L, rho = 1, prob = 1)
 BuildSimTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, replacement,
                          stratify, store.oob, store.impurity, progress,
-                         rotate, eps) {
+                         rotate, eps, honesty) {
   # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   # rfr builds a randomer similarity forest structure made up of a list
   # of trees.  This forest is randomer because each node is rotated before
@@ -81,6 +82,8 @@ BuildSimTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, r
   #
   # eps is a numeric value between 0 and 1. A node is designated a leaf node if
   # the average pairwise similarity of the points within the node is greater than 1 - eps
+  #
+  # honesty is a boolean. When true the OOB samples are also used for leaf node estimates
   #
   # OUTPUT:
   #
@@ -171,30 +174,39 @@ BuildSimTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, r
     if (replacement) {
       go <- TRUE
       while (go) {
-        ind <- sample(1L:w, w, replace = TRUE)
+        ind <- sample.int(w, w, replace = TRUE)
         go <- all(1L:w %in% ind)
       }
       Assigned2Node[[1L]] <- ind
     } else {
-      ind[1:perBag] <- sample(1:w, perBag, replace = FALSE)
+      ind[1:perBag] <- sample.int(w, perBag, replace = FALSE)
       Assigned2Node[[1L]] <- ind[1:perBag]
     }
   } else {
     Assigned2Node[[1L]] <- 1:w
+  }
+  if (honesty) {
+    Assigned2Node.oob <- vector("list", MaxNumNodes)
+    Assigned2Node.oob[[1L]] <- which(!(1L:w %in% ind))
   }
 
   # main loop over nodes.  This loop ends when the node stack is empty.
   while (CurrentNode < NextUnusedNode) {
     NdSize <- length(Assigned2Node[[CurrentNode]]) # determine node size
     # compute impurity for current node
-    I <- mean(Y[Assigned2Node[[CurrentNode]], Assigned2Node[[CurrentNode]]][lower.tri(Y[Assigned2Node[[CurrentNode]], Assigned2Node[[CurrentNode]]], diag = TRUE)])
+    I <- (NdSize/2 + sum(Y[Assigned2Node[[CurrentNode]], Assigned2Node[[CurrentNode]]][lower.tri(Y[Assigned2Node[[CurrentNode]], Assigned2Node[[CurrentNode]]])]))/(NdSize^2/2)
     # check to see if we should continue with a node split or just make a leaf node
     if (NdSize < min.parent ||
       I >= (1 - eps) ||
       NDepth[CurrentNode] == max.depth) {
       # store tree map data (negative value means this is a leaf node
       treeMap[CurrentNode] <- currLN <- currLN - 1L
-      leafMembers[[currLN * -1L]] <- Assigned2Node[[CurrentNode]]
+      if (honesty) {
+        leafMembers[[currLN * -1L]] <- c(Assigned2Node[[CurrentNode]], Assigned2Node.oob[[CurrentNode]])
+        Assigned2Node.oob[[CurrentNode]] <- NA
+      } else {
+        leafMembers[[currLN * -1L]] <- Assigned2Node[[CurrentNode]]
+      }
       NodeStack <- NodeStack[-1L] # pop node off stack
       Assigned2Node[[CurrentNode]] <- NA # remove saved indexes
       CurrentNode <- NodeStack[1L] # point to top of stack
@@ -257,7 +269,12 @@ BuildSimTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, r
     if (ret$MaxDeltaI == 0) {
       # store tree map data (negative value means this is a leaf node
       treeMap[CurrentNode] <- currLN <- currLN - 1L
-      leafMembers[currLN * -1L] <- Assigned2Node[[CurrentNode]]
+      if (honesty) {
+        leafMembers[[currLN * -1L]] <- c(Assigned2Node[[CurrentNode]], Assigned2Node.oob[[CurrentNode]])
+        Assigned2Node.oob[[CurrentNode]] <- NA
+      } else {
+        leafMembers[[currLN * -1L]] <- Assigned2Node[[CurrentNode]]
+      }
       NodeStack <- NodeStack[-1L] # pop current node off stack
       Assigned2Node[[CurrentNode]] <- NA # remove saved indexes
       CurrentNode <- NodeStack[1L] # point to current top of node stack
@@ -292,6 +309,25 @@ BuildSimTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, r
 
     Assigned2Node[[NextUnusedNode]] <- Assigned2Node[[CurrentNode]][MoveLeft]
     Assigned2Node[[NextUnusedNode + 1L]] <- Assigned2Node[[CurrentNode]][!MoveLeft]
+
+    # move oob observations along as well if they will be used for honest leaf node estimation
+    if (honesty) {
+      NdSize.oob <- length(Assigned2Node.oob[[CurrentNode]])
+      if (NdSize.oob > 0L) {
+        Xnode[1:NdSize.oob] <- X[Assigned2Node.oob[[CurrentNode]], sparseM[lrows, 1L], drop = FALSE] %*% sparseM[lrows, 3L, drop = FALSE]
+
+        # find which child node each sample will go to and move
+        # them accordingly
+        MoveLeft <- Xnode[1L:NdSize.oob] <= ret$BestSplit[bsidx]
+
+        Assigned2Node.oob[[NextUnusedNode]] <- Assigned2Node.oob[[CurrentNode]][MoveLeft]
+        Assigned2Node.oob[[NextUnusedNode + 1L]] <- Assigned2Node.oob[[CurrentNode]][!MoveLeft]
+      } else {
+        Assigned2Node.oob[[NextUnusedNode]] <- integer(0)
+        Assigned2Node.oob[[NextUnusedNode + 1L]] <- integer(0)
+      }
+      Assigned2Node.oob[[CurrentNode]] <- NA
+    }
 
     # store tree map data (positive value means this is an internal node)
     treeMap[CurrentNode] <- currIN <- currIN + 1L
