@@ -11,14 +11,23 @@ from mne_bids import make_bids_basename, write_raw_bids
 from natsort import natsorted
 from tqdm import tqdm
 
-from mtsmorf.io.bids_conversion import (
+# from mtsmorf.io.bids_conversion import (
+#     _convert_mat_to_raw,
+#     _convert_trial_info_war,
+#     _create_electrodes_tsv,
+#     _convert_trial_info_move,
+#     _append_anat_to_channels,
+# )
+from bids_conversion import (
     _convert_mat_to_raw,
     _convert_trial_info_war,
     _create_electrodes_tsv,
     _convert_trial_info_move,
     _append_anat_to_channels,
 )
-from mtsmorf.io.utils import append_original_fname_to_scans
+
+# from mtsmorf.io.utils import append_original_fname_to_scans
+from utils import append_original_fname_to_scans
 
 logger = logging.getLogger(__name__)
 
@@ -144,6 +153,7 @@ if __name__ == "__main__":
     # excel_fpath = Path(
     #     "/home/adam2392/hdd2/epilepsy_bids/organized_clinical_datasheet_raw.xlsx"
     # )
+    # excel_fpath = Path("/Users/ChesterHuynh/OneDrive - Johns Hopkins/research/data/")
 
     # define BIDS identifiers
     acquisition = "seeg"

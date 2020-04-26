@@ -105,7 +105,7 @@ def _get_bad_chs(bids_fname, bids_root):
     return bads
 
 
-def read_trial(bids_fname, bids_root, trial_id):
+def read_trial(bids_fname, bids_root, trial_id, notch_filter=False):
     """Read Raw from specific trial id."""
     raw = read_raw_bids(bids_fname, bids_root)
 
@@ -155,10 +155,14 @@ def read_trial(bids_fname, bids_root, trial_id):
         picks=good_chs, start=start, stop=stop, return_times=True
     )
 
+    if notch_filter:
+        fs = raw.info["sfreq"]
+        rawdata = mne.filter.notch_filter(rawdata, fs, np.arange(60, fs / 2, 60))
+
     return rawdata, times, events_tsv
 
 
-def read_label(bids_fname, bids_root, trial_id=None, label_keyword="bet amount"):
+def read_label(bids_fname, bids_root, trial_id=None, label_keyword="bet_amount"):
     """Read trial's label"""
     # get trial information
     behav_tsv, events_tsv = get_trial_info(bids_fname, bids_root)
@@ -180,7 +184,7 @@ def read_label(bids_fname, bids_root, trial_id=None, label_keyword="bet amount")
     return y, trial_ids
 
 
-def read_dataset(bids_fname, bids_root):
+def read_dataset(bids_fname, bids_root, tmin=-0.2, tmax=0.5):
     """Read entire dataset as an Epoch."""
     # read in the dataset from mnebids
     raw = read_raw_bids(bids_fname, bids_root)
@@ -196,7 +200,7 @@ def read_dataset(bids_fname, bids_root):
     # get the events and events id structure
     events, event_id = mne.events_from_annotations(raw)
     # event_id = event_id['Reserved (Start Trial)']  # time lock to the event id for Start Trial
-    event_id = event_id["show card"]
+    event_id = event_id["show card"]  # Change time locked event
 
     success_trial_flag = np.array(list(map(int, behav_tsv["successful_trial_flag"])))
     # successful trial indices
@@ -209,7 +213,7 @@ def read_dataset(bids_fname, bids_root):
     # )
 
     # get the epochs
-    epochs = mne.Epochs(raw, events, event_id, picks=good_chs)
+    epochs = mne.Epochs(raw, events, event_id, tmin=tmin, tmax=tmax, picks=good_chs)
 
     return epochs
 
@@ -227,6 +231,8 @@ if __name__ == "__main__":
 
     # bids identifiers
     bids_root = Path("/Users/adam2392/Dropbox/efri/")
+    # bids_root = Path("/workspaces/research/data/efri/")
+    bids_root = Path("/Users/ChesterHuynh/OneDrive - Johns Hopkins/research/data/efri/")
     deriv_path = Path(bids_root / "derivatives")
 
     # subject identifiers
@@ -261,7 +267,7 @@ if __name__ == "__main__":
     ]  # get unsuccessful trials based on keyword label
 
     # read dataset as an epoch
-    epochs = read_dataset(bids_fname, bids_root)
+    epochs = read_dataset(bids_fname, bids_root)  # N x C x T' flatten to # N x (C x T')
     epochs = epochs.drop(unsuccessful_trial_inds)
     epochs.load_data()
     epochs_data = epochs.get_data()
