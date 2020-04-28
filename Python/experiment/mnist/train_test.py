@@ -23,7 +23,10 @@ from sklearn.ensemble import RandomForestClassifier
 
 import rerf
 from rerf.rerfClassifier import rerfClassifier
-from data_loader import get_train, get_test
+from sklearn.datasets import fetch_openml
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.utils import check_random_state
 print(rerf.__file__)
 
 
@@ -57,18 +60,26 @@ def sort_keep_balance(y,block_lengths):
     
     return(sort_idxs)
 
-X_train,y_train = get_train()
-X_test,y_test = get_test()
+X, y = fetch_openml('mnist_784', version=1, return_X_y=True)
+
+random_state = check_random_state(0)
+permutation = random_state.permutation(X.shape[0])
+print(X.shape)
+X = X[permutation]
+y = y[permutation].astype(int)
+
+#X_train, X_test, y_train, y_test = train_test_split(
+#    X, y, train_size=train_samples, test_size=10000)
 
 # Parameters
 n_est = 500
 ncores = 40
-max_features = 200
-HEIGHT = 32
-hmin = 1
+max_features = 100
+HEIGHT = 28
+hmin = 3
 hmax = 3
-WIDTH = 32
-wmin = 1
+WIDTH = 28
+wmin = 3
 wmax = 3
 
 
@@ -77,7 +88,7 @@ wmax = 3
 
 # Define classifier(s)
 # names = {"RF":"#f86000", "TORF":"red", "MORF": "orange"}
-names = {"TORF":"red"}
+names = {"MORF":"red"}
 classifiers = [RandomForestClassifier(n_estimators=n_est, max_features='auto', n_jobs=ncores),
                 rerfClassifier(
                     projection_matrix="S-RerF", 
@@ -96,45 +107,44 @@ classifiers = [RandomForestClassifier(n_estimators=n_est, max_features='auto', n
 classifiers = [classifiers[1]]
 
 ### Accuracy vs. number of training samples
+k = 1
+test_num = 10000
+sss = StratifiedShuffleSplit(n_splits=k, test_size=test_num, random_state=0)
 
 # Number of training samples
-ns = np.linspace(2,math.ceil(np.log10(len(y_train))),5)
+ns = np.linspace(2,math.ceil(np.log10(len(y) - test_num)),5)
 ns = np.power(10,ns).astype(int)
 
 # Train & Test
 timestamp = datetime.now().strftime('%m-%d-%H:%M')
-# f = open(f'cifar10_{timestamp}.csv', 'w+')
-# f.write("classifier,n,Lhat,trainTime,testTime\n")
-# f.flush()
+f = open(f'mnist_{timestamp}.csv', 'w+')
+f.write("classifier,n,Lhat,trainTime,testTime\n")
+f.flush()
 
 runList = [(n, clf, name) for n in ns\
            for clf,name in zip(classifiers, [name for name in names])]
 
-#bal_index = sort_keep_balance(y_train,ns)
-#for n, clf, name in tqdm(runList):
-clf = classifiers[0]
-n = len(y_train)
-name = 'MORF'
-prob_mtx = [y_test]
-for label in np.unique(y_train):
-    trainStartTime = time.time()
-    #clf.fit(X_train[nIndex], y_train[nIndex])
-    clf.fit(X_train[:n], (y_train == label).astype(int)[:n])
-    trainEndTime = time.time()
-    trainTime = trainEndTime - trainStartTime
+for i, (train_index, test_index) in enumerate(sss.split(X, y)):
+    print(f'Fold {i}')
+    bal_index = sort_keep_balance(y[train_index],ns)
+    
+    for n, clf, name in tqdm(runList):
+        nIndex = train_index[bal_index[:n]]
+        
+        trainStartTime = time.time()
+        clf.fit(X[nIndex], y[nIndex])
+        trainEndTime = time.time()
+        trainTime = trainEndTime - trainStartTime
 
-    testStartTime = time.time()
-    #yhat = clf.predict(X_test)
-    probs = clf.predict_proba(X_test)[:,1]
-    testEndTime = time.time()
-    testTime = testEndTime - testStartTime
+        testStartTime = time.time()
+        yhat = clf.predict(X[test_index])
+        testEndTime = time.time()
+        testTime = testEndTime - testStartTime
 
-    prob_mtx.append(probs)
-    np.savetxt(f'cifar10_1vs-all_{timestamp}.csv', prob_mtx, delimiter=',')
-    #lhat = np.mean(np.not_equal(yhat, y_test).astype(int))
+        lhat = np.mean(np.not_equal(yhat, y[test_index]).astype(int))
 
-    ####("variable,Lhat,trainTime,testTime,iterate")
-    #f.write(f"{name}, {n}, {lhat:2.9f}, {trainTime:2.9f}, {testTime:2.9f}\n")
-    #f.flush()
-np.savetxt(f'cifar10_1vs-all_{timestamp}.csv', prob_mtx, delimiter=',')
-#f.close()
+        ####("variable,Lhat,trainTime,testTime,iterate")
+        f.write(f"{name}, {n}, {lhat:2.9f}, {trainTime:2.9f}, {testTime:2.9f}, {i}\n")
+        f.flush()
+
+f.close()

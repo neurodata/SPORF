@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 # coding: utf-8
 
@@ -20,15 +21,14 @@ import seaborn as sns
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import balanced_accuracy_score
 
 import rerf
 from rerf.rerfClassifier import rerfClassifier
-from data_loader import get_train, get_test
+from data_loader import load_data
 print(rerf.__file__)
 
-
-# In[3]:
-
+# ## Helper functions
 
 def sort_keep_balance(y,block_lengths):
     """
@@ -57,19 +57,28 @@ def sort_keep_balance(y,block_lengths):
     
     return(sort_idxs)
 
-X_train,y_train = get_train()
-X_test,y_test = get_test()
+# ## Train & Test
+
+# In[4]:
+
+DATASET = 'UWaveGestureLibraryX'
+X_train,y_train,X_test,y_test = load_data(DATASET)
+# print(np.unique(y_train))
+# for i in np.unique(y_train):
+#     print(f'{i}: {sum(y_train==i)}')
+# In[5]:
+
 
 # Parameters
 n_est = 500
 ncores = 40
-max_features = 200
-HEIGHT = 32
+max_features = 500
+HEIGHT = 1
 hmin = 1
-hmax = 3
-WIDTH = 32
+hmax = 1
+WIDTH = int(X_train.shape[1] / HEIGHT)
+wmax = 4
 wmin = 1
-wmax = 3
 
 
 # In[6]:
@@ -95,46 +104,32 @@ classifiers = [RandomForestClassifier(n_estimators=n_est, max_features='auto', n
 
 classifiers = [classifiers[1]]
 
-### Accuracy vs. number of training samples
+# Grid search each classifier and write to file
+parameters = [{'patch_height_max':[1], 'patch_height_min':[1],
+               'patch_width_max':[2,3,4,5,6,8,10,12,20], 'patch_width_min':[1,2],
+               'max_features':[5,10,25,50,100]}]
+best_classifiers = []
 
-# Number of training samples
-ns = np.linspace(2,math.ceil(np.log10(len(y_train))),5)
-ns = np.power(10,ns).astype(int)
-
-# Train & Test
 timestamp = datetime.now().strftime('%m-%d-%H:%M')
-# f = open(f'cifar10_{timestamp}.csv', 'w+')
-# f.write("classifier,n,Lhat,trainTime,testTime\n")
-# f.flush()
+f = open(f'gscv_results_{DATASET}_{timestamp}.csv', 'w+')
+f.write("classifier,parameters,mean_test_score,mean_fit_time,mean_score_time\n")
+f.flush()
 
-runList = [(n, clf, name) for n in ns\
-           for clf,name in zip(classifiers, [name for name in names])]
+for clf,name,parameters in tqdm(zip(classifiers, names, parameters)):
+    gscv = GridSearchCV(clf, parameters, cv=StratifiedShuffleSplit(n_splits=1,
+        test_size=0.1),n_jobs=ncores, refit=False, scoring='balanced_accuracy')
+    gscv.fit(X_train, y_train)
 
-#bal_index = sort_keep_balance(y_train,ns)
-#for n, clf, name in tqdm(runList):
-clf = classifiers[0]
-n = len(y_train)
-name = 'MORF'
-prob_mtx = [y_test]
-for label in np.unique(y_train):
-    trainStartTime = time.time()
-    #clf.fit(X_train[nIndex], y_train[nIndex])
-    clf.fit(X_train[:n], (y_train == label).astype(int)[:n])
-    trainEndTime = time.time()
-    trainTime = trainEndTime - trainStartTime
+    results = gscv.cv_results_
 
-    testStartTime = time.time()
-    #yhat = clf.predict(X_test)
-    probs = clf.predict_proba(X_test)[:,1]
-    testEndTime = time.time()
-    testTime = testEndTime - testStartTime
+    result_keys = ['params','mean_test_score',
+                  'mean_fit_time','mean_score_time']
 
-    prob_mtx.append(probs)
-    np.savetxt(f'cifar10_1vs-all_{timestamp}.csv', prob_mtx, delimiter=',')
-    #lhat = np.mean(np.not_equal(yhat, y_test).astype(int))
+    cv_results = [', '.join([str(results[key][i]) for key in result_keys]) for i in range(len(results['params']))]
+    for cv_result in cv_results:
+        f.write(f'{name}, {cv_result}\n')
+        f.flush()
 
-    ####("variable,Lhat,trainTime,testTime,iterate")
-    #f.write(f"{name}, {n}, {lhat:2.9f}, {trainTime:2.9f}, {testTime:2.9f}\n")
-    #f.flush()
-np.savetxt(f'cifar10_1vs-all_{timestamp}.csv', prob_mtx, delimiter=',')
-#f.close()
+    print(f'Best {name} parameters:')
+    print(f'{gscv.best_params_}')
+    print(f'With score {gscv.best_score_}')

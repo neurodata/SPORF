@@ -153,6 +153,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         patch_height_min=1,
         patch_width_max=None,
         patch_width_min=1,
+        wrap=0,
     ):
         self.projection_matrix = projection_matrix
         self.n_estimators = n_estimators
@@ -171,6 +172,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
         self.patch_height_min = patch_height_min
         self.patch_width_max = patch_width_max
         self.patch_width_min = patch_width_min
+        self.wrap = wrap
 
     def fit(self, X, y):
         """Fit estimator.
@@ -286,6 +288,7 @@ class rerfClassifier(BaseEstimator, ClassifierMixin):
             self.forest_.setParameter("patchHeightMin", self.patch_height_min_)
             self.forest_.setParameter("patchWidthMax", self.patch_width_max_)
             self.forest_.setParameter("patchWidthMin", self.patch_width_min_)
+            self.forest_.setParameter("wrap", self.wrap)
         else:
             raise ValueError("Incorrect projection matrix")
         self.forest_.setParameter("forestType", forestType)

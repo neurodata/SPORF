@@ -20,6 +20,9 @@
 #include <limits>
 #include <random>
 
+using std::min;
+using std::max;
+
 namespace fp{
 
 	template<typename T, typename Q>
@@ -130,6 +133,8 @@ namespace fp{
 					const int& patchWidthMax  = fpSingleton::getSingleton().returnPatchWidthMax();
 					const int& patchWidthMin  = fpSingleton::getSingleton().returnPatchWidthMin();
 
+					const int& wrap = fpSingleton::getSingleton().returnWrap();
+
 					// A vector of vectors that specifies the parameters
 					// for each patch: < <Height>, <Width>, <TopLeft> >
 					std::vector<std::vector<int> > heightWidthTop(3, std::vector<int>(fpSingleton::getSingleton().returnMtry()));
@@ -137,25 +142,55 @@ namespace fp{
 					int deltaH;
 					int deltaW;
 					int topLeftSeed;
+					int patchWidth;
+					int patchHeight;
+					int row;
+					int col;
 					// The weight is currently hard-coded to 1.
 
 					// Loop over mtry to load random patch dimensions
 					// and top left position.
 					for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++){
 
-						heightWidthTop[0][k] = randNum->gen(patchHeightMax - patchHeightMin + 1) + patchHeightMin; //sample from [patchHeightMin, patchHeightMax]
-						heightWidthTop[1][k] = randNum->gen(patchWidthMax - patchWidthMin + 1) +  patchWidthMin;    //sample from [patchWidthMin, patchWidthMax]
+						patchHeight = randNum->gen(patchHeightMax - patchHeightMin + 1) + patchHeightMin; //sample from [patchHeightMin, patchHeightMax]
+						patchWidth = randNum->gen(patchWidthMax - patchWidthMin + 1) +  patchWidthMin;    //sample from [patchWidthMin, patchWidthMax]
+						// heightWidthTop[0][k] = randNum->gen(patchHeightMax - patchHeightMin + 1) + patchHeightMin; //sample from [patchHeightMin, patchHeightMax]
+						// heightWidthTop[1][k] = randNum->gen(patchWidthMax - patchWidthMin + 1) +  patchWidthMin;    //sample from [patchWidthMin, patchWidthMax]
 						// Using the above, 1-pixel patches are possible ... [JLP]
 
 						// compute the difference between the image dimensions and the current random patch dimensions for sampling
-						deltaH = imageHeight - heightWidthTop[0][k] + 1;
-						deltaW = imageWidth  - heightWidthTop[1][k] + 1;
+						// deltaH = imageHeight - heightHeightTop[0][k] + 1;
+						// deltaW = imageWidth  - heightWidthTop[1][k] + 1;
+						if (wrap) {
+							deltaH = imageHeight - patchHeight + 1;
+							deltaW = imageWidth  - patchWidth + 1;
 
-						// Sample the top left pixel from the available pixels (due to buffering).
-						topLeftSeed = randNum->gen(deltaH * deltaW);
+							topLeftSeed = randNum->gen(deltaH * deltaW);
+							col = topLeftSeed % deltaW;
+							row = floor(topLeftSeed / deltaW);
 
-						// Convert the top-left-seed value to it's appropriate index in the full image.
-						heightWidthTop[2][k] = (topLeftSeed % deltaW) + (imageWidth * floor(topLeftSeed / deltaW));
+							heightWidthTop[2][k] = randNum->gen(deltaH * deltaW);
+
+						} else {
+							deltaH = imageHeight + 2*(patchHeight - 1);
+							deltaW = imageWidth + 2*(patchWidth - 1);
+
+							// Sample the top left pixel from the available pixels (due to buffering).
+							// Sample the top left pixel from the available pixels (due to padding).
+							topLeftSeed = randNum->gen(deltaH * deltaW);
+							col = topLeftSeed % deltaW;
+							row = floor(topLeftSeed / deltaW);
+
+							// Make sampling uniform (due to padding)
+							patchWidth = std::min(patchWidth, std::min(col+1, imageWidth + patchWidth - col - 1));
+							patchHeight = std::min(patchHeight, std::min(row+1, imageHeight + patchHeight - row - 1));
+
+							// Convert the top-left-seed value to it's appropriate index in the full image.
+							heightWidthTop[2][k] = max(0,col-patchWidth+1) + (imageWidth * max(0, row-patchHeight+1));
+						}
+
+						heightWidthTop[0][k] = patchHeight;
+						heightWidthTop[1][k] = patchWidth;
 
 						assert((heightWidthTop[2][k] % imageWidth) < deltaW); // check that TopLeft pixel is in the correct column.
 						assert((int)(heightWidthTop[2][k] / imageWidth) < deltaH); // check that TopLeft pixel is in the correct row.
@@ -199,21 +234,28 @@ namespace fp{
 					const int& numFeatures = fpSingleton::getSingleton().returnNumFeatures();
 					const int& fullPatchSize = imageHeight * imageWidth;
 					const int& depth = (int)(numFeatures / fullPatchSize);
+					const int& wrap = fpSingleton::getSingleton().returnWrap();
 
 					int pixelIndex = -1;
 					//int rndWeight;
-					int weight;
+					//int weight;              
 					int channelIndex;
+					int rowMod = 1;
+					int colMod = 1;
+					if (wrap) {
+						rowMod = imageHeight * imageWidth;
+						colMod = imageWidth;
+					}
 					for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++){
 						channelIndex = randNum->gen(depth) * fullPatchSize;
 						for (int row = 0; row < patchPositions[0][k]; row++) {
 							for (int col = 0; col < patchPositions[1][k]; col++) {
-								pixelIndex = channelIndex + patchPositions[2][k] + col + (imageWidth * row);
+								pixelIndex = channelIndex + (patchPositions[2][k] + col) % colMod + (imageWidth * row) % rowMod;
 								featuresToTry[k].returnFeatures().push_back(pixelIndex);
-								weight = (col==0||row==0||col==(patchPositions[1][k]-1)||row==(patchPositions[0][k]-1)) ? -1 : 1;
+								//weight = (col==0||row==0||col==(patchPositions[1][k]-1)||row==(patchPositions[0][k]-1)) ? -1 : 1;
 								//rndWeight = (randNum->gen(2)%2) ? 1 : -1;
-								assert(weight==1 || weight==-1);
-								featuresToTry[k].returnWeights().push_back(weight);
+								//assert(weight==1 || weight==-1);
+								featuresToTry[k].returnWeights().push_back(1);
 							}
 						} // Could possibly turn this into one for-loop somehow later. [JLP]
 					}

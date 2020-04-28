@@ -20,15 +20,14 @@ import seaborn as sns
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import balanced_accuracy_score
 
 import rerf
 from rerf.rerfClassifier import rerfClassifier
-from data_loader import get_train, get_test
+from data_loader import load_data
 print(rerf.__file__)
 
-
-# In[3]:
-
+# ## Helper functions
 
 def sort_keep_balance(y,block_lengths):
     """
@@ -57,19 +56,25 @@ def sort_keep_balance(y,block_lengths):
     
     return(sort_idxs)
 
-X_train,y_train = get_train()
-X_test,y_test = get_test()
+# ## Train & Test
+
+# In[4]:
+
+DATASET = 'Phoneme'
+X_train,y_train,X_test,y_test = load_data(DATASET)
+# In[5]:
+
 
 # Parameters
 n_est = 500
 ncores = 40
-max_features = 200
-HEIGHT = 32
+max_features = 500
+HEIGHT = 1
 hmin = 1
-hmax = 3
-WIDTH = 32
+hmax = 1
+WIDTH = int(X_train.shape[1] / HEIGHT)
+wmax = 4
 wmin = 1
-wmax = 3
 
 
 # In[6]:
@@ -80,7 +85,7 @@ wmax = 3
 names = {"TORF":"red"}
 classifiers = [RandomForestClassifier(n_estimators=n_est, max_features='auto', n_jobs=ncores),
                 rerfClassifier(
-                    projection_matrix="S-RerF", 
+                    projection_matrix="MT-MORF", 
                     max_features=max_features,
                     n_estimators=n_est,
                     n_jobs=ncores,
@@ -97,44 +102,47 @@ classifiers = [classifiers[1]]
 
 ### Accuracy vs. number of training samples
 
+# cross-validation train & test splits preserving class percentages
+# k = 1
+# test_fraction = 0.1
+# sss = StratifiedShuffleSplit(n_splits=k, test_size=test_fraction, random_state=0)
+
 # Number of training samples
-ns = np.linspace(2,math.ceil(np.log10(len(y_train))),5)
+ns = np.linspace(2,np.log10(len(y_train)),5)
 ns = np.power(10,ns).astype(int)
 
 # Train & Test
 timestamp = datetime.now().strftime('%m-%d-%H:%M')
-# f = open(f'cifar10_{timestamp}.csv', 'w+')
-# f.write("classifier,n,Lhat,trainTime,testTime\n")
-# f.flush()
+f = open(f'classifier_results_{DATASET}_{timestamp}.csv', 'w+')
+f.write("classifier,n,balancedError,trainTime,testTime,iterate\n")
+f.flush()
 
-runList = [(n, clf, name) for n in ns\
-           for clf,name in zip(classifiers, [name for name in names])]
-
-#bal_index = sort_keep_balance(y_train,ns)
-#for n, clf, name in tqdm(runList):
 clf = classifiers[0]
-n = len(y_train)
-name = 'MORF'
-prob_mtx = [y_test]
-for label in np.unique(y_train):
+name = 'TORF'
+i = 0
+bal_index = sort_keep_balance(y_train,ns)
+for n in ns:
+    nIndex = bal_index[:n]
+
     trainStartTime = time.time()
-    #clf.fit(X_train[nIndex], y_train[nIndex])
-    clf.fit(X_train[:n], (y_train == label).astype(int)[:n])
+    clf.fit(X_train[nIndex], y_train[nIndex])
     trainEndTime = time.time()
     trainTime = trainEndTime - trainStartTime
 
     testStartTime = time.time()
-    #yhat = clf.predict(X_test)
-    probs = clf.predict_proba(X_test)[:,1]
+    yhat = clf.predict(X_test)
     testEndTime = time.time()
     testTime = testEndTime - testStartTime
 
-    prob_mtx.append(probs)
-    np.savetxt(f'cifar10_1vs-all_{timestamp}.csv', prob_mtx, delimiter=',')
-    #lhat = np.mean(np.not_equal(yhat, y_test).astype(int))
+    #predictions.append([i, n] + list(yhat))
+
+    bal_err = 1 - balanced_accuracy_score(y_test, yhat)
+    #lhat = np.mean(np.not_equal(yhat, y[test_index]).astype(int))
 
     ####("variable,Lhat,trainTime,testTime,iterate")
-    #f.write(f"{name}, {n}, {lhat:2.9f}, {trainTime:2.9f}, {testTime:2.9f}\n")
-    #f.flush()
-np.savetxt(f'cifar10_1vs-all_{timestamp}.csv', prob_mtx, delimiter=',')
-#f.close()
+    f.write(f"{name}, {n}, {bal_err:2.9f}, {trainTime:2.9f}, {testTime:2.9f}, {i}\n")
+    f.flush()
+
+f.close()
+
+#np.savetxt(f'Predictions_{TAG}_{timestamp}.csv', predictions, delimiter=',')

@@ -250,6 +250,10 @@ namespace fp {
 			  return fpForestInfo.returnPatchWidthMin();
 			}
 
+			inline int returnWrap(){
+			  return fpForestInfo.returnWrap();
+			}
+
 
 		private: //These are singleton specific methods
 			fpSingleton(){}

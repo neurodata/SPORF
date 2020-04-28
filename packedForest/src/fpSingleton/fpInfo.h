@@ -37,6 +37,7 @@ namespace fp {
 			int patchHeightMax;
 			int patchWidthMin;
 			int patchWidthMax;
+			int wrap;
 
 			int numberOfNodes;
 			int maxDepth;
@@ -86,6 +87,7 @@ namespace fp {
 				patchWidthMax = 0;
 				forestType.clear();
 				CSVFileName.clear();
+				wrap = 0;
 				//initRandom();
 			}
 
@@ -221,6 +223,9 @@ namespace fp {
 			  return patchWidthMin;
 			}
 
+			inline int returnWrap(){
+			  return wrap;
+			}
 
 			////////////////////////////////////////
 			//Random Number Generator
@@ -339,6 +344,8 @@ namespace fp {
 					patchWidthMax = parameterValue;
 				}else if(parameterName == "patchWidthMin"){
 					patchWidthMin = parameterValue;
+				}else if(parameterName == "wrap"){
+					wrap = parameterValue;
 				}else {
 					throw std::runtime_error("Unknown parameter type.(int)");
 				}
