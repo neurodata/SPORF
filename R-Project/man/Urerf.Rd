@@ -4,10 +4,18 @@
 \alias{Urerf}
 \title{Unsupervised RerF forest Generator}
 \usage{
-Urerf(X, trees = 100, min.parent = round(nrow(X)^0.5),
-  max.depth = NA, mtry = ceiling(ncol(X)^0.5), sparsity = 1/ncol(X),
-  normalizeData = TRUE, Progress = TRUE, splitCrit = "twomeans",
-  LinearCombo = TRUE)
+Urerf(
+  X,
+  trees = 100,
+  min.parent = round(nrow(X)^0.5),
+  max.depth = NA,
+  mtry = ceiling(ncol(X)^0.5),
+  sparsity = 1/ncol(X),
+  normalizeData = TRUE,
+  Progress = TRUE,
+  splitCrit = "twomeans",
+  LinearCombo = TRUE
+)
 }
 \arguments{
 \item{X}{an n by d numeric matrix. The rows correspond to observations and columns correspond to features.}

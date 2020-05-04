@@ -4,13 +4,29 @@
 \alias{RerF}
 \title{RerF forest Generator}
 \usage{
-RerF(X, Y, FUN = RandMatBinary, paramList = list(p = NA, d = NA,
-  sparsity = NA, prob = NA), min.parent = 1L, trees = 500L,
-  max.depth = 0, bagging = 0.2, replacement = TRUE,
-  stratify = TRUE, rank.transform = FALSE, store.oob = FALSE,
-  store.impurity = FALSE, progress = FALSE, rotate = FALSE,
-  num.cores = 0L, seed = sample(0:1e+08, 1), cat.map = NULL,
-  rfPack = FALSE, task = "classification", eps = 0.05)
+RerF(
+  X,
+  Y,
+  FUN = RandMatBinary,
+  paramList = list(p = NA, d = NA, sparsity = NA, prob = NA),
+  min.parent = 1L,
+  trees = 500L,
+  max.depth = 0,
+  bagging = 0.2,
+  replacement = TRUE,
+  stratify = TRUE,
+  rank.transform = FALSE,
+  store.oob = FALSE,
+  store.impurity = FALSE,
+  progress = FALSE,
+  rotate = FALSE,
+  num.cores = 0L,
+  seed = sample(0:1e+08, 1),
+  cat.map = NULL,
+  rfPack = FALSE,
+  task = "classification",
+  eps = 0.05
+)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}
@@ -120,7 +136,7 @@ Y <- 1 - as.matrix(dist(X))
 iris.forest <- RerF(X, Y, task = 'similarity', num.cores = 2L)
 Yhat <- Predict(X, iris.forest, num.cores = 2L)
 
-### Frobenius norm of $Y - \\hat{Y}$
+### Frobenius norm of $Y - \hat{Y}$
 (f.iris <- norm(Y - Yhat, "F"))
 
 par(mfrow = c(1,3))

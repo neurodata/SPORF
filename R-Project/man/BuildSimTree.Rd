@@ -4,8 +4,22 @@
 \alias{BuildSimTree}
 \title{RerF Similarity Tree Generator}
 \usage{
-BuildSimTree(X, Y, FUN, paramList, min.parent, max.depth, bagging,
-  replacement, stratify, store.oob, store.impurity, progress, rotate, eps)
+BuildSimTree(
+  X,
+  Y,
+  FUN,
+  paramList,
+  min.parent,
+  max.depth,
+  bagging,
+  replacement,
+  stratify,
+  store.oob,
+  store.impurity,
+  progress,
+  rotate,
+  eps
+)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}

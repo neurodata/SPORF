@@ -49,7 +49,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Jesse Patsolic \email{software@neurodata.io} [contributor]
+\strong{Maintainer}: Meghana Madhyastha \email{mmadhya1@jhu.edu} [contributor]
 
 Authors:
 \itemize{
@@ -59,8 +59,9 @@ Authors:
 
 Other contributors:
 \itemize{
-  \item Benjamin Falk \email{falk.ben@jhu.edu} [contributor]
   \item Jaewon Chung \email{j1c@jhu.edu} [contributor]
+  \item Jesse Patsolic \email{jpatsol1@jhu.edu} [contributor]
+  \item Benjamin Falk \email{falk.ben@jhu.edu} [contributor]
   \item Joshua Vogelstein \email{jovo@jhu.edu} [thesis advisor]
 }
 
