@@ -12,6 +12,8 @@ RunOOBSim <-
   function(X, tree) {
     n <- nrow(X)
     num.oob <- length(tree$ind)
+    is.oob <- rep(FALSE, n)
+    is.oob[tree$ind] <- TRUE
 
     # don't remove inbag points because we also want similarities between inbag and oob samples
     # X <- X[tree$ind, , drop = F]
@@ -59,7 +61,7 @@ RunOOBSim <-
     # compute the lower triangular portion of the symmetric similarity matrix
     for (j in 1L:(n - 1L)) {
       # if j is an oob sample, then compute similarity to all other points in traiing set
-      if (is.oob(j)) {
+      if (is.oob[j])) {
         for (i in (j + 1L):n) {
           if (leafNodeIdx[i] >= leafNodeIdx[j]) {
             predictions[i, j] <- tree$leafSimilarity[leafNodeIdx[i], leafNodeIdx[j]]
