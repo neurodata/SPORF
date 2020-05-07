@@ -159,7 +159,7 @@ Predict <- function(X, forest, OOB = FALSE, num.cores = 0L, Xtrain = NULL, aggre
         (utils::object.size(X) > 2e9) |
         .Platform$OS.type == "windows") {
         cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
-        parallel::clusterExport(cl = cl, varlist = c("X", "Xtrain", "OOB", "RunPredictSim"), envir = environment())
+        parallel::clusterExport(cl = cl, varlist = c("X", "Xtrain", "OOB", "RunPredictSim", "RunOOBSim"), envir = environment())
         Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
       } else {
         cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
