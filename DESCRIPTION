@@ -1,14 +1,15 @@
 Package: rerf
 Type: Package
 Title: Randomer Forest
-Version: 2.0.4
-Date: 2019-03-15
+Version: 2.0.5
+Date: 2020-05-04
 Authors@R: c(
-        person("Jesse", "Patsolic", role = c("ctb", "cre"), email = "software@neurodata.io"),
-        person("Benjamin", "Falk", role = "ctb", email = "falk.ben@jhu.edu"),
+        person("Meghana", "Madhyastha", role = c("ctb", "cre"), email = "mmadhya1@jhu.edu"),
         person("Jaewon", "Chung", role = "ctb", email = "j1c@jhu.edu"),
         person("James", "Browne", role = "aut", email = "jbrowne6@jhu.edu"),
         person("Tyler", "Tomita", role = "aut", email = "ttomita2@jhmi.edu"),
+        person("Jesse", "Patsolic", role = "ctb", email = "jpatsol1@jhu.edu"),
+        person("Benjamin", "Falk", role = "ctb", email = "falk.ben@jhu.edu"),
         person("Joshua", "Vogelstein", role = "ths", email = "jovo@jhu.edu")
     )
 Description: R-RerF (aka Randomer Forest (RerF) or Random Projection
@@ -30,9 +31,11 @@ Depends: R (>= 3.3.0), Rcpp (>= 1.0.0)
 License: Apache License 2.0 | file LICENSE
 URL: https://github.com/neurodata/R-RerF
 BugReports: https://github.com/neurodata/R-RerF/issues
+Contact: NeuroData Software <software@neurodata.io>
 Imports: parallel, RcppZiggurat, utils, stats, dummies, mclust
 Suggests: roxygen2 (>= 5.0.0), testthat
 LinkingTo: Rcpp, RcppArmadillo
 SystemRequirements: GNU make
 ByteCompile: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
+RcppModules: forestPackingRConversion

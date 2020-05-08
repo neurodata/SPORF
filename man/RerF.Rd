@@ -4,13 +4,27 @@
 \alias{RerF}
 \title{RerF forest Generator}
 \usage{
-RerF(X, Y, FUN = RandMatBinary, paramList = list(p = NA, d = NA,
-  sparsity = NA, prob = NA), min.parent = 1L, trees = 500L,
-  max.depth = 0, bagging = 0.2, replacement = TRUE,
-  stratify = TRUE, rank.transform = FALSE, store.oob = FALSE,
-  store.impurity = FALSE, progress = FALSE, rotate = FALSE,
-  num.cores = 0L, seed = sample(0:1e+08, 1), cat.map = NULL,
-  rfPack = FALSE)
+RerF(
+  X,
+  Y,
+  FUN = RandMatBinary,
+  paramList = list(p = NA, d = NA, sparsity = NA, prob = NA),
+  min.parent = 1L,
+  trees = 500L,
+  max.depth = 0,
+  bagging = 0.2,
+  replacement = TRUE,
+  stratify = TRUE,
+  rank.transform = FALSE,
+  store.oob = FALSE,
+  store.impurity = FALSE,
+  progress = FALSE,
+  rotate = FALSE,
+  num.cores = 0L,
+  seed = sample(0:1e+08, 1),
+  cat.map = NULL,
+  rfPack = FALSE
+)
 }
 \arguments{
 \item{X}{an n by d numeric matrix (preferable) or data frame. The rows correspond to observations and columns correspond to features.}
