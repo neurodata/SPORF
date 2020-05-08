@@ -1,3 +1,11 @@
+## Changes in 2.0.5:
+
+* Update maintainer.
+
+## Changes in 2.0.4:
+
+* Updated tests to accomodate the new `sample()` algorithm in R 3.5.3
+
 ## Changes in 2.0.3:
 
 * The `PrintTree` function has been added to aid in viewing the
