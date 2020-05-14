@@ -1,19 +1,17 @@
-"""
-Usporf structure in python
-Goal: apply USPORF's fast-BIC split, project-A matrix
-      apply EIF path length
-"""
 import numpy as np
 import random as rn
 import cy_usporf  # Utilities functions
 
-
 class UForest(object):
-    """
+    """ UForest: USPORF forest
     Creates an iForest object. This object holds the data as well as
     the trained trees (iTree objects).
+    
+    Note: download `cy_usporf.pyx` and `setup.py` into your local
+    computer and compile them to generate and generate `.C` and `.so`
+    before using this module
 
-    Attributes
+    Parameters
     ----------
     n_samples: int
         Size of the dataset.
@@ -25,6 +23,14 @@ class UForest(object):
         Maximum depth a tree can have.
     d: int
         number of features in limit sparse matrix `A`
+    
+    References
+    ----------
+    .. [#Meghana] Meghana et al (2019).
+        https://arxiv.org/abs/1907.02844
+
+    .. [#Fei] Fei Tony et al. (2009).
+        https://arxiv.org/abs/1506.03410
 
     Methods
     -------
@@ -61,18 +67,20 @@ class UForest(object):
         return self
 
     def compute_paths(self, X_in=None):
-        """
-        compute_paths(X_in = None)
+        """ Compute paths(X_in = None)
+
         Compute anomaly scores for all data points in a dataset X_in
         Parameters
         ----------
         X_in : list of list of floats
             Data to be scored. iForest.Trees are used for computing
             the depth reached in each tree by each data point.
+
         Returns
         -------
         float
-            Anomaly score for a given data point.
+            Anomaly score for a given data point. The higher score,
+            the more anomaly.
         """
         if X_in is None:
             X_in = self.X_
@@ -88,10 +96,11 @@ class UForest(object):
 
 
 class Node(object):
-    """
+    """Elements stored in tree node 
     A single node from each tree (each iTree object). Nodes containe
     information on hyperplanes used for data division, date to be passed
     to left and right nodes, whether they are external or internal nodes.
+
     Attributes
     ----------
     e: int
@@ -126,8 +135,9 @@ class Node(object):
 
 
 class iTree(object):  # USPORF's algo 1
-    """
+    """iTree: a single USPORF tree
     A single tree in the forest that is build using a unique subsample.
+
     Attributes
     ----------
     X: list
@@ -160,9 +170,9 @@ class iTree(object):  # USPORF's algo 1
         self.root = self.make_tree(X, e)  # Create a tree with root node.
 
     def make_tree(self, X, e):
-        """
-        make_tree(X, e, l)
+        """make_tree(X, e, l)
         Builds the tree recursively from a given node. Returns a Node object.
+
         Parameters
         ----------
         X: list of list of floats
@@ -203,10 +213,11 @@ class iTree(object):  # USPORF's algo 1
 
 
 class PathFactor(object):
-    """
+    """ Path length finder
     Given a single tree (iTree objext) and a data point x = [x1,x2,...,xn],
     compute the legth of the path traversed by the point on the tree when
-    it reaches an external node.
+    it reaches an external node. See Fei Tony et al. (2009) [#Fei]_ for
+    further details
 
     Attributes
     ----------
@@ -232,13 +243,13 @@ class PathFactor(object):
         self.path = self.find_path(itree.root)
 
     def find_path(self, T):
-        """
-        find_path(T)
+        """find_path(T)
         Given a tree, find the path for a single data point based
         on the splitting criteria stored at each node.
         Parameters
         ----------
         T : iTree object (iTree.root object)
+
         Returns
         -------
         int
