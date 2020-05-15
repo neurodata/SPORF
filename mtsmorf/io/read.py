@@ -105,13 +105,17 @@ def _get_bad_chs(bids_fname, bids_root):
     return bads
 
 
-def read_trial(bids_fname, bids_root, trial_id, notch_filter=False):
+def read_trial(bids_fname, bids_root, trial_id, notch_filter=False, picks=None):
     """Read Raw from specific trial id."""
     raw = read_raw_bids(bids_fname, bids_root)
 
     bads = _get_bad_chs(bids_fname, bids_root)
     raw.info["bads"].extend(bads)
-    good_chs = [ch for ch in raw.ch_names if ch not in raw.info["bads"]]
+    
+    if picks is None:
+        good_chs = [ch for ch in raw.ch_names if ch not in raw.info["bads"]]
+    else:
+        good_chs = [ch for ch in raw.ch_names if ch in picks and ch not in raw.info["bads"]]
 
     # get trial information
     behav_tsv, events_tsv = get_trial_info(bids_fname, bids_root)
@@ -184,7 +188,7 @@ def read_label(bids_fname, bids_root, trial_id=None, label_keyword="bet_amount")
     return y, trial_ids
 
 
-def read_dataset(bids_fname, bids_root, tmin=-0.2, tmax=0.5):
+def read_dataset(bids_fname, bids_root, tmin=-0.2, tmax=0.5, picks=None):
     """Read entire dataset as an Epoch."""
     # read in the dataset from mnebids
     raw = read_raw_bids(bids_fname, bids_root)
@@ -195,7 +199,11 @@ def read_dataset(bids_fname, bids_root, tmin=-0.2, tmax=0.5):
     # get bad channels
     bads = _get_bad_chs(bids_fname, bids_root)
     raw.info["bads"].extend(bads)
-    good_chs = [ch for ch in raw.ch_names if ch not in raw.info["bads"]]
+    
+    if picks is None:
+        good_chs = [ch for ch in raw.ch_names if ch not in raw.info["bads"]]
+    else:
+        good_chs = [ch for ch in raw.ch_names if ch in picks and ch not in raw.info["bads"]]
 
     # get the events and events id structure
     events, event_id = mne.events_from_annotations(raw)
