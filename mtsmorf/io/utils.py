@@ -2,8 +2,10 @@ import json
 import logging
 import os
 import platform
+import re
 from pathlib import Path
 from typing import Union
+import numpy as np
 
 import mne
 from mne.utils import run_subprocess
@@ -13,6 +15,35 @@ from mne_bids.utils import _find_matching_sidecar
 from mne_bids.utils import _parse_ext
 
 logger = logging.getLogger(__name__)
+
+
+def plot_roc_curve():
+    pass
+
+def _plot_roc_curve(mean_tpr, mean_fpr, std_tpr=None,
+                    mean_auc=None, std_auc=None, ax=None):
+    import matplotlib.pyplot as plt
+
+    if ax is None:
+        fig, ax = plt.subplots(1, 1)
+
+    # plot the actual curve
+    ax.plot(mean_fpr, mean_tpr, color='b',
+            label=r'Mean ROC (AUC = %0.2f $\pm$ %0.2f)' % (mean_auc, std_auc),
+            lw=2, alpha=.8)
+
+    # get upper and lower bound for tpr
+    tprs_upper = np.minimum(mean_tpr + std_tpr, 1)
+    tprs_lower = np.maximum(mean_tpr - std_tpr, 0)
+    ax.fill_between(mean_fpr, tprs_lower, tprs_upper,
+                    color='grey', alpha=.2,
+                    label=r'$\pm$ 1 std. dev.')
+
+    # increase axis limits to see edges
+    ax.set(xlim=[-0.05, 1.05], ylim=[-0.05, 1.05],
+           title="Receiver operating characteristic curve")
+    ax.legend(loc="lower right")
+    return ax
 
 
 def _bids_validate(bids_root):
@@ -30,6 +61,16 @@ def _bids_validate(bids_root):
         run_subprocess(cmd, shell=shell)
 
     return _validate(bids_root)
+
+
+def _get_electrode_chs(elec_name, ch_names):
+    """Get a list of channels for a specific electrode."""
+    elec_chs = []
+    for ch in ch_names:
+        elec, num = re.match("^([A-Za-z]+[']?)([0-9]+)$", ch).groups()
+        if elec == elec_name:
+            elec_chs.append(ch)
+    return elec_chs
 
 
 def add_montage(raw, bids_fname, bids_root):
