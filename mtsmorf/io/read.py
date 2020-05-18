@@ -287,15 +287,6 @@ def cv_fit(clf, X, y, num_trials=1, apply_grid=False, cv_type='KFold', shuffle=F
         cv_func = TimeSeriesSplit
     else:
         cv_func = train_test_split
-    cv = cv_func(n_splits=n_splits,
-                 shuffle=shuffle,
-                 random_state=seed)
-
-    # first argsort the trial_ids
-    # sort_inds = np.argsort(list(map(int, trial_ids)))
-    # print(sort_inds)
-    # y = y[sort_inds]
-    # X = X[sort_inds, ...]
 
     # create groups along the trial ids
     groups = np.hstack([[ii] * (len(y) // 10) for ii in range(10)])
@@ -321,20 +312,27 @@ def cv_fit(clf, X, y, num_trials=1, apply_grid=False, cv_type='KFold', shuffle=F
         # Minimum number of samples required to split a node
         min_samples_split = [1, 2, 5, 10]
 
+        # For RERF
         patch_height_min = [2, 3, 4, 5, 10]
         patch_width_min = [1, 5, 10, 20, 30, 40, 50, 100, 500]
         patch_height_max = [2, 3, 4, 5, 10, 15]
         patch_width_max = [10, 20, 30, 40, 50, 100, 500]
+
+        # number of iterations to RandomSearchCV
         n_iter = 100
     else:
         n_estimators = [200]
         max_features = ['auto']
         max_depth = [None]
         min_samples_split = [2]
+
+        # For RERF
         patch_height_min = [2]
         patch_width_min = [20]
         patch_height_max = [10]
         patch_width_max = [50]
+
+        # number of iterations to RandomSearchCV
         n_iter = 1
 
     random_grid = {'n_estimators': n_estimators,
