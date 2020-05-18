@@ -465,6 +465,11 @@ def run_exp(epochs_data, y):
     from sklearn.ensemble import RandomForestClassifier
     clf = RandomForestClassifier()
 
+    # make sure y labels are properly binarized
+    lb = LabelBinarizer(neg_label=0, pos_label=1)
+    y = lb.fit_transform(y)
+    print(y)
+
     cv_clf = cv_fit(clf, X, y, num_trials=1,
                     cv_type='KFold', shuffle=False, n_splits=2, seed=1234)
 
@@ -528,9 +533,5 @@ if __name__ == "__main__":
     print("Events data structure for specific trial: ", events_tsv)
     print(bids_fname)
     print(times[0:5])
-
-    lb = LabelBinarizer(neg_label=0, pos_label=1)
-    y = lb.fit_transform(y)
-    print(y)
 
     run_exp(epochs_data, y)
