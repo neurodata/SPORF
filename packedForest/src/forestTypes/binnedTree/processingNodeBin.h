@@ -190,6 +190,8 @@ namespace fp{
 					const int& imageHeight = fpSingleton::getSingleton().returnImageHeight();
 					const int& imageWidth = fpSingleton::getSingleton().returnImageWidth();
 
+					std::default_random_engine generator(randNum->gen());
+
 					int pixelIndex = -1;
 					for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++) {
 						const int& numRowsInPatch = patchPositions[0][k];
@@ -198,15 +200,9 @@ namespace fp{
 						std::vector<int> rowInds(imageHeight);
 						std::iota(std::begin(rowInds), std::end(rowInds), 0);
 
-						// shuffle indices
-						std::random_device rd;  // create random-seed
-    					std::mt19937 g(rd());  // PRG of 32-bit
-						std::shuffle(rowInds.begin(), rowInds.end(), g);
-
-						// pick first numRowsInPatch entries
-						std::vector<int>::const_iterator first = rowInds.begin();
-						std::vector<int>::const_iterator last = rowInds.begin() + numRowsInPatch;
-						std::vector<int> selectedRows(first, last);
+						// shuffle and select row indices
+						std::shuffle(rowInds.begin(), rowInds.end(), generator);
+						std::vector<int> selectedRows(rowInds.begin(), rowInds.begin() + numRowsInPatch);
 
 						assert((int) selectedRows.size() == numRowsInPatch);
 
@@ -228,6 +224,8 @@ namespace fp{
 					const int& imageHeight = fpSingleton::getSingleton().returnImageHeight();
 					const int& imageWidth = fpSingleton::getSingleton().returnImageWidth();
 
+					std::default_random_engine generator(randNum->gen());
+
 					int pixelIndex = -1;
 					for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++) {
 						const int& numRowsInPatch = patchPositions[0][k];
@@ -241,17 +239,11 @@ namespace fp{
 						std::vector<int> colInds(imageWidth);
 						std::iota(std::begin(colInds), std::end(colInds), 0);
 
-						// shuffle indices
-						std::random_device rd;  // create random-seed
-    					std::mt19937 g(rd());  // PRG of 32-bit
-						std::shuffle(rowInds.begin(), rowInds.end(), g);
-						std::shuffle(colInds.begin(), colInds.end(), g);
-
-						// pick first numRowsInPatch entries
-						std::vector<int>::const_iterator first = rowInds.begin();
-						std::vector<int>::const_iterator last = rowInds.begin() + numRowsInPatch;
-						std::vector<int> selectedRows(first, last);
-						std::vector<int> selectedCols(colInds.begin(), colInds.begin() + numColsInPatch)
+						// shuffle and select indices
+						std::shuffle(rowInds.begin(), rowInds.end(), generator);
+						std::shuffle(colInds.begin(), colInds.end(), generator);
+						std::vector<int> selectedRows(rowInds.begin(), rowInds.begin() + numRowsInPatch);
+						std::vector<int> selectedCols(colInds.begin(), colInds.begin() + numColsInPatch);
 
 						assert((int) selectedRows.size() == numRowsInPatch);
 
