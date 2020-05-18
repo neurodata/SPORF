@@ -25,8 +25,8 @@ def data_prep(epochs, labels):
 
     # dropping trials corresponding to 6's
     print(f"Dropped {np.sum(labels == 6)} trials with subject_card = 6")
-    keep_inds = np.where((labels != 6) & (labels != 8) & (labels != 4))
-    y = np.where(labels[(labels != 6) & (labels != 8) & (labels != 4)] > 6, 1, 0)
+    keep_inds = np.where(labels != 6)
+    y = np.where(labels[labels != 6] > 6, 1, 0)
     X = epochs[keep_inds]
     X = X.reshape(X.shape[0], -1)
 
@@ -94,7 +94,7 @@ if __name__ == "__main__":
     bids_root = Path("/workspaces/research/data/efri/")
 
     # subject identifiers
-    subject = "efri06"
+    subject = "efri07"
     session = "efri"
     task = "war"
     acquisition = "seeg"
@@ -112,20 +112,29 @@ if __name__ == "__main__":
         suffix=f"{kind}.vhdr",
     )
 
-    picks = ["B'10", 
-            "D'2", 
-            "E'6", 
-            "F'1", "F'2", 
-            "I'7", "I'8", 
-            "M'4",
-            "P'4", "P'5", "P'8", "P'9",
-            "R'6", "R'7",
-            ]
+    # picks = None
+    # picks = ["B'10", 
+    #         "D'2", 
+    #         "E'6", 
+    #         "F'1", "F'2", 
+    #         "I'7", "I'8", 
+    #         "M'4",
+    #         "P'4", "P'5", "P'8", "P'9",
+    #         "R'6", "R'7",
+    #         ]
+    # anat = [
+    #     "O'1", "O'2",
+    #     "P'6", "P'7",
+    #     ]
+    picks = []
     anat = [
-        "O'1", "O'2",
-        "P'6", "P'7",
+        "P1", "P3", "P5", "P6",
+        "G1", "G2", "G3", "G7", "G8",
+        "V1", "V2", "V3", "V4", "V6", "V7", "V8",
         ]
+
     picks.extend(anat)
+
     # noise = ["U'9", "U'10"]
     # picks.extend(noise)
     picks = natsorted(picks)
@@ -201,7 +210,7 @@ if __name__ == "__main__":
     mtsmorf_acc = np.mean(ypred == ytest)
 
     # out_dir = Path(f"../results/power={[min(freqs), max(freqs)]}Hz-channels={picks}-test_size={test_size:.2f}-t={[tmin, tmax]}")
-    out_dir = Path(f"../results/channels={picks}-test_size={test_size:.2f}-t={[tmin, tmax]}")
+    out_dir = Path(f"../results/{subject}/channels={picks}-test_size={test_size:.2f}-t={[tmin, tmax]}")
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
 
