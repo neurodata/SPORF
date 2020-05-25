@@ -124,7 +124,7 @@ Predict <- function(X, forest, OOB = FALSE, num.cores = 0L, Xtrain = NULL, aggre
         predictions <- factor(predictions, levels = 1:length(labels), labels = labels)
       }
     }
-  } else if (forest$params$task == "similarity") {
+  } else if (forest$params$task == "similarity" | forest$params$task == "network") {
     nr <- nrow(X)
     if (OOB) {
       # if Xtrain is provided, then the similarity matrix will be between observations in X (rows) and OOB samples from Xtrain (columns)

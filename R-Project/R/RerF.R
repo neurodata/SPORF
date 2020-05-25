@@ -170,7 +170,7 @@ RerF <-
       } else {
         Cindex <- NULL
       }
-    } else if (task == "similarity") {
+    } else if (task == "similarity" | task == "network") {
       if (!is.matrix(Y)) {
         stop("Incompatible data type. Y must be an n-by-n numeric matrix.")
       } else {
@@ -242,6 +242,24 @@ RerF <-
           eps = eps,
           honesty = honesty
         )
+      } else if (task == "network") {
+        BuildNetTree(
+          X = X,
+          Y = Y,
+          FUN = FUN,
+          paramList = paramList,
+          min.parent = min.parent,
+          max.depth = max.depth,
+          bagging = bagging,
+          replacement = replacement,
+          stratify = stratify,
+          store.oob = store.oob,
+          store.impurity = store.impurity,
+          progress = progress,
+          rotate = rotate,
+          eps = eps,
+          honesty = honesty
+        )
       } else if (task == "regression") {
         stratify <- NULL # not applicable to regression
         BuildRegTree(
@@ -276,7 +294,7 @@ RerF <-
       rotate = rotate,
       seed = seed,
       task = task,
-      eps = if (task == "similarity") {
+      eps = if (task == "similarity" | task == "network") {
         eps
       },
       honesty = honesty
