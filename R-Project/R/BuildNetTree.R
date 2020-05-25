@@ -27,7 +27,7 @@
 #' x <- matrix(c(0, -1, 1), nrow = 3L)
 #' y <- matrix(c(1, 0, 0, 0, 1, 1, 0, 1, 1), nrow = 3L)
 #' # BuildSimTree(x, y, RandMatBinary, p = 1L, d = 1L, rho = 1, prob = 1)
-BuildSimTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, replacement,
+BuildNetTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, replacement,
                          stratify, store.oob, store.impurity, progress,
                          rotate, eps, honesty) {
   # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -113,6 +113,7 @@ BuildSimTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, r
   # compute the node cosine similarity matrix for tree construction
   Q <- diag(1/2, nrow = w, ncol = w)
   Q[lower.tri(Q)] <- c(combn(1:w, 2L, FUN = function(pr) Y[, pr[1L]]%*%Y[, pr[2]]/sqrt(sum(Y[, pr[1]])*sum(Y[, pr[2]]))))
+  Q <- Q + t(Q)
 
   # Calculate the Max Depth and the max number of possible nodes
   if (max.depth == 0L) {
@@ -146,7 +147,9 @@ BuildSimTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, r
   }
   matAindex[1L] <- 0L
 
-  ret <- list(MaxDeltaI = 0, BestVar = rep(0L, w), BestSplit = rep(0, w), NumBest = 0L)
+  mtry <- paramList$d
+
+  ret <- list(MaxDeltaI = 0, BestVar = rep(0L, w*mtry), BestSplit = rep(0, w*mtry), NumBest = 0L)
 
   # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -396,7 +399,7 @@ BuildSimTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, r
   tree$leafSimilarity <- matrix(0, nrow = currLN, ncol = currLN)
   for (j in 1L:currLN) {
     for (i in j:currLN) {
-      tree$leafSimilarity[i, j] <- mean(Y[leafMembers[[i]], leafMembers[[j]]])
+      tree$leafSimilarity[i, j] <- mean(Q[leafMembers[[i]], leafMembers[[j]]])
     }
   }
 

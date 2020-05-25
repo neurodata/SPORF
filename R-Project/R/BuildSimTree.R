@@ -141,7 +141,9 @@ BuildSimTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, r
   }
   matAindex[1L] <- 0L
 
-  ret <- list(MaxDeltaI = 0, BestVar = rep(0L, w), BestSplit = rep(0, w), NumBest = 0L)
+  mtry <- paramList$d
+
+  ret <- list(MaxDeltaI = 0, BestVar = rep(0L, w*mtry), BestSplit = rep(0, w*mtry), NumBest = 0L)
 
   # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -250,6 +252,7 @@ BuildSimTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, r
       ##################################################################
       # calculate deltaI for this rotation and return the best current deltaI
       # find split is an Rcpp call.
+
       ret[] <- findSplitSim(
         x = x[1:NdSize],
         y = y[1:NdSize, 1:NdSize],

@@ -65,9 +65,11 @@ RunPredictSim <-
 
     if (is.null(Xtrain)) {
       predictions <- matrix(as.double(NA), nrow = n, ncol = n)
-      diag(predictions) <- 1
-      for (j in 1L:(n - 1L)) {
-        for (i in (j + 1L):n) {
+      # diag(predictions) <- 1
+      # for (j in 1L:(n - 1L)) {
+      #   for (i in (j + 1L):n) {
+      for (j in 1L:n) {
+        for (i in j:n) {
           if (leafNodeIdx[i] >= leafNodeIdx[j]) {
             predictions[i, j] <- tree$leafSimilarity[leafNodeIdx[i], leafNodeIdx[j]]
           } else {
@@ -75,6 +77,9 @@ RunPredictSim <-
           }
         }
       }
+      ### If similarities are made within the same set, make output matrix symmetric
+      ### TODO: this could be made into a class similar to base::dist
+      predictions[upper.tri(predictions)] <- t(predictions)[upper.tri(predictions)]
     } else {
       predictions <- matrix(as.double(NA), nrow = ntest, ncol = ntrain)
       if (OOB) {
@@ -102,10 +107,5 @@ RunPredictSim <-
       }
     }
 
-    ### If similarities are made within the same set, make output matrix symmetric
-    ### TODO: this could be made into a class similar to base::dist
-    if (is.null(Xtrain)) {
-      predictions[upper.tri(predictions)] <- t(predictions)[upper.tri(predictions)]
-    }
     return(predictions)
   }
