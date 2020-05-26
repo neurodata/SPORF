@@ -124,6 +124,8 @@ RerF <-
     paramList <- defaults(ncolX = ncol(X), paramList = paramList, cat.map = cat.map)
     FUN <- match.fun(FUN, descend = TRUE)
 
+    eps <- ifelse(is.null(eps), max(Y), eps)
+
     forest <- list(trees = NULL, labels = NULL, params = NULL)
 
     # check if data matrix X has one-of-K encoded categorical features that
@@ -239,7 +241,7 @@ RerF <-
           store.impurity = store.impurity,
           progress = progress,
           rotate = rotate,
-          eps = ifelse(is.null(eps), max(Y), eps),
+          eps = eps,
           honesty = honesty
         )
       } else if (task == "network") {
@@ -257,7 +259,7 @@ RerF <-
           store.impurity = store.impurity,
           progress = progress,
           rotate = rotate,
-          eps = ifelse(is.null(eps), max(Y), eps),
+          eps = eps,
           honesty = honesty
         )
       } else if (task == "regression") {
