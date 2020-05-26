@@ -17,7 +17,7 @@
 #' @param store.impurity if TRUE then the reduction in Gini impurity is stored for every split. This is required to run FeatureImportance().
 #' @param progress if true a pipe is printed after each tree is created.  This is useful for large datasets.
 #' @param rotate if TRUE then the data matrix X is uniformly randomly rotated.
-#' @param eps a scalar between 0 and 1. A leaf node is designated if the mean node similarity is at least 1 - eps.
+#' @param eps a value that specifies sufficient mean node similarity; if achieved, the node will not be split any further.
 #' @param honesty if TRUE then OOB samples will be used for local leaf node estimates.
 #'
 #' @return Tree
@@ -202,10 +202,10 @@ BuildNetTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, r
   while (CurrentNode < NextUnusedNode) {
     NdSize <- length(Assigned2Node[[CurrentNode]]) # determine node size
     # compute impurity for current node
-    I <- (NdSize/2 + sum(Q[Assigned2Node[[CurrentNode]], Assigned2Node[[CurrentNode]]][lower.tri(Q[Assigned2Node[[CurrentNode]], Assigned2Node[[CurrentNode]]])]))/(NdSize^2/2)
+    I <- (sum(diag(Y[Assigned2Node[[CurrentNode]], Assigned2Node[[CurrentNode]]]))/2 + sum(Y[Assigned2Node[[CurrentNode]], Assigned2Node[[CurrentNode]]][lower.tri(Y[Assigned2Node[[CurrentNode]], Assigned2Node[[CurrentNode]]])]))/(NdSize^2/2)
     # check to see if we should continue with a node split or just make a leaf node
     if (NdSize < min.parent ||
-      I >= (1 - eps) ||
+      I >= eps ||
       NDepth[CurrentNode] == max.depth) {
       # store tree map data (negative value means this is a leaf node
       treeMap[CurrentNode] <- currLN <- currLN - 1L

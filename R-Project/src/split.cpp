@@ -137,11 +137,11 @@ List findSplitSim(const NumericVector x, arma::mat y, const int & ndSize, const 
 			xr = x[i+1];
 
 			if (i == 0) {
-				yl += 1/float(2);
+				yl += y(0,0)/float(2);
 			} else {
-				yl += (arma::accu(y(arma::span(0,i-1),i)) + 1/float(2));
+				yl += (arma::accu(y(arma::span(0,i-1),i)) + y(i,i)/float(2));
 			}
-			yr += -(arma::accu(y(arma::span(i+1,ndSize-1),i)) + 1/float(2));
+			yr += -(arma::accu(y(arma::span(i+1,ndSize-1),i)) + y(i,i)/float(2));
 
 			if (xl == xr) {
 		    continue;

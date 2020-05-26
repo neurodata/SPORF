@@ -22,7 +22,7 @@
 #' @param seed the seed to use for training the forest.  For two runs to match you must use the same seed for each run AND you must also use the same number of cores for each run. (seed=sample((0:100000000,1)))
 #' @param cat.map a list specifying which columns in X correspond to the same one-of-K encoded feature. Each element of cat.map is a numeric vector specifying the K column indices of X corresponding to the same categorical feature after one-of-K encoding. All one-of-K encoded features in X must come after the numeric features. The K encoded columns corresponding to the same categorical feature must be placed contiguously within X. The reason for specifying cat.map is to adjust for the fact that one-of-K encoding cateogorical features results in a dilution of numeric features, since a single categorical feature is expanded to K binary features. If cat.map = NULL, then RerF assumes all features are numeric (i.e. none of the features have been one-of-K encoded).
 #' @param task string specifies whether 'classification', 'regression', or 'similarity' should be run (task='classification').
-#' @param eps a scalar between 0 and 1. A leaf node is designated if the mean node similarity is at least 1 - eps. Only used if task is 'similarity' (eps=0.05)
+#' @param eps a value that specifies sufficient mean node similarity; if achieved, the node will not be split any further. Only used if task is 'similarity' (eps=NULL)
 #' @param honesty if TRUE then OOB samples will be used for local leaf node estimates (honesty=FALSE).
 #'
 #' @return forest
@@ -113,7 +113,7 @@ RerF <-
              store.impurity = FALSE, progress = FALSE,
              rotate = FALSE, num.cores = 0L,
              seed = sample(0:100000000, 1),
-             cat.map = NULL, task = "classification", eps = 0.05,
+             cat.map = NULL, task = "classification", eps = NULL,
              honesty = FALSE) {
 
     # The below 'na.action' was removed from the parameter list of RerF because the CRAN check did not accept it and because it will potentially change the X and Y input by the user.
@@ -239,7 +239,7 @@ RerF <-
           store.impurity = store.impurity,
           progress = progress,
           rotate = rotate,
-          eps = eps,
+          eps = ifelse(is.null(eps), max(Y), eps),
           honesty = honesty
         )
       } else if (task == "network") {
@@ -257,7 +257,7 @@ RerF <-
           store.impurity = store.impurity,
           progress = progress,
           rotate = rotate,
-          eps = eps,
+          eps = ifelse(is.null(eps), max(Y), eps),
           honesty = honesty
         )
       } else if (task == "regression") {
