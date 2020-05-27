@@ -125,7 +125,7 @@ def _main(
             )
             bids_fname = bids_basename + f"_{kind}.vhdr"
 
-            # if any(bids_fname in x.name for x in subj_dir.rglob("*.vhdr")):
+            # if any(bids_basename in x.name for x in subj_dir.rglob("*.vhdr")):
             #     continue
 
             # convert mat raw data into BIDs

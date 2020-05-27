@@ -4,7 +4,7 @@ import os
 import platform
 import re
 from pathlib import Path
-from typing import Union
+from typing import Union, List
 import numpy as np
 
 import mne
@@ -17,8 +17,45 @@ from mne_bids.utils import _parse_ext
 logger = logging.getLogger(__name__)
 
 
+class NumpyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return json.JSONEncoder.default(self, obj)
+
+
 def plot_roc_curve():
     pass
+
+
+def _generate_linspace_roc_from_dict(fpr_arr: List, tpr_arr: List, n_points: int=100):
+    """Generate mean FPR and TPR curves from many ROC CV curves."""
+    if len(fpr_arr) != len(tpr_arr):
+        raise RuntimeError("Number of iterations through ROC curve should "
+                           "be the same (i.e. fpr_arr and tpr_arr should have "
+                           "the same length).")
+
+    # create a list to store the interpolated TPRs
+    tprs = []
+
+    # create a linearly spaced FPR for reference
+    mean_fpr = np.linspace(0, 1, n_points)
+
+    for fpr, tpr in zip(fpr_arr, tpr_arr):
+        # interpolate the TPR
+        interp_tpr = np.interp(mean_fpr, fpr, tpr)
+        interp_tpr[0] = 0.0
+        tprs.append(interp_tpr)
+
+    # compute the mean TPR along the interpolation
+    mean_tpr = np.nanmean(tprs, axis=0)
+    mean_tpr[-1] = 1.0
+
+    # compute std tpr
+    std_tpr = np.nanstd(tprs, axis=0)
+
+    return mean_fpr, mean_tpr,  std_tpr
+
 
 def _plot_roc_curve(mean_tpr, mean_fpr, std_tpr=None,
                     mean_auc=None, std_auc=None, ax=None):
