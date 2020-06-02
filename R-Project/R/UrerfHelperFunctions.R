@@ -12,6 +12,13 @@
 BICCutFast <- function(X) {
   minVal <- min(X)
   maxVal <- max(X)
+
+  if(is.null(minVal) || is.nan(minVal) || !is.finite(minVal))
+    return(NULL)
+  
+  if(is.null(maxVal) || is.nan(maxVal) || !is.finite(maxVal))
+    return(NULL)
+
   minErr <- Inf
   finalvartype <- 0
   otherBIC <- 0
@@ -137,13 +144,12 @@ BICCutMclust <- function(X) {
     X_2 <- X_data[mod1$classification == 2, ]
     X_2_sorted <- sort(X_2)
 
-    if (nrow(X_1) == 0) {
-      return(NULL)
-    }
-    if (nrow(X_2) == 0) {
-      return(NULL)
-    }
-
+    if(is.null(X_1))
+        return(NULL)
+    
+    if(is.null(X_2))
+        return(NULL)
+    
     # Determine the cutpoint
     cutpt1 <- tail(X_1_sorted, n = 1)
     cutpt2 <- tail(X_2_sorted, n = 1)
