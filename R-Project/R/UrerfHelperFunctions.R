@@ -12,6 +12,13 @@
 BICCutFast <- function(X) {
   minVal <- min(X)
   maxVal <- max(X)
+
+  if(is.null(minVal) || is.nan(minVal) || !is.finite(minVal))
+    return(NULL)
+  
+  if(is.null(maxVal) || is.nan(maxVal) || !is.finite(maxVal))
+    return(NULL)
+
   minErr <- Inf
   finalvartype <- 0
   otherBIC <- 0
