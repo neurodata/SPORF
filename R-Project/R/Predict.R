@@ -168,7 +168,13 @@ Predict <- function(X, forest, OOB = FALSE, num.cores = 0L, Xtrain = NULL, aggre
             tree.block <- (1:num.cores) + num.cores*(bk - 1L)
             tree.block <- tree.block[tree.block <= f_size]
             Yhats <- parallel::parLapply(cl = cl, forest$trees[tree.block], fun = CompPredictCaller)
-            predictions[] <- predictions[] + array(unlist(Yhats), dim = c(nr, nc, length(tree.block)))
+            Yhats <- apply(array(unlist(Yhats), dim = c(nr, nc, length(tree.block))), c(1L, 2L), sum, na.rm = TRUE)
+            if (OOB) {
+              not.na <- !is.na(Yhats)
+              predictions[not.na] <- predictions[not.na] + Yhats[not.na]
+            } else {
+              predictions[] <- predictions[] + Yhats[]
+            }
           }
         } else {
           Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
@@ -182,7 +188,13 @@ Predict <- function(X, forest, OOB = FALSE, num.cores = 0L, Xtrain = NULL, aggre
             tree.block <- (1:num.cores) + num.cores*(bk - 1L)
             tree.block <- tree.block[tree.block <= f_size]
             Yhats <- parallel::parLapply(cl = cl, forest$trees[tree.block], fun = CompPredictCaller)
-            predictions[] <- predictions[] + array(unlist(Yhats), dim = c(nr, nc, length(tree.block)))
+            Yhats <- apply(array(unlist(Yhats), dim = c(nr, nc, length(tree.block))), c(1L, 2L), sum, na.rm = TRUE)
+            if (OOB) {
+              not.na <- !is.na(Yhats)
+              predictions[not.na] <- predictions[not.na] + Yhats[not.na]
+            } else {
+              predictions[] <- predictions[] + Yhats[]
+            }
           }
         } else {
           Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
@@ -193,7 +205,9 @@ Predict <- function(X, forest, OOB = FALSE, num.cores = 0L, Xtrain = NULL, aggre
       if (large.mem) {
         predictions <- matrix(0, nr, nc)
         for (tree in forest$trees) {
-          predictions[] <- predictions[] + CompPredictCaller(tree)
+          Yhats <- CompPredictCaller(tree)
+          not.na <- !is.na(Yhats)
+          predictions[not.na] <- predictions[not.na] + Yhats[not.na]
         }
       } else {
         Yhats <- lapply(forest$trees, FUN = CompPredictCaller)
