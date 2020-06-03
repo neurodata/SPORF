@@ -55,10 +55,6 @@ Predict <- function(X, forest, OOB = FALSE, num.cores = 0L, Xtrain = NULL, aggre
     }
   }
 
-  if (large.mem) {
-    num.cores <- 1L
-  }
-
   # run the main code for predicting the output, which depends on the task
   if (forest$params$task == "classification") {
     if (OOB) {
