@@ -8,6 +8,7 @@
 #' @param num.cores the number of cores to use while training. If NumCores=0 then 1 less than the number of cores reported by the OS are used. (NumCores=0)
 #' @param Xtrain  an n by d numeric matrix (preferable) or data frame. This should be the same data matrix/frame used to train the forest, and is only required if RerF was called with rank.transform = TRUE. (Xtrain=NULL)
 #' @param aggregate.output if TRUE then the tree predictions are aggregated weighted by their probability estimates. Otherwise, the individual tree probabilities are returned. (aggregate.output=TRUE)
+#' @param large.mem if TRUE then predictions are added iteratively to a single prediction matrix. It will automatically set num.cores to 1 if TRUE. (large.mem=FALSE)
 #'
 #' TODO: Remove option for aggregate output? Only options for returning aggregate predictions or probabilities
 #' @param output.scores if TRUE then predicted class scores (probabilities) for each observation are returned rather than class labels. (output.scores = FALSE)
@@ -29,7 +30,7 @@
 #'
 
 Predict <- function(X, forest, OOB = FALSE, num.cores = 0L, Xtrain = NULL, aggregate.output = TRUE,
-                    output.scores = FALSE) {
+                    output.scores = FALSE, large.mem = FALSE) {
   if (OOB) {
     if (!forest$params$store.oob) {
       stop("out-of-bag indices for each tree are not stored. RerF must be called with store.oob = TRUE.")
@@ -52,6 +53,10 @@ Predict <- function(X, forest, OOB = FALSE, num.cores = 0L, Xtrain = NULL, aggre
     } else {
       X <- RankInterpolate(Xtrain, X)
     }
+  }
+
+  if (large.mem) {
+    num.cores <- 1L
   }
 
   # run the main code for predicting the output, which depends on the task
@@ -160,22 +165,68 @@ Predict <- function(X, forest, OOB = FALSE, num.cores = 0L, Xtrain = NULL, aggre
         .Platform$OS.type == "windows") {
         cl <- parallel::makeCluster(spec = num.cores, type = "PSOCK")
         parallel::clusterExport(cl = cl, varlist = c("X", "Xtrain", "OOB", "RunPredictSim", "RunOOBSim"), envir = environment())
-        Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
+        if (large.mem) {
+          predictions <- matrix(0, nr, nc)
+          num.blocks <- ceiling(f_size/num.cores)
+          for (bk in 1:num.blocks) {
+            tree.block <- (1:num.cores) + num.cores*(bk - 1L)
+            tree.block <- tree.block[tree.block <= f_size]
+            Yhats <- parallel::parLapply(cl = cl, forest$trees[tree.block], fun = CompPredictCaller)
+            predictions[] <- predictions[] + array(unlist(Yhats), dim = c(nr, nc, length(tree.block)))
+          }
+        } else {
+          Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
+        }
       } else {
         cl <- parallel::makeCluster(spec = num.cores, type = "FORK")
-        Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
+        if (large.mem) {
+          predictions <- matrix(0, nr, nc)
+          num.blocks <- ceiling(f_size/num.cores)
+          for (bk in 1:num.blocks) {
+            tree.block <- (1:num.cores) + num.cores*(bk - 1L)
+            tree.block <- tree.block[tree.block <= f_size]
+            Yhats <- parallel::parLapply(cl = cl, forest$trees[tree.block], fun = CompPredictCaller)
+            predictions[] <- predictions[] + array(unlist(Yhats), dim = c(nr, nc, length(tree.block)))
+          }
+        } else {
+          Yhats <- parallel::parLapply(cl = cl, forest$trees, fun = CompPredictCaller)
+        }
       }
-
       parallel::stopCluster(cl)
     } else {
-      # Use just one core.
-      Yhats <- lapply(forest$trees, FUN = CompPredictCaller)
+      if (large.mem) {
+        predictions <- matrix(0, nr, nc)
+        for (tree in forest$trees) {
+          predictions[] <- predictions[] + CompPredictCaller(tree)
+        }
+      } else {
+        Yhats <- lapply(forest$trees, FUN = CompPredictCaller)
+      }
     }
 
-    predictions <- array(unlist(Yhats), dim = c(nr, nc, f_size))
-
-    if (aggregate.output) {
-      predictions <- apply(predictions, c(1, 2), mean, na.rm = TRUE)
+    if (large.mem) {
+      if (aggregate.output) {
+        if (OOB) {
+          oob.count <- matrix(0, nr, nc)
+          count.temp <- matrix(0, nr, nc)
+          for (tree in forest$trees) {
+            for (idx in tree$ind) {
+              count.temp[idx, ] <- 1
+              count.temp[, idx] <- 1
+            }
+            oob.count[] <- oob.count[] + count.temp[]
+            count.temp[] <- 0
+          }
+          predictions[] <- predictions[]/oob.count[]
+        } else {
+          predictions[] <- predictions[]/f_size
+        }
+      }
+    } else {
+      predictions <- array(unlist(Yhats), dim = c(nr, nc, f_size))
+      if (aggregate.output) {
+        predictions <- apply(predictions, c(1, 2), mean, na.rm = TRUE)
+      }
     }
   } else if (forest$params$task == "regression") {
     if (OOB) {
