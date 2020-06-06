@@ -56,11 +56,11 @@ def optimize(
         },
         "SPORF": {'max_features': [0.1,0.3,0.5,0.7]},
         "MF": {
-            'max_features': [0.1,0.3,0.5,0.7],
+            'max_features': ['auto',0.1,0.3,0.5],
             'patch_height_max': patch_height_maxs,
             'patch_height_min': patch_height_mins,
             'patch_width_max': patch_width_maxs,
-            'patch_width_min': patch_height_mins,
+            'patch_width_min': patch_width_mins,
             'wrap': [wrap],
             },
     }

@@ -42,14 +42,12 @@ def get_classifiers(
     }
 
     classifiers = [
-        LogisticRegression(random_state=0, n_jobs=ncores, solver="liblinear"),
+        LogisticRegression(random_state=0, n_jobs=ncores),
         LinearSVC(),
-        SVC(C=1.0, kernel="rbf", gamma="auto", random_state=0),
-        KNeighborsClassifier(3, n_jobs=ncores),
+        SVC(random_state=0),
+        KNeighborsClassifier(n_jobs=ncores),
         RandomForestClassifier(n_estimators=n_est, max_features="auto", n_jobs=ncores),
-        MLPClassifier(
-            hidden_layer_sizes=(100,), random_state=0, max_iter=1000, early_stopping=False
-        ),
+        MLPClassifier(random_state=0),
         rerfClassifier(
             n_estimators=n_est,
             projection_matrix="RerF",

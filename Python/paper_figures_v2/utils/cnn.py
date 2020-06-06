@@ -20,7 +20,7 @@ class ImpulseModel(nn.Module):
             nn.ReLU(),
             nn.MaxPool1d(kernel_size=2, stride=2))
         self.drop_out = nn.Dropout(p=0.5)
-        self.fc1 = nn.Linear(18 * 64, 500)
+        self.fc1 = nn.Linear(18*64, 500)
         self.fc2 = nn.Linear(500, 2)
         
     def forward(self, x):

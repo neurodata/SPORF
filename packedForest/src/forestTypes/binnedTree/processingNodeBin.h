@@ -165,10 +165,6 @@ namespace fp{
 							deltaH = imageHeight - patchHeight + 1;
 							deltaW = imageWidth  - patchWidth + 1;
 
-							topLeftSeed = randNum->gen(deltaH * deltaW);
-							col = topLeftSeed % deltaW;
-							row = floor(topLeftSeed / deltaW);
-
 							heightWidthTop[2][k] = randNum->gen(deltaH * deltaW);
 
 						} else {
@@ -240,17 +236,15 @@ namespace fp{
 					//int rndWeight;
 					//int weight;              
 					int channelIndex;
-					int rowMod = 1;
-					int colMod = 1;
-					if (wrap) {
-						rowMod = imageHeight * imageWidth;
-						colMod = imageWidth;
-					}
 					for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++){
 						channelIndex = randNum->gen(depth) * fullPatchSize;
 						for (int row = 0; row < patchPositions[0][k]; row++) {
 							for (int col = 0; col < patchPositions[1][k]; col++) {
-								pixelIndex = channelIndex + (patchPositions[2][k] + col) % colMod + (imageWidth * row) % rowMod;
+								if (wrap) {
+									pixelIndex = channelIndex + (patchPositions[2][k] + col) % imageWidth + (imageWidth * row) % (imageHeight * imageWidth);
+								} else {
+									pixelIndex = channelIndex + (patchPositions[2][k] + col) + (imageWidth * row);
+								}
 								featuresToTry[k].returnFeatures().push_back(pixelIndex);
 								//weight = (col==0||row==0||col==(patchPositions[1][k]-1)||row==(patchPositions[0][k]-1)) ? -1 : 1;
 								//rndWeight = (randNum->gen(2)%2) ? 1 : -1;
