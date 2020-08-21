@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <limits>
 #include <random>
+#include <cmath>
 
 using std::min;
 using std::max;
@@ -84,7 +85,7 @@ namespace fp{
 				inline void calcMtryForNode(std::vector<weightedFeature>& featuresToTry){
 					featuresToTry.resize(fpSingleton::getSingleton().returnMtry());
 					int methodToUse = fpSingleton::getSingleton().returnMethodToUse();
-					assert(methodToUse == 1 || methodToUse == 2 || methodToUse == 3 || methodToUse == 4);
+					assert(methodToUse == 1 || methodToUse == 2 || methodToUse == 3 || methodToUse == 4 || methodToUse == 5);
 
 					switch(methodToUse){
 						case 1:{
@@ -101,6 +102,10 @@ namespace fp{
 						}
 						case 4:{
 							randMatGraphPatch(featuresToTry, paramsRandMatGraphPatch());
+							break;
+						}
+						case 5:{
+							randMatGabor(featuresToTry);
 							break;
 						}
 					}
@@ -228,8 +233,8 @@ namespace fp{
 					const int& imageWidth = fpSingleton::getSingleton().returnImageWidth();
 					const int& imageHeight = fpSingleton::getSingleton().returnImageHeight();
 					const int& numFeatures = fpSingleton::getSingleton().returnNumFeatures();
-					const int& fullPatchSize = imageHeight * imageWidth;
-					const int& depth = (int)(numFeatures / fullPatchSize);
+					const int& fullImageSize = imageHeight * imageWidth;
+					const int& depth = (int)(numFeatures / fullImageSize);
 					const int& wrap = fpSingleton::getSingleton().returnWrap();
 
 					int pixelIndex = -1;
@@ -237,7 +242,7 @@ namespace fp{
 					//int weight;              
 					int channelIndex;
 					for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++){
-						channelIndex = randNum->gen(depth) * fullPatchSize;
+						channelIndex = randNum->gen(depth) * fullImageSize;
 						for (int row = 0; row < patchPositions[0][k]; row++) {
 							for (int col = 0; col < patchPositions[1][k]; col++) {
 								if (wrap) {
@@ -249,7 +254,9 @@ namespace fp{
 								//weight = (col==0||row==0||col==(patchPositions[1][k]-1)||row==(patchPositions[0][k]-1)) ? -1 : 1;
 								//rndWeight = (randNum->gen(2)%2) ? 1 : -1;
 								//assert(weight==1 || weight==-1);
-								featuresToTry[k].returnWeights().push_back(1);
+								//featuresToTry[k].returnWeights().push_back(2*rand() / RAND_MAX - 1);
+								//featuresToTry[k].returnWeights().push_back(1);
+								featuresToTry[k].returnWeights().push_back(2*(randNum->gen(2)%100)/100 - 1);
 							}
 						} // Could possibly turn this into one for-loop somehow later. [JLP]
 					}
@@ -328,6 +335,76 @@ namespace fp{
 						}
 					}
 				} // END randMatGraphPatch
+
+				inline void randMatGabor(std::vector<weightedFeature>& featuresToTry){
+					// Preset parameters
+					const int& imageHeight = fpSingleton::getSingleton().returnImageHeight();
+					const int& imageWidth = fpSingleton::getSingleton().returnImageWidth();
+					const int& numFeatures = fpSingleton::getSingleton().returnNumFeatures();
+					const int& fullImageSize = imageHeight * imageWidth;
+					const int& depth = (int)(numFeatures / fullImageSize);
+					const int& filter_dim = 3;
+
+					// A vector of vectors that specifies the parameters
+					// for each patch: < <Height>, <Width>, <TopLeft> >
+					std::vector<std::vector<int> > centers(2, std::vector<int>(fpSingleton::getSingleton().returnMtry()));
+
+					// The weight is currently hard-coded to 1.
+
+					// Loop over mtry to load random patch dimensions
+					// and top left position.
+					int center_row;
+					int center_col;
+					int pixelIndex = -1;
+					int channelIndex;
+					//gabor params
+					int n;
+					int m;
+					float omega;
+					float theta;
+					float psi;
+					float sigma;
+					int precision = 100;
+					float xprime;
+					float yprime;
+					float costheta;
+					float sintheta;
+					for (int k = 0; k < fpSingleton::getSingleton().returnMtry(); k++){
+						//sample gabor center
+						center_col = randNum->gen(imageWidth);
+						center_row = randNum->gen(imageHeight);
+						//pick a channel
+						channelIndex = randNum->gen(depth) * fullImageSize;
+						//sample gabor params
+						n = randNum->gen(5);
+						m = randNum->gen(8);
+						psi = (randNum->gen(M_PI)%precision)/precision;
+						omega = M_PI_2 * std::pow(std::sqrt(2), -n);
+						theta = M_PI / 8 * m;
+						sigma = M_PI / omega;
+						costheta = std::cos(theta);
+						sintheta = std::sin(theta);
+						//set weights for every pixel
+						for (int row = center_row-filter_dim; row < center_row+filter_dim+1; row++) {
+							if (row < 0 || row > imageHeight - 1) {
+								continue;
+							}
+							for (int col = center_col-filter_dim; col < center_col+filter_dim+1; col++) {
+								if (col < 0 || col > imageWidth - 1) {
+									continue;
+								}
+								pixelIndex = channelIndex + col + (imageWidth * row);
+								featuresToTry[k].returnFeatures().push_back(pixelIndex);
+								//gabor weights
+								xprime = (center_col - col) * costheta + (center_row - row) * sintheta;
+								yprime = -(center_col - col) * costheta + (center_row - row) * costheta;
+								featuresToTry[k].returnWeights().push_back(
+									std::exp(-(std::pow(xprime, 2) + std::pow(yprime, 2)) / 2 / std::pow(sigma, 2)) * std::cos(omega * xprime + psi)
+								);
+							}
+						} // Could possibly turn this into one for-loop somehow later. [JLP]
+					}
+				} // END randMatStructured
 
 
 				inline void resetLeftNode(){

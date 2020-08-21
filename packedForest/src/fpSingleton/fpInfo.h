@@ -329,8 +329,8 @@ namespace fp {
 					useRowMajor = (bool)parameterValue;
 				}else if(parameterName == "methodToUse"){
 					methodToUse = parameterValue;
-					if(!(methodToUse == 1 || methodToUse == 2 || methodToUse == 3 || methodToUse == 4)){
-						throw std::runtime_error("methodToUse outside allowable parameters {1,2,3,4}.");
+					if(!(methodToUse == 1 || methodToUse == 2 || methodToUse == 3 || methodToUse == 4 || methodToUse == 5)){
+						throw std::runtime_error("methodToUse outside allowable parameters {1,2,3,4,5}.");
 					}
 				}else if(parameterName == "imageHeight"){
 					imageHeight = parameterValue;
@@ -370,7 +370,7 @@ namespace fp {
 				std::cout << "seed -> " << seed << "\n";
 				std::cout << "numTreeBins -> " << numTreeBins << "\n";
 
-				if(methodToUse == 2 || methodToUse == 3 || methodToUse == 4){
+				if(methodToUse == 2 || methodToUse == 3 || methodToUse == 4 || methodToUse == 5){
 					std::cout << "imageHeight -> " << imageHeight << "\n";
 					std::cout << "imageWidth -> " << imageWidth << "\n";
 					std::cout << "patchHeightMax -> " << patchHeightMax << "\n";
