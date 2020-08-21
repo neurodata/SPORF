@@ -2,6 +2,11 @@ import numpy as np
 from .utils import sort_keep_balance
 from graspy.simulations import sbm, er_np
 from sklearn.datasets import fetch_openml
+import pickle
+import numpy as np
+from pathlib import Path
+import os
+from glob import glob
 
 ## Circle
 def load_circle_Xy(n1,n2,ns=None,return_meta=True,seed=None):
@@ -280,3 +285,32 @@ def load_mnist_Xy(ns=None, return_meta=True):
         return(X,y)
     else:
         return(X,y,{'height':h, 'width':w})
+    
+# Data sourced from https://www.cs.toronto.edu/~kriz/cifar.html
+def load_cifar10(batches = [1,2,3,4,5]):
+    data_dir = Path('/data/ronan/cifar-10-batches-py')
+    
+    y_train = []
+    X_train = []
+    for i,batch in enumerate(batches):
+        train_dict = _unpickle(data_dir / f'data_batch_{batch}')
+        X_train.append(train_dict[b'data'])
+        y_train.append(train_dict[b'labels'])
+        
+    test_dict = _unpickle(data_dir / f'test_batch')
+    X_test = np.asarray(test_dict[b'data'])
+    y_test = np.asarray(test_dict[b'labels'])
+
+    return (
+        np.concatenate(X_train, axis=0),
+        np.concatenate(y_train, axis=0),
+        X_test,
+        y_test,
+        {'height':32, 'width':32}
+    )
+
+def _unpickle(file):
+    with open(file, 'rb') as fo:
+        dict = pickle.load(fo, encoding='bytes')
+    return dict
+    

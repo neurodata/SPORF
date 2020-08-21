@@ -3,6 +3,22 @@ import pandas as pd
 from scipy import stats
 import seaborn as sns
 import matplotlib.pyplot as plt
+import io
+from contextlib import redirect_stdout
+
+def get_forest_params(forest):
+    params = {}
+
+    f = io.StringIO()
+    with redirect_stdout(f):
+        forest.printParameters()
+    out = f.getvalue()
+
+    for line in out.splitlines():
+        A = line.split(" -> ")
+        params[A[0]] = A[1]
+
+    return params
 
 def sort_keep_balance(y,block_lengths):
     """

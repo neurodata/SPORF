@@ -1,0 +1,2 @@
+classifier,n,Lhat,trainTime,testTime,iterate
+MF, 100, 0.804300000, 21.303290844, 0.621558666, 0

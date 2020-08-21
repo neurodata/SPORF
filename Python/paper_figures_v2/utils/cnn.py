@@ -106,6 +106,32 @@ class MNISTModel(nn.Module):
         out = self.fc2(out)
         return out
 
+# Convolutional neural network (two convolutional layers)
+class CifarModel(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layer1 = nn.Sequential(
+            nn.Conv2d(3, 32, kernel_size=5, stride=1, padding=0),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2))
+        self.layer2 = nn.Sequential(
+            nn.Conv2d(32, 64, kernel_size=5, stride=1, padding=0),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2))
+        self.drop_out = nn.Dropout()
+        self.fc1 = nn.Linear((4)**2 * 100, 200)
+        self.fc2 = nn.Linear(200, 10)
+        
+    def forward(self, x):
+        out = self.layer1(x)
+        out = self.layer2(out)
+        out = out.reshape(out.size(0), -1)
+        out = self.drop_out(out)
+        out = self.fc1(out)
+        out = self.drop_out(out)
+        out = self.fc2(out)
+        return out
+
 class CNN():
     def __init__(
         self,
