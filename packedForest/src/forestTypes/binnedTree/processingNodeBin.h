@@ -336,6 +336,7 @@ namespace fp{
 					}
 				} // END randMatGraphPatch
 
+
 				inline void randMatGabor(std::vector<weightedFeature>& featuresToTry){
 					// Preset parameters
 					const int& imageHeight = fpSingleton::getSingleton().returnImageHeight();
@@ -343,7 +344,7 @@ namespace fp{
 					const int& numFeatures = fpSingleton::getSingleton().returnNumFeatures();
 					const int& fullImageSize = imageHeight * imageWidth;
 					const int& depth = (int)(numFeatures / fullImageSize);
-					const int& filter_dim = 3;
+					const int& filter_dim = 3; // radius excluding center, filter of area (2*filter_dim+1)**2
 
 					// A vector of vectors that specifies the parameters
 					// for each patch: < <Height>, <Width>, <TopLeft> >

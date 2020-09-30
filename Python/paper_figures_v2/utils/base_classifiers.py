@@ -33,17 +33,7 @@ def get_classifiers(
     ):
 
     names = get_names()
-    # names = {
-    #     "Log. Reg": "#a6cee3",
-    #     "Lin. SVM": "#1f78b4",
-    #     "SVM": "#b2df8a",
-    #     "kNN": "#33a02c",
-    #     "RF": "#fb9a99",
-    #     "MLP": "#fdbf6f",
-    #     "SPORF": "#ff7f00",
-    #     "MF": "#e31a1c",
-    #     "CNN": "#cab2d6",
-    # }
+
     if clf == 'RF':
         classifiers = [
             rerfClassifier(
@@ -87,9 +77,9 @@ def get_classifiers(
                 random_state=0,
                 image_height=height,
                 image_width=width,
-                patch_height_max=1,
+                patch_height_max=5,
                 patch_height_min=1,
-                patch_width_max=2,
+                patch_width_max=5,
                 patch_width_min=1,
             ),
         ]
