@@ -9,7 +9,7 @@ from mne_bids import read_raw_bids
 from mne_bids.tsv_handler import _from_tsv
 from mne_bids.utils import _find_matching_sidecar
 from sklearn.preprocessing import LabelBinarizer
-from mtsmorf.io.utils import NumpyEncoder
+# from utils import NumpyEncoder
 
 
 def get_trial_info(bids_basename, bids_root):
@@ -191,15 +191,23 @@ def read_label(bids_basename, bids_root, trial_id=None, label_keyword="bet_amoun
     else:
         y = behav_tsv[label_keyword]
 
+    success_trial_flag = np.array(list(map(int, behav_tsv["successful_trial_flag"])))
+    # successful trial indices
+    successful_trial_inds = np.where(success_trial_flag == 1)[0]
+
     y = np.array(y).astype(float)
+    y = y[successful_trial_inds]
+
+    trial_ids = np.array(trial_ids).astype(int)
+    trial_ids = trial_ids[successful_trial_inds]
 
     return y, trial_ids
 
 
-def read_dataset(bids_basename, bids_root, kind='ieeg',  tmin=-0.2, tmax=0.5, picks=None, event_key="show card", verbose=True):
+def read_dataset(bids_basename, bids_root, kind='ieeg', tmin=-0.2, tmax=0.5, picks=None, resample_rate=None, event_key="show card", n_jobs=1, verbose=True):
     """Read entire dataset as an Epoch."""
     # read in the dataset from mnebids
-    raw = read_raw_bids(bids_basename, bids_root, kind=kind)
+    raw = read_raw_bids(bids_basename, bids_root)
 
     # get trial information
     behav_tsv, events_tsv = get_trial_info(bids_basename, bids_root)
@@ -207,15 +215,19 @@ def read_dataset(bids_basename, bids_root, kind='ieeg',  tmin=-0.2, tmax=0.5, pi
     # get bad channels
     bads = _get_bad_chs(bids_basename, bids_root)
     raw.info["bads"].extend(bads)
-    if picks is None:
+    if (picks is None) or (len(picks) == 0):
         good_chs = [ch for ch in raw.ch_names if ch not in raw.info["bads"]]
     else:
         good_chs = [ch for ch in raw.ch_names if ch in picks and ch not in raw.info["bads"]]
 
     # only keep SEEG chs
-    if mne.__version__ != '0.21.dev0':
-        raw.load_data()
+    # if mne.__version__ != '0.21.dev0':
+    #     raw.load_data()
     raw = raw.pick_types(meg=False, seeg=True)
+
+    # Allow for resampling
+    if resample_rate is not None:
+        raw = raw.resample(resample_rate, n_jobs=n_jobs)
 
     # get the events and events id structure
     events, event_id = mne.events_from_annotations(raw, verbose=verbose)

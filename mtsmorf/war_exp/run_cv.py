@@ -118,17 +118,17 @@ def cv_fit(clf, X, y, num_trials=1, apply_grid=False, apply_groups=False,
         # number of iterations to RandomSearchCV
         n_iter = 1
 
-    clf_name = 'randomforestclassifier'
-    # clf_name = 'rerfclassifier'
+    # clf_name = 'randomforestclassifier'
+    clf_name = 'rerfclassifier'
     random_grid = {
         f'{clf_name}__n_estimators': n_estimators,
         f'{clf_name}__max_features': max_features,
         f'{clf_name}__max_depth': max_depth,
         f'{clf_name}__min_samples_split': min_samples_split,
-        # 'patch_height_min': patch_height_min,
-        # 'patch_width_min': patch_width_min,
-        # 'patch_height_max': patch_height_max,
-        # 'patch_width_max': patch_width_max,
+        f'{clf_name}__patch_height_min': patch_height_min,
+        f'{clf_name}__patch_width_min': patch_width_min,
+        f'{clf_name}__patch_height_max': patch_height_max,
+        f'{clf_name}__patch_width_max': patch_width_max,
     }
     pprint(random_grid)
 
