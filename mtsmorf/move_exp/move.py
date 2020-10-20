@@ -189,6 +189,12 @@ if __name__ == "__main__":
 
         # Run feat importance for Accuracy
         scoring_method = "accuracy"
+        key_mean = f"validate_{scoring_method}_imp_mean"
+        if key_mean not in scores:
+            scores[key_mean] = []
+        key_std = f"validate_{scoring_method}_imp_std"
+        if key_std not in scores:
+            scores[key_std] = []
         result = permutation_importance(
             best_estimator,
             Xtest,
@@ -201,8 +207,9 @@ if __name__ == "__main__":
 
         imp_std = result.importances_std
         imp_vals = result.importances_mean
-        scores[f"validate_{scoring_method}_imp_mean"].append(list(imp_vals))
-        scores[f"validate_{scoring_method}_imp_std"].append(list(imp_std))
+
+        scores[key_mean].append(list(imp_vals))
+        scores[key_std].append(list(imp_std))
 
         fig, ax = plt.subplots(dpi=200, figsize=(10, 10))
         plot_feature_importances(result, nchs, nsteps, n_repeats, ax=ax)
@@ -221,6 +228,12 @@ if __name__ == "__main__":
 
         # Run feat importance for One vs Rest AUC
         scoring_method = "roc_auc_ovr"
+        key_mean = f"validate_{scoring_method}_imp_mean"
+        if key_mean not in scores:
+            scores[key_mean] = []
+        key_std = f"validate_{scoring_method}_imp_std"
+        if key_std not in scores:
+            scores[key_std] = []
         result = permutation_importance(
             best_estimator,
             Xtest,
@@ -233,8 +246,8 @@ if __name__ == "__main__":
 
         imp_std = result.importances_std
         imp_vals = result.importances_mean
-        scores[f"validate_{scoring_method}_imp_mean"].append(list(imp_vals))
-        scores[f"validate_{scoring_method}_imp_std"].append(list(imp_std))
+        scores[key_mean].append(list(imp_vals))
+        scores[key_std].append(list(imp_std))
 
         fig, ax = plt.subplots(dpi=200, figsize=(10, 10))
         plot_feature_importances(result, nchs, nsteps, n_repeats, ax=ax)
