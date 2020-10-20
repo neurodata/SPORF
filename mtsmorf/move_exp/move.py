@@ -2,39 +2,19 @@ import json
 import os
 import sys
 import traceback
-
-from collections import Counter
-from itertools import cycle
 from pathlib import Path
 
-import mne
 import numpy as np
 import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
-from sklearn.inspection import permutation_importance
-from sklearn.metrics import (
-    auc,
-    average_precision_score,
-    plot_confusion_matrix,
-    precision_recall_curve,
-    roc_auc_score,
-    roc_curve,
-)
-from sklearn.model_selection import (
-    cross_validate,
-    KFold,
-    StratifiedKFold,
-    TimeSeriesSplit,
-    train_test_split,
-)
-from sklearn.preprocessing import LabelBinarizer
-from tqdm import tqdm
-
-from mlxtend.evaluate import bootstrap_point632_score
-from mne.decoding import Scaler, Vectorizer
 from mne_bids.write import make_bids_basename
 from rerf.rerfClassifier import rerfClassifier
+from sklearn.inspection import permutation_importance
+from sklearn.model_selection import (
+    StratifiedKFold,
+)
+from tqdm import tqdm
 
 # Hack-y way to import from files in sibling "io" directory
 sys.path.append(str(Path(__file__).parent.parent / "io"))
@@ -43,19 +23,20 @@ sys.path.append(str(Path(__file__).parent.parent / "war_exp"))
 from read import read_dataset, read_label, read_trial, get_trial_info
 from plotting import plot_signals, plot_roc_multiclass, plot_feature_importances
 from utils import NumpyEncoder
-from cv import nested_cv_fit, cv_fit, bootstrap_fit
-from traceback import print_exc
-
+from cv import cv_fit
 
 RNG = 2
 
 if __name__ == "__main__":
 
     bids_root = Path("/workspaces/research/mnt/data/efri/")
-
     results_path = Path(
         "/workspaces/research/seeg localization/SPORF/mtsmorf/results"
     )
+
+    # new directory paths for outputs and inputs at Hackerman workstation
+    bids_root = Path("/home/adam2392/hdd/Dropbox/efri/")
+    results_path = bids_root / 'raw' / 'mtsmorf' / 'results'
 
     ###### Some participants in the following list do not have MOVE data
     # participants = pd.read_csv(bids_root / "participants.tsv", delimiter="\t")
@@ -75,13 +56,11 @@ if __name__ == "__main__":
     ]
 
     for subject in tqdm(subjects):
-
-        
         # if os.path.exists(results_path / subject):
         #     continue
         # else:
         #     os.makedirs(results_path / subject)
-        
+
         if not os.path.exists(results_path / subject):
             os.makedirs(results_path / subject)
 
@@ -291,7 +270,7 @@ if __name__ == "__main__":
             scores["estimator"] = estimators
 
         for i, (estimator, test_inds) in enumerate(
-            zip(scores["estimator"], scores["test_inds"])
+                zip(scores["estimator"], scores["test_inds"])
         ):
             Xtest, ytest = X[test_inds], y[test_inds]
             fig, ax = plt.subplots(dpi=200, figsize=(10, 6))
