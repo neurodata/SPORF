@@ -111,9 +111,9 @@ def plot_roc_multiclass(estimator, X, y_true, n_classes, title="", ax=None):
     return ax
 
 
-def plot_feature_importances(result, epochs, ax=None):
-    nchs = len(epochs.ch_names)
-    nsteps = len(epochs.times)
+def plot_feature_importances(result, ch_names, times, ax=None):
+    nchs = len(ch_names)
+    nsteps = len(times)
 
     if ax is None:
         ax = plt.gca()
@@ -125,10 +125,10 @@ def plot_feature_importances(result, epochs, ax=None):
 
     ax = sns.heatmap(
         df_feat_importances,
-        annot=True,
+        # annot=True,
         cmap="Blues",
-        xticklabels=epochs.times,
-        yticklabels=epochs.ch_names,
+        xticklabels=times[::10],
+        yticklabels=ch_names,
         ax=ax,
     )
 

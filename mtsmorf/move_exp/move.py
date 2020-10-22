@@ -36,20 +36,20 @@ if __name__ == "__main__":
 
     # new directory paths for outputs and inputs at Hackerman workstation
     bids_root = Path("/home/adam2392/hdd/Dropbox/efri/")
-    results_path = bids_root / 'raw' / 'mtsmorf' / 'results'
+    results_path = bids_root / 'derivatives' / 'raw' / 'mtsmorf' / 'results'
 
     ###### Some participants in the following list do not have MOVE data
     # participants = pd.read_csv(bids_root / "participants.tsv", delimiter="\t")
     # subjects = participants["participant_id"].str[4:]  # Strip prefix "sub-"
     subjects = [
-        "efri02",
-        "efri06",
-        "efri07",
+        # "efri02",
+        # "efri06",
+        # "efri07",
         # "efri09",  # Too few samples
         # "efri10",  # Unequal data size vs label size
-        "efri13",
-        "efri14",
-        "efri15",
+        # "efri13",
+        # "efri14",
+        # "efri15",
         "efri18",
         "efri20",
         "efri26",
@@ -179,7 +179,7 @@ if __name__ == "__main__":
 
         print("Starting feature importances...")
 
-        n_repeats = 5
+        n_repeats = 3
         best_ind = np.argmax(scores['test_accuracy'])
         best_estimator = scores['estimator'][best_ind]
         best_test_inds = scores['test_inds'][best_ind]
@@ -202,7 +202,7 @@ if __name__ == "__main__":
             scoring=scoring_method,
             n_repeats=n_repeats,
             n_jobs=1,
-            random_state=None,
+            random_state=RNG,
         )
 
         imp_std = result.importances_std
@@ -212,7 +212,7 @@ if __name__ == "__main__":
         scores[key_std].append(list(imp_std))
 
         fig, ax = plt.subplots(dpi=200, figsize=(10, 10))
-        plot_feature_importances(result, nchs, nsteps, n_repeats, ax=ax)
+        plot_feature_importances(result, epochs.ch_names, epochs.times, ax=ax)
         ax.set(title=f"Feature Importances {scoring_method}")
         fig.tight_layout()
 
@@ -241,7 +241,7 @@ if __name__ == "__main__":
             scoring=scoring_method,
             n_repeats=n_repeats,
             n_jobs=1,
-            random_state=None,
+            random_state=RNG,
         )
 
         imp_std = result.importances_std
@@ -249,20 +249,20 @@ if __name__ == "__main__":
         scores[key_mean].append(list(imp_vals))
         scores[key_std].append(list(imp_std))
 
-        fig, ax = plt.subplots(dpi=200, figsize=(10, 10))
-        plot_feature_importances(result, nchs, nsteps, n_repeats, ax=ax)
-        ax.set(title=f"Feature Importances {scoring_method}")
-        fig.tight_layout()
-
-        try:
-            plt.savefig(
-                results_path
-                / f"{subject}/{clf_name}_feature_importances_{scoring_method}.png"
-            )
-            print(f"Feature importance matrix {scoring_method} saved.")
-
-        except Exception as e:
-            traceback.print_exc()
+        # fig, ax = plt.subplots(dpi=200, figsize=(10, 10))
+        # plot_feature_importances(result, nchs, nsteps, n_repeats, ax=ax)
+        # ax.set(title=f"Feature Importances {scoring_method}")
+        # fig.tight_layout()
+        #
+        # try:
+        #     plt.savefig(
+        #         results_path
+        #         / f"{subject}/{clf_name}_feature_importances_{scoring_method}.png"
+        #     )
+        #     print(f"Feature importance matrix {scoring_method} saved.")
+        #
+        # except Exception as e:
+        #     traceback.print_exc()
 
         ################ STORING RESULTS ################
 
