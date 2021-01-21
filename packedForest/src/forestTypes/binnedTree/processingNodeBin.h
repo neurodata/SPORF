@@ -255,8 +255,8 @@ namespace fp{
 								//rndWeight = (randNum->gen(2)%2) ? 1 : -1;
 								//assert(weight==1 || weight==-1);
 								//featuresToTry[k].returnWeights().push_back(2*rand() / RAND_MAX - 1);
-								//featuresToTry[k].returnWeights().push_back(1);
-								featuresToTry[k].returnWeights().push_back(2*(randNum->gen(2)%100)/100 - 1);
+								featuresToTry[k].returnWeights().push_back(1);
+								//featuresToTry[k].returnWeights().push_back(2*(randNum->gen(2)%100)/100 - 1);
 							}
 						} // Could possibly turn this into one for-loop somehow later. [JLP]
 					}

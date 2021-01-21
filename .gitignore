@@ -84,11 +84,11 @@ src-i386
 *.ignore
 bin/
 *.swp
-*.pdf
+# *.pdf
 *.tmp
 
 # data files that may be too large
-*.csv
+# *.csv
 
 # Python
 
