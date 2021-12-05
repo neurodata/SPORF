@@ -24,6 +24,7 @@
 #' @param task string specifies whether 'classification', 'regression', or 'similarity' should be run (task='classification').
 #' @param eps a value that specifies sufficient mean node similarity; if achieved, the node will not be split any further. Only used if task is 'similarity' (eps=NULL)
 #' @param honesty if TRUE then OOB samples will be used for local leaf node estimates (honesty=FALSE).
+#' @param balance if TRUE then downsample larger classes to size of minority class (balance=TRUE).
 #'
 #' @return forest
 #'
@@ -114,7 +115,7 @@ RerF <-
              rotate = FALSE, num.cores = 0L,
              seed = sample(0:100000000, 1),
              cat.map = NULL, task = "classification", eps = NULL,
-             honesty = FALSE) {
+             honesty = FALSE, balance = TRUE) {
 
     # The below 'na.action' was removed from the parameter list of RerF because the CRAN check did not accept it and because it will potentially change the X and Y input by the user.
     # na.action = function (...) { Y <<- Y[rowSums(is.na(X)) == 0];  X <<- X[rowSums(is.na(X)) == 0, ] },
@@ -224,7 +225,8 @@ RerF <-
           store.impurity = store.impurity,
           progress = progress,
           rotate = rotate,
-          honesty = honesty
+          honesty = honesty,
+          balance = balance
         )
       } else if (task == "similarity") {
         BuildSimTree(

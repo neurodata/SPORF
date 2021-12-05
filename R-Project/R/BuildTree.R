@@ -19,6 +19,7 @@
 #' @param progress if true a pipe is printed after each tree is created.  This is useful for large datasets.
 #' @param rotate if TRUE then the data matrix X is uniformly randomly rotated.
 #' @param honesty if TRUE then OOB samples will be used for local leaf node estimates.
+#' @param balance if TRUE then downsample larger classes to size of minority class.
 #'
 #' @return Tree
 #'
@@ -29,7 +30,7 @@
 #' # BuildTree(x, y, RandMatBinary, p = 4, d = 4, rho = 0.25, prob = 0.5)
 BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, replacement,
                       stratify, class.ind, class.ct, store.oob, store.impurity, progress,
-                      rotate, honesty) {
+                      rotate, honesty, balance) {
   # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   # rfr builds a randomer classification forest structure made up of a list
   # of trees.  This forest is randomer because each node is rotated before
@@ -168,7 +169,16 @@ BuildTree <- function(X, Y, FUN, paramList, min.parent, max.depth, bagging, repl
   ind[] <- 0L
   # Determine bagging set
   # Assigned2Node is the set of row indices of X assigned to current node
-  if (bagging != 0) {
+  if (balance) {
+    class.hist <- diff(c(0L, class.ct))
+    min_class <- order(class.hist)[1L]
+    perClass <- class.hist[min_class]
+    perBag <- perClass*nClasses
+    for (z in 1:nClasses) {
+      ind[((z - 1L)*perClass + 1L):(z*perClass)] <- sample(class.ind[[z]], perClass, replace = TRUE)
+    }
+    Assigned2Node[[1L]] <- ind[1:perBag]
+  } else if (bagging != 0) {
     if (replacement) {
       go <- TRUE
       while (go) {
